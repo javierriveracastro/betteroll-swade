@@ -1,0 +1,52 @@
+<div class="red-full chat-card">
+    <header class="card-header flexrow red-header">
+        <h3 class="item-name">{{title}}</h3>
+    {{#if description}}
+        <div>
+            {{{description}}}
+        </div>
+    {{/if}}
+    </header>
+    <div class="card-content">
+        {{#each parts}}
+            <div class="dice-roll">
+                <div class="flavor-text">
+                    {{this.roll_title}}
+                </div>
+                <div class="dice-result">
+                    {{#each rolls}}
+                    <div class="dice-tooltip dice-total">
+                        {{this.result}}
+                    </div>
+                    <div class="dice-row red-rolls">
+                        <div class="dice-tooltip dice-row-item">
+                            <div class="dice-tooltip">
+                                <div class="dice">
+                                    {{#each this.dice as |current_dice|}}
+                                    <p class="part-formula">
+                                        {{this.formula}}
+                                        <span class="part-total">{{this.total}}</span>
+                                    </p>
+                                    <ol class="dice-rolls">
+                                        {{#each rolls}}
+                                            <li class="roll die d{{current_dice.faces}}">{{this.roll}}</li>
+                                        {{/each}}
+                                    </ol>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                    <div class="dice-row red-totals">
+                        {{#each rolls_accepted}}
+                        <h4 class="dice-total red-base-die dice-row-item">
+                            {{this.total}}
+                        </h4>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

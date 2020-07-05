@@ -1,0 +1,52 @@
+.red-full.chat-card footer.card-footer {
+    margin-top:2px;
+}
+
+.red-full.chat-card {
+	font-size:14px;
+}
+
+.red-full .flavor-text {
+	text-align: center;
+	font-size: 12px;
+}
+
+.red-full .br-flavor {
+	font-style: italic;
+}
+
+.red-full {
+	opacity: .4;
+    border: 1px solid #888888;
+}
+
+.chat-card .card-header img {
+    flex: 0 0 36px;
+    margin-right: 5px;
+}
+
+.red-full.chat-card .dice-tooltip {
+	font-size:14px;
+}
+
+.dice-row {
+	clear: both;
+	display: flex;
+	justify-content: space-between;
+}
+
+.dice-row .dice-row-item {
+	flex: 1;
+}
+
+.dice-row .failure {
+	color: #aa0200;
+}
+
+.red-dual .dice-row .success {
+	color: #257f11;
+}
+
+.dnd5e.red-full.chat-card .dice-tooltip {
+	font-size:14px;
+}
