@@ -59,6 +59,8 @@ class CustomRoll {
 		let attack_rolls = [];
 		let minimum_roll = 999999;
 		let discarded_index = 999999;
+		let nice_string = ""
+		let nice_results = []
 		attack_array.forEach((dice_string, index) => {
 			roll_string = dice_string
 			roll_string = this.add_modifiers(roll_string, skill_modifier)
@@ -69,25 +71,39 @@ class CustomRoll {
 				roll_string, this.item.options.actor.calcStatusPenalties())
 			currentRoll = new Roll(roll_string);
 			currentRoll.roll()
+			currentRoll.dice.forEach((dice) => {
+				dice.rolls.forEach((roll) => {
+					nice_string = nice_string + `d${dice.faces}+`;
+					nice_results.push(roll.roll);
+				})
+			})
+			// Dice so nice, roll all attack dice together
 			attack_rolls.push(currentRoll)
 			if (currentRoll.total < minimum_roll) {
 				minimum_roll = currentRoll.total
 				discarded_index = index
 			}
 		})
+		if (game.dice3d) {
+			// noinspection ES6MissingAwait
+			game.dice3d.show({formula: nice_string.slice(0, -1),
+								 results: nice_results})
+		}
 		let array_show = attack_rolls.slice()
 		array_show.splice(discarded_index, 1)
-		console.log(discarded_index, attack_rolls, array_show)
 		let attack_roll = {roll_title: 'Attack', rolls: attack_rolls,
 			rolls_accepted: array_show};
 		parts.push(attack_roll);
-		// TODO: Add colors to fumbles and explosions.
 		// Damage roll
 		let damage_rolls = []
 		for (let i = 0; i < rof; i++){
 			let damage = new Roll(this.item.data.data.damage,
 								  this.item.actor.getRollShortcuts());
 			damage.roll();
+			if (game.dice3d) {
+				// noinspection ES6MissingAwait
+				game.dice3d.showForRoll(damage)
+			}
 			damage_rolls.push(damage)
 		}
 		let damage_roll = {roll_title: 'Damage', rolls: damage_rolls,
@@ -98,6 +114,9 @@ class CustomRoll {
 		damage_rolls.forEach((damage) => {
 			let raise_damage_roll = new Roll(`${damage.total}+1d6x=`);
 			raise_damage_roll.roll()
+			if (game.dice3d) {
+				game.dice3d.showForRoll(raise_damage_roll)
+			}
 			raise_damage_rolls.push(raise_damage_roll)
 		})
 		let raise_damage = {roll_title: 'Raise damage',
