@@ -1,4 +1,4 @@
-#Better rolls for Sade
+# Better rolls for Sade
 A module modifying FoundryVTT Savage Worlds character sheets riping ideas (and code) from the Better rolls for 5e module.
 
 ## Implemented features.
