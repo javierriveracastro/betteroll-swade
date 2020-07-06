@@ -138,7 +138,9 @@ function changeRolls (actor, html) {
 				let li = $(event.currentTarget).parents(".item");
 				let item = actor.getOwnedItem(String(li.attr("data-item-id")));
 				let roll = new CustomRoll(item)
-				await roll.toMessage()
+				if (item.type === "weapon"){
+					await roll.toMessage()
+				}
 		});
 	}
 }
