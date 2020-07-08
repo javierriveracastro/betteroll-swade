@@ -135,9 +135,7 @@ class CustomRoll {
 				actor: this.actor._idx,
 				token: this.actor.token,
 				alias: this.actor.name
-			},
-			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-			roll: new Roll("").roll()
+			}
 		}
 		/* TODO whisper settings */
 		await ChatMessage.create(chatData);
