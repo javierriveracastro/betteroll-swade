@@ -128,7 +128,8 @@ class CustomRoll {
 		let content = await renderTemplate(
 			"modules/betterrolls-swade/templates/fullroll.html", {
 				parts: parts, title: this.item.name,
-				description: this.item.data.data.description
+				description: this.item.data.data.notes ||
+					this.item.data.data.description
 			});
 		let chatData = {
 			user: game.user._id,
