@@ -90,7 +90,9 @@ class CustomRoll {
 								 results: nice_results})
 		}
 		let array_show = attack_rolls.slice()
-		array_show.splice(discarded_index, 1)
+		if (array_show.length > 1) {
+			array_show.splice(discarded_index, 1)
+		}
 		let attack_roll = {roll_title: 'Attack', rolls: attack_rolls,
 			rolls_accepted: array_show};
 		parts.push(attack_roll);
@@ -174,6 +176,7 @@ export class BetterRollsHooks {
 
 // TODO: Make this work with NPC sheets
 BetterRollsHooks.addActorSheet("SwadeCharacterSheet");
+BetterRollsHooks.addActorSheet("SwadeNPCSheet");
 
 Hooks.on(`ready`, () => {
 	console.log('Better Rolls for SWADE | Ready');
