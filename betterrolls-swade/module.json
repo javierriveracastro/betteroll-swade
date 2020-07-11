@@ -3,7 +3,7 @@
 	"title": "Better Rolls for Savage Worlds",
 	"description": "This module tries to port the most useful features from Better Roll to SWADE",
 	"minimumCoreVersion": "0.6.0",
-	"compatibleCoreVersion": "0.6.1",
+	"compatibleCoreVersion": "0.6.5",
 	"version": "0.1",
 	"author": "Javier Rivera",
 	"languages": [
@@ -17,7 +17,7 @@
 	"esmodules": ["./scripts/betterrollswade.js"],
 	"styles": ["./css/betterrolls-swade.css"],
 	"packs": [],
-	"url": "Nothing yet",
-	"manifest": "Nothing yet",
-	"download": ""
+	"url": "https://github.com/javierriveracastro/betteroll-swade",
+	"manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/master/betterrolls-swade/module.json",
+	"download": "https://github.com/javierriveracastro/betteroll-swade/raw/master/betterrolls-swade.zip"
 }
