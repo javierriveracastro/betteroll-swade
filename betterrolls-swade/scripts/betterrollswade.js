@@ -125,11 +125,21 @@ class CustomRoll {
 							rolls: raise_damage_rolls,
 							rolls_accepted: raise_damage_rolls};
 		parts.push(raise_damage);
+		let bennies_available = true;
+		console.log(this.actor)
+		if (this.actor.isPC) {
+			if (this.actor.data.data.bennies.value < 1) {
+				bennies_available = false
+			}
+		}
 		let content = await renderTemplate(
 			"modules/betterrolls-swade/templates/fullroll.html", {
 				parts: parts, title: this.item.name,
 				description: this.item.data.data.notes ||
-					this.item.data.data.description
+					this.item.data.data.description,
+				item_id: this.item.id,
+				actor_id: this.actor.id,
+				bennies_available: bennies_available
 			});
 		let chatData = {
 			user: game.user._id,
@@ -143,6 +153,17 @@ class CustomRoll {
 		/* TODO whisper settings */
 		await ChatMessage.create(chatData);
 	}
+}
+
+function spendMastersBenny() {
+	// Expends one bennie from the master stack
+	game.users.forEach((user) => {
+        if (user.isGM) {
+            let value = user.getFlag('swade', 'bennies');
+            // noinspection JSIgnoredPromiseFromCall
+			user.setFlag('swade', 'bennies', value - 1);
+        }
+	})
 }
 
 function changeRolls (actor, html) {
@@ -175,10 +196,28 @@ export class BetterRollsHooks {
 	}
 }
 
-// TODO: Make this work with NPC sheets
 BetterRollsHooks.addActorSheet("SwadeCharacterSheet");
 BetterRollsHooks.addActorSheet("SwadeNPCSheet");
 
 Hooks.on(`ready`, () => {
 	console.log('Better Rolls for SWADE | Ready');
+})
+
+Hooks.on('renderChatMessage', (message, html) => {
+	let reroll_button = html.find('.btn-reroll');
+	reroll_button.click(async (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+		let actor = game.actors.get(String(reroll_button.attr('data-actor-id')));
+		let item = actor.getOwnedItem(reroll_button.attr("data-item-id"));
+		if (actor.isPC) {
+			await actor.spendBenny();
+		} else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+			await actor.spendBenny();
+		} else {
+			spendMastersBenny();
+		}
+		let roll = new CustomRoll(item);
+		await roll.toMessage();
+	})
 })

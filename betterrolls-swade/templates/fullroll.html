@@ -49,4 +49,7 @@
             </div>
         {{/each}}
     </div>
+    {{#if bennies_available}}<div class="bennie-reroll">
+        <button class="btn-reroll" data-item-id="{{item_id}}" data-actor-id="{{actor_id}}">Reroll spending a bennie</button>
+    </div>{{/if}}
 </div>
