@@ -89,6 +89,7 @@ class CustomRoll {
 			game.dice3d.show({formula: nice_string.slice(0, -1),
 								 results: nice_results})
 		}
+		attack_rolls[discarded_index].discarded = true
 		let array_show = attack_rolls.slice()
 		if (array_show.length > 1) {
 			array_show.splice(discarded_index, 1)

@@ -15,10 +15,10 @@
                 </div>
                 <div class="dice-result">
                     {{#each rolls}}
-                    <div class="dice-tooltip dice-total">
+                    <div class="dice-tooltip dice-total {{#if this.discarded}}discarded{{/if}}">
                         {{this.result}}
                     </div>
-                    <div class="dice-row red-rolls">
+                    <div class="dice-row red-rolls {{#if this.discarded}}discarded{{/if}}">
                         <div class="dice-tooltip dice-row-item">
                             <div class="dice-tooltip">
                                 <div class="dice">
@@ -29,7 +29,9 @@
                                     </p>
                                     <ol class="dice-rolls">
                                         {{#each rolls}}
-                                            <li class="roll die d{{current_dice.faces}}">{{this.roll}}</li>
+                                            <li class="roll die d{{current_dice.faces}} {{#if this.discarded}}discarded{{/if}}">
+                                                {{this.roll}}
+                                            </li>
                                         {{/each}}
                                     </ol>
                                     {{/each}}
