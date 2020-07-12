@@ -4,9 +4,10 @@ A module modifying FoundryVTT Savage Worlds character sheets riping ideas (and c
 ## Implemented features.
 - Clicking on weapon images on the sheet will roll attack, damage and raise damage and show it in the chat
 - Clicking on the chat results will give the roll details.
+- Support for Dice so Nice
+- Button for relloling spending a character or dm benny.
 
 ## Planned features
-- Support for Dice so Nice
 - Add colors to the results
 - Detect fumbles
 
