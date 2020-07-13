@@ -8,7 +8,7 @@ A module modifying FoundryVTT Savage Worlds character sheets riping ideas (and c
 - Button for relloling spending a character or dm benny.
 
 ## Planned features
-- Add colors to the results
+- Use the same color for rolls than the base system
 - Detect fumbles
 
 ## Acknowledgements
