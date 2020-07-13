@@ -29,7 +29,9 @@
                                     </p>
                                     <ol class="dice-rolls">
                                         {{#each rolls}}
-                                            <li class="roll die d{{current_dice.faces}} {{#if this.discarded}}discarded{{/if}}">
+                                            <li class="roll die d{{current_dice.faces}}
+                                                    {{#if this.discarded}}discarded{{/if}}
+                                                    {{#if this.exploded}}exploded{{/if}}">
                                                 {{this.roll}}
                                             </li>
                                         {{/each}}

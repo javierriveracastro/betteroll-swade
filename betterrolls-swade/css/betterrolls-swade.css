@@ -54,7 +54,10 @@
 	margin: 5px;
 }
 
+.exploded {
+	color: blue!important;
+}
+
 .discarded {
 	color: gray;
 }
-

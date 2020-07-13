@@ -100,7 +100,7 @@ class CustomRoll {
 		// Damage roll
 		let damage_rolls = []
 		for (let i = 0; i < rof; i++){
-			let damage = new Roll(this.item.data.data.damage,
+			let damage = new Roll(makeExplotable(this.item.data.data.damage),
 								  this.item.actor.getRollShortcuts());
 			damage.roll();
 			if (game.dice3d) {
@@ -127,7 +127,6 @@ class CustomRoll {
 							rolls_accepted: raise_damage_rolls};
 		parts.push(raise_damage);
 		let bennies_available = true;
-		console.log(this.actor)
 		if (this.actor.isPC) {
 			if (this.actor.data.data.bennies.value < 1) {
 				bennies_available = false
@@ -154,6 +153,23 @@ class CustomRoll {
 		/* TODO whisper settings */
 		await ChatMessage.create(chatData);
 	}
+}
+
+function makeExplotable(expresion) {
+	// Make all dice of a roll able to explode
+	// Code from the SWADE system
+	const reg_exp = /\d*d\d+[^kdrxc]/g;
+	expresion = expresion + ' '; // Just because of my poor reg_exp foo
+	let dice_strings = expresion.match(reg_exp);
+	let used = [];
+	dice_strings.forEach((match) => {
+		if (used.indexOf(match) === -1) {
+			expresion = expresion.replace(new RegExp(match.slice(0, -1), 'g'),
+				match.slice(0, -1) + "x=");
+			used.push(match);
+		}
+	})
+	return expresion;
 }
 
 function spendMastersBenny() {
