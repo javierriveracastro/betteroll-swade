@@ -141,6 +141,7 @@ class CustomRoll {
 				actor_id: this.actor.id,
 				bennies_available: bennies_available
 			});
+		let whisper_data = getWhisperData();
 		let chatData = {
 			user: game.user._id,
 			content: content,
@@ -148,11 +149,30 @@ class CustomRoll {
 				actor: this.actor._idx,
 				token: this.actor.token,
 				alias: this.actor.name
-			}
+			},
+			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+			roll: new Roll("0").roll(),
+			rollMode: whisper_data.rollMode,
+			blind: whisper_data.blind
 		}
+		if (whisper_data.whisper) {chatData.whisper = whisper_data.whisper}
 		/* TODO whisper settings */
 		await ChatMessage.create(chatData);
 	}
+}
+
+export function getWhisperData() {
+	let rollMode, whisper, blind
+	rollMode = game.settings.get("core", "rollMode");
+	if ( ["gmroll", "blindroll"].includes(rollMode) ) whisper = ChatMessage.getWhisperRecipients("GM");
+	if ( rollMode === "blindroll" ) blind = true;
+	else if ( rollMode === "selfroll" ) whisper = [game.user._id];
+	let output = {
+		rollMode: rollMode,
+		whisper: whisper,
+		blind: blind
+	};
+	return output;
 }
 
 function makeExplotable(expresion) {
