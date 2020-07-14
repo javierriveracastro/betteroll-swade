@@ -65,8 +65,16 @@ class CustomRoll {
 			roll_string = dice_string
 			roll_string = this.add_modifiers(roll_string, skill_modifier)
 			// Wounds and fatigue
-			roll_string = this.add_modifiers(
-				roll_string, this.item.options.actor.calcWoundFatigePenalties())
+			if (typeof this.item.options.actor.calcWoundFatigePenalties
+				!== 'undefined') {
+				roll_string = this.add_modifiers(
+					roll_string, this.item.options.actor.calcWoundFatigePenalties())
+			} else {
+				roll_string = this.add_modifiers(
+					roll_string, this.item.options.actor.calcWoundPenalties())
+				roll_string = this.add_modifiers(
+					roll_string, this.item.options.actor.calcFatiguePenalties())
+			}
 			roll_string = this.add_modifiers(
 				roll_string, this.item.options.actor.calcStatusPenalties())
 			currentRoll = new Roll(roll_string);
