@@ -231,6 +231,17 @@ function changeRolls (actor, html) {
 	}
 }
 
+function register_settings() {
+	game.settings.register('betterrolls-swade', 'dontRollDamage', {
+		name: "Don't autoroll damage",
+		hint: "Shows a button for damage rolling instead of rolling it automatically with the attack",
+		default: false,
+		scope: "client",
+		type: Boolean,
+		config: true
+	});
+}
+
 export class BetterRollsHooks {
 
 	static addActorSheet(sheetName) {
@@ -246,6 +257,7 @@ BetterRollsHooks.addActorSheet("SwadeNPCSheet");
 
 Hooks.on(`ready`, () => {
 	console.log('Better Rolls for SWADE | Ready');
+	register_settings();
 })
 
 Hooks.on('renderChatMessage', (message, html) => {
@@ -266,3 +278,10 @@ Hooks.on('renderChatMessage', (message, html) => {
 		await roll.toMessage();
 	})
 })
+
+
+// TODO: Move CustomRoll to its own file.
+// TODO: Separate attack/skill and damage rolls into different methods
+// TODO: if this configuration is enabled show only the attack roll
+// TODO: Show a button to roll damage
+// TODO: Roll damage
