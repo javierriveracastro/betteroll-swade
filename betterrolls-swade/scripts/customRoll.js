@@ -33,17 +33,15 @@ export class CustomRoll {
         return roll_string;
     }
 
-    async toMessage() {
-        // Attack roll
-        let parts = [];
+    attack_roll(rof) {
+        // Create a part for the attack roll
         let skill = this.get_skill();
         let die = "4"
         let skill_modifier = "-2"
         let wild_die = "6"
-        let rof = this.item.data.data.rof
-        let currentRoll
-        let roll_string = ''
         let attack_array = []
+        let roll_string = ''
+        let currentRoll
         if (isNaN(rof) || rof < 1) {
             rof = 1
         }
@@ -97,7 +95,7 @@ export class CustomRoll {
             }
         })
         if (game.dice3d) {
-            // noinspection ES6MissingAwait
+            // noinspection JSIgnoredPromiseFromCall
             game.dice3d.show({
                                  formula: nice_string.slice(0, -1),
                                  results: nice_results
@@ -108,11 +106,16 @@ export class CustomRoll {
         if (array_show.length > 1) {
             array_show.splice(discarded_index, 1)
         }
-        let attack_roll = {
+        return  {
             roll_title: 'Attack', rolls: attack_rolls,
             rolls_accepted: array_show
         };
-        parts.push(attack_roll);
+    }
+
+    async toMessage() {
+        let rof = this.item.data.data.rof
+        let parts = [];
+        parts.push(this.attack_roll());
         // Damage roll
         let damage_rolls = []
         for (let i = 0; i < rof; i++) {
