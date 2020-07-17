@@ -112,43 +112,51 @@ export class CustomRoll {
         };
     }
 
-    async toMessage() {
-        let rof = this.item.data.data.rof
-        let parts = [];
-        parts.push(this.attack_roll());
-        // Damage roll
+    damage_roll(rof){
         let damage_rolls = []
         for (let i = 0; i < rof; i++) {
             let damage = new Roll(makeExplotable(this.item.data.data.damage),
                                   this.item.actor.getRollShortcuts());
             damage.roll();
             if (game.dice3d) {
-                // noinspection ES6MissingAwait
+                // noinspection JSIgnoredPromiseFromCall
                 game.dice3d.showForRoll(damage)
             }
             damage_rolls.push(damage)
         }
-        let damage_roll = {
+        return  {
             roll_title: 'Damage', rolls: damage_rolls,
             rolls_accepted: damage_rolls
         };
-        parts.push(damage_roll);
-        // Raise damage
+    }
+
+    damage_raise_roll(damage_roll) {
         let raise_damage_rolls = []
-        damage_rolls.forEach((damage) => {
+        damage_roll.rolls.forEach((damage) => {
             let raise_damage_roll = new Roll(`${damage.total}+1d6x=`);
             raise_damage_roll.roll()
             if (game.dice3d) {
+                // noinspection JSIgnoredPromiseFromCall
                 game.dice3d.showForRoll(raise_damage_roll)
             }
             raise_damage_rolls.push(raise_damage_roll)
         })
-        let raise_damage = {
+        return  {
             roll_title: 'Raise damage',
             rolls: raise_damage_rolls,
             rolls_accepted: raise_damage_rolls
         };
-        parts.push(raise_damage);
+
+    }
+
+    async toMessage() {
+        let rof = this.item.data.data.rof
+        let parts = [];
+        parts.push(this.attack_roll(rof));
+        let damage_roll = this.damage_roll(rof);
+        parts.push(damage_roll);
+        // Raise damage
+        parts.push(this.damage_raise_roll(damage_roll));
         let bennies_available = true;
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {
