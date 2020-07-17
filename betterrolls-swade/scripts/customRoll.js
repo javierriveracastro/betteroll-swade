@@ -153,10 +153,12 @@ export class CustomRoll {
         let rof = this.item.data.data.rof
         let parts = [];
         parts.push(this.attack_roll(rof));
-        let damage_roll = this.damage_roll(rof);
-        parts.push(damage_roll);
-        // Raise damage
-        parts.push(this.damage_raise_roll(damage_roll));
+        if (! game.settings.get('betterrolls-swade', 'dontRollDamage')) {
+            let damage_roll = this.damage_roll(rof);
+            parts.push(damage_roll);
+            // Raise damage
+            parts.push(this.damage_raise_roll(damage_roll));
+        }
         let bennies_available = true;
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {

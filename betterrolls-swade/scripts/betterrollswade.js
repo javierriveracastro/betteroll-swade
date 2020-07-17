@@ -70,7 +70,5 @@ Hooks.on('renderChatMessage', (message, html) => {
 })
 
 
-// TODO: Separate attack/skill and damage rolls into different methods
-// TODO: if this configuration is enabled show only the attack roll
 // TODO: Show a button to roll damage
 // TODO: Roll damage
