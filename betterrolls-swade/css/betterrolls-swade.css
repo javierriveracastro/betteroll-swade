@@ -50,8 +50,15 @@
 	font-size:14px;
 }
 
-.bennie-reroll {
+.button-bar-brswade {
 	margin: 5px;
+	text-align: center;
+}
+
+.btn-50-brswade {
+	display: inline-block;
+	width: 45%;
+	margin-top: 2px;
 }
 
 .exploded {

@@ -53,7 +53,13 @@
             </div>
         {{/each}}
     </div>
-    {{#if bennies_available}}<div class="bennie-reroll">
-        <button class="btn-reroll" data-item-id="{{item_id}}" data-actor-id="{{actor_id}}">Reroll spending a bennie</button>
+    {{#if show_buttons}}<div class="button-bar-brswade">
+        {{#if bennies_available}}
+            <button class="btn-brswade btn-reroll" data-item-id="{{item_id}}" data-actor-id="{{actor_id}}">Reroll spending a bennie</button>
+        {{/if}}
+        {{#if damage_buttons}}
+            <button class="btn-50-brswade btn-damage" data-item-id="{{item_id}}" data-actor-id="{{actor-id}}">Damage</button>
+            <button class="btn-50-brswade btn-damage-raise" data-item-id="{{item_id}}" data-actor-id="{{actor-id}}">Raise damage</button>
+        {{/if}}
     </div>{{/if}}
 </div>

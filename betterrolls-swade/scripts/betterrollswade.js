@@ -69,6 +69,4 @@ Hooks.on('renderChatMessage', (message, html) => {
 	})
 })
 
-
-// TODO: Show a button to roll damage
 // TODO: Roll damage

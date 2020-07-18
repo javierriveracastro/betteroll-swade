@@ -152,8 +152,10 @@ export class CustomRoll {
     async toMessage() {
         let rof = this.item.data.data.rof
         let parts = [];
+        let separate_damage = game.settings.get('betterrolls-swade',
+                                                'dontRollDamage');
         parts.push(this.attack_roll(rof));
-        if (! game.settings.get('betterrolls-swade', 'dontRollDamage')) {
+        if (! separate_damage) {
             let damage_roll = this.damage_roll(rof);
             parts.push(damage_roll);
             // Raise damage
@@ -165,6 +167,7 @@ export class CustomRoll {
                 bennies_available = false
             }
         }
+        console.log("HEREEE")
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 parts: parts, title: this.item.name,
@@ -172,7 +175,9 @@ export class CustomRoll {
                     this.item.data.data.description,
                 item_id: this.item.id,
                 actor_id: this.actor.id,
-                bennies_available: bennies_available
+                bennies_available: bennies_available,
+                damage_buttons: separate_damage,
+                show_buttons: bennies_available || separate_damage
             });
         let whisper_data = getWhisperData();
         let chatData = {
