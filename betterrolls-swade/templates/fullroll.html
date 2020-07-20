@@ -55,11 +55,20 @@
     </div>
     {{#if show_buttons}}<div class="button-bar-brswade">
         {{#if bennies_available}}
-            <button class="btn-brswade btn-reroll" data-item-id="{{item_id}}" data-actor-id="{{actor_id}}">Reroll spending a bennie</button>
+            <button class="btn-brswade btn-roll cost-benny" data-item-id="{{item_id}}"
+                    data-actor-id="{{actor_id}}" data-card-type="{{card_type}}">
+                Reroll spending a bennie
+            </button>
         {{/if}}
         {{#if damage_buttons}}
-            <button class="btn-50-brswade btn-damage" data-item-id="{{item_id}}" data-actor-id="{{actor-id}}">Damage</button>
-            <button class="btn-50-brswade btn-damage-raise" data-item-id="{{item_id}}" data-actor-id="{{actor-id}}">Raise damage</button>
+            <button class="btn-50-brswade btn-roll" data-item-id="{{item_id}}"
+                    data-actor-id="{{actor_id}}" data-card-type="generate_damage_card">
+                Damage
+            </button>
+            <button class="btn-50-brswade btn-roll" data-item-id="{{item_id}}"
+                    data-actor-id="{{actor_id}}" data-card-type="generate_raise_dmg_card">
+                Raise damage
+            </button>
         {{/if}}
     </div>{{/if}}
 </div>

@@ -149,11 +149,13 @@ export class CustomRoll {
 
     }
 
-    async toMessage() {
-        let rof = this.item.data.data.rof
-        let parts = [];
+    // noinspection JSUnusedGlobalSymbols
+    generate_attack_card(){
+        /// Generate an attack card
+        let parts = []
         let separate_damage = game.settings.get('betterrolls-swade',
                                                 'dontRollDamage');
+        let rof = this.item.data.data.rof
         parts.push(this.attack_roll(rof));
         if (! separate_damage) {
             let damage_roll = this.damage_roll(rof);
@@ -161,13 +163,35 @@ export class CustomRoll {
             // Raise damage
             parts.push(this.damage_raise_roll(damage_roll));
         }
+        return [parts, separate_damage]
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    generate_damage_card() {
+        let parts = [];
+        parts.push(this.damage_roll(1));
+        return [parts, false];
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    generate_raise_dmg_card() {
+        let parts = [];
+        let damage = this.damage_roll(1);
+        parts.push(damage);
+        parts.push(this.damage_raise_roll(damage));
+        return [parts, false];
+    }
+
+    async toMessage(card_type) {
+        /// Creates a card rolling dice
+        /// @param card_type: generate_attack_card for a normal attack
+        let [parts, separate_damage] = this[card_type]()
         let bennies_available = true;
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {
                 bennies_available = false
             }
         }
-        console.log("HEREEE")
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 parts: parts, title: this.item.name,
@@ -177,7 +201,8 @@ export class CustomRoll {
                 actor_id: this.actor.id,
                 bennies_available: bennies_available,
                 damage_buttons: separate_damage,
-                show_buttons: bennies_available || separate_damage
+                show_buttons: bennies_available || separate_damage,
+                card_type: card_type
             });
         let whisper_data = getWhisperData();
         let chatData = {

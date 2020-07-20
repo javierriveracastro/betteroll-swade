@@ -15,7 +15,7 @@ function changeRolls (actor, html) {
 				let item = actor.getOwnedItem(String(li.attr("data-item-id")));
 				let roll = new CustomRoll(item)
 				if (item.type === "weapon"){
-					await roll.toMessage()
+					await roll.toMessage('generate_attack_card')
 				}
 		});
 	}
@@ -51,22 +51,26 @@ Hooks.on(`ready`, () => {
 })
 
 Hooks.on('renderChatMessage', (message, html) => {
-	let reroll_button = html.find('.btn-reroll');
+	let reroll_button = html.find('.btn-roll');
 	reroll_button.click(async (event) => {
+		let widget = $(event.target);
 		event.preventDefault();
 		event.stopPropagation();
-		let actor = game.actors.get(String(reroll_button.attr('data-actor-id')));
-		let item = actor.getOwnedItem(reroll_button.attr("data-item-id"));
-		if (actor.isPC) {
-			await actor.spendBenny();
-		} else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
-			await actor.spendBenny();
-		} else {
-			spendMastersBenny();
+		console.log(event.target)
+		console.log(widget)
+		let actor = game.actors.get(String(widget.attr('data-actor-id')));
+		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
+		let card_type = String(widget.attr("data-card-type"))
+		if (widget.hasClass('cost-benny')) {
+			if (actor.isPC) {
+				await actor.spendBenny();
+			} else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+				await actor.spendBenny();
+			} else {
+				spendMastersBenny();
+			}
 		}
 		let roll = new CustomRoll(item);
-		await roll.toMessage();
+		await roll.toMessage(card_type);
 	})
 })
-
-// TODO: Roll damage
