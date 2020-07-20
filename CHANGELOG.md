@@ -2,7 +2,7 @@
 
 # 0.1.3
 
-* 
+* Attack and damage can now be rolled together or separate.
 
 ## 0.1.2
 
