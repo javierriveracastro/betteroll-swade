@@ -155,7 +155,8 @@ export class CustomRoll {
         let parts = []
         let separate_damage = game.settings.get('betterrolls-swade',
                                                 'dontRollDamage');
-        let rof = this.item.data.data.rof
+        let rof = parseInt(this.item.data.data.rof) || 1;
+        console.log(rof);
         parts.push(this.attack_roll(rof));
         if (! separate_damage) {
             let damage_roll = this.damage_roll(rof);
