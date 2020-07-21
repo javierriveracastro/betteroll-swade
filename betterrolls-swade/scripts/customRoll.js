@@ -112,10 +112,12 @@ export class CustomRoll {
         };
     }
 
-    damage_roll(rof){
+    damage_roll(rof, add_raise=false){
         let damage_rolls = []
         for (let i = 0; i < rof; i++) {
-            let damage = new Roll(makeExplotable(this.item.data.data.damage),
+            let damage_string = makeExplotable(this.item.data.data.damage);
+            if (add_raise) {damage_string = damage_string + "+1d6x="}
+            let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());
             damage.roll();
             if (game.dice3d) {
@@ -124,8 +126,12 @@ export class CustomRoll {
             }
             damage_rolls.push(damage)
         }
+        let title = "Damage";
+        if (add_raise) {
+            title = "Damage with raise";
+        }
         return  {
-            roll_title: 'Damage', rolls: damage_rolls,
+            roll_title: title, rolls: damage_rolls,
             rolls_accepted: damage_rolls
         };
     }
@@ -181,6 +187,13 @@ export class CustomRoll {
         parts.push(damage);
         parts.push(this.damage_raise_roll(damage));
         return [parts, false];
+    }
+
+    // noinspection JSUnusedGlobalSymbols
+    generate_damage_and_raise_card() {
+        let parts = [];
+        parts.push(this.damage_roll(1, true));
+        return [parts, false]
     }
 
     async toMessage(card_type) {
