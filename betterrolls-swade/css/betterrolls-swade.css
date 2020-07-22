@@ -51,3 +51,29 @@
 .discarded {
 	color: gray;
 }
+
+.card-header {
+	display: flex;
+	width: 100%;
+	border-top: 2px groove #FFF;
+	border-bottom: 2px groove #FFF;
+}
+
+.card-name  {
+	display: inline;
+	width: 30%;
+}
+
+.card-notes {
+	text-align: right;
+	width: 65%;
+}
+
+.card-description {
+	font-style: normal;
+	font-size: 10px;
+}
+
+.flavor-text {
+	text-align: center;
+}

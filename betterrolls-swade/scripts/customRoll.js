@@ -209,8 +209,8 @@ export class CustomRoll {
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 parts: parts, title: this.item.name,
-                description: this.item.data.data.notes ||
-                    this.item.data.data.description,
+                notes: this.item.data.data.notes,
+                description:  this.item.data.data.description,
                 item_id: this.item.id,
                 actor_id: this.actor.id,
                 bennies_available: bennies_available,

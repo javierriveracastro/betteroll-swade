@@ -1,12 +1,9 @@
-<header class="card-header flexrow red-header">
-    <h3 class="item-name">{{title}}</h3>
-    {{#if description}}
-        <div>
-            {{{description}}}
-        </div>
-    {{/if}}
+<header class="card-header">
+        <h3 class="card-name">{{title}}</h3>
+        <strong class="card-notes">{{notes}}</strong>
 </header>
 <div class="card-content">
+    {{#if description}}<div class="card-description">{{{description}}}</div>{{/if}}
     {{#each parts}}
         <div class="dice-roll">
             <div class="flavor-text">
