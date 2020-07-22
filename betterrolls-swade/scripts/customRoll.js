@@ -215,7 +215,6 @@ export class CustomRoll {
                 actor_id: this.actor.id,
                 bennies_available: bennies_available,
                 damage_buttons: separate_damage,
-                show_buttons: bennies_available || separate_damage,
                 card_type: card_type
             });
         let whisper_data = getWhisperData();
