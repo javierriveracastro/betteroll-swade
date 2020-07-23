@@ -72,5 +72,17 @@ Hooks.on('renderChatMessage', (message, html) => {
 		}
 		let roll = new CustomRoll(item);
 		await roll.toMessage(card_type);
+	});
+	let collapse_button = html.find('.collapse-button');
+	collapse_button.click(async () => {
+		let description_span = $('.text-description');
+		description_span.toggleClass('description-collapsed');
+		if (description_span.hasClass('description-collapsed')) {
+			collapse_button.find('.fas').removeClass('fa-caret-down');
+			collapse_button.find('.fas').addClass('fa-caret-right');
+		} else {
+			collapse_button.find('.fas').addClass('fa-caret-down');
+			collapse_button.find('.fas').removeClass('fa-caret-right');
+		}
 	})
 })

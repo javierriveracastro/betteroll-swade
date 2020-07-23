@@ -3,7 +3,10 @@
         <strong class="card-notes">{{notes}}</strong>
 </header>
 <div class="card-content">
-    {{#if description}}<div class="card-description">{{{description}}}</div>{{/if}}
+    {{#if description}}<div class="card-description">
+        <span class="collapse-button"><i class="fas fa-caret-right"></i>Description</span>
+        <span class="text-description description-collapsed">{{{description}}}</span>
+    </div>{{/if}}
     {{#each parts}}
         <div class="dice-roll">
             <div class="flavor-text">
