@@ -13,9 +13,15 @@ function changeRolls (actor, html) {
 				event.stopPropagation();
 				let li = $(event.currentTarget).parents(".item");
 				let item = actor.getOwnedItem(String(li.attr("data-item-id")));
-				let roll = new CustomRoll(item)
+				let roll_type = '';
 				if (item.type === "weapon"){
-					await roll.toMessage('generate_attack_card')
+					roll_type = 'generate_attack_card';
+				} else if (item.type === "power"){
+					roll_type = 'generate_power_card';
+				}
+				if (roll_type !== '') {
+					let roll = new CustomRoll(item);
+					await roll.toMessage(roll_type);
 				}
 		});
 	}

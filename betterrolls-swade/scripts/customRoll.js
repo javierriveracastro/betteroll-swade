@@ -11,16 +11,26 @@ export class CustomRoll {
 
     get_skill() {
         /* Returns the ability used for this item */
-        let ability = "Fighting"  // Default
-        if (parseInt(this.item.data.data.range) > 0) {
-            // noinspection JSUnresolvedVariable
-            if (this.item.data.data.damage.includes('str')) {
-                ability = "Athletics"
-            } else {
-                ability = "Shooting"
+        let skill_found = "untrained";  // True default
+        if (this.item.type === "weapon") {
+            skill_found = "Fighting";  // Default for weapons
+            if (parseInt(this.item.data.data.range) > 0) {
+                // noinspection JSUnresolvedVariable
+                if (this.item.data.data.damage.includes('str')) {
+                    skill_found = "Athletics"
+                } else {
+                    skill_found = "Shooting"
+                }
             }
+        } else if (this.item.type === 'power') {
+            const arcane_skills = ['Faith', 'Focus', 'Spellcasting'];
+            this.item.options.actor.data.items.forEach((skill) => {
+                if (arcane_skills.includes(skill.name)) {
+                    skill_found = skill.name;
+                }
+            });
         }
-        return ability
+        return skill_found
     }
 
     add_modifiers(roll_string, modifier) {
@@ -162,7 +172,6 @@ export class CustomRoll {
         let separate_damage = game.settings.get('betterrolls-swade',
                                                 'dontRollDamage');
         let rof = parseInt(this.item.data.data.rof) || 1;
-        console.log(rof);
         parts.push(this.attack_roll(rof));
         if (! separate_damage) {
             let damage_roll = this.damage_roll(rof);
@@ -171,6 +180,12 @@ export class CustomRoll {
             parts.push(this.damage_raise_roll(damage_roll));
         }
         return [parts, separate_damage]
+    }
+
+    generate_power_card(){
+        let parts = []
+        parts.push(this.attack_roll(1))
+        return [parts, false]
     }
 
     // noinspection JSUnusedGlobalSymbols
