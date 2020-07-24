@@ -117,7 +117,7 @@ export class CustomRoll {
             array_show.splice(discarded_index, 1)
         }
         return  {
-            roll_title: 'Attack', rolls: attack_rolls,
+            roll_title: skill, rolls: attack_rolls,
             rolls_accepted: array_show
         };
     }
@@ -185,7 +185,17 @@ export class CustomRoll {
     generate_power_card(){
         let parts = []
         parts.push(this.attack_roll(1))
-        return [parts, false]
+        let separate_damage = false
+        if (this.item.data.data.damage) {
+            separate_damage = game.settings.get('betterrolls-swade',
+                                                'dontRollDamage');
+            if (! separate_damage) {
+                let damage = this.damage_roll(1);
+                parts.push(damage);
+                parts.push(this.damage_raise_roll(damage));
+            }
+        }
+        return [parts, separate_damage]
     }
 
     // noinspection JSUnusedGlobalSymbols
