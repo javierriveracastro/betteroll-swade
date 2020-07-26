@@ -62,11 +62,10 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let widget = $(event.target);
 		event.preventDefault();
 		event.stopPropagation();
-		console.log(event.target)
-		console.log(widget)
 		let actor = game.actors.get(String(widget.attr('data-actor-id')));
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
-		let card_type = String(widget.attr("data-card-type"))
+		let card_type = String(widget.attr("data-card-type"));
+		let extra_notes = String(widget.attr('data-extra-notes'));
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();
@@ -77,7 +76,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 			}
 		}
 		let roll = new CustomRoll(item);
-		await roll.toMessage(card_type);
+		await roll.toMessage(card_type, extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
 	collapse_button.click(async () => {

@@ -125,6 +125,7 @@ export class CustomRoll {
     damage_roll(rof, add_raise=false){
         let damage_rolls = []
         for (let i = 0; i < rof; i++) {
+            // noinspection JSUnresolvedVariable
             let damage_string = makeExplotable(this.item.data.data.damage);
             if (add_raise) {damage_string = damage_string + "+1d6x="}
             let damage = new Roll(damage_string,
@@ -171,6 +172,7 @@ export class CustomRoll {
         let parts = []
         let separate_damage = game.settings.get('betterrolls-swade',
                                                 'dontRollDamage');
+        // noinspection JSUnresolvedVariable
         let rof = parseInt(this.item.data.data.rof) || 1;
         parts.push(this.attack_roll(rof));
         if (! separate_damage) {
@@ -186,6 +188,7 @@ export class CustomRoll {
         let parts = []
         parts.push(this.attack_roll(1))
         let separate_damage = false
+        // noinspection JSUnresolvedVariable
         if (this.item.data.data.damage) {
             separate_damage = game.settings.get('betterrolls-swade',
                                                 'dontRollDamage');
@@ -221,20 +224,28 @@ export class CustomRoll {
         return [parts, false]
     }
 
-    async toMessage(card_type) {
+    async toMessage(card_type, extra_notes='') {
         /// Creates a card rolling dice
         /// @param card_type: generate_attack_card for a normal attack
         let [parts, separate_damage] = this[card_type]()
         let bennies_available = true;
+        let notes = this.item.data.data.notes;
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {
                 bennies_available = false
             }
         }
+        if (extra_notes) {
+            if (notes) {
+                notes = `${extra_notes} - ${notes}`;
+            } else {
+                notes = extra_notes;
+            }
+        }
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
-                parts: parts, title: this.item.name,
-                notes: this.item.data.data.notes,
+                parts: parts, title: this.item.name ,
+                notes: notes,
                 description:  this.item.data.data.description,
                 item_id: this.item.id,
                 actor_id: this.actor.id,
