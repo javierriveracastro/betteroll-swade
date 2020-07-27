@@ -33,6 +33,29 @@ export class CustomRoll {
         return skill_found
     }
 
+    get_item_footer(){
+        let footer = [];
+        if (this.item.type === "weapon"){
+            footer.push("Range: " +  this.item.data.data.range);
+            // noinspection JSUnresolvedVariable
+            footer.push("Rof: "+ this.item.data.data.rof);
+            // noinspection JSUnresolvedVariable
+            footer.push("Damage: " + this.item.data.data.damage);
+            footer.push("AP: " + this.item.data.data.ap);
+        } else if (this.item.type === "power"){
+            // noinspection JSUnresolvedVariable
+            footer.push("PP: " + this.item.data.data.pp);
+            footer.push("Range: " + this.item.data.data.range);
+            footer.push("Duration: " + this.item.data.data.duration);
+            // noinspection JSUnresolvedVariable
+            if (this.item.data.data.damage) {
+                // noinspection JSUnresolvedVariable
+                footer.push("Damage: " + this.item.data.data.damage);
+            }
+        }
+        return footer
+    }
+
     add_modifiers(roll_string, modifier) {
         // Add a modifier to a roll string
         if (modifier > 0) {
@@ -251,7 +274,8 @@ export class CustomRoll {
                 actor_id: this.actor.id,
                 bennies_available: bennies_available,
                 damage_buttons: separate_damage,
-                card_type: card_type
+                card_type: card_type,
+                footer: this.get_item_footer()
             });
         let whisper_data = getWhisperData();
         let chatData = {

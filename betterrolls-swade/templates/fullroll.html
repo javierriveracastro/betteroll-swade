@@ -73,3 +73,10 @@
         </button>
     </div>
 {{/if}}
+{{# if footer}}
+<div class="card-footer">
+    {{# each footer}}
+        <span>{{this}}</span>
+    {{/each}}
+</div>
+{{/if}}
