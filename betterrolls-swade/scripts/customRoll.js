@@ -164,6 +164,9 @@ export class CustomRoll {
         if (add_raise) {
             title = "Damage with raise";
         }
+        if (this.item.data.data.ap) {
+            title = title + ` (AP: ${this.item.data.data.ap})`;
+        }
         return  {
             roll_title: title, rolls: damage_rolls,
             rolls_accepted: damage_rolls
@@ -181,8 +184,12 @@ export class CustomRoll {
             }
             raise_damage_rolls.push(raise_damage_roll)
         })
+        let title = 'Raise damage';
+        if (this.item.data.data.ap) {
+            title = title + ` (AP: ${this.item.data.data.ap})`;
+        }
         return  {
-            roll_title: 'Raise damage',
+            roll_title: title,
             rolls: raise_damage_rolls,
             rolls_accepted: raise_damage_rolls
         };
