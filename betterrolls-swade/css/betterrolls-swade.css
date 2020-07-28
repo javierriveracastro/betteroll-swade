@@ -96,4 +96,29 @@
 .card-footer span:last-child {
 	border-right: none;
 	padding-right: none;
+	padding-right: none;
+}
+
+/* Repeating dice backgrounds */
+.dice-total.brsw-d4 {
+  background-image: url("/icons/svg/d4-grey.svg");
+}
+.dice-total.brsw-d6 {
+  background-image: url("/icons/svg/d6-grey.svg");
+}
+.dice-total.brsw-d8 {
+  background-image: url("/icons/svg/d8-grey.svg");
+}
+.dice-total.brsw-d10 {
+  background-image: url("/icons/svg/d10-grey.svg");
+}
+.dice-total.brsw-d12 {
+  background-image: url("/icons/svg/d12-grey.svg");
+}
+
+.dice-total.dice-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 16px;
 }

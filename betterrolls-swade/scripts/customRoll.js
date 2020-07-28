@@ -135,13 +135,8 @@ export class CustomRoll {
                              })
         }
         attack_rolls[discarded_index].discarded = true
-        let array_show = attack_rolls.slice()
-        if (array_show.length > 1) {
-            array_show.splice(discarded_index, 1)
-        }
         return  {
-            roll_title: skill, rolls: attack_rolls,
-            rolls_accepted: array_show
+            roll_title: skill, rolls: attack_rolls
         };
     }
 
@@ -168,8 +163,7 @@ export class CustomRoll {
             title = title + ` (AP: ${this.item.data.data.ap})`;
         }
         return  {
-            roll_title: title, rolls: damage_rolls,
-            rolls_accepted: damage_rolls
+            roll_title: title, rolls: damage_rolls
         };
     }
 
@@ -190,8 +184,7 @@ export class CustomRoll {
         }
         return  {
             roll_title: title,
-            rolls: raise_damage_rolls,
-            rolls_accepted: raise_damage_rolls
+            rolls: raise_damage_rolls
         };
 
     }

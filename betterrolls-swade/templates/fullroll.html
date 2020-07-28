@@ -41,11 +41,15 @@
                     </div>
                 </div>
                 {{/each}}
-                <div class="dice-row red-totals">
-                    {{#each rolls_accepted}}
-                    <h4 class="dice-total red-base-die dice-row-item">
-                        {{this.total}}
-                    </h4>
+                <div class="dice-row">
+                    {{#each rolls}}
+                    <div class="dice-row-item">
+                        <h4 class="dice-total {{#if this.discarded}}discarded{{/if}}
+                            {{#if this.exploded}}exploded{{/if}}
+                            brsw-d{{this.dice.[0].faces}} dice-image">
+                            {{this.total}}
+                        </h4>
+                    </div>
                     {{/each}}
                 </div>
             </div>
@@ -57,7 +61,7 @@
         <button class="btn-brswade btn-roll cost-benny" data-item-id="{{item_id}}"
                 data-actor-id="{{actor_id}}" data-card-type="{{card_type}}"
                 data-extra-notes="Benny reroll">
-            Reroll spending a bennie
+            Reroll spending a Benny
         </button>
     </div>
 {{/if}}

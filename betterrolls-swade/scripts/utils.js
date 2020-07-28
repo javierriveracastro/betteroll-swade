@@ -32,7 +32,7 @@ export function makeExplotable(expresion) {
 }
 
 export function spendMastersBenny() {
-    // Expends one bennie from the master stack
+    // Expends one benny from the master stack
     game.users.forEach((user) => {
         if (user.isGM) {
             let value = user.getFlag('swade', 'bennies');
