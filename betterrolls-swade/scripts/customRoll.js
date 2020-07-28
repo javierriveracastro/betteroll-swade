@@ -159,7 +159,8 @@ export class CustomRoll {
         if (add_raise) {
             title = "Damage with raise";
         }
-        if (this.item.data.data.ap) {
+        let ap_int = parseInt(this.item.data.data.ap)
+        if (ap_int && ap_int > 0) {
             title = title + ` (AP: ${this.item.data.data.ap})`;
         }
         return  {
@@ -179,7 +180,8 @@ export class CustomRoll {
             raise_damage_rolls.push(raise_damage_roll)
         })
         let title = 'Raise damage';
-        if (this.item.data.data.ap) {
+        let ap_int = parseInt(this.item.data.data.ap)
+        if (ap_int && ap_int > 0) {
             title = title + ` (AP: ${this.item.data.data.ap})`;
         }
         return  {
