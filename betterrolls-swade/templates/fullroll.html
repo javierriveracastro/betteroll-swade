@@ -44,9 +44,7 @@
                 <div class="dice-row">
                     {{#each rolls}}
                     <div class="dice-row-item">
-                        <h4 class="dice-total {{#if this.discarded}}discarded{{/if}}
-                            {{#if this.exploded}}exploded{{/if}}
-                            brsw-d{{this.dice.[0].faces}} dice-image">
+                        <h4 class="dice-total dice-image {{this.extra_classes}}">
                             {{this.total}}
                         </h4>
                     </div>

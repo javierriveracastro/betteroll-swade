@@ -69,12 +69,13 @@ export class CustomRoll {
     attack_roll(rof) {
         // Create a part for the attack roll
         let skill = this.get_skill();
-        let die = "4"
-        let skill_modifier = "-2"
-        let wild_die = "6"
-        let attack_array = []
-        let roll_string = ''
-        let currentRoll
+        let die = "4";
+        let skill_modifier = "-2";
+        let wild_die = "6";
+        let attack_array = [];
+        let roll_string = '';
+        let is_fumble = 0;
+        let currentRoll;
         if (isNaN(rof) || rof < 1) {
             rof = 1
         }
@@ -112,10 +113,21 @@ export class CustomRoll {
                 roll_string, this.item.options.actor.calcStatusPenalties())
             currentRoll = new Roll(roll_string);
             currentRoll.roll()
+            currentRoll.extra_classes = ""
+            if (parseInt(currentRoll.result) === 1) {
+                is_fumble = is_fumble + 1;
+            } else {
+                is_fumble = is_fumble - 1;
+            }
+            console.log("BRWSADE");
+            console.log(currentRoll);
             currentRoll.dice.forEach((dice) => {
                 dice.rolls.forEach((roll) => {
                     nice_string = nice_string + `d${dice.faces}+`;
                     nice_results.push(roll.roll);
+                    if (roll.exploded) {
+                        currentRoll.extra_classes += "exploded "
+                    }
                 })
             })
             // Dice so nice, roll all attack dice together
@@ -132,10 +144,16 @@ export class CustomRoll {
                                  results: nice_results
                              })
         }
+        if (is_fumble > 0) {
+            attack_rolls.forEach((roll) => {
+                roll.extra_classes = roll.extra_classes + "brsw-fumble "
+            })
+        }
+        attack_rolls[attack_rolls.length - 1].extra_classes += "wild-die ";
         if (this.item.options.actor.data.data.wildcard) {
-            attack_rolls[discarded_index].discarded = true;
+            attack_rolls[discarded_index].extra_classes += "discarded "
         } else {
-            attack_rolls[attack_rolls.length - 1].discarded = true;
+            attack_rolls[attack_rolls.length - 1].extra_classes += "discarded "
         }
         return  {
             roll_title: skill, rolls: attack_rolls

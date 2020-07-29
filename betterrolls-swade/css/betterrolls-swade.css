@@ -21,9 +21,10 @@
 	flex: 1;
 }
 
-.dice-row .failure {
+.dice-row .brsw-fumble {
 	color: #aa0200;
 }
+
 
 .red-dual .dice-row .success {
 	color: #257f11;
@@ -122,3 +123,7 @@
   background-position: center;
   font-size: 16px;
 }
+
+/*.brsw-wild-die {*/
+/*	filter: sepia(1) hue-rotate(60deg) saturate(200%);*/
+/*}*/
