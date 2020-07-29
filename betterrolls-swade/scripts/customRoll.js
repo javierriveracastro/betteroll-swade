@@ -88,9 +88,7 @@ export class CustomRoll {
         for (let i = 0; i < rof; i++) {
             attack_array.push(`1d${die}x=`)
         }
-        if (this.item.options.actor.data.data.wildcard) {
-            attack_array.push(`1d${wild_die}x=`);
-        }
+        attack_array.push(`1d${wild_die}x=`);
         let attack_rolls = [];
         let minimum_roll = 999999;
         let discarded_index = 999999;
@@ -134,7 +132,11 @@ export class CustomRoll {
                                  results: nice_results
                              })
         }
-        attack_rolls[discarded_index].discarded = true
+        if (this.item.options.actor.data.data.wildcard) {
+            attack_rolls[discarded_index].discarded = true;
+        } else {
+            attack_rolls[attack_rolls.length - 1].discarded = true;
+        }
         return  {
             roll_title: skill, rolls: attack_rolls
         };
