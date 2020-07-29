@@ -11,25 +11,27 @@ export class CustomRoll {
 
     get_skill() {
         /* Returns the ability used for this item */
-        let skill_found = "untrained";  // True default
+        let skill_found = "Untrained";
+        let possible_skills = ["untrained", "untrainiert"];  // True default
         if (this.item.type === "weapon") {
-            skill_found = "Fighting";  // Default for weapons
+            possible_skills = ["fighting", "kämpfen"];  // Default for weapons
             if (parseInt(this.item.data.data.range) > 0) {
                 // noinspection JSUnresolvedVariable
                 if (this.item.data.data.damage.includes('str')) {
-                    skill_found = "Athletics"
+                    possible_skills = ["athletics", "athletik"];
                 } else {
-                    skill_found = "Shooting"
+                    possible_skills = ["shooting", "schiessen"];
                 }
             }
         } else if (this.item.type === 'power') {
-            const arcane_skills = ['Faith', 'Focus', 'Spellcasting'];
-            this.item.options.actor.data.items.forEach((skill) => {
-                if (arcane_skills.includes(skill.name)) {
-                    skill_found = skill.name;
-                }
-            });
+            possible_skills = ['faith', 'focus', 'spellcasting', `glaube`,
+                'fokus', 'zaubern'];
         }
+        this.item.options.actor.data.items.forEach((skill) => {
+            if (possible_skills.includes(skill.name.toLowerCase())) {
+                skill_found = skill.name;
+            }
+        });
         return skill_found
     }
 
@@ -149,7 +151,10 @@ export class CustomRoll {
                 roll.extra_classes = roll.extra_classes + "brsw-fumble "
             })
         }
-        attack_rolls[attack_rolls.length - 1].extra_classes += "wild-die ";
+        console.log('BRSWADE');
+        console.log(attack_rolls[attack_rolls.length - 1]);
+        attack_rolls[attack_rolls.length - 1].extra_classes +=
+            `brsw-d${attack_rolls[attack_rolls.length - 1].dice[0].faces} `;
         if (this.item.options.actor.data.data.wildcard) {
             attack_rolls[discarded_index].extra_classes += "discarded "
         } else {
