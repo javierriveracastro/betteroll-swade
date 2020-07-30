@@ -121,8 +121,6 @@ export class CustomRoll {
             } else {
                 is_fumble = is_fumble - 1;
             }
-            console.log("BRWSADE");
-            console.log(currentRoll);
             currentRoll.dice.forEach((dice) => {
                 dice.rolls.forEach((roll) => {
                     nice_string = nice_string + `d${dice.faces}+`;
@@ -277,12 +275,12 @@ export class CustomRoll {
     async toMessage(card_type, extra_notes='') {
         /// Creates a card rolling dice
         /// @param card_type: generate_attack_card for a normal attack
-        let [parts, separate_damage] = this[card_type]()
+        let [parts, separate_damage] = this[card_type]();
         let bennies_available = true;
         let notes = this.item.data.data.notes;
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {
-                bennies_available = false
+                bennies_available = false;
             }
         }
         if (extra_notes) {
