@@ -149,8 +149,6 @@ export class CustomRoll {
                 roll.extra_classes = roll.extra_classes + "brsw-fumble "
             })
         }
-        console.log('BRSWADE');
-        console.log(attack_rolls[attack_rolls.length - 1]);
         attack_rolls[attack_rolls.length - 1].extra_classes +=
             `brsw-d${attack_rolls[attack_rolls.length - 1].dice[0].faces} `;
         if (this.item.options.actor.data.data.wildcard) {
