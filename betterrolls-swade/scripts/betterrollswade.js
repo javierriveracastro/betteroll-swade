@@ -25,6 +25,14 @@ function changeRolls (actor, html) {
 				}
 		});
 	}
+	let skill_list = html.find('li.item.skill');
+	for (let row of skill_list) {
+		let li = $(row);
+		console.log(li)
+		let skill = actor.getOwnedItem(String(li.attr('data-item-id')));
+		li.prepend(`<div class="brsw-skill-image" style="background-image: url('${skill.img}');"></div>`);
+		console.log(skill)
+	}
 }
 
 function register_settings() {

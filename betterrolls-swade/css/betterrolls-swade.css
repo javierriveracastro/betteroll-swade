@@ -124,6 +124,8 @@
   font-size: 16px;
 }
 
-/*.brsw-wild-die {*/
-/*	filter: sepia(1) hue-rotate(60deg) saturate(200%);*/
-/*}*/
+.brsw-skill-image {
+	background-repeat: no-repeat;
+	background-clip: content-box;
+	padding: 2px;
+}
