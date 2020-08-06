@@ -68,48 +68,45 @@ export class CustomRoll {
         return roll_string;
     }
 
-    attack_roll(rof) {
-        // Create a part for the attack roll
-        let skill = this.get_skill();
+    trait_roll(trait, rof) {
         let die = "4";
         let skill_modifier = "-2";
         let wild_die = "6";
-        let attack_array = [];
         let roll_string = '';
         let is_fumble = 0;
         let currentRoll;
+        let roll_array = [];
+        let roll_results = []
         if (isNaN(rof) || rof < 1) {
             rof = 1
         }
-        this.item.options.actor.data.items.forEach((item) => {
-            if (item.name === skill) {
-                die = item.data.die.sides;
-                skill_modifier = parseInt(item.data.die.modifier);
-                wild_die = item.data['wild-die'].sides;
-            }
-        })
-        for (let i = 0; i < rof; i++) {
-            attack_array.push(`1d${die}x=`)
+        console.log(trait)
+        if (trait) {
+            die = trait.data.die.sides;
+            skill_modifier = parseInt(trait.data.die.modifier);
+            wild_die = trait.data['wild-die'].sides;
         }
-        attack_array.push(`1d${wild_die}x=`);
-        let attack_rolls = [];
+        for (let i = 0; i < rof; i++) {
+            roll_array.push(`1d${die}x=`)
+        }
+        roll_array.push(`1d${wild_die}x=`);
         let minimum_roll = 999999;
         let discarded_index = 999999;
         let nice_string = ""
         let nice_results = []
-        attack_array.forEach((dice_string, index) => {
+        roll_array.forEach((dice_string, index) => {
             roll_string = dice_string
             roll_string = this.add_modifiers(roll_string, skill_modifier)
             // Wounds and fatigue
             if (typeof this.item.options.actor.calcWoundFatigePenalties
                 !== 'undefined') {
                 roll_string = this.add_modifiers(
-                    roll_string, this.item.options.actor.calcWoundFatigePenalties())
+                    roll_string, this.actor.calcWoundFatigePenalties())
             } else {
                 roll_string = this.add_modifiers(
-                    roll_string, this.item.options.actor.calcWoundPenalties())
+                    roll_string, this.actor.calcWoundPenalties())
                 roll_string = this.add_modifiers(
-                    roll_string, this.item.options.actor.calcFatiguePenalties())
+                    roll_string, this.actor.calcFatiguePenalties())
             }
             roll_string = this.add_modifiers(
                 roll_string, this.item.options.actor.calcStatusPenalties())
@@ -131,7 +128,7 @@ export class CustomRoll {
                 })
             })
             // Dice so nice, roll all attack dice together
-            attack_rolls.push(currentRoll)
+            roll_results.push(currentRoll)
             if (currentRoll.total < minimum_roll) {
                 minimum_roll = currentRoll.total
                 discarded_index = index
@@ -145,19 +142,34 @@ export class CustomRoll {
                              })
         }
         if (is_fumble > 0) {
-            attack_rolls.forEach((roll) => {
+            roll_results.forEach((roll) => {
                 roll.extra_classes = roll.extra_classes + "brsw-fumble "
             })
         }
-        attack_rolls[attack_rolls.length - 1].extra_classes +=
-            `brsw-d${attack_rolls[attack_rolls.length - 1].dice[0].faces} `;
+        roll_results[roll_results.length - 1].extra_classes +=
+            `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
+
         if (this.item.options.actor.data.data.wildcard) {
-            attack_rolls[discarded_index].extra_classes += "discarded "
+            roll_results[discarded_index].extra_classes += "discarded "
         } else {
-            attack_rolls[attack_rolls.length - 1].extra_classes += "discarded "
+            roll_results[roll_results.length - 1].extra_classes += "discarded "
         }
+        return roll_results
+    }
+
+    attack_roll(rof) {
+        // Create a part for the attack roll
+        let skill_name = this.get_skill();
+        let skill
+        this.item.options.actor.data.items.forEach((item) => {
+            if (item.name === skill_name) {
+                skill = item
+            }
+        })
+        // noinspection JSUnusedAssignment
+        let attack_rolls = this.trait_roll(skill, rof);
         return  {
-            roll_title: skill, rolls: attack_rolls
+            roll_title: skill_name, rolls: attack_rolls
         };
     }
 
@@ -210,6 +222,14 @@ export class CustomRoll {
             rolls: raise_damage_rolls
         };
 
+    }
+
+
+    // noinspection JSUnusedGlobalSymbols
+    generate_skill_card() {
+        let parts = [{roll_title: this.item.name,
+                      rolls: this.trait_roll(this.item.data, 1)}];
+        return [parts, false];
     }
 
     // noinspection JSUnusedGlobalSymbols

@@ -28,10 +28,17 @@ function changeRolls (actor, html) {
 	let skill_list = html.find('li.item.skill');
 	for (let row of skill_list) {
 		let li = $(row);
-		console.log(li)
-		let skill = actor.getOwnedItem(String(li.attr('data-item-id')));
-		li.prepend(`<div class="brsw-skill-image" style="background-image: url('${skill.img}');"></div>`);
-		console.log(skill)
+		let item_id = String(li.attr('data-item-id'));
+		let skill = actor.getOwnedItem(item_id);
+		li.prepend(`<div class="brsw-skill-image" style="/*noinspection CssUnknownTarget*/background-image: url('${skill.img}');" data-item-id="${item_id}"></div>`);
+		let div_skill = li.find(".brsw-skill-image");
+		div_skill.click(async event => {
+			event.preventDefault();
+			event.stopPropagation();
+			let item = actor.getOwnedItem(String($(event.currentTarget).attr("data-item-id")));
+			let roll = new CustomRoll(item)
+			await roll.toMessage('generate_skill_card')
+		})
 	}
 }
 
