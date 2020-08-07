@@ -25,13 +25,13 @@ export class CustomRoll {
             }
         } else if (this.item.type === 'power') {
             possible_skills = ['faith', 'focus', 'spellcasting', `glaube`,
-                'fokus', 'zaubern', 'Druidism', 'Elementalism', 'Glamour',
-                'Heahwisardry', 'Hrimwisardry', 'Solar Magic', 'Song Magic',
-                'Soul Binding', 'Artificer', 'Astrology', 'Dervish',
-                'Divination', 'Jinn Binding', 'Khem-Hekau', 'Mathemagic',
-                'Sand Magic', "Sha'ir", 'Ship Magic', 'Ushabti', 'Wizir Magic',
-                'Word MagicDruidenmagie', 'Elementarmagie', 'Heahmagie',
-                'Hrimmagie', 'Gesangsmagie'];
+                'fokus', 'zaubern', 'druidism', 'elementalism', 'glamour',
+                'heahwisardry', 'hrimwisardry', 'solar magic', 'song magic',
+                'soul binding', 'artificer', 'astrology', 'dervish',
+                'divination', 'jinn binding', 'khem-Hekau', 'mathemagic',
+                'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
+                'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
+                'hrimmagie', 'gesangsmagie'];
         }
         this.item.options.actor.data.items.forEach((skill) => {
             if (possible_skills.includes(skill.name.toLowerCase())) {
