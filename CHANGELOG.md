@@ -1,13 +1,18 @@
 # Changelog
 
+# 1.0.0
+
+* This is now feature complete.
+* Skill images in character sheet and skill rolls
+
 # 0.1.5
 
 * Show when a roll is the result of spending a Benny.
 * Add a footer to the card with generic weapon or power information
 * See Armor Penetration in the damage total
-* Allways show all dice, including discarded ones.
-* Roll an extra d6 for extra (it's allways discarded) for fumble an special results checking
-* Mark the wild die with a dice backgound
+* Always show all dice, including discarded ones.
+* Roll an extra d6 for extra (it's always discarded) for fumble an special results checking
+* Mark the wild die with a dice background
 * Use red text for fumbles and blue for explosions in trait checks
 
 ## 0.1.4
