@@ -12,15 +12,15 @@ export class CustomRoll {
     get_skill() {
         /* Returns the ability used for this item */
         let skill_found = "Untrained";
-        let possible_skills = ["untrained", "untrainiert"];  // True default
+        let possible_skills = ["untrained", "untrainiert", "desentrenada"];  // True default
         if (this.item.type === "weapon") {
-            possible_skills = ["fighting", "kämpfen"];  // Default for weapons
+            possible_skills = ["fighting", "kämpfen", "pelear"];  // Default for weapons
             if (parseInt(this.item.data.data.range) > 0) {
                 // noinspection JSUnresolvedVariable
                 if (this.item.data.data.damage.includes('str')) {
-                    possible_skills = ["athletics", "athletik"];
+                    possible_skills = ["athletics", "athletik", "atletismo"];
                 } else {
-                    possible_skills = ["shooting", "schiessen"];
+                    possible_skills = ["shooting", "schiessen", "disparar"];
                 }
             }
         } else if (this.item.type === 'power') {
@@ -31,7 +31,8 @@ export class CustomRoll {
                 'divination', 'jinn binding', 'khem-Hekau', 'mathemagic',
                 'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
                 'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
-                'hrimmagie', 'gesangsmagie'];
+                'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
+                'hechicería', 'hechiceria'];
         }
         this.item.options.actor.data.items.forEach((skill) => {
             if (possible_skills.includes(skill.name.toLowerCase())) {
