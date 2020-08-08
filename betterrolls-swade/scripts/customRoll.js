@@ -33,6 +33,12 @@ export class CustomRoll {
                 'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
                 'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
                 'hechicería', 'hechiceria'];
+            if (this.item.data.data.arcane) {
+                if (possible_skills.includes(
+                        this.item.data.data.arcane.toLowerCase())) {
+                    possible_skills = this.item.data.data.arcane;
+                }
+            }
         }
         this.item.options.actor.data.items.forEach((skill) => {
             if (possible_skills.includes(skill.name.toLowerCase())) {
@@ -87,7 +93,6 @@ export class CustomRoll {
         if (isNaN(rof) || rof < 1) {
             rof = 1
         }
-        console.log(trait)
         if (trait) {
             die = trait.data.die.sides;
             skill_modifier = parseInt(trait.data.die.modifier);
