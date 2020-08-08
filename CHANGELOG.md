@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.0.1
+
+* Bugfixes for non svg skill images
+* Bugfix for images in multiline skill names
+* Support for skill names in Spanish
+* Some support for Hellfrost magic skills
+
 # 1.0.0
 
 * This is now feature complete.
