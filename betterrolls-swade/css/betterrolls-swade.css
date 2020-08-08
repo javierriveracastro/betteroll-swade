@@ -125,7 +125,8 @@
 }
 
 .brsw-skill-image {
-	background-repeat: no-repeat;
-	background-clip: content-box;
+	max-height: 1em;
+	object-fit: scale-down;
 	padding: 2px;
+	border: none;
 }

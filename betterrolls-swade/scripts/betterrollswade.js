@@ -30,7 +30,7 @@ function changeRolls (actor, html) {
 		let li = $(row);
 		let item_id = String(li.attr('data-item-id'));
 		let skill = actor.getOwnedItem(item_id);
-		li.prepend(`<div class="brsw-skill-image" style="/*noinspection CssUnknownTarget*/background-image: url('${skill.img}');" data-item-id="${item_id}"></div>`);
+		li.prepend(`<img class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}"></img>`);
 		let div_skill = li.find(".brsw-skill-image");
 		div_skill.click(async event => {
 			event.preventDefault();
