@@ -1,16 +1,66 @@
 # Better rolls for SWADE
-A module modifying FoundryVTT Savage Worlds character sheets riping ideas (and code) from the Better rolls for 5e module.
+A module modifying FoundryVTT Savage Worlds character sheets ripping ideas (and code) from the Better rolls for 5e module.
 
-## Implemented features.
-- Clicking on weapon images on the sheet will roll attack, damage and raise damage and show it in the chat
-- Setting for rolling only attack and showing buttons for damage.
-- Clicking on the chat results will give the roll details.
+## Skill Rolls (character sheets only)
+
+The module will show an image before the skill name. 
+
+![Skills](docs/doc_skills.png)
+
+When you click on it, it will roll that skill directly with the following format
+
+![Skill roll](docs/skill_roll.png)
+
+The result includes wounds and state penalties
+The wild die is always the last one and it's marked with a shadow of the dice size. Used rolls will be black, discarded ones will be light grey.
+You can clink on the result to get more information (explosion, dice faces, modifiers)
+
+Clicking in the "Rerroll spending a Benny button" will repeat the roll, removing a Benny from the character. If the roll was made by a game master and the character has no bennies it will subtracted from gm bennies.
+
+The systems always roll a wild die for extras but it will never get selected (it will always show as gray). It is used to detect fumbles and can also be used for group rolls.
+
+Red numbers means that a fumble has been rolled, explosions are marked in blue.
+
+## Weapon Rolls
+
+Weapon rolls can be toggled from the weapon image either in the inventory or quick access.
+By default it will roll every possible dice: attack, damage and raise damage.
+
+![Weapon roll](docs/weapon_roll.png)
+
+This can be disabled in settings. Note that this is a per client (player) setting. Each player configuration could be different
+
+![Settings](/docs/settings.png)
+
+The simple roll looks like that:
+
+![Simple weapon roll](docs/simple_weapon_roll.png)
+
+You can then use the buttons to re-roll the attack or roll damage.
+
+![Weapon damage roll](docs/weapon_damage_roll.png)
+
+You can use the ROF field of the weapon to force multiple attacks, including using edges like frenzy.
+
+![Weapon ROF 3 roll](docs/weapon_rof_3_roll.png)
+
+The system will assume any weapon with no or 0 range uses fighting.
+Weapons with range will use shooting unless @str is used in damage field, then it will use athletics.
+
+## Power rolls
+
+They work mainly like the others. You need to click on the image to roll the power.
+
+![Power roll](docs/power_roll.png)
+
+If the power has a damage field it will roll or ask to roll damage depending on settings.
+
+The system will look for all arcane skills on the sheet and roll the last one. You can force the use of one skill by putting its name on the Arcana field of the power. Beware of translations 
+
+## Other features.
+- Skill names can be in English, German or Spanish.
+- Hellfrost skills supported (only in English or German)
 - Support for Dice so Nice
-- Button for spending bennies
-- Skill rolls.
-
-## Planned features
-- A real README.md with at least minimal documentation.
 
 ## Acknowledgements
 - Atropos for making Foundry VTT
