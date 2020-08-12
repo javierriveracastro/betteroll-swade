@@ -25,19 +25,31 @@ function changeRolls (actor, html) {
 				}
 		});
 	}
-	let skill_list = html.find('li.item.skill');
-	for (let row of skill_list) {
-		let li = $(row);
-		let item_id = String(li.attr('data-item-id'));
+	let skill_list;
+	console.log(actor);
+	if (actor.data.type === "character") {
+		skill_list = html.find('li.item.skill');
+	} else {
+		skill_list = html.find('span.item.skill');
+	}
+	for (let skill_element of skill_list) {
+		let skill_wrapper = $(skill_element);
+		if (actor.data.type === 'npc') {
+			// Remove the block-inline style so the skills are shown one per
+			// line.
+			skill_wrapper.removeAttr("style");
+			skill_wrapper.attr('style', 'display:flex;')
+		}
+		let item_id = String(skill_wrapper.attr('data-item-id'));
 		let skill = actor.getOwnedItem(item_id);
-		li.prepend(`<img class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}"></img>`);
-		let div_skill = li.find(".brsw-skill-image");
+		skill_wrapper.prepend(`<img class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}"></img>`);
+		let div_skill = skill_wrapper.find(".brsw-skill-image");
 		div_skill.click(async event => {
 			event.preventDefault();
 			event.stopPropagation();
 			let item = actor.getOwnedItem(String($(event.currentTarget).attr("data-item-id")));
-			let roll = new CustomRoll(item)
-			await roll.toMessage('generate_skill_card')
+			let roll = new CustomRoll(item);
+			await roll.toMessage('generate_skill_card');
 		})
 	}
 }
