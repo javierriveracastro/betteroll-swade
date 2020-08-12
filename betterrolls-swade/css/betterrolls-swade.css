@@ -130,3 +130,10 @@
 	padding: 2px;
 	border: none;
 }
+
+.brsw-card-image {
+	max-height: 25px;
+	object-fit: scale-down;
+	border: none;
+	margin-right: 2px;
+}

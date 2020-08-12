@@ -110,16 +110,10 @@ export class CustomRoll {
             roll_string = dice_string
             roll_string = this.add_modifiers(roll_string, skill_modifier)
             // Wounds and fatigue
-            if (typeof this.item.options.actor.calcWoundFatigePenalties
-                !== 'undefined') {
-                roll_string = this.add_modifiers(
-                    roll_string, this.actor.calcWoundFatigePenalties())
-            } else {
-                roll_string = this.add_modifiers(
-                    roll_string, this.actor.calcWoundPenalties())
-                roll_string = this.add_modifiers(
-                    roll_string, this.actor.calcFatiguePenalties())
-            }
+            roll_string = this.add_modifiers(
+                roll_string, this.actor.calcWoundPenalties())
+            roll_string = this.add_modifiers(
+                roll_string, this.actor.calcFatiguePenalties())
             roll_string = this.add_modifiers(
                 roll_string, this.item.options.actor.calcStatusPenalties())
             currentRoll = new Roll(roll_string);
@@ -160,13 +154,12 @@ export class CustomRoll {
         }
         roll_results[roll_results.length - 1].extra_classes +=
             `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
-
         if (this.item.options.actor.data.data.wildcard) {
-            roll_results[discarded_index].extra_classes += "discarded "
+            roll_results[discarded_index].extra_classes += "discarded ";
         } else {
-            roll_results[roll_results.length - 1].extra_classes += "discarded "
+            roll_results[roll_results.length - 1].extra_classes += "discarded ";
         }
-        return roll_results
+        return roll_results;
     }
 
     attack_roll(rof) {
@@ -323,6 +316,7 @@ export class CustomRoll {
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 parts: parts, title: this.item.name ,
+                image: this.item.img,
                 notes: notes,
                 description:  this.item.data.data.description,
                 item_id: this.item.id,
