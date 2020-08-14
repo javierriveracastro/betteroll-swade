@@ -2,6 +2,13 @@
 
 # 1.0.1
 
+* Initial documentation
+* First try to NPC skill rolls (optional)
+* Item image on roll cards
+* Bigger font in descriptions
+
+# 1.0.1
+
 * Bugfixes for non svg skill images
 * Bugfix for images in multiline skill names
 * Support for skill names in Spanish

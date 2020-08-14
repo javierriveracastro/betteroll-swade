@@ -21,6 +21,14 @@ The systems always roll a wild die for extras but it will never get selected (it
 
 Red numbers means that a fumble has been rolled, explosions are marked in blue.
 
+## Skill Rolls (npc sheets)
+
+You can now turn skill rolls for NPCs in the options.
+
+![NPC_skill_setting](docs/settings_npc_skills.png)
+
+When enabled the default npc sheet will be modified to add small images before the skills. Clicking on then will make the roll.
+
 ## Weapon Rolls
 
 Weapon rolls can be toggled from the weapon image either in the inventory or quick access.
