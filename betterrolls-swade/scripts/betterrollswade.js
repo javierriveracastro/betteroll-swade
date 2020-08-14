@@ -26,11 +26,14 @@ function changeRolls (actor, html) {
 		});
 	}
 	let skill_list;
-	console.log(actor);
 	if (actor.data.type === "character") {
 		skill_list = html.find('li.item.skill');
 	} else {
-		skill_list = html.find('span.item.skill');
+		if (game.settings.get('betterrolls-swade', 'rollNPCSkills')) {
+			skill_list = html.find('span.item.skill');
+		} else {
+			skill_list = [];  // No skill for NPC if setting disabled.
+		}
 	}
 	for (let skill_element of skill_list) {
 		let skill_wrapper = $(skill_element);
@@ -63,6 +66,14 @@ function register_settings() {
 		type: Boolean,
 		config: true
 	});
+	game.settings.register('betterrolls-swade', 'rollNPCSkills', {
+		name: "Roll NPC skills",
+		hint: "Add an image to the NPC sheet to be able to roll their skills",
+		default: false,
+		scope: "world",
+		type: Boolean,
+		config: true
+	})
 }
 
 export class BetterRollsHooks {

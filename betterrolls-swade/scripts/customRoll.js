@@ -343,7 +343,6 @@ export class CustomRoll {
         if (whisper_data.whisper) {
             chatData.whisper = whisper_data.whisper
         }
-        /* TODO whisper settings */
         await ChatMessage.create(chatData);
     }
 }
