@@ -28,7 +28,7 @@ export class CustomRoll {
                 'fokus', 'zaubern', 'druidism', 'elementalism', 'glamour',
                 'heahwisardry', 'hrimwisardry', 'solar magic', 'song magic',
                 'soul binding', 'artificer', 'astrology', 'dervish',
-                'divination', 'jinn binding', 'khem-Hekau', 'mathemagic',
+                'divination', 'jinn binding', 'khem-hekau', 'mathemagic',
                 'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
                 'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
                 'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
