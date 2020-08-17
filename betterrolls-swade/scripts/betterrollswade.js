@@ -73,7 +73,15 @@ function register_settings() {
 		scope: "world",
 		type: Boolean,
 		config: true
-	})
+	});
+	game.settings.register('betterrolls-swade', 'resultRow', {
+		name: "Show the result row",
+		hint: "Show a row below the result with a small sucess calculator",
+		default: true,
+		scope: "world",
+		type: Boolean,
+		config: true
+	});
 }
 
 export class BetterRollsHooks {

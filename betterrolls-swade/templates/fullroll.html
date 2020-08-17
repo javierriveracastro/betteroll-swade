@@ -55,6 +55,13 @@
         </div>
     {{/each}}
 </div>
+{{#if id_result}}<div class="result-roll">
+    <i class="fas fa-sd-card"></i>
+    <input id="modifier{{{id_result}}}" type="number" class="brsw-bar-input">
+    <i class="fas fa-sd-card"></i>
+    <input id="difficulty{{{id_result}}}" type="number" class="brsw-bar-input">
+    <span class="brsw-result" id="result{{{id_result}}}">Failure</span>
+</div>{{/if}}
 {{#if bennies_available}}
     <div class="button-bar-brswade">
         <button class="btn-brswade btn-roll cost-benny" data-item-id="{{item_id}}"

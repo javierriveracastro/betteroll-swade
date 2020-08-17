@@ -1,4 +1,4 @@
-import {getWhisperData, makeExplotable} from "./utils.js";
+import {getWhisperData, makeExplotable, broofa} from "./utils.js";
 
 export class CustomRoll {
     /**
@@ -313,6 +313,10 @@ export class CustomRoll {
                 notes = extra_notes;
             }
         }
+        let id_result = ''
+        if (game.settings.get('betterrolls-swade', 'resultRow')) {
+            id_result = broofa();
+        }
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 parts: parts, title: this.item.name ,
@@ -324,7 +328,8 @@ export class CustomRoll {
                 bennies_available: bennies_available,
                 damage_buttons: separate_damage,
                 card_type: card_type,
-                footer: this.get_item_footer()
+                footer: this.get_item_footer(),
+                id_result: id_result
             });
         let whisper_data = getWhisperData();
         let chatData = {
