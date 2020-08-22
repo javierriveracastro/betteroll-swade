@@ -76,12 +76,33 @@ function register_settings() {
 	});
 	game.settings.register('betterrolls-swade', 'resultRow', {
 		name: "Show the result row",
-		hint: "Show a row below the result with a small sucess calculator",
+		hint: "Show a row below the result with a small success calculator",
 		default: true,
 		scope: "world",
 		type: Boolean,
 		config: true
 	});
+}
+
+function calculate_result(id_roll, html) {
+	if (! html) {
+		html = $('.result-roll');
+	}
+	console.log(html)
+	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
+	let modifier = parseInt(html.find('#modifier' + id_roll).val());
+	let target = parseInt(html.find('#difficulty' + id_roll).val());
+	let output_row = html.find('#result' + id_roll);
+	let result = (roll_result + modifier - target) / 4;
+	console.log(roll_result, modifier, target)
+	console.log(result)
+	if (result < 0) {
+		output_row.text('Failure');
+	} else if (result < 1) {
+		output_row.text('Success');
+	} else {
+		output_row.text(`${Math.floor(result)} Raise!!!`)
+	}
 }
 
 export class BetterRollsHooks {
@@ -136,4 +157,14 @@ Hooks.on('renderChatMessage', (message, html) => {
 			collapse_button.find('.fas').removeClass('fa-caret-right');
 		}
 	})
+	let result_roll = html.find('.result-roll');
+	if (result_roll.children('.br-modifier-box').length > 0) {
+		// Avoid calculating fumbles
+		let id_result = result_roll.attr('data-id-result');
+		calculate_result(id_result, html);
+		let modifier = html.find('#modifier' + id_result);
+		let target = html.find('#difficulty' + id_result);
+		modifier.change(() => {calculate_result(id_result)});
+		target.change(() => {calculate_result(id_result)});
+	}
 })

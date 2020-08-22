@@ -55,12 +55,19 @@
         </div>
     {{/each}}
 </div>
-{{#if id_result}}<div class="result-roll">
-    <i class="fas fa-sd-card"></i>
-    <input id="modifier{{{id_result}}}" type="number" class="brsw-bar-input">
-    <i class="fas fa-sd-card"></i>
-    <input id="difficulty{{{id_result}}}" type="number" class="brsw-bar-input">
-    <span class="brsw-result" id="result{{{id_result}}}">Failure</span>
+{{#if id_result}}<div class="result-roll" data-id-result="{{{id_result}}}">
+    {{#if total_result.length}}
+        <span class="br-modifier-box">
+            <input type="hidden" id="roll_result{{{id_result}}}" value="{{total_result.[0]}}">
+            <i class="fas fa-plus"></i>
+            <input id="modifier{{{id_result}}}" type="number" class="brsw-bar-input" value="0">
+            <i class="fas fa-crosshairs"></i>
+            <input id="difficulty{{{id_result}}}" type="number" class="brsw-bar-input" value="4">
+        </span>
+        <span class="brsw-result" id="result{{{id_result}}}">Failure</span>
+    {{else}}
+        <span class="brsw-result brsw-result-fumble">FUMBLE!!!</span>
+    {{/if}}
 </div>{{/if}}
 {{#if bennies_available}}
     <div class="button-bar-brswade">

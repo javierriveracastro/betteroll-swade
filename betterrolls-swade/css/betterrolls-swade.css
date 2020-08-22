@@ -137,3 +137,28 @@
 	border: none;
 	margin-right: 2px;
 }
+
+.brsw-result {
+	margin-right: 2px;
+	flex-basis: 50%;
+	text-align: center;
+	border-style: solid;
+	border-radius: 5px;
+}
+
+.brsw-result-fumble {
+	background: #aa0200;
+	color: white;
+	flex-basis: 100%;
+}
+
+.result-roll {
+	margin: 2px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.brsw-bar-input {
+	max-width: 3em;
+}

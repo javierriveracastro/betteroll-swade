@@ -234,7 +234,14 @@ export class CustomRoll {
     generate_skill_card() {
         let parts = [{roll_title: this.item.name,
                       rolls: this.trait_roll(this.item.data, 1)}];
-        return [parts, false];
+        let result_value = [];
+        parts[0].rolls.forEach((roll) => {
+            if (! roll.extra_classes.includes('discarded') &&
+                    ! roll.extra_classes.includes('brsw-fumble')) {
+                result_value.push(roll.total)
+            }
+        })
+        return [parts, false, result_value];
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -252,7 +259,7 @@ export class CustomRoll {
             // Raise damage
             parts.push(this.damage_raise_roll(damage_roll));
         }
-        return [parts, separate_damage]
+        return [parts, separate_damage, false]
     }
 
     generate_power_card(){
@@ -269,14 +276,14 @@ export class CustomRoll {
                 parts.push(this.damage_raise_roll(damage));
             }
         }
-        return [parts, separate_damage]
+        return [parts, separate_damage, false]
     }
 
     // noinspection JSUnusedGlobalSymbols
     generate_damage_card() {
         let parts = [];
         parts.push(this.damage_roll(1));
-        return [parts, false];
+        return [parts, false, false];
     }
 
     // noinspection JSUnusedGlobalSymbols
@@ -285,20 +292,20 @@ export class CustomRoll {
         let damage = this.damage_roll(1);
         parts.push(damage);
         parts.push(this.damage_raise_roll(damage));
-        return [parts, false];
+        return [parts, false, false];
     }
 
     // noinspection JSUnusedGlobalSymbols
     generate_damage_and_raise_card() {
         let parts = [];
         parts.push(this.damage_roll(1, true));
-        return [parts, false]
+        return [parts, false, false]
     }
 
     async toMessage(card_type, extra_notes='') {
         /// Creates a card rolling dice
         /// @param card_type: generate_attack_card for a normal attack
-        let [parts, separate_damage] = this[card_type]();
+        let [parts, separate_damage, result] = this[card_type]();
         let bennies_available = true;
         let notes = this.item.data.data.notes;
         if (this.actor.isPC) {
@@ -314,7 +321,7 @@ export class CustomRoll {
             }
         }
         let id_result = ''
-        if (game.settings.get('betterrolls-swade', 'resultRow')) {
+        if (game.settings.get('betterrolls-swade', 'resultRow') && result) {
             id_result = broofa();
         }
         let content = await renderTemplate(
@@ -329,7 +336,8 @@ export class CustomRoll {
                 damage_buttons: separate_damage,
                 card_type: card_type,
                 footer: this.get_item_footer(),
-                id_result: id_result
+                id_result: id_result,
+                total_result: result
             });
         let whisper_data = getWhisperData();
         let chatData = {
