@@ -37,6 +37,8 @@ export class CustomRoll {
                 if (possible_skills.includes(
                         this.item.data.data.arcane.toLowerCase())) {
                     possible_skills = this.item.data.data.arcane;
+                } else {
+                    possible_skills.push(this.item.data.data.arcane.toLowerCase());
                 }
             }
         }
