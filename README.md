@@ -33,11 +33,11 @@ When enabled the default npc sheet will be modified to add small images before t
 
 If you enable it on settings you should be able to see a result roll.
 
-![]
+![Settings for result row](docs/settings_show_result.png)
 
 This looks like this
 
-![]
+![Result row for skills](docs/skill_result_row.png)
 
 The first input box is the modifier to the roll, the second one the target (difficulty) number. If you modify any of then a new result will be calculated.
 Note that modifying this values is local to your computer, other people can't see it.
@@ -76,10 +76,10 @@ They work mainly like the others. You need to click on the image to roll the pow
 
 If the power has a damage field it will roll or ask to roll damage depending on settings.
 
-The system will look for all arcane skills on the sheet and roll the last one. You can force the use of one skill by putting its name on the Arcana field of the power. Beware of translations 
+The system will look for all arcane skills on the sheet and roll the last one. You can force the use of any skill by putting its name on the Arcana field of the power. Beware of translations 
 
 ## Other features.
-- Skill names can be in English, German or Spanish.
+- Skill names will be recognised in English, German or Spanish. You can use any language for an arcane skill as long as it's on the arcane field of a power.
 - Hellfrost skills supported (only in English or German)
 - Support for Dice so Nice
 
