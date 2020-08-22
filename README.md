@@ -29,6 +29,19 @@ You can now turn skill rolls for NPCs in the options.
 
 When enabled the default npc sheet will be modified to add small images before the skills. Clicking on then will make the roll.
 
+## Skill results
+
+If you enable it on settings you should be able to see a result roll.
+
+![]
+
+This looks like this
+
+![]
+
+The first input box is the modifier to the roll, the second one the target (difficulty) number. If you modify any of then a new result will be calculated.
+Note that modifying this values is local to your computer, other people can't see it.
+
 ## Weapon Rolls
 
 Weapon rolls can be toggled from the weapon image either in the inventory or quick access.

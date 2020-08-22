@@ -1,6 +1,12 @@
 # Changelog
 
-# 1.0.1
+# 1.0.3
+
+* Bugfix in Hellfrost skill list
+* Result calculation for skill rolls
+* Support for custom arcane skills
+
+# 1.0.2
 
 * Initial documentation
 * First try to NPC skill rolls (optional)

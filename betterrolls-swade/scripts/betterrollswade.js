@@ -75,7 +75,7 @@ function register_settings() {
 		config: true
 	});
 	game.settings.register('betterrolls-swade', 'resultRow', {
-		name: "Show the result row",
+		name: "Show result row",
 		hint: "Show a row below the result with a small success/raise calculator",
 		default: true,
 		scope: "world",
