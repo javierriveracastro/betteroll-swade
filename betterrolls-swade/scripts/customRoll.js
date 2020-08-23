@@ -43,7 +43,7 @@ export class CustomRoll {
             }
         }
         this.item.options.actor.data.items.forEach((skill) => {
-            if (possible_skills.includes(skill.name.toLowerCase())) {
+            if (possible_skills.includes(skill.name.toLowerCase()) && skill.type === 'skill') {
                 skill_found = skill.name;
             }
         });
@@ -167,11 +167,8 @@ export class CustomRoll {
     attack_roll(rof) {
         // Create a part for the attack roll
         let skill_name = this.get_skill();
-        let skill
-        this.item.options.actor.data.items.forEach((item) => {
-            if (item.name === skill_name) {
-                skill = item
-            }
+        let skill = this.item.options.actor.data.items.find(item => {
+            return item.name === skill_name && item.type === 'skill';
         })
         // noinspection JSUnusedAssignment
         let attack_rolls = this.trait_roll(skill, rof);
