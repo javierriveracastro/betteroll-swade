@@ -98,7 +98,6 @@
 .card-footer span:last-child {
 	border-right: none;
 	padding-right: none;
-	padding-right: none;
 }
 
 /* Repeating dice backgrounds */
@@ -127,17 +126,20 @@
 
 .brsw-skill-image {
 	max-height: 1em;
+	flex-grow: 0;
 	object-fit: scale-down;
-	padding: 2px;
+	margin-top: 2px !important;
 	border: none;
 }
 
 .brsw-skill-image:hover {
 	cursor: pointer;
+	box-shadow: 0 0 8px red;
 }
 
 .item-image:hover {
 	cursor: pointer;
+	box-shadow: 0 0 8px red;
 }
 
 .brsw-card-image {
