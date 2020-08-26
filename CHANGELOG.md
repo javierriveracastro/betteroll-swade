@@ -1,5 +1,14 @@
 # Changelog
 
+# 1.0.4
+
+* Big refactoring. Breaking the main roll class in two to get simpler code.
+* Discarded dice are grey even when exploded and marked with a red line.
+* Clickable icons now change the cursor shape and show a shadow when hovering over them.
+* CSS fixes for the skill list. I hope that they look better both in character and npc sheets.
+* BUGFIX: Always get a skill for an attack roll even when there are edges with the same name.
+* BUGFIX: Use Critical Failure instead of Fumble as it is the official wording.
+
 # 1.0.3
 
 * Bugfix in Hellfrost skill list

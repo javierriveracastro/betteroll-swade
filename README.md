@@ -1,7 +1,7 @@
 # Better rolls for SWADE
 A module modifying FoundryVTT Savage Worlds character sheets ripping ideas (and code) from the Better rolls for 5e module.
 
-## Skill Rolls (character sheets only)
+## Skill Rolls
 
 The module will show an image before the skill name. 
 
