@@ -171,17 +171,17 @@ export class brAction {
                                  results: dice3d_results
                              })
         }
-        if (is_fumble > 0) {
-            roll_results.forEach((roll) => {
-                roll.extra_classes = roll.extra_classes + "brsw-fumble "
-            })
-        }
         roll_results[roll_results.length - 1].extra_classes +=
             `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
         if (this.item.options.actor.data.data.wildcard) {
-            roll_results[discarded_index].extra_classes += "discarded ";
+            roll_results[discarded_index].extra_classes = "discarded ";
         } else {
-            roll_results[roll_results.length - 1].extra_classes += "discarded ";
+            roll_results[roll_results.length - 1].extra_classes = "discarded ";
+        }
+        if (is_fumble > 0) {
+            roll_results.forEach((roll) => {
+                roll.extra_classes = roll.extra_classes + "brsw-fumble ";
+            })
         }
         return roll_results;
     }
