@@ -51,6 +51,7 @@
 
 .discarded {
 	color: gray;
+	text-decoration: red line-through;
 }
 
 .card-header {
