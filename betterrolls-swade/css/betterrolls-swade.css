@@ -132,6 +132,14 @@
 	border: none;
 }
 
+.brsw-skill-image:hover {
+	cursor: pointer;
+}
+
+.item-image:hover {
+	cursor: pointer;
+}
+
 .brsw-card-image {
 	max-height: 25px;
 	object-fit: scale-down;
