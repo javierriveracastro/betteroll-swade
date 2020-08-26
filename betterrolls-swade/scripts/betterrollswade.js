@@ -1,4 +1,4 @@
-import {CustomRoll} from "./customRoll.js";
+import {brCard} from "./brcard.js";
 import {spendMastersBenny} from "./utils.js";
 
 function changeRolls (actor, html) {
@@ -9,20 +9,12 @@ function changeRolls (actor, html) {
 	if (itemImage.length > 0) {
 		itemImage.off();
 		itemImage.click(async event => {
-				event.preventDefault();
-				event.stopPropagation();
-				let li = $(event.currentTarget).parents(".item");
-				let item = actor.getOwnedItem(String(li.attr("data-item-id")));
-				let roll_type = '';
-				if (item.type === "weapon"){
-					roll_type = 'generate_attack_card';
-				} else if (item.type === "power"){
-					roll_type = 'generate_power_card';
-				}
-				if (roll_type !== '') {
-					let roll = new CustomRoll(item);
-					await roll.toMessage(roll_type);
-				}
+			event.preventDefault();
+			event.stopPropagation();
+			let li = $(event.currentTarget).parents(".item");
+			let item = actor.getOwnedItem(String(li.attr("data-item-id")));
+			let card = new brCard(item);
+			await card.toMessage();
 		});
 	}
 	let skill_list;
@@ -45,14 +37,14 @@ function changeRolls (actor, html) {
 		}
 		let item_id = String(skill_wrapper.attr('data-item-id'));
 		let skill = actor.getOwnedItem(item_id);
-		skill_wrapper.prepend(`<img class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}"></img>`);
+		skill_wrapper.prepend(`<img alt="roll" class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}">`);
 		let div_skill = skill_wrapper.find(".brsw-skill-image");
 		div_skill.click(async event => {
 			event.preventDefault();
 			event.stopPropagation();
 			let item = actor.getOwnedItem(String($(event.currentTarget).attr("data-item-id")));
-			let roll = new CustomRoll(item);
-			await roll.toMessage('generate_skill_card');
+			let roll = new brCard(item, 'skill');
+			await roll.toMessage();
 		})
 	}
 }
@@ -132,7 +124,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let actor = game.actors.get(String(widget.attr('data-actor-id')));
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
 		let card_type = String(widget.attr("data-card-type"));
-		let extra_notes = String(widget.attr('data-extra-notes'));
+		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();
@@ -142,8 +134,8 @@ Hooks.on('renderChatMessage', (message, html) => {
 				spendMastersBenny();
 			}
 		}
-		let roll = new CustomRoll(item);
-		await roll.toMessage(card_type, extra_notes);
+		let roll = new brCard(item, card_type);
+		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
 	collapse_button.click(async () => {

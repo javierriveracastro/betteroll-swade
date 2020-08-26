@@ -1,20 +1,20 @@
 <header class="card-header">
-        {{#if image}}<img class="brsw-card-image" src="{{{image}}}" alt="roll-image">{{/if}}
-        <h3 class="card-name">{{title}}</h3>
-        <strong class="card-notes">{{notes}}</strong>
+        {{#if card.image}}<img class="brsw-card-image" src="{{{card.image}}}" alt="roll-image">{{/if}}
+        <h3 class="card-name">{{card.title}}</h3>
+        <strong class="card-notes">{{card.notes}}</strong>
 </header>
 <div class="card-content">
-    {{#if description}}<div class="card-description">
+    {{#if card.description}}<div class="card-description">
         <div class="collapse-button"><i class="fas fa-caret-right"></i>Description</div>
-        <span class="text-description description-collapsed">{{{description}}}</span>
+        <span class="text-description description-collapsed">{{{card.description}}}</span>
     </div>{{/if}}
-    {{#each parts}}
+    {{#each card.actions}}
         <div class="dice-roll">
             <div class="flavor-text">
-                {{this.roll_title}}
+                {{this.title}}
             </div>
             <div class="dice-result">
-                {{#each rolls}}
+                {{#each this.rolls}}
                 <div class="dice-tooltip dice-total {{#if this.discarded}}discarded{{/if}}">
                     {{this.result}}
                 </div>
@@ -43,7 +43,7 @@
                 </div>
                 {{/each}}
                 <div class="dice-row">
-                    {{#each rolls}}
+                    {{#each this.rolls}}
                     <div class="dice-row-item">
                         <h4 class="dice-total dice-image {{this.extra_classes}}">
                             {{this.total}}
@@ -53,46 +53,46 @@
                 </div>
             </div>
         </div>
+        {{#if this.id_result}}<div class="result-roll" data-id-result="{{{this.id_result}}}">
+            {{#if this.results.length}}
+                <span class="br-modifier-box">
+                    <input type="hidden" id="roll_result{{{this.id_result}}}" value="{{this.results.[0]}}">
+                    <i class="fas fa-plus"></i>
+                    <input id="modifier{{{this.id_result}}}" type="number" class="brsw-bar-input" value="0">
+                    <i class="fas fa-crosshairs"></i>
+                    <input id="difficulty{{{this.id_result}}}" type="number" class="brsw-bar-input" value="4">
+                </span>
+                <span class="brsw-result" id="result{{{this.id_result}}}">Failure</span>
+            {{else}}
+                <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
+            {{/if}}
+        </div>{{/if}}
     {{/each}}
 </div>
-{{#if id_result}}<div class="result-roll" data-id-result="{{{id_result}}}">
-    {{#if total_result.length}}
-        <span class="br-modifier-box">
-            <input type="hidden" id="roll_result{{{id_result}}}" value="{{total_result.[0]}}">
-            <i class="fas fa-plus"></i>
-            <input id="modifier{{{id_result}}}" type="number" class="brsw-bar-input" value="0">
-            <i class="fas fa-crosshairs"></i>
-            <input id="difficulty{{{id_result}}}" type="number" class="brsw-bar-input" value="4">
-        </span>
-        <span class="brsw-result" id="result{{{id_result}}}">Failure</span>
-    {{else}}
-        <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
-    {{/if}}
-</div>{{/if}}
-{{#if bennies_available}}
+{{#if card.bennie_button}}
     <div class="button-bar-brswade">
-        <button class="btn-brswade btn-roll cost-benny" data-item-id="{{item_id}}"
-                data-actor-id="{{actor_id}}" data-card-type="{{card_type}}"
+        <button class="btn-brswade btn-roll cost-benny" data-item-id="{{card.item.id}}"
+                data-actor-id="{{card.actor.id}}" data-card-type="{{card.type}}"
                 data-extra-notes="Benny reroll">
             Reroll spending a Benny
         </button>
     </div>
 {{/if}}
-{{#if damage_buttons}}
+{{#if card.damage_button}}
     <div class="button-bar-brswade">
-        <button class="btn-50-brswade btn-roll" data-item-id="{{item_id}}"
-                data-actor-id="{{actor_id}}" data-card-type="generate_damage_card">
+        <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
+                data-actor-id="{{card.actor.id}}" data-card-type="damage">
             Damage
         </button>
-        <button class="btn-50-brswade btn-roll" data-item-id="{{item_id}}"
-                data-actor-id="{{actor_id}}" data-card-type="generate_damage_and_raise_card">
+        <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
+                data-actor-id="{{card.actor.id}}" data-card-type="raise_damage">
             Raise damage
         </button>
     </div>
 {{/if}}
-{{# if footer}}
+{{# if card.footer}}
 <div class="card-footer">
-    {{# each footer}}
+    {{# each card.footer}}
         <span>{{this}}</span>
     {{/each}}
 </div>
