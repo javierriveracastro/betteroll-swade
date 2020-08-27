@@ -11,6 +11,7 @@ export class brAction {
         this.item = item;
         this.type = type;
         this.rolls = [];
+        // noinspection JSUnusedGlobalSymbols
         this.id_result = '';
         this.results = []
         // noinspection JSUnresolvedVariable
@@ -21,26 +22,24 @@ export class brAction {
             } else {
                 this.skill = this.item.data;
             }
-            if (game.settings.get('betterrolls-swade', 'resultRow')) {
-                if (rof === 1) {
-                // Show result roll for skills and powers
-                    this.id_result = broofa();
-                }
-            }
             if (this.skill) {
                 this.title = this.skill.name;
             } else {
                 this.title = 'No skill found';
             }
             this.rolls = this.trait_roll(rof);
-            if (this.id_result) {
-                // Get the actual results from the roll
-                this.rolls.forEach((roll) => {
-                    if (! roll.extra_classes.includes('discarded') &&
-                            ! roll.extra_classes.includes('brsw-fumble')) {
-                        this.results.push(roll.total);
-                    }
-                })
+            if (game.settings.get('betterrolls-swade', 'resultRow')) {
+                if (rof === 1) {
+                    // Show result roll for skills and powers
+                    // noinspection JSUnusedGlobalSymbols
+                    this.id_result = broofa();
+                    this.rolls.forEach((roll) => {
+                        if (!roll.extra_classes.includes('discarded') &&
+                            !roll.extra_classes.includes('brsw-fumble')) {
+                            this.results.push(roll.total);
+                        }
+                    });
+                }
             }
         } else {
             // Damage (raise or not)
