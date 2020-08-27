@@ -80,20 +80,18 @@ function calculate_result(id_roll, html) {
 	if (! html) {
 		html = $('.result-roll');
 	}
-	console.log(html)
 	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
 	let modifier = parseInt(html.find('#modifier' + id_roll).val());
 	let target = parseInt(html.find('#difficulty' + id_roll).val());
 	let output_row = html.find('#result' + id_roll);
 	let result = (roll_result + modifier - target) / 4;
-	console.log(roll_result, modifier, target)
-	console.log(result)
 	if (result < 0) {
 		output_row.text('Failure');
 	} else if (result < 1) {
 		output_row.text('Success');
 	} else {
-		output_row.text(`${Math.floor(result)} Raise!!!`)
+		let raises = Math.floor(result);
+		output_row.text(`${raises > 1 ? raises:''} Raise${raises > 1 ? 's':''}!`)
 	}
 }
 
