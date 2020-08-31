@@ -29,9 +29,9 @@ You can now turn skill rolls for NPCs in the options.
 
 When enabled the default npc sheet will be modified to add small images before the skills. Clicking on then will make the roll.
 
-## Skill results
+## Roll results
 
-If you enable it on settings you should be able to see a result roll.
+If you enable it on settings you should be able to see a result roll. It is enabled everywhere but from multirof attacks
 
 ![Settings for result row](docs/settings_show_result.png)
 

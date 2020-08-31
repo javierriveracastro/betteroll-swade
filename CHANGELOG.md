@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.0.5
+
+* Solved a nasty bug: it was checking all the page when hooking the description collapse button. Could had a nasty result for performance when the chat log was big.
+* Correct grammar and plural in raises.
+* Result roll is now active in powers and ROF 1 (single) attacks.
+* More refactoring that should result in faster, easier to read code.
+
 # 1.0.4
 
 * Big refactoring. Breaking the main roll class in two to get simpler code.
