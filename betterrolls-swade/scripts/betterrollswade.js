@@ -136,8 +136,8 @@ Hooks.on('renderChatMessage', (message, html) => {
 		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
-	collapse_button.click(async () => {
-		let description_span = $('.text-description');
+	collapse_button.click(async (id) => {
+		let description_span = html.find('.text-description');
 		description_span.toggleClass('description-collapsed');
 		if (description_span.hasClass('description-collapsed')) {
 			collapse_button.find('.fas').removeClass('fa-caret-down');
