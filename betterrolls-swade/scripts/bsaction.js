@@ -168,8 +168,10 @@ export class brAction {
             // noinspection JSIgnoredPromiseFromCall
             game.dice3d.show({
                                  formula: dice3d_string.slice(0, -1),
-                                 results: dice3d_results
-                             })
+                                 results: dice3d_results,
+                                 whisper: null,
+                                 blind: false,
+                             }, game.user,true)
         }
         roll_results[roll_results.length - 1].extra_classes +=
             `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
@@ -197,7 +199,7 @@ export class brAction {
             damage.roll();
             if (game.dice3d) {
                 // noinspection JSIgnoredPromiseFromCall
-                game.dice3d.showForRoll(damage)
+                game.dice3d.showForRoll(damage, game.user, true)
             }
             damage_roll.push(damage)
         }

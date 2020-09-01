@@ -16,6 +16,7 @@ function changeRolls (actor, html) {
 			let card = new brCard(item);
 			await card.toMessage();
 		});
+		let item_context_menu = new ContextMenu(html, '.item-image', [{'name': 'Text'},]);
 	}
 	let skill_list;
 	if (actor.data.type === "character") {
