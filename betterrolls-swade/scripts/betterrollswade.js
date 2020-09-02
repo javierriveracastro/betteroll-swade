@@ -2,9 +2,13 @@ import {brCard} from "./brcard.js";
 import {spendMastersBenny} from "./utils.js";
 
 function changeRolls (actor, html) {
-	/* Replaces the button in the weapons to make a new roll */
 	if (actor && actor.permission < 3) { return; }
-	// Assign new action to item image button
+	// Remove all scrollables and inline actor styles
+	html.css('height', '75%');
+	html.css('min-height', '430px')
+	html.find('.scrollable').removeClass('scrollable');
+	html.find('.quickaccess-list').css('overflow', 'visible');
+	// Images and events in items with image
 	let itemImage = html.find('.item-image');
 	if (itemImage.length > 0) {
 		itemImage.off();
@@ -16,8 +20,9 @@ function changeRolls (actor, html) {
 			let card = new brCard(item);
 			await card.toMessage();
 		});
-		let item_context_menu = new ContextMenu(html, '.item-image', [{'name': 'Text'},]);
+		new ContextMenu(html, '.item-image', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
 	}
+	// Images and events in skill list
 	let skill_list;
 	if (actor.data.type === "character") {
 		skill_list = html.find('li.item.skill');
@@ -34,7 +39,7 @@ function changeRolls (actor, html) {
 			// Remove the block-inline style so the skills are shown one per
 			// line.
 			skill_wrapper.removeAttr("style");
-			skill_wrapper.attr('style', 'display:flex;')
+			skill_wrapper.attr('style', 'display:flex;');
 		}
 		let item_id = String(skill_wrapper.attr('data-item-id'));
 		let skill = actor.getOwnedItem(item_id);
@@ -48,6 +53,8 @@ function changeRolls (actor, html) {
 			await roll.toMessage();
 		})
 	}
+	console.log(html.find('.brsw-skill-image'))
+	new ContextMenu(html, '.item.skill', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
 }
 
 function register_settings() {
@@ -137,7 +144,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
-	collapse_button.click(async (id) => {
+	collapse_button.click(async () => {
 		let description_span = html.find('.text-description');
 		description_span.toggleClass('description-collapsed');
 		if (description_span.hasClass('description-collapsed')) {
