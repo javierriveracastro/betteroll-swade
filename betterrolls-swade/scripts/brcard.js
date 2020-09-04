@@ -62,8 +62,11 @@ export class brCard {
         if (this.type === 'weapon' || (this.type === 'power'
                 && this.item.data.data.damage)) {
             if (! game.settings.get('betterrolls-swade', 'dontRollDamage')) {
-                this.actions.push(new brAction(this.item,  'damage'));
-                this.actions.push(new brAction(this.item,  'raise damage'));
+                let damage = new brAction(this.item,  'damage')
+                this.actions.push(damage);
+                this.actions.push(
+                    new brAction(this.item,  'raise damage',
+                                 damage.rolls.map((roll) => {return roll.total})));
             } else {
                 this.damage_button = true;
             }

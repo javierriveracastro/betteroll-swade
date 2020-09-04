@@ -7,7 +7,7 @@ export class brAction {
      *
      * Allowed types: ['trait', 'damage', 'raise damage]
      */
-    constructor(item, type) {
+    constructor(item, type, modifiers=[]) {
         this.item = item;
         this.type = type;
         this.rolls = [];
@@ -49,7 +49,7 @@ export class brAction {
                 is_raise = true;
                 this.title = "Raise damage";
             }
-            this.rolls = this.damage_roll(rof, is_raise);
+            this.rolls = this.damage_roll(rof, is_raise, modifiers);
         }
     }
 
@@ -188,12 +188,17 @@ export class brAction {
         return roll_results;
     }
 
-    damage_roll(rof, add_raise=false){
+    damage_roll(rof, is_raise=false, modifiers){
         let damage_roll = []
+        let damage_string = ''
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
-            let damage_string = makeExplotable(this.item.data.data.damage);
-            if (add_raise) {damage_string = damage_string + "+1d6x="}
+            if (is_raise) {
+                damage_string = "1d6x=";
+            } else {
+                damage_string = makeExplotable(this.item.data.data.damage);
+            }
+            if (modifiers[i]) {damage_string = this.add_modifiers(damage_string, modifiers[i])}
             let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());
             damage.roll();
