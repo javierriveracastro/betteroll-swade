@@ -4,10 +4,11 @@ import {spendMastersBenny} from "./utils.js";
 function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
 	// Remove all scrollables and inline actor styles
-	html.css('height', '75%');
+	if (window.innerHeight < 1000) {html.css('height', '75%')}
 	html.css('min-height', '430px')
 	html.find('.scrollable').removeClass('scrollable');
-	html.find('.quickaccess-list').css('overflow', 'visible');
+	html.find('.quickaccess-list, .inventory, .power-list, .skills-list, .gear-list, .gear.skills').css(
+		'overflow', 'visible');
 	// Images and events in items with image
 	let itemImage = html.find('.item-image');
 	if (itemImage.length > 0) {
@@ -20,7 +21,7 @@ function changeRolls (actor, html) {
 			let card = new brCard(item);
 			await card.toMessage();
 		});
-		new ContextMenu(html, '.item-image', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
+		// new ContextMenu(html, '.item-image', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
 	}
 	// Images and events in skill list
 	let skill_list;
@@ -53,8 +54,7 @@ function changeRolls (actor, html) {
 			await roll.toMessage();
 		})
 	}
-	console.log(html.find('.brsw-skill-image'))
-	new ContextMenu(html, '.item.skill', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
+	// new ContextMenu(html, '.item.skill', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
 }
 
 function register_settings() {
