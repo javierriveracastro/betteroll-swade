@@ -190,13 +190,15 @@ export class brAction {
 
     damage_roll(rof, is_raise=false, modifiers){
         let damage_roll = []
-        let damage_string = ''
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
+            let damage_string = makeExplotable(this.item.data.data.damage);
             if (is_raise) {
-                damage_string = "1d6x=";
-            } else {
-                damage_string = makeExplotable(this.item.data.data.damage);
+                if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
+                    damage_string = damage_string + "+1d6x=";
+                } else {
+                    damage_string = "1d6x=";
+                }
             }
             if (modifiers[i]) {damage_string = this.add_modifiers(damage_string, modifiers[i])}
             let damage = new Roll(damage_string,
