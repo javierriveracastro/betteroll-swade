@@ -62,7 +62,7 @@ function register_settings() {
 		name: "Don't autoroll damage",
 		hint: "Shows a button for damage rolling instead of rolling it automatically with the attack",
 		default: false,
-		scope: "client",
+		scope: "world",
 		type: Boolean,
 		config: true
 	});
