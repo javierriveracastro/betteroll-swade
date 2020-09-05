@@ -1,5 +1,14 @@
 # Changelog
 
+# 1.0.6
+
+* 3d dice are now shown to every player.
+* The default character sheet has been modifyed to make context menus possible
+* The full sheet is now scrollable, as a result it can shrink
+* In resolutions below 1000 pixels of height, character sheet heigh now defauts to 70% of avaliable space
+* Raise damage, when rolling it toghether with normal damage is now 1d6 plus normal damage
+* Autorrol damage is now a world setting (set by the master) not a client one (set by each player)
+
 # 1.0.5
 
 * Solved a nasty bug: it was checking all the page when hooking the description collapse button. Could had a nasty result for performance when the chat log was big.

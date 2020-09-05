@@ -49,7 +49,7 @@ By default it will roll every possible dice: attack, damage and raise damage.
 
 ![Weapon roll](docs/weapon_roll.png)
 
-This can be disabled in settings. Note that this is a per client (player) setting. Each player configuration could be different
+This can be disabled in settings. (From version 1.0.6 this is now a world setting)
 
 ![Settings](/docs/settings.png)
 
@@ -77,6 +77,16 @@ They work mainly like the others. You need to click on the image to roll the pow
 If the power has a damage field it will roll or ask to roll damage depending on settings.
 
 The system will look for all arcane skills on the sheet and roll the last one. You can force the use of any skill by putting its name on the Arcana field of the power. Beware of translations 
+
+## Character sheet
+
+To be able to use right click context menus, the modules needs to make some changes to the default sheet.
+
+The most noticeable one is the removal of all the internal scroll areas and making the full sheet scrollable
+
+![Smaller sheet](docs/small_sheet.png)
+
+As a result the sheet now can be shrinked and works better on smaller screens.
 
 ## Other features.
 - Skill names will be recognised in English, German or Spanish. You can use any language for an arcane skill as long as it's on the arcane field of a power.
