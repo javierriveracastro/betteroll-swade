@@ -1,5 +1,10 @@
 # Better rolls for SWADE
-A module modifying FoundryVTT Savage Worlds character sheets ripping ideas (and code) from the Better rolls for 5e module.
+
+
+This module adds a new rolling mode to the SWADE system that add the ability to make faster and more complex rolls. I truly believe that it makes gaming faster and more enjoyable, but:
+
+* This is more complex than system default rolls. It's quite probably that you don't need it. Please try SWADE without it first and only check it if you feel rolls could be improved.
+You need to be familiar with Savage Rolls rules to use it. You need to know wich dice are discarded, what is raise damage, and in general it is not a good module for begginers in the system. It could be confusing. So, again, please use the base system and get familiar with it before usng this module
 
 ## Skill Rolls
 
