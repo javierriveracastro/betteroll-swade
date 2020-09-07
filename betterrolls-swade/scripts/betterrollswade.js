@@ -1,7 +1,7 @@
 import {brCard} from "./brcard.js";
 import {spendMastersBenny} from "./utils.js";
 
-async function bind_click(target, actor, extra_data={}) {
+async function bind_click(target, actor, rof) {
 	// Function binded to click events that can cause a card to be created
 	if (target.target) {
 		// Target is an event
@@ -15,7 +15,7 @@ async function bind_click(target, actor, extra_data={}) {
 		target = $(target).parents(".item");
 	}
 	let item = actor.getOwnedItem(String(target.attr("data-item-id")));
-	let card = new brCard(item, '', extra_data);
+	let card = new brCard(item, '', rof);
 	await card.toMessage();
 }
 
@@ -23,16 +23,16 @@ function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
 	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-								bind_click(t, actor, {'rof': 1})}},
+								bind_click(t, actor, 1)}},
 					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 2 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, {'rof': 2})}},
+					  			bind_click(t, actor, 2)}},
 					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, {'rof': 3})}},
+					  			bind_click(t, actor, 3)}},
 					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 5 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, {'rof': 4})}}]
+					  			bind_click(t, actor, 4)}}]
 	// Remove all scrollables and inline actor styles
 	if (window.innerHeight < 1000) {html.css('height', '75%')}
 	html.css('min-height', '430px')
@@ -150,6 +150,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
 		let card_type = String(widget.attr("data-card-type"));
 		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
+		let force_rof = String(widget.attr('data-rof'));
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();
@@ -159,7 +160,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 				spendMastersBenny();
 			}
 		}
-		let roll = new brCard(item, card_type);
+		let roll = new brCard(item, card_type, force_rof);
 		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');

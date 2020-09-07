@@ -9,7 +9,7 @@ export class brCard {
     /**
      *  A class that represents a card created by clicking on an item image
      */
-    constructor(item, type, extra_data={}) {
+    constructor(item, type, rof) {
         this.item = item;
         if (! type) {
             this.type = item.type;
@@ -27,7 +27,7 @@ export class brCard {
         this.description = item.data.data.description;
         this.bennie_button = true;
         this.damage_button = false;
-        this.extradata = extra_data
+        this.rof = rof
         this.footer = this.get_item_footer();
     }
 
@@ -58,7 +58,7 @@ export class brCard {
         if (! this.type.includes('unsupported') && ! this.type.includes('damage')) {
             // If it is not a damage roll it includes a trait action
             this.actions.push(new brAction(this.item, 'trait', [],
-                                           this.extradata))
+                                           this.rof))
         }
         // noinspection JSUnresolvedVariable
         if (this.type === 'weapon' || (this.type === 'power'
@@ -89,11 +89,6 @@ export class brCard {
                 this.notes = extra_notes;
             }
         }
-        // Results are part of the action.
-        // let id_result = ''
-        // if (game.settings.get('betterrolls-swade', 'resultRow') && result) {
-        //     id_result = broofa();
-        // }
         let content = await renderTemplate(
             "modules/betterrolls-swade/templates/fullroll.html", {
                 card: this
