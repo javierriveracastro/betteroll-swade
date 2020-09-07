@@ -7,7 +7,7 @@ export class brAction {
      *
      * Allowed types: ['trait', 'damage', 'raise damage]
      */
-    constructor(item, type, modifiers=[]) {
+    constructor(item, type, modifiers=[], extra_data={}) {
         this.item = item;
         this.type = type;
         this.rolls = [];
@@ -15,7 +15,8 @@ export class brAction {
         this.id_result = '';
         this.results = []
         // noinspection JSUnresolvedVariable
-        let rof = parseInt(this.item.data.data.rof) || 1;
+        let rof = 'rof' in extra_data ?
+                extra_data.rof:parseInt(this.item.data.data.rof) || 1;
         if (type === 'trait') {
             if (item.type === 'weapon' || item.type === 'power') {
                 this.skill = this.get_skill();

@@ -9,7 +9,7 @@ export class brCard {
     /**
      *  A class that represents a card created by clicking on an item image
      */
-    constructor(item, type) {
+    constructor(item, type, extra_data={}) {
         this.item = item;
         if (! type) {
             this.type = item.type;
@@ -27,6 +27,7 @@ export class brCard {
         this.description = item.data.data.description;
         this.bennie_button = true;
         this.damage_button = false;
+        this.extradata = extra_data
         this.footer = this.get_item_footer();
     }
 
@@ -56,7 +57,8 @@ export class brCard {
     async toMessage(extra_notes='') {
         if (! this.type.includes('unsupported') && ! this.type.includes('damage')) {
             // If it is not a damage roll it includes a trait action
-            this.actions.push(new brAction(this.item, 'trait'))
+            this.actions.push(new brAction(this.item, 'trait', [],
+                                           this.extradata))
         }
         // noinspection JSUnresolvedVariable
         if (this.type === 'weapon' || (this.type === 'power'

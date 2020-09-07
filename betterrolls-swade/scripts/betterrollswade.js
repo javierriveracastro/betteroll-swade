@@ -1,8 +1,38 @@
 import {brCard} from "./brcard.js";
 import {spendMastersBenny} from "./utils.js";
 
+async function bind_click(target, actor, extra_data={}) {
+	// Function binded to click events that can cause a card to be created
+	if (target.target) {
+		// Target is an event
+		target.preventDefault();
+		target.stopPropagation();
+		target = target.currentTarget;
+	}
+	target = $(target);
+	if (! target.attr('data-item-id')) {
+		// We are likely inside a li who contains the item id
+		target = $(target).parents(".item");
+	}
+	let item = actor.getOwnedItem(String(target.attr("data-item-id")));
+	let card = new brCard(item, '', extra_data);
+	await card.toMessage();
+}
+
 function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
+	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
+						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+								bind_click(t, actor, {'rof': 1})}},
+					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 2 dice",
+						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+					  			bind_click(t, actor, {'rof': 2})}},
+					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
+						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+					  			bind_click(t, actor, {'rof': 3})}},
+					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 5 dice",
+						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+					  			bind_click(t, actor, {'rof': 4})}}]
 	// Remove all scrollables and inline actor styles
 	if (window.innerHeight < 1000) {html.css('height', '75%')}
 	html.css('min-height', '430px')
@@ -13,15 +43,9 @@ function changeRolls (actor, html) {
 	let itemImage = html.find('.item-image');
 	if (itemImage.length > 0) {
 		itemImage.off();
-		itemImage.click(async event => {
-			event.preventDefault();
-			event.stopPropagation();
-			let li = $(event.currentTarget).parents(".item");
-			let item = actor.getOwnedItem(String(li.attr("data-item-id")));
-			let card = new brCard(item);
-			await card.toMessage();
-		});
-		// new ContextMenu(html, '.item-image', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
+		itemImage.click(event => {// noinspection JSIgnoredPromiseFromCall
+			bind_click(event, actor)});
+		new ContextMenu(html, '.item-image', menu_items);
 	}
 	// Images and events in skill list
 	let skill_list;
@@ -46,15 +70,10 @@ function changeRolls (actor, html) {
 		let skill = actor.getOwnedItem(item_id);
 		skill_wrapper.prepend(`<img alt="roll" class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}">`);
 		let div_skill = skill_wrapper.find(".brsw-skill-image");
-		div_skill.click(async event => {
-			event.preventDefault();
-			event.stopPropagation();
-			let item = actor.getOwnedItem(String($(event.currentTarget).attr("data-item-id")));
-			let roll = new brCard(item, 'skill');
-			await roll.toMessage();
-		})
+		div_skill.click(event => {// noinspection JSIgnoredPromiseFromCall
+			bind_click(event, actor)})
 	}
-	// new ContextMenu(html, '.item.skill', [{'name': 'Text'}, {'name': 'Text4'}, {'name': 'Text2'},]);
+	new ContextMenu(html, '.item.skill', menu_items);
 }
 
 function register_settings() {
