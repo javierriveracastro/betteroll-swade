@@ -151,7 +151,7 @@
 
 .brsw-result {
 	margin-right: 2px;
-	flex-basis: 50%;
+	flex-basis: 40%;
 	text-align: center;
 	border-style: solid;
 	border-radius: 5px;
@@ -171,5 +171,5 @@
 }
 
 .brsw-bar-input {
-	max-width: 2em;
+	max-width: 3em;
 }

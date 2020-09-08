@@ -53,20 +53,26 @@
                 </div>
             </div>
         </div>
-        {{#if this.id_result}}<div class="result-roll" data-id-result="{{{this.id_result}}}">
-            {{#if this.results.length}}
-                <span class="br-modifier-box">
-                    <input type="numer" class="brsw-bar-input" id="roll_result{{{this.id_result}}}" value="{{this.results.[0]}}">
-                    <i class="fas fa-plus"></i>
-                    <input id="modifier{{{this.id_result}}}" type="number" class="brsw-bar-input" value="0">
-                    <i class="fas fa-crosshairs"></i>
-                    <input id="difficulty{{{this.id_result}}}" type="number" class="brsw-bar-input" value="4">
-                </span>
-                <span class="brsw-result" id="result{{{this.id_result}}}">Failure</span>
+        {{#if this.results}}
+            {{# if this.fumble}}
+                <div class="result-roll" data-id-result="{{{this.id_result}}}">
+                    <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
+                </div>
             {{else}}
-                <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
+                {{#each this.results}}
+                    <div class="result-roll" data-id-result="{{{this.id}}}">
+                        <span class="br-modifier-box">
+                            <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">
+                            <i class="fas fa-plus"></i>
+                            <input id="modifier{{{this.id}}}" type="number" class="brsw-bar-input" value="0">
+                            <i class="fas fa-crosshairs"></i>
+                            <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input" value="4">
+                        </span>
+                        <span class="brsw-result" id="result{{{this.id}}}">Failure</span>
+                    </div>
+                {{/each}}
             {{/if}}
-        </div>{{/if}}
+        {{/if}}
     {{/each}}
 </div>
 {{#if card.bennie_button}}

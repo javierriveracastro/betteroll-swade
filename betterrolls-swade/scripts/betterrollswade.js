@@ -150,7 +150,8 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
 		let card_type = String(widget.attr("data-card-type"));
 		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
-		let force_rof = String(widget.attr('data-rof'));
+		let force_rof = null;
+		if (widget.attr('data-rof')) force_rof = String(widget.attr('data-rof'));
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();
@@ -175,14 +176,16 @@ Hooks.on('renderChatMessage', (message, html) => {
 			collapse_button.find('.fas').removeClass('fa-caret-right');
 		}
 	})
-	let result_roll = html.find('.result-roll');
-	if (result_roll.children('.br-modifier-box').length > 0) {
+	const result_rows = html.find('.result-roll');
+	if (result_rows.length > 0) {
 		// Avoid calculating fumbles
-		let id_result = result_roll.attr('data-id-result');
-		calculate_result(id_result, html);
-		let modifier = html.find('#modifier' + id_result);
-		let target = html.find('#difficulty' + id_result);
-		modifier.change(() => {calculate_result(id_result)});
-		target.change(() => {calculate_result(id_result)});
+		result_rows.each((i, div) => {
+			let id_result = $(div).attr('data-id-result');
+			calculate_result(id_result, html);
+			let modifier = html.find('#modifier' + id_result);
+			let target = html.find('#difficulty' + id_result);
+			modifier.change(() => {calculate_result(id_result)});
+			target.change(() => {calculate_result(id_result)});
+		})
 	}
 })
