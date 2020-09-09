@@ -26,6 +26,10 @@ The systems always roll a wild die for extras but it will never get selected (it
 
 Red numbers means that a fumble has been rolled, explosions are marked in blue.
 
+You can right click to show a menu that will let you roll multiple trait dice like a high rof attack, or Frenzy
+
+![Multiple_trait_roll](docs/roll_multiple_trait.png)
+
 ## Skill Rolls (npc sheets)
 
 You can now turn skill rolls for NPCs in the options.
@@ -36,7 +40,7 @@ When enabled the default npc sheet will be modified to add small images before t
 
 ## Roll results
 
-If you enable it on settings you should be able to see a result roll. It is enabled everywhere but from multirof attacks
+If you enable it on settings you should be able to see a result roll.
 
 ![Settings for result row](docs/settings_show_result.png)
 

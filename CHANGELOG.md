@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.0.7
+
+* Show the result of the roll in the result-roll
+* Throw multiple trait dice using right click menu
+* SHow the result-row on multiple trait / high rof rolls
+
 # 1.0.6
 
 * 3d dice are now shown to every player.
