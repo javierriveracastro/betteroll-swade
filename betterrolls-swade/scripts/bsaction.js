@@ -8,11 +8,15 @@ export class brAction {
      * Allowed types: ['trait', 'damage', 'raise damage]
      */
     constructor(item, type, modifiers=[], force_rof) {
+        this.id = broofa();
         this.item = item;
         this.type = type;
         this.rolls = [];
         // noinspection JSUnusedGlobalSymbols
         this.results = [];
+        this.modifiers = [];
+        this.total_modifiers = 0;
+        this.collapse_result = true;
         // noinspection JSUnresolvedVariable
         let rof = force_rof ? force_rof:parseInt(this.item.data.data.rof) || 1;
         if (type === 'trait') {
@@ -29,12 +33,13 @@ export class brAction {
             this.rolls = this.trait_roll(rof);
             // noinspection JSUnusedGlobalSymbols
             this.fumble = false;
+            this.collapse_result = ! game.settings.get('betterrolls-swade', 'resultRow');
             this.rolls.forEach((roll) => {
                 if (roll.extra_classes.includes('brsw-fumble')) { // noinspection JSUnusedGlobalSymbols
                     this.fumble=true;
                 }
                 if (!roll.extra_classes.includes('discarded')) {
-                    this.results.push({total: roll.total, id: broofa()});
+                    this.results.push({total: roll.total - this.total_modifiers, id: broofa()});
                 }
             });
         } else {
@@ -91,21 +96,32 @@ export class brAction {
         return skill_found;
     }
 
-    add_modifiers(roll_string, modifier) {
+    add_modifiers(modifier, reason) {
         // Add a modifier to a roll string
-        if (modifier > 0) {
-            roll_string = roll_string + "+" + modifier;
-        } else if (modifier < 0) {
-            roll_string = roll_string + "-" + Math.abs(modifier);
+        // noinspection EqualityComparisonWithCoercionJS
+        if (modifier && modifier != 0) {
+            this.modifiers.push(
+                {reason: reason, value: modifier, positive: (modifier>0)});
+            this.total_modifiers = this.total_modifiers + modifier;
         }
-        return roll_string;
+    }
+
+    modifiers_string() {
+        let string = '';
+        this.modifiers.forEach((modifier) => {
+            if (modifier.value > 0) {
+                string = string + "+" + modifier.value;
+            } else if (modifier.value < 0) {
+                string = string + "-" + Math.abs(modifier.value);
+            }
+        });
+        return string;
     }
 
     trait_roll(rof) {
         let die = "4";
         let skill_modifier = "-2";
         let wild_die = "6";
-        let roll_string = '';
         let is_fumble = 0;
         let currentRoll;
         let roll_array = [];
@@ -122,21 +138,17 @@ export class brAction {
             roll_array.push(`1d${die}x=`)
         }
         roll_array.push(`1d${wild_die}x=`);
+        this.add_modifiers(skill_modifier, "Skill");
+        this.add_modifiers(this.item.options.actor.calcWoundPenalties(), "Wounds");
+        this.add_modifiers(this.item.options.actor.calcFatiguePenalties(), "Fatigue");
+        this.add_modifiers(this.item.options.actor.calcStatusPenalties(), "Status");
         let minimum_roll = 999999;
         let discarded_index = 999999;
         let dice3d_string = ""
         let dice3d_results = []
         roll_array.forEach((dice_string, index) => {
-            roll_string = dice_string;
-            roll_string = this.add_modifiers(roll_string, skill_modifier);
-            // Wounds and fatigue
-            roll_string = this.add_modifiers(
-                roll_string, this.item.options.actor.calcWoundPenalties());
-            roll_string = this.add_modifiers(
-                roll_string, this.item.options.actor.calcFatiguePenalties());
-            roll_string = this.add_modifiers(
-                roll_string, this.item.options.actor.calcStatusPenalties());
-            currentRoll = new Roll(roll_string);
+            dice_string = dice_string + this.modifiers_string();
+            currentRoll = new Roll(dice_string);
             currentRoll.roll();
             currentRoll.extra_classes = "";
             if (parseInt(currentRoll.result) === 1) {
@@ -153,13 +165,13 @@ export class brAction {
                     }
                 })
             })
-            // Dice so nice, roll all attack dice together
             roll_results.push(currentRoll)
             if (currentRoll.total < minimum_roll) {
                 minimum_roll = currentRoll.total;
                 discarded_index = index;
             }
         })
+        // Dice so nice, roll all attack dice together
         if (game.dice3d) {
             // noinspection JSIgnoredPromiseFromCall
             game.dice3d.show({
@@ -185,7 +197,7 @@ export class brAction {
     }
 
     damage_roll(rof, is_raise=false, modifiers){
-        let damage_roll = []
+        let damage_roll = [];
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
             let damage_string = makeExplotable(this.item.data.data.damage);
@@ -196,7 +208,12 @@ export class brAction {
                     damage_string = "1d6x=";
                 }
             }
-            if (modifiers[i]) {damage_string = this.add_modifiers(damage_string, modifiers[i])}
+            if (modifiers[i]) {
+                this.add_modifiers(modifiers[i], "Base damage");
+                damage_string = damage_string + this.modifiers_string();
+                console.log(damage_string)
+                console.log(this.modifiers_string())
+            }
             let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());
             damage.roll();

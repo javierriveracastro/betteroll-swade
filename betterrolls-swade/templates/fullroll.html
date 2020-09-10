@@ -5,7 +5,7 @@
 </header>
 <div class="card-content">
     {{#if card.description}}<div class="card-description">
-        <div class="collapse-button"><i class="fas fa-caret-right"></i>Description</div>
+        <div class="collapse-button" data-collapse="text-description"><i class="fas fa-caret-right"></i>Description</div>
         <span class="text-description description-collapsed">{{{card.description}}}</span>
     </div>{{/if}}
     {{#each card.actions}}
@@ -53,26 +53,42 @@
                 </div>
             </div>
         </div>
-        {{#if this.results}}
-            {{# if this.fumble}}
-                <div class="result-roll" data-id-result="{{{this.id_result}}}">
-                    <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
-                </div>
-            {{else}}
-                {{#each this.results}}
-                    <div class="result-roll" data-id-result="{{{this.id}}}">
-                        <span class="br-modifier-box">
-                            <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">
-                            <i class="fas fa-plus"></i>
-                            <input id="modifier{{{this.id}}}" type="number" class="brsw-bar-input" value="0">
-                            <i class="fas fa-crosshairs"></i>
-                            <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input" value="4">
-                        </span>
-                        <span class="brsw-result" id="result{{{this.id}}}">Failure</span>
-                    </div>
+        <div class="collapse-button" data-collapse="results_{{this.id}}">
+            <i class="fas {{#if this.collapse_result}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>
+            Results and modifiers
+        </div>
+        <div class="results_{{this.id}} {{#if this.collapse_result}}description-collapsed{{/if}}">
+            {{#if this.modifiers}}<div class="modifier-row">
+                {{#each this.modifiers}}
+                    <span class="modifier {{#if this.positive}}positive{{/if}}">
+                        {{#if this.positive}}+{{/if}}{{this.value}} {{this.reason}}
+                    </span>
                 {{/each}}
+            </div>{{/if}}
+            {{#if this.results}}
+                {{# if this.fumble}}
+                    <div class="result-roll" data-id-result="{{{this.id_result}}}">
+                        <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
+                    </div>
+                {{else}}
+                    {{#with this as |card|}}
+                        {{#each this.results}}
+                            <div class="result-roll" data-id-result="{{{this.id}}}">
+                                <span class="br-modifier-box">
+                                    <i class="fas fa-dice-d6"></i>
+                                    <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">
+                                    <i class="fas fa-plus"></i>
+                                    <input id="modifier{{{this.id}}}" type="number" class="brsw-bar-input" value="{{card.total_modifiers}}">
+                                    <i class="fas fa-crosshairs"></i>
+                                    <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input" value="4">
+                                </span>
+                                <span class="brsw-result" id="result{{{this.id}}}">Failure</span>
+                            </div>
+                        {{/each}}
+                    {{/with}}
+                {{/if}}
             {{/if}}
-        {{/if}}
+        </div>
     {{/each}}
 </div>
 {{#if card.bennie_button}}

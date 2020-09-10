@@ -30,7 +30,7 @@ function changeRolls (actor, html) {
 					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
 					  			bind_click(t, actor, 3)}},
-					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 5 dice",
+					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 4 dice",
 						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
 					  			bind_click(t, actor, 4)}}]
 	// Remove all scrollables and inline actor styles
@@ -94,8 +94,8 @@ function register_settings() {
 		config: true
 	});
 	game.settings.register('betterrolls-swade', 'resultRow', {
-		name: "Show result row",
-		hint: "Show a row below the result with a small success/raise calculator",
+		name: "Expand the result row",
+		hint: "Roll result will be expanded by default",
 		default: true,
 		scope: "world",
 		type: Boolean,
@@ -165,15 +165,18 @@ Hooks.on('renderChatMessage', (message, html) => {
 		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
-	collapse_button.click(async () => {
-		let description_span = html.find('.text-description');
+	collapse_button.click(e => {
+		e.preventDefault();
+		e.stopPropagation();
+		let clicked = $(e.currentTarget)
+		let description_span = html.find('.' + clicked.attr('data-collapse'));
 		description_span.toggleClass('description-collapsed');
 		if (description_span.hasClass('description-collapsed')) {
-			collapse_button.find('.fas').removeClass('fa-caret-down');
-			collapse_button.find('.fas').addClass('fa-caret-right');
+			clicked.find('.fas').removeClass('fa-caret-down');
+			clicked.find('.fas').addClass('fa-caret-right');
 		} else {
-			collapse_button.find('.fas').addClass('fa-caret-down');
-			collapse_button.find('.fas').removeClass('fa-caret-right');
+			clicked.find('.fas').addClass('fa-caret-down');
+			clicked.find('.fas').removeClass('fa-caret-right');
 		}
 	})
 	const result_rows = html.find('.result-roll');
