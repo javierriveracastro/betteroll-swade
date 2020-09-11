@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.0.8
+
+* Reworked result row ui. Now it's always calculated but can be collapsed by default
+* Added french skill names
+* Solve a couple of context menu bugs.
+
 # 1.0.7
 
 * Show the result of the roll in the result-roll

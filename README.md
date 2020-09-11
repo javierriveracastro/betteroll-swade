@@ -16,9 +16,11 @@ When you click on it, it will roll that skill directly with the following format
 
 ![Skill roll](docs/skill_roll.png)
 
-The result includes wounds and state penalties
+The big numbers include all the penalties show below, including status, wounds and fatigue.
 The wild die is always the last one and it's marked with a shadow of the dice size. Used rolls will be black, discarded ones will be light grey.
 You can clink on the result to get more information (explosion, dice faces, modifiers)
+
+The three numbers in the bottom part are dice result, modifiers and difficulty. They can be edited, but take care that this is per client, ie. what you do here is not seen by the other players.
 
 Clicking in the "Rerroll spending a Benny button" will repeat the roll, removing a Benny from the character. If the roll was made by a game master and the character has no bennies it will subtracted from gm bennies.
 
@@ -38,18 +40,17 @@ You can now turn skill rolls for NPCs in the options.
 
 When enabled the default npc sheet will be modified to add small images before the skills. Clicking on then will make the roll.
 
-## Roll results
+## Roll results row
 
-If you enable it on settings you should be able to see a result roll.
+If you find the result row distracting, or you just don't like it, you can collapse it by default using the settings
 
 ![Settings for result row](docs/settings_show_result.png)
 
-This looks like this
+If you uncheck this option (should be enabled by default) the rolls will look like this:
 
 ![Result row for skills](docs/skill_result_row.png)
 
-The first input box is the modifier to the roll, the second one the target (difficulty) number. If you modify any of then a new result will be calculated.
-Note that modifying this values is local to your computer, other people can't see it.
+You can still click on it to expand it in case you want to see it.
 
 ## Weapon Rolls
 
@@ -66,6 +67,7 @@ The simple roll looks like that:
 
 ![Simple weapon roll](docs/simple_weapon_roll.png)
 
+You can make it even simpler collapsing the result row (see above).
 You can then use the buttons to re-roll the attack or roll damage.
 
 ![Weapon damage roll](docs/weapon_damage_roll.png)
