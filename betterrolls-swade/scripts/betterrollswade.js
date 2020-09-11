@@ -21,18 +21,6 @@ async function bind_click(target, actor, rof) {
 
 function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
-	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
-						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-								bind_click(t, actor, 1)}},
-					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 2 dice",
-						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, 2)}},
-					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
-						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, 3)}},
-					  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 4 dice",
-						  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-					  			bind_click(t, actor, 4)}}]
 	// Remove all scrollables and inline actor styles
 	if (window.innerHeight < 1000) {html.css('height', '75%')}
 	html.css('min-height', '430px')
@@ -45,7 +33,6 @@ function changeRolls (actor, html) {
 		itemImage.off();
 		itemImage.click(event => {// noinspection JSIgnoredPromiseFromCall
 			bind_click(event, actor)});
-		new ContextMenu(html, '.item-image', menu_items);
 	}
 	// Images and events in skill list
 	let skill_list;
@@ -73,7 +60,20 @@ function changeRolls (actor, html) {
 		div_skill.click(event => {// noinspection JSIgnoredPromiseFromCall
 			bind_click(event, actor)})
 	}
-	new ContextMenu(html, '.item.skill', menu_items);
+	// Create the context menu
+	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
+					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+							bind_click(t, actor, 1)}},
+				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 2 dice",
+					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+							bind_click(t, actor, 2)}},
+				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
+					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+							bind_click(t, actor, 3)}},
+				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 4 dice",
+					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+							bind_click(t, actor, 4)}}]
+	new ContextMenu(html.find('.item.skill, .item-image'), null, menu_items);
 }
 
 function register_settings() {
