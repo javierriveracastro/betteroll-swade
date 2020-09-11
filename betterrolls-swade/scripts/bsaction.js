@@ -8,6 +8,7 @@ export class brAction {
      * Allowed types: ['trait', 'damage', 'raise damage]
      */
     constructor(item, type, modifiers=[], force_rof) {
+        // noinspection JSUnusedGlobalSymbols
         this.id = broofa();
         this.item = item;
         this.type = type;
@@ -16,6 +17,7 @@ export class brAction {
         this.results = [];
         this.modifiers = [];
         this.total_modifiers = 0;
+        // noinspection JSUnusedGlobalSymbols
         this.collapse_result = true;
         // noinspection JSUnresolvedVariable
         let rof = force_rof ? force_rof:parseInt(this.item.data.data.rof) || 1;
@@ -33,6 +35,7 @@ export class brAction {
             this.rolls = this.trait_roll(rof);
             // noinspection JSUnusedGlobalSymbols
             this.fumble = false;
+            // noinspection JSUnusedGlobalSymbols
             this.collapse_result = ! game.settings.get('betterrolls-swade', 'resultRow');
             this.rolls.forEach((roll) => {
                 if (roll.extra_classes.includes('brsw-fumble')) { // noinspection JSUnusedGlobalSymbols
@@ -57,15 +60,17 @@ export class brAction {
     get_skill() {
         /* Gets a skill from a weapon or a power */
         let skill_found;
-        let possible_skills = ["untrained", "untrainiert", "desentrenada"];  // True default
+        let possible_skills = ["untrained", "untrainiert", "desentrenada",
+            "non entraine", "non entrainé"];  // True default
         if (this.item.type === "weapon") {
-            possible_skills = ["fighting", "kämpfen", "pelear"];  // Default for weapons
+            possible_skills = ["fighting", "kämpfen", "pelear", "combat"];  // Default for weapons
             if (parseInt(this.item.data.data.range) > 0) {
                 // noinspection JSUnresolvedVariable
                 if (this.item.data.data.damage.includes('str')) {
-                    possible_skills = ["athletics", "athletik", "atletismo"];
+                    possible_skills = ["athletics", "athletik", "atletismo",
+                        "athletisme", "athlétisme"];
                 } else {
-                    possible_skills = ["shooting", "schiessen", "disparar"];
+                    possible_skills = ["shooting", "schiessen", "disparar", "tir"];
                 }
             }
         } else if (this.item.type === 'power') {
@@ -77,7 +82,9 @@ export class brAction {
                 'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
                 'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
                 'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
-                'hechicería', 'hechiceria'];
+                'hechicería', 'hechiceria', 'foi', 'magie', 'science étrange',
+                'science etrange', 'élémentalisme', 'elementalisme', 'druidisme',
+                'magie solaire'];
             if (this.item.data.data.arcane) {
                 if (possible_skills.includes(
                         this.item.data.data.arcane.toLowerCase())) {
