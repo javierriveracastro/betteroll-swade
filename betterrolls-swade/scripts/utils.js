@@ -21,13 +21,15 @@ export function makeExplotable(expresion) {
     expresion = expresion + ' '; // Just because of my poor reg_exp foo
     let dice_strings = expresion.match(reg_exp);
     let used = [];
-    dice_strings.forEach((match) => {
-        if (used.indexOf(match) === -1) {
-            expresion = expresion.replace(new RegExp(match.slice(0, -1), 'g'),
-                                          match.slice(0, -1) + "x=");
-            used.push(match);
-        }
-    })
+    if (dice_strings) {
+        dice_strings.forEach((match) => {
+            if (used.indexOf(match) === -1) {
+                expresion = expresion.replace(new RegExp(match.slice(0, -1), 'g'),
+                                              match.slice(0, -1) + "x=");
+                used.push(match);
+            }
+        })
+    }
     return expresion;
 }
 
