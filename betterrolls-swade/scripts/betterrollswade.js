@@ -22,8 +22,6 @@ async function bind_click(target, actor, rof) {
 function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
 	// Remove all scrollables and inline actor styles
-	if (window.innerHeight < 1000) {html.css('height', '75%')}
-	html.css('min-height', '430px')
 	html.find('.scrollable').removeClass('scrollable');
 	html.find('.quickaccess-list, .inventory, .power-list, .skills-list, .gear-list, .gear.skills').css(
 		'overflow', 'visible');
