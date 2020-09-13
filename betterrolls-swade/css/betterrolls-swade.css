@@ -163,7 +163,7 @@
 	flex-basis: 100%;
 }
 
-.result-roll {
+.brsw-result-roll {
 	margin: 2px;
 	display: flex;
 	flex-direction: row;
@@ -174,12 +174,12 @@
 	max-width: 3em;
 }
 
-.modifier-row {
+.brsw-modifier-row {
 	flex: 0 0 100%;
 	margin: 4px;
 }
 
-.modifier {
+.brsw-modifier {
 	padding: 2px;
 	margin: 2px;
 	border: 1px solid red;
@@ -187,6 +187,6 @@
 	font-size: 12px;
 }
 
-.modifier.positive {
+.brsw-modifier.brsw-positive {
 	border-color: blue;
 }

@@ -58,22 +58,22 @@
             Results and modifiers
         </div>
         <div class="results_{{this.id}} {{#if this.collapse_result}}description-collapsed{{/if}}">
-            {{#if this.modifiers}}<div class="modifier-row">
+            {{#if this.modifiers}}<div class="brsw-modifier-row">
                 {{#each this.modifiers}}
-                    <span class="modifier {{#if this.positive}}positive{{/if}}">
+                    <span class="brsw-modifier {{#if this.positive}}brsw-positive{{/if}}">
                         {{#if this.positive}}+{{/if}}{{this.value}} {{this.reason}}
                     </span>
                 {{/each}}
             </div>{{/if}}
             {{#if this.results}}
                 {{# if this.fumble}}
-                    <div class="result-roll" data-id-result="{{{this.id_result}}}">
+                    <div class="brsw-result-roll" data-id-result="{{{this.id_result}}}">
                         <span class="brsw-result brsw-result-fumble">CRITICAL FAILURE!</span>
                     </div>
                 {{else}}
                     {{#with this as |card|}}
                         {{#each this.results}}
-                            <div class="result-roll" data-id-result="{{{this.id}}}">
+                            <div class="brsw-result-roll" data-id-result="{{{this.id}}}">
                                 <span class="br-modifier-box">
                                     <i class="fas fa-dice-d6"></i>
                                     <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">

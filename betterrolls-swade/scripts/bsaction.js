@@ -218,8 +218,6 @@ export class brAction {
             if (modifiers[i]) {
                 this.add_modifiers(modifiers[i], "Base damage");
                 damage_string = damage_string + this.modifiers_string();
-                console.log(damage_string)
-                console.log(this.modifiers_string())
             }
             let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());

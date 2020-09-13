@@ -105,7 +105,7 @@ function register_settings() {
 
 function calculate_result(id_roll, html) {
 	if (! html) {
-		html = $('.result-roll');
+		html = $('.brsw-result-roll');
 	}
 	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
 	let modifier = parseInt(html.find('#modifier' + id_roll).val());
@@ -179,7 +179,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 			clicked.find('.fas').removeClass('fa-caret-right');
 		}
 	})
-	const result_rows = html.find('.result-roll');
+	const result_rows = html.find('.brsw-result-roll');
 	if (result_rows.length > 0) {
 		// Avoid calculating fumbles
 		result_rows.each((i, div) => {
