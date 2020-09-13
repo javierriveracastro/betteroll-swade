@@ -183,10 +183,10 @@ Hooks.on('renderChatMessage', (message, html) => {
 		result_rows.each((i, div) => {
 			let id_result = $(div).attr('data-id-result');
 			calculate_result(id_result, html);
-			let modifier = html.find('#modifier' + id_result);
-			let target = html.find('#difficulty' + id_result);
-			modifier.change(() => {calculate_result(id_result)});
-			target.change(() => {calculate_result(id_result)});
+			['modifier', 'difficulty', 'roll_result'].forEach(name => {
+				let input = html.find('#' + name + id_result);
+				input.change(() => {calculate_result(id_result)});
+			})
 		})
 	}
 })
