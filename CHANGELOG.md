@@ -1,5 +1,13 @@
 # Changelog
 
+# 1.0.9 aka plenty of bugfixes
+
+* This is a bugfix release, no new features
+* Damage expression without any dice work
+* CSS prefixes added evetywhere to avoid collisions
+* The result row now recalculates result on dice change.
+* Removed the code to change sheet height, it was too buggy.
+
 # 1.0.8
 
 * Reworked result row ui. Now it's always calculated but can be collapsed by default
