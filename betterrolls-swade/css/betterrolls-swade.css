@@ -49,6 +49,10 @@
 	color: blue!important;
 }
 
+.brsw-the-one {
+	color: red!important;
+}
+
 .discarded {
 	color: gray;
 	text-decoration: red line-through;

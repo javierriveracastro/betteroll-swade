@@ -158,8 +158,10 @@ export class brAction {
             currentRoll = new Roll(dice_string);
             currentRoll.roll();
             currentRoll.extra_classes = "";
-            if (parseInt(currentRoll.result) === 1) {
+            if (currentRoll.dice.length === 1 && currentRoll.dice[0].rolls.length === 1
+                    && currentRoll.dice[0].rolls[0].roll === 1) {
                 is_fumble = is_fumble + 1;
+                currentRoll.extra_classes += "brsw-the-one ";
             } else {
                 is_fumble = is_fumble - 1;
             }
@@ -191,9 +193,9 @@ export class brAction {
         roll_results[roll_results.length - 1].extra_classes +=
             `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
         if (this.item.options.actor.data.data.wildcard) {
-            roll_results[discarded_index].extra_classes = "discarded ";
+            roll_results[discarded_index].extra_classes += "discarded ";
         } else {
-            roll_results[roll_results.length - 1].extra_classes = "discarded ";
+            roll_results[roll_results.length - 1].extra_classes += "discarded ";
         }
         if (is_fumble > 0) {
             roll_results.forEach((roll) => {
