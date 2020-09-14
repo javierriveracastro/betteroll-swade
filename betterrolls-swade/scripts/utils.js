@@ -50,3 +50,12 @@ export function broofa() {
         return v.toString(16);
     });
 }
+
+export function get_item(jquery_selector, actor) {
+	if (! jquery_selector.attr('data-item-id')) {
+		// We are likely inside a li who contains the item id
+		jquery_selector = $(jquery_selector).parents(".item");
+	}
+	let item = actor.getOwnedItem(String(jquery_selector.attr("data-item-id")));
+	return item
+}

@@ -190,3 +190,13 @@
 .brsw-modifier.brsw-positive {
 	border-color: blue;
 }
+
+.brsw-dialog-title {
+	display: flex;
+	margin: 1px 0 1px 5px;
+}
+
+.brsw-flex-row {
+	display: flex;
+	border-bottom: solid 1px;
+}

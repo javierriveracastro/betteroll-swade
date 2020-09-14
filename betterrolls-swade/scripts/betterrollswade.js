@@ -1,5 +1,6 @@
 import {brCard} from "./brcard.js";
-import {spendMastersBenny} from "./utils.js";
+import {spendMastersBenny, get_item} from "./utils.js";
+import ComplexRollApp from "./rollapplication.js";
 
 async function bind_click(target, actor, rof) {
 	// Function binded to click events that can cause a card to be created
@@ -10,13 +11,18 @@ async function bind_click(target, actor, rof) {
 		target = target.currentTarget;
 	}
 	target = $(target);
-	if (! target.attr('data-item-id')) {
-		// We are likely inside a li who contains the item id
-		target = $(target).parents(".item");
-	}
-	let item = actor.getOwnedItem(String(target.attr("data-item-id")));
+	let item = get_item(target, actor)
 	let card = new brCard(item, '', rof);
 	await card.toMessage();
+}
+
+async function open_roll_app(target, actor) {
+	// Function to show the Complex Roll window
+	target = $(target);
+	let item = get_item(target, actor);
+	let dialog = new ComplexRollApp(item,  {baseAplication: 'brswade', popOut: true});
+	console.log(dialog)
+	dialog.render(true);
 }
 
 function changeRolls (actor, html) {
@@ -70,7 +76,10 @@ function changeRolls (actor, html) {
 							bind_click(t, actor, 3)}},
 				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 4 dice",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-							bind_click(t, actor, 4)}}]
+							bind_click(t, actor, 4)}},
+				  {icon:'<i class="fas fa-pager"></i>', name:"Complex roll",
+					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
+						  open_roll_app(t, actor)}}];
 	new ContextMenu(html.find('.item.skill, .item-image'), null, menu_items);
 }
 
