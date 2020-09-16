@@ -7,7 +7,7 @@ export class brAction {
      *
      * Allowed types: ['trait', 'damage', 'raise damage]
      */
-    constructor(item, type, modifiers=[], force_rof) {
+    constructor(item, type, modifiers=[], overrides={}) {
         // noinspection JSUnusedGlobalSymbols
         this.id = broofa();
         this.item = item;
@@ -20,7 +20,8 @@ export class brAction {
         // noinspection JSUnusedGlobalSymbols
         this.collapse_result = true;
         // noinspection JSUnresolvedVariable
-        let rof = force_rof ? force_rof:parseInt(this.item.data.data.rof) || 1;
+        let rof = parseInt(this.item.data.data.rof) || 1
+        if ('rof' in overrides) rof = overrides.rof
         if (type === 'trait') {
             if (item.type === 'weapon' || item.type === 'power') {
                 this.skill = this.get_skill();

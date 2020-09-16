@@ -9,7 +9,7 @@ export class brCard {
     /**
      *  A class that represents a card created by clicking on an item image
      */
-    constructor(item, type, rof) {
+    constructor(item, type, overrides={}) {
         this.item = item;
         if (! type) {
             this.type = item.type;
@@ -27,7 +27,7 @@ export class brCard {
         this.description = item.data.data.description;
         this.bennie_button = true;
         this.damage_button = false;
-        this.rof = rof
+        this.overrides = overrides
         this.footer = this.get_item_footer();
     }
 
@@ -58,18 +58,18 @@ export class brCard {
         if (! this.type.includes('unsupported') && ! this.type.includes('damage')) {
             // If it is not a damage roll it includes a trait action
             this.actions.push(new brAction(this.item, 'trait', [],
-                                           this.rof))
+                                           this.overrides))
         }
         // noinspection JSUnresolvedVariable
         if (this.type === 'weapon' || (this.type === 'power'
                 && this.item.data.data.damage)) {
             if (! game.settings.get('betterrolls-swade', 'dontRollDamage')) {
-                let damage = new brAction(this.item,  'damage', [], this.rof)
+                let damage = new brAction(this.item,  'damage', [], this.overrides)
                 this.actions.push(damage);
                 this.actions.push(
                     new brAction(this.item,  'raise damage',
                                  damage.rolls.map((roll) => {return roll.total}),
-                                 this.rof));
+                                 this.overrides));
             } else {
                 this.damage_button = true;
             }

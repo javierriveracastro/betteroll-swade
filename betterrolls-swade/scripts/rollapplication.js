@@ -32,7 +32,7 @@ export default class ComplexRollApp extends Application {
             ev.stopPropagation();
             let trait_dice = parseInt(html.find('#rof').val()) || 1
             if (trait_dice > 30) trait_dice = 30;
-            const card = new brCard(this.item, '', trait_dice);
+            const card = new brCard(this.item, '', {rof: trait_dice});
 	        // noinspection JSIgnoredPromiseFromCall
             card.toMessage();
 	        // noinspection JSIgnoredPromiseFromCall

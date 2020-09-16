@@ -2,7 +2,7 @@ import {brCard} from "./brcard.js";
 import {spendMastersBenny, get_item} from "./utils.js";
 import ComplexRollApp from "./rollapplication.js";
 
-async function bind_click(target, actor, rof) {
+async function bind_click(target, actor, overrides={}) {
 	// Function binded to click events that can cause a card to be created
 	if (target.target) {
 		// Target is an event
@@ -12,7 +12,7 @@ async function bind_click(target, actor, rof) {
 	}
 	target = $(target);
 	let item = get_item(target, actor)
-	let card = new brCard(item, '', rof);
+	let card = new brCard(item, '', overrides);
 	await card.toMessage();
 }
 
@@ -67,16 +67,16 @@ function changeRolls (actor, html) {
 	// Create the context menu
 	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-							bind_click(t, actor, 1)}},
+							bind_click(t, actor, {rof: 1})}},
 				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 2 dice",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-							bind_click(t, actor, 2)}},
+							bind_click(t, actor, {rof: 2})}},
 				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 3 dice",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-							bind_click(t, actor, 3)}},
+							bind_click(t, actor, {rof: 3})}},
 				  {icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 4 dice",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
-							bind_click(t, actor, 4)}},
+							bind_click(t, actor, {rof: 4})}},
 				  {icon:'<i class="fas fa-pager"></i>', name:"Complex roll",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
 						  open_roll_app(t, actor)}}];
@@ -151,14 +151,14 @@ Hooks.on('renderChatMessage', (message, html) => {
 	let reroll_button = html.find('.btn-roll');
 	reroll_button.click(async (event) => {
 		let widget = $(event.target);
+		let overrides = {}
 		event.preventDefault();
 		event.stopPropagation();
 		let actor = game.actors.get(String(widget.attr('data-actor-id')));
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
 		let card_type = String(widget.attr("data-card-type"));
 		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
-		let force_rof = null;
-		if (widget.attr('data-rof')) force_rof = String(widget.attr('data-rof'));
+		if (widget.attr('data-rof')) overrides.rof = String(widget.attr('data-rof'));
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();
@@ -168,7 +168,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 				spendMastersBenny();
 			}
 		}
-		let roll = new brCard(item, card_type, force_rof);
+		let roll = new brCard(item, card_type, overrides);
 		await roll.toMessage(extra_notes);
 	});
 	let collapse_button = html.find('.collapse-button');
