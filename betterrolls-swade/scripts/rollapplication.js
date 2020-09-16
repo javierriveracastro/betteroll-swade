@@ -32,7 +32,7 @@ export default class ComplexRollApp extends Application {
             ev.stopPropagation();
             let overrides = {}
             let trait_dice = parseInt(html.find('#rof').val()) || 1;
-            if (trait_dice > 30) trait_dice = 30;
+            if (trait_dice > 20) trait_dice = 20;
             overrides.rof = trait_dice
             let modifier_value = parseInt(html.find('#modifier').val());
             if (modifier_value)
