@@ -204,3 +204,7 @@
 	display: flex;
 	border-bottom: solid 1px;
 }
+
+input[type="text"].brsw-text-input {
+	background-color: white;
+}
