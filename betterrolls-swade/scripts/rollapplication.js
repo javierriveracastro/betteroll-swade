@@ -30,9 +30,15 @@ export default class ComplexRollApp extends Application {
         html.find('#roll').click((ev) => {
             ev.preventDefault();
             ev.stopPropagation();
-            let trait_dice = parseInt(html.find('#rof').val()) || 1
+            let overrides = {}
+            let trait_dice = parseInt(html.find('#rof').val()) || 1;
             if (trait_dice > 30) trait_dice = 30;
-            const card = new brCard(this.item, '', {rof: trait_dice});
+            overrides.rof = trait_dice
+            let modifier_value = parseInt(html.find('#modifier').val());
+            if (modifier_value)
+                overrides.modifiers = [{name: html.find('#mod_name').val(),
+                    value: modifier_value}]
+            const card = new brCard(this.item, '', overrides);
 	        // noinspection JSIgnoredPromiseFromCall
             card.toMessage();
 	        // noinspection JSIgnoredPromiseFromCall

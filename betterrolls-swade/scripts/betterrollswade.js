@@ -11,9 +11,14 @@ async function bind_click(target, actor, overrides={}) {
 		target = target.currentTarget;
 	}
 	target = $(target);
-	let item = get_item(target, actor)
-	let card = new brCard(item, '', overrides);
-	await card.toMessage();
+	if(event.altKey) {
+		// noinspection ES6MissingAwait
+		open_roll_app(target, actor)
+	} else {
+		let item = get_item(target, actor)
+		let card = new brCard(item, '', overrides);
+		await card.toMessage();
+	}
 }
 
 async function open_roll_app(target, actor) {
