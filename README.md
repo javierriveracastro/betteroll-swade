@@ -40,6 +40,14 @@ You can now turn skill rolls for NPCs in the options.
 
 When enabled the default npc sheet will be modified to add small images before the skills. Clicking on then will make the roll.
 
+## Complex Rolls
+
+You can call a complex roll either from the context menu shown after rigth clicking an image or by clicking on it with the ALT key pressed. It will show this window:
+
+![Comple_roll_windows](docs/complex_roll_window.png)
+
+Here you can any number of trait die and add a custom modifier to the roll. You can also name that modifier.
+
 ## Roll results row
 
 If you find the result row distracting, or you just don't like it, you can collapse it by default using the settings

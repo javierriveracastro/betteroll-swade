@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.1.0 aka Complex rolls
+* The main feature is the complex roll window, it allows you to specify any amount of trait dice (up to 30) and add a modifier to the roll. This is also the reason for the big version bump.
+* Mark in red the rolls with a natural one on the dice even when their not critical failures
+
 # 1.0.9 aka plenty of bugfixes
 
 * This is a bugfix release, no new features
