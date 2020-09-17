@@ -19,7 +19,6 @@ export class brAction {
         this.total_modifiers = 0;
         if ('modifiers' in overrides)
             overrides.modifiers.forEach(modifier => {
-                console.log(modifier)
                 this.add_modifiers(modifier.value, modifier.name);
             })
         // noinspection JSUnusedGlobalSymbols

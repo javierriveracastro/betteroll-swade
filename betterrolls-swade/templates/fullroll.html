@@ -95,7 +95,7 @@
     <div class="button-bar-brswade">
         <button class="btn-brswade btn-roll cost-benny" data-item-id="{{card.item.id}}"
                 data-actor-id="{{card.actor.id}}" data-card-type="{{card.type}}"
-                data-extra-notes="Benny reroll" {{#if card.rof}}data-rof="{{card.rof}}"{{/if}}>
+                data-extra-notes="Benny reroll" {{{card.overrides_as_data}}}>
             Reroll spending a Benny
         </button>
     </div>

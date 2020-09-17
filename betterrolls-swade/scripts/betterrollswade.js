@@ -26,7 +26,6 @@ async function open_roll_app(target, actor) {
 	target = $(target);
 	let item = get_item(target, actor);
 	let dialog = new ComplexRollApp(item,  {baseAplication: 'brswade', popOut: true});
-	console.log(dialog)
 	dialog.render(true);
 }
 
@@ -163,7 +162,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let item = actor.getOwnedItem(String(widget.attr("data-item-id")));
 		let card_type = String(widget.attr("data-card-type"));
 		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
-		if (widget.attr('data-rof')) overrides.rof = String(widget.attr('data-rof'));
+		if (widget.attr('data-override')) overrides = JSON.parse(widget.attr('data-override'));
 		if (widget.hasClass('cost-benny')) {
 			if (actor.isPC) {
 				await actor.spendBenny();

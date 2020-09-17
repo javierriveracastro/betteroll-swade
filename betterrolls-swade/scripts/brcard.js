@@ -54,6 +54,13 @@ export class brCard {
         return footer
     }
 
+    overrides_as_data(){
+        // Returns the overrides as data properties to use in HTML
+        // noinspection JSUnresolvedVariable
+        return this.card.overrides ?
+            `data-override='${JSON.stringify(this.card.overrides)}'`:''
+    }
+
     async toMessage(extra_notes='') {
         if (! this.type.includes('unsupported') && ! this.type.includes('damage')) {
             // If it is not a damage roll it includes a trait action
