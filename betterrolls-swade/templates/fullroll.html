@@ -9,6 +9,12 @@
         <span class="text-description description-collapsed">{{{card.description}}}</span>
     </div>{{/if}}
     {{#each card.actions}}
+        {{# if this.skill_description }}
+            <div class="card-description">
+                <div class="collapse-button" data-collapse="skill-description"><i class="fas fa-caret-right"></i>Skill description</div>
+                <span class="skill-description description-collapsed">{{{this.skill_description}}}</span>
+            </div>
+        {{/if}}
         <div class="dice-roll">
             <div class="flavor-text">
                 {{this.title}}
