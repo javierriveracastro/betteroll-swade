@@ -18,6 +18,8 @@ export class brAction {
         this.modifiers = [];
         this.total_modifiers = 0;
         // noinspection JSUnusedGlobalSymbols
+        this.target_number = overrides.tn || 4;
+        // noinspection JSUnusedGlobalSymbols
         this.skill_description = '';
         if ('modifiers' in overrides)
             overrides.modifiers.forEach(modifier => {
@@ -31,7 +33,6 @@ export class brAction {
         if (type === 'trait') {
             if (item.type === 'weapon' || item.type === 'power') {
                 this.skill = this.get_skill();
-                console.log(this.skill)
                 // noinspection JSUnusedGlobalSymbols
                 this.skill_description = this.skill? this.skill.data.description: '';
             } else {

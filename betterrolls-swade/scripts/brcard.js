@@ -27,7 +27,7 @@ export class brCard {
         this.description = item.data.data.description;
         this.bennie_button = true;
         this.damage_button = false;
-        this.overrides = overrides
+        this.overrides = overrides;
         this.footer = this.get_item_footer();
     }
 
@@ -101,6 +101,7 @@ export class brCard {
             "modules/betterrolls-swade/templates/fullroll.html", {
                 card: this
             });
+        console.log(this)
         let whisper_data = getWhisperData();
         let chatData = {
             user: game.user._id,

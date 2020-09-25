@@ -38,6 +38,7 @@ export default class ComplexRollApp extends Application {
             if (modifier_value)
                 overrides.modifiers = [{name: html.find('#mod_name').val(),
                     value: modifier_value}]
+            overrides.tn = parseInt(html.find('#tn').val()) || 4;
             const card = new brCard(this.item, '', overrides);
 	        // noinspection JSIgnoredPromiseFromCall
             card.toMessage();
