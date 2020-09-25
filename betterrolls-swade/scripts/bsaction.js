@@ -138,7 +138,7 @@ export class brAction {
 
     trait_roll(rof) {
         let die = "4";
-        let skill_modifier = "-2";
+        let skill_modifier = -2;
         let wild_die = "6";
         let is_fumble = 0;
         let currentRoll;
