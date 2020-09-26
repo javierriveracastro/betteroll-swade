@@ -223,6 +223,14 @@ export class brAction {
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
             let damage_string = makeExplotable(this.item.data.data.damage);
+            if (this.item.data.data.actions) {
+                let dmg_item_mod = this.item.data.data.actions.dmgMod;
+                if (dmg_item_mod.slice(0, 1) !== '+' &&
+                    dmg_item_mod.slice(0, 1) !== '-') {
+                    dmg_item_mod = `+${dmg_item_mod}`;
+                }
+                damage_string = damage_string + dmg_item_mod
+            }
             if (is_raise) {
                 if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
                     damage_string = damage_string + "+1d6x=";
