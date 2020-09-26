@@ -1,5 +1,14 @@
 # Changelog
 
+# 1.1.1 aka Catching on 0.12.1
+* Limit the maximun trait dice to 20
+* Started release automation
+* Refactoring to make it easier to contro complex rolls and rerolls
+* Display the related skill description of weapons and powers in the chat card
+* Allow custom Target Numbers on complex tolls
+* Some bugfixes
+* And finally support for skills and modifiers in the "Actions and Effects" tab. Still no support for actions.
+
 # 1.1.0 aka Complex rolls
 * The main feature is the complex roll window, it allows you to specify any amount of trait dice (up to 30) and add a modifier to the roll. This is also the reason for the big version bump.
 * Mark in red the rolls with a natural one on the dice even when their not critical failures
