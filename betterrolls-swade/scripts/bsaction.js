@@ -70,10 +70,36 @@ export class brAction {
         }
     }
 
+    check_skill_in_actor(possible_skills) {
+        /**
+         * See if some skill in an array exist in an actor an return it
+         */
+        let skill_found = '';
+        this.item.options.actor.data.items.forEach((skill) => {
+            if (possible_skills.includes(skill.name.toLowerCase()) && skill.type === 'skill') {
+                skill_found = skill;
+            }
+        });
+        return skill_found;
+    }
+
     get_skill() {
         /* Gets a skill from a weapon or a power */
         let skill_found;
-        let possible_skills = ["untrained", "untrainiert", "desentrenada",
+        // If the item has a skill either in arcane or in the action tab
+        // try to find it
+        let possible_skills = [];
+        if (this.item.data.data.arcane)  possible_skills.push(
+            this.item.data.data.arcane.toLowerCase());
+        if (this.item.data.data.actions) {
+            if (this.item.data.data.actions.skill) {
+                possible_skills.push(this.item.data.data.actions.skill.toLowerCase());
+            }
+        }
+        skill_found = this.check_skill_in_actor(possible_skills);
+        if (skill_found) return skill_found;
+        // If not we are back to guessing
+        possible_skills = ["untrained", "untrainiert", "desentrenada",
             "non entraine", "non entrainé"];  // True default
         if (this.item.type === "weapon") {
             possible_skills = ["fighting", "kämpfen", "pelear", "combat"];  // Default for weapons
@@ -98,22 +124,9 @@ export class brAction {
                 'hechicería', 'hechiceria', 'foi', 'magie', 'science étrange',
                 'science etrange', 'élémentalisme', 'elementalisme', 'druidisme',
                 'magie solaire'];
-            if (this.item.data.data.arcane) {
-                if (possible_skills.includes(
-                        this.item.data.data.arcane.toLowerCase())) {
-                    possible_skills = this.item.data.data.arcane;
-                } else {
-                    possible_skills.push(this.item.data.data.arcane.toLowerCase());
-                }
-            }
         }
-        this.item.options.actor.data.items.forEach((skill) => {
-            if (possible_skills.includes(skill.name.toLowerCase()) && skill.type === 'skill') {
-                skill_found = skill;
-            }
-        });
         // noinspection JSUnusedAssignment
-        return skill_found;
+        return this.check_skill_in_actor(possible_skills);
     }
 
     add_modifiers(modifier, reason) {
