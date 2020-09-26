@@ -62,11 +62,20 @@ export class brCard {
     }
 
     async toMessage(extra_notes='') {
+        // Trait action
         if (! this.type.includes('unsupported') && ! this.type.includes('damage')) {
             // If it is not a damage roll it includes a trait action
-            this.actions.push(new brAction(this.item, 'trait', [],
+            let item_mod = 0
+            if (this.item.data.data.actions) {
+                item_mod = parseInt(this.item.data.data.actions.skillMod);
+            }
+            let modifiers = [];
+            if (item_mod)
+                modifiers.push({name: this.type, value: item_mod});
+            this.actions.push(new brAction(this.item, 'trait', modifiers,
                                            this.overrides))
         }
+        // Damage action or button
         // noinspection JSUnresolvedVariable
         if (this.type === 'weapon' || (this.type === 'power'
                 && this.item.data.data.damage)) {
@@ -85,6 +94,7 @@ export class brCard {
         } else if (this.type === 'raise_damage') {
             this.actions.push(new brAction(this.item, 'raise damage'));
         }
+        // Bennie button
         if (this.actor.isPC) {
             if (this.actor.data.data.bennies.value < 1) {
                 this.bennie_button = false;
@@ -101,7 +111,6 @@ export class brCard {
             "modules/betterrolls-swade/templates/fullroll.html", {
                 card: this
             });
-        console.log(this)
         let whisper_data = getWhisperData();
         let chatData = {
             user: game.user._id,

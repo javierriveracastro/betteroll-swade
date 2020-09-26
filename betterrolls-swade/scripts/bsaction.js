@@ -21,6 +21,8 @@ export class brAction {
         this.target_number = overrides.tn || 4;
         // noinspection JSUnusedGlobalSymbols
         this.skill_description = '';
+        modifiers.forEach(modifier => this.add_modifiers(
+            modifier.value, modifier.name));
         if ('modifiers' in overrides)
             overrides.modifiers.forEach(modifier => {
                 this.add_modifiers(modifier.value, modifier.name);
