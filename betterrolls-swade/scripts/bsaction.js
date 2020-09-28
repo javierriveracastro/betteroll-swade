@@ -18,8 +18,6 @@ export class brAction {
         this.modifiers = [];
         this.total_modifiers = 0;
         // noinspection JSUnusedGlobalSymbols
-        this.target_number = overrides.tn || 4;
-        // noinspection JSUnusedGlobalSymbols
         this.skill_description = '';
         modifiers.forEach(modifier => this.add_modifiers(
             modifier.value, modifier.name));
@@ -68,6 +66,8 @@ export class brAction {
             }
             this.rolls = this.damage_roll(rof, is_raise, modifiers);
         }
+        // noinspection JSUnusedGlobalSymbols
+        this.target_number = overrides.tn || this.target_number || 4;
     }
 
     check_skill_in_actor(possible_skills) {
@@ -85,6 +85,7 @@ export class brAction {
 
     get_skill() {
         /* Gets a skill from a weapon or a power */
+        const fighting_skills = ["fighting", "kämpfen", "pelear", "combat"];
         let skill_found;
         // If the item has a skill either in arcane or in the action tab
         // try to find it
@@ -102,7 +103,7 @@ export class brAction {
         possible_skills = ["untrained", "untrainiert", "desentrenada",
             "non entraine", "non entrainé"];  // True default
         if (this.item.type === "weapon") {
-            possible_skills = ["fighting", "kämpfen", "pelear", "combat"];  // Default for weapons
+            possible_skills = fighting_skills;  // Default for weapons
             if (parseInt(this.item.data.data.range) > 0) {
                 // noinspection JSUnresolvedVariable
                 if (this.item.data.data.damage.includes('str')) {
@@ -126,7 +127,25 @@ export class brAction {
                 'magie solaire'];
         }
         // noinspection JSUnusedAssignment
-        return this.check_skill_in_actor(possible_skills);
+        skill_found = this.check_skill_in_actor(possible_skills);
+        if (fighting_skills.includes(skill_found.name.toLowerCase()))
+            this.set_parry_as_difficulty();
+        return skill_found
+    }
+
+    set_parry_as_difficulty(){
+        /**
+         * Sets the difficulty as the parry value of the targeted
+         * or selected token
+         */
+        let targets = game.user.targets;
+        let objective;
+        let target_number;
+        if (targets.size) objective = Array.from(targets)[0];
+        if (objective) {
+            target_number = parseInt(objective.actor.data.data.stats.parry.value)
+        }
+        this.target_number = target_number || 4;
     }
 
     add_modifiers(modifier, reason) {
@@ -257,7 +276,6 @@ export class brAction {
                     }
                 }
             }
-            console.log(damage_string)
             let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());
             damage.roll();
