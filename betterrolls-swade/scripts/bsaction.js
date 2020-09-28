@@ -237,24 +237,27 @@ export class brAction {
             // noinspection JSUnresolvedVariable
             let damage_string = makeExplotable(this.item.data.data.damage);
             if (this.item.data.data.actions) {
-                let dmg_item_mod = this.item.data.data.actions.dmgMod;
-                if (dmg_item_mod.slice(0, 1) !== '+' &&
-                    dmg_item_mod.slice(0, 1) !== '-') {
-                    dmg_item_mod = `+${dmg_item_mod}`;
+                if (this.item.data.data.actions.dmgMod) {
+                    let dmg_item_mod = this.item.data.data.actions.dmgMod;
+                    if (dmg_item_mod.slice(0, 1) !== '+' &&
+                        dmg_item_mod.slice(0, 1) !== '-') {
+                        dmg_item_mod = `+${dmg_item_mod}`;
+                    }
+                    damage_string = damage_string + dmg_item_mod;
                 }
-                damage_string = damage_string + dmg_item_mod
             }
             if (is_raise) {
                 if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
                     damage_string = damage_string + "+1d6x=";
                 } else {
                     damage_string = "1d6x=";
+                    if (modifiers[i]) {
+                        this.add_modifiers(modifiers[i], "Base damage");
+                        damage_string = damage_string + this.modifiers_string();
+                    }
                 }
             }
-            if (modifiers[i]) {
-                this.add_modifiers(modifiers[i], "Base damage");
-                damage_string = damage_string + this.modifiers_string();
-            }
+            console.log(damage_string)
             let damage = new Roll(damage_string,
                                   this.item.actor.getRollShortcuts());
             damage.roll();
