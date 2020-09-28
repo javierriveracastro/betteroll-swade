@@ -22,6 +22,8 @@ You can clink on the result to get more information (explosion, dice faces, modi
 
 The three numbers in the bottom part are dice result, modifiers and difficulty. They can be edited, but take care that this is per client, ie. what you do here is not seen by the other players.
 
+The target number will default to 4 except when you are making a figthing check and there is a token selected. In that case it will default to the token parry.
+
 Clicking in the "Rerroll spending a Benny button" will repeat the roll, removing a Benny from the character. If the roll was made by a game master and the character has no bennies it will subtracted from gm bennies.
 
 The systems always roll a wild die for extras but it will never get selected (it will always show as gray). It is used to detect fumbles and can also be used for group rolls.

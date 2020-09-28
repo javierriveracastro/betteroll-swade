@@ -4,7 +4,7 @@
 	"description": "This module tries to port the most useful features from Better Roll to SWADE",
 	"minimumCoreVersion": "0.6.0",
 	"compatibleCoreVersion": "0.6.6",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"author": "Javier Rivera",
 	"languages": [
 		{

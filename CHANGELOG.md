@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.1.2 aka bugssss
+* Solve a bug when rolling damage
+* Now if you use a figthing skill and some token is targetted, difficulty will default to that token parry
+
 # 1.1.1 aka Catching on 0.12.1
 * Limit the maximun trait dice to 20
 * Started release automation
