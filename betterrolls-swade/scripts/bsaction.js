@@ -98,36 +98,37 @@ export class brAction {
             }
         }
         skill_found = this.check_skill_in_actor(possible_skills);
-        if (skill_found) return skill_found;
-        // If not we are back to guessing
-        possible_skills = ["untrained", "untrainiert", "desentrenada",
-            "non entraine", "non entrainé"];  // True default
-        if (this.item.type === "weapon") {
-            possible_skills = fighting_skills;  // Default for weapons
-            if (parseInt(this.item.data.data.range) > 0) {
-                // noinspection JSUnresolvedVariable
-                if (this.item.data.data.damage.includes('str')) {
-                    possible_skills = ["athletics", "athletik", "atletismo",
-                        "athletisme", "athlétisme"];
-                } else {
-                    possible_skills = ["shooting", "schiessen", "disparar", "tir"];
+        if (! skill_found) {
+            // If not we are back to guessing
+            possible_skills = ["untrained", "untrainiert", "desentrenada",
+                "non entraine", "non entrainé"];  // Default
+            if (this.item.type === "weapon") {
+                possible_skills = fighting_skills;  // Default for weapons
+                if (parseInt(this.item.data.data.range) > 0) {
+                    // noinspection JSUnresolvedVariable
+                    if (this.item.data.data.damage.includes('str')) {
+                        possible_skills = ["athletics", "athletik", "atletismo",
+                            "athletisme", "athlétisme"];
+                    } else {
+                        possible_skills = ["shooting", "schiessen", "disparar", "tir"];
+                    }
                 }
+            } else if (this.item.type === 'power') {
+                possible_skills = ['faith', 'focus', 'spellcasting', `glaube`,
+                    'fokus', 'zaubern', 'druidism', 'elementalism', 'glamour',
+                    'heahwisardry', 'hrimwisardry', 'solar magic', 'song magic',
+                    'soul binding', 'artificer', 'astrology', 'dervish',
+                    'divination', 'jinn binding', 'khem-hekau', 'mathemagic',
+                    'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
+                    'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
+                    'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
+                    'hechicería', 'hechiceria', 'foi', 'magie', 'science étrange',
+                    'science etrange', 'élémentalisme', 'elementalisme', 'druidisme',
+                    'magie solaire'];
             }
-        } else if (this.item.type === 'power') {
-            possible_skills = ['faith', 'focus', 'spellcasting', `glaube`,
-                'fokus', 'zaubern', 'druidism', 'elementalism', 'glamour',
-                'heahwisardry', 'hrimwisardry', 'solar magic', 'song magic',
-                'soul binding', 'artificer', 'astrology', 'dervish',
-                'divination', 'jinn binding', 'khem-hekau', 'mathemagic',
-                'sand magic', "sha'ir", 'ship magic', 'ushabti', 'wizir magic',
-                'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
-                'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
-                'hechicería', 'hechiceria', 'foi', 'magie', 'science étrange',
-                'science etrange', 'élémentalisme', 'elementalisme', 'druidisme',
-                'magie solaire'];
+            // noinspection JSUnusedAssignment
+            skill_found = this.check_skill_in_actor(possible_skills);
         }
-        // noinspection JSUnusedAssignment
-        skill_found = this.check_skill_in_actor(possible_skills);
         if (fighting_skills.includes(skill_found.name.toLowerCase()))
             this.set_parry_as_difficulty();
         return skill_found
