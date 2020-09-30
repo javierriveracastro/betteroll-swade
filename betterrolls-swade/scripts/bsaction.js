@@ -100,8 +100,6 @@ export class brAction {
         skill_found = this.check_skill_in_actor(possible_skills);
         if (! skill_found) {
             // If not we are back to guessing
-            possible_skills = ["untrained", "untrainiert", "desentrenada",
-                "non entraine", "non entrainé"];  // Default
             if (this.item.type === "weapon") {
                 possible_skills = fighting_skills;  // Default for weapons
                 if (parseInt(this.item.data.data.range) > 0) {
@@ -128,6 +126,11 @@ export class brAction {
             }
             // noinspection JSUnusedAssignment
             skill_found = this.check_skill_in_actor(possible_skills);
+            if (! skill_found) {
+                const untrained = ["untrained", "untrainiert", "desentrenada",
+                    "non entraine", "non entrainé"];
+                skill_found = this.check_skill_in_actor(untrained)
+            }
         }
         if (skill_found) {
             if (fighting_skills.includes(skill_found.name.toLowerCase()))
