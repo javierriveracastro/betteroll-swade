@@ -129,8 +129,10 @@ export class brAction {
             // noinspection JSUnusedAssignment
             skill_found = this.check_skill_in_actor(possible_skills);
         }
-        if (fighting_skills.includes(skill_found.name.toLowerCase()))
-            this.set_parry_as_difficulty();
+        if (skill_found) {
+            if (fighting_skills.includes(skill_found.name.toLowerCase()))
+                this.set_parry_as_difficulty();
+        }
         return skill_found
     }
 
