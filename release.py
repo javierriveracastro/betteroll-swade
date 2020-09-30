@@ -15,10 +15,10 @@ ALLOWED_FILES = ['betterrolls-swade/module.json', 'CHANGELOG.md', 'README.md']
 repo = Repo(".")
 differences = repo.head.commit.diff()
 modified_files = list(map(lambda x:x.a_path, differences))
-# if len(modified_files) != len(ALLOWED_FILES):
-#     print('The number of modified files should be {}'.format(
-#         len(ALLOWED_FILES)))
-#     raise SystemExit(0)
+if len(modified_files) != len(ALLOWED_FILES):
+    print('The number of modified files should be {}'.format(
+        len(ALLOWED_FILES)))
+    raise SystemExit(0)
 # Get the version from modules.json
 with open("betterrolls-swade/module.json") as f:
     manifest = f.read()

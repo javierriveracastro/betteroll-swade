@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.1.3 aka Nothing to see here (well maybe even more bugs)
+* A bugfix to make figthing dificulty from parry work when the skill was set in "Actions and Effects" tab.
+
 # 1.1.2 aka bugssss
 * Solve a bug when rolling damage
 * Now if you use a figthing skill and some token is targetted, difficulty will default to that token parry
