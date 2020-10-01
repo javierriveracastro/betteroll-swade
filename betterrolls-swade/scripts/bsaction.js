@@ -154,6 +154,14 @@ export class brAction {
         this.target_number = target_number || 4;
     }
 
+    add_dice_tray_modifier(){
+        let tray_modifier = parseInt($("input.dice-tray__input").val());
+        console.log(tray_modifier)
+        if (tray_modifier) {
+            this.add_modifiers(tray_modifier, "Dice tray");
+        }
+    }
+
     add_modifiers(modifier, reason) {
         // Add a modifier to a roll string
         // noinspection EqualityComparisonWithCoercionJS
@@ -200,6 +208,7 @@ export class brAction {
         this.add_modifiers(this.item.options.actor.calcWoundPenalties(), "Wounds");
         this.add_modifiers(this.item.options.actor.calcFatiguePenalties(), "Fatigue");
         this.add_modifiers(this.item.options.actor.calcStatusPenalties(), "Status");
+        this.add_dice_tray_modifier();
         let minimum_roll = 999999;
         let discarded_index = 999999;
         let dice3d_string = ""
