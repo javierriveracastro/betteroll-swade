@@ -14,7 +14,7 @@
 		}
 	],
 	"systems": ["swade"],
-	"esmodules": ["./scripts/betterrollswade.js"],
+	"esmodules": ["./scripts/betterrollswade.js", "./scripts/brcard.js"],
 	"styles": ["./css/betterrolls-swade.css"],
 	"packs": [],
 	"url": "https://github.com/javierriveracastro/betteroll-swade",

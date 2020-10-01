@@ -8,6 +8,22 @@ const CARD_TYPES = ['skill', 'weapon', 'power', 'damage', 'raise_damage',
 export class brCard {
     /**
      *  A class that represents a card created by clicking on an item image
+     *
+     *  Paramethers:
+     *  item: The item that you want to roll
+     *  type: The type of card, note that it is not the same as item type
+     *      Avaliavel types: skill, weapon, power, damage, raise_damage,
+     *          damage_and_raise
+     *  overrides: An object with some options that will override item defaults
+     *      modifiers: An array of objetcs of type {name: string, value: float}
+     *          that will be used as modifiers for the roll
+     *      rof: The number of actions to roll, only one wild die will be added
+     *      tn: The target number of the action
+     *
+     *  Methods:
+     *  The most interesting method is toMessage that will output the card to
+     *  the chat. It accepts a string as paramether, it will be appendend to the
+     *  item notes
      */
     constructor(item, type, overrides={}) {
         this.item = item;
