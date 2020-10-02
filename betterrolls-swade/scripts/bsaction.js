@@ -211,8 +211,7 @@ export class brAction {
         this.add_dice_tray_modifier();
         let minimum_roll = 999999;
         let discarded_index = 999999;
-        let dice3d_string = ""
-        let dice3d_results = []
+        let dice3d_die = [{dice:[]}]
         roll_array.forEach((dice_string, index) => {
             dice_string = dice_string + this.modifiers_string();
             currentRoll = new Roll(dice_string);
@@ -226,10 +225,16 @@ export class brAction {
                 is_fumble = is_fumble - 1;
             }
             currentRoll.dice.forEach((dice) => {
+                let roll_index = 0
                 dice.rolls.forEach((roll) => {
-                    dice3d_string = dice3d_string + `d${dice.faces}+`;
-                    dice3d_results.push(roll.roll);
+                    console.log(roll)
+                    dice3d_die[roll_index].dice.push(
+                        {resultLabel: roll.result, result: roll.result,
+                            type: `d${dice.faces}`, options:{}, vectors: []});
                     if (roll.exploded) {
+                        roll_index += 1;
+                        console.log(roll_index, dice3d_die.length)
+                        if (roll_index >= dice3d_die.length) dice3d_die.push({dice:[]});
                         currentRoll.extra_classes += "exploded ";
                     }
                 })
@@ -243,12 +248,7 @@ export class brAction {
         // Dice so nice, roll all attack dice together
         if (game.dice3d) {
             // noinspection JSIgnoredPromiseFromCall
-            game.dice3d.show({
-                                 formula: dice3d_string.slice(0, -1),
-                                 results: dice3d_results,
-                                 whisper: null,
-                                 blind: false,
-                             }, game.user,true)
+            game.dice3d.show({throws: dice3d_die}, game.user,true)
         }
         roll_results[roll_results.length - 1].extra_classes +=
             `brsw-d${roll_results[roll_results.length - 1].dice[0].faces} `;
