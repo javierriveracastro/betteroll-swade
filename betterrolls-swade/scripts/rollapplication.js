@@ -30,7 +30,6 @@ export default class ComplexRollApp extends Application {
                 }
             }
         }
-        console.log(additional_actions)
         return {item: this.item, rof:this.item.data.data.rof || 1,
             additional_actions: additional_actions}
     }
@@ -63,7 +62,6 @@ export default class ComplexRollApp extends Application {
             }
             overrides.tn = parseInt(html.find('#tn').val()) || 4;
             if (modifiers) overrides.modifiers = modifiers;
-            console.log(overrides)
             const card = new brCard(this.item, '', overrides);
 	        // noinspection JSIgnoredPromiseFromCall
             card.toMessage();

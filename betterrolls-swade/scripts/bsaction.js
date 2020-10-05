@@ -156,7 +156,6 @@ export class brAction {
 
     add_dice_tray_modifier(){
         let tray_modifier = parseInt($("input.dice-tray__input").val());
-        console.log(tray_modifier)
         if (tray_modifier) {
             this.add_modifiers(tray_modifier, "Dice tray");
         }
@@ -217,6 +216,7 @@ export class brAction {
             currentRoll = new Roll(dice_string);
             currentRoll.roll();
             currentRoll.extra_classes = "";
+            console.log(currentRoll.dice[0].rolls)
             if (currentRoll.dice.length === 1 && currentRoll.dice[0].rolls.length === 1
                     && currentRoll.dice[0].rolls[0].roll === 1) {
                 is_fumble = is_fumble + 1;
@@ -227,13 +227,11 @@ export class brAction {
             currentRoll.dice.forEach((dice) => {
                 let roll_index = 0
                 dice.rolls.forEach((roll) => {
-                    console.log(roll)
                     dice3d_die[roll_index].dice.push(
                         {resultLabel: roll.result, result: roll.result,
                             type: `d${dice.faces}`, options:{}, vectors: []});
                     if (roll.exploded) {
                         roll_index += 1;
-                        console.log(roll_index, dice3d_die.length)
                         if (roll_index >= dice3d_die.length) dice3d_die.push({dice:[]});
                         currentRoll.extra_classes += "exploded ";
                     }
