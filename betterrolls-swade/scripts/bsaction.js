@@ -218,7 +218,7 @@ export class brAction {
             currentRoll.extra_classes = "";
             console.log(currentRoll.dice[0].rolls)
             if (currentRoll.dice.length === 1 && currentRoll.dice[0].rolls.length === 1
-                    && currentRoll.dice[0].rolls[0].roll === 1) {
+                    && currentRoll.dice[0].rolls[0].result === 1) {
                 is_fumble = is_fumble + 1;
                 currentRoll.extra_classes += "brsw-the-one ";
             } else {
