@@ -116,8 +116,13 @@ function register_settings() {
 
 function calculate_result(id_roll, html) {
 	if (! html) {
-		html = $('.brsw-result-roll');
+		html = $('#resul-row-' + id_roll);
+	} else {
+		html = html.find('#resul-row-' + id_roll);
 	}
+	const damage = !!html.attr('data-type');
+	console.log(html)
+	console.log(damage)
 	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
 	let modifier = parseInt(html.find('#modifier' + id_roll).val());
 	let target = parseInt(html.find('#difficulty' + id_roll).val());
@@ -126,10 +131,21 @@ function calculate_result(id_roll, html) {
 	if (result < 0) {
 		output_row.text('Failure');
 	} else if (result < 1) {
-		output_row.text('Success');
+		if (damage) {
+			output_row.text('Shaken');
+		} else {
+			output_row.text('Success');
+		}
 	} else {
 		let raises = Math.floor(result);
-		output_row.text(`${raises > 1 ? raises:''} Raise${raises > 1 ? 's':''}!`)
+		if (damage) {
+			let wounds = raises - 1
+			output_row.text(
+				`${wounds > 1 ? wounds:''} Wound${wounds > 1 ? 's':''}!`);
+		} else {
+			output_row.text(
+				`${raises > 1 ? raises:''} Raise${raises > 1 ? 's':''}!`);
+		}
 	}
 }
 

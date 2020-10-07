@@ -15,6 +15,8 @@ export class brAction {
         this.rolls = [];
         // noinspection JSUnusedGlobalSymbols
         this.results = [];
+        // noinspection JSUnusedGlobalSymbols
+        this.damage_results = [];
         this.modifiers = [];
         this.total_modifiers = 0;
         // noinspection JSUnusedGlobalSymbols
@@ -26,7 +28,7 @@ export class brAction {
                 this.add_modifiers(modifier.value, modifier.name);
             })
         // noinspection JSUnusedGlobalSymbols
-        this.collapse_result = true;
+        this.collapse_result = ! game.settings.get('betterrolls-swade', 'resultRow');
         // noinspection JSUnresolvedVariable
         let rof = parseInt(this.item.data.data.rof) || 1
         if ('rof' in overrides) rof = overrides.rof
@@ -47,7 +49,6 @@ export class brAction {
             // noinspection JSUnusedGlobalSymbols
             this.fumble = false;
             // noinspection JSUnusedGlobalSymbols
-            this.collapse_result = ! game.settings.get('betterrolls-swade', 'resultRow');
             this.rolls.forEach((roll) => {
                 if (roll.extra_classes.includes('brsw-fumble')) { // noinspection JSUnusedGlobalSymbols
                     this.fumble=true;
@@ -65,6 +66,9 @@ export class brAction {
                 this.title = "Raise damage";
             }
             this.rolls = this.damage_roll(rof, is_raise, modifiers);
+            this.rolls.forEach(roll => {
+                this.damage_results.push({total: roll.total, id: broofa()});
+            })
         }
         // noinspection JSUnusedGlobalSymbols
         this.target_number = overrides.tn || this.target_number || 4;
@@ -216,7 +220,6 @@ export class brAction {
             currentRoll = new Roll(dice_string);
             currentRoll.roll();
             currentRoll.extra_classes = "";
-            console.log(currentRoll.dice[0].rolls)
             if (currentRoll.dice.length === 1 && currentRoll.dice[0].rolls.length === 1
                     && currentRoll.dice[0].rolls[0].result === 1) {
                 is_fumble = is_fumble + 1;
@@ -284,8 +287,7 @@ export class brAction {
                 } else {
                     damage_string = "1d6x=";
                     if (modifiers[i]) {
-                        this.add_modifiers(modifiers[i], "Base damage");
-                        damage_string = damage_string + this.modifiers_string();
+                        damage_string = `${damage_string}+${modifiers[i]}`;
                     }
                 }
             }
