@@ -100,16 +100,14 @@
                             <div class="brsw-result-roll" id="resul-row-{{this.id}}"
                                     data-id-result="{{{this.id}}}" data-type="damage"">
                                 <span class="brsw-modifier-box">
-                                   <span class="br-modifier-box">
-                                        <i class="fas fa-dice-d6"></i>
-                                        <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">
-                                        <i class="fas fa-plus"></i>
-                                        <input id="modifier{{{this.id}}}" type="number" class="brsw-bar-input" value="{{action.total_modifiers}}">
-                                        <i class="fas fa-heart"></i>
-                                        <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input" value="4">
-                                    </span>
-                                    <span class="brsw-result" id="result{{{this.id}}}">Failure</span>
+                                    <i class="fas fa-dice-d6"></i>
+                                    <input type="number" class="brsw-bar-input" id="roll_result{{{this.id}}}" value="{{this.total}}">
+                                    <i class="fas fa-plus"></i>
+                                    <input id="modifier{{{this.id}}}" type="number" class="brsw-bar-input" value="{{action.total_modifiers}}">
+                                    <i class="fas fa-heart"></i>
+                                    <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input" value="4">
                                 </span>
+                                <span class="brsw-result" id="result{{{this.id}}}">Failure</span>
                             </div>
                         {{/each}}
                     {{/with}}

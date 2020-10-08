@@ -23,7 +23,7 @@ export class brAction {
         this.skill_description = '';
         modifiers.forEach(modifier => this.add_modifiers(
             modifier.value, modifier.name));
-        if ('modifiers' in overrides)
+        if ('modifiers' in overrides && this.type === 'trait')
             overrides.modifiers.forEach(modifier => {
                 this.add_modifiers(modifier.value, modifier.name);
             })
@@ -67,7 +67,7 @@ export class brAction {
             }
             this.rolls = this.damage_roll(rof, is_raise, modifiers);
             this.rolls.forEach(roll => {
-                this.damage_results.push({total: roll.total, id: broofa()});
+                this.damage_results.push({total: roll.total - this.total_modifiers, id: broofa()});
             })
         }
         // noinspection JSUnusedGlobalSymbols
@@ -268,30 +268,35 @@ export class brAction {
 
     damage_roll(rof, is_raise=false, modifiers){
         let damage_roll = [];
+        let damage_string = makeExplotable(this.item.data.data.damage);
+        if (this.item.data.data.actions) {
+            if (this.item.data.data.actions.dmgMod) {
+                let dmg_item_mod = this.item.data.data.actions.dmgMod;
+                this.add_modifiers(dmg_item_mod, 'weapon')
+                if (dmg_item_mod.slice(0, 1) !== '+' &&
+                    dmg_item_mod.slice(0, 1) !== '-') {
+                    dmg_item_mod = `+${dmg_item_mod}`;
+                }
+                damage_string = damage_string + dmg_item_mod;
+            }
+        }
+        if (is_raise) {
+            if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
+                damage_string = damage_string + "+1d6x=";
+            } else {
+                damage_string = "1d6x=";
+            }
+        }
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
-            let damage_string = makeExplotable(this.item.data.data.damage);
-            if (this.item.data.data.actions) {
-                if (this.item.data.data.actions.dmgMod) {
-                    let dmg_item_mod = this.item.data.data.actions.dmgMod;
-                    if (dmg_item_mod.slice(0, 1) !== '+' &&
-                        dmg_item_mod.slice(0, 1) !== '-') {
-                        dmg_item_mod = `+${dmg_item_mod}`;
-                    }
-                    damage_string = damage_string + dmg_item_mod;
+            let base_damage = '';
+            if (is_raise &&
+                   ! game.settings.get('betterrolls-swade', 'dontRollDamage')) {
+                if (modifiers[i]) {
+                    base_damage = `+${modifiers[i]}`;
                 }
             }
-            if (is_raise) {
-                if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
-                    damage_string = damage_string + "+1d6x=";
-                } else {
-                    damage_string = "1d6x=";
-                    if (modifiers[i]) {
-                        damage_string = `${damage_string}+${modifiers[i]}`;
-                    }
-                }
-            }
-            let damage = new Roll(damage_string,
+            let damage = new Roll(damage_string + base_damage,
                                   this.item.actor.getRollShortcuts());
             damage.roll();
             if (game.dice3d) {

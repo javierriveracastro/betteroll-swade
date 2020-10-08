@@ -106,9 +106,9 @@ export class brCard {
                 this.damage_button = true;
             }
         } else if (this.type === 'damage') {
-            this.actions.push(new brAction(this.item, 'damage'));
+            this.actions.push(new brAction(this.item, 'damage', [], this.overrides));
         } else if (this.type === 'raise_damage') {
-            this.actions.push(new brAction(this.item, 'raise damage'));
+            this.actions.push(new brAction(this.item, 'raise damage', [], this.overrides));
         }
         // Bennie button
         if (this.actor.isPC) {

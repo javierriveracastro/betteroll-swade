@@ -121,8 +121,6 @@ function calculate_result(id_roll, html) {
 		html = html.find('#resul-row-' + id_roll);
 	}
 	const damage = !!html.attr('data-type');
-	console.log(html)
-	console.log(damage)
 	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
 	let modifier = parseInt(html.find('#modifier' + id_roll).val());
 	let target = parseInt(html.find('#difficulty' + id_roll).val());
