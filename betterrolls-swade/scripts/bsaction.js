@@ -287,6 +287,7 @@ export class brAction {
                 damage_string = "1d6x=";
             }
         }
+        if (game.settings.get('betterrolls-swade', 'dontRollDamage')) rof=1;
         for (let i = 0; i < rof; i++) {
             // noinspection JSUnresolvedVariable
             let base_damage = '';
