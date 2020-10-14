@@ -13,6 +13,12 @@
         <label>Name.</label>
         <input type="text" name="mod_name" id="mod_name" class="brsw-text-input" value="Custom">
     </div>
+    {{#if has_damage}}<div class="form-group">
+        <label>Damage mod:</label>
+        <input type="number" name="damage_modifier" id="damage_modifier" value="0">
+        <label>Name: </label>
+        <input type="text" name="dmg_mod_name" id="dmg_mod_name" class="brsw-text-input" value="Custom">
+    </div> {{/if}}
     <div class="form-group">
         <label>Target Number:</label>
         <input type="number" name="tn" id="tn" value="4">

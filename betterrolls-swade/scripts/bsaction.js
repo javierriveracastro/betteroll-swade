@@ -65,7 +65,7 @@ export class brAction {
                 is_raise = true;
                 this.title = "Raise damage";
             }
-            this.rolls = this.damage_roll(rof, is_raise, modifiers);
+            this.rolls = this.damage_roll(rof, is_raise, modifiers, overrides.dmg_mod);
             this.rolls.forEach(roll => {
                 this.damage_results.push({total: roll.total - this.total_modifiers, id: broofa()});
             })
@@ -266,20 +266,21 @@ export class brAction {
         return roll_results;
     }
 
-    damage_roll(rof, is_raise=false, modifiers){
+    damage_roll(rof, is_raise=false, modifiers, dmg_modifiers){
         let damage_roll = [];
         let damage_string = makeExplotable(this.item.data.data.damage);
+        if (dmg_modifiers) {
+            dmg_modifiers.forEach(mod => {
+                this.add_modifiers(mod.value, mod.name)
+            });
+        }
         if (this.item.data.data.actions) {
             if (this.item.data.data.actions.dmgMod) {
                 let dmg_item_mod = this.item.data.data.actions.dmgMod;
-                this.add_modifiers(dmg_item_mod, 'weapon')
-                if (dmg_item_mod.slice(0, 1) !== '+' &&
-                    dmg_item_mod.slice(0, 1) !== '-') {
-                    dmg_item_mod = `+${dmg_item_mod}`;
-                }
-                damage_string = damage_string + dmg_item_mod;
+                this.add_modifiers(parseInt(dmg_item_mod), 'weapon')
             }
         }
+        damage_string = damage_string +this.modifiers_string()
         if (is_raise) {
             if (game.settings.get('betterrolls-swade', 'dontRollDamage')) {
                 damage_string = damage_string + "+1d6x=";

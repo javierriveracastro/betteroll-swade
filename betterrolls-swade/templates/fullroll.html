@@ -128,11 +128,11 @@
 {{#if card.damage_button}}
     <div class="button-bar-brswade">
         <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
-                data-actor-id="{{card.actor.id}}" data-card-type="damage">
+                data-actor-id="{{card.actor.id}}" {{{card.overrides_as_data}}} data-card-type="damage">
             Damage
         </button>
         <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
-                data-actor-id="{{card.actor.id}}" data-card-type="raise_damage">
+                data-actor-id="{{card.actor.id}}" {{{card.overrides_as_data}}} data-card-type="raise_damage">
             Raise damage
         </button>
     </div>
