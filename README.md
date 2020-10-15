@@ -1,10 +1,11 @@
 # Better rolls for SWADE
 
+IMPORTANT NOTE FOR VERSION 1.2: You will need Dice Si Nice version 3 (currently in alpha) for 3d dice.
 
 This module adds a new rolling mode to the SWADE system that add the ability to make faster and more complex rolls. I truly believe that it makes gaming faster and more enjoyable, but:
 
 * This is more complex than system default rolls. It's quite probably that you don't need it. Please try SWADE without it first and only check it if you feel rolls could be improved.
-You need to be familiar with Savage Rolls rules to use it. You need to know wich dice are discarded, what is raise damage, and in general it is not a good module for begginers in the system. It could be confusing. So, again, please use the base system and get familiar with it before usng this module
+You need to be familiar with Savage Rolls rules to use it. You need to know which dice are discarded, what is raise damage, and in general it is not a good module for beginners in the system. It could be confusing. So, again, please use the base system and get familiar with it before using this module
 
 ## Skill Rolls
 
@@ -22,7 +23,7 @@ You can clink on the result to get more information (explosion, dice faces, modi
 
 The three numbers in the bottom part are dice result, modifiers and difficulty. They can be edited, but take care that this is per client, ie. what you do here is not seen by the other players.
 
-The target number will default to 4 except when you are making a figthing check and there is a token selected. In that case it will default to the token parry.
+The target number will default to 4 except when you are making a fighting check and there is a token selected. In that case it will default to the token parry.
 
 Clicking in the "Rerroll spending a Benny button" will repeat the roll, removing a Benny from the character. If the roll was made by a game master and the character has no bennies it will subtracted from gm bennies.
 
@@ -44,11 +45,17 @@ When enabled the default npc sheet will be modified to add small images before t
 
 ## Complex Rolls
 
-You can call a complex roll either from the context menu shown after rigth clicking an image or by clicking on it with the ALT key pressed. It will show this window:
+You can call a complex roll either from the context menu shown after right clicking an image or by clicking on it with the ALT key pressed. It will show this window:
 
-![Comple_roll_windows](docs/complex_roll_window.png)
+![Complex_roll_windows](docs/complex_roll_window.png)
 
-Here you can any number of trait die and add a custom modifier to the roll. You can also name that modifier.
+Here you can do a number of things:
+- Roll any number of trait dice.
+- Add a modifier to the skill or damage roll.
+- Change the target number of the skill roll (no damage tns yet)
+- Use any additional action defined on the item.
+
+Not all the above options are available to every roll. Skills rolls for example have no damage or actions.
 
 ## Roll results row
 
@@ -99,6 +106,12 @@ If the power has a damage field it will roll or ask to roll damage depending on 
 
 The system will look for all arcane skills on the sheet and roll the last one. You can force the use of any skill by putting its name on the Arcana field of the power. Beware of translations 
 
+#Dice Tray support
+
+If Dice Tray is enabled, Betterrolls will use it's modifier box:
+
+![Dice Tray Roll](docs/dice_tray_roll.png)
+
 ## Character sheet
 
 To be able to use right click context menus, the modules needs to make some changes to the default sheet.
@@ -107,7 +120,7 @@ The most noticeable one is the removal of all the internal scroll areas and maki
 
 ![Smaller sheet](docs/small_sheet.png)
 
-As a result the sheet now can be shrinked and works better on smaller screens.
+As a result the sheet now can be shrink and works better on smaller screens.
 
 ## Other features.
 - Skill names will be recognised in English, German or Spanish. You can use any language for an arcane skill as long as it's on the arcane field of a power.

@@ -1,16 +1,28 @@
 # Changelog
 
+# 1.2.0 aka Time to upgrade everything
+* This version is compatible and requires FoundryVTT version 0.7.4
+* This version need DiceSoNice version 3 for 3D dice. It won't work with DSN 2. Install with https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/alpha/module/module.json
+* Fixed a bug where it finds no skill when there is no untrained skill
+* Initial support for item actions: Skill action modifiers are now supported. You need to use a complex roll to access actions.
+* Initial support for macros. brCard is exposed and can be used in macros, see the documentation for more information.
+* If DiceTray is installed, Betterrolls will use its modifier box.
+* Fixed a bug with ones (and critical failures) detection in Foundry 0.7 series
+* The result now is now show for damage rolls. It's still very basic.
+* Much better handling of damage modifiers. Damage modifiers avaliable in complex rolls.
+* Damage buttons that appear when rolling weapons or powers with damage autoroll disable now roll for damage once independent of weapon rof value.
+
 # 1.1.3 aka Nothing to see here (well maybe even more bugs)
-* A bugfix to make figthing dificulty from parry work when the skill was set in "Actions and Effects" tab.
+* A bugfix to make fighting difficulty from parry work when the skill was set in "Actions and Effects" tab.
 
 # 1.1.2 aka bugssss
 * Solve a bug when rolling damage
-* Now if you use a figthing skill and some token is targetted, difficulty will default to that token parry
+* Now if you use a fighting skill and some token is targeted, difficulty will default to that token parry
 
 # 1.1.1 aka Catching on 0.12.1
-* Limit the maximun trait dice to 20
+* Limit the maximum trait dice to 20
 * Started release automation
-* Refactoring to make it easier to contro complex rolls and rerolls
+* Refactoring to make it easier to control complex rolls and rerolls
 * Display the related skill description of weapons and powers in the chat card
 * Allow custom Target Numbers on complex tolls
 * Some bugfixes
@@ -24,7 +36,7 @@
 
 * This is a bugfix release, no new features
 * Damage expression without any dice work
-* CSS prefixes added evetywhere to avoid collisions
+* CSS prefixes added everywhere to avoid collisions
 * The result row now recalculates result on dice change.
 * Removed the code to change sheet height, it was too buggy.
 
