@@ -68,6 +68,9 @@ export default class ComplexRollApp extends Application {
                 const actions = this.item.data.data.actions.additional;
                 modifiers.push({name: actions[additional_action].name,
                     value: parseInt(actions[additional_action].skillMod) || 0});
+                if (actions[additional_action].rof) {
+                    overrides.rof = actions[additional_action].rof;
+                }
             }
             overrides.tn = parseInt(html.find('#tn').val()) || 4;
             if (modifiers) overrides.modifiers = modifiers;
