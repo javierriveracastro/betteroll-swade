@@ -248,6 +248,7 @@ export class brAction {
         })
         // Dice so nice, roll all attack dice together
         if (game.dice3d) {
+            dice3d_die[0]['dice'][dice3d_die[0]['dice'].length - 1].options.colorset = 'fire';
             // noinspection JSIgnoredPromiseFromCall
             game.dice3d.show({throws: dice3d_die}, game.user,true)
         }
