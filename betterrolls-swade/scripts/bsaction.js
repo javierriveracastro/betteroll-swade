@@ -228,11 +228,17 @@ export class brAction {
                 is_fumble = is_fumble - 1;
             }
             currentRoll.dice.forEach((dice) => {
-                let roll_index = 0
+                let roll_index = 0;
                 dice.rolls.forEach((roll) => {
-                    dice3d_die[roll_index].dice.push(
-                        {resultLabel: roll.result, result: roll.result,
-                            type: `d${dice.faces}`, options:{}, vectors: []});
+                    if (game.dice3d) {
+                        dice3d_die[roll_index].dice.push(
+                            {resultLabel: roll.result, result: roll.result,
+                                type: `d${dice.faces}`,
+                                options: index<roll_array.length - 1?{}:
+                                    {'colorset': game.settings.get(
+                                        'betterrolls-swade', 'wildDieTheme')},
+                                vectors: []});
+                    }
                     if (roll.exploded) {
                         roll_index += 1;
                         if (roll_index >= dice3d_die.length) dice3d_die.push({dice:[]});
@@ -248,7 +254,6 @@ export class brAction {
         })
         // Dice so nice, roll all attack dice together
         if (game.dice3d) {
-            dice3d_die[0]['dice'][dice3d_die[0]['dice'].length - 1].options.colorset = 'fire';
             // noinspection JSIgnoredPromiseFromCall
             game.dice3d.show({throws: dice3d_die}, game.user,true)
         }
