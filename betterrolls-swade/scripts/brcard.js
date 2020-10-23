@@ -83,6 +83,7 @@ export class brCard {
             // If it is not a damage roll it includes a trait action
             let item_mod = 0
             if (this.item.data.data.actions) {
+                // noinspection JSUnresolvedVariable
                 item_mod = parseInt(this.item.data.data.actions.skillMod);
             }
             let modifiers = [];
@@ -111,7 +112,7 @@ export class brCard {
             this.actions.push(new brAction(this.item, 'raise damage', [], this.overrides));
         }
         // Bennie button
-        if (this.actor.isPC) {
+        if (this.actor.hasPlayerOwner) {
             if (this.actor.data.data.bennies.value < 1) {
                 this.bennie_button = false;
             }
