@@ -153,12 +153,19 @@
 	margin-right: 2px;
 }
 
-.brsw-result {
+.brsw-result, .brsw-result-damage {
 	margin-right: 2px;
-	flex-basis: 30%;
 	text-align: center;
 	border-style: solid;
 	border-radius: 5px;
+}
+
+.brsw-result {
+	flex-basis: 30%;
+}
+
+.brsw-result-damage {
+	width: 100%;
 }
 
 .brsw-result-fumble {
@@ -167,15 +174,16 @@
 	flex-basis: 100%;
 }
 
-.brsw-result-roll {
+.brsw-result-roll, .brsw-damage-result-row {
 	margin: 2px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 }
 
+
 .brsw-bar-input {
-	max-width: 3em;
+	max-width: 2em;
 }
 
 .brsw-modifier-row {

@@ -19,6 +19,7 @@ export class brAction {
         this.damage_results = [];
         this.modifiers = [];
         this.total_modifiers = 0;
+        this.ap = this.item.data.data.ap || 0;
         // noinspection JSUnusedGlobalSymbols
         this.skill_description = '';
         modifiers.forEach(modifier => this.add_modifiers(
