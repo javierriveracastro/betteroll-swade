@@ -112,10 +112,10 @@
                                                value="{{action.total_modifiers}}" title="Modifiers">
                                         <i class="fas fa-heart"></i>
                                         <input id="difficulty{{{this.id}}}" type="number" class="brsw-bar-input"
-                                               value="4" title="Total target toughness (including armor)">
+                                               value="{{action.target_toughness}}" title="Total target toughness (including armor)">
                                         <i class="fas fa-shield-alt"></i>
                                         <input id="armor{{{this.id}}}" type="number" class="brsw-bar-input"
-                                               value="0" title="Target armor">
+                                               value="{{action.target_armor}}" title="Target armor">
                                         <i class="fas fa-fan"></i>
                                         <input id="ap{{{this.id}}}" type="number" class="brsw-bar-input"
                                                value="{{{action.ap}}}" title="Attack armor penetration">

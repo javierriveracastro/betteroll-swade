@@ -22,6 +22,8 @@ export class brAction {
         this.ap = this.item.data.data.ap || 0;
         // noinspection JSUnusedGlobalSymbols
         this.skill_description = '';
+        this.target_toughness = 4;
+        this.target_armor = 0;
         modifiers.forEach(modifier => this.add_modifiers(
             modifier.value, modifier.name));
         if ('modifiers' in overrides && this.type === 'trait')
@@ -60,6 +62,7 @@ export class brAction {
             });
         } else {
             // Damage (raise or not)
+            this.get_toughness();
             let is_raise = false;
             this.title = "Damage";
             if (this.type.includes('raise')) {
@@ -157,6 +160,19 @@ export class brAction {
             target_number = parseInt(objective.actor.data.data.stats.parry.value)
         }
         this.target_number = target_number || 4;
+    }
+
+    get_toughness(){
+        /**
+         * Get the tougness and armor from the targeted or selected token
+         */
+        let targets = game.user.targets;
+        let objetive;
+        if (targets.size) objetive = Array.from(targets)[0];
+        if (objetive) {
+            this.target_toughness = parseInt(objetive.actor.data.data.stats.toughness.value);
+            this.target_armor = parseInt(objetive.actor.data.data.stats.toughness.armor);
+        }
     }
 
     add_dice_tray_modifier(){

@@ -147,10 +147,7 @@ function calculate_result(id_roll, html) {
 	let output_row = html.find('#result' + id_roll);
 	let result = (roll_result + modifier - target);
 	if (ap) {
-		console.log(ap);
-		console.log('' + result);
 		result = result + Math.min(ap, armor);
-		console.log('' + result);
 	}
 	result = result / 4;
 	if (result < 0) {
