@@ -142,8 +142,17 @@ function calculate_result(id_roll, html) {
 	let roll_result = parseInt(html.find('#roll_result' + id_roll).val());
 	let modifier = parseInt(html.find('#modifier' + id_roll).val());
 	let target = parseInt(html.find('#difficulty' + id_roll).val());
+	let armor = parseInt(html.find('#armor' + id_roll).val()) | 0;
+	let ap = parseInt(html.find('#ap' + id_roll).val()) | 0;
 	let output_row = html.find('#result' + id_roll);
-	let result = (roll_result + modifier - target) / 4;
+	let result = (roll_result + modifier - target);
+	if (ap) {
+		console.log(ap);
+		console.log('' + result);
+		result = result + Math.min(ap, armor);
+		console.log('' + result);
+	}
+	result = result / 4;
 	if (result < 0) {
 		output_row.text('Failure');
 	} else if (result < 1) {
@@ -228,7 +237,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 		result_rows.each((i, div) => {
 			let id_result = $(div).attr('data-id-result');
 			calculate_result(id_result, html);
-			['modifier', 'difficulty', 'roll_result'].forEach(name => {
+			['modifier', 'difficulty', 'roll_result', 'armor', 'ap'].forEach(name => {
 				let input = html.find('#' + name + id_result);
 				input.change(() => {calculate_result(id_result)});
 			})
