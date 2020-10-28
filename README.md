@@ -89,6 +89,9 @@ You can then use the buttons to re-roll the attack or roll damage.
 
 ![Weapon damage roll](docs/weapon_damage_roll.png)
 
+The damage result row can be collapsed by default like the skill result.
+The values of armor and toughness are get from the targeted token. If no they default to toughness 4 with no armor
+
 You can use the ROF field of the weapon to force multiple attacks, including using edges like frenzy.
 
 ![Weapon ROF 3 roll](docs/weapon_rof_3_roll.png)
@@ -105,6 +108,12 @@ They work mainly like the others. You need to click on the image to roll the pow
 If the power has a damage field it will roll or ask to roll damage depending on settings.
 
 The system will look for all arcane skills on the sheet and roll the last one. You can force the use of any skill by putting its name on the Arcana field of the power. Beware of translations 
+
+# Dice so Nice support
+
+This modules supports using a different theme for the Wild Die when you are using Dice so Nice. You can select it in the module settings:
+
+![Dice_So_Nice_Wild_Die](docs/DiceSoNiceWildDie.png)
 
 #Dice Tray support
 

@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.2.1 aka Stabilization?
+* ROF in additional actions is supported via the complex roll window (that is in need of an urgent restyling)
+* If you are using Dice So Nice, the wild die can use a different theme
+* Start of removal of depreacted APIs (still some to go)
+* Armor and AP are now shown in the damage result row, data is taken from targetted token
+* Tooltips in the result row to explain the icons meaning
+
 # 1.2.0 aka Time to upgrade everything
 * This version is compatible and requires FoundryVTT version 0.7.4
 * This version need DiceSoNice version 3 for 3D dice. It won't work with DSN 2. Install with https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/alpha/module/module.json
