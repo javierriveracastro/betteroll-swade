@@ -237,8 +237,8 @@ export class brAction {
             currentRoll = new Roll(dice_string);
             currentRoll.roll();
             currentRoll.extra_classes = "";
-            if (currentRoll.dice.length === 1 && currentRoll.dice[0].rolls.length === 1
-                    && currentRoll.dice[0].rolls[0].result === 1) {
+            if (currentRoll.dice.length === 1 && currentRoll.dice[0].results.length === 1
+                    && currentRoll.dice[0].results[0].result === 1) {
                 is_fumble = is_fumble + 1;
                 currentRoll.extra_classes += "brsw-the-one ";
             } else {
@@ -246,7 +246,7 @@ export class brAction {
             }
             currentRoll.dice.forEach((dice) => {
                 let roll_index = 0;
-                dice.rolls.forEach((roll) => {
+                dice.results.forEach((roll) => {
                     if (game.dice3d) {
                         dice3d_die[roll_index].dice.push(
                             {resultLabel: roll.result, result: roll.result,
