@@ -139,6 +139,11 @@
                 data-extra-notes="Benny reroll" {{{card.overrides_as_data}}}>
             Reroll spending a Benny
         </button>
+        <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
+                data-actor-id="{{card.actor.id}}" data-card-type="{{card.type}}"
+                data-extra-notes="Free reroll" {{{card.overrides_as_data}}}>
+            Free reroll
+        </button>
     </div>
 {{/if}}
 {{#if card.damage_button}}
@@ -150,6 +155,16 @@
         <button class="btn-50-brswade btn-roll" data-item-id="{{card.item.id}}"
                 data-actor-id="{{card.actor.id}}" {{{card.overrides_as_data}}} data-card-type="raise_damage">
             Raise damage
+        </button>
+    </div>
+{{/if}}
+{{#if card.apply_damage_buttons}}
+    <div class="button-bar-brswade">
+        <button class="btn-50-brswade"  data-card-type="apply-targeted">
+            Apply to target
+        </button>
+        <button class="btn-50-brswade apply-dmg-selected" data-card-type="apply-selected">
+            Apply to selected
         </button>
     </div>
 {{/if}}
