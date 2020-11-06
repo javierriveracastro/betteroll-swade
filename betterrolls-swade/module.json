@@ -4,7 +4,7 @@
 	"description": "A module to make rolling in SWADE easier for experienced players",
 	"minimumCoreVersion": "0.7.4",
 	"compatibleCoreVersion": "0.7.5",
-	"version": "1.2.1",
+	"version": "1.90",
 	"author": "Javier Rivera",
 	"languages": [
 		{
@@ -14,7 +14,7 @@
 		}
 	],
 	"systems": ["swade"],
-	"esmodules": ["./scripts/betterrollswade.js", "./scripts/brcard.js"],
+	"esmodules": ["./scripts/brsw2-init.js", "./scripts/betterrollswade.js", "./scripts/brcard.js"],
 	"styles": ["./css/betterrolls-swade.css"],
 	"packs": [],
 	"url": "https://github.com/javierriveracastro/betteroll-swade",

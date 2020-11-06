@@ -87,7 +87,7 @@ function changeRolls (actor, html) {
 	new ContextMenu(html.find('.item.skill, .item-image'), null, menu_items);
 }
 
-function register_settings() {
+export function register_settings() {
 	game.settings.register('betterrolls-swade', 'dontRollDamage', {
 		name: "Don't autoroll damage",
 		hint: "Shows a button for damage rolling instead of rolling it automatically with the attack",
@@ -183,11 +183,6 @@ export class BetterRollsHooks {
 
 BetterRollsHooks.addActorSheet("SwadeCharacterSheet");
 BetterRollsHooks.addActorSheet("SwadeNPCSheet");
-
-Hooks.on(`ready`, () => {
-	console.log('Better Rolls for SWADE | Ready');
-	register_settings();
-})
 
 Hooks.on('renderChatMessage', (message, html) => {
 	let reroll_button = html.find('.btn-roll');
