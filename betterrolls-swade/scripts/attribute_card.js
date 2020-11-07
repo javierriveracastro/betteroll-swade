@@ -12,7 +12,8 @@ async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     chatData.content = await renderTemplate(
-        "modules/betterrolls-swade/templates/attribute_card.html", {});
+        "modules/betterrolls-swade/templates/attribute_card.html",
+        {actor: actor, header: {type: 'Attribute', title: name}});
     return ChatMessage.create(chatData);
 }
 

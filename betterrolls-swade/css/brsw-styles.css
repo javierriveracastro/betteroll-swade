@@ -1,0 +1,24 @@
+/* Styles for the card header */
+
+.brws-actor-img {
+    float: left;
+    height: 3em;
+}
+
+.brsw-header-tittle {
+    text-align: center;
+    width: 100%;
+    color: darkred;
+    font-weight: bold;
+}
+
+.brsw-header-type-text {
+    float: right;
+    color: darkgray;
+}
+
+.brsw-header-notes {
+    text-align: right;
+    width: 100%;
+    margin: 2px;
+}

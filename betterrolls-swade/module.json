@@ -15,7 +15,7 @@
 	],
 	"systems": ["swade"],
 	"esmodules": ["./scripts/brsw2-init.js", "./scripts/betterrollswade.js", "./scripts/brcard.js"],
-	"styles": ["./css/betterrolls-swade.css"],
+	"styles": ["./css/betterrolls-swade.css", "./css/brsw-styles.css"],
 	"packs": [],
 	"url": "https://github.com/javierriveracastro/betteroll-swade",
 	"manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/master/betterrolls-swade/module.json",
