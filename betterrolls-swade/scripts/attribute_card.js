@@ -1,6 +1,6 @@
 // Functions for cards representing attributes
 
-import {create_basic_chat_data} from "./cards_common.js";
+import {create_basic_chat_data, BRSW_CONST} from "./cards_common.js";
 
 /**
 * Creates a card for an attribute
@@ -14,7 +14,10 @@ async function create_attribute_card(origin, name){
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/attribute_card.html",
         {actor: actor, header: {type: 'Attribute', title: name}});
-    return ChatMessage.create(chatData);
+    let message = await ChatMessage.create(chatData);
+    await message.setFlag('betterrolls-swade', 'card_type',
+        BRSW_CONST.TYPE_ATTRIBUTE_CARD)
+    return message
 }
 
 /**

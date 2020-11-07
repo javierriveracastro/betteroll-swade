@@ -2,6 +2,10 @@
 
 import {getWhisperData} from "./utils.js";
 
+export const BRSW_CONST = {
+    TYPE_ATTRIBUTE_CARD: 1,
+};
+
 /**
 * Creates the basic chat data common to most cards
 * @param {actor} actor:  The actor origin of the message
