@@ -36,3 +36,36 @@ export function create_basic_chat_data(actor, type){
     // noinspection JSValidateTypes
     return chatData
 }
+
+
+/**
+ * Connects the listener for all chat cards
+ * @param {ChatMessage} message
+ * @param {string} html: html of the card
+ */
+export function activate_common_listeners(message, html) {
+    let actor = message.getFlag('betterrolls-swade', 'actor')
+    console.log(message)
+    $(html).find('.brws-actor-img').click(() => {
+        manage_sheet(actor)
+    });
+}
+
+
+/**
+ * Controls the sheet status when the portrait in the header is clicked
+ * @param {Actor} actor: The actor instance that created the chat card
+ */
+async function manage_sheet(actor) {
+    console.log(actor)
+    console.log(actor.sheet)
+    if (actor.sheet.rendered) {
+        if (actor.sheet._minimized) {
+            await actor.sheet.maximize();
+        } else {
+            await actor.sheet.minimize();
+        }
+    } else {
+            await actor.sheet.render(true);
+    }
+}
