@@ -17,8 +17,13 @@ async function create_attribute_card(origin, name){
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
-    await message.setFlag('betterrolls-swade', 'actor',
-            actor)
+    if (actor === origin) {
+        await message.setFlag('betterrolls-swade', 'actor',
+            actor.id)
+    } else {
+        await message.setFlag('betterrolls-swade', 'token',
+            origin.id)
+    }
     return message
 }
 

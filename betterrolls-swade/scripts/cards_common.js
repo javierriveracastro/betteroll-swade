@@ -44,10 +44,16 @@ export function create_basic_chat_data(actor, type){
  * @param {string} html: html of the card
  */
 export function activate_common_listeners(message, html) {
-    let actor = message.getFlag('betterrolls-swade', 'actor')
+    let actor;
+    if (message.getFlag('betterrolls-swade', 'actor')) {
+        actor = game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
+    } else {
+        let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
+        actor = token.actor;
+    }
     console.log(message)
-    $(html).find('.brws-actor-img').click(() => {
-        manage_sheet(actor)
+    $(html).find('.brws-actor-img').click(async () => {
+        await manage_sheet(actor)
     });
 }
 
