@@ -146,6 +146,9 @@ function calculate_result(id_roll, html) {
 	let ap = parseInt(html.find('#ap' + id_roll).val()) | 0;
 	let output_row = html.find('#result' + id_roll);
 	let result = (roll_result + modifier - target);
+	if (armor) {
+		result = result - armor;
+	}
 	if (ap) {
 		result = result + Math.min(ap, armor);
 	}
@@ -161,9 +164,8 @@ function calculate_result(id_roll, html) {
 	} else {
 		let raises = Math.floor(result);
 		if (damage) {
-			let wounds = raises - 1
 			output_row.text(
-				`${wounds > 1 ? wounds:''} Wound${wounds > 1 ? 's':''}!`);
+				`${raises > 1 ? raises:''} Wound${raises > 1 ? 's':''}!`);
 		} else {
 			output_row.text(
 				`${raises > 1 ? raises:''} Raise${raises > 1 ? 's':''}!`);
