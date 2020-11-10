@@ -11,9 +11,16 @@ import {create_basic_chat_data, BRSW_CONST} from "./cards_common.js";
 async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
+    let notes = `${name} d${actor.data.data.attributes[name.toLowerCase()].die.sides}`;
+    let modifier = actor.data.data.attributes[name.toLowerCase()].die.modifier;
+    if (parseInt(modifier)) {
+        modifier = " " + (modifier.slice(0, 1) === '-'?modifier:'+' + modifier);
+        notes = notes + modifier;
+    }
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/attribute_card.html",
-        {actor: actor, header: {type: 'Attribute', title: name}});
+        {actor: actor, header: {type: 'Attribute', title: name,
+            notes: notes}});
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
