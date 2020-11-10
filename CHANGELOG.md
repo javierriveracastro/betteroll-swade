@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.2.2 aka Last in a series?
+* Remove more deprecated API calls.
+* Add a button for a free (doesn't cost a benny) reroll
+* Solve an error in wound calculation.
+
 # 1.2.1 aka Stabilization?
 * ROF in additional actions is supported via the complex roll window (that is in need of an urgent restyling)
 * If you are using Dice So Nice, the wild die can use a different theme
