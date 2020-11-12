@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.3 aka Did I really breke rolls?
+* Just one bugfix, 1.2.2 had broken clicking on the roll numbers to see the details.
+
 # 1.2.2 aka Last in a series?
 * Remove more deprecated API calls.
 * Add a button for a free (doesn't cost a benny) reroll
