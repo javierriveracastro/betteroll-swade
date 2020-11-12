@@ -130,7 +130,7 @@ export class brAction {
                     'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe',
                     'hechicería', 'hechiceria', 'foi', 'magie', 'science étrange',
                     'science etrange', 'élémentalisme', 'elementalisme', 'druidisme',
-                    'magie solaire'];
+                    'magie solaire', 'weird science'];
             }
             // noinspection JSUnusedAssignment
             skill_found = this.check_skill_in_actor(possible_skills);
