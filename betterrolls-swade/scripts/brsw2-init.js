@@ -1,6 +1,6 @@
 // Init scripts for version 2
 import {register_settings} from "./betterrollswade.js";
-import {attribute_card_hooks} from './attribute_card.js';
+import {attribute_card_hooks, activate_attribute_listeners} from './attribute_card.js';
 import {activate_common_listeners} from './cards_common.js';
 
 // Startup scripts
@@ -23,6 +23,13 @@ Hooks.on('renderChatMessage', (message, html) => {
     }
 });
 
+// Character sheet hooks
+
+['SwadeCharacterSheet'].forEach(name => {
+    Hooks.on('render' + name, (app, html, _) => {
+        activate_attribute_listeners(app, html);
+    })
+})
 
 // Settings
 

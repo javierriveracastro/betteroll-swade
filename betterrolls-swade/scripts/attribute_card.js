@@ -40,3 +40,25 @@ async function create_attribute_card(origin, name){
 export function attribute_card_hooks() {
     game.brsw.create_atribute_card = create_attribute_card;
 }
+
+
+/**
+ * Listener for clicks on attributes
+ * @param ev: javascript click event
+ * @param {Actor, Token} target: token or actor from the char sheet
+ */
+function attribute_click_listener(ev, target) {
+    console.log("Clicked");
+}
+
+/**
+ * Activates the listeners for an attribute card
+ * @param app: Sheet app
+ * @param html: Html code
+ */
+export function activate_attribute_listeners(app, html) {
+    let target = app.token?app.token:app.object;
+    html.find('.attribute-label').click(ev => {
+        attribute_click_listener(ev, target);
+    })
+}
