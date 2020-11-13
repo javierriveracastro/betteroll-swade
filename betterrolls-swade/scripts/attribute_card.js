@@ -1,6 +1,6 @@
 // Functions for cards representing attributes
 
-import {create_basic_chat_data, BRSW_CONST} from "./cards_common.js";
+import {create_basic_chat_data, BRSW_CONST, get_action_from_click} from "./cards_common.js";
 
 /**
 * Creates a card for an attribute
@@ -12,10 +12,10 @@ async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let notes = `${name} d${actor.data.data.attributes[name.toLowerCase()].die.sides}`;
-    let modifier = actor.data.data.attributes[name.toLowerCase()].die.modifier;
-    if (parseInt(modifier)) {
-        modifier = " " + (modifier.slice(0, 1) === '-'?modifier:'+' + modifier);
-        notes = notes + modifier;
+    let modifier = parseInt(
+        actor.data.data.attributes[name.toLowerCase()].die.modifier);
+    if (modifier) {
+        notes = notes + (modifier > 0?"+":"") + modifier;
     }
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/attribute_card.html",
@@ -45,10 +45,17 @@ export function attribute_card_hooks() {
 /**
  * Listener for clicks on attributes
  * @param ev: javascript click event
- * @param {Actor, Token} target: token or actor from the char sheet
+ * @param {actor, token} target: token or actor from the char sheet
  */
-function attribute_click_listener(ev, target) {
-    console.log("Clicked");
+async function attribute_click_listener(ev, target) {
+    const action = get_action_from_click(ev);
+    if (action === 'system') return;
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+    ev.stopPropagation();
+    // Show card
+    await create_attribute_card(
+      target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
 }
 
 /**
@@ -58,7 +65,8 @@ function attribute_click_listener(ev, target) {
  */
 export function activate_attribute_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    html.find('.attribute-label').click(ev => {
-        attribute_click_listener(ev, target);
+    // We need a closure to hold data
+    html.find('.attribute-label a').bindFirst('click', async ev => {
+        await attribute_click_listener(ev, target);
     })
 }

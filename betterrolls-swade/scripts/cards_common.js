@@ -44,17 +44,20 @@ export function create_basic_chat_data(actor, type){
  * @param {string} html: html of the card
  */
 export function activate_common_listeners(message, html) {
+    // The message will be rendered at creation and each time a flag is added
     let actor;
     if (message.getFlag('betterrolls-swade', 'actor')) {
         actor = game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
-    } else {
+    } else if (message.getFlag('betterrolls-swade', 'token')) {
         let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
         actor = token.actor;
     }
-    console.log(message)
-    $(html).find('.brws-actor-img').click(async () => {
-        await manage_sheet(actor)
-    });
+    // Actor will be undefined if this is called before flags are set
+    if (actor){
+        $(html).find('.brws-actor-img').addClass('bound').click(async () => {
+            await manage_sheet(actor)
+        });
+    }
 }
 
 
@@ -63,8 +66,6 @@ export function activate_common_listeners(message, html) {
  * @param {Actor} actor: The actor instance that created the chat card
  */
 async function manage_sheet(actor) {
-    console.log(actor)
-    console.log(actor.sheet)
     if (actor.sheet.rendered) {
         if (actor.sheet._minimized) {
             await actor.sheet.maximize();
@@ -74,4 +75,22 @@ async function manage_sheet(actor) {
     } else {
             await actor.sheet.render(true);
     }
+}
+
+
+/**
+ * Gets the expected action, whenever to show the card, do a system roll, etc,
+ * from a click event and the settings
+ * @param {event} event
+ */
+export function get_action_from_click(event){
+    let setting_name = 'click'
+    if (event.shiftKey) {
+        setting_name = 'shift_click'
+    } else if (event.ctrlKey) {
+        setting_name = 'ctrl_click'
+    } else if (event.altKey) {
+        setting_name = 'alt_click'
+    }
+    return game.settings.get('betterrolls-swade', setting_name)
 }

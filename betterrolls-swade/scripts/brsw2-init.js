@@ -13,6 +13,22 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
 	register_settings_version2();
     register_settings();
+    // Add some jquery magic to allow binding our funtions prior to system
+    $.fn.bindFirst = function(name, fn) {
+        // bind as you normally would
+        // don't want to miss out on any jQuery magic
+        this.on(name, fn);
+
+        // Thanks to a comment by @Martin, adding support for
+        // namespaced events too.
+        this.each(function() {
+            let handlers = $._data(this, 'events')[name.split('.')[0]];
+            // take out the handler we just inserted from the end
+            let handler = handlers.pop();
+            // move it at the beginning
+            handlers.splice(0, 0, handler);
+        });
+    };
 })
 
 Hooks.on('renderChatMessage', (message, html) => {

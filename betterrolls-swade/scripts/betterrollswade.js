@@ -178,8 +178,6 @@ export class BetterRollsHooks {
 	static addActorSheet(sheetName) {
 		let sheetString = "render" + sheetName;
 		Hooks.on(sheetString, (app, html, data) => {
-			console.log(app)
-			console.log(data)
 			changeRolls(app.object, html, data);
 		});
 	}
