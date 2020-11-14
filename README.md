@@ -1,7 +1,5 @@
 # Better rolls for SWADE
 
-IMPORTANT NOTE FOR VERSION 1.2: You will need Dice Si Nice version 3 (currently in alpha) for 3d dice.
-
 This module adds a new rolling mode to the SWADE system that add the ability to make faster and more complex rolls. I truly believe that it makes gaming faster and more enjoyable, but:
 
 * This is more complex than system default rolls. It's quite probably that you don't need it. Please try SWADE without it first and only check it if you feel rolls could be improved.
