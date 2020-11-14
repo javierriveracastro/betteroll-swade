@@ -41,7 +41,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 
 // Character sheet hooks
 
-['SwadeCharacterSheet'].forEach(name => {
+['SwadeCharacterSheet', 'SwadeNPCSheet'].forEach(name => {
     Hooks.on('render' + name, (app, html, _) => {
         activate_attribute_listeners(app, html);
     })

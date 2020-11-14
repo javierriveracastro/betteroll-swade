@@ -49,6 +49,7 @@ export function activate_common_listeners(message, html) {
     if (message.getFlag('betterrolls-swade', 'actor')) {
         actor = game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
     } else if (message.getFlag('betterrolls-swade', 'token')) {
+        if (! canvas) return; // When reloading the chat can be rendered before the canvas.
         let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
         actor = token.actor;
     }
@@ -67,6 +68,7 @@ export function activate_common_listeners(message, html) {
  */
 async function manage_sheet(actor) {
     if (actor.sheet.rendered) {
+        // noinspection JSAccessibilityCheck
         if (actor.sheet._minimized) {
             await actor.sheet.maximize();
         } else {
