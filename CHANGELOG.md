@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.4 aka Weekly change in damage calculation
+* Another bug about wound calculation with armor. Now, for last, tougness is expected to "include" armor.
+ 
 # 1.2.3 aka Did I really breke rolls?
 * Just one bugfix, 1.2.2 had broken clicking on the roll numbers to see the details.
 
