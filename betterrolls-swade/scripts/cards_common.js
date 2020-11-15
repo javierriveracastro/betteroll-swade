@@ -39,20 +39,29 @@ export function create_basic_chat_data(actor, type){
 
 
 /**
+ * Get the actor from the message flag
+ * @param {ChatMessage} message
+ * @returns {actor|null|*}
+ */
+export function get_actor_from_message(message){
+    if (message.getFlag('betterrolls-swade', 'actor')) {
+        return  game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
+    } else if (message.getFlag('betterrolls-swade', 'token')) {
+        if (! canvas) return; // When reloading the chat can be rendered before the canvas.
+        let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
+        return  token.actor;
+    }
+}
+
+
+/**
  * Connects the listener for all chat cards
  * @param {ChatMessage} message
  * @param {string} html: html of the card
  */
 export function activate_common_listeners(message, html) {
     // The message will be rendered at creation and each time a flag is added
-    let actor;
-    if (message.getFlag('betterrolls-swade', 'actor')) {
-        actor = game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
-    } else if (message.getFlag('betterrolls-swade', 'token')) {
-        if (! canvas) return; // When reloading the chat can be rendered before the canvas.
-        let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
-        actor = token.actor;
-    }
+    let actor = get_actor_from_message(message);
     // Actor will be undefined if this is called before flags are set
     if (actor){
         $(html).find('.brws-actor-img').addClass('bound').click(async () => {
