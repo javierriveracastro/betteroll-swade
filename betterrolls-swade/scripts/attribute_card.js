@@ -1,6 +1,7 @@
 // Functions for cards representing attributes
 
-import {create_basic_chat_data, BRSW_CONST, get_action_from_click} from "./cards_common.js";
+import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
+    get_actor_from_message} from "./cards_common.js";
 
 /**
 * Creates a card for an attribute
@@ -24,7 +25,7 @@ async function create_attribute_card(origin, name){
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
-    await message.setFlag('betterrolls-swade', 'card_targed_id', name);
+    await message.setFlag('betterrolls-swade', 'attribute_id', name);
     if (actor === origin) {
         await message.setFlag('betterrolls-swade', 'actor',
             actor.id)
@@ -72,3 +73,26 @@ export function activate_attribute_listeners(app, html) {
     })
 }
 
+
+/**
+ * Activate the listeners of the attribute card
+ * @param message: Message date
+ * @param html: Html produced
+ */
+export function activate_attribute_card_listeners(message, html) {
+    html.find('#roll-button').click(_ =>{
+        let actor = get_actor_from_message(message);
+        let attribute = message.getFlag('betterrolls-swade', 'attribute_id',);
+        roll_attribute(actor, attribute);
+    })
+}
+
+
+/**
+ * Roll an attribute showing the roll card
+ * @param {SwadeActor} actor
+ * @param {string} attribute_id
+ */
+function roll_attribute(actor, attribute_id){
+    actor.rollAttribute(attribute_id);
+}

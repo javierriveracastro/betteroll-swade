@@ -1,7 +1,8 @@
 // Init scripts for version 2
 import {register_settings} from "./betterrollswade.js";
-import {attribute_card_hooks, activate_attribute_listeners} from './attribute_card.js';
-import {activate_common_listeners} from './cards_common.js';
+import {attribute_card_hooks, activate_attribute_listeners,
+    activate_attribute_card_listeners} from './attribute_card.js';
+import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 
 // Startup scripts
 
@@ -13,7 +14,7 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
 	register_settings_version2();
     register_settings();
-    // Add some jquery magic to allow binding our funtions prior to system
+    // Add some jquery magic to allow binding our functions prior to system
     $.fn.bindFirst = function(name, fn) {
         // bind as you normally would
         // don't want to miss out on any jQuery magic
@@ -36,6 +37,9 @@ Hooks.on('renderChatMessage', (message, html) => {
     if (card_type) {
         // This chat card is one of ours
         activate_common_listeners(message, html);
+        if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+            activate_attribute_card_listeners(message, html);
+        }
     }
 });
 
