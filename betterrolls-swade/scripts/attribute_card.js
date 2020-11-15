@@ -94,5 +94,12 @@ export function activate_attribute_card_listeners(message, html) {
  * @param {string} attribute_id
  */
 function roll_attribute(actor, attribute_id){
-    actor.rollAttribute(attribute_id);
+    let roll = actor.rollAttribute(attribute_id, {suppressChat: true});
+    roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor })});
+
+        // toMessage({
+        //     speaker: speaker,
+        //     flavor: flavor,
+        //     flags: flags,
+        // }, { rollMode }))
 }
