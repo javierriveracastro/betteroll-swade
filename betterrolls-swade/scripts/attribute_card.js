@@ -95,7 +95,14 @@ export function activate_attribute_card_listeners(message, html) {
  */
 function roll_attribute(actor, attribute_id){
     let roll = actor.rollAttribute(attribute_id, {suppressChat: true});
-    roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor })});
+    let roll_mods = actor._buildTraitRollModifiers(
+        actor.data.data.attributes[attribute_id], {});
+    let flavour = '';
+    roll_mods.forEach(mod => {
+        flavour += `<span class="br-modifier">${mod.label}: ${mod.value}</span>`;
+    })
+    roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
+        flavor: flavour});
 
         // toMessage({
         //     speaker: speaker,
