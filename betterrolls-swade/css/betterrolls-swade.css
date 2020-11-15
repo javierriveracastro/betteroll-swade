@@ -191,18 +191,6 @@
 	margin: 4px;
 }
 
-.brsw-modifier {
-	padding: 1px;
-	margin: 2px;
-	border: 1px solid red;
-	border-radius: 5px;
-	font-size: 12px;
-}
-
-.brsw-modifier.brsw-positive {
-	border-color: blue;
-}
-
 .brsw-dialog-title {
 	display: flex;
 	margin: 1px 0 1px 5px;

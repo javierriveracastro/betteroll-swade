@@ -97,16 +97,12 @@ function roll_attribute(actor, attribute_id){
     let roll = actor.rollAttribute(attribute_id, {suppressChat: true});
     let roll_mods = actor._buildTraitRollModifiers(
         actor.data.data.attributes[attribute_id], {});
-    let flavour = '';
+    let flavour =
+        `${game.i18n.localize(CONFIG.SWADE.attributes[attribute_id].long)} ${game.i18n.localize('SWADE.AttributeTest')}<br>`;
     roll_mods.forEach(mod => {
-        flavour += `<span class="br-modifier">${mod.label}: ${mod.value}</span>`;
+        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
+        flavour += `<span class="brsw-modifier ${positive}">${mod.label}: ${mod.value}</span>`;
     })
     roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
-
-        // toMessage({
-        //     speaker: speaker,
-        //     flavor: flavor,
-        //     flags: flags,
-        // }, { rollMode }))
 }
