@@ -24,6 +24,7 @@ async function create_attribute_card(origin, name){
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
+    await message.setFlag('betterrolls-swade', 'card_targed_id', name);
     if (actor === origin) {
         await message.setFlag('betterrolls-swade', 'actor',
             actor.id)
@@ -70,3 +71,4 @@ export function activate_attribute_listeners(app, html) {
         await attribute_click_listener(ev, target);
     })
 }
+

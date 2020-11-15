@@ -22,3 +22,8 @@
     width: 100%;
     margin: 2px;
 }
+
+.attribute-buttons {
+    clear: both;
+    margin: 1px;
+}
