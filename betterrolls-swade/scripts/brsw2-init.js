@@ -55,7 +55,8 @@ Hooks.on('renderChatMessage', (message, html) => {
 
 function register_settings_version2() {
     const br_choices = {
-        system: 'Default system roll', card: 'Show Betterrolls card'};
+        system: 'Default system roll', card: 'Show Betterrolls card',
+        trait: "Show card and trait roll"};
     game.settings.register('betterrolls-swade', 'click', {
         name: 'Single click action',
         hint: "Select what happens when you single click a name",

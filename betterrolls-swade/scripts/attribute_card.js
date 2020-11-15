@@ -58,6 +58,10 @@ async function attribute_click_listener(ev, target) {
     // Show card
     await create_attribute_card(
       target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
+    if (action.includes('trait')) {
+        roll_attribute(
+            target, ev.currentTarget.parentElement.parentElement.dataset.attribute)
+    }
 }
 
 /**
@@ -90,10 +94,12 @@ export function activate_attribute_card_listeners(message, html) {
 
 /**
  * Roll an attribute showing the roll card
- * @param {SwadeActor} actor
+ * @param {SwadeActor, token} character
  * @param {string} attribute_id
  */
-function roll_attribute(actor, attribute_id){
+function roll_attribute(character, attribute_id){
+    // If character is a token get true actor
+    let actor = character.actor?character.actor:character;
     let roll = actor.rollAttribute(attribute_id, {suppressChat: true});
     let roll_mods = actor._buildTraitRollModifiers(
         actor.data.data.attributes[attribute_id], {});
