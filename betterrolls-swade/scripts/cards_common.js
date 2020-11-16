@@ -68,6 +68,16 @@ export function activate_common_listeners(message, html) {
             await manage_sheet(actor)
         });
     }
+    // Selectable modifiers
+    $(html).find('.brws-selectable').click((ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        if (ev.currentTarget.classList.contains('brws-selected')) {
+            ev.currentTarget.classList.remove('brws-selected');
+        } else {
+            ev.currentTarget.classList.add('brws-selected');
+        }
+    })
 }
 
 

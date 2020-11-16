@@ -25,9 +25,26 @@
 
 /* Styles for the card body */
 
-.attribute-buttons {
+.brws-attribute-buttons {
     clear: both;
     margin: 1px;
+}
+
+.brws-common-modifiers {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.brws-selectable {
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.brws-selectable.brws-selected {
+    background: white;
 }
 
 .brsw-modifier {
