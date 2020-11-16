@@ -1,7 +1,7 @@
 // Functions for cards representing attributes
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
-    get_actor_from_message} from "./cards_common.js";
+    get_actor_from_message, get_roll_options} from "./cards_common.js";
 
 /**
 * Creates a card for an attribute
@@ -78,7 +78,7 @@ async function attribute_click_listener(ev, target) {
       target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
     if (action.includes('trait')) {
         roll_attribute(
-            target, ev.currentTarget.parentElement.parentElement.dataset.attribute)
+            target, ev.currentTarget.parentElement.parentElement.dataset.attribute, '')
     }
 }
 
@@ -105,7 +105,7 @@ export function activate_attribute_card_listeners(message, html) {
     html.find('#roll-button').click(_ =>{
         let actor = get_actor_from_message(message);
         let attribute = message.getFlag('betterrolls-swade', 'attribute_id',);
-        roll_attribute(actor, attribute);
+        roll_attribute(actor, attribute, html);
     })
 }
 
@@ -114,18 +114,21 @@ export function activate_attribute_card_listeners(message, html) {
  * Roll an attribute showing the roll card
  * @param {SwadeActor, token} character
  * @param {string} attribute_id
+ * @param {string} html, the html of the attribute card
  */
-function roll_attribute(character, attribute_id){
+function roll_attribute(character, attribute_id, html){
     // If character is a token get true actor
     let actor = character.actor?character.actor:character;
-    let roll = actor.rollAttribute(attribute_id, {suppressChat: true});
+    let options = get_roll_options(html);
+    options.suppressChat = true;
     let roll_mods = actor._buildTraitRollModifiers(
-        actor.data.data.attributes[attribute_id], {});
+        actor.data.data.attributes[attribute_id], options);
+    let roll = actor.rollAttribute(attribute_id, options);
     let flavour =
         `${game.i18n.localize(CONFIG.SWADE.attributes[attribute_id].long)} ${game.i18n.localize('SWADE.AttributeTest')}<br>`;
     roll_mods.forEach(mod => {
         const positive = parseInt(mod.value) > 0?'brsw-positive':'';
-        flavour += `<span class="brsw-modifier ${positive}">${mod.label}: ${mod.value}</span>`;
+        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
     })
     roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});

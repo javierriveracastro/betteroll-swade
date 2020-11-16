@@ -115,3 +115,20 @@ export function get_action_from_click(event){
     }
     return game.settings.get('betterrolls-swade', setting_name)
 }
+
+
+/**
+ * Gets the roll options from the card html
+ *
+ * @param {string}html: Card html
+ */
+export function get_roll_options(html){
+    let modifiers = [];
+    $(html).find('.brws-selectable.brws-selected').each((_, element) => {
+        console.log(element)
+        if (element.dataset.type === 'modifier') {
+            modifiers.push(element.dataset.value);
+        }
+    })
+    return {additionalMods: modifiers}
+}
