@@ -23,6 +23,8 @@
     margin: 2px;
 }
 
+/* Styles for the card body */
+
 .attribute-buttons {
     clear: both;
     margin: 1px;
@@ -38,4 +40,22 @@
 
 .brsw-modifier.brsw-positive {
 	border-color: blue;
+}
+
+/* Styles for the footer */
+
+.card-footer {
+	margin-top: 2px;
+	border-top: 2px groove #FFF;
+}
+
+.card-footer span {
+	font-size: 10px;
+	border-right: 2px groove #FFF;
+	padding-right: 5px;
+}
+
+.card-footer span:last-child {
+	border-right: none;
+	padding-right: none;
 }

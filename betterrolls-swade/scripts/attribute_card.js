@@ -12,16 +12,19 @@ import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
 async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
-    let notes = `${name} d${actor.data.data.attributes[name.toLowerCase()].die.sides}`;
-    let modifier = parseInt(
-        actor.data.data.attributes[name.toLowerCase()].die.modifier);
-    if (modifier) {
-        notes = notes + (modifier > 0?"+":"") + modifier;
+    let notes = attribute_to_string(
+        actor.data.data.attributes[name.toLowerCase()]);
+    let footer = [];
+    for (let attribute in actor.data.data.attributes) {
+        if (actor.data.data.attributes.hasOwnProperty(attribute)) {
+            footer.push(`${attribute} ${attribute_to_string(
+                actor.data.data.attributes[attribute])}`)
+        }
     }
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/attribute_card.html",
         {actor: actor, header: {type: 'Attribute', title: name,
-            notes: notes}});
+            notes: notes}, footer: footer});
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
@@ -34,6 +37,21 @@ async function create_attribute_card(origin, name){
             origin.id)
     }
     return message
+}
+
+
+/**
+ * Function to convert attribute dice and modifiers into a string
+ * @param attribute
+ */
+function attribute_to_string(attribute) {
+    let string = `${name} d${attribute.die.sides}`;
+    let modifier = parseInt(
+        attribute.die.modifier);
+    if (modifier) {
+        string = string + (modifier > 0?"+":"") + modifier;
+    }
+    return string;
 }
 
 /**
