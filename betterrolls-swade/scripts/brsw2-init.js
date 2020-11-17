@@ -98,4 +98,14 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
+    game.settings.register('betterrolls-swade', 'result-card', {
+        name: 'See result card',
+        hint: 'Select who if anyone can see the result card',
+        default: 'all',
+        scope: 'world',
+        type: String,
+        choices: {none: 'No result card',
+            master: 'Only the master can see the card', all: 'Everybody'},
+        config: true
+    })
 }
