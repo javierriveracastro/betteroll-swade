@@ -2,6 +2,7 @@
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
     get_actor_from_message, get_roll_options} from "./cards_common.js";
+import {create_result_card} from './result_card.js'
 
 /**
 * Creates a card for an attribute
@@ -132,4 +133,5 @@ function roll_attribute(character, attribute_id, html){
     })
     roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
+    create_result_card(actor);
 }
