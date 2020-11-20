@@ -1,6 +1,6 @@
 // Functions for the card presenting results
 
-import {create_basic_chat_data} from "./cards_common.js";
+import {BRSW_CONST, create_basic_chat_data} from "./cards_common.js";
 
 /**
  * Create and show a basic result chat card
@@ -26,5 +26,8 @@ export async function create_result_card (actor, results, modifier){
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade/templates/result_card.html",
     {flat_rolls: flat_rolls, modifier: modifier, target_number: 4});
-    return  await ChatMessage.create(chatData);
+    let message =  await ChatMessage.create(chatData);
+    await message.setFlag('betterrolls-swade', 'card_type',
+        BRSW_CONST.TYPE_RESULT_CARD)
+    return message
 }

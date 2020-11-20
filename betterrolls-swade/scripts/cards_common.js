@@ -4,6 +4,7 @@ import {getWhisperData} from "./utils.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
+    TYPE_RESULT_CARD: 100
 };
 
 /**
