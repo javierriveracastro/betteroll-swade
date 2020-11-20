@@ -76,3 +76,21 @@
 	border-right: none;
 	padding-right: none;
 }
+
+/* Styles for the result row */
+
+.brsw-result-row {
+    text-align: center;
+}
+
+.brsw-bar-input {
+	max-width: 2em;
+}
+
+.brsw-result-text {
+    margin-top: 2px;
+    margin-right: 2px;
+	text-align: center;
+	border-style: solid;
+	border-radius: 5px;
+}

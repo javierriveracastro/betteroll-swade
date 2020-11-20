@@ -181,11 +181,6 @@
 	justify-content: space-between;
 }
 
-
-.brsw-bar-input {
-	max-width: 2em;
-}
-
 .brsw-modifier-row {
 	flex: 0 0 100%;
 	margin: 4px;
