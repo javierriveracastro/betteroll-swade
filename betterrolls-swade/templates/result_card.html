@@ -2,11 +2,14 @@
 {{#each flat_rolls}}
     <div class="brsw-result-row">
         <i class="fas fa-dice-d6"></i>
-        <input class="brsw-bar-input" type="number" value="{{this}}" title="Number rolled on dice">
+        <input class="brsw-bar-input" type="number" value="{{this}}"
+               title="Number rolled on dice" step="1">
         <i class="fas fa-plus"></i>
-        <input class="brsw-bar-input" type="number" value="{{../modifier}}" title="Action modifiers">
+        <input class="brsw-bar-input" type="number" value="{{../modifier}}"
+               title="Action modifiers" step="1">
         <i class="fas fa-crosshairs"></i>
-        <input class="brsw-bar-input" type="number" value="{{../target_number}}" title="Target number">
+        <input class="brsw-bar-input" type="number" value="{{../target_number}}"
+               title="Target number" step="1">
     </div>
     <div class="brsw-result-text" data-type="damage">
         <span>Failure</span>
