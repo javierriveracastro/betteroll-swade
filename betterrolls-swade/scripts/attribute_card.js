@@ -121,6 +121,7 @@ function roll_attribute(character, attribute_id, html){
     // If character is a token get true actor
     let actor = character.actor?character.actor:character;
     let options = get_roll_options(html);
+    let total_modifiers = 0;
     options.suppressChat = true;
     let roll_mods = actor._buildTraitRollModifiers(
         actor.data.data.attributes[attribute_id], options);
@@ -130,8 +131,9 @@ function roll_attribute(character, attribute_id, html){
     roll_mods.forEach(mod => {
         const positive = parseInt(mod.value) > 0?'brsw-positive':'';
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
+        total_modifiers = total_modifiers + parseInt(mod.value);
     })
     roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
-    create_result_card(actor);
+    create_result_card(actor, roll.results, total_modifiers);
 }

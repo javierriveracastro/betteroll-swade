@@ -1,13 +1,15 @@
 <hr>
-<div class="brsw-result-row">
-    <i class="fas fa-dice-d6"></i>
-    <input class="brsw-bar-input" type="number" value="{{this.total}}" title="Number rolled on dice">
-    <i class="fas fa-plus"></i>
-    <input class="brsw-bar-input" type="number" value="{{action.total_modifiers}}" title="Action modifiers">
-    <i class="fas fa-crosshairs"></i>
-    <input class="brsw-bar-input" type="number" value="{{action.target_number}}" title="Target number">
-</div>
-<div class="brsw-result-text" data-type="damage">
-    <span>Failure</span>
-</div>
+{{#each flat_rolls}}
+    <div class="brsw-result-row">
+        <i class="fas fa-dice-d6"></i>
+        <input class="brsw-bar-input" type="number" value="{{this}}" title="Number rolled on dice">
+        <i class="fas fa-plus"></i>
+        <input class="brsw-bar-input" type="number" value="{{../modifier}}" title="Action modifiers">
+        <i class="fas fa-crosshairs"></i>
+        <input class="brsw-bar-input" type="number" value="{{../target_number}}" title="Target number">
+    </div>
+    <div class="brsw-result-text" data-type="damage">
+        <span>Failure</span>
+    </div>
+{{/each}}
 
