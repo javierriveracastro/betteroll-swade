@@ -1,8 +1,9 @@
 // Init scripts for version 2
 import {register_settings} from "./betterrollswade.js";
+import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
-import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
+import {activate_result_card_listeners} from "./result_card.js";
 
 // Startup scripts
 
@@ -44,6 +45,8 @@ Hooks.on('renderChatMessage', (message, html) => {
         activate_common_listeners(message, html);
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             activate_attribute_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_RESULT_CARD) {
+            activate_result_card_listeners(html);
         }
     }
 });
