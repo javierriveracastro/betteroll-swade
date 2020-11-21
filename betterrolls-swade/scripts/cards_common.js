@@ -79,6 +79,11 @@ export function activate_common_listeners(message, html) {
             ev.currentTarget.classList.add('brws-selected');
         }
     })
+    // Popout button
+    $(html).find(".brsw-popup").click(() => {
+        let popup = new ChatPopout(message);
+        popup.render(true);
+    })
 }
 
 
