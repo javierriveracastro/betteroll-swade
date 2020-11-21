@@ -17,7 +17,13 @@ export async function create_result_card (actor, results, modifier){
     // Ges results before modifier
     let flat_rolls = [];
     results.forEach(result => {
-        flat_rolls.push({die_roll: result - modifier, id: broofa()});
+        if (typeof result === 'string') {
+            // This is likely a mod to the last roll
+            flat_rolls[flat_rolls.length - 1].die_roll += parseInt(result);
+        } else {
+            // This is a new roll
+            flat_rolls.push({die_roll: result - modifier, id: broofa()});
+        }
     })
     // Create chat card
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.OOC);
