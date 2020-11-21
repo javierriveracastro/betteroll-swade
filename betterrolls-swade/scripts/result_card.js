@@ -30,6 +30,10 @@ export async function create_result_card (actor, results, modifier){
     let message =  await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_RESULT_CARD)
+    // Calculate initial results
+    flat_rolls.forEach(roll => {
+        calculate_result(roll.id);
+    })
     return message
 }
 
@@ -40,7 +44,7 @@ export async function create_result_card (actor, results, modifier){
  */
 export function activate_result_card_listeners(html) {
     $(html).find('.brsw-bar-input').blur(async ev => {
-        await input_changes(ev)
+        await calculate_result(ev.currentTarget.dataset.id)
     })
 }
 
@@ -58,9 +62,21 @@ function recover_result_data(id) {
 
 
 /**
- * This should be executed when any input of the result row changes
- * @param event
+ * Calculates the results of a roll
+ * @param {string} result_id: The id of the result
  */
-function input_changes(event){
-    console.log(recover_result_data(event.currentTarget.dataset.id))
+function calculate_result(result_id){
+    let result_data = recover_result_data(result_id);
+    let result = result_data.die_roll + result_data.modifier -
+        result_data.target_number;
+    result = result / 4;
+    let result_div = $(`#div${result_id}`)
+    if (result < 0) {
+        result_div.text('Failure');
+    } else if (result < 1) {
+        result_div.text('Success');
+    } else {
+        result_div.text(
+            `${result >= 2 ? Math.floor(result) : ''} Raise${result >= 2 ? 's' : ''}!`);
+    }
 }
