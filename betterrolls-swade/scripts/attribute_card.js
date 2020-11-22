@@ -126,6 +126,7 @@ function roll_attribute(character, attribute_id, html){
     let roll_mods = actor._buildTraitRollModifiers(
         actor.data.data.attributes[attribute_id], options);
     let roll = actor.rollAttribute(attribute_id, options);
+    // Customize flavour text
     let flavour =
         `${game.i18n.localize(CONFIG.SWADE.attributes[attribute_id].long)} ${game.i18n.localize('SWADE.AttributeTest')}<br>`;
     roll_mods.forEach(mod => {
@@ -133,7 +134,8 @@ function roll_attribute(character, attribute_id, html){
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
         total_modifiers = total_modifiers + parseInt(mod.value);
     })
+    // ENd roll
     roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
-    create_result_card(actor, roll.results, total_modifiers);
+    create_result_card(actor, roll.results, total_modifiers, options.tn);
 }

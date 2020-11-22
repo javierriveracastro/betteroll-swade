@@ -129,11 +129,14 @@ export function get_action_from_click(event){
  * @param {string}html: Card html
  */
 export function get_roll_options(html){
-    let modifiers = [];
+    let modifiers = []
+    let tn = 4;
     $(html).find('.brws-selectable.brws-selected').each((_, element) => {
         if (element.dataset.type === 'modifier') {
             modifiers.push(element.dataset.value);
+        } else if (element.dataset.type === 'tn') {
+            tn = parseInt(element.dataset.value)
         }
     })
-    return {additionalMods: modifiers}
+    return {additionalMods: modifiers, tn: tn}
 }

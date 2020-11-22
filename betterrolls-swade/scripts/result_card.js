@@ -9,8 +9,9 @@ import {broofa} from "./utils.js";
  *  result card
  *  @param {Array} results: Array with the results of the roll
  *  @param {int} modifier: Modifiers
+ *  @param {int} tn: Target number
  */
-export async function create_result_card (actor, results, modifier){
+export async function create_result_card (actor, results, modifier, tn){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
     if (result_card_option === 'none') return;
@@ -32,7 +33,7 @@ export async function create_result_card (actor, results, modifier){
     }
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade/templates/result_card.html",
-    {flat_rolls: flat_rolls, modifier: modifier, target_number: 4});
+    {flat_rolls: flat_rolls, modifier: modifier, target_number: tn});
     let message =  await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_RESULT_CARD)
