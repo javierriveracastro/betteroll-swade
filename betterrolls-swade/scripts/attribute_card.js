@@ -1,8 +1,8 @@
 // Functions for cards representing attributes
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
-    get_actor_from_message, get_roll_options} from "./cards_common.js";
-import {create_result_card} from './result_card.js'
+    get_actor_from_message, get_roll_options, detect_fumble} from "./cards_common.js";
+import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
 * Creates a card for an attribute
@@ -34,6 +34,7 @@ async function create_attribute_card(origin, name){
         await message.setFlag('betterrolls-swade', 'actor',
             actor.id)
     } else {
+        // noinspection JSUnresolvedVariable
         await message.setFlag('betterrolls-swade', 'token',
             origin.id)
     }
@@ -78,7 +79,7 @@ async function attribute_click_listener(ev, target) {
     await create_attribute_card(
       target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
     if (action.includes('trait')) {
-        roll_attribute(
+        await roll_attribute(
             target, ev.currentTarget.parentElement.parentElement.dataset.attribute, '')
     }
 }
@@ -103,10 +104,10 @@ export function activate_attribute_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_attribute_card_listeners(message, html) {
-    html.find('#roll-button').click(_ =>{
+    html.find('#roll-button').click(async _ =>{
         let actor = get_actor_from_message(message);
         let attribute = message.getFlag('betterrolls-swade', 'attribute_id',);
-        roll_attribute(actor, attribute, html);
+        await roll_attribute(actor, attribute, html);
     })
 }
 
@@ -117,8 +118,9 @@ export function activate_attribute_card_listeners(message, html) {
  * @param {string} attribute_id
  * @param {string} html, the html of the attribute card
  */
-function roll_attribute(character, attribute_id, html){
+async function roll_attribute(character, attribute_id, html){
     // If character is a token get true actor
+    // noinspection JSUnresolvedVariable
     let actor = character.actor?character.actor:character;
     let options = get_roll_options(html);
     let total_modifiers = 0;
@@ -134,8 +136,13 @@ function roll_attribute(character, attribute_id, html){
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
         total_modifiers = total_modifiers + parseInt(mod.value);
     })
-    // ENd roll
-    roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
+    // Show roll card
+    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
-    create_result_card(actor, roll.results, total_modifiers, options.tn);
+    // Detect fumbles and show result card
+    if (detect_fumble(roll)) {
+        await show_fumble_card(actor);
+    } else {
+        await create_result_card(actor, roll.results, total_modifiers, options.tn);
+    }
 }

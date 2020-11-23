@@ -3,6 +3,9 @@
 import {BRSW_CONST, create_basic_chat_data} from "./cards_common.js";
 import {broofa} from "./utils.js";
 
+
+/// TRAIT RESULT CARD
+
 /**
  * Create and show a basic result chat card
  * @param {actor} actor: The actor who made the action that activates this
@@ -86,4 +89,24 @@ function calculate_result(result_id){
         result_div.text(
             `${result >= 2 ? Math.floor(result) : ''} Raise${result >= 2 ? 's' : ''}!`);
     }
+}
+
+//// FUMBLE CARD
+
+/**
+ * Create and show a fumble card
+ * @param {actor} actor: The poor actor who had critically failed
+ */
+export async function show_fumble_card(actor){
+    const result_card_option = game.settings.get('betterrolls-swade',
+        'result-card');
+    if (result_card_option === 'none') return;
+    let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.OOC);
+    if (result_card_option === 'master') {
+        chatData.blind = true;
+    }
+    chatData.content = await renderTemplate(
+    "modules/betterrolls-swade/templates/fumble_card.html",
+    {});
+    return   await ChatMessage.create(chatData);
 }

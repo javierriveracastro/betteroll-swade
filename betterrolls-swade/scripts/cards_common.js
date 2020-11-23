@@ -140,3 +140,18 @@ export function get_roll_options(html){
     })
     return {additionalMods: modifiers, tn: tn}
 }
+
+/**
+ * Try to detect if a roll is a fumble
+ * @param {Roll} roll
+ */
+export function detect_fumble(roll) {
+    let fumble = 0;
+    console.log(roll.terms)
+    roll.terms[0].rolls.forEach(roll => {
+        roll.dice.forEach(die => {
+            fumble += die.total === 1? 1: -1
+        });
+    });
+    return fumble > 0;
+}
