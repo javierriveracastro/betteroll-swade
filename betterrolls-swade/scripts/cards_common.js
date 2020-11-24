@@ -147,11 +147,24 @@ export function get_roll_options(html){
  */
 export function detect_fumble(roll) {
     let fumble = 0;
-    console.log(roll.terms)
-    roll.terms[0].rolls.forEach(roll => {
-        roll.dice.forEach(die => {
-            fumble += die.total === 1? 1: -1
-        });
+    // noinspection ES6MissingAwait
+    roll.terms[0].rolls.forEach(partial_roll => {
+        if (partial_roll.hasOwnProperty('result')) {
+            // Extra rolling one dice
+            // noinspection JSIncompatibleTypesComparison
+            if (partial_roll.result === 1 && roll.terms[0].rolls.length === 1) {
+                let test_fumble_roll = new Roll('1d6');
+                test_fumble_roll.roll()
+                test_fumble_roll.toMessage({flavor: "Testing for fumbles"});
+                // noinspection EqualityComparisonWithCoercionJS
+                if (test_fumble_roll.result == 1) fumble=999;
+            }
+        } else {
+            partial_roll.dice.forEach(die => {
+                fumble += die.total === 1? 1: -1
+            });
+        }
     });
+    console.log(fumble)
     return fumble > 0;
 }

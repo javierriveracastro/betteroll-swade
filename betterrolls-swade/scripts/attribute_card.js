@@ -140,7 +140,9 @@ async function roll_attribute(character, attribute_id, html){
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
     // Detect fumbles and show result card
-    if (detect_fumble(roll)) {
+    let proba = await detect_fumble(roll)
+    console.log(proba)
+    if (proba) {
         await show_fumble_card(actor);
     } else {
         await create_result_card(actor, roll.results, total_modifiers, options.tn);
