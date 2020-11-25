@@ -63,11 +63,12 @@ Hooks.on('renderChatMessage', (message, html) => {
 
 function register_settings_version2() {
     const br_choices = {
-        system: 'Default system roll', card: 'Show Betterrolls card',
-        trait: "Show card and trait roll"};
+        system: game.i18n.localize('BRSW.Default_system_roll'), 
+        card: game.i18n.localize('BRSW.Show_Betterrolls_card'),
+        trait: game.i18n.localize('BRSW.Show_card_and_trait')};
     game.settings.register('betterrolls-swade', 'click', {
-        name: 'Single click action',
-        hint: "Select what happens when you single click a name",
+        name: game.i18n.localize('BRSW.Single_click_action'),
+        hint: game.i18n.localize('BRSW.Single_click_hint'),
         default: "system",
         scope: "world",
         type: String,
@@ -75,8 +76,8 @@ function register_settings_version2() {
         config: true
     });
     game.settings.register('betterrolls-swade', 'shift_click', {
-        name: 'Shift click action',
-        hint: "Select what happens when you click a name while pressing SHIFT",
+        name: game.i18n.localize('BRSW.Shift_click_action'),
+        hint: game.i18n.localize('BRSW.Shit_click_hint'),
         default: "card",
         scope: "world",
         type: String,
@@ -84,8 +85,8 @@ function register_settings_version2() {
         config: true
     });
     game.settings.register('betterrolls-swade', 'ctrl_click', {
-        name: 'Control click action',
-        hint: "Select what happens when you click a name while pressing Control",
+        name: game.i18n.localize('BRSW.Control_click_action'),
+        hint: game.i18n.localize('BRWS.Control_click_hint'),
         default: "card",
         scope: "world",
         type: String,
@@ -93,8 +94,8 @@ function register_settings_version2() {
         config: true
     });
     game.settings.register('betterrolls-swade', 'alt_click', {
-        name: 'Alt click action',
-        hint: "Select what happens when you click a name while pressing Alt",
+        name: game.i18n.localize('BRSW.Alt_click_action'),
+        hint: game.i18n.localize('BRSW.Alt_click_hint'),
         default: "card",
         scope: "world",
         type: String,
@@ -102,13 +103,14 @@ function register_settings_version2() {
         config: true
     });
     game.settings.register('betterrolls-swade', 'result-card', {
-        name: 'See result card',
-        hint: 'Select who if anyone can see the result card',
+        name: game.i18n.localize('BRSW.See_result_card'),
+        hint: game.i18n.localize('BRSW.See_result_hint'),
         default: 'all',
         scope: 'world',
         type: String,
-        choices: {none: 'No result card',
-            master: 'Only the master can see the card', all: 'Everybody'},
+        choices: {none: game.i18n.localize('BRSW.No_result_card'),
+            master: game.i18n.localize('BRSW.Master_only_result_card'),
+            all: game.i18n.localize('BRSW.Everybody')},
         config: true
     })
 }

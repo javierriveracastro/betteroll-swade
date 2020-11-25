@@ -1,6 +1,22 @@
 {
 	"I18N.MAINTAINERS": ["Javier Rivera"],
 
-	"Better Rolls": "Better Rolls",
-	"Better Rolls for SWADE": "Better Rolls para SWADE"
+   "Better Rolls": "Better Rolls",
+   "Better Rolls for SWADE": "Better Rolls para SWADE",
+   "BRSW.Default_system_roll": "Tirada por defecto del sistema",
+   "BRSW.Show_Betterrolls_card": "Ver la carta de Betterrolls",
+   "BRSW.Show_card_and_trait": "Ver la carta y hacer la tirada de Betterrolls",
+   "BRSW.Single_click_action": "Acción de click normal",
+   "BRSW.Single_click_hint": "Elige que ocurre cuando haces un click simple",
+   "BRSW.Shift_click_action": "Acción de mayúsculas click",
+   "BRSW.Shit_click_hint": "Elige que ocurre cuando haces un click mientra pulsas mayusculas",
+   "BRSW.Control_click_action": "Acción de control click",
+   "BRWS.Control_click_hint": "Elige que ocurre cuando haces click pulsando control",
+   "BRSW.Alt_click_action": "Acción de Alt click",
+   "BRSW.Alt_click_hint": "Elige que ocurre cuando haces click pulsando al mismo tiempo ALT",
+   "BRSW.See_result_card": "Ver carta de resultados",
+   "BRSW.See_result_hint": "Selección quien (o nadie) puede ver la carta de resultado",
+   "BRSW.No_result_card": "Sin carta de resultados",
+   "BRSW.Master_only_result_card": "Solo el master puede ver la carta",
+   "BRSW.Everybody": "Todo el mundo puede ver la carta"
 }

@@ -2,5 +2,21 @@
 	"I18N.MAINTAINERS": ["Javier Rivera"],
 
 	"Better Rolls": "Better Rolls",
-	"Better Rolls for SWADE": "Better Rolls for SWADE"
+	"Better Rolls for SWADE": "Better Rolls for SWADE",
+	"BRSW.Default_system_roll": "Default system roll",
+	"BRSW.Show_Betterrolls_card": "Show Betterrolls card",
+	"BRSW.Show_card_and_trait": "Show card and trait roll",
+	"BRSW.Single_click_action": "Single click action",
+	"BRSW.Single_click_hint": "Select what happens when you single click a name",
+	"BRSW.Shift_click_action": "Shift click action",
+	"BRSW.Shit_click_hint": "Select what happens when you click a name while pressing SHIFT",
+	"BRSW.Control_click_action": "Control click action",
+	"BRWS.Control_click_hint": "Select what happens when you click a name while pressing Control",
+	"BRSW.Alt_click_action": "Alt click action",
+	"BRSW.Alt_click_hint": "Select what happens when you click a name while pressing Alt",
+	"BRSW.See_result_card": "See result card",
+	"BRSW.See_result_hint": "Select who if anyone can see the result card",
+	"BRSW.No_result_card": "No result card",
+	"BRSW.Master_only_result_card": "Only the master can see the card",
+	"BRSW.Everybody": "Everybody"
 }
