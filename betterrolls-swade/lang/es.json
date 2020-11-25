@@ -23,5 +23,9 @@
 	"BRSW.Failure": "Fallo",
 	"BRSW.Success": "Éxito",
 	"BRSW.Raise": "¡Aumento!!",
-	"BRSW.Raise_plural": "¡Aumentos!"
+	"BRSW.Raise_plural": "¡Aumentos!",
+    "BRSW.Roll": "Tirar",
+    "BRSW.Fumble": "¡PIFIA!",
+   	"BRSW.Modifier": "Modificador",
+	"BRSW.TN": "NO"
 }

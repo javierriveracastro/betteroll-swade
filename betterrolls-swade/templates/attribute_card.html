@@ -2,15 +2,15 @@
 <hr>
 <div class="brws-attribute-buttons">
     <div class="brws-common-modifiers">
-        Modifiers:
+        {{ localize 'BRSW.Modifier' }}:
         <span class="brws-selectable" data-type="modifier" data-value="-4">-4</span>
         <span class="brws-selectable" data-type="modifier" data-value="-2">-2</span>
         <span class="brws-selectable" data-type="modifier" data-value="-1">-1</span>
         <span class="brws-selectable" data-type="modifier" data-value="+1">+1</span>
         <span class="brws-selectable" data-type="modifier" data-value="+2">+2</span>
-        TN:
+        {{ localize 'BRSW.TN' }}:
         <span class="brws-selectable" data-type="tn" data-value="8">8</span>
     </div>
-    <button id="roll-button">Roll</button>
+    <button id="roll-button">{{ localize 'BRSW.Roll'}}</button>
 </div>
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}

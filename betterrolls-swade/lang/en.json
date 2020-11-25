@@ -23,5 +23,9 @@
 	"BRSW.Failure": "Failure",
 	"BRSW.Success": "Success",
 	"BRSW.Raise": "Raise!",
-	"BRSW.Raise_plural": "Raises!"
+	"BRSW.Raise_plural": "Raises!",
+	"BRSW.Roll": "Roll",
+	"BRSW.Fumble": "CRITICAL FAILURE!",
+	"BRSW.Modifier": "Modifier",
+	"BRSW.TN": "TN"
 }
