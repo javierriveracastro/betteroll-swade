@@ -59,6 +59,10 @@
 	border-color: blue;
 }
 
+.brsw-collapsed {
+    display: none;
+}
+
 /* Styles for the footer */
 
 .card-footer {

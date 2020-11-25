@@ -58,19 +58,20 @@ export function get_actor_from_message(message){
 /**
  * Connects the listener for all chat cards
  * @param {ChatMessage} message
- * @param {string} html: html of the card
+ * @param {HTMLElement} html: html of the card
  */
 export function activate_common_listeners(message, html) {
+    html = $(html)  // Get sure html is a Jquery element
     // The message will be rendered at creation and each time a flag is added
     let actor = get_actor_from_message(message);
     // Actor will be undefined if this is called before flags are set
     if (actor){
-        $(html).find('.brws-actor-img').addClass('bound').click(async () => {
+        html.find('.brws-actor-img').addClass('bound').click(async () => {
             await manage_sheet(actor)
         });
     }
     // Selectable modifiers
-    $(html).find('.brws-selectable').click((ev) => {
+    html.find('.brws-selectable').click((ev) => {
         ev.preventDefault();
         ev.stopPropagation();
         if (ev.currentTarget.classList.contains('brws-selected')) {
@@ -79,8 +80,25 @@ export function activate_common_listeners(message, html) {
             ev.currentTarget.classList.add('brws-selected');
         }
     })
+    // Collapsable fields
+    let collapse_buttons = html.find('.brsw-collapse-button');
+    console.log(collapse_buttons)
+	collapse_buttons.click(e => {
+		e.preventDefault();
+		e.stopPropagation();
+		let clicked = $(e.currentTarget)
+		let collapsable_span = html.find('.' + clicked.attr('data-collapse'));
+		collapsable_span.toggleClass('brsw-collapsed');
+		if (collapsable_span.hasClass('brsw-collapsed')) {
+			clicked.find('.fas').removeClass('fa-caret-down');
+			clicked.find('.fas').addClass('fa-caret-right');
+		} else {
+			clicked.find('.fas').addClass('fa-caret-down');
+			clicked.find('.fas').removeClass('fa-caret-right');
+		}
+	})
     // Popout button
-    $(html).find(".brsw-popup").click(() => {
+    html.find(".brsw-popup").click(() => {
         let popup = new ChatPopout(message);
         popup.render(true);
     })
@@ -166,6 +184,5 @@ export function detect_fumble(roll) {
             });
         }
     });
-    console.log(fumble)
     return fumble > 0;
 }

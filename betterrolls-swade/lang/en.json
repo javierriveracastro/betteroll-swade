@@ -27,5 +27,6 @@
 	"BRSW.Roll": "Roll",
 	"BRSW.Fumble": "CRITICAL FAILURE!",
 	"BRSW.Modifier": "Modifier",
-	"BRSW.TN": "TN"
+	"BRSW.TN": "TN",
+	"BRSW.More_options": "More options"
 }

@@ -27,5 +27,6 @@
     "BRSW.Roll": "Tirar",
     "BRSW.Fumble": "¡PIFIA!",
    	"BRSW.Modifier": "Modificador",
-	"BRSW.TN": "NO"
+	"BRSW.TN": "NO",
+  	"BRSW.More_options": "Más opciones"
 }
