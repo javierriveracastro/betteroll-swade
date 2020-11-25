@@ -155,7 +155,8 @@ export function detect_fumble(roll) {
             if (partial_roll.result === 1 && roll.terms[0].rolls.length === 1) {
                 let test_fumble_roll = new Roll('1d6');
                 test_fumble_roll.roll()
-                test_fumble_roll.toMessage({flavor: "Testing for fumbles"});
+                test_fumble_roll.toMessage(
+                    {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
                 // noinspection EqualityComparisonWithCoercionJS
                 if (test_fumble_roll.result == 1) fumble=999;
             }

@@ -18,5 +18,10 @@
 	"BRSW.See_result_hint": "Select who if anyone can see the result card",
 	"BRSW.No_result_card": "No result card",
 	"BRSW.Master_only_result_card": "Only the master can see the card",
-	"BRSW.Everybody": "Everybody"
+	"BRSW.Everybody": "Everybody",
+	"BRWS.Testing_fumbles": "Testing for fumbles",
+	"BRSW.Failure": "Failure",
+	"BRSW.Success": "Success",
+	"BRSW.Raise": "Raise!",
+	"BRSW.Raise_plural": "Raises!"
 }

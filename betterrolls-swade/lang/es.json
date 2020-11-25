@@ -18,5 +18,10 @@
    "BRSW.See_result_hint": "Selección quien (o nadie) puede ver la carta de resultado",
    "BRSW.No_result_card": "Sin carta de resultados",
    "BRSW.Master_only_result_card": "Solo el master puede ver la carta",
-   "BRSW.Everybody": "Todo el mundo puede ver la carta"
+   "BRSW.Everybody": "Todo el mundo puede ver la carta",
+   "BRWS.Testing_fumbles": "Comprobando si es una pifia",
+	"BRSW.Failure": "Fallo",
+	"BRSW.Success": "Éxito",
+	"BRSW.Raise": "¡Aumento!!",
+	"BRSW.Raise_plural": "¡Aumentos!"
 }

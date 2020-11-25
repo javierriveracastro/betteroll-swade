@@ -82,12 +82,12 @@ function calculate_result(result_id){
     result = result / 4;
     let result_div = $(`#div${result_id}`)
     if (result < 0) {
-        result_div.text('Failure');
+        result_div.text(game.i18n.localize('BRSW.Failure'));
     } else if (result < 1) {
-        result_div.text('Success');
+        result_div.text(game.i18n.localize('BRSW.Success'));
     } else {
         result_div.text(
-            `${result >= 2 ? Math.floor(result) : ''} Raise${result >= 2 ? 's' : ''}!`);
+            result < 2 ? game.i18n.localize('BRSW.Raise') : `${Math.floor(result)} ${game.i18n.localize('BRSW.Raise_plural')}`);
     }
 }
 
