@@ -136,6 +136,11 @@ async function roll_attribute(character, attribute_id, html){
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
         total_modifiers = total_modifiers + parseInt(mod.value);
     })
+    // If actor is a wild card customize Wild dice color.
+    if (actor.isWildcard && game.dice3d) {
+        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
+            'betterrolls-swade', 'wildDieTheme');
+    }
     // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});

@@ -112,5 +112,22 @@ function register_settings_version2() {
             master: game.i18n.localize('BRSW.Master_only_result_card'),
             all: game.i18n.localize('BRSW.Everybody')},
         config: true
+    });
+    import('../../dice-so-nice/DiceColors.js').then(dsn => {
+    let theme_choice = {};
+    for (let theme in dsn.COLORSETS) {
+        if (dsn.COLORSETS.hasOwnProperty(theme)) {
+            theme_choice[theme] = theme;
+        }
+    }
+    game.settings.register('betterrolls-swade', 'wildDieTheme', {
+        name: 'Wild die theme',
+        hint: "Choose a theme from Dice So Nice for the Wild Die",
+        default: "fire",
+        scope: "client",
+        type: String,
+        choices: theme_choice,
+        config: true
     })
+	}).catch(()=>{console.log('Dice So Nice not installed')});
 }
