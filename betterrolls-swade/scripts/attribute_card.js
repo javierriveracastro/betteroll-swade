@@ -30,10 +30,10 @@ async function create_attribute_card(origin, name){
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
     await message.setFlag('betterrolls-swade', 'attribute_id', name);
-    if (actor === origin) {
+    // We always set the actor (as a fallback, and the token if possible)
         await message.setFlag('betterrolls-swade', 'actor',
             actor.id)
-    } else {
+    if (actor !== origin) {
         // noinspection JSUnresolvedVariable
         await message.setFlag('betterrolls-swade', 'token',
             origin.id)

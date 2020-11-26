@@ -45,12 +45,17 @@ export function create_basic_chat_data(actor, type){
  * @returns {actor|null|*}
  */
 export function get_actor_from_message(message){
+    // We trt to get the actor for the token if possible
+    if (canvas) {
+        if (message.getFlag('betterrolls-swade', 'token')) {
+            let token = canvas.tokens.get(message.getFlag(
+                'betterrolls-swade', 'token'));
+            if (token) return token.actor
+        }
+    }
+    // If we couldn't get the token, maybe because it was not defined actor.
     if (message.getFlag('betterrolls-swade', 'actor')) {
-        return  game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
-    } else if (message.getFlag('betterrolls-swade', 'token')) {
-        if (! canvas) return; // When reloading the chat can be rendered before the canvas.
-        let token = canvas.tokens.get(message.getFlag('betterrolls-swade', 'token'));
-        return  token.actor;
+        return game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
     }
 }
 
