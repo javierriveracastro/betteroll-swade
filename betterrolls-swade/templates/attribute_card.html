@@ -12,11 +12,17 @@
         <span class="brws-selectable" data-type="tn" data-value="8">8</span>
     </div>
     <div>
-        <div class="brsw-collapse-button" data-collapse="form-options">
+        <div class="brsw-collapse-button" data-collapse="brsw-form-options">
             <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
         </div>
-        <div class="form-options brsw-collapsed">
-            Opciones.
+        <div class="brsw-form-options brsw-collapsed">
+            <span>
+                <label class="brsw-label-options">{{ localize 'BRSW.Modifier' }}</label>
+                <input type="number" data-type="modifier" value="" class="brsw-input-options">
+            </span><span>
+                <label class="brsw-label-options">{{ localize 'BRSW.Target_number' }}</label>
+                <input type="number" data-type="tn" value="" class="brsw-input-options">
+            </span>
         </div>
     </div>
     <button id="roll-button">{{ localize 'BRSW.Roll'}}</button>

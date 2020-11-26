@@ -60,7 +60,22 @@
 }
 
 .brsw-collapsed {
-    display: none;
+    display: none !important;
+}
+
+.brsw-form-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.brsw-label-options {
+    margin: 2px;
+    vertical-align: center;
+}
+
+.brsw-input-options {
+    max-width: 30%;
 }
 
 /* Styles for the footer */
@@ -77,8 +92,8 @@
 }
 
 .card-footer span:last-child {
-	border-right: none;
-	padding-right: none;
+	border-right: 0;
+	padding-right: 0;
 }
 
 /* Styles for the result card */
