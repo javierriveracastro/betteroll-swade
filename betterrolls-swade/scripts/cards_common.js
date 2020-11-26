@@ -82,7 +82,6 @@ export function activate_common_listeners(message, html) {
     })
     // Collapsable fields
     let collapse_buttons = html.find('.brsw-collapse-button');
-    console.log(collapse_buttons)
 	collapse_buttons.click(e => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -147,13 +146,29 @@ export function get_action_from_click(event){
  * @param {string}html: Card html
  */
 export function get_roll_options(html){
+    html = $(html)
     let modifiers = []
     let tn = 4;
-    $(html).find('.brws-selectable.brws-selected').each((_, element) => {
+    html.find('.brws-selectable.brws-selected').each((_, element) => {
         if (element.dataset.type === 'modifier') {
             modifiers.push(element.dataset.value);
         } else if (element.dataset.type === 'tn') {
-            tn = parseInt(element.dataset.value)
+            tn = parseInt(element.dataset.value);
+        }
+    })
+    html.find('.brsw-input-options').each((_, element) => {
+        if (element.value) {
+            if (element.dataset.type === 'modifier') {
+                // Modifiers need to start by a math symbol
+                if (element.value.slice(0, 1) === '+'
+                        || element.value.slice(0, 1) === '-') {
+                    modifiers.push(element.value);
+                } else {
+                    modifiers.push('+' + element.value);
+                }
+            } else if (element.dataset.type === 'tn') {
+                tn = parseInt(element.value) || 0;
+            }
         }
     })
     return {additionalMods: modifiers, tn: tn}
