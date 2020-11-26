@@ -27,6 +27,7 @@
     "BRSW.Roll": "Tirar",
     "BRSW.Fumble": "¡PIFIA!",
    	"BRSW.Modifier": "Modificador",
-	"BRSW.TN": "NO",
-  	"BRSW.More_options": "Más opciones"
+	"BRSW.TN": "VO",
+  	"BRSW.More_options": "Más opciones",
+    "BRSW.Target_number": "Valor objetivo"
 }
