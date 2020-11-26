@@ -69,7 +69,7 @@ function register_settings_version2() {
     game.settings.register('betterrolls-swade', 'click', {
         name: game.i18n.localize('BRSW.Single_click_action'),
         hint: game.i18n.localize('BRSW.Single_click_hint'),
-        default: "system",
+        default: "card",
         scope: "world",
         type: String,
         choices: br_choices,
@@ -78,7 +78,7 @@ function register_settings_version2() {
     game.settings.register('betterrolls-swade', 'shift_click', {
         name: game.i18n.localize('BRSW.Shift_click_action'),
         hint: game.i18n.localize('BRSW.Shit_click_hint'),
-        default: "card",
+        default: "system",
         scope: "world",
         type: String,
         choices: br_choices,
@@ -87,7 +87,7 @@ function register_settings_version2() {
     game.settings.register('betterrolls-swade', 'ctrl_click', {
         name: game.i18n.localize('BRSW.Control_click_action'),
         hint: game.i18n.localize('BRWS.Control_click_hint'),
-        default: "card",
+        default: "trait",
         scope: "world",
         type: String,
         choices: br_choices,
@@ -96,7 +96,7 @@ function register_settings_version2() {
     game.settings.register('betterrolls-swade', 'alt_click', {
         name: game.i18n.localize('BRSW.Alt_click_action'),
         hint: game.i18n.localize('BRSW.Alt_click_hint'),
-        default: "card",
+        default: "system",
         scope: "world",
         type: String,
         choices: br_choices,
@@ -113,10 +113,13 @@ function register_settings_version2() {
             all: game.i18n.localize('BRSW.Everybody')},
         config: true
     });
+    // noinspection JSFileReferences
     import('../../dice-so-nice/DiceColors.js').then(dsn => {
     let theme_choice = {};
-    for (let theme in dsn.COLORSETS) {
-        if (dsn.COLORSETS.hasOwnProperty(theme)) {
+    // noinspection JSUnresolvedVariable
+        for (let theme in dsn.COLORSETS) {
+        // noinspection JSUnresolvedVariable
+            if (dsn.COLORSETS.hasOwnProperty(theme)) {
             theme_choice[theme] = theme;
         }
     }
