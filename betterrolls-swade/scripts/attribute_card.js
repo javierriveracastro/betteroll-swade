@@ -2,7 +2,7 @@
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
     get_actor_from_message, get_roll_options, detect_fumble,
-    create_render_options} from "./cards_common.js";
+    create_render_options, spend_bennie} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -82,7 +82,7 @@ async function attribute_click_listener(ev, target) {
       target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
     if (action.includes('trait')) {
         await roll_attribute(
-            target, ev.currentTarget.parentElement.parentElement.dataset.attribute, '')
+            target, ev.currentTarget.parentElement.parentElement.dataset.attribute, '', false)
     }
 }
 
@@ -106,10 +106,10 @@ export function activate_attribute_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_attribute_card_listeners(message, html) {
-    html.find('#roll-button').click(async _ =>{
+    html.find('#roll-button, #roll-bennie-button').click(async ev =>{
         let actor = get_actor_from_message(message);
         let attribute = message.getFlag('betterrolls-swade', 'attribute_id',);
-        await roll_attribute(actor, attribute, html);
+        await roll_attribute(actor, attribute, html, ev.currentTarget.id.includes('bennie'));
     })
 }
 
@@ -119,11 +119,13 @@ export function activate_attribute_card_listeners(message, html) {
  * @param {SwadeActor, token} character
  * @param {string} attribute_id
  * @param {string} html, the html of the attribute card
+ * @param {boolean} expend_bennie: True if we want to spend a bennie
  */
-async function roll_attribute(character, attribute_id, html){
+async function roll_attribute(character, attribute_id, html, expend_bennie){
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
     let actor = character.actor?character.actor:character;
+    if (expend_bennie) spend_bennie(actor);
     let options = get_roll_options(html);
     let total_modifiers = 0;
     options.suppressChat = true;

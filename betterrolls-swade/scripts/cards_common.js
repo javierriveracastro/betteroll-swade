@@ -1,6 +1,6 @@
 // Common functions used in all cards
 
-import {getWhisperData} from "./utils.js";
+import {getWhisperData, spendMastersBenny} from "./utils.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -56,9 +56,23 @@ export function create_render_options(actor, options) {
  */
 function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
-        if (actor.data.data.bennies.value > 0) return true;
+        if (actor.data.data.bennies.value < 1) return false;
     }
-    return false;
+    return true;
+}
+
+/**
+ * Expends a bennie
+ * @param {actor} actor: Actor who is going to expend the bennie
+ */
+export function spend_bennie(actor){
+    if (actor.hasPlayerOwner) {
+        actor.spendBenny();
+    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        actor.spendBenny();
+    } else {
+        spendMastersBenny();
+    }
 }
 
 /**
