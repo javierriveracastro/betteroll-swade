@@ -82,6 +82,14 @@
     max-width: 30%;
 }
 
+.brsw-button-row {
+    display: flex;
+}
+
+.brsw-button-smaller {
+    max-width: 40%;
+}
+
 /* Styles for the footer */
 
 .card-footer {
