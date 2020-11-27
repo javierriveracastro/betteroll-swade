@@ -27,7 +27,9 @@
     </div>
     <div class="brsw-button-row">
         <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
-        <button id="roll-bennie-button" class="brsw-button-smaller">{{ localize 'BRSW.Roll_and_bennie' }}</button>
+        {{#if bennie_avaliable}}
+            <button id="roll-bennie-button" class="brsw-button-smaller">{{ localize 'BRSW.Roll_and_bennie' }}</button>
+        {{/if}}
     </div>
 </div>
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}

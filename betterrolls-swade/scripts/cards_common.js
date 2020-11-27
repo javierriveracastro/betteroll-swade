@@ -40,6 +40,28 @@ export function create_basic_chat_data(actor, type){
 
 
 /**
+ * Creates de common render options for all the cards
+ * @param {actor} actor
+ * @param {object} options: options for this card
+ */
+export function create_render_options(actor, options) {
+    options.bennie_avaliable = are_bennies_available(actor);
+    return options;
+}
+
+
+/**
+ * Returns true if an actor has bennies available or is master controlled.
+ * @param {actor} actor: The actor that we are checking
+ */
+function are_bennies_available(actor) {
+    if (actor.hasPlayerOwner) {
+        if (actor.data.data.bennies.value > 0) return true;
+    }
+    return false;
+}
+
+/**
  * Get the actor from the message flag
  * @param {ChatMessage} message
  * @returns {actor|null|*}

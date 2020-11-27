@@ -1,7 +1,8 @@
 // Functions for cards representing attributes
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
-    get_actor_from_message, get_roll_options, detect_fumble} from "./cards_common.js";
+    get_actor_from_message, get_roll_options, detect_fumble,
+    create_render_options} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -22,10 +23,11 @@ async function create_attribute_card(origin, name){
                 actor.data.data.attributes[attribute])}`)
         }
     }
+    let render_object = create_render_options(
+        actor, {actor: actor, header: {type: 'Attribute', title: name,
+            notes: notes}, footer: footer})
     chatData.content = await renderTemplate(
-        "modules/betterrolls-swade/templates/attribute_card.html",
-        {actor: actor, header: {type: 'Attribute', title: name,
-            notes: notes}, footer: footer});
+        "modules/betterrolls-swade/templates/attribute_card.html", render_object);
     let message = await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
