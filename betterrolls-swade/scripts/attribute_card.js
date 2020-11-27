@@ -13,7 +13,7 @@ import {create_result_card, show_fumble_card} from './result_card.js'
 async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
-    let notes = attribute_to_string(
+    let notes = name + " " + attribute_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
     let footer = [];
     for (let attribute in actor.data.data.attributes) {
