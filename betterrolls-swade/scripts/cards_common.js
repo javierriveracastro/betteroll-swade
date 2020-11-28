@@ -41,7 +41,7 @@ export function create_basic_chat_data(actor, type){
 
 /**
  * Creates de common render options for all the cards
- * @param {actor} actor
+ * @param {Actor} actor
  * @param {object} options: options for this card
  */
 export function create_render_options(actor, options) {
@@ -52,7 +52,7 @@ export function create_render_options(actor, options) {
 
 /**
  * Returns true if an actor has bennies available or is master controlled.
- * @param {actor} actor: The actor that we are checking
+ * @param {Actor} actor: The actor that we are checking
  */
 function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
@@ -63,7 +63,7 @@ function are_bennies_available(actor) {
 
 /**
  * Expends a bennie
- * @param {actor} actor: Actor who is going to expend the bennie
+ * @param {SwadeActor} actor: Actor who is going to expend the bennie
  */
 export function spend_bennie(actor){
     if (actor.hasPlayerOwner) {
@@ -76,23 +76,33 @@ export function spend_bennie(actor){
 }
 
 /**
+ * Try to get an actor from a token or an actor id
+ * @param token_id
+ * @param actor_id
+ */
+export function get_actor_from_ids(token_id, actor_id) {
+    if (canvas) {
+        if (token_id) {
+            let token = canvas.tokens.get(token_id);
+            if (token) return token.actor
+        }
+    }
+    // If we couldn't get the token, maybe because it was not defined actor.
+    if (actor_id) {
+        return game.actors.get(actor_id);
+    }
+}
+
+/**
  * Get the actor from the message flag
  * @param {ChatMessage} message
  * @returns {actor|null|*}
  */
 export function get_actor_from_message(message){
-    // We trt to get the actor for the token if possible
-    if (canvas) {
-        if (message.getFlag('betterrolls-swade', 'token')) {
-            let token = canvas.tokens.get(message.getFlag(
-                'betterrolls-swade', 'token'));
-            if (token) return token.actor
-        }
-    }
-    // If we couldn't get the token, maybe because it was not defined actor.
-    if (message.getFlag('betterrolls-swade', 'actor')) {
-        return game.actors.get(message.getFlag('betterrolls-swade', 'actor'));
-    }
+    return get_actor_from_ids(
+        message.getFlag('betterrolls-swade', 'token'),
+        message.getFlag('betterrolls-swade', 'actor')
+    );
 }
 
 

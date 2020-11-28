@@ -2,7 +2,7 @@
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
     get_actor_from_message, get_roll_options, detect_fumble,
-    create_render_options, spend_bennie} from "./cards_common.js";
+    create_render_options, spend_bennie, get_actor_from_ids} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -45,6 +45,18 @@ async function create_attribute_card(origin, name){
 
 
 /**
+ * Creates an attribute card from a token or actor id, for use in macros
+ * @param {string} token_id:
+ * @param {string} actor_id
+ * @param {string} name: Name of the attribute to roll
+ */
+function create_attribute_card_from_id(token_id, actor_id, name){
+    const actor = get_actor_from_ids(token_id, actor_id);
+    return create_attribute_card(actor, name);
+}
+
+
+/**
  * Function to convert attribute dice and modifiers into a string
  * @param attribute
  */
@@ -63,11 +75,12 @@ function attribute_to_string(attribute) {
  */
 export function attribute_card_hooks() {
     game.brsw.create_atribute_card = create_attribute_card;
+    game.brsw.create_attribute_card_from_id = create_attribute_card_from_id;
 }
 
 
 /**
- * Listener for clicks on attributes
+ * Creates a card after an event.
  * @param ev: javascript click event
  * @param {actor, token} target: token or actor from the char sheet
  */
@@ -87,16 +100,27 @@ async function attribute_click_listener(ev, target) {
 }
 
 /**
- * Activates the listeners for an attribute card
+ * Activates the listeners in the character sheet for attribute cards
  * @param app: Sheet app
  * @param html: Html code
  */
 export function activate_attribute_listeners(app, html) {
     let target = app.token?app.token:app.object;
     // We need a closure to hold data
-    html.find('.attribute-label a').bindFirst('click', async ev => {
+    const attribute_labels = html.find('.attribute-label a');
+    attribute_labels.bindFirst('click', async ev => {
         await attribute_click_listener(ev, target);
-    })
+    });
+    attribute_labels.attr('draggable', 'true');
+    attribute_labels.on('dragstart',async ev => {
+        const macro_data = {name: "Attribute roll", type: "script", scope: "global"}
+        const token_id = app.token ? app.token.id : '';
+        const actor_id = app.object ? app.object.id : '';
+        const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute
+        macro_data.command = `game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}')`;
+        ev.originalEvent.dataTransfer.setData(
+            'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
+    });
 }
 
 
