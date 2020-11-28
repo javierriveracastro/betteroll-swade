@@ -1,3 +1,10 @@
+/* General Styles */
+
+.brsw-clickable:hover {
+	cursor: pointer;
+	box-shadow: 0 0 8px red;
+}
+
 /* Styles for the card header */
 
 .brws-actor-img {
