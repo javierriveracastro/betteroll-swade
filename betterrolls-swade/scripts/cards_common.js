@@ -9,7 +9,7 @@ export const BRSW_CONST = {
 
 /**
 * Creates the basic chat data common to most cards
-* @param {actor} actor:  The actor origin of the message
+* @param {SwadeActor} actor:  The actor origin of the message
 * @param {int} type: The type of message
 * @return An object suitable to create a ChatMessage
 */

@@ -6,9 +6,10 @@ import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
-* Creates a card for an attribute
-* @param {token, actor} origin  The actor or token owning the attribute
-* @param {string} name The name of the attribute
+* Creates a chat card for an attribute
+*
+* @param {Token, SwadeActor} origin  The actor or token owning the attribute
+* @param {string} name The name of the attribute like 'vigor'
 * @return A promise for the ChatMessage object
 */
 async function create_attribute_card(origin, name){
@@ -45,10 +46,14 @@ async function create_attribute_card(origin, name){
 
 
 /**
- * Creates an attribute card from a token or actor id, for use in macros
- * @param {string} token_id:
- * @param {string} actor_id
- * @param {string} name: Name of the attribute to roll
+ * Creates an attribute card from a token or actor id
+ *
+ * @param {string} token_id A token id, if it can be solved it will be used
+ *  before actor
+ * @param {string} actor_id An actor id, it could be set as fallback or
+ *  if you keep token empty as the only way to find the actor
+ * @param {string} name: Name of the attribute to roll, like 'vigor'
+ * @return {Promise} a promise fot the ChatMessage object
  */
 function create_attribute_card_from_id(token_id, actor_id, name){
     const actor = get_actor_from_ids(token_id, actor_id);
@@ -76,13 +81,14 @@ function attribute_to_string(attribute) {
 export function attribute_card_hooks() {
     game.brsw.create_atribute_card = create_attribute_card;
     game.brsw.create_attribute_card_from_id = create_attribute_card_from_id;
+    game.brsw.roll_attribute = roll_attribute;
 }
 
 
 /**
  * Creates a card after an event.
  * @param ev: javascript click event
- * @param {actor, token} target: token or actor from the char sheet
+ * @param {SwadeActor, Token} target: token or actor from the char sheet
  */
 async function attribute_click_listener(ev, target) {
     const action = get_action_from_click(ev);
@@ -139,11 +145,13 @@ export function activate_attribute_card_listeners(message, html) {
 
 
 /**
- * Roll an attribute showing the roll card
- * @param {SwadeActor, token} character
- * @param {string} attribute_id
- * @param {string} html, the html of the attribute card
- * @param {boolean} expend_bennie: True if we want to spend a bennie
+ * Roll an attribute showing the roll card and the result card when enables
+ *
+ * @param {SwadeActor, token} character, The instance who is rolling
+ * @param {string} attribute_id, Attribute name like 'spirit'
+ * @param {string} html, The html code from a card that will be parsed for options,
+ *      it could be an empty string.
+ * @param {boolean} expend_bennie, True if we want to spend a bennie
  */
 async function roll_attribute(character, attribute_id, html, expend_bennie){
     // If character is a token get true actor
