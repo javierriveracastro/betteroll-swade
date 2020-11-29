@@ -54,8 +54,13 @@ export class brCard {
             // noinspection JSUnresolvedVariable
             footer.push("Rof: "+ this.item.data.data.rof);
             // noinspection JSUnresolvedVariable
-            footer.push("Damage: " + this.item.data.data.damage);
+            footer.push("Dmg: " + this.item.data.data.damage);
             footer.push("AP: " + this.item.data.data.ap);
+            if (parseInt(this.item.data.data.shots)) {
+                // noinspection JSUnresolvedVariable
+                footer.push("Shots: " + this.item.data.data.currentShots + "/" +
+                    this.item.data.data.shots)
+            }
         } else if (this.item.type === "power"){
             // noinspection JSUnresolvedVariable
             footer.push("PP: " + this.item.data.data.pp);
