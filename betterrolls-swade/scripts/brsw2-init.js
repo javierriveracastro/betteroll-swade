@@ -3,6 +3,7 @@ import {register_settings} from "./betterrollswade.js";
 import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
+import {skill_card_hooks} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
 
 // Startup scripts
@@ -13,6 +14,7 @@ Hooks.on(`ready`, () => {
 	// Create a base object to hook functions
     game.brsw = {};
     attribute_card_hooks();
+    skill_card_hooks();
 	register_settings_version2();
     register_settings();
     // Load partials.

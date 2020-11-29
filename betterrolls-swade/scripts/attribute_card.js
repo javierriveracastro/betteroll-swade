@@ -2,7 +2,8 @@
 
 import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
     get_actor_from_message, get_roll_options, detect_fumble,
-    create_render_options, spend_bennie, get_actor_from_ids} from "./cards_common.js";
+    create_render_options, spend_bennie, get_actor_from_ids,
+    trait_to_string} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -15,12 +16,12 @@ import {create_result_card, show_fumble_card} from './result_card.js'
 async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
-    let notes = name + " " + attribute_to_string(
+    let notes = name + " " + trait_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
     let footer = [];
     for (let attribute in actor.data.data.attributes) {
         if (actor.data.data.attributes.hasOwnProperty(attribute)) {
-            footer.push(`${attribute} ${attribute_to_string(
+            footer.push(`${attribute} ${trait_to_string(
                 actor.data.data.attributes[attribute])}`)
         }
     }
@@ -34,7 +35,7 @@ async function create_attribute_card(origin, name){
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
     await message.setFlag('betterrolls-swade', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
-        await message.setFlag('betterrolls-swade', 'actor',
+    await message.setFlag('betterrolls-swade', 'actor',
             actor.id)
     if (actor !== origin) {
         // noinspection JSUnresolvedVariable
@@ -60,20 +61,6 @@ function create_attribute_card_from_id(token_id, actor_id, name){
     return create_attribute_card(actor, name);
 }
 
-
-/**
- * Function to convert attribute dice and modifiers into a string
- * @param attribute
- */
-function attribute_to_string(attribute) {
-    let string = `${name} d${attribute.die.sides}`;
-    let modifier = parseInt(
-        attribute.die.modifier);
-    if (modifier) {
-        string = string + (modifier > 0?"+":"") + modifier;
-    }
-    return string;
-}
 
 /**
  * Hooks the public functions to a global object

@@ -4,6 +4,7 @@ import {getWhisperData, spendMastersBenny} from "./utils.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
+    TYPE_SKILL_CARD: 1,
     TYPE_RESULT_CARD: 100
 };
 
@@ -251,4 +252,19 @@ export function detect_fumble(roll) {
         }
     });
     return fumble > 0;
+}
+
+
+/**
+ * Function to convert trait dice and modifiers into a string
+ * @param trait
+ */
+export function trait_to_string(trait) {
+    let string = `${name} d${trait.die.sides}`;
+    let modifier = parseInt(
+        trait.die.modifier);
+    if (modifier) {
+        string = string + (modifier > 0?"+":"") + modifier;
+    }
+    return string;
 }
