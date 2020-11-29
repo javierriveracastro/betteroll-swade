@@ -60,11 +60,57 @@ In the image above you can see two cards: the first one is a system roll (with m
 
 The three boxes are the number rolled on the dice, the modifier, and the target number. You can change them after the roll and it will update the result.
 
+## Macros and API
+
+The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
+
+The module exposes an API in game.brsw, these are the current supported functions:
+
+### async function create_attribute_card(origin, name)
+
+* Creates a chat card for an attribute
+*
+* @param {Token, SwadeActor} origin  The actor or token owning the attribute
+* @param {string} name The name of the attribute like 'vigor'
+* @return A promise for the ChatMessage object
+
+Example:
+
+game.brsw.create_atribute_card(canvas.tokens.controlled[0], "Strength")
+
+### function create_attribute_card_from_id(token_id, actor_id, name)
+
+ * Creates an attribute card from a token or actor id
+ *
+ * @param {string} token_id A token id, if it can be solved it will be used before actor
+ * @param {string} actor_id An actor id, it could be set as fallback or if you keep token empty as the only way to find the actor
+ * @param {string} name: Name of the attribute to roll, like 'vigor'
+ * @return {Promise} a promise fot the ChatMessage object
+
+Example:
+
+game.brsw.create_attribute_card_from_id(canvas.tokens.controlled[0].id,'', 'spirit')
+
+### async function roll_attribute(character, attribute_id, html, expend_bennie)
+
+ * Roll an attribute showing the roll card and the result card when enables
+ *
+ * @param {SwadeActor, token} character, The instance who is rolling
+ * @param {string} attribute_id, Attribute name like 'spirit'
+ * @param {string} html, The html code from a card that will be parsed for options, it could be an empty string.
+ * @param {boolean} expend_bennie, True if we want to spend a bennie
+
+Example:
+
+game.brsw.roll_attribute(canvas.tokens.controlled[0], 'spirit', '', false)
+
+ 
 ## Acknowledgements
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
 - All the nice people in the #swade channel of the official discord. Such a great community,
+- Sergut for his "just a couple of errors" editing of this README.
 
 ## License
 The source code is licensed under GPL-3.0.
