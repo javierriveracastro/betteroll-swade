@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.5 aka Really ultra small update
+* Show shots on weapon cards.
+
 # 1.2.4 aka Weekly change in damage calculation
 * Another bug about wound calculation with armor. Now, for last, tougness is expected to "include" armor.
  
