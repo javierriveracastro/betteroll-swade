@@ -1,6 +1,11 @@
 {{>"modules/betterrolls-swade/templates/common_card_header.html"}}
 <hr>
-<h3>
-    Skill Card
-</h3>
+<div>
+    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
+        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Description'}}
+    </div>
+    <div class="brsw-skill-description brsw-collapsed">
+        {{ description }}
+    </div>
+</div>
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}
