@@ -31,42 +31,12 @@ async function open_roll_app(target, actor) {
 
 function changeRolls (actor, html) {
 	if (actor && actor.permission < 3) { return; }
-	// Remove all scrollables and inline actor styles
-	html.find('.scrollable').removeClass('scrollable');
-	html.find('.quickaccess-list, .inventory, .power-list, .skills-list, .gear-list, .gear.skills').css(
-		'overflow', 'visible');
 	// Images and events in items with image
 	let itemImage = html.find('.item-image');
 	if (itemImage.length > 0) {
 		itemImage.off();
 		itemImage.click(event => {// noinspection JSIgnoredPromiseFromCall
 			bind_click(event, actor)});
-	}
-	// Images and events in skill list
-	let skill_list;
-	if (actor.data.type === "character") {
-		skill_list = html.find('li.item.skill');
-	} else {
-		if (game.settings.get('betterrolls-swade', 'rollNPCSkills')) {
-			skill_list = html.find('span.item.skill');
-		} else {
-			skill_list = [];  // No skill for NPC if setting disabled.
-		}
-	}
-	for (let skill_element of skill_list) {
-		let skill_wrapper = $(skill_element);
-		if (actor.data.type === 'npc') {
-			// Remove the block-inline style so the skills are shown one per
-			// line.
-			skill_wrapper.removeAttr("style");
-			skill_wrapper.attr('style', 'display:flex;');
-		}
-		let item_id = String(skill_wrapper.attr('data-item-id'));
-		let skill = actor.getOwnedItem(item_id);
-		skill_wrapper.prepend(`<img alt="roll" class="brsw-skill-image" src="${skill.img}" data-item-id="${item_id}">`);
-		let div_skill = skill_wrapper.find(".brsw-skill-image");
-		div_skill.click(event => {// noinspection JSIgnoredPromiseFromCall
-			bind_click(event, actor)})
 	}
 	// Create the context menu
 	let menu_items = [{icon: '<i class="fas fa-dice-d6"></i>', name:"Roll 1 dice",
@@ -84,21 +54,13 @@ function changeRolls (actor, html) {
 				  {icon:'<i class="fas fa-pager"></i>', name:"Complex roll",
 					  callback: (t) => {// noinspection JSIgnoredPromiseFromCall
 						  open_roll_app(t, actor)}}];
-	new ContextMenu(html.find('.item.skill, .item-image'), null, menu_items);
+	new ContextMenu(html.find('.item-image'), null, menu_items);
 }
 
 export function register_settings() {
 	game.settings.register('betterrolls-swade', 'dontRollDamage', {
 		name: "Don't autoroll damage",
 		hint: "Shows a button for damage rolling instead of rolling it automatically with the attack",
-		default: false,
-		scope: "world",
-		type: Boolean,
-		config: true
-	});
-	game.settings.register('betterrolls-swade', 'rollNPCSkills', {
-		name: "Roll NPC skills",
-		hint: "Add an image to the NPC sheet to be able to roll their skills",
 		default: false,
 		scope: "world",
 		type: Boolean,
