@@ -3,7 +3,7 @@ import {register_settings} from "./betterrollswade.js";
 import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
-import {skill_card_hooks} from './skill_card.js';
+import {skill_card_hooks, activate_skill_listeners} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
 
 // Startup scripts
@@ -59,6 +59,7 @@ Hooks.on('renderChatMessage', (message, html) => {
 ['SwadeCharacterSheet', 'SwadeNPCSheet'].forEach(name => {
     Hooks.on('render' + name, (app, html, _) => {
         activate_attribute_listeners(app, html);
+        activate_skill_listeners(app, html);
     })
 })
 
