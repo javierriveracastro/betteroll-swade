@@ -15,10 +15,11 @@ async function create_skill_card(origin, skill_id) {
     const skill = actor.items.find(item => {return item.id === skill_id});
     console.log(skill)
     const notes = skill.name + ' ' + trait_to_string(skill.data.data)
+    const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Skill', title: skill.name,
-            notes: notes}, footer: {}})
+            notes: notes}, footer: footer})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/skill_card.html", render_object);
     let message = await ChatMessage.create(chatData);
