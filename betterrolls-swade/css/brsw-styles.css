@@ -34,6 +34,15 @@
     margin: 2px;
 }
 
+.brsw-header-img {
+    height: 1.5em;
+}
+
+.brsw-header-txt {
+    position: relative;
+    top: -.35em;
+}
+
 /* Styles for the card body */
 
 .brws-attribute-buttons {

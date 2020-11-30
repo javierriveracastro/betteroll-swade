@@ -19,7 +19,7 @@ async function create_skill_card(origin, skill_id) {
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Skill', title: skill.name,
-            notes: notes}, footer: footer})
+            notes: notes, img: skill.img}, footer: footer})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/skill_card.html", render_object);
     let message = await ChatMessage.create(chatData);

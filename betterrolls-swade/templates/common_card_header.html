@@ -4,6 +4,11 @@
         {{header.type}}
         <i class="fas fa-external-link-alt brsw-popup brsw-clickable"></i>
     </span>
-    <div class="brsw-header-tittle">{{header.title}}</div>
+    <div class="brsw-header-tittle">
+        {{# if header.img }}
+            <img class="brsw-header-img" src="{{{header.img}}}">
+        {{/if}}
+        <span class="brsw-header-txt">{{header.title}}</span>
+    </div>
     <div class="brsw-header-notes">{{header.notes}}</div>
 </div>
