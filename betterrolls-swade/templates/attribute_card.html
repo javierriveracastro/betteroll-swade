@@ -11,25 +11,25 @@
         {{ localize 'BRSW.TN' }}:
         <span class="brws-selectable brsw-clickable" data-type="tn" data-value="8">8</span>
     </div>
-    <div>
-        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-form-options">
-            <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
-        </div>
-        <div class="brsw-form-options brsw-collapsed">
-            <span>
-                <label class="brsw-label-options">{{ localize 'BRSW.Modifier' }}</label>
-                <input type="number" data-type="modifier" value="" class="brsw-input-options">
-            </span><span>
-                <label class="brsw-label-options">{{ localize 'BRSW.Target_number' }}</label>
-                <input type="number" data-type="tn" value="" class="brsw-input-options">
-            </span>
-        </div>
+</div>
+<div>
+    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-form-options">
+        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
     </div>
-    <div class="brsw-button-row">
-        <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
-        {{#if bennie_avaliable}}
-            <button id="roll-bennie-button" class="brsw-button-smaller">{{ localize 'BRSW.Roll_and_bennie' }}</button>
-        {{/if}}
+    <div class="brsw-form-options brsw-collapsed">
+        <span>
+            <label class="brsw-label-options">{{ localize 'BRSW.Modifier' }}</label>
+            <input type="number" data-type="modifier" value="" class="brsw-input-options">
+        </span><span>
+            <label class="brsw-label-options">{{ localize 'BRSW.Target_number' }}</label>
+            <input type="number" data-type="tn" value="" class="brsw-input-options">
+        </span>
     </div>
+</div>
+<div class="brsw-button-row">
+    <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
+    {{#if bennie_avaliable}}
+        <button id="roll-bennie-button" class="brsw-button-smaller">{{ localize 'BRSW.Roll_and_bennie' }}</button>
+    {{/if}}
 </div>
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}
