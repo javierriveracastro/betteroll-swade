@@ -20,7 +20,8 @@ Hooks.on(`ready`, () => {
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade/templates/common_card_header.html',
         'modules/betterrolls-swade/templates/common_card_footer.html',
-        'modules/betterrolls-swade/templates/common_options.html'];
+        'modules/betterrolls-swade/templates/common_options.html',
+        'modules/betterrolls-swade/templates/common_more_options.html'];
     loadTemplates(templatePaths).then(console.log(
         "Better Rolls templates preloaded"));
     // Add some jquery magic to allow binding our functions prior to system

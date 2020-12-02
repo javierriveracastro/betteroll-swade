@@ -32,5 +32,6 @@
 	"BRSW.Target_number": "Target Number",
 	"BRSW.Roll_and_bennie": "with bennie",
 	"BRSW.Attribute": "Attribute",
-	"BRSW.Description": "Description"
+	"BRSW.Description": "Description",
+	"BRSW.Number_trait_dice": "Number of trait dice"
 }

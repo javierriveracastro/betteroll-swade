@@ -7,6 +7,22 @@
     {{ description }}
 </div>
 {{>"modules/betterrolls-swade/templates/common_options.html"}}
+<div>
+    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
+        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
+    </div>
+    <div class="brsw-complete-form-options brsw-collapsed">
+        <div class="brsw-form-options">
+            {{>"modules/betterrolls-swade/templates/common_more_options.html"}}
+        </div>
+        <div class="brsw-form-options">
+            <span>
+                <label class="brsw-label-options">{{ localize 'BRSW.Number_trait_dice' }}</label>
+                <input type="number" data-type="rof" value="" class="brsw-input-options">
+            </span>
+        </div>
+    </div>
+</div>
 <div class="brsw-button-row">
     <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
     {{#if bennie_avaliable}}

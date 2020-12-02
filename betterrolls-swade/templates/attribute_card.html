@@ -6,13 +6,7 @@
         <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
     </div>
     <div class="brsw-form-options brsw-collapsed">
-        <span>
-            <label class="brsw-label-options">{{ localize 'BRSW.Modifier' }}</label>
-            <input type="number" data-type="modifier" value="" class="brsw-input-options">
-        </span><span>
-            <label class="brsw-label-options">{{ localize 'BRSW.Target_number' }}</label>
-            <input type="number" data-type="tn" value="" class="brsw-input-options">
-        </span>
+        {{>"modules/betterrolls-swade/templates/common_more_options.html"}}
     </div>
 </div>
 <div class="brsw-button-row">
