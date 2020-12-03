@@ -3,7 +3,8 @@ import {register_settings} from "./betterrollswade.js";
 import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
-import {skill_card_hooks, activate_skill_listeners} from './skill_card.js';
+import {skill_card_hooks, activate_skill_listeners,
+    activate_skill_card_listeners} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
 
 // Startup scripts
@@ -51,6 +52,8 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_attribute_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_RESULT_CARD) {
             activate_result_card_listeners(html);
+        } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
+            activate_skill_card_listeners(message, html);
         }
     }
 });
