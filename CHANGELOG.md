@@ -1,8 +1,22 @@
 # Changelog
 
+## Version 1.92
+* A couple of Spanish translations
+* Saner defaults
+* Some card redesign
+* Button to roll spending a bennie
+* First documentation
+* Shadow clickable elements on hover
+* Attributes draggable to macro hot bar
+* Documentation attribute exposed functions
+* Merge version 1.2.5 changes
+* Skill cards
+* Multiple trait dice rolls (high rof)
+* Drag skills to macro toolbar.
+
 ## Version 1.91
 * Critical failure detection
-* Multilanguage support.
+* Multilingual support.
 * Spanish translation added
 * Collapsable options in the card allowing discrete modifiers and target number
 * Support for a different Wild Die when using Dice So Nice
