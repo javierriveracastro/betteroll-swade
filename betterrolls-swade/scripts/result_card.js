@@ -8,29 +8,39 @@ import {broofa} from "./utils.js";
 
 /**
  * Create and show a basic result chat card
- * @param {actor} actor: The actor who made the action that activates this
+ * @param {SwadeActor} actor: The actor who made the action that activates this
  *  result card
  *  @param {Array} results: Array with the results of the roll
  *  @param {int} modifier: Modifiers
  *  @param {int} tn: Target number
  *  @param {int} rof: Number of trait dice rolled
  */
-export async function create_result_card (actor, results, modifier, tn, orf){
+export async function create_result_card (actor, results, modifier, tn, rof){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
     if (result_card_option === 'none') return;
     // Ges results before modifier
     let flat_rolls = [];
-    console.log(results)
-    results.forEach(result => {
-        if (typeof result === 'string') {
-            // This is likely a mod to the last roll
-            flat_rolls[flat_rolls.length - 1].die_roll += parseInt(result);
-        } else {
-            // This is a new roll
-            flat_rolls.push({die_roll: result - modifier, id: broofa()});
-        }
-    })
+    if (rof ===1 && ! actor.isWildcard) {
+        // For a reason that I don't want to investigate, non wildcards,
+        // rof 1 rolls when explode don't aggregate the results
+        let roll_value = 0;
+        results.forEach(result => {
+            roll_value += result;
+        })
+        flat_rolls.push({die_roll: roll_value, id: broofa()});
+    } else {
+        // Wildcards and extras who roll multiple dice
+        results.forEach(result => {
+            if (typeof result === 'string') {
+                // This is likely a mod to the last roll
+                flat_rolls[flat_rolls.length - 1].die_roll += parseInt(result);
+            } else {
+                // This is a new roll
+                flat_rolls.push({die_roll: result - modifier, id: broofa()});
+            }
+        });
+    }
     // Create chat card
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.OOC);
     if (result_card_option === 'master') {
@@ -97,7 +107,7 @@ function calculate_result(result_id){
 
 /**
  * Create and show a fumble card
- * @param {actor} actor: The poor actor who had critically failed
+ * @param {SwadeActor} actor: The poor actor who had critically failed
  */
 export async function show_fumble_card(actor){
     const result_card_option = game.settings.get('betterrolls-swade',
