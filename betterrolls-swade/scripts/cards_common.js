@@ -201,11 +201,14 @@ export function get_roll_options(html){
     html = $(html)
     let modifiers = []
     let tn = 4;
+    let rof = 1;
     html.find('.brws-selectable.brws-selected').each((_, element) => {
         if (element.dataset.type === 'modifier') {
             modifiers.push(element.dataset.value);
         } else if (element.dataset.type === 'tn') {
             tn = parseInt(element.dataset.value);
+        } else if (element.dataset.type === 'rof') {
+            rof = parseInt(element.dataset.value);
         }
     })
     html.find('.brsw-input-options').each((_, element) => {
@@ -220,10 +223,12 @@ export function get_roll_options(html){
                 }
             } else if (element.dataset.type === 'tn') {
                 tn = parseInt(element.value) || 0;
+            } else if (element.dataset.type === 'rof') {
+                rof = parseInt(element.value) || 1;
             }
         }
     })
-    return {additionalMods: modifiers, tn: tn}
+    return {additionalMods: modifiers, tn: tn, rof: rof}
 }
 
 /**
