@@ -135,8 +135,7 @@
 }
 
 .brsw-result-text {
-    margin-top: 2px;
-    margin-right: 2px;
+    margin: 2px;
 	text-align: center;
 	border-style: solid;
 	border-radius: 5px;

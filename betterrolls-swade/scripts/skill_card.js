@@ -145,6 +145,7 @@ async function roll_skill(character, skill_id, html, expend_bennie){
     if (is_fumble) {
         await show_fumble_card(actor);
     } else {
-        await create_result_card(actor, roll.results, total_modifiers, options.tn);
+        await create_result_card(actor, roll.terms[0].values, total_modifiers,
+            options.tn, options.rof);
     }
 }

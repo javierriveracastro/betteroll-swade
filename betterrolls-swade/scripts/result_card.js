@@ -13,13 +13,15 @@ import {broofa} from "./utils.js";
  *  @param {Array} results: Array with the results of the roll
  *  @param {int} modifier: Modifiers
  *  @param {int} tn: Target number
+ *  @param {int} rof: Number of trait dice rolled
  */
-export async function create_result_card (actor, results, modifier, tn){
+export async function create_result_card (actor, results, modifier, tn, orf){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
     if (result_card_option === 'none') return;
     // Ges results before modifier
     let flat_rolls = [];
+    console.log(results)
     results.forEach(result => {
         if (typeof result === 'string') {
             // This is likely a mod to the last roll
