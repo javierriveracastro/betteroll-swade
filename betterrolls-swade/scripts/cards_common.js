@@ -238,11 +238,11 @@ export function get_roll_options(html){
 export function detect_fumble(roll) {
     let fumble = 0;
     // noinspection ES6MissingAwait
-    roll.terms[0].rolls.forEach(partial_roll => {
+    roll.terms[0].results.forEach(partial_roll => {
         if (partial_roll.hasOwnProperty('result')) {
             // Extra rolling one dice
             // noinspection JSIncompatibleTypesComparison
-            if (partial_roll.result === 1 && roll.terms[0].rolls.length === 1) {
+            if (partial_roll.result === 1 && roll.terms[0].results.length === 1) {
                 let test_fumble_roll = new Roll('1d6');
                 test_fumble_roll.roll()
                 test_fumble_roll.toMessage(

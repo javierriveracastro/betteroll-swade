@@ -16,7 +16,6 @@ import {create_result_card, show_fumble_card} from "./result_card.js";
 async function create_skill_card(origin, skill_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const skill = actor.items.find(item => {return item.id === skill_id});
-    console.log(skill)
     const notes = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
