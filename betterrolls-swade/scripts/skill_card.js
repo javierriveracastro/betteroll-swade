@@ -2,7 +2,7 @@
 
 import {
     BRSW_CONST, create_basic_chat_data, create_render_options, detect_fumble,
-    get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
+    get_action_from_click, get_actor_from_ids, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
 
@@ -43,10 +43,27 @@ async function create_skill_card(origin, skill_id) {
 
 
 /**
+* Creates an skill card from a token or actor id, mainly for use in macros
+*
+* @param {string} token_id A token id, if it can be solved it will be used
+*  before actor
+* @param {string} actor_id An actor id, it could be set as fallback or
+*  if you keep token empty as the only way to find the actor
+* @param {string} skill_id: Id of the skill item
+* @return {Promise} a promise fot the ChatMessage object
+*/
+function create_skill_card_from_id(token_id, actor_id, skill_id){
+    const actor = get_actor_from_ids(token_id, actor_id);
+    return create_skill_card(actor, skill_id);
+}
+
+
+/**
  * Hooks the public functions to a global object
  */
 export function skill_card_hooks() {
     game.brsw.create_skill_card = create_skill_card;
+    game.brsw.create_skill_card_from_id = create_skill_card_from_id;
 }
 
 
@@ -85,6 +102,19 @@ export function activate_skill_listeners(app, html) {
     skill_labels.bindFirst('click', async ev => {
         await skill_click_listener(ev, target);
     });
+    // System drag listeners are on lis or spans, not as
+    let skill_li = html.find('li.item.skill, span.item.skill');
+    skill_li.bindFirst('dragstart',async ev => {
+        // First term for PC, second one for NPCs
+        const skill_id = ev.currentTarget.dataset.itemId;
+        const macro_data = {name: "Skill roll", type: "script", scope: "global"};
+        const token_id = app.token ? app.token.id : '';
+        const actor_id = app.object ? app.object.id : '';
+        macro_data.command = `game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}')`;
+        ev.originalEvent.dataTransfer.setData(
+            'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
+    });
+
 }
 
 
