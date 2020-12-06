@@ -98,7 +98,8 @@ async function skill_click_listener(ev, target) {
  */
 export function activate_skill_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const skill_labels = html.find('.skill-label a, .skill.item a');
+    const skill_labels = html.find('.skill-label a, .skill.item>a');
+    console.log(skill_labels)
     skill_labels.bindFirst('click', async ev => {
         await skill_click_listener(ev, target);
     });
@@ -128,6 +129,12 @@ export function activate_skill_card_listeners(message, html) {
         const actor = get_actor_from_message(message);
         const skill_id = message.getFlag('betterrolls-swade', 'skill_id');
         await roll_skill(actor, skill_id, html, ev.currentTarget.id.includes('bennie'));
+    });
+    html.find('.brsw-header-img').click(_ => {
+        const actor = get_actor_from_message(message);
+        const item = actor.getOwnedItem(message.getFlag(
+            'betterrolls-swade', 'skill_id'));
+        item.sheet.render(true);
     })
 }
 
