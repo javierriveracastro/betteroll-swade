@@ -60,6 +60,18 @@ In the image above you can see two cards: the first one is a system roll (with m
 
 The three boxes are the number rolled on the dice, the modifier, and the target number. You can change them after the roll and it will update the result.
 
+## Skill card
+
+The skill cards are very similar to attribute ones.
+
+![skill card](docs/skill_card.png)
+
+The main difference is the addition of a collapsed skill description and the ability to roll any number of trait dice. This is useful for some spells, frenzy attacks, etc...
+
+The result card will show one row of results for earch dice.
+
+![multiple rof result](docs/result_row_multiple_rof.png)
+
 ## Macros and API
 
 The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
@@ -103,6 +115,31 @@ game.brsw.create_attribute_card_from_id(canvas.tokens.controlled[0].id,'', 'spir
 Example:
 
 game.brsw.roll_attribute(canvas.tokens.controlled[0], 'spirit', '', false)
+
+### async function create_skill_card(origin, skill_id)
+
+* Creates a chat card for a skill
+*
+* @param {Token, SwadeActor} origin  The actor or token owning the attribute
+* @param {string} skill_id The id of the skill that we want to show
+* @return A promise for the ChatMessage object
+
+Example:
+game.brsw.create_skill_card(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id)
+
+### function create_skill_card_from_id(token_id, actor_id, skill_id)
+
+* Creates a skill card from a token or actor id, mainly for use in macros
+*
+* @param {string} token_id A token id, if it can be solved it will be used
+*  before actor
+* @param {string} actor_id An actor id, it could be set as fallback or
+*  if you keep token empty as the only way to find the actor
+* @param {string} skill_id: Id of the skill item
+* @return {Promise} a promise fot the ChatMessage object
+
+Example:
+game.brsw.create_skill_card_from_id(canvas.tokens.controlled[0].id, '', canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id)
 
  
 ## Acknowledgements
