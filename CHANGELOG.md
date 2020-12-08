@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.93
+* Solves a nasty bug that prevented editing skills.
+
 ## Version 1.92
 * A couple of Spanish translations
 * Saner defaults
