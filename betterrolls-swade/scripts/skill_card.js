@@ -64,6 +64,7 @@ function create_skill_card_from_id(token_id, actor_id, skill_id){
 export function skill_card_hooks() {
     game.brsw.create_skill_card = create_skill_card;
     game.brsw.create_skill_card_from_id = create_skill_card_from_id;
+    game.brsw.roll_skill = roll_skill;
 }
 
 

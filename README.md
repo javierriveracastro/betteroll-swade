@@ -141,7 +141,17 @@ game.brsw.create_skill_card(canvas.tokens.controlled[0], canvas.tokens.controlle
 Example:
 game.brsw.create_skill_card_from_id(canvas.tokens.controlled[0].id, '', canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id)
 
- 
+### async function roll_skill(character, skill_id, html, expend_bennie)
+
+ * @param {SwadeActor, token} character, The instance who is rolling
+ * @param {string} skill_id the id of the skill we are going to roll
+ * @param {string} html, The html code from a card that will be parsed for options,
+ *      it could be an empty string.
+ * @param {boolean} expend_bennie, True if we want to spend a bennie
+
+Example:
+game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id, '', false)
+
 ## Acknowledgements
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
