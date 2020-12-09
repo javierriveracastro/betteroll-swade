@@ -182,6 +182,7 @@ export class BetterRollsHooks {
 
 BetterRollsHooks.addActorSheet("SwadeCharacterSheet");
 BetterRollsHooks.addActorSheet("SwadeNPCSheet");
+BetterRollsHooks.addActorSheet("CharacterSheet");
 
 Hooks.on(`ready`, () => {
 	console.log('Better Rolls for SWADE | Ready');

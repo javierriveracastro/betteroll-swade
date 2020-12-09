@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.6 aka Wellcome PEG
+* Support Official Shhet.
+
 # 1.2.5 aka Really ultra small update
 * Show shots on weapon cards.
 
