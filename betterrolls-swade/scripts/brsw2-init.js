@@ -6,6 +6,7 @@ import {attribute_card_hooks, activate_attribute_listeners,
 import {skill_card_hooks, activate_skill_listeners,
     activate_skill_card_listeners} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
+import {item_card_hooks} from "./item_card.js";
 
 // Startup scripts
 
@@ -16,6 +17,7 @@ Hooks.on(`ready`, () => {
     game.brsw = {};
     attribute_card_hooks();
     skill_card_hooks();
+    item_card_hooks();
 	register_settings_version2();
     register_settings();
     // Load partials.
