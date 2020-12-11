@@ -105,32 +105,39 @@ export function activate_item_card_listeners(message, html) {
 function make_item_footer(item) {
     let footer = [];
     if (item.type === "weapon"){
-        footer.push("Range: " +  item.data.data.range);
+        footer.push(game.i18n.localize("SWADE.Rng") + ": " +  
+            item.data.data.range);
         // noinspection JSUnresolvedVariable
-        footer.push("Rof: "+ item.data.data.rof);
+        footer.push(game.i18n.localize("SWADE.RoF") +
+            ": "+ item.data.data.rof);
         // noinspection JSUnresolvedVariable
-        footer.push("Dmg: " + item.data.data.damage);
-        footer.push("AP: " + item.data.data.ap);
+        footer.push(game.i18n.localize("BRSW.Dmg") + ": " + 
+            item.data.data.damage);
+        footer.push(game.i18n.localize("SWADE.Ap") + ": " + 
+            item.data.data.ap);
         if (parseInt(item.data.data.shots)) {
             // noinspection JSUnresolvedVariable
-            footer.push("Shots: " + item.data.data.currentShots + "/" +
-                this.item.data.data.shots)
+            footer.push(game.i18n.localize("SWADE.Mag") + ": " +
+                item.data.data.currentShots + "/" + this.item.data.data.shots)
         }
     } else if (item.type === "power"){
         // noinspection JSUnresolvedVariable
-        footer.push("PP: " + item.data.data.pp);
-        footer.push("Range: " + item.data.data.range);
-        footer.push("Duration: " + item.data.data.duration);
+        footer.push(game.i18n.localize("SWADE.PP") + ": " + item.data.data.pp);
+        footer.push(game.i18n.localize("SWADE.Rng") + ": " + 
+            item.data.data.range);
+        footer.push(game.i18n.localize("SWADE.Dur") + ": " +
+            item.data.data.duration);
         // noinspection JSUnresolvedVariable
         if (item.data.data.damage) {
             // noinspection JSUnresolvedVariable
-            footer.push("Damage: " + item.data.data.damage);
+            footer.push(game.i18n.localize("BRSW.Dmg") + ": " +
+                item.data.data.damage);
         }
     } else if (item.type === "armor") {
-        footer.push("Armor: " + item.data.data.armor);
+        footer.push(game.i18n.localize("SWADE.Armor") + ": " + item.data.data.armor);
         // noinspection JSUnresolvedVariable
-        footer.push("Min. Strength: " + item.data.data.minStr);
-        let locations = "Location: "
+        footer.push(game.i18n.localize("BRSW.MinStr") + ": " + item.data.data.minStr);
+        let locations = game.i18n.localize("BRSW.Location") + ": "
         for (let armor_location in item.data.data.locations) {
             if (item.data.data.locations.hasOwnProperty(armor_location) &&
                     item.data.data.locations[armor_location]) {
@@ -139,10 +146,9 @@ function make_item_footer(item) {
         }
         footer.push(locations)
     } else if (item.type === "shield") {
-        footer.push("Parry: " + item.data.data.parry);
+        footer.push(game.i18n.localize("SSO.Parry") + ": " + item.data.data.parry);
         // noinspection JSUnresolvedVariable
-        footer.push("Cover: " + item.data.data.cover);
+        footer.push(game.i18n.localize("SWADE.Cover") + ": " + item.data.data.cover);
     }
-    console.log(item)
     return footer
 }

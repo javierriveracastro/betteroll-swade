@@ -33,5 +33,9 @@
     "BRSW.Roll_and_bennie": "con bennie",
   	"BRSW.Attribute": "Atributo",
     "BRSW.Description": "Descripción",
-    "BRSW.Number_trait_dice": "Número de dados"
+    "BRSW.Number_trait_dice": "Número de dados",
+  	"BRSW.Dmg": "Dmg",
+	"BRSW.MinStr": "Fuerza min.",
+    "BRSW.Location": "Localización"
+
 }
