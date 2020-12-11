@@ -1,1 +1,9 @@
-<h2>Item card</h2>
+{{>"modules/betterrolls-swade/templates/common_card_header.html"}}
+<hr>
+<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
+    <i class="fas fa-caret-down"></i>{{ localize 'BRSW.Description'}}
+</div>
+<div class="brsw-skill-description">
+    {{{ description }}}
+</div>
+{{>"modules/betterrolls-swade/templates/common_card_footer.html"}}

@@ -15,9 +15,10 @@ async function create_item_card(origin, item_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
+    let footer = make_item_footer(item);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Item', title: item.name,
-            notes: 'notes', img: item.img}, footer: [],
+            notes: item.data.data.notes, img: item.img}, footer: footer,
             description: item.data.data.description})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/item_card.html", render_object);
@@ -59,7 +60,6 @@ async function item_click_listener(ev, target) {
     // First term for PC, second one for NPCs
     const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.dataset.itemId
-    console.log(ev.currentTarget.parentElement.dataset)
     // Show card
     await create_item_card(
         target, item_id);
@@ -80,4 +80,48 @@ export function activate_item_listeners(app, html) {
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
+}
+
+
+/**
+ * Creates a footer useful for an item.
+ */
+function make_item_footer(item) {
+    let footer = [];
+    if (item.type === "weapon"){
+        footer.push("Range: " +  item.data.data.range);
+        // noinspection JSUnresolvedVariable
+        footer.push("Rof: "+ item.data.data.rof);
+        // noinspection JSUnresolvedVariable
+        footer.push("Dmg: " + item.data.data.damage);
+        footer.push("AP: " + item.data.data.ap);
+        if (parseInt(item.data.data.shots)) {
+            // noinspection JSUnresolvedVariable
+            footer.push("Shots: " + item.data.data.currentShots + "/" +
+                this.item.data.data.shots)
+        }
+    } else if (item.type === "power"){
+        // noinspection JSUnresolvedVariable
+        footer.push("PP: " + item.data.data.pp);
+        footer.push("Range: " + item.data.data.range);
+        footer.push("Duration: " + item.data.data.duration);
+        // noinspection JSUnresolvedVariable
+        if (item.data.data.damage) {
+            // noinspection JSUnresolvedVariable
+            footer.push("Damage: " + item.data.data.damage);
+        }
+    } else if (item.type === "armor") {
+        footer.push("Armor: " + item.data.data.armor);
+        footer.push("Min. Strength: " + item.data.data.minStr);
+        let locations = "Location: "
+        for (let armor_location in item.data.data.locations) {
+            if (item.data.data.locations.hasOwnProperty(armor_location) &&
+                    item.data.data.locations[armor_location]) {
+                locations += armor_location;
+            }
+        }
+        footer.push(locations)
+    }
+    console.log(item)
+    return footer
 }
