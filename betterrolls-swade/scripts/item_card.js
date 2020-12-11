@@ -5,6 +5,24 @@ import {
     get_action_from_click, get_actor_from_message
 } from "./cards_common.js";
 
+
+const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
+    'zaubern', 'druidism', 'elementalism', 'glamour', 'heahwisardry',
+    'hrimwisardry', 'solar magic', 'song magic', 'soul binding', 'artificer',
+    'astrology', 'dervish', 'divination', 'jinn binding', 'khem-hekau',
+    'mathemagic', 'sand magic', "sha'ir", 'ship magic', 'ushabti',
+    'wizir magic', 'word magic', 'druidenmagie', 'elementarmagie', 'heahmagie',
+    'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe', 'hechicería',
+    'hechiceria', 'foi', 'magie', 'science étrange', 'science etrange',
+    'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
+    'weird science'];
+const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
+const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
+const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
+    "athlétisme"];
+const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
+    "non entraine", "non entrainé"];
+
 /**
 * Creates a chat card for an item
 *
@@ -17,9 +35,11 @@ async function create_item_card(origin, item_id) {
     const item = actor.items.find(item => {return item.id === item_id});
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let footer = make_item_footer(item);
+    const skill = get_item_skill(item, actor);
+    const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Item', title: item.name,
-            notes: item.data.data.notes, img: item.img}, footer: footer,
+            notes: notes, img: item.img}, footer: footer,
             description: item.data.data.description})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/item_card.html", render_object);
@@ -118,7 +138,7 @@ function make_item_footer(item) {
         if (parseInt(item.data.data.shots)) {
             // noinspection JSUnresolvedVariable
             footer.push(game.i18n.localize("SWADE.Mag") + ": " +
-                item.data.data.currentShots + "/" + this.item.data.data.shots)
+                item.data.data.currentShots + "/" + item.data.data.shots)
         }
     } else if (item.type === "power"){
         // noinspection JSUnresolvedVariable
@@ -151,4 +171,73 @@ function make_item_footer(item) {
         footer.push(game.i18n.localize("SWADE.Cover") + ": " + item.data.data.cover);
     }
     return footer
+}
+
+
+/**
+ * Guess the skill that should be rolled for an item
+ * @param {SwadeItem} item The item.
+ * @param {SwadeActor} actor The owner of the iem
+ */
+function get_item_skill(item, actor) {
+    // First if the item has a skill in actions we use it
+    if (item.data.data.actions && item.data.data.actions.skill) {
+        return skill_from_string(actor, item.data.data.actions.skill);
+    }
+    // Now check if there is something in the Arcane field
+    // noinspection JSUnresolvedVariable
+    if (item.data.data.arcane) {
+        // noinspection JSUnresolvedVariable
+        return skill_from_string(actor, item.data.data.arcane);
+    }
+    // If there is no skill anyway we are left to guessing
+    let skill;
+    if (item.type === "power") {
+        skill = check_skill_in_actor(actor, ARCANE_SKILLS);
+    } else if (item.type === "weapon") {
+        if (parseInt(item.data.data.range) > 0) {
+            // noinspection JSUnresolvedVariable
+            if (item.data.data.damage.includes('str')) {
+                skill = check_skill_in_actor(actor, THROWING_SKILLS);
+            } else {
+                skill = check_skill_in_actor(actor, SHOOTING_SKILLS);
+            }
+        } else {
+            skill = check_skill_in_actor(actor, FIGHTING_SKILLS);
+        }
+    }
+    if (skill === undefined) {
+        skill = check_skill_in_actor(actor, UNTRAINED_SKILLS);
+    }
+    return skill;
+}
+
+
+/**
+ * Get an skill from an actor and the skill name
+ * @param {SwadeActor} actor Where search for the skill
+ * @param {string} skill_name
+ */
+function skill_from_string(actor, skill_name) {
+    return  actor.items.find(skill => {
+        return skill.name.toLowerCase() === skill_name.toLowerCase();
+    });
+}
+
+
+/**
+ * Check if an actor has a skill in a list
+ * @param {SwadeActor} actor
+ * @param {[string]} possible_skills List of skills to check
+ * @return {SwadeItem} found skill or undefined
+ */
+function check_skill_in_actor(actor, possible_skills) {
+    let skill_found;
+    actor.data.items.forEach((skill) => {
+        if (possible_skills.includes(skill.name.toLowerCase()) && skill.type === 'skill') {
+            skill_found = skill;
+        }
+    });
+    // noinspection JSUnusedAssignment
+    return skill_found;
 }
