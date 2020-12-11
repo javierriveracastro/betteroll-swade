@@ -112,6 +112,7 @@ function make_item_footer(item) {
         }
     } else if (item.type === "armor") {
         footer.push("Armor: " + item.data.data.armor);
+        // noinspection JSUnresolvedVariable
         footer.push("Min. Strength: " + item.data.data.minStr);
         let locations = "Location: "
         for (let armor_location in item.data.data.locations) {
@@ -121,6 +122,10 @@ function make_item_footer(item) {
             }
         }
         footer.push(locations)
+    } else if (item.type === "shield") {
+        footer.push("Parry: " + item.data.data.parry);
+        // noinspection JSUnresolvedVariable
+        footer.push("Cover: " + item.data.data.cover);
     }
     console.log(item)
     return footer
