@@ -6,7 +6,8 @@ import {attribute_card_hooks, activate_attribute_listeners,
 import {skill_card_hooks, activate_skill_listeners,
     activate_skill_card_listeners} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
-import {activate_item_listeners, item_card_hooks} from "./item_card.js";
+import {activate_item_listeners, item_card_hooks,
+    activate_item_card_listeners} from "./item_card.js";
 
 // Startup scripts
 
@@ -56,6 +57,8 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_result_card_listeners(html);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
             activate_skill_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
+            activate_item_card_listeners(message, html);
         }
     }
 });

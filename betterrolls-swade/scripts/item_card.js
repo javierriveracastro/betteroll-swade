@@ -2,7 +2,8 @@
 
 import {
     BRSW_CONST, create_basic_chat_data, create_render_options,
-    get_action_from_click} from "./cards_common.js";
+    get_action_from_click, get_actor_from_message
+} from "./cards_common.js";
 
 /**
 * Creates a chat card for an item
@@ -80,6 +81,21 @@ export function activate_item_listeners(app, html) {
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
+}
+
+
+/**
+ * Activate the listeners in the item card
+ * @param message: Message date
+ * @param html: Html produced
+ */
+export function activate_item_card_listeners(message, html) {
+    html.find('.brsw-header-img').click(_ => {
+        const actor = get_actor_from_message(message);
+        const item = actor.getOwnedItem(message.getFlag(
+            'betterrolls-swade', 'item_id'));
+        item.sheet.render(true);
+    })
 }
 
 
