@@ -99,8 +99,7 @@ async function skill_click_listener(ev, target) {
  */
 export function activate_skill_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const skill_labels = html.find('.skill-label a, .skill.item>a');
-    console.log(skill_labels)
+    const skill_labels = html.find('.skill-label a, .skill.item>a, .skill-name');
     skill_labels.bindFirst('click', async ev => {
         await skill_click_listener(ev, target);
     });

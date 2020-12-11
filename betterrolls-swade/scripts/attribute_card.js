@@ -83,12 +83,13 @@ async function attribute_click_listener(ev, target) {
     ev.stopImmediatePropagation();
     ev.preventDefault();
     ev.stopPropagation();
+    // The attribute id placement is sheet dependent.
+    const attribute_id = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
+        ev.currentTarget.parentElement.dataset.attribute
     // Show card
-    await create_attribute_card(
-      target, ev.currentTarget.parentElement.parentElement.dataset.attribute);
+    await create_attribute_card(target, attribute_id);
     if (action.includes('trait')) {
-        await roll_attribute(
-            target, ev.currentTarget.parentElement.parentElement.dataset.attribute, '', false)
+        await roll_attribute(target, attribute_id, '', false)
     }
 }
 
@@ -100,7 +101,7 @@ async function attribute_click_listener(ev, target) {
 export function activate_attribute_listeners(app, html) {
     let target = app.token?app.token:app.object;
     // We need a closure to hold data
-    const attribute_labels = html.find('.attribute-label a');
+    const attribute_labels = html.find('.attribute-label a, button.attribute-label');
     attribute_labels.bindFirst('click', async ev => {
         await attribute_click_listener(ev, target);
     });
@@ -109,7 +110,8 @@ export function activate_attribute_listeners(app, html) {
         const macro_data = {name: "Attribute roll", type: "script", scope: "global"}
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
-        const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute
+        const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
+            ev.currentTarget.parentElement.dataset.attribute
         macro_data.command = `game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}')`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
