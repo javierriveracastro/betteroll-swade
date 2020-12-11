@@ -1,7 +1,8 @@
 // Functions for cards representing all items but skills
 
-import {BRSW_CONST, create_basic_chat_data, create_render_options
-    } from "./cards_common.js";
+import {
+    BRSW_CONST, create_basic_chat_data, create_render_options,
+    get_action_from_click} from "./cards_common.js";
 
 /**
 * Creates a chat card for an item
@@ -41,4 +42,42 @@ async function create_item_card(origin, item_id) {
  */
 export function item_card_hooks() {
     game.brsw.create_item_card = create_item_card;
+}
+
+
+/**
+ * Listens to click events on character sheets
+ * @param ev: javascript click event
+ * @param {SwadeActor, Token} target: token or actor from the char sheet
+ */
+async function item_click_listener(ev, target) {
+    const action = get_action_from_click(ev);
+    if (action === 'system') return;
+    ev.stopImmediatePropagation();
+    ev.preventDefault();
+    ev.stopPropagation();
+    // First term for PC, second one for NPCs
+    const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
+        ev.currentTarget.parentElement.dataset.itemId
+    console.log(ev.currentTarget.parentElement.dataset)
+    // Show card
+    await create_item_card(
+        target, item_id);
+    if (action.includes('trait')) {
+        console.log("Item roll")
+    }
+}
+
+
+/**
+ * Activates the listeners in the character sheet in items
+ * @param app: Sheet app
+ * @param html: Html code
+ */
+export function activate_item_listeners(app, html) {
+    let target = app.token?app.token:app.object;
+    const item_images = html.find('.item-image, .item-img, .item.flexrow > img');
+    item_images.bindFirst('click', async ev => {
+        await item_click_listener(ev, target);
+    });
 }

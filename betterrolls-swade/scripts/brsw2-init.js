@@ -6,7 +6,7 @@ import {attribute_card_hooks, activate_attribute_listeners,
 import {skill_card_hooks, activate_skill_listeners,
     activate_skill_card_listeners} from './skill_card.js';
 import {activate_result_card_listeners} from "./result_card.js";
-import {item_card_hooks} from "./item_card.js";
+import {activate_item_listeners, item_card_hooks} from "./item_card.js";
 
 // Startup scripts
 
@@ -66,6 +66,7 @@ Hooks.on('renderChatMessage', (message, html) => {
     Hooks.on('render' + name, (app, html, _) => {
         activate_attribute_listeners(app, html);
         activate_skill_listeners(app, html);
+        activate_item_listeners(app, html);
     })
 })
 
