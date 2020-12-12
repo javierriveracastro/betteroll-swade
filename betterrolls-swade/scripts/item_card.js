@@ -2,7 +2,7 @@
 
 import {
     BRSW_CONST, create_basic_chat_data, create_render_options,
-    get_action_from_click, get_actor_from_message
+    get_action_from_click, get_actor_from_message, trait_to_string
 } from "./cards_common.js";
 
 
@@ -23,6 +23,7 @@ const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
 const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
     "non entraine", "non entrainé"];
 
+
 /**
 * Creates a chat card for an item
 *
@@ -36,11 +37,15 @@ async function create_item_card(origin, item_id) {
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let footer = make_item_footer(item);
     const skill = get_item_skill(item, actor);
+    console.log(skill)
+    const skill_title = skill ? skill.name + ' ' +
+        trait_to_string(skill.data.data) : '';
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer,
-            description: item.data.data.description})
+            description: item.data.data.description, skill: skill,
+            skill_title: skill_title})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/item_card.html", render_object);
     let message = await ChatMessage.create(chatData);
@@ -180,6 +185,9 @@ function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 function get_item_skill(item, actor) {
+    // Some types of items doesn't have an associated skill
+    if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
+            item.type.toLowerCase())) return;
     // First if the item has a skill in actions we use it
     if (item.data.data.actions && item.data.data.actions.skill) {
         return skill_from_string(actor, item.data.data.actions.skill);
@@ -233,7 +241,7 @@ function skill_from_string(actor, skill_name) {
  */
 function check_skill_in_actor(actor, possible_skills) {
     let skill_found;
-    actor.data.items.forEach((skill) => {
+    actor.items.forEach((skill) => {
         if (possible_skills.includes(skill.name.toLowerCase()) && skill.type === 'skill') {
             skill_found = skill;
         }

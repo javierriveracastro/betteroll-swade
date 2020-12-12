@@ -1,9 +1,17 @@
 {{>"modules/betterrolls-swade/templates/common_card_header.html"}}
 <hr>
-<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
-    <i class="fas fa-caret-down"></i>{{ localize 'BRSW.Description'}}
+<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-item-description">
+    <i class="fas {{#if skill}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Description'}}
 </div>
-<div class="brsw-skill-description">
+<div class="brsw-item-description {{#if skill }}brsw-collapsed{{/if}}">
     {{{ description }}}
 </div>
+{{# if skill }}
+    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
+        <i class="fas fa-caret-right"></i>{{ skill_title }}
+    </div>
+    <div class="brsw-skill-description brsw-collapsed">
+        {{{ skill.data.data.description }}}
+    </div>
+{{/if}}
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}
