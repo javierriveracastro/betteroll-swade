@@ -83,11 +83,11 @@ async function skill_click_listener(ev, target) {
     const skill_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.dataset.itemId
     // Show card
-    await create_skill_card(
+    let message = await create_skill_card(
         target, skill_id);
     if (action.includes('trait')) {
         await roll_skill(
-            target, skill_id, '', false)
+            message, '', false, {})
     }
 }
 
@@ -125,10 +125,8 @@ export function activate_skill_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_skill_card_listeners(message, html) {
-    html.find('#roll-button, #roll-bennie-button').click(async ev =>{
-        const actor = get_actor_from_message(message);
-        const skill_id = message.getFlag('betterrolls-swade', 'skill_id');
-        await roll_skill(actor, skill_id, html, ev.currentTarget.id.includes('bennie'));
+    html.find('#roll-button').click(async _ =>{
+        await roll_skill(message, html, false, {});
     });
     html.find('.brsw-header-img').click(_ => {
         const actor = get_actor_from_message(message);
@@ -142,19 +140,17 @@ export function activate_skill_card_listeners(message, html) {
 /**
  * Roll a skill showing the roll card and the result card when enables
  *
- * @param {SwadeActor, token} character, The instance who is rolling
- * @param {string} skill_id the id of the skill we are going to roll
- * @param {string} html, The html code from a card that will be parsed for options,
- *      it could be an empty string.
+ * @param {ChatMessage} message
+ * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie, True if we want to spend a bennie
- */
-async function roll_skill(character, skill_id, html, expend_bennie){
-    // If character is a token get true actor
-    // noinspection JSUnresolvedVariable
-    const actor = character.actor?character.actor:character;
+ * @param {object} default_options: Options to use when there is no html
+*/
+export async function roll_skill(message, html, expend_bennie, default_options){
+    const actor = get_actor_from_message(message)
+    const skill_id = message.getFlag('betterrolls-swade', 'skill_id');
     const skill = actor.items.find((item) => item.id === skill_id);
     if (expend_bennie) spend_bennie(actor);
-    let options = get_roll_options(html);
+    let options = get_roll_options(html, default_options);
     let total_modifiers = 0;
     options.suppressChat = true;
     let roll_mods = actor._buildTraitRollModifiers(
@@ -182,6 +178,6 @@ async function roll_skill(character, skill_id, html, expend_bennie){
         await show_fumble_card(actor);
     } else {
         await create_result_card(actor, roll.terms[0].values, total_modifiers,
-            options.tn, options.rof);
+            options.tn, options.rof, message.id, options);
     }
 }

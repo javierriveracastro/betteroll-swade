@@ -37,7 +37,6 @@ async function create_item_card(origin, item_id) {
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let footer = make_item_footer(item);
     const skill = get_item_skill(item, actor);
-    console.log(skill)
     const skill_title = skill ? skill.name + ' ' +
         trait_to_string(skill.data.data) : '';
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);

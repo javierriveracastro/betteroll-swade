@@ -30,11 +30,12 @@
 	"BRSW.TN": "TN",
 	"BRSW.More_options": "More options",
 	"BRSW.Target_number": "Target Number",
-	"BRSW.Roll_and_bennie": "with bennie",
+	"BRSW.Roll_and_bennie": "Reroll with bennie",
 	"BRSW.Attribute": "Attribute",
 	"BRSW.Description": "Description",
 	"BRSW.Number_trait_dice": "Number of trait dice",
 	"BRSW.Dmg": "Dmg",
 	"BRSW.MinStr": "Min. Strength",
-	"BRSW.Location": "Location"
+	"BRSW.Location": "Location",
+	"BRSW.Free_reroll": "Free reroll"
 }

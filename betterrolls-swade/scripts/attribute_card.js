@@ -87,9 +87,9 @@ async function attribute_click_listener(ev, target) {
     const attribute_id = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
         ev.currentTarget.parentElement.dataset.attribute
     // Show card
-    await create_attribute_card(target, attribute_id);
+    const message = await create_attribute_card(target, attribute_id);
     if (action.includes('trait')) {
-        await roll_attribute(target, attribute_id, '', false)
+        await roll_attribute(message, '', false, {})
     }
 }
 
@@ -125,10 +125,8 @@ export function activate_attribute_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_attribute_card_listeners(message, html) {
-    html.find('#roll-button, #roll-bennie-button').click(async ev =>{
-        let actor = get_actor_from_message(message);
-        let attribute = message.getFlag('betterrolls-swade', 'attribute_id',);
-        await roll_attribute(actor, attribute, html, ev.currentTarget.id.includes('bennie'));
+    html.find('#roll-button').click(async _ =>{
+        await roll_attribute(message, html, false, {});
     })
 }
 
@@ -136,18 +134,19 @@ export function activate_attribute_card_listeners(message, html) {
 /**
  * Roll an attribute showing the roll card and the result card when enables
  *
- * @param {SwadeActor, token} character, The instance who is rolling
- * @param {string} attribute_id, Attribute name like 'spirit'
- * @param {string} html, The html code from a card that will be parsed for options,
- *      it could be an empty string.
+ * @param {ChatMessage} message
+ * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie, True if we want to spend a bennie
+ * @param {object} default_options: Options to use when there is no html
  */
-async function roll_attribute(character, attribute_id, html, expend_bennie){
+export async function roll_attribute(message, html,
+                                     expend_bennie, default_options){
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
-    let actor = character.actor?character.actor:character;
+    let actor = get_actor_from_message(message);
     if (expend_bennie) spend_bennie(actor);
-    let options = get_roll_options(html);
+    const attribute_id = message.getFlag('betterrolls-swade', 'attribute_id');
+    let options = get_roll_options(html, default_options);
     let total_modifiers = 0;
     options.suppressChat = true;
     let roll_mods = actor._buildTraitRollModifiers(
@@ -175,6 +174,7 @@ async function roll_attribute(character, attribute_id, html, expend_bennie){
         await show_fumble_card(actor);
     } else {
         // noinspection JSCheckFunctionSignatures
-        await create_result_card(actor, roll.results, total_modifiers, options.tn);
+        await create_result_card(actor, roll.results, total_modifiers, options.tn,
+            1, message.id, options);
     }
 }

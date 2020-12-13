@@ -196,13 +196,14 @@ export function get_action_from_click(event){
 /**
  * Gets the roll options from the card html
  *
- * @param {string}html: Card html
+ * @param {string} html: Card html
+ * @param old_options: Options used as default
  */
-export function get_roll_options(html){
+export function get_roll_options(html, old_options){
     html = $(html)
-    let modifiers = []
-    let tn = 4;
-    let rof = 1;
+    let modifiers = old_options.additionalMods || []
+    let tn = old_options.tn || 4;
+    let rof = old_options.rof || 1;
     html.find('.brws-selectable.brws-selected').each((_, element) => {
         if (element.dataset.type === 'modifier') {
             modifiers.push(element.dataset.value);

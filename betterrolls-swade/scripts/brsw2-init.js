@@ -52,7 +52,7 @@ Hooks.on('renderChatMessage', (message, html) => {
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             activate_attribute_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_RESULT_CARD) {
-            activate_result_card_listeners(html);
+            activate_result_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
             activate_skill_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {

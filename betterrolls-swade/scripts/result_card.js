@@ -1,7 +1,9 @@
 // Functions for the card presenting results
 
-import {BRSW_CONST, create_basic_chat_data} from "./cards_common.js";
+import {BRSW_CONST, create_basic_chat_data, create_render_options} from "./cards_common.js";
 import {broofa} from "./utils.js";
+import {roll_attribute} from "./attribute_card.js";
+import {roll_skill} from "./skill_card.js";
 
 
 /// TRAIT RESULT CARD
@@ -14,8 +16,11 @@ import {broofa} from "./utils.js";
  *  @param {int} modifier: Modifiers
  *  @param {int} tn: Target number
  *  @param {int} rof: Number of trait dice rolled
+ *  @param {string} origin_id: Id of the originating message
+ *  @param origin_options: Options in the originating roll
  */
-export async function create_result_card (actor, results, modifier, tn, rof){
+export async function create_result_card (actor, results, modifier,
+                                          tn, rof, origin_id, origin_options){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
     if (result_card_option === 'none') return;
@@ -46,12 +51,17 @@ export async function create_result_card (actor, results, modifier, tn, rof){
     if (result_card_option === 'master') {
         chatData.blind = true;
     }
+    const render_options = create_render_options(
+        actor, {flat_rolls: flat_rolls, modifier: modifier, target_number: tn})
     chatData.content = await renderTemplate(
-    "modules/betterrolls-swade/templates/result_card.html",
-    {flat_rolls: flat_rolls, modifier: modifier, target_number: tn});
+    "modules/betterrolls-swade/templates/result_card.html", render_options);
     let message =  await ChatMessage.create(chatData);
     await message.setFlag('betterrolls-swade', 'card_type',
-        BRSW_CONST.TYPE_RESULT_CARD)
+        BRSW_CONST.TYPE_RESULT_CARD);
+    await message.setFlag('betterrolls-swade', 'origin_message',
+        origin_id);
+    await message.setFlag('betterrolls-swade', 'origin_options',
+        origin_options);
     // Calculate initial results
     flat_rolls.forEach(roll => {
         calculate_result(roll.id);
@@ -62,12 +72,40 @@ export async function create_result_card (actor, results, modifier, tn, rof){
 
 /**
  * Activate the listeners on the result card
+ * @param {ChatMessage} message
  * @param {string}html: the html code of the card
  */
-export function activate_result_card_listeners(html) {
-    $(html).find('.brsw-bar-input').blur(async ev => {
+export function activate_result_card_listeners(message, html) {
+    html = $(html);
+    html.find('.brsw-bar-input').blur(async ev => {
         await calculate_result(ev.currentTarget.dataset.id)
+    });
+    html.find('#roll-button, #roll-bennie-button').click(async ev =>{
+        reroll_clicked(message, ev.currentTarget.id.includes('bennie'));
     })
+}
+
+
+/**
+ * Called when any reroll button is clicked.
+ * @param {ChatMessage} message
+ * @param {boolean} use_bennie
+ */
+function reroll_clicked(message, use_bennie) {
+    const origin_message_id = message.getFlag('betterrolls-swade',
+        'origin_message');
+    const origin_options = message.getFlag('betterrolls-swade', 'origin_options')
+    const origin_message = game.messages.find(message => {
+        return message.id === origin_message_id;
+    });
+    const origin_type = origin_message.getFlag('betterrolls-swade', 'card_type');
+    if (origin_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+        // noinspection JSIgnoredPromiseFromCall
+        roll_attribute(origin_message, '', use_bennie, origin_options);
+    } else if (origin_type === BRSW_CONST.TYPE_SKILL_CARD) {
+        // noinspection JSIgnoredPromiseFromCall
+        roll_skill(origin_message, '', use_bennie, origin_options);
+    }
 }
 
 
