@@ -1,5 +1,4 @@
 // Init scripts for version 2
-import {register_settings} from "./betterrollswade.js";
 import {activate_common_listeners, BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
@@ -20,7 +19,6 @@ Hooks.on(`ready`, () => {
     skill_card_hooks();
     item_card_hooks();
 	register_settings_version2();
-    register_settings();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade/templates/common_card_header.html',
         'modules/betterrolls-swade/templates/common_card_footer.html',
