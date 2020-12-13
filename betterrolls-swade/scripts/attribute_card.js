@@ -27,7 +27,7 @@ async function create_attribute_card(origin, name){
     }
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Attribute', title: name,
-            notes: notes}, footer: footer})
+            notes: notes}, footer: footer, show_rof: false})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/attribute_card.html", render_object);
     let message = await ChatMessage.create(chatData);

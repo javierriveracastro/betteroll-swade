@@ -45,7 +45,7 @@ async function create_item_card(origin, item_id) {
         actor, {actor: actor, header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer,
             description: item.data.data.description, skill: skill,
-            skill_title: skill_title})
+            skill_title: skill_title, show_rof: skill !== undefined})
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade/templates/item_card.html", render_object);
     let message = await ChatMessage.create(chatData);
