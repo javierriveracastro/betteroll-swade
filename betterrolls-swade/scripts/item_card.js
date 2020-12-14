@@ -261,6 +261,17 @@ export async function roll_item(message, html, expend_bennie, default_options){
     const skill = get_item_skill(item, actor);
     if (expend_bennie) spend_bennie(actor);
     let options = get_roll_options(html, default_options);
+    if (! default_options.hasOwnProperty('additionalMods')) {
+        // If we are in a new roll with no data from before
+        if (item.data.data.actions.skillMod) {
+            let action_mod = item.data.data.actions.skillMod;
+            // Add a plus sign if needed
+            action_mod = '+-'.includes(action_mod.slice(0, 1)) ? action_mod :
+                "+" + action_mod;
+            console.log(action_mod)
+            options.additionalMods.push(action_mod);
+        }
+    }
     let total_modifiers = 0;
     options.suppressChat = true;
     let roll_mods = actor._buildTraitRollModifiers(
