@@ -68,6 +68,11 @@ function are_bennies_available(actor) {
  * @param {SwadeActor} actor: Actor who is going to expend the bennie
  */
 export function spend_bennie(actor){
+    // Dice so Nice animation
+    if (game.dice3d) {
+        const benny = new Roll('1dB').roll();
+        game.dice3d.showForRoll(benny, game.user, true, null, false);
+    }
     if (actor.hasPlayerOwner) {
         // noinspection JSIgnoredPromiseFromCall
         actor.spendBenny();
