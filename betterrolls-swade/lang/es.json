@@ -37,5 +37,6 @@
   	"BRSW.Dmg": "Dmg",
 	"BRSW.MinStr": "Fuerza min.",
     "BRSW.Location": "Localización",
-	"BRSW.Free_reroll": "Repetir gratis"
+	"BRSW.Free_reroll": "Repetir gratis",
+    "BRSW.SkillTest": "Tirada habilidad"
 }
