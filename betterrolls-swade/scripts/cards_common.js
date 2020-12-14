@@ -69,6 +69,7 @@ function are_bennies_available(actor) {
  */
 export function spend_bennie(actor){
     if (actor.hasPlayerOwner) {
+        // noinspection JSIgnoredPromiseFromCall
         actor.spendBenny();
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
         actor.spendBenny();
@@ -230,6 +231,15 @@ export function get_roll_options(html, old_options){
             }
         }
     })
+    // We only use the Dice Tray modifier on total new rolls
+    console.log(old_options)
+    if (! old_options.hasOwnProperty('additionalMods')) {
+        let tray_modifier = parseInt($("input.dice-tray__input").val());
+        console.log(tray_modifier)
+        if (tray_modifier) {
+            modifiers.push(tray_modifier);
+        }
+    }
     return {additionalMods: modifiers, tn: tn, rof: rof}
 }
 
