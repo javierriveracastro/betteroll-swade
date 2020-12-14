@@ -232,10 +232,8 @@ export function get_roll_options(html, old_options){
         }
     })
     // We only use the Dice Tray modifier on total new rolls
-    console.log(old_options)
     if (! old_options.hasOwnProperty('additionalMods')) {
         let tray_modifier = parseInt($("input.dice-tray__input").val());
-        console.log(tray_modifier)
         if (tray_modifier) {
             modifiers.push(tray_modifier);
         }

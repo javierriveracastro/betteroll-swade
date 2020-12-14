@@ -268,7 +268,6 @@ export async function roll_item(message, html, expend_bennie, default_options){
             // Add a plus sign if needed
             action_mod = '+-'.includes(action_mod.slice(0, 1)) ? action_mod :
                 "+" + action_mod;
-            console.log(action_mod)
             options.additionalMods.push(action_mod);
         }
     }
