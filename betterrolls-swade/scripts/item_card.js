@@ -1,9 +1,10 @@
 // Functions for cards representing all items but skills
 
 import {
-    BRSW_CONST, create_basic_chat_data, create_render_options,
-    get_action_from_click, get_actor_from_message, trait_to_string
+    BRSW_CONST, create_basic_chat_data, create_render_options, detect_fumble,
+    get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
+import {create_result_card, show_fumble_card} from "./result_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -119,7 +120,10 @@ export function activate_item_card_listeners(message, html) {
         const item = actor.getOwnedItem(message.getFlag(
             'betterrolls-swade', 'item_id'));
         item.sheet.render(true);
-    })
+    });
+    html.find('#roll-button').click(async _ =>{
+        await roll_item(message, html, false, {});
+    });
 }
 
 
@@ -247,4 +251,43 @@ function check_skill_in_actor(actor, possible_skills) {
     });
     // noinspection JSUnusedAssignment
     return skill_found;
+}
+
+
+export async function roll_item(message, html, expend_bennie, default_options){
+    const actor = get_actor_from_message(message)
+    const item_id = message.getFlag('betterrolls-swade', 'item_id');
+    const item = actor.items.find((item) => item.id === item_id);
+    const skill = get_item_skill(item, actor);
+    if (expend_bennie) spend_bennie(actor);
+    let options = get_roll_options(html, default_options);
+    let total_modifiers = 0;
+    options.suppressChat = true;
+    let roll_mods = actor._buildTraitRollModifiers(
+        skill.data.data, options);
+    let roll = actor.rollSkill(skill.id, options);
+    // Customize flavour text
+    let flavour =
+        `${skill.name} ${game.i18n.localize('BRSW.SkillTest')}<br>`;
+    roll_mods.forEach(mod => {
+        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
+        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
+        total_modifiers = total_modifiers + parseInt(mod.value);
+    })
+    // If actor is a wild card customize Wild dice color.
+    if (actor.isWildcard && game.dice3d) {
+        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
+            'betterrolls-swade', 'wildDieTheme');
+    }
+    // Show roll card
+    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
+        flavor: flavour});
+    // Detect fumbles and show result card
+    let is_fumble = await detect_fumble(roll)
+    if (is_fumble) {
+        await show_fumble_card(actor);
+    } else {
+        await create_result_card(actor, roll.terms[0].values, total_modifiers,
+            options.tn, options.rof, message.id, options);
+    }
 }
