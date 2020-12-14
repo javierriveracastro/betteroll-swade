@@ -115,7 +115,6 @@ export function activate_skill_listeners(app, html) {
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
-
 }
 
 

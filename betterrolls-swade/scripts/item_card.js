@@ -2,7 +2,7 @@
 
 import {
     BRSW_CONST, create_basic_chat_data, create_render_options, detect_fumble,
-    get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
+    get_action_from_click, get_actor_from_ids, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
 
@@ -64,11 +64,29 @@ async function create_item_card(origin, item_id) {
     return message;
 }
 
+
+/**
+* Creates an item card from a token or actor id, mainly for use in macros
+*
+* @param {string} token_id A token id, if it can be solved it will be used
+*  before actor
+* @param {string} actor_id An actor id, it could be set as fallback or
+*  if you keep token empty as the only way to find the actor
+* @param {string} skill_id: Id of the skill item
+* @return {Promise} a promise fot the ChatMessage object
+*/
+function create_item_card_from_id(token_id, actor_id, skill_id){
+    const actor = get_actor_from_ids(token_id, actor_id);
+    return create_item_card(actor, skill_id);
+}
+
+
 /**
  * Hooks the public functions to a global object
  */
 export function item_card_hooks() {
     game.brsw.create_item_card = create_item_card;
+    game.brsw.create_item_card_from_id = create_item_card_from_id;
 }
 
 
@@ -105,6 +123,20 @@ export function activate_item_listeners(app, html) {
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
+    let item_li = html.find('.gear-card.item, .item.flexrow')
+    item_li.attr('draggable', 'true');
+    item_li.bindFirst('dragstart',async ev => {
+        const item_id = ev.currentTarget.dataset.itemId;
+        console.log(item_id)
+        console.log(ev.currentTarget)
+        const macro_data = {name: "Item roll", type: "script", scope: "global"};
+        const token_id = app.token ? app.token.id : '';
+        const actor_id = app.object ? app.object.id : '';
+        macro_data.command = `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}')`;
+        ev.originalEvent.dataTransfer.setData(
+            'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
+    });
+
 }
 
 
