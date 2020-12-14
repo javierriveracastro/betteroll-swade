@@ -4,6 +4,7 @@ import {BRSW_CONST, create_basic_chat_data, create_render_options} from "./cards
 import {broofa} from "./utils.js";
 import {roll_attribute} from "./attribute_card.js";
 import {roll_skill} from "./skill_card.js";
+import {roll_item} from "./item_card.js";
 
 
 /// TRAIT RESULT CARD
@@ -77,9 +78,11 @@ export async function create_result_card (actor, results, modifier,
  */
 export function activate_result_card_listeners(message, html) {
     html = $(html);
+    // noinspection JSUnresolvedFunction
     html.find('.brsw-bar-input').blur(async ev => {
         await calculate_result(ev.currentTarget.dataset.id)
     });
+    // noinspection JSUnresolvedFunction
     html.find('#roll-button, #roll-bennie-button').click(async ev =>{
         reroll_clicked(message, ev.currentTarget.id.includes('bennie'));
     })
@@ -105,6 +108,9 @@ function reroll_clicked(message, use_bennie) {
     } else if (origin_type === BRSW_CONST.TYPE_SKILL_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_skill(origin_message, '', use_bennie, origin_options);
+    } else if (origin_type === BRSW_CONST.TYPE_ITEM_CARD) {
+        // noinspection JSIgnoredPromiseFromCall
+        roll_item(origin_message, '', use_bennie, origin_options);
     }
 }
 
