@@ -87,10 +87,9 @@ async function item_click_listener(ev, target) {
     const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.dataset.itemId
     // Show card
-    await create_item_card(
-        target, item_id);
+    let message = await create_item_card(target, item_id);
     if (action.includes('trait')) {
-        console.log("Item roll")
+        await roll_item(message, '', false, {});
     }
 }
 
@@ -263,7 +262,9 @@ export async function roll_item(message, html, expend_bennie, default_options){
     let options = get_roll_options(html, default_options);
     if (! default_options.hasOwnProperty('additionalMods')) {
         // If we are in a new roll with no data from before
+        // noinspection JSUnresolvedVariable
         if (item.data.data.actions.skillMod) {
+            // noinspection JSUnresolvedVariable
             let action_mod = item.data.data.actions.skillMod;
             // Add a plus sign if needed
             action_mod = '+-'.includes(action_mod.slice(0, 1)) ? action_mod :
