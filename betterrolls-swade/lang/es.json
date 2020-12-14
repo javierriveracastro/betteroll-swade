@@ -30,12 +30,12 @@
 	"BRSW.TN": "VO",
   	"BRSW.More_options": "Más opciones",
     "BRSW.Target_number": "Valor objetivo",
-    "BRSW.Roll_and_bennie": "con bennie",
+    "BRSW.Roll_and_bennie": "Usar bennie",
   	"BRSW.Attribute": "Atributo",
     "BRSW.Description": "Descripción",
     "BRSW.Number_trait_dice": "Número de dados",
   	"BRSW.Dmg": "Dmg",
 	"BRSW.MinStr": "Fuerza min.",
-    "BRSW.Location": "Localización"
-
+    "BRSW.Location": "Localización",
+	"BRSW.Free_reroll": "Repetir gratis"
 }
