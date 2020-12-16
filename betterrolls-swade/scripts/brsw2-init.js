@@ -71,18 +71,20 @@ Hooks.on('renderChatMessage', (message, html) => {
 Hooks.on('dropCanvasData', (canvas, item) => {
     if (item.type === 'Macro') {
         let grid_size = canvas.scene.data.grid
-        canvas.tokens.targetObjects({
+        const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
             y: item.y-grid_size/2,
             height: grid_size,
             width: grid_size
         });
-        // Change item type to avoid that Foundry processes it
-        item.type = 'Custom';
-        if (item.hasOwnProperty('id')) {
-            game.macros.get(item.id).execute();
-        } else {
-            eval(item.data.command);
+        if (number_marked) {
+            // Change item type to avoid that Foundry processes it
+            item.type = 'Custom';
+            if (item.hasOwnProperty('id')) {
+                game.macros.get(item.id).execute();
+            } else {
+                eval(item.data.command);
+            }
         }
     }
 });
