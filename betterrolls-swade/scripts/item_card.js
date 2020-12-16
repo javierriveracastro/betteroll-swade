@@ -255,6 +255,36 @@ function get_item_skill(item, actor) {
 }
 
 
+/***
+ * Checks if a skill is fighting, likely not the best way
+ *
+ * @param skill
+ * @return {boolean}
+ */
+function is_this_fighting(skill) {
+    return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
+}
+
+
+/**
+ * Gets the parry value of the selected token
+ */
+function get_parry_from_target() {
+    /**
+     * Sets the difficulty as the parry value of the targeted
+     * or selected token
+     */
+    let targets = game.user.targets;
+    let objective;
+    let target_number;
+    if (targets.size) objective = Array.from(targets)[0];
+    if (objective) {
+        target_number = parseInt(objective.actor.data.data.stats.parry.value)
+    }
+    return target_number;
+}
+
+
 /**
  * Get an skill from an actor and the skill name
  * @param {SwadeActor} actor Where search for the skill
@@ -302,6 +332,10 @@ export async function roll_item(message, html, expend_bennie, default_options){
             action_mod = '+-'.includes(action_mod.slice(0, 1)) ? action_mod :
                 "+" + action_mod;
             options.additionalMods.push(action_mod);
+        }
+        // If this is a new roll we also default tn to parry for melee attacks
+        if (is_this_fighting(skill)) {
+            options.tn = get_parry_from_target() || options.tn
         }
     }
     let total_modifiers = 0;

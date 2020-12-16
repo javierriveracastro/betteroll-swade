@@ -6,7 +6,7 @@ export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
     TYPE_SKILL_CARD: 2,
     TYPE_ITEM_CARD: 3,
-    TYPE_RESULT_CARD: 100
+    TYPE_RESULT_CARD: 100,
 };
 
 /**
