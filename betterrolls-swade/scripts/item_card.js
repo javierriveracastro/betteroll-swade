@@ -5,6 +5,7 @@ import {
     get_action_from_click, get_actor_from_ids, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
+import {create_item_damage_card} from "./damage_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -43,7 +44,7 @@ async function create_item_card(origin, item_id) {
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
     let render_object = create_render_options(
         actor, {actor: actor, header: {type: 'Item', title: item.name,
-            notes: notes, img: item.img}, footer: footer,
+            notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, show_rof: skill !== undefined})
     chatData.content = await renderTemplate(
@@ -155,6 +156,12 @@ export function activate_item_card_listeners(message, html) {
     });
     html.find('#roll-button').click(async _ =>{
         await roll_item(message, html, false, {});
+    });
+    html.find('#damage-button').click(_ => {
+        const actor = get_actor_from_message(message);
+        // noinspection JSIgnoredPromiseFromCall
+        create_item_damage_card(actor, message.getFlag(
+            'betterrolls-swade', 'item_id'));
     });
 }
 

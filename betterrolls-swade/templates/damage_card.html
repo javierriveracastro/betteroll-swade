@@ -6,5 +6,10 @@
 <div class="brsw-item-description brsw-collapsed">
     {{{ description }}}
 </div>{{/if}}
-<h5>Damage Card</h5>
+<div class="brsw-button-row">
+    <button id="roll-damage">{{ localize 'BRSW.Damage' }}</button>
+    <button id="roll-raise-damage" class="brsw-button-smaller">
+        {{ localize 'BRSW.RaiseDamage' }}
+    </button>
+</div>
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}

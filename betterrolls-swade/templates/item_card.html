@@ -24,6 +24,11 @@
     </div>
     <div class="brsw-button-row">
         <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
+        {{# if damage }}
+            <button id="damage-button" class="brsw-button-smaller">
+                {{ localize 'BRSW.DamageCard' }}
+            </button>
+        {{/if}}
     </div>
 {{/if}}
 {{>"modules/betterrolls-swade/templates/common_card_footer.html"}}

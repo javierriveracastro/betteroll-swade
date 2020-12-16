@@ -9,7 +9,7 @@ import {make_item_footer} from "./item_card.js"
 * @param {string} item_id The id of the item that we want to show
 * @return A promise for the ChatMessage object
 */
-async function create_item_damage_card(origin, item_id) {
+export async function create_item_damage_card(origin, item_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);

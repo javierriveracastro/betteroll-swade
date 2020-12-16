@@ -38,5 +38,8 @@
 	"BRSW.MinStr": "Fuerza min.",
     "BRSW.Location": "Localización",
 	"BRSW.Free_reroll": "Repetir gratis",
-    "BRSW.SkillTest": "Tirada habilidad"
+    "BRSW.SkillTest": "Tirada habilidad",
+  	"BRSW.DamageCard": "Carta de daño",
+  	"BRSW.Damage": "Daño",
+	"BRSW.RaiseDamage": "Daño aumento"
 }
