@@ -67,17 +67,24 @@ Hooks.on('renderChatMessage', (message, html) => {
 });
 
 
-// Addon by JuanV, make draggable attacks
+// Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
-    let grid_size = canvas.scene.data.grid
-    canvas.tokens.targetObjects({
-        x: item.x-grid_size/2,
-        y: item.y-grid_size/2,
-        height: grid_size,
-        width: grid_size
-    });
-    item.type = 'Custom';
-    eval(item.data.command);
+    if (item.type === 'Macro') {
+        let grid_size = canvas.scene.data.grid
+        canvas.tokens.targetObjects({
+            x: item.x-grid_size/2,
+            y: item.y-grid_size/2,
+            height: grid_size,
+            width: grid_size
+        });
+        // Change item type to avoid that Foundry processes it
+        item.type = 'Custom';
+        if (item.hasOwnProperty('id')) {
+            game.macros.get(item.id).execute();
+        } else {
+            eval(item.data.command);
+        }
+    }
 });
 
 // Character sheet hooks
