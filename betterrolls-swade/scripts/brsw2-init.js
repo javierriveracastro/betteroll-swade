@@ -66,6 +66,20 @@ Hooks.on('renderChatMessage', (message, html) => {
     }
 });
 
+
+// Addon by JuanV, make draggable attacks
+Hooks.on('dropCanvasData', (canvas, item) => {
+    let grid_size = canvas.scene.data.grid
+    canvas.tokens.targetObjects({
+        x: item.x-grid_size/2,
+        y: item.y-grid_size/2,
+        height: grid_size,
+        width: grid_size
+    });
+    item.type = 'Custom';
+    eval(item.data.command);
+});
+
 // Character sheet hooks
 
 ['SwadeCharacterSheet', 'SwadeNPCSheet', 'CharacterSheet'].forEach(name => {

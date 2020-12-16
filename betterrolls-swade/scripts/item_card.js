@@ -87,6 +87,7 @@ function create_item_card_from_id(token_id, actor_id, skill_id){
 export function item_card_hooks() {
     game.brsw.create_item_card = create_item_card;
     game.brsw.create_item_card_from_id = create_item_card_from_id;
+    game.brsw.roll_item = roll_item;
 }
 
 
@@ -127,12 +128,12 @@ export function activate_item_listeners(app, html) {
     item_li.attr('draggable', 'true');
     item_li.bindFirst('dragstart',async ev => {
         const item_id = ev.currentTarget.dataset.itemId;
-        console.log(item_id)
-        console.log(ev.currentTarget)
         const macro_data = {name: "Item roll", type: "script", scope: "global"};
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
-        macro_data.command = `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}')`;
+        macro_data.command =
+            `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
+             message => {game.brsw.roll_item(message, "", false, {})});`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
