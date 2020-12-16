@@ -1,4 +1,4 @@
-import {BRSW_CONST, create_basic_chat_data, create_render_options} from "./cards_common.js";
+import {BRSW_CONST, create_basic_chat_data, create_render_options, get_actor_from_message} from "./cards_common.js";
 
 import {make_item_footer} from "./item_card.js"
 
@@ -43,4 +43,19 @@ async function create_item_damage_card(origin, item_id) {
  */
 export function damage_card_hooks() {
     game.brsw.create_item_damage_card = create_item_damage_card;
+}
+
+
+/**
+ * Activate the listeners in the damage card
+ * @param message: Message date
+ * @param html: Html produced
+ */
+export function activate_damage_card_listeners(message, html) {
+    html.find('.brsw-header-img').click(_ => {
+        const actor = get_actor_from_message(message);
+        const item = actor.getOwnedItem(message.getFlag(
+            'betterrolls-swade', 'item_id'));
+        item.sheet.render(true);
+    });
 }
