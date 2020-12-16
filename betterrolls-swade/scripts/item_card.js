@@ -161,7 +161,7 @@ export function activate_item_card_listeners(message, html) {
 /**
  * Creates a footer useful for an item.
  */
-function make_item_footer(item) {
+export function make_item_footer(item) {
     let footer = [];
     if (item.type === "weapon"){
         footer.push(game.i18n.localize("SWADE.Rng") + ": " +  

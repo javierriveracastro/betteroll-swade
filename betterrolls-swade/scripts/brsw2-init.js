@@ -7,6 +7,7 @@ import {skill_card_hooks, activate_skill_listeners,
 import {activate_result_card_listeners} from "./result_card.js";
 import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
+import {damage_card_hooks} from "./damage_card.js";
 
 // Startup scripts
 
@@ -18,14 +19,16 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
     skill_card_hooks();
     item_card_hooks();
-	register_settings_version2();
+    damage_card_hooks();
+    register_settings_version2();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade/templates/common_card_header.html',
         'modules/betterrolls-swade/templates/common_card_footer.html',
         'modules/betterrolls-swade/templates/common_options.html',
         'modules/betterrolls-swade/templates/common_more_options.html'];
-    loadTemplates(templatePaths).then(console.log(
-        "Better Rolls templates preloaded"));
+    loadTemplates(templatePaths).then(() => {
+        console.log("Better Rolls templates preloaded")
+    });
     // Add some jquery magic to allow binding our functions prior to system
     $.fn.bindFirst = function(name, fn) {
         // bind as you normally would
