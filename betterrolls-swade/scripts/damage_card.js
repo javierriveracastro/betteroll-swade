@@ -1,4 +1,5 @@
-import {BRSW_CONST, create_basic_chat_data, create_render_options, get_actor_from_message} from "./cards_common.js";
+import {BRSW_CONST, create_basic_chat_data, create_render_options,
+    get_actor_from_message, spend_bennie} from "./cards_common.js";
 
 import {make_item_footer} from "./item_card.js"
 
@@ -48,7 +49,7 @@ export function damage_card_hooks() {
 
 /**
  * Activate the listeners in the damage card
- * @param message: Message date
+ * @param message: Message
  * @param html: Html produced
  */
 export function activate_damage_card_listeners(message, html) {
@@ -58,4 +59,48 @@ export function activate_damage_card_listeners(message, html) {
             'betterrolls-swade', 'item_id'));
         item.sheet.render(true);
     });
+    html.find('.brsw-damage-button').click((ev) => {
+        // noinspection JSIgnoredPromiseFromCall
+        roll_dmg(message, html, false, {}, ev.currentTarget.id.includes('raise'));
+    })
+}
+
+/**
+ * Rolls damage dor an item
+ * @param message
+ * @param html
+ * @param expend_bennie
+ * @param default_options
+ * @param {boolean} raise
+ * @return {Promise<void>}
+ */
+export async function roll_dmg(message, html, expend_bennie, default_options, raise){
+    const actor = get_actor_from_message(message)
+    const item_id = message.getFlag('betterrolls-swade', 'item_id');
+    const item = actor.items.find((item) => item.id === item_id);
+    if (expend_bennie) spend_bennie(actor);
+    let roll_mods = [];
+    let total_modifiers = 0;
+    let options = default_options;
+    options.suppressChat = true;
+    let roll = item.rollDamage(options);
+    let formula = roll.formula.replace(/,/g, '');
+    if (raise) {
+        formula += '+1d6x'
+    }
+    roll = new Roll(formula);
+    // Customize flavour text
+    let flavour =
+        `${item.name} ${game.i18n.localize('BRSW.DamageTest')}<br>`;
+    roll_mods.forEach(mod => {
+        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
+        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
+        total_modifiers = total_modifiers + parseInt(mod.value);
+    })
+    console.log(options)
+    console.log(roll)
+    // Show roll card
+    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
+        flavor: flavour});
+    // Detect fumbles and show result card
 }

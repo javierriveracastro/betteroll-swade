@@ -41,5 +41,6 @@
     "BRSW.SkillTest": "Tirada habilidad",
   	"BRSW.DamageCard": "Carta de daño",
   	"BRSW.Damage": "Daño",
-	"BRSW.RaiseDamage": "Daño aumento"
+	"BRSW.RaiseDamage": "Daño aumento",
+    "BRSW.DamageTest": "Tirada de daño"
 }
