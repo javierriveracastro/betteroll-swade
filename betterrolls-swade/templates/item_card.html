@@ -1,11 +1,11 @@
 {{>"modules/betterrolls-swade/templates/common_card_header.html"}}
 <hr>
-<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-item-description">
+{{# if description }}<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-item-description">
     <i class="fas {{#if skill}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Description'}}
 </div>
 <div class="brsw-item-description {{#if skill }}brsw-collapsed{{/if}}">
     {{{ description }}}
-</div>
+</div>{{/if}}
 {{# if skill }}
     <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
         <i class="fas fa-caret-right"></i>{{ skill_title }}

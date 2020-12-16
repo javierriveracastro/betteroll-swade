@@ -1,6 +1,10 @@
 {{>"modules/betterrolls-swade/templates/common_card_header.html"}}
 <hr>
-<div class="brsw-item-description {{#if skill }}brsw-collapsed{{/if}}">
-    {{{ description }}}
+{{# if description }}<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-item-description">
+    <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Description'}}
 </div>
+<div class="brsw-item-description brsw-collapsed">
+    {{{ description }}}
+</div>{{/if}}
 <h5>Damage Card</h5>
+{{>"modules/betterrolls-swade/templates/common_card_footer.html"}}
