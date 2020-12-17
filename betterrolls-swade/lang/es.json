@@ -42,5 +42,6 @@
   	"BRSW.DamageCard": "Carta de daño",
   	"BRSW.Damage": "Daño",
 	"BRSW.RaiseDamage": "Daño aumento",
-    "BRSW.DamageTest": "Tirada de daño"
+    "BRSW.DamageTest": "Tirada de daño",
+  	"BRSW.Card": "Carta"
 }

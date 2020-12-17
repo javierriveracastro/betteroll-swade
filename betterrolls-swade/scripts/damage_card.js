@@ -87,7 +87,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // New roll, read html for mods
         options.additionalMods = []
         html.find('.brws-selectable.brws-selected').each((_, element) => {
-            roll_mods.push({label: 'Card', value: element.dataset.value});
+            roll_mods.push({label: game.i18n.localize('BRSW.Card'),
+                value: element.dataset.value});
             options.additionalMods.push(element.dataset.value);
         })
         // Dice tray modifier
