@@ -83,6 +83,20 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let total_modifiers = 0;
     let options = default_options;
     options.suppressChat = true;
+    if (! default_options.hasOwnProperty('additionalMods')) {
+        // New roll, read html for mods
+        options.additionalMods = []
+        html.find('.brws-selectable.brws-selected').each((_, element) => {
+            roll_mods.push({label: 'Card', value: element.dataset.value});
+            options.additionalMods.push(element.dataset.value);
+        })
+        // Dice tray modifier
+        let tray_modifier = parseInt($("input.dice-tray__input").val());
+        if (tray_modifier) {
+            roll_mods.push({label: 'Dice tray', value: tray_modifier});
+            options.additionalMods.push(tray_modifier);
+        }
+    }
     let roll = item.rollDamage(options);
     let formula = roll.formula.replace(/,/g, '');
     if (raise) {
