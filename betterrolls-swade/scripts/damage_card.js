@@ -65,6 +65,21 @@ export function activate_damage_card_listeners(message, html) {
     })
 }
 
+
+/**
+ * Gets the tougness value for the targeted token
+ */
+function get_tougness_targeted() {
+    const targets = game.user.targets;
+    let objetive;
+    if (targets.size) objetive = Array.from(targets)[0];
+    if (objetive) {
+        return  parseInt(objetive.actor.data.data.stats.toughness.value);
+    }
+}
+
+
+
 /**
  * Rolls damage dor an item
  * @param message
@@ -98,6 +113,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             roll_mods.push({label: 'Dice tray', value: tray_modifier});
             options.additionalMods.push(tray_modifier);
         }
+        // Get tougness from selected token.
+        options.tn = get_tougness_targeted() || 4;
     }
     let roll = item.rollDamage(options);
     let formula = roll.formula.replace(/,/g, '');
@@ -117,7 +134,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
     // Show result card
-    console.log(roll)
     await create_result_card(actor, [roll.total], total_modifiers,
         message.id, options);
 
