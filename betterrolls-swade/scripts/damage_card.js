@@ -83,6 +83,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let total_modifiers = 0;
     let options = default_options;
     options.suppressChat = true;
+    options.rof = 1; // Damage rolls are allways rof 1
     if (! default_options.hasOwnProperty('additionalMods')) {
         // New roll, read html for mods
         options.additionalMods = []
@@ -118,6 +119,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Show result card
     console.log(roll)
     await create_result_card(actor, [roll.total], total_modifiers,
-        options.tn, 1, message.id, options);
+        message.id, options);
 
 }

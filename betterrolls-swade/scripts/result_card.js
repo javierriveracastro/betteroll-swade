@@ -15,19 +15,17 @@ import {roll_item} from "./item_card.js";
  *  result card
  *  @param {Array} results: Array with the results of the roll
  *  @param {int} modifier: Modifiers
- *  @param {int} tn: Target number
- *  @param {int} rof: Number of trait dice rolled
  *  @param {string} origin_id: Id of the originating message
  *  @param origin_options: Options in the originating roll
  */
 export async function create_result_card(actor, results, modifier,
-                                          tn, rof, origin_id, origin_options){
+                                          origin_id, origin_options){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
     if (result_card_option === 'none') return;
     // Ges results before modifier
     let flat_rolls = [];
-    if (rof ===1 && ! actor.isWildcard) {
+    if (origin_options.rof ===1 && ! actor.isWildcard) {
         // For a reason that I don't want to investigate, non wildcards,
         // rof 1 rolls when explode don't aggregate the results
         let roll_value = 0;
@@ -53,7 +51,8 @@ export async function create_result_card(actor, results, modifier,
         chatData.blind = true;
     }
     const render_options = create_render_options(
-        actor, {flat_rolls: flat_rolls, modifier: modifier, target_number: tn})
+        actor, {flat_rolls: flat_rolls, modifier: modifier,
+        target_number: origin_options.tn})
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade/templates/result_card.html", render_options);
     let message =  await ChatMessage.create(chatData);

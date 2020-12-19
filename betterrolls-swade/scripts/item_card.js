@@ -373,6 +373,6 @@ export async function roll_item(message, html, expend_bennie, default_options){
         await show_fumble_card(actor);
     } else {
         await create_result_card(actor, roll.terms[0].values, total_modifiers,
-            options.tn, options.rof, message.id, options);
+            message.id, options);
     }
 }

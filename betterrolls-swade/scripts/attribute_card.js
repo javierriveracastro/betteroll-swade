@@ -149,6 +149,7 @@ export async function roll_attribute(message, html,
     let options = get_roll_options(html, default_options);
     let total_modifiers = 0;
     options.suppressChat = true;
+    options.rof = 1;
     let roll_mods = actor._buildTraitRollModifiers(
         actor.data.data.attributes[attribute_id], options);
     let roll = actor.rollAttribute(attribute_id, options);
@@ -174,7 +175,7 @@ export async function roll_attribute(message, html,
         await show_fumble_card(actor);
     } else {
         // noinspection JSCheckFunctionSignatures
-        await create_result_card(actor, roll.results, total_modifiers, options.tn,
-            1, message.id, options);
+        await create_result_card(actor, roll.results, total_modifiers,
+            message.id, options);
     }
 }
