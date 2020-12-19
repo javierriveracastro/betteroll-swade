@@ -13,6 +13,14 @@
         <input class="brsw-bar-input" type="number" value="{{../target_number}}"
                title="Target number" step="1" id="tn{{this.id}}"
                data-id="{{this.id}}">
+        {{# if ../damage }}
+            <i class="fas fa-shield-alt"></i>
+            <input type="number" class="brsw-bar-input" value="{{../target_armor}}"
+               title="Target armor" step="1" id="ar{{this.id}}">
+            <i class="fas fa-fan"></i>
+            <input id="ap{{{this.id}}}" type="number" class="brsw-bar-input"
+               value="{{{../ap}}}" title="Attack armor penetration">
+        {{/if}}
     </div>
     <div class="brsw-result-text" id="div{{this.id}}" data-type="damage">
         {{ localize 'BRSW.Failure' }}
