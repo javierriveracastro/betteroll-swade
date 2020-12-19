@@ -1,7 +1,7 @@
 import {BRSW_CONST, create_basic_chat_data, create_render_options,
     get_actor_from_message, spend_bennie} from "./cards_common.js";
-
 import {make_item_footer} from "./item_card.js"
+import {create_result_card} from "./result_card.js";
 
 /**
 * Creates a chat damage card for an item
@@ -112,10 +112,12 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
         total_modifiers = total_modifiers + parseInt(mod.value);
     })
-    console.log(options)
-    console.log(roll)
     // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
-    // Detect fumbles and show result card
+    // Show result card
+    console.log(roll)
+    await create_result_card(actor, [roll.total], total_modifiers,
+        options.tn, 1, message.id, options);
+
 }

@@ -20,7 +20,7 @@ import {roll_item} from "./item_card.js";
  *  @param {string} origin_id: Id of the originating message
  *  @param origin_options: Options in the originating roll
  */
-export async function create_result_card (actor, results, modifier,
+export async function create_result_card(actor, results, modifier,
                                           tn, rof, origin_id, origin_options){
     const result_card_option = game.settings.get('betterrolls-swade',
         'result-card');
