@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.7 aka Let this bennies roll
+* Add animation while spending bennies if Dice So Nice is enabled.
+
 # 1.2.6 aka Wellcome PEG
 * Support Official Shhet.
 
