@@ -42,5 +42,6 @@
 	"BRSW.Damage": "Damage",
 	"BRSW.RaiseDamage": "Raise Dmg.",
 	"BRSW.DamageTest": "Damage test",
-	"BRSW.Card": "Card"
+	"BRSW.Card": "Card",
+	"BRSW.SkillTest": "Skill test"
 }
