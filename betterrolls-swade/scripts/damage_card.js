@@ -130,6 +130,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
         total_modifiers = total_modifiers + parseInt(mod.value);
     })
+    // Store if it is a raise roll
+    options.raise = raise
     // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});

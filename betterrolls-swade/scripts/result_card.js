@@ -5,6 +5,7 @@ import {broofa} from "./utils.js";
 import {roll_attribute} from "./attribute_card.js";
 import {roll_skill} from "./skill_card.js";
 import {roll_item} from "./item_card.js";
+import {roll_dmg} from "./damage_card.js";
 
 
 /// TRAIT RESULT CARD
@@ -101,6 +102,7 @@ function reroll_clicked(message, use_bennie) {
         return message.id === origin_message_id;
     });
     const origin_type = origin_message.getFlag('betterrolls-swade', 'card_type');
+    console.log(origin_type)
     if (origin_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_attribute(origin_message, '', use_bennie, origin_options);
@@ -110,6 +112,10 @@ function reroll_clicked(message, use_bennie) {
     } else if (origin_type === BRSW_CONST.TYPE_ITEM_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_item(origin_message, '', use_bennie, origin_options);
+    } else if (origin_type === BRSW_CONST.TYPE_DMG_CARD) {
+        // noinspection JSIgnoredPromiseFromCall
+        roll_dmg(origin_message, '', use_bennie, origin_options,
+            origin_options.raise);
     }
 }
 
