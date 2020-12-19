@@ -202,6 +202,10 @@ Hooks.on('renderChatMessage', (message, html) => {
 		let extra_notes = String(widget.attr('data-extra-notes') || '') ;
 		if (widget.attr('data-override')) overrides = JSON.parse(widget.attr('data-override'));
 		if (widget.hasClass('cost-benny')) {
+			if (game.dice3d) {
+				const benny = new Roll('1dB').roll();
+				game.dice3d.showForRoll(benny, game.user, true, null, false);
+			}
 			if (actor.hasPlayerOwner) {
 				await actor.spendBenny();
 			} else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
