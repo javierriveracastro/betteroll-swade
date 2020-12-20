@@ -72,10 +72,16 @@ export function activate_damage_card_listeners(message, html) {
 function get_tougness_targeted() {
     const targets = game.user.targets;
     let objetive;
+    let defense_values = {toughness: 4, armor: 0}
     if (targets.size) objetive = Array.from(targets)[0];
     if (objetive) {
-        return  parseInt(objetive.actor.data.data.stats.toughness.value);
+        defense_values.toughness = parseInt(
+              objetive.actor.data.data.stats.toughness.value);
+        defense_values.armor = parseInt(
+              objetive.actor.data.data.stats.toughness.armor);
+
     }
+    return defense_values
 }
 
 
@@ -98,7 +104,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let total_modifiers = 0;
     let options = default_options;
     options.suppressChat = true;
-    options.rof = 1; // Damage rolls are allways rof 1
+    options.rof = 1; // Damage rolls are always rof 1
     if (! default_options.hasOwnProperty('additionalMods')) {
         // New roll, read html for mods
         options.additionalMods = []
@@ -113,8 +119,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             roll_mods.push({label: 'Dice tray', value: tray_modifier});
             options.additionalMods.push(tray_modifier);
         }
-        // Get tougness from selected token.
-        options.tn = get_tougness_targeted() || 4;
+        // Get tougness and armor from selected token.
+        const defense_values = get_tougness_targeted()
+        options.tn = defense_values.toughness;
+        options.target_armor = defense_values.armor;
     }
     let roll = item.rollDamage(options);
     let formula = roll.formula.replace(/,/g, '');
