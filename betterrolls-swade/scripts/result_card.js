@@ -133,7 +133,10 @@ function recover_result_data(id) {
     let die_roll = parseInt($(`#die${id}`).val());
     let modifier = parseInt($(`#mod${id}`).val());
     let target_number = parseInt($(`#tn${id}`).val());
-    return {die_roll: die_roll, modifier: modifier, target_number: target_number};
+    let ap = parseInt($(`#ap${id}`).val());
+    let target_armor = parseInt($(`#ar${id}`).val());
+    return {die_roll: die_roll, modifier: modifier, target_number: target_number,
+        ap: ap, target_armor: target_armor};
 }
 
 
@@ -145,6 +148,10 @@ function calculate_result(result_id){
     let result_data = recover_result_data(result_id);
     let result = result_data.die_roll + result_data.modifier -
         result_data.target_number;
+    if (result_data.ap && result_data.target_armor) {
+        // AP could mean extra damage if the target has armor
+        result += Math.min(result_data.ap, result_data.target_armor);
+    }
     result = result / 4;
     let result_div = $(`#div${result_id}`)
     if (result < 0) {

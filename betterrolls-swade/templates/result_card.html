@@ -1,6 +1,6 @@
 <hr>
 {{#each flat_rolls}}
-    <div class="brsw-result-row">
+    <div class="brsw-result-row {{# if damage}}brsw-damage-result{{/if}}">
         <i class="fas fa-dice-d6"></i>
         <input class="brsw-bar-input" type="number" value="{{this.die_roll}}"
                title="Number rolled on dice" step="1" id="die{{this.id}}"
@@ -13,13 +13,13 @@
         <input class="brsw-bar-input" type="number" value="{{../target_number}}"
                title="Target number" step="1" id="tn{{this.id}}"
                data-id="{{this.id}}">
-        {{# if ../damage }}
+        {{# if ../ap }}
             <i class="fas fa-shield-alt"></i>
             <input type="number" class="brsw-bar-input" value="{{../target_armor}}"
-               title="Target armor" step="1" id="ar{{this.id}}">
+               title="Target armor" step="1" id="ar{{this.id}}" data-id="{{this.id}}">
             <i class="fas fa-fan"></i>
             <input id="ap{{{this.id}}}" type="number" class="brsw-bar-input"
-               value="{{{../ap}}}" title="Attack armor penetration">
+               value="{{{../ap}}}" title="Attack armor penetration" data-id="{{this.id}}">
         {{/if}}
     </div>
     <div class="brsw-result-text" id="div{{this.id}}" data-type="damage">
