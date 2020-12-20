@@ -43,5 +43,8 @@
 	"BRSW.RaiseDamage": "Raise Dmg.",
 	"BRSW.DamageTest": "Damage test",
 	"BRSW.Card": "Card",
-	"BRSW.SkillTest": "Skill test"
+	"BRSW.SkillTest": "Skill test",
+	"BRSW.Shaken" : "Shaken",
+	"BRSW.Wound": "Wound",
+	"BRSW.Wounds": "Wounds"
 }

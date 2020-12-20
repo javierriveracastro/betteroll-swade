@@ -57,7 +57,7 @@ export async function create_result_card(actor, results, modifier,
     if (origin_options.hasOwnProperty('raise')) {
         render_options.damage = true;
         render_options.ap = origin_options.ap;
-        render_options.target_armor = 0;
+        render_options.target_armor = origin_options.target_armor || 4;
     }
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade/templates/result_card.html", render_options);
@@ -153,14 +153,24 @@ function calculate_result(result_id){
         result += Math.min(result_data.ap, result_data.target_armor);
     }
     result = result / 4;
-    let result_div = $(`#div${result_id}`)
-    if (result < 0) {
-        result_div.text(game.i18n.localize('BRSW.Failure'));
-    } else if (result < 1) {
-        result_div.text(game.i18n.localize('BRSW.Success'));
+    const result_strings = [game.i18n.localize('BRSW.Failure')]
+    if ($('.brsw-damage-result' + result_id).length) {
+        // "Damage Result"
+        result_strings.push(game.i18n.localize('BRSW.Shaken'));
+        result_strings.push(game.i18n.localize('BRSW.Wound'));
+        result_strings.push(game.i18n.localize('BRSW.Wounds'));
     } else {
-        result_div.text(
-            result < 2 ? game.i18n.localize('BRSW.Raise') : `${Math.floor(result)} ${game.i18n.localize('BRSW.Raise_plural')}`);
+        // "Trait result"
+        result_strings.push(game.i18n.localize('BRSW.Success'));
+        result_strings.push(game.i18n.localize('BRSW.Raise'));
+        result_strings.push(game.i18n.localize('BRSW.Raise_plural'));
+    }
+    let result_div = $(`#div${result_id}`)
+    console.log(result)
+    if (result < 2) {
+        result_div.text(result_strings[Math.floor(result) + 1]);
+    } else {
+        result_div.text(Math.floor(result) + " " + result_strings[3]);
     }
 }
 

@@ -1,6 +1,6 @@
 <hr>
 {{#each flat_rolls}}
-    <div class="brsw-result-row {{# if damage}}brsw-damage-result{{/if}}">
+    <div class="brsw-result-row {{# if ../damage }}brsw-damage-result{{this.id}}{{/if}}">
         <i class="fas fa-dice-d6"></i>
         <input class="brsw-bar-input" type="number" value="{{this.die_roll}}"
                title="Number rolled on dice" step="1" id="die{{this.id}}"

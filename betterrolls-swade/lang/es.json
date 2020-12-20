@@ -43,5 +43,9 @@
   	"BRSW.Damage": "Daño",
 	"BRSW.RaiseDamage": "Daño aumento",
     "BRSW.DamageTest": "Tirada de daño",
-  	"BRSW.Card": "Carta"
+  	"BRSW.Card": "Carta",
+  	"BRSW.Shaken" : "Aturdido",
+	"BRSW.Wound": "Herida",
+	"BRSW.Wounds": "Heridas"
+
 }
