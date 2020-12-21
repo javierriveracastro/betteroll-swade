@@ -47,5 +47,8 @@
   	"BRSW.Card": "Carta",
   	"BRSW.Shaken" : "Aturdido",
 	"BRSW.Wound": "Herida",
-	"BRSW.Wounds": "Heridas"
+	"BRSW.Wounds": "Heridas",
+  	"BRSW.To_selected": "Seleccionados",
+	"BRSW.To_targeted": "Objetivos",
+	"BRSW.Apply": "Aplicar"
 }

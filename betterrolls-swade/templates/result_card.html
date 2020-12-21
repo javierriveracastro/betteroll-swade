@@ -35,5 +35,13 @@
         {{ localize "BRSW.Free_reroll" }}
     </button>
 </div>
+{{# if damage }}
+    <hr>
+    <div class="brsw-button-row">
+        <label>{{ localize 'BRSW.Apply' }}: </label>
+        <button>{{ localize 'BRSW.To_targeted' }}</button>
+        <button>{{ localize 'BRSW.To_selected' }}</button>
+    </div>
+{{/if}}
 
 
