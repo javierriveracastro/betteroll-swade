@@ -375,5 +375,8 @@ export async function roll_item(message, html, expend_bennie, default_options){
     } else {
         await create_result_card(actor, roll.terms[0].values, total_modifiers,
             message.id, options);
+        if (item.data.data.damage) {
+            await create_item_damage_card(actor, item_id);
+        }
     }
 }
