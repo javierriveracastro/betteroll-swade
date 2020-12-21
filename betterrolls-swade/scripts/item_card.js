@@ -385,7 +385,7 @@ export async function roll_item(message, html, expend_bennie, default_options,
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
     // Detect fumbles and show result card
-    let is_fumble = await detect_fumble(roll)
+    let is_fumble = await detect_fumble(roll);
     if (is_fumble) {
         await show_fumble_card(actor);
     } else {
@@ -398,7 +398,7 @@ export async function roll_item(message, html, expend_bennie, default_options,
                     let result = value - options.tn;
                     if (result > 0) {
                         roll_dmg(message, $(''), false,
-                            {}, (result >= 4))
+                            {}, (result >= 4));
                     }
                 })
             } else {
