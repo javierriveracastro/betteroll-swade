@@ -105,7 +105,8 @@ function register_settings_version2() {
     const br_choices = {
         system: game.i18n.localize('BRSW.Default_system_roll'), 
         card: game.i18n.localize('BRSW.Show_Betterrolls_card'),
-        trait: game.i18n.localize('BRSW.Show_card_and_trait')};
+        trait: game.i18n.localize('BRSW.Show_card_and_trait'),
+        trait_damage: game.i18n.localize('BRSW.Show_card_damage')};
     game.settings.register('betterrolls-swade', 'click', {
         name: game.i18n.localize('BRSW.Single_click_action'),
         hint: game.i18n.localize('BRSW.Single_click_hint'),

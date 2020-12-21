@@ -5,7 +5,7 @@ import {
     get_action_from_click, get_actor_from_ids, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
-import {create_item_damage_card} from "./damage_card.js";
+import {create_item_damage_card, roll_dmg} from "./damage_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -109,7 +109,8 @@ async function item_click_listener(ev, target) {
     // Show card
     let message = await create_item_card(target, item_id);
     if (action.includes('trait')) {
-        await roll_item(message, '', false, {});
+        await roll_item(message, '', false, {},
+            action.includes('damage'));
     }
 }
 
@@ -323,13 +324,28 @@ function check_skill_in_actor(actor, possible_skills) {
     return skill_found;
 }
 
-
-export async function roll_item(message, html, expend_bennie, default_options){
+/**
+ * Roll the item damage
+ *
+ * @param message: Message that originates this roll
+ * @param html: Html code to parse for extra options
+ * @param expend_bennie: Whenever to expend a bennie
+ * @param default_options: Default options if this roll is not original (a reroll)
+ * @param roll_damage: true if we want to autoroll damage
+ *
+ * @return {Promise<void>}
+ */
+export async function roll_item(message, html, expend_bennie, default_options,
+                                roll_damage){
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     const skill = get_item_skill(item, actor);
     if (expend_bennie) spend_bennie(actor);
+    if (! default_options.hasOwnProperty('rof')) {
+        // If there is no other default for rof use items.
+        default_options.rof = item.data.data.rof
+    }
     let options = get_roll_options(html, default_options);
     if (! default_options.hasOwnProperty('additionalMods')) {
         // If we are in a new roll with no data from before
@@ -376,7 +392,18 @@ export async function roll_item(message, html, expend_bennie, default_options){
         await create_result_card(actor, roll.terms[0].values, total_modifiers,
             message.id, options);
         if (item.data.data.damage) {
-            await create_item_damage_card(actor, item_id);
+            if (roll_damage) {
+                // Direct roll
+                roll.terms[0].values.forEach(value => {
+                    let result = value - options.tn;
+                    if (result > 0) {
+                        roll_dmg(message, $(''), false,
+                            {}, (result >= 4))
+                    }
+                })
+            } else {
+                await create_item_damage_card(actor, item_id);
+            }
         }
     }
 }

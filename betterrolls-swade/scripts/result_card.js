@@ -166,7 +166,6 @@ function calculate_result(result_id){
         result_strings.push(game.i18n.localize('BRSW.Raise_plural'));
     }
     let result_div = $(`#div${result_id}`)
-    console.log(result)
     if (result < 2) {
         result_div.text(result_strings[Math.floor(result) + 1]);
     } else {
