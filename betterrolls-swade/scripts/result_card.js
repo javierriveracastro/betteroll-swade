@@ -91,6 +91,8 @@ export function activate_result_card_listeners(message, html) {
     html.find('#roll-button, #roll-bennie-button').click(async ev =>{
         reroll_clicked(message, ev.currentTarget.id.includes('bennie'));
     })
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-apply-damage-button').click(apply_damage);
 }
 
 
@@ -159,6 +161,7 @@ function calculate_result(result_id){
         result_strings.push(game.i18n.localize('BRSW.Shaken'));
         result_strings.push(game.i18n.localize('BRSW.Wound'));
         result_strings.push(game.i18n.localize('BRSW.Wounds'));
+        // Put result into buttons data
     } else {
         // "Trait result"
         result_strings.push(game.i18n.localize('BRSW.Success'));
@@ -166,6 +169,7 @@ function calculate_result(result_id){
         result_strings.push(game.i18n.localize('BRSW.Raise_plural'));
     }
     let result_div = $(`#div${result_id}`)
+    result_div[0].dataset.resultvalue = result.toString();
     if (result < 2) {
         result_div.text(result_strings[Math.floor(result) + 1]);
     } else {
@@ -191,4 +195,18 @@ export async function show_fumble_card(actor){
     "modules/betterrolls-swade/templates/fumble_card.html",
     {});
     return   await ChatMessage.create(chatData);
+}
+
+
+/// APPLY DAMAGE
+
+/**
+ * Apply damage to tokens
+ *
+ * @param ev: Click event
+ */
+function apply_damage(ev) {
+    const result_id = ev.currentTarget.dataset.id;
+    const result = $(`#div${result_id}`)[0].dataset.resultvalue;
+    console.log(result)
 }

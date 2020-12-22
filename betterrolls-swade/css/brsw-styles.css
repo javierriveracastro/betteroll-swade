@@ -5,6 +5,10 @@
 	box-shadow: 0 0 8px red;
 }
 
+.brsw-display-none {
+    display: none;
+}
+
 /* Styles for the card header */
 
 .brws-actor-img {
