@@ -49,6 +49,5 @@
 	"BRSW.Wound": "Wound",
 	"BRSW.Wounds": "Wounds",
 	"BRSW.To_selected": "Selected",
-	"BRSW.To_targeted": "Targeted",
-	"BRSW.Apply": "Apply to"
+	"BRSW.To_targeted": "Targeted"
 }
