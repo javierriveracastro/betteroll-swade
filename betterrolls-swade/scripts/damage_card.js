@@ -125,7 +125,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         options.target_armor = defense_values.armor;
     }
     let roll = item.rollDamage(options);
-    let formula = roll.formula.replace(/,/g, '');
+    let formula = roll.formula;
     if (raise) {
         formula += '+1d6x'
     }
