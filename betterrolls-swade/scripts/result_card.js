@@ -92,7 +92,7 @@ export function activate_result_card_listeners(message, html) {
         reroll_clicked(message, ev.currentTarget.id.includes('bennie'));
     })
     // noinspection JSUnresolvedFunction
-    html.find('.brsw-apply-damage-button').click(apply_damage);
+    html.find('.brsw-apply-damage-button').click(apply_damage_tokens);
 }
 
 
@@ -201,12 +201,46 @@ export async function show_fumble_card(actor){
 /// APPLY DAMAGE
 
 /**
- * Apply damage to tokens
+ * Apply damage to selected or targeted of tokens
  *
  * @param ev: Click event
  */
-function apply_damage(ev) {
+function apply_damage_tokens(ev) {
     const result_id = ev.currentTarget.dataset.id;
     const result = $(`#div${result_id}`)[0].dataset.resultvalue;
-    console.log(result)
+    let tokens;
+    if (ev.currentTarget.classList.contains('brsw-selected')) {
+        tokens = canvas.tokens.controlled;
+    } else {
+        tokens = game.user.targets;
+    }
+    tokens.forEach(token => {
+        apply_damage(token, parseFloat(result));
+    })
+}
+
+
+function apply_damage(token, damage) {
+    if (damage < 0) return;
+    let wounds = Math.floor(damage);
+    // noinspection JSUnresolvedVariable
+    if (damage < 1 && token.actor.data.data.status.isShaken) {
+        // Shaken twice
+        wounds = 1;
+    }
+    const final_wounds = token.actor.data.data.wounds.value + wounds;
+    if (final_wounds > token.actor.data.data.wounds.max) {
+        token.actor.update({'data.wounds.value': token.actor.data.data.wounds.max});
+    } else {
+        token.actor.update({'data.wounds.value': final_wounds});
+    }
+    token.actor.update({'data.status.isShaken': true});
+    // noinspection JSIgnoredPromiseFromCall
+    ChatMessage.create({
+        speaker: {
+            alias: token.name
+        },
+        content: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
+            `${token.name} is now shaken`
+    });
 }
