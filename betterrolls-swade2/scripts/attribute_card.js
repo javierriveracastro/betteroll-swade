@@ -29,17 +29,17 @@ async function create_attribute_card(origin, name){
         actor, {actor: actor, header: {type: 'Attribute', title: name,
             notes: notes}, footer: footer, show_rof: false})
     chatData.content = await renderTemplate(
-        "modules/betterrolls-swade/templates/attribute_card.html", render_object);
+        "modules/betterrolls-swade2/templates/attribute_card.html", render_object);
     let message = await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade', 'card_type',
+    await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
-    await message.setFlag('betterrolls-swade', 'attribute_id', name);
+    await message.setFlag('betterrolls-swade2', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
-    await message.setFlag('betterrolls-swade', 'actor',
+    await message.setFlag('betterrolls-swade2', 'actor',
             actor.id)
     if (actor !== origin) {
         // noinspection JSUnresolvedVariable
-        await message.setFlag('betterrolls-swade', 'token',
+        await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }
     return message
@@ -145,7 +145,7 @@ export async function roll_attribute(message, html,
     // noinspection JSUnresolvedVariable
     let actor = get_actor_from_message(message);
     if (expend_bennie) spend_bennie(actor);
-    const attribute_id = message.getFlag('betterrolls-swade', 'attribute_id');
+    const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
     let options = get_roll_options(html, default_options);
     let total_modifiers = 0;
     options.suppressChat = true;
@@ -164,7 +164,7 @@ export async function roll_attribute(message, html,
     // If actor is a wild card customize Wild dice color.
     if (actor.isWildcard && game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
-            'betterrolls-swade', 'wildDieTheme');
+            'betterrolls-swade2', 'wildDieTheme');
     }
     // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),

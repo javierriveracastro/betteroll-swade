@@ -21,7 +21,7 @@ import {roll_dmg} from "./damage_card.js";
  */
 export async function create_result_card(actor, results, modifier,
                                           origin_id, origin_options){
-    const result_card_option = game.settings.get('betterrolls-swade',
+    const result_card_option = game.settings.get('betterrolls-swade2',
         'result-card');
     if (result_card_option === 'none') return;
     // Ges results before modifier
@@ -60,13 +60,13 @@ export async function create_result_card(actor, results, modifier,
         render_options.target_armor = origin_options.target_armor || 4;
     }
     chatData.content = await renderTemplate(
-    "modules/betterrolls-swade/templates/result_card.html", render_options);
+    "modules/betterrolls-swade2/templates/result_card.html", render_options);
     let message =  await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade', 'card_type',
+    await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_RESULT_CARD);
-    await message.setFlag('betterrolls-swade', 'origin_message',
+    await message.setFlag('betterrolls-swade2', 'origin_message',
         origin_id);
-    await message.setFlag('betterrolls-swade', 'origin_options',
+    await message.setFlag('betterrolls-swade2', 'origin_options',
         origin_options);
     // Calculate initial results
     flat_rolls.forEach(roll => {
@@ -102,13 +102,13 @@ export function activate_result_card_listeners(message, html) {
  * @param {boolean} use_bennie
  */
 function reroll_clicked(message, use_bennie) {
-    const origin_message_id = message.getFlag('betterrolls-swade',
+    const origin_message_id = message.getFlag('betterrolls-swade2',
         'origin_message');
-    const origin_options = message.getFlag('betterrolls-swade', 'origin_options')
+    const origin_options = message.getFlag('betterrolls-swade2', 'origin_options')
     const origin_message = game.messages.find(message => {
         return message.id === origin_message_id;
     });
-    const origin_type = origin_message.getFlag('betterrolls-swade', 'card_type');
+    const origin_type = origin_message.getFlag('betterrolls-swade2', 'card_type');
     console.log(origin_type)
     if (origin_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
         // noinspection JSIgnoredPromiseFromCall
@@ -184,7 +184,7 @@ function calculate_result(result_id){
  * @param {SwadeActor} actor: The poor actor who had critically failed
  */
 export async function show_fumble_card(actor){
-    const result_card_option = game.settings.get('betterrolls-swade',
+    const result_card_option = game.settings.get('betterrolls-swade2',
         'result-card');
     if (result_card_option === 'none') return;
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.OOC);
@@ -192,7 +192,7 @@ export async function show_fumble_card(actor){
         chatData.blind = true;
     }
     chatData.content = await renderTemplate(
-    "modules/betterrolls-swade/templates/fumble_card.html",
+    "modules/betterrolls-swade2/templates/fumble_card.html",
     {});
     return   await ChatMessage.create(chatData);
 }

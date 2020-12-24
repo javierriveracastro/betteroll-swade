@@ -21,18 +21,18 @@ export async function create_item_damage_card(origin, item_id) {
             notes: notes, img: item.img}, footer: footer,
             description: item.data.data.description})
     chatData.content = await renderTemplate(
-        "modules/betterrolls-swade/templates/damage_card.html", render_object);
+        "modules/betterrolls-swade2/templates/damage_card.html", render_object);
     let message = await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade', 'card_type',
+    await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
-    await message.setFlag('betterrolls-swade', 'item_id',
+    await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
     // We always set the actor (as a fallback, and the token if possible)
-    await message.setFlag('betterrolls-swade', 'actor',
+    await message.setFlag('betterrolls-swade2', 'actor',
             actor.id)
     if (actor !== origin) {
         // noinspection JSUnresolvedVariable
-        await message.setFlag('betterrolls-swade', 'token',
+        await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }
     return message;
@@ -56,7 +56,7 @@ export function activate_damage_card_listeners(message, html) {
     html.find('.brsw-header-img').click(_ => {
         const actor = get_actor_from_message(message);
         const item = actor.getOwnedItem(message.getFlag(
-            'betterrolls-swade', 'item_id'));
+            'betterrolls-swade2', 'item_id'));
         item.sheet.render(true);
     });
     html.find('.brsw-damage-button').click((ev) => {
@@ -97,7 +97,7 @@ function get_tougness_targeted() {
  */
 export async function roll_dmg(message, html, expend_bennie, default_options, raise){
     const actor = get_actor_from_message(message)
-    const item_id = message.getFlag('betterrolls-swade', 'item_id');
+    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     if (expend_bennie) spend_bennie(actor);
     let roll_mods = [];

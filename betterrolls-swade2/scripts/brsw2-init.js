@@ -22,10 +22,10 @@ Hooks.on(`ready`, () => {
     damage_card_hooks();
     register_settings_version2();
     // Load partials.
-    const templatePaths = ['modules/betterrolls-swade/templates/common_card_header.html',
-        'modules/betterrolls-swade/templates/common_card_footer.html',
-        'modules/betterrolls-swade/templates/common_options.html',
-        'modules/betterrolls-swade/templates/common_more_options.html'];
+    const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
+        'modules/betterrolls-swade2/templates/common_card_footer.html',
+        'modules/betterrolls-swade2/templates/common_options.html',
+        'modules/betterrolls-swade2/templates/common_more_options.html'];
     loadTemplates(templatePaths).then(() => {
         console.log("Better Rolls templates preloaded")
     });
@@ -48,7 +48,7 @@ Hooks.on(`ready`, () => {
 })
 
 Hooks.on('renderChatMessage', (message, html) => {
-    let card_type = message.getFlag('betterrolls-swade', 'card_type')
+    let card_type = message.getFlag('betterrolls-swade2', 'card_type')
     if (card_type) {
         // This chat card is one of ours
         activate_common_listeners(message, html);
@@ -107,7 +107,7 @@ function register_settings_version2() {
         card: game.i18n.localize('BRSW.Show_Betterrolls_card'),
         trait: game.i18n.localize('BRSW.Show_card_and_trait'),
         trait_damage: game.i18n.localize('BRSW.Show_card_damage')};
-    game.settings.register('betterrolls-swade', 'click', {
+    game.settings.register('betterrolls-swade2', 'click', {
         name: game.i18n.localize('BRSW.Single_click_action'),
         hint: game.i18n.localize('BRSW.Single_click_hint'),
         default: "card",
@@ -116,7 +116,7 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
-    game.settings.register('betterrolls-swade', 'shift_click', {
+    game.settings.register('betterrolls-swade2', 'shift_click', {
         name: game.i18n.localize('BRSW.Shift_click_action'),
         hint: game.i18n.localize('BRSW.Shit_click_hint'),
         default: "system",
@@ -125,7 +125,7 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
-    game.settings.register('betterrolls-swade', 'ctrl_click', {
+    game.settings.register('betterrolls-swade2', 'ctrl_click', {
         name: game.i18n.localize('BRSW.Control_click_action'),
         hint: game.i18n.localize('BRWS.Control_click_hint'),
         default: "trait",
@@ -134,7 +134,7 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
-    game.settings.register('betterrolls-swade', 'alt_click', {
+    game.settings.register('betterrolls-swade2', 'alt_click', {
         name: game.i18n.localize('BRSW.Alt_click_action'),
         hint: game.i18n.localize('BRSW.Alt_click_hint'),
         default: "system",
@@ -143,7 +143,7 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
-    game.settings.register('betterrolls-swade', 'result-card', {
+    game.settings.register('betterrolls-swade2', 'result-card', {
         name: game.i18n.localize('BRSW.See_result_card'),
         hint: game.i18n.localize('BRSW.See_result_hint'),
         default: 'all',
@@ -164,7 +164,7 @@ function register_settings_version2() {
             theme_choice[theme] = theme;
         }
     }
-    game.settings.register('betterrolls-swade', 'wildDieTheme', {
+    game.settings.register('betterrolls-swade2', 'wildDieTheme', {
         name: 'Wild die theme',
         hint: "Choose a theme from Dice So Nice for the Wild Die",
         default: "fire",

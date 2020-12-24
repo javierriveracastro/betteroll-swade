@@ -109,8 +109,8 @@ export function get_actor_from_ids(token_id, actor_id) {
  */
 export function get_actor_from_message(message){
     return get_actor_from_ids(
-        message.getFlag('betterrolls-swade', 'token'),
-        message.getFlag('betterrolls-swade', 'actor')
+        message.getFlag('betterrolls-swade2', 'token'),
+        message.getFlag('betterrolls-swade2', 'actor')
     );
 }
 
@@ -196,7 +196,7 @@ export function get_action_from_click(event){
     } else if (event.altKey) {
         setting_name = 'alt_click'
     }
-    return game.settings.get('betterrolls-swade', setting_name)
+    return game.settings.get('betterrolls-swade2', setting_name)
 }
 
 

@@ -24,18 +24,18 @@ async function create_skill_card(origin, skill_id) {
             notes: notes, img: skill.img}, footer: footer, show_rof: true,
             description: skill.data.data.description})
     chatData.content = await renderTemplate(
-        "modules/betterrolls-swade/templates/skill_card.html", render_object);
+        "modules/betterrolls-swade2/templates/skill_card.html", render_object);
     let message = await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade', 'card_type',
+    await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_SKILL_CARD)
-    await message.setFlag('betterrolls-swade', 'skill_id',
+    await message.setFlag('betterrolls-swade2', 'skill_id',
         skill_id)
     // We always set the actor (as a fallback, and the token if possible)
-    await message.setFlag('betterrolls-swade', 'actor',
+    await message.setFlag('betterrolls-swade2', 'actor',
             actor.id)
     if (actor !== origin) {
         // noinspection JSUnresolvedVariable
-        await message.setFlag('betterrolls-swade', 'token',
+        await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }
     return message;
@@ -130,7 +130,7 @@ export function activate_skill_card_listeners(message, html) {
     html.find('.brsw-header-img').click(_ => {
         const actor = get_actor_from_message(message);
         const item = actor.getOwnedItem(message.getFlag(
-            'betterrolls-swade', 'skill_id'));
+            'betterrolls-swade2', 'skill_id'));
         item.sheet.render(true);
     })
 }
@@ -146,7 +146,7 @@ export function activate_skill_card_listeners(message, html) {
 */
 export async function roll_skill(message, html, expend_bennie, default_options){
     const actor = get_actor_from_message(message)
-    const skill_id = message.getFlag('betterrolls-swade', 'skill_id');
+    const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
     const skill = actor.items.find((item) => item.id === skill_id);
     if (expend_bennie) spend_bennie(actor);
     let options = get_roll_options(html, default_options);
@@ -166,7 +166,7 @@ export async function roll_skill(message, html, expend_bennie, default_options){
     // If actor is a wild card customize Wild dice color.
     if (actor.isWildcard && game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
-            'betterrolls-swade', 'wildDieTheme');
+            'betterrolls-swade2', 'wildDieTheme');
     }
     // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
