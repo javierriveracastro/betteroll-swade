@@ -84,6 +84,36 @@ If there is a description available, it will show it. The next screenshots shows
 
 ![blind_core_hindrance](docs/blind_edge.png)
 
+## Weapon cards
+
+Weapon are the most complicated of the items cards. They look like that.
+
+![weapon_card](docs/weapon_card.png)
+
+It's quite similar to other item cards, but there some differences.
+
+Description starts collapsed because the card is quite big.
+
+There is related ability, in this example shooting. Clicking on it will show its description.
+
+![weapon_card_description](docs/weapon_card_description.png)
+
+Afterwards there is an option row similar to the one shown on skills. It works the same.
+
+If the weapon has ammunition, there is an option (selected by default) to remove shots from it.
+
+Finally, there are two buttons, one for rolling the skill and another one to show the damage card.
+
+If the skill is figthing, the target number of the roll will be taken from the parry value of the first targetted token.
+
+## Power cards
+
+## Damage cards
+
+## Drag and Drop
+
+## Dice Tray support
+
 ## Macros and API
 
 The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
