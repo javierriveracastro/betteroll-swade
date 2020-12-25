@@ -393,7 +393,6 @@ export async function roll_item(message, html, expend_bennie, default_options,
     let roll = actor.rollSkill(skill.id, options);
     // Discount ammo if selected.
     const dis_ammo_selected = html.find('.brws-selected.brsw-ammo-toggle').length;
-    console.log(dis_ammo_selected)
     if (dis_ammo_selected) {
         discount_ammo(item, options.rof || 1);
     }
