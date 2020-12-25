@@ -49,5 +49,6 @@
 	"BRSW.Wound": "Wound",
 	"BRSW.Wounds": "Wounds",
 	"BRSW.To_selected": "Selected",
-	"BRSW.To_targeted": "Targeted"
+	"BRSW.To_targeted": "Targeted",
+	"BRSW.SubtractAmmo": "Subtract ammo"
 }

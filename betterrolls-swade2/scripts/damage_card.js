@@ -79,7 +79,6 @@ function get_tougness_targeted() {
               objetive.actor.data.data.stats.toughness.value);
         defense_values.armor = parseInt(
               objetive.actor.data.data.stats.toughness.armor);
-
     }
     return defense_values
 }
@@ -147,5 +146,4 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Show result card
     await create_result_card(actor, [roll.total], total_modifiers,
         message.id, options);
-
 }

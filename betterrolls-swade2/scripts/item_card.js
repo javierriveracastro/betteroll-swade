@@ -25,6 +25,7 @@ const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
 const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
     "non entraine", "non entrainé"];
 
+const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 
 /**
 * Creates a chat card for an item
@@ -46,7 +47,8 @@ async function create_item_card(origin, item_id) {
         actor, {actor: actor, header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
-            skill_title: skill_title, show_rof: skill !== undefined})
+            skill_title: skill_title, show_rof: skill !== undefined,
+            ammo: parseFloat(item.data.data.shots)});
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade2/templates/item_card.html", render_object);
     let message = await ChatMessage.create(chatData);
@@ -324,6 +326,27 @@ function check_skill_in_actor(actor, possible_skills) {
     return skill_found;
 }
 
+
+/**
+ * Discount ammo from an item
+ *
+ * @param item Item that has ben shoot
+ * @param rof Rof of the shot
+ */
+async function discount_ammo(item, rof) {
+    let ammo = item.data.data.currentShots;
+    const ammo_spent = ROF_BULLETS[rof];
+    if ((ammo - ammo_spent > 0)) {
+        await item.update({'data.currentShots': ammo - ammo_spent});
+    } else {
+        await item.update({'data.currentShots': 0});
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    ChatMessage.create({
+        content: `${ammo_spent} shot has been expended from ${item.name}. There are ${item.data.data.currentShots} shots remaining`
+    });
+}
+
 /**
  * Roll the item damage
  *
@@ -368,6 +391,12 @@ export async function roll_item(message, html, expend_bennie, default_options,
     let roll_mods = actor._buildTraitRollModifiers(
         skill.data.data, options);
     let roll = actor.rollSkill(skill.id, options);
+    // Discount ammo if selected.
+    const dis_ammo_selected = html.find('.brws-selected.brsw-ammo-toggle').length;
+    console.log(dis_ammo_selected)
+    if (dis_ammo_selected) {
+        discount_ammo(item, options.rof || 1);
+    }
     // Customize flavour text
     let flavour =
         `${skill.name} ${game.i18n.localize('BRSW.SkillTest')}<br>`;

@@ -219,7 +219,7 @@ export function get_roll_options(html, old_options){
         } else if (element.dataset.type === 'rof') {
             rof = parseInt(element.dataset.value);
         }
-    })
+    });
     html.find('.brsw-input-options').each((_, element) => {
         if (element.value) {
             if (element.dataset.type === 'modifier') {

@@ -49,5 +49,6 @@
 	"BRSW.Wound": "Herida",
 	"BRSW.Wounds": "Heridas",
   	"BRSW.To_selected": "Seleccionados",
-	"BRSW.To_targeted": "Objetivos"
+	"BRSW.To_targeted": "Objetivos",
+    "BRSW.SubtractAmmo": "Restar munición"
 }

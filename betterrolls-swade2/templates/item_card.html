@@ -13,6 +13,13 @@
     <div class="brsw-skill-description brsw-collapsed">
         {{{ skill.data.data.description }}}
     </div>
+    {{# if ammo }}<div class="brws-attribute-buttons">
+        <div class="brws-common-modifiers">
+            <span class="brws-selectable brsw-clickable brws-selected brsw-ammo-toggle">
+                {{ localize 'BRSW.SubtractAmmo' }}
+            </span>
+        </div>
+    </div>{{/if}}
     {{>"modules/betterrolls-swade2/templates/common_options.html"}}
     <div>
         <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
