@@ -1,6 +1,6 @@
 # Better rolls for SWADE (Alpha version)
 
-This is an alpha for version 2 of the module. If you are not familiarized with it you are probably better using the 1.x version.
+This is an alpha for version 2 of the module. If you are not familiarized with it, you are probably better using the 1.x version.
 
 Please leave your feedback on the official Foundry discord. Feel free to ping me if you want. 
 
@@ -17,15 +17,15 @@ This module is quite configurable. Most people should take a look at the setting
 
 ![Settings](docs/settings.png)
 
-**Alpha note: Removed settings are only relevant to version 1 and will be removed in the final version.**
 
 The first options define what happens when you click with different keys pressed. You can choose three actions:
 
 * Default system roll: Better rolls will do nothing, the default system behaviour will be preserved.
 * Show BetterRolls card: A card will be shown where you can click to roll with different options (see below).
 * Show card and trait roll: The same card will be displayed, but it also will make a roll with the default options, show it, and (if it is enabled) show the results.
+* Show card and roll trait and damage: The full automation option. This will show the card, roll the relevant trait, and if it is an item with a damage field it will also roll damage if the trait roll was successful. It will roll raise damage for a raise result in the trait test.
 
-The next setting ("See result card") lets you choose if a result card will be shown ater a roll; and, if it is, who can see it: either everybody or just the master. Note that the master can make it public later with the right--click context button.
+The next setting ("See result card") lets you choose if a result card will be shown after a roll; and, if it is, who can see it: either everybody or just the master. Note that the master can make it public later with the right--click context button.
 
 Finally, if you are using `Dice So Nice`, you can set the theme for the Wild Die. To make it easy to spot, I recommend using a flat theme like white or black.
 
@@ -42,13 +42,13 @@ You can do quite a lot of things here:
 
 ![Attribute card floating](docs/Attribute_card_floating.png)
 
-* Click on any of the squared numbers after the word `Modifier` to add or substract the number from the total roll.
+* Click on any of the squared numbers after the word `Modifier` to add or subtract the number from the total roll.
 * Click on the squared numbers after TN to change the Target Number (Difficulty) of the roll
 * Click on More options to expand a small form to add your own modifier or target number.
 
 ![Attribute card more options](docs/Attribute_car_more_options.png)
 
-Finally, you can click in the big buttons to roll the attribute. If you use the smaller `with bennie` button it will substract one bennie from your pool (or the master pool if you are the master and the actor has no bennies available).
+Finally, you can click in the big buttons to roll the attribute. If you use the smaller `with bennie` button, it will subtract one bennie from your pool (or the master pool, if you are the master and the actor has no bennies available).
 
 ## Result card
 
@@ -68,9 +68,21 @@ The skill cards are very similar to attribute ones.
 
 The main difference is the addition of a collapsed skill description and the ability to roll any number of trait dice. This is useful for some spells, frenzy attacks, etc...
 
-The result card will show one row of results for earch dice.
+The result card will show one row of results for each dice.
 
 ![multiple rof result](docs/result_row_multiple_rof.png)
+
+## Item cards
+
+Item cards can be the simplest or the most complicated of the cards.
+
+A simple item, like an armor would look like this:
+
+![simple_armor](docs/simple_armor_card.png)
+
+If there is a description available, it will show it. The next screenshots shows the Blind hindrance with the official Core Rules module:
+
+![blind_core_hindrance](docs/blind_edge.png)
 
 ## Macros and API
 
