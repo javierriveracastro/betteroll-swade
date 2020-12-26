@@ -68,10 +68,6 @@ export async function create_result_card(actor, results, modifier,
         origin_id);
     await message.setFlag('betterrolls-swade2', 'origin_options',
         origin_options);
-    // Calculate initial results
-    flat_rolls.forEach(roll => {
-        calculate_result(roll.id);
-    })
     return message
 }
 
@@ -85,8 +81,13 @@ export function activate_result_card_listeners(message, html) {
     html = $(html);
     // noinspection JSUnresolvedFunction
     html.find('.brsw-bar-input').blur(async ev => {
-        await calculate_result(ev.currentTarget.dataset.id)
+        await calculate_result(ev.currentTarget.dataset.id, '')
     });
+    // Initial calculations
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-result-text').each((_, roll) => {
+        calculate_result(roll.id.slice(3), html);
+    })
     // noinspection JSUnresolvedFunction
     html.find('#roll-button, #roll-bennie-button').click(async ev =>{
         reroll_clicked(message, ev.currentTarget.id.includes('bennie'));
@@ -145,8 +146,12 @@ function recover_result_data(id) {
 /**
  * Calculates the results of a roll
  * @param {string} result_id: The id of the result
+ * @param {string} html: If it exist we only check this html
  */
-function calculate_result(result_id){
+function calculate_result(result_id, html){
+    // noinspection JSUnresolvedFunction
+    let is_damage = html ? html.find('.brsw-damage-result' + result_id).length :
+        $('.brsw-damage-result' + result_id).length;
     let result_data = recover_result_data(result_id);
     let result = result_data.die_roll + result_data.modifier -
         result_data.target_number;
@@ -156,7 +161,7 @@ function calculate_result(result_id){
     }
     result = result / 4;
     const result_strings = [game.i18n.localize('BRSW.Failure')]
-    if ($('.brsw-damage-result' + result_id).length) {
+    if (is_damage) {
         // "Damage Result"
         result_strings.push(game.i18n.localize('BRSW.Shaken'));
         result_strings.push(game.i18n.localize('BRSW.Wound'));
@@ -168,7 +173,8 @@ function calculate_result(result_id){
         result_strings.push(game.i18n.localize('BRSW.Raise'));
         result_strings.push(game.i18n.localize('BRSW.Raise_plural'));
     }
-    let result_div = $(`#div${result_id}`)
+    // noinspection JSUnresolvedFunction
+    let result_div = html ? html.find(`#div${result_id}`) : $(`#div${result_id}`);
     result_div[0].dataset.resultvalue = result.toString();
     if (result < 2) {
         result_div.text(result_strings[Math.floor(result) + 1]);
