@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.95
+* Discount shots from items.
+* Somewhat more current documentation
+* Hide form from non-dms players, to keep cards tidy.
+* Hide damage card from other players.
+* Bug: Result card was not calculating results correctly in windows different as the rolling player.
+
 ## Version 1.94
 * Add function to roll a skill from a macro
 * Item cards and rolls
