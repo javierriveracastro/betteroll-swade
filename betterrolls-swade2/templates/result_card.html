@@ -27,20 +27,22 @@
     </div>
 {{/each}}
 <hr>
-<div class="brsw-button-row">
-    {{#if bennie_avaliable}}
-    <button id="roll-bennie-button">{{ localize 'BRSW.Roll_and_bennie' }}</button>
-    {{/if}}
-    <button id="roll-button" class="brsw-button-smaller">
-        {{ localize "BRSW.Free_reroll" }}
-    </button>
-</div>
-{{# if damage }}
-    <hr>
+<div class="brsw-form">
     <div class="brsw-button-row">
-        <button class="brsw-apply-damage-button" data-result="0" data-id="{{ flat_rolls.0.id }}">{{ localize 'BRSW.To_targeted' }}</button>
-        <button class="brsw-apply-damage-button brsw-selected" data-result="0" data-id="{{ flat_rolls.0.id }}">{{ localize 'BRSW.To_selected' }}</button>
+        {{#if bennie_avaliable}}
+        <button id="roll-bennie-button">{{ localize 'BRSW.Roll_and_bennie' }}</button>
+        {{/if}}
+        <button id="roll-button" class="brsw-button-smaller">
+            {{ localize "BRSW.Free_reroll" }}
+        </button>
     </div>
-{{/if}}
+    {{# if damage }}
+        <hr>
+        <div class="brsw-button-row">
+            <button class="brsw-apply-damage-button" data-result="0" data-id="{{ flat_rolls.0.id }}">{{ localize 'BRSW.To_targeted' }}</button>
+            <button class="brsw-apply-damage-button brsw-selected" data-result="0" data-id="{{ flat_rolls.0.id }}">{{ localize 'BRSW.To_selected' }}</button>
+        </div>
+    {{/if}}
+</div>
 
 

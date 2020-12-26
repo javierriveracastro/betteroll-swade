@@ -14,6 +14,8 @@ export async function create_item_damage_card(origin, item_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
     let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
+    // Damage cards are always private
+    chatData.whisper = [game.user._id];
     let footer = make_item_footer(item);
     const notes = item.data.data.notes || item.name;
     let render_object = create_render_options(

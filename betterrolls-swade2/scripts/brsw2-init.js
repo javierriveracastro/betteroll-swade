@@ -63,6 +63,10 @@ Hooks.on('renderChatMessage', (message, html) => {
         } else if (card_type === BRSW_CONST.TYPE_DMG_CARD) {
             activate_damage_card_listeners(message, html);
         }
+        // Hide forms to non master, non owner
+        if (game.user.id !== message.user.id && !game.user.isGM) {
+            html.find('.brsw-form').addClass('brsw-collapsed');
+        }
     }
 });
 

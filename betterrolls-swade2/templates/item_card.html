@@ -7,35 +7,37 @@
     {{{ description }}}
 </div>{{/if}}
 {{# if skill }}
-    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
-        <i class="fas fa-caret-right"></i>{{ skill_title }}
-    </div>
-    <div class="brsw-skill-description brsw-collapsed">
-        {{{ skill.data.data.description }}}
-    </div>
-    {{# if ammo }}<div class="brws-attribute-buttons">
-        <div class="brws-common-modifiers">
-            <span class="brws-selectable brsw-clickable brws-selected brsw-ammo-toggle">
-                {{ localize 'BRSW.SubtractAmmo' }}
-            </span>
+    <div class="brsw-form">
+        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
+            <i class="fas fa-caret-right"></i>{{ skill_title }}
         </div>
-    </div>{{/if}}
-    {{>"modules/betterrolls-swade2/templates/common_options.html"}}
-    <div>
-        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
-            <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
+        <div class="brsw-skill-description brsw-collapsed">
+            {{{ skill.data.data.description }}}
         </div>
-        <div class="brsw-complete-form-options brsw-collapsed">
-            {{>"modules/betterrolls-swade2/templates/common_more_options.html"}}
+        {{# if ammo }}<div class="brws-attribute-buttons">
+            <div class="brws-common-modifiers">
+                <span class="brws-selectable brsw-clickable brws-selected brsw-ammo-toggle">
+                    {{ localize 'BRSW.SubtractAmmo' }}
+                </span>
+            </div>
+        </div>{{/if}}
+        {{>"modules/betterrolls-swade2/templates/common_options.html"}}
+        <div>
+            <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
+                <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
+            </div>
+            <div class="brsw-complete-form-options brsw-collapsed">
+                {{>"modules/betterrolls-swade2/templates/common_more_options.html"}}
+            </div>
         </div>
-    </div>
-    <div class="brsw-button-row">
-        <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
-        {{# if damage }}
-            <button id="damage-button" class="brsw-button-smaller">
-                {{ localize 'BRSW.DamageCard' }}
-            </button>
-        {{/if}}
+        <div class="brsw-button-row">
+            <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
+            {{# if damage }}
+                <button id="damage-button" class="brsw-button-smaller">
+                    {{ localize 'BRSW.DamageCard' }}
+                </button>
+            {{/if}}
+        </div>
     </div>
 {{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}
