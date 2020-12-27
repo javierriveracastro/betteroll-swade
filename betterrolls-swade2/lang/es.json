@@ -50,5 +50,6 @@
 	"BRSW.Wounds": "Heridas",
   	"BRSW.To_selected": "Seleccionados",
 	"BRSW.To_targeted": "Objetivos",
-    "BRSW.SubtractAmmo": "Restar munición"
+    "BRSW.SubtractAmmo": "Restar munición",
+  	"BRSW.ChatFormTittle": "Modificadores para Better Rolls"
 }

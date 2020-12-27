@@ -50,5 +50,6 @@
 	"BRSW.Wounds": "Wounds",
 	"BRSW.To_selected": "Selected",
 	"BRSW.To_targeted": "Targeted",
-	"BRSW.SubtractAmmo": "Subtract ammo"
+	"BRSW.SubtractAmmo": "Subtract ammo",
+	"BRSW.ChatFormTittle": "Modifiers for Better Rolls"
 }
