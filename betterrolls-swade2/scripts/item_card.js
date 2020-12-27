@@ -2,7 +2,7 @@
 
 import {
     BRSW_CONST, create_basic_chat_data, create_render_options, detect_fumble,
-    get_action_from_click, get_actor_from_ids, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
+    get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
 import {create_item_damage_card, roll_dmg} from "./damage_card.js";
@@ -79,8 +79,18 @@ async function create_item_card(origin, item_id) {
 * @return {Promise} a promise fot the ChatMessage object
 */
 function create_item_card_from_id(token_id, actor_id, skill_id){
-    const actor = get_actor_from_ids(token_id, actor_id);
-    return create_item_card(actor, skill_id);
+    let origin;
+    if (canvas) {
+        if (token_id) {
+            let token = canvas.tokens.get(token_id);
+            if (token) {
+                origin = token;
+            } else {
+                origin = game.actors.get(actor_id);
+            }
+        }
+    }
+    return create_item_card(origin, skill_id);
 }
 
 
