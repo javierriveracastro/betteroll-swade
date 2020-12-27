@@ -131,15 +131,7 @@ export function activate_common_listeners(message, html) {
         });
     }
     // Selectable modifiers
-    html.find('.brws-selectable').click((ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        if (ev.currentTarget.classList.contains('brws-selected')) {
-            ev.currentTarget.classList.remove('brws-selected');
-        } else {
-            ev.currentTarget.classList.add('brws-selected');
-        }
-    })
+    html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
     let collapse_buttons = html.find('.brsw-collapse-button');
 	collapse_buttons.click(e => {
@@ -161,6 +153,21 @@ export function activate_common_listeners(message, html) {
         let popup = new ChatPopout(message);
         popup.render(true);
     })
+}
+
+
+/**
+ * Mark and unmark selectable items
+ * @param ev mouse click event
+ */
+export function manage_selectable_click(ev){
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (ev.currentTarget.classList.contains('brws-selected')) {
+        ev.currentTarget.classList.remove('brws-selected');
+    } else {
+        ev.currentTarget.classList.add('brws-selected');
+    }
 }
 
 
