@@ -153,3 +153,9 @@
 	border-radius: 5px;
     border-color: red;
 }
+
+/* Styles for the chat form */
+
+.brsw-chat-form{
+    flex: 0;
+}

@@ -47,6 +47,9 @@ Hooks.on(`ready`, () => {
     };
 })
 
+
+// Hooks on render
+
 Hooks.on('renderChatMessage', (message, html) => {
     let card_type = message.getFlag('betterrolls-swade2', 'card_type')
     if (card_type) {
@@ -70,6 +73,16 @@ Hooks.on('renderChatMessage', (message, html) => {
     }
 });
 
+// Hooks for the options form
+Hooks.on('renderSidebarTab', (_, html) => {
+    let place = html.find('#chat-form');
+    // noinspection JSIgnoredPromiseFromCall
+    renderTemplate('modules/betterrolls-swade2/templates/options_form.html', {}).then(
+        content => {
+            place.after($(content));
+        }
+    )
+})
 
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
