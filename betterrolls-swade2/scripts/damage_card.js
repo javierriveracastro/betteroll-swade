@@ -1,5 +1,7 @@
-import {BRSW_CONST, create_basic_chat_data, create_render_options,
-    get_actor_from_message, spend_bennie} from "./cards_common.js";
+import {
+    BRSW_CONST, create_basic_chat_data, create_render_options,
+    get_actor_from_message, get_roll_options, spend_bennie
+} from "./cards_common.js";
 import {make_item_footer} from "./item_card.js"
 import {create_result_card} from "./result_card.js";
 
@@ -101,25 +103,12 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     if (expend_bennie) spend_bennie(actor);
-    let roll_mods = [];
     let total_modifiers = 0;
-    let options = default_options;
+    let options = get_roll_options(html, default_options);
     options.suppressChat = true;
     options.rof = 1; // Damage rolls are always rof 1
+    options.additionalMods = options.dmgMods;
     if (! default_options.hasOwnProperty('additionalMods')) {
-        // New roll, read html for mods
-        options.additionalMods = []
-        html.find('.brws-selectable.brws-selected').each((_, element) => {
-            roll_mods.push({label: game.i18n.localize('BRSW.Card'),
-                value: element.dataset.value});
-            options.additionalMods.push(element.dataset.value);
-        })
-        // Dice tray modifier
-        let tray_modifier = parseInt($("input.dice-tray__input").val());
-        if (tray_modifier) {
-            roll_mods.push({label: 'Dice tray', value: tray_modifier});
-            options.additionalMods.push(tray_modifier);
-        }
         // Get tougness and armor from selected token.
         const defense_values = get_tougness_targeted()
         options.tn = defense_values.toughness;
@@ -134,11 +123,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Customize flavour text
     let flavour =
         `${item.name} ${game.i18n.localize('BRSW.DamageTest')}<br>`;
-    roll_mods.forEach(mod => {
-        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
-        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
-        total_modifiers = total_modifiers + parseInt(mod.value);
-    })
     // Store if it is a raise roll and item ap
     options.raise = raise;
     options.ap = item.data.data.ap || 0;

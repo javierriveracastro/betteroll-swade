@@ -79,6 +79,7 @@ export function spend_bennie(actor){
         // noinspection JSIgnoredPromiseFromCall
         actor.spendBenny();
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        // noinspection JSIgnoredPromiseFromCall
         actor.spendBenny();
     } else {
         spendMastersBenny();
@@ -221,18 +222,10 @@ export function get_action_from_click(event){
  */
 export function get_roll_options(html, old_options){
     html = $(html)
-    let modifiers = old_options.additionalMods || []
+    let modifiers = old_options.additionalMods || [];
+    let dmg_modifiers = old_options.dmgMods || [];
     let tn = old_options.tn || 4;
     let rof = old_options.rof || 1;
-    html.find('.brws-selectable.brws-selected').each((_, element) => {
-        if (element.dataset.type === 'modifier') {
-            modifiers.push(element.dataset.value);
-        } else if (element.dataset.type === 'tn') {
-            tn = parseInt(element.dataset.value);
-        } else if (element.dataset.type === 'rof') {
-            rof = parseInt(element.dataset.value);
-        }
-    });
     html.find('.brsw-input-options').each((_, element) => {
         if (element.value) {
             if (element.dataset.type === 'modifier') {
@@ -250,14 +243,27 @@ export function get_roll_options(html, old_options){
             }
         }
     })
-    // We only use the Dice Tray modifier on total new rolls
+    // We only check for modifiers when there are no old ones.
     if (! old_options.hasOwnProperty('additionalMods')) {
+        $('.brsw-chat-form .brws-selectable.brws-selected').each((_, element) => {
+            if (element.dataset.type === 'modifier') {
+                modifiers.push(element.dataset.value);
+            } else if (element.dataset.type === 'dmg_modifier') {
+                dmg_modifiers.push(element.dataset.value);
+            } else if (element.dataset.type === 'rof') {
+                rof = parseInt(element.dataset.value);
+            }
+            // Unmark mod
+            if (! element.classList.contains('brws-permanent-selected')) {
+                element.classList.remove('brws-selected');
+            }
+        });
         let tray_modifier = parseInt($("input.dice-tray__input").val());
         if (tray_modifier) {
             modifiers.push(tray_modifier);
         }
     }
-    return {additionalMods: modifiers, tn: tn, rof: rof}
+    return {additionalMods: modifiers, dmgMods: dmg_modifiers, tn: tn, rof: rof}
 }
 
 /**
