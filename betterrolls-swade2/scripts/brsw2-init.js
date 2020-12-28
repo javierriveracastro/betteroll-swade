@@ -193,4 +193,21 @@ function register_settings_version2() {
         config: true
     })
 	}).catch(()=>{console.log('Dice So Nice not installed')});
+    // Custom bennie settings
+    game.settings.register('betterrolls-swade2', 'bennyFront', {
+        name: game.i18n.localize("BRSW.BennieFrontName"),
+        hint: game.i18n.localize("BRSW.BenniFrontHint"),
+        type: window.Azzu.SettingsTypes.FilePickerImage,
+        default: '',
+        scope: 'world',
+        config: true,
+    });
+    game.settings.register('betterrolls-swade2', 'bennyBack', {
+        name: game.i18n.localize("BRSW.BackBennieName"),
+        hint: game.i18n.localize("BRSW.BackBennieHint"),
+        type: window.Azzu.SettingsTypes.FilePickerImage,
+        default: '',
+        scope: 'world',
+        config: true,
+    });
 }
