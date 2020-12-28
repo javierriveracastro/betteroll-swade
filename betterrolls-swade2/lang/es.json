@@ -53,5 +53,6 @@
     "BRSW.SubtractAmmo": "Restar munición",
   	"BRSW.ChatFormTittle": "Modificadores para Better Rolls",
     "BRSW.TraitModifier": "Modif. a los rasgos",
-    "BRSW.DmgModifier": "Modificador al daño"
+    "BRSW.DmgModifier": "Modificador al daño",
+  	"BRSW.ManualAmmo": "Recargar/munición manual"
 }
