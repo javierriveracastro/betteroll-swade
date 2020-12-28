@@ -206,12 +206,18 @@ game.brsw.create_skill_card_from_id(canvas.tokens.controlled[0].id, '', canvas.t
 Example:
 game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id, '', false)
 
+## Authors
+- JuanV, base of drag and drop support
+- SalieriC, gun reloading.
+- Kandashi, gun reloading.
+- Sergut, documentation corrections.
+- Javier Rivera, most of code and this doc.
+
 ## Acknowledgements
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
 - All the nice people in the #swade channel of the official discord. Such a great community,
-- Sergut for his "just a couple of errors" editing of this README.
 
 ## License
 The source code is licensed under GPL-3.0.

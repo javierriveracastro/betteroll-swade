@@ -49,6 +49,15 @@
 
 /* Styles for the card body */
 
+.brsw-false-button {
+    background: rgba(255, 255, 240, 0.8);
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
 .brws-attribute-buttons {
     clear: both;
     margin: 1px;

@@ -53,5 +53,6 @@
 	"BRSW.SubtractAmmo": "Subtract ammo",
 	"BRSW.ChatFormTittle": "Modifiers for Better Rolls",
 	"BRSW.TraitModifier": "Trait roll modifier",
-	"BRSW.DmgModifier": "Damage roll modifier"
+	"BRSW.DmgModifier": "Damage roll modifier",
+	"BRSW.ManualAmmo": "Reload/Manual ammo"
 }

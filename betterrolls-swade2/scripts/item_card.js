@@ -161,10 +161,11 @@ export function activate_item_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_item_card_listeners(message, html) {
+    const actor = get_actor_from_message(message);
+    const item = actor.getOwnedItem(message.getFlag(
+        'betterrolls-swade2', 'item_id'));
+    const ammo_button = html.find('.brws-selected.brsw-ammo-toggle')
     html.find('.brsw-header-img').click(_ => {
-        const actor = get_actor_from_message(message);
-        const item = actor.getOwnedItem(message.getFlag(
-            'betterrolls-swade2', 'item_id'));
         item.sheet.render(true);
     });
     html.find('#roll-button').click(async _ =>{
@@ -176,6 +177,11 @@ export function activate_item_card_listeners(message, html) {
         create_item_damage_card(actor, message.getFlag(
             'betterrolls-swade2', 'item_id'));
     });
+    html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
+        console.log(ammo_button)
+        ammo_button.removeClass('brws-selected');
+        manual_ammo(item, actor);
+    })
 }
 
 
@@ -344,6 +350,7 @@ function check_skill_in_actor(actor, possible_skills) {
  * @param rof Rof of the shot
  */
 async function discount_ammo(item, rof) {
+    // noinspection JSUnresolvedVariable
     let ammo = item.data.data.currentShots;
     const ammo_spent = ROF_BULLETS[rof];
     if ((ammo - ammo_spent > 0)) {
@@ -351,8 +358,8 @@ async function discount_ammo(item, rof) {
     } else {
         await item.update({'data.currentShots': 0});
     }
-    // noinspection JSIgnoredPromiseFromCall
-    ChatMessage.create({
+    // noinspection JSIgnoredPromiseFromCall,JSUnresolvedVariable
+    await ChatMessage.create({
         content: `${ammo_spent} shot has been expended from ${item.name}. There are ${item.data.data.currentShots} shots remaining`
     });
 }
@@ -401,10 +408,10 @@ export async function roll_item(message, html, expend_bennie, default_options,
     let roll_mods = actor._buildTraitRollModifiers(
         skill.data.data, options);
     let roll = actor.rollSkill(skill.id, options);
-    // Discount ammo if selected.
-    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : true;
+    // Ammo management
+    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : false;
     if (dis_ammo_selected) {
-        discount_ammo(item, options.rof || 1);
+        await discount_ammo(item, options.rof || 1);
     }
     // Customize flavour text
     let flavour =
@@ -444,4 +451,64 @@ export async function roll_item(message, html, expend_bennie, default_options,
             }
         }
     }
+}
+
+function manual_ammo(weapon, actor) {
+    // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
+    // sound playback: Freeze#2689; chat message: Spacemandev#6256 (edited by SalieriC). Thank you all so much. =)}
+    // noinspection JSUnresolvedVariable
+    const currentCharges = parseInt(weapon.data.data.currentShots);
+    new Dialog({
+        title: 'Shooting & Reloading',
+        content: `<form>
+                <div class="form-group">
+                    <label for="num"># of Shots: </label>
+                    <input id="num" name="num" type="number" min="0" value="1">
+                </div>
+            </form>`,
+        buttons: {
+            one: {
+                label: "Shooting",
+                callback: (html) => {
+                    let number = Number(html.find("#num")[0].value);
+                    const newCharges = currentCharges - number;
+                    const updates = [
+                        {_id: weapon.id, "data.currentShots": `${newCharges}`},
+                    ];
+                    // noinspection JSIgnoredPromiseFromCall
+                    actor.updateOwnedItem(updates);
+                    // noinspection JSIgnoredPromiseFromCall
+                    actor.updateOwnedItem(updates);
+                    // noinspection JSIgnoredPromiseFromCall
+                    ChatMessage.create({
+                        speaker: {
+                            alias: actor.name
+                        },
+                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${actor.name} fires ${number} round(s) from a ${weapon.name} and has ${newCharges} left.</p>`
+                    })
+                }
+            },
+            two: {
+                label: "Reloading",
+                callback: (html) => {
+                    // If the quantity of ammo is less than the amount required, use whatever is left.
+                    let number = Number(html.find("#num")[0].value);
+                    let max_ammo = parseInt(weapon.data.data.shots);
+                    // noinspection JSUnresolvedVariable
+                    let current_ammo = parseInt(weapon.data.data.currentShots);
+                    let newCharges =  Math.min(max_ammo, current_ammo + number);
+                    const updates = [
+                        {_id: weapon.id, "data.currentShots": `${newCharges}`},
+                    ];
+                    actor.updateOwnedItem(updates);
+                    ChatMessage.create({
+                        speaker: {
+                            alias: actor.name
+                        },
+                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${actor.name} reloads his/her ${weapon.name}.</p>`
+                    })
+                }
+            },
+        }
+    }).render(true)
 }
