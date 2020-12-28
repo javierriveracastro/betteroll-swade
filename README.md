@@ -104,9 +104,19 @@ If the weapon has ammunition, there is an option (selected by default) to remove
 
 Finally, there are two buttons, one for rolling the skill and another one to show the damage card.
 
-If the skill is figthing, the target number of the roll will be taken from the parry value of the first targetted token.
+If the skill is fighting, the target number of the roll will be taken from the parry value of the first targetted token.
+
+Weapon cards also discount ammo from weapons who have defined a number of shots.
+
+![weapons_shots](docs/weapon_shots.png)
+
+If you don't want it to subtract then, please unmark "Subtract ammo". Please note that it will use the normal bullets per rof table in SWADE. If you are using some special attack like "Rapid Fire" edge you will need to count ammo yourself.
 
 ## Power cards
+
+Power cards are very similar to weapon cards, and for now they work the same.
+
+![power_cards](docs/power_cards.png)
 
 ## Damage cards
 
@@ -115,6 +125,8 @@ If the skill is figthing, the target number of the roll will be taken from the p
 ## Dice Tray support
 
 ## Macros and API
+
+THIS PART OF THE DOCUMENTATION IS OUTDATED, PLEASE CHECK THE SOURCE FOR CURRENT OPTIONS.
 
 The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
 
