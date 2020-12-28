@@ -71,6 +71,11 @@
     color: black;
 }
 
+.brws-selectable.brws-selected.brws-permanent-selected {
+    background: red;
+    color: white;
+}
+
 .brsw-modifier {
 	padding: 1px;
 	margin: 2px;

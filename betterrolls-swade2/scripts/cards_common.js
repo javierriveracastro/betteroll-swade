@@ -72,6 +72,7 @@ export function spend_bennie(actor){
     // Dice so Nice animation
     if (game.dice3d) {
         const benny = new Roll('1dB').roll();
+        // noinspection JSIgnoredPromiseFromCall
         game.dice3d.showForRoll(benny, game.user, true, null, false);
     }
     if (actor.hasPlayerOwner) {
@@ -163,10 +164,15 @@ export function activate_common_listeners(message, html) {
 export function manage_selectable_click(ev){
     ev.preventDefault();
     ev.stopPropagation();
-    if (ev.currentTarget.classList.contains('brws-selected')) {
+    if (ev.currentTarget.classList.contains('brws-permanent-selected')) {
         ev.currentTarget.classList.remove('brws-selected');
+        ev.currentTarget.classList.remove('brws-permanent-selected')
     } else {
-        ev.currentTarget.classList.add('brws-selected');
+        if (ev.currentTarget.classList.contains('brws-selected')) {
+            ev.currentTarget.classList.add('brws-permanent-selected');
+        } else {
+            ev.currentTarget.classList.add('brws-selected');
+        }
     }
 }
 
