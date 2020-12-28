@@ -207,7 +207,7 @@ Example:
 game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id, '', false)
 
 ## Authors
-- JuanV, base of drag and drop support
+- JuanV, base of drag and drop support, custom bennies.
 - SalieriC, gun reloading.
 - Kandashi, gun reloading.
 - Sergut, documentation corrections.

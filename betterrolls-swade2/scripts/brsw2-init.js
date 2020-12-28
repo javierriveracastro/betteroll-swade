@@ -108,6 +108,35 @@ Hooks.on('dropCanvasData', (canvas, item) => {
     }
 });
 
+// Hooks for custom bennie
+Hooks.once('diceSoNiceReady', (dice3d) => {
+    const bennyLabelFront = game.settings.get('betterrolls-swade2',
+        'bennyFront');
+    let bennyLabelBack = game.settings.get('betterrolls-swade2',
+        'bennyBack');
+    if (bennyLabelFront){
+        if (! bennyLabelBack) {
+            bennyLabelBack = bennyLabelFront;
+        }
+        dice3d.addSystem({ id: 'swade-benny', name: 'Savage Worlds Benny' }, false);
+        dice3d.addDicePreset({
+            type: 'db',
+            labels: [bennyLabelFront, bennyLabelBack],
+            system: 'standard',
+            colorset: 'black',
+        }, 'd2');
+    }
+});
+
+Hooks.on("renderCharacterSheet", (sheet, html, _) => {
+    const bennyLabelFront = game.settings.get('betterrolls-swade2',
+        'bennyFront');
+    if (bennyLabelFront) {
+        html.find(".bennies .spend-benny").css(
+            "background-image", `url(${bennyLabelFront})`);
+    }
+});
+
 // Character sheet hooks
 
 ['SwadeCharacterSheet', 'SwadeNPCSheet', 'CharacterSheet'].forEach(name => {
@@ -194,6 +223,7 @@ function register_settings_version2() {
     })
 	}).catch(()=>{console.log('Dice So Nice not installed')});
     // Custom bennie settings
+    // noinspection JSUnresolvedVariable
     game.settings.register('betterrolls-swade2', 'bennyFront', {
         name: game.i18n.localize("BRSW.BennieFrontName"),
         hint: game.i18n.localize("BRSW.BenniFrontHint"),
@@ -202,6 +232,7 @@ function register_settings_version2() {
         scope: 'world',
         config: true,
     });
+    // noinspection JSUnresolvedVariable
     game.settings.register('betterrolls-swade2', 'bennyBack', {
         name: game.i18n.localize("BRSW.BackBennieName"),
         hint: game.i18n.localize("BRSW.BackBennieHint"),
