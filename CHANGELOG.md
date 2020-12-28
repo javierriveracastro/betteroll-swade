@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.96
+* Bug: Incorrect passed actor instead of token
+* Bug: Don't break when there is no html and a weapon with ammo
+* Move modifiers to the chat tab.
+* More translations
+* Incorporate ammo macro.
+
 ## Version 1.95
 * Discount shots from items.
 * Somewhat more current documentation
@@ -19,7 +26,7 @@
 * Drag and drop support into hotbar
 * Drag and drop support into tokens
 * Use parry as difficulty for an attack roll
-* Use bennie annimations
+* Use bennie animations
 * Damage cards and damage rolls
 * Only show description (item or skill) section when there is one
 * Rof 1 added to the card options
