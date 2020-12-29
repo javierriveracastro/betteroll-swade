@@ -128,6 +128,7 @@ export function activate_common_listeners(message, html) {
     let actor = get_actor_from_message(message);
     // Actor will be undefined if this is called before flags are set
     if (actor){
+        // noinspection JSUnresolvedFunction
         html.find('.brws-actor-img').addClass('bound').click(async () => {
             await manage_sheet(actor)
         });
@@ -135,6 +136,20 @@ export function activate_common_listeners(message, html) {
     // Selectable modifiers
     html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
+    manage_collapsables(html);
+    // Popout button
+    html.find(".brsw-popup").click(() => {
+        let popup = new ChatPopout(message);
+        popup.render(true);
+    })
+}
+
+
+/**
+ * Manage collapsable fields
+ * @param html
+ */
+export function manage_collapsables(html) {
     let collapse_buttons = html.find('.brsw-collapse-button');
 	collapse_buttons.click(e => {
 		e.preventDefault();
@@ -149,14 +164,8 @@ export function activate_common_listeners(message, html) {
 			clicked.find('.fas').addClass('fa-caret-down');
 			clicked.find('.fas').removeClass('fa-caret-right');
 		}
-	})
-    // Popout button
-    html.find(".brsw-popup").click(() => {
-        let popup = new ChatPopout(message);
-        popup.render(true);
-    })
+	});
 }
-
 
 /**
  * Mark and unmark selectable items

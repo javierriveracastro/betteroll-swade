@@ -1,5 +1,6 @@
 // Init scripts for version 2
-import {activate_common_listeners, manage_selectable_click, BRSW_CONST} from './cards_common.js';
+import {activate_common_listeners, manage_selectable_click, manage_collapsables,
+    BRSW_CONST} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
 import {skill_card_hooks, activate_skill_listeners,
@@ -82,6 +83,7 @@ Hooks.on('renderSidebarTab', (_, html) => {
             // Activate selectable control.
             content.find('.brws-selectable').click(manage_selectable_click);
             place.before(content);
+            manage_collapsables(content);
         }
     )
 })
