@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 1.97
+* Enable ROF 6 in chat modifiers
+* Add custom bennie support (JuanV)
+* Make url in module.json point the proper web page
+* Bug: Armor was incorrectly defaulting to 4
+* Char modifiers are now collapsable.
+* More documentation work.
+
 ## Version 1.96
 * Bug: Incorrect passed actor instead of token
 * Bug: Don't break when there is no html and a weapon with ammo
