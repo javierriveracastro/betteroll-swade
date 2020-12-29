@@ -27,6 +27,10 @@ The first options define what happens when you click with different keys pressed
 
 The next setting ("See result card") lets you choose if a result card will be shown after a roll; and, if it is, who can see it: either everybody or just the master. Note that the master can make it public later with the right--click context button.
 
+The custom bennie images lets you select a front and back image for the benny animation shown when you spend one. The front image will also be shown on the Official Character Sheet.
+
+Leave both fields empty to use the default bennies, or left the back empty to use the same image for both sides.
+
 Finally, if you are using `Dice So Nice`, you can set the theme for the Wild Die. To make it easy to spot, I recommend using a flat theme like white or black.
 
 ## Attribute card
@@ -42,13 +46,27 @@ You can do quite a lot of things here:
 
 ![Attribute card floating](docs/Attribute_card_floating.png)
 
-* Click on any of the squared numbers after the word `Modifier` to add or subtract the number from the total roll.
-* Click on the squared numbers after TN to change the Target Number (Difficulty) of the roll
 * Click on More options to expand a small form to add your own modifier or target number.
 
 ![Attribute card more options](docs/Attribute_car_more_options.png)
 
 Finally, you can click in the big buttons to roll the attribute. If you use the smaller `with bennie` button, it will subtract one bennie from your pool (or the master pool, if you are the master and the actor has no bennies available).
+
+## Modifier row
+
+Betterrolls will add this section above the chat window
+
+![Chat Window](docs/chat_modifiers.png)
+
+You can use this to quickly add modifiers to a roll.
+
+Click on any element to selec it, its background will turn white. If you click on it again, its background will become red. Finally, another click will deselect it changing it backgond to the same as the char window.
+
+White backgrounds elements will be used in the next roll ant automatically deselected. Red backgounds ones will be keep after the roll, until you deselect them manually.
+
+Use the "Trait roll modifier" line to affect any trait roll either from a skill, attribute or item
+Use "Number of trait dice" to use multiple trait dice on a skill roll, either from a skill or item card. Attributes are not current supported
+Finally de "Damage roll modifier" adds modifiers to damage rolls.
 
 ## Result card
 
@@ -104,13 +122,13 @@ If the weapon has ammunition, there is an option (selected by default) to remove
 
 Finally, there are two buttons, one for rolling the skill and another one to show the damage card.
 
-If the skill is fighting, the target number of the roll will be taken from the parry value of the first targetted token.
+If the skill is fighting, the target number of the roll will be taken from the parry value of the first targeted token.
 
 Weapon cards also discount ammo from weapons who have defined a number of shots.
 
 ![weapons_shots](docs/weapon_shots.png)
 
-If you don't want it to subtract then, please unmark "Subtract ammo". Please note that it will use the normal bullets per rof table in SWADE. If you are using some special attack like "Rapid Fire" edge you will need to count ammo yourself.
+If you don't want it to subtract then, please unmark "Subtract ammo". Please note that it will use the normal bullets per rof table in SWADE. If you are using some special attack, like "Rapid Fire" edge, you will need to count ammo yourself.
 
 ## Power cards
 
@@ -211,7 +229,7 @@ game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].ac
 - SalieriC, gun reloading.
 - Kandashi, gun reloading.
 - Sergut, documentation corrections.
-- Javier Rivera, most of code and this doc.
+- Javier Rivera, most code and this doc.
 
 ## Acknowledgements
 - Atropos for making Foundry VTT
