@@ -57,7 +57,7 @@ export async function create_result_card(actor, results, modifier,
     if (origin_options.hasOwnProperty('raise')) {
         render_options.damage = true;
         render_options.ap = origin_options.ap;
-        render_options.target_armor = origin_options.target_armor || 4;
+        render_options.target_armor = origin_options.target_armor || 0;
     }
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade2/templates/result_card.html", render_options);
