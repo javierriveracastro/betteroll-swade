@@ -26,8 +26,6 @@ async function create_skill_card(origin, skill_id) {
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade2/templates/skill_card.html", render_object);
     let message = await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_SKILL_CARD)
     await message.setFlag('betterrolls-swade2', 'skill_id',
         skill_id)
     // We always set the actor (as a fallback, and the token if possible)
@@ -38,6 +36,8 @@ async function create_skill_card(origin, skill_id) {
         await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }
+    await message.setFlag('betterrolls-swade2', 'card_type',
+        BRSW_CONST.TYPE_SKILL_CARD)
     return message;
 }
 

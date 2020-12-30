@@ -31,8 +31,6 @@ async function create_attribute_card(origin, name){
     chatData.content = await renderTemplate(
         "modules/betterrolls-swade2/templates/attribute_card.html", render_object);
     let message = await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_ATTRIBUTE_CARD)
     await message.setFlag('betterrolls-swade2', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
     await message.setFlag('betterrolls-swade2', 'actor',
@@ -42,6 +40,8 @@ async function create_attribute_card(origin, name){
         await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }
+    await message.setFlag('betterrolls-swade2', 'card_type',
+        BRSW_CONST.TYPE_ATTRIBUTE_CARD)
     return message
 }
 

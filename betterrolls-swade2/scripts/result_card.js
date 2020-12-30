@@ -62,12 +62,12 @@ export async function create_result_card(actor, results, modifier,
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade2/templates/result_card.html", render_options);
     let message =  await ChatMessage.create(chatData);
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_RESULT_CARD);
     await message.setFlag('betterrolls-swade2', 'origin_message',
         origin_id);
     await message.setFlag('betterrolls-swade2', 'origin_options',
         origin_options);
+    await message.setFlag('betterrolls-swade2', 'card_type',
+        BRSW_CONST.TYPE_RESULT_CARD);
     return message
 }
 
