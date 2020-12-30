@@ -20,6 +20,7 @@
 	],
 	"systems": ["swade"],
 	"esmodules": ["./scripts/brsw2-init.js"],
+	"scripts": ["./scripts/settings-extender.js"],
 	"styles": ["./css/brsw-styles.css"],
 	"packs": [],
 	"url": "https://github.com/javierriveracastro/betteroll-swade/tree/version_2",

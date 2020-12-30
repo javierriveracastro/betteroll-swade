@@ -110,8 +110,9 @@ Hooks.on('dropCanvasData', (canvas, item) => {
     }
 });
 
-// Hooks for custom bennie
+// Hooks for Dice So Nice
 Hooks.once('diceSoNiceReady', (dice3d) => {
+    register_dsn_settings();
     const bennyLabelFront = game.settings.get('betterrolls-swade2',
         'bennyFront');
     let bennyLabelBack = game.settings.get('betterrolls-swade2',
@@ -131,11 +132,14 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
 });
 
 Hooks.on("renderCharacterSheet", (sheet, html, _) => {
-    const bennyLabelFront = game.settings.get('betterrolls-swade2',
-        'bennyFront');
-    if (bennyLabelFront) {
-        html.find(".bennies .spend-benny").css(
-            "background-image", `url(${bennyLabelFront})`);
+    if (game.dice3d) {
+        // Dice So Nice are required for custom bennies.
+        const bennyLabelFront = game.settings.get('betterrolls-swade2',
+            'bennyFront');
+        if (bennyLabelFront) {
+            html.find(".bennies .spend-benny").css(
+                "background-image", `url(${bennyLabelFront})`);
+        }
     }
 });
 
@@ -153,10 +157,11 @@ Hooks.on("renderCharacterSheet", (sheet, html, _) => {
 
 function register_settings_version2() {
     const br_choices = {
-        system: game.i18n.localize('BRSW.Default_system_roll'), 
+        system: game.i18n.localize('BRSW.Default_system_roll'),
         card: game.i18n.localize('BRSW.Show_Betterrolls_card'),
         trait: game.i18n.localize('BRSW.Show_card_and_trait'),
-        trait_damage: game.i18n.localize('BRSW.Show_card_damage')};
+        trait_damage: game.i18n.localize('BRSW.Show_card_damage')
+    };
     game.settings.register('betterrolls-swade2', 'click', {
         name: game.i18n.localize('BRSW.Single_click_action'),
         hint: game.i18n.localize('BRSW.Single_click_hint'),
@@ -199,10 +204,42 @@ function register_settings_version2() {
         default: 'all',
         scope: 'world',
         type: String,
-        choices: {none: game.i18n.localize('BRSW.No_result_card'),
+        choices: {
+            none: game.i18n.localize('BRSW.No_result_card'),
             master: game.i18n.localize('BRSW.Master_only_result_card'),
-            all: game.i18n.localize('BRSW.Everybody')},
+            all: game.i18n.localize('BRSW.Everybody')
+        },
         config: true
+    });
+}
+
+// Settings related to Dice So Nice.
+
+function register_dsn_settings(){
+    // Custom bennie settings
+    // noinspection JSUnresolvedVariable
+    game.settings.register('betterrolls-swade2', 'bennyFront', {
+        name: game.i18n.localize("BRSW.BennieFrontName"),
+        hint: game.i18n.localize("BRSW.BenniFrontHint"),
+        type: window.Azzu.SettingsTypes.FilePickerImage,
+        default: '',
+        scope: 'world',
+        config: true,
+        onChange: () => {
+            window.location.reload();
+        }
+    });
+    // noinspection JSUnresolvedVariable
+    game.settings.register('betterrolls-swade2', 'bennyBack', {
+        name: game.i18n.localize("BRSW.BackBennieName"),
+        hint: game.i18n.localize("BRSW.BackBennieHint"),
+        type: window.Azzu.SettingsTypes.FilePickerImage,
+        default: '',
+        scope: 'world',
+        config: true,
+        onChange: () => {
+            window.location.reload();
+        }
     });
     // noinspection JSFileReferences
     import('../../dice-so-nice/DiceColors.js').then(dsn => {
@@ -224,23 +261,4 @@ function register_settings_version2() {
         config: true
     })
 	}).catch(()=>{console.log('Dice So Nice not installed')});
-    // Custom bennie settings
-    // noinspection JSUnresolvedVariable
-    game.settings.register('betterrolls-swade2', 'bennyFront', {
-        name: game.i18n.localize("BRSW.BennieFrontName"),
-        hint: game.i18n.localize("BRSW.BenniFrontHint"),
-        type: window.Azzu.SettingsTypes.FilePickerImage,
-        default: '',
-        scope: 'world',
-        config: true,
-    });
-    // noinspection JSUnresolvedVariable
-    game.settings.register('betterrolls-swade2', 'bennyBack', {
-        name: game.i18n.localize("BRSW.BackBennieName"),
-        hint: game.i18n.localize("BRSW.BackBennieHint"),
-        type: window.Azzu.SettingsTypes.FilePickerImage,
-        default: '',
-        scope: 'world',
-        config: true,
-    });
 }
