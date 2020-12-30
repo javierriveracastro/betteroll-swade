@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.98
+* Hopefully resolves the settings erros.
+
 ## Version 1.97
 * Enable ROF 6 in chat modifiers
 * Add custom bennie support (JuanV)
