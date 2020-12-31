@@ -383,11 +383,18 @@ export async function roll_trait(message, trait_dice, dice_label) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
+    // Get options from html
+    let options = get_roll_options('', {});
+    let rof = options.rof || 1;
+    console.log(rof)
     let trait_rolls = [];
     let modifiers = [];
     let dice = [];
     let total_modifiers = 0;
     let roll_string = `1d${trait_dice.die.sides}x`
+    for (let i = 0; i < (rof - 1); i++) {
+        roll_string += `+1d${trait_dice.die.sides}x`
+    }
     // Trait modifier
     if (trait_dice.die.modifier){
         const mod_value = parseInt(trait_dice.die.modifier)
@@ -397,7 +404,6 @@ export async function roll_trait(message, trait_dice, dice_label) {
     }
     // Make penalties red
     modifiers.forEach(mod => {
-        console.log(mod)
         if (mod.value < 0) {
             mod.extra_class = ' brsw-red-text'
         }
@@ -441,6 +447,7 @@ export async function roll_trait(message, trait_dice, dice_label) {
         dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie")
     }
     // TODO: Fumble detection
+    // TODO: Betterrolls modifiers
     // TODO: Other modifiers from core
     // TODO: Target modifiers
     if (game.dice3d) {
