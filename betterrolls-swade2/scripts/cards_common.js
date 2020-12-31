@@ -350,7 +350,7 @@ export function detect_fumble(roll) {
             }
         } else {
             partial_roll.dice.forEach(die => {
-                fumble += die.total === 1? 1: -1
+                fumble += die.total === 1 ? 1: -1
             });
         }
     });
@@ -386,7 +386,8 @@ export async function roll_trait(message, trait_dice, dice_label) {
     // Get options from html
     let options = get_roll_options('', {});
     let rof = options.rof || 1;
-    console.log(rof)
+    let fumble_possible = 0;
+    let is_fumble = false;
     let trait_rolls = [];
     let modifiers = [];
     let dice = [];
@@ -421,8 +422,10 @@ export async function roll_trait(message, trait_dice, dice_label) {
         if (term.hasOwnProperty('faces')) {
             // Results
             let extra_class = '';
+            fumble_possible += 1;
             if (term.total === 1) {
                 extra_class = ' brsw-red-text';
+                fumble_possible -= 2;
             } else if (term.total > term.faces) {
                 extra_class = ' brsw-blue-text';
             }
@@ -446,7 +449,19 @@ export async function roll_trait(message, trait_dice, dice_label) {
         trait_rolls[min_position].extra_class += ' brsw-discarded-roll'
         dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie")
     }
-    // TODO: Fumble detection
+    // Fumble detection
+    if (!actor.isWildcard && fumble_possible < 1) {
+        let test_fumble_roll = new Roll('1d6');
+        test_fumble_roll.roll()
+        test_fumble_roll.toMessage(
+{flavor: game.i18n.localize('BRWS.Testing_fumbles')});
+        if (test_fumble_roll.total === 1) {
+            is_fumble = true;
+        }
+    } else if (actor.isWildcard && fumble_possible < 0) {
+        // It is only a fumble if the Wild Die is 1
+        is_fumble = dice[dice.length - 1].results[0] === 1;
+    }
     // TODO: Betterrolls modifiers
     // TODO: Other modifiers from core
     // TODO: Target modifiers
