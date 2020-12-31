@@ -1,9 +1,8 @@
 // Functions for cards representing attributes
 
-import {create_basic_chat_data, BRSW_CONST, get_action_from_click,
-    get_actor_from_message, get_roll_options, detect_fumble,
-    create_render_options, spend_bennie, get_actor_from_ids,
-    trait_to_string} from "./cards_common.js";
+import {BRSW_CONST, get_action_from_click, get_actor_from_message,
+    get_roll_options, detect_fumble, spend_bennie, get_actor_from_ids,
+    trait_to_string, create_common_card, BRWSRoll, roll_trait} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -15,7 +14,6 @@ import {create_result_card, show_fumble_card} from './result_card.js'
 */
 async function create_attribute_card(origin, name){
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
-    let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let notes = name + " " + trait_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
     let footer = [];
@@ -25,21 +23,13 @@ async function create_attribute_card(origin, name){
                 actor.data.data.attributes[attribute])}`)
         }
     }
-    let render_object = create_render_options(
-        actor, {actor: actor, header: {type: 'Attribute', title: name,
-            notes: notes}, footer: footer, show_rof: false})
-    chatData.content = await renderTemplate(
-        "modules/betterrolls-swade2/templates/attribute_card.html", render_object);
-    let message = await ChatMessage.create(chatData);
+    let trait_roll = new BRWSRoll();
+    let message = await create_common_card(origin,
+        {header: {type: 'Attribute', title: name, notes: notes},
+            footer: footer, trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+        "modules/betterrolls-swade2/templates/attribute_card.html")
     await message.setFlag('betterrolls-swade2', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
-    await message.setFlag('betterrolls-swade2', 'actor',
-            actor.id)
-    if (actor !== origin) {
-        // noinspection JSUnresolvedVariable
-        await message.setFlag('betterrolls-swade2', 'token',
-            origin.id)
-    }
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
     return message
@@ -141,6 +131,7 @@ export function activate_attribute_card_listeners(message, html) {
  */
 export async function roll_attribute(message, html,
                                      expend_bennie, default_options){
+    await roll_trait(message)
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
     let actor = get_actor_from_message(message);

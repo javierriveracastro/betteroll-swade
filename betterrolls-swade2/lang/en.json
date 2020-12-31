@@ -58,5 +58,6 @@
 	"BRSW.BennieFrontName": "Custom bennie front image",
 	"BRSW.BenniFrontHint": "Path to the image to be shown on the bennie front",
 	"BRSW.BackBennieName": "Custom bennie back image",
-    "BRSW.BackBennieHint": "Path to the image to be shown on the bennie back (blank uses the same as front)"
+    "BRSW.BackBennieHint": "Path to the image to be shown on the bennie back (blank uses the same as front)",
+	"BRSW.Rolls": "Rolls"
 }

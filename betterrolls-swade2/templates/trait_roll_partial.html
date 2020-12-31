@@ -1,0 +1,11 @@
+<div class="brsw-roll-row brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
+    <span><i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}} :</span>
+    <span>
+        {{# each trait_roll.rolls}}
+            <span class="brsw-d6 brsw-dice-image">{{ this }}</span>
+        {{/each}}
+    </span>
+</div>
+<div class="brsw-roll-detail brsw-collapsed">
+    <h3>Here are the roll details....</h3>
+</div>

@@ -11,6 +11,47 @@ export const BRSW_CONST = {
 };
 
 /**
+ * A constructor for our own roll object
+ * @constructor
+ */
+export function BRWSRoll() {
+    this.rolls = []; // Array with all the dice rolled
+}
+
+
+/**
+ * Creates a char card
+ *
+ * @param {Token, SwadeActor} origin The origin of this card
+ * @param {object} render_data Data to pass to the render template
+ * @param chat_type Type of char message
+ * @param {string} template Path to the template that renders this card
+ * @return {Promise<ChatMessage>}
+ */
+export async function create_common_card(origin, render_data, chat_type, template) {
+    let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
+    let render_object = create_render_options(
+        actor, render_data)
+    let chatData = create_basic_chat_data(actor, chat_type);
+    chatData.content = await renderTemplate(template, render_object);
+    let message = await ChatMessage.create(chatData);
+    // Remove actor to store the render data.
+    delete render_object.actor;
+    await message.setFlag('betterrolls-swade2', 'render_data',
+        render_object);
+    await message.setFlag('betterrolls-swade2', 'template',
+        template);
+    await message.setFlag('betterrolls-swade2', 'actor',
+            actor.id)
+    if (actor !== origin) {
+        // noinspection JSUnresolvedVariable
+        await message.setFlag('betterrolls-swade2', 'token',
+            origin.id)
+    }
+    return message
+}
+
+/**
 * Creates the basic chat data common to most cards
 * @param {SwadeActor} actor:  The actor origin of the message
 * @param {int} type: The type of message
@@ -49,6 +90,7 @@ export function create_basic_chat_data(actor, type){
  */
 export function create_render_options(actor, options) {
     options.bennie_avaliable = are_bennies_available(actor);
+    options.actor = actor;
     return options;
 }
 
@@ -134,10 +176,12 @@ export function activate_common_listeners(message, html) {
         });
     }
     // Selectable modifiers
+    // noinspection JSUnresolvedFunction
     html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
     manage_collapsables(html);
     // Popout button
+    // noinspection JSUnresolvedFunction
     html.find(".brsw-popup").click(() => {
         let popup = new ChatPopout(message);
         popup.render(true);
@@ -212,12 +256,19 @@ async function manage_sheet(actor) {
  */
 export function get_action_from_click(event){
     let setting_name = 'click'
+    // noinspection JSUnresolvedVariable
     if (event.shiftKey) {
         setting_name = 'shift_click'
-    } else if (event.ctrlKey) {
-        setting_name = 'ctrl_click'
-    } else if (event.altKey) {
-        setting_name = 'alt_click'
+    } else {
+        // noinspection JSUnresolvedVariable
+        if (event.ctrlKey) {
+                setting_name = 'ctrl_click'
+            } else {
+            // noinspection JSUnresolvedVariable
+            if (event.altKey) {
+                            setting_name = 'alt_click'
+                        }
+        }
     }
     return game.settings.get('betterrolls-swade2', setting_name)
 }
@@ -235,6 +286,7 @@ export function get_roll_options(html, old_options){
     let dmg_modifiers = old_options.dmgMods || [];
     let tn = old_options.tn || 4;
     let rof = old_options.rof || 1;
+    // noinspection JSUnresolvedFunction
     html.find('.brsw-input-options').each((_, element) => {
         if (element.value) {
             if (element.dataset.type === 'modifier') {
@@ -316,4 +368,19 @@ export function trait_to_string(trait) {
         string = string + (modifier > 0?"+":"") + modifier;
     }
     return string;
+}
+
+
+/**
+ * Makes a roll trait
+ * @param message
+ */
+export async function roll_trait(message) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const template = message.getFlag('betterrolls-swade2', 'template');
+    render_data.trait_roll.rolls = [4, 6];
+    await message.setFlag('betterrolls-swade2', 'render_data', render_data)
+    render_data.actor = get_actor_from_message(message);
+    const new_content = await renderTemplate(template, render_data);
+    message.update({content: new_content});
 }

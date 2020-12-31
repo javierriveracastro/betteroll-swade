@@ -58,5 +58,6 @@
     "BRSW.BennieFrontName": "Imagen frontal del Beni",
     "BRSW.BenniFrontHint": "Indica la imagen que se mostrara en la parte frontal del Beni",
     "BRSW.BackBennieName": "Imagen trasera del Beni (PNG)",
-    "BRSW.BackBennieHint": "Indica la imagen que se mostrara en la parte trasera del Beni (en blanco usa la frontal"
+    "BRSW.BackBennieHint": "Indica la imagen que se mostrara en la parte trasera del Beni (en blanco usa la frontal",
+    "BRSW.Rolls": "Tiradas"
 }
