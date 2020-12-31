@@ -131,12 +131,12 @@ export function activate_attribute_card_listeners(message, html) {
  */
 export async function roll_attribute(message, html,
                                      expend_bennie, default_options){
-    await roll_trait(message)
+    let actor = get_actor_from_message(message);
+    const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
+    await roll_trait(message, actor.data.data.attributes[attribute_id]);
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
-    let actor = get_actor_from_message(message);
     if (expend_bennie) spend_bennie(actor);
-    const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
     let options = get_roll_options(html, default_options);
     let total_modifiers = 0;
     options.suppressChat = true;
@@ -157,7 +157,7 @@ export async function roll_attribute(message, html,
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');
     }
-    // Show roll card
+/*    // Show roll card
     await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: flavour});
     // Detect fumbles and show result card
@@ -168,5 +168,5 @@ export async function roll_attribute(message, html,
         // noinspection JSCheckFunctionSignatures
         await create_result_card(actor, roll.results, total_modifiers,
             message.id, options);
-    }
+    }*/
 }

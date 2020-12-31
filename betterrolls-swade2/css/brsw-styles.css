@@ -183,25 +183,29 @@
 }
 
 .brsw-d4 {
-  background-image: url("/icons/svg/d4-grey.svg");
+    background-image: url("/icons/svg/d4-grey.svg");
 }
 .brsw-d6 {
-  background-image: url("/icons/svg/d6-grey.svg");
+    background-image: url("/icons/svg/d6-grey.svg");
 }
 .brsw-d8 {
-  background-image: url("/icons/svg/d8-grey.svg");
+    background-image: url("/icons/svg/d8-grey.svg");
 }
 .brsw-d10 {
-  background-image: url("/icons/svg/d10-grey.svg");
+    background-image: url("/icons/svg/d10-grey.svg");
 }
 .brsw-d12 {
-  background-image: url("/icons/svg/d12-grey.svg");
+    background-image: url("/icons/svg/d12-grey.svg");
 }
 
 .brsw-dice-image {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-size: 15px;
-  padding: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 15px;
+padding: 10px;
+}
+
+.brsw-discarded-roll {
+    text-decoration: red line-through;
 }

@@ -15,7 +15,7 @@ export const BRSW_CONST = {
  * @constructor
  */
 export function BRWSRoll() {
-    this.rolls = []; // Array with all the dice rolled
+    this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
 }
 
 
@@ -374,11 +374,49 @@ export function trait_to_string(trait) {
 /**
  * Makes a roll trait
  * @param message
+ * @param trait_dice An object representing a trait dice
  */
-export async function roll_trait(message) {
+export async function roll_trait(message, trait_dice) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
-    render_data.trait_roll.rolls = [4, 6];
+    const actor = get_actor_from_message(message)
+    let trait_rolls = []
+    let roll_string = `1d${trait_dice.die.sides}x`
+    // Wild Die
+    if (actor.isWildcard) {
+        roll_string += `+1d${trait_dice['wild-die'].sides}x`
+    }
+    let roll = new Roll(roll_string);
+    roll.evaluate()
+    let min_value = 99999999;
+    let min_position = 0;
+    let index = 0
+    roll.terms.forEach((term) => {
+        if (term.hasOwnProperty('faces')) {
+            trait_rolls.push({sides: term.faces, result: term.total, extra_class:''})
+            if (term.total < min_value) {
+                min_value = term.total;
+                min_position = index;
+            }
+            index += 1;
+        }
+    })
+    if (actor.isWildcard) {
+        trait_rolls[min_position].extra_class += ' brsw-discarded-roll'
+    }
+    // TODO: Roll detail
+    // TODO: Fumble detection
+    // TODO: Trait modifier
+    // TODO: Red for ones.
+    // TODO: Blue for explosions.
+    // TODO: Other modifiers from core
+    if (game.dice3d) {
+        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
+            'betterrolls-swade2', 'wildDieTheme');
+        // noinspection ES6MissingAwait
+        game.dice3d.showForRoll(roll, game.user, true)
+    }
+    render_data.trait_roll.rolls = trait_rolls;
     await message.setFlag('betterrolls-swade2', 'render_data', render_data)
     render_data.actor = get_actor_from_message(message);
     const new_content = await renderTemplate(template, render_data);
