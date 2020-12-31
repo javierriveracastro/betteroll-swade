@@ -16,7 +16,7 @@ export const BRSW_CONST = {
  */
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
-    this.modifiers = []; // Array of modifiers {name,  value}
+    this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label}
 }
 
@@ -377,6 +377,7 @@ export function trait_to_string(trait) {
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
+ * @param dice_label: Label for the trait die
  */
 export async function roll_trait(message, trait_dice, dice_label) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
@@ -391,9 +392,16 @@ export async function roll_trait(message, trait_dice, dice_label) {
     if (trait_dice.die.modifier){
         const mod_value = parseInt(trait_dice.die.modifier)
         modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
-            value: mod_value});
+            value: mod_value, extra_class: ''});
         total_modifiers += mod_value;
     }
+    // Make penalties red
+    modifiers.forEach(mod => {
+        console.log(mod)
+        if (mod.value < 0) {
+            mod.extra_class = ' brsw-red-text'
+        }
+    })
     // Wild Die
     if (actor.isWildcard) {
         roll_string += `+1d${trait_dice['wild-die'].sides}x`
@@ -406,8 +414,14 @@ export async function roll_trait(message, trait_dice, dice_label) {
     roll.terms.forEach((term) => {
         if (term.hasOwnProperty('faces')) {
             // Results
+            let extra_class = '';
+            if (term.total === 1) {
+                extra_class = ' brsw-red-text';
+            } else if (term.total > term.faces) {
+                extra_class = ' brsw-blue-text';
+            }
             trait_rolls.push({sides: term.faces,
-                result: term.total + total_modifiers, extra_class:''});
+                result: term.total + total_modifiers, extra_class: extra_class});
             // Dies
             let new_die = {faces: term.faces, results: [], label: dice_label};
             term.results.forEach(result => {
@@ -426,11 +440,9 @@ export async function roll_trait(message, trait_dice, dice_label) {
         trait_rolls[min_position].extra_class += ' brsw-discarded-roll'
         dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie")
     }
-    // TODO: Roll detail
     // TODO: Fumble detection
-    // TODO: Red for ones.
-    // TODO: Blue for explosions.
     // TODO: Other modifiers from core
+    // TODO: Target modifiers
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');
@@ -440,7 +452,6 @@ export async function roll_trait(message, trait_dice, dice_label) {
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
-    console.log(render_data.trait_roll)
     await message.setFlag('betterrolls-swade2', 'render_data', render_data)
     render_data.actor = get_actor_from_message(message);
     const new_content = await renderTemplate(template, render_data);

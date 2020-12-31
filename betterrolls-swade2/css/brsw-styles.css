@@ -217,3 +217,11 @@
 .brsw-discarded-roll {
     text-decoration: red line-through;
 }
+
+.brsw-red-text {
+    color: red;
+}
+
+.brsw-blue-text {
+    color: blue;
+}

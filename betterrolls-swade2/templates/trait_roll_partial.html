@@ -16,7 +16,7 @@
         </div>
     {{/each}}
     {{#each trait_roll.modifiers}}
-        <div class="brsw-roll-detail-row">
+        <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.name }}</span>
             <span>{{ this.value }}</span>
         </div>
