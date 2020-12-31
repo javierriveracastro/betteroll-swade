@@ -16,6 +16,7 @@ export const BRSW_CONST = {
  */
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
+    this.modifiers = []; // Array of modifiers {name,  value}
 }
 
 
@@ -379,9 +380,19 @@ export function trait_to_string(trait) {
 export async function roll_trait(message, trait_dice) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
-    const actor = get_actor_from_message(message)
-    let trait_rolls = []
+    const actor = get_actor_from_message(message);
+    let trait_rolls = [];
+    let modifiers = [];
+    let total_modifiers = 0;
     let roll_string = `1d${trait_dice.die.sides}x`
+    // Trait modifier
+    console.log(trait_dice)
+    if (trait_dice.die.modifier){
+        const mod_value = parseInt(trait_dice.die.modifier)
+        modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
+            value: mod_value});
+        total_modifiers += mod_value;
+    }
     // Wild Die
     if (actor.isWildcard) {
         roll_string += `+1d${trait_dice['wild-die'].sides}x`
@@ -393,7 +404,8 @@ export async function roll_trait(message, trait_dice) {
     let index = 0
     roll.terms.forEach((term) => {
         if (term.hasOwnProperty('faces')) {
-            trait_rolls.push({sides: term.faces, result: term.total, extra_class:''})
+            trait_rolls.push({sides: term.faces,
+                result: term.total + total_modifiers, extra_class:''})
             if (term.total < min_value) {
                 min_value = term.total;
                 min_position = index;
@@ -406,7 +418,6 @@ export async function roll_trait(message, trait_dice) {
     }
     // TODO: Roll detail
     // TODO: Fumble detection
-    // TODO: Trait modifier
     // TODO: Red for ones.
     // TODO: Blue for explosions.
     // TODO: Other modifiers from core
@@ -417,6 +428,7 @@ export async function roll_trait(message, trait_dice) {
         game.dice3d.showForRoll(roll, game.user, true)
     }
     render_data.trait_roll.rolls = trait_rolls;
+    render_data.trait_roll.modifiers = modifiers;
     await message.setFlag('betterrolls-swade2', 'render_data', render_data)
     render_data.actor = get_actor_from_message(message);
     const new_content = await renderTemplate(template, render_data);
