@@ -17,6 +17,7 @@ export const BRSW_CONST = {
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
     this.modifiers = []; // Array of modifiers {name,  value}
+    this.dice = []; // Array with the dices {sides, results: [int], label}
 }
 
 
@@ -377,16 +378,16 @@ export function trait_to_string(trait) {
  * @param message
  * @param trait_dice An object representing a trait dice
  */
-export async function roll_trait(message, trait_dice) {
+export async function roll_trait(message, trait_dice, dice_label) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
     let trait_rolls = [];
     let modifiers = [];
+    let dice = [];
     let total_modifiers = 0;
     let roll_string = `1d${trait_dice.die.sides}x`
     // Trait modifier
-    console.log(trait_dice)
     if (trait_dice.die.modifier){
         const mod_value = parseInt(trait_dice.die.modifier)
         modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
@@ -404,8 +405,16 @@ export async function roll_trait(message, trait_dice) {
     let index = 0
     roll.terms.forEach((term) => {
         if (term.hasOwnProperty('faces')) {
+            // Results
             trait_rolls.push({sides: term.faces,
-                result: term.total + total_modifiers, extra_class:''})
+                result: term.total + total_modifiers, extra_class:''});
+            // Dies
+            let new_die = {faces: term.faces, results: [], label: dice_label};
+            term.results.forEach(result => {
+                new_die.results.push(result.result);
+            })
+            dice.push(new_die);
+            // Find minimum roll
             if (term.total < min_value) {
                 min_value = term.total;
                 min_position = index;
@@ -415,6 +424,7 @@ export async function roll_trait(message, trait_dice) {
     })
     if (actor.isWildcard) {
         trait_rolls[min_position].extra_class += ' brsw-discarded-roll'
+        dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie")
     }
     // TODO: Roll detail
     // TODO: Fumble detection
@@ -429,6 +439,8 @@ export async function roll_trait(message, trait_dice) {
     }
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
+    render_data.trait_roll.dice = dice;
+    console.log(render_data.trait_roll)
     await message.setFlag('betterrolls-swade2', 'render_data', render_data)
     render_data.actor = get_actor_from_message(message);
     const new_content = await renderTemplate(template, render_data);

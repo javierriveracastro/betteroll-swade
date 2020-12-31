@@ -7,5 +7,18 @@
     </span>
 </div>
 <div class="brsw-roll-detail brsw-collapsed">
-    <h3>Here are the roll details....</h3>
+    {{#each trait_roll.dice as |current_dice|}}
+        <div class="brsw-roll-detail-row">
+            <span>{{ this.label }}</span>
+            <span>{{#each this.results}}
+                <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
+            {{/each}}</span>
+        </div>
+    {{/each}}
+    {{#each trait_roll.modifiers}}
+        <div class="brsw-roll-detail-row">
+            <span>{{ this.name }}</span>
+            <span>{{ this.value }}</span>
+        </div>
+    {{/each}}
 </div>

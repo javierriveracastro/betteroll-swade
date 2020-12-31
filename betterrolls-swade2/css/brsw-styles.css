@@ -182,6 +182,14 @@
     margin-bottom: 5px;
 }
 
+.brsw-roll-detail-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid;
+    margin: 4px;
+    padding: 4px;
+}
+
 .brsw-d4 {
     background-image: url("/icons/svg/d4-grey.svg");
 }
@@ -203,7 +211,7 @@
     background-repeat: no-repeat;
     background-position: center;
     font-size: 15px;
-padding: 10px;
+    padding: 10px;
 }
 
 .brsw-discarded-roll {
