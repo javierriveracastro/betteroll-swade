@@ -3,7 +3,6 @@
 import {BRSW_CONST, get_action_from_click, get_actor_from_message,
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
     BRWSRoll, roll_trait} from "./cards_common.js";
-import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
 * Creates a chat card for an attribute
@@ -115,8 +114,9 @@ export function activate_attribute_listeners(app, html) {
  * @param html: Html produced
  */
 export function activate_attribute_card_listeners(message, html) {
-    html.find('#roll-button').click(async _ =>{
-        await roll_attribute(message, html, false, {});
+    html.find('.brsw-roll-button').click(async ev =>{
+        await roll_attribute(message, html, ev.currentTarget.classList.contains(
+            'roll-bennie-button'), {});
     })
 }
 
@@ -133,17 +133,7 @@ export async function roll_attribute(message, html,
                                      expend_bennie, default_options){
     let actor = get_actor_from_message(message);
     const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
-    let roll = await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
+    if (expend_bennie) await spend_bennie(actor);
+    await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html);
-    // If character is a token get true actor
-    // noinspection JSUnresolvedVariable
-    if (expend_bennie) spend_bennie(actor);
-    // Detect fumbles and show result card
-    // if (roll.is_fumble) {
-    //     await show_fumble_card(actor);
-    // } else {
-    //     // noinspection JSCheckFunctionSignatures
-    //     await create_result_card(actor, roll.results, total_modifiers,
-    //         message.id, options);
-    // }
 }

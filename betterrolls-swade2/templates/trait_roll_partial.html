@@ -1,13 +1,17 @@
-<div class="brsw-roll-row brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
-    <span><i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}} :</span>
+<div class="brsw-roll-row">
+    <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
+        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}} :
+    </span>
     <span>
         {{#each trait_roll.rolls}}
             <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">{{ this.result }}</span>
         {{/each}}
-        <button class="brsw-trait-reroll brsw-row-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
-        <button class="brsw-trait-reroll brsw-row-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
-            <i class="fas fa-bullseye"></i>
-        </button>
+        <button class="brsw-trait-reroll brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+        {{#if bennie_avaliable}}
+            <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                <i class="fas fa-bullseye"></i>
+            </button>
+        {{/if}}
     </span>
 </div>
 <div class="brsw-roll-detail brsw-collapsed">

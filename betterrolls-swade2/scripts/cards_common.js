@@ -113,19 +113,17 @@ function are_bennies_available(actor) {
  * Expends a bennie
  * @param {SwadeActor} actor: Actor who is going to expend the bennie
  */
-export function spend_bennie(actor){
+export async function spend_bennie(actor){
     // Dice so Nice animation
     if (game.dice3d) {
         const benny = new Roll('1dB').roll();
-        // noinspection JSIgnoredPromiseFromCall
+        // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
         game.dice3d.showForRoll(benny, game.user, true, null, false);
     }
     if (actor.hasPlayerOwner) {
-        // noinspection JSIgnoredPromiseFromCall
-        actor.spendBenny();
+        await actor.spendBenny();
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
-        // noinspection JSIgnoredPromiseFromCall
-        actor.spendBenny();
+        await actor.spendBenny();
     } else {
         spendMastersBenny();
     }
@@ -205,11 +203,13 @@ export function manage_collapsables(html) {
 		let collapsable_span = html.find('.' + clicked.attr('data-collapse'));
 		collapsable_span.toggleClass('brsw-collapsed');
 		if (collapsable_span.hasClass('brsw-collapsed')) {
-			clicked.find('.fas').removeClass('fa-caret-down');
-			clicked.find('.fas').addClass('fa-caret-right');
+		    const button = clicked.find('.fas.fa-caret-down');
+			button.removeClass('fa-caret-down');
+			button.addClass('fa-caret-right');
 		} else {
-			clicked.find('.fas').addClass('fa-caret-down');
-			clicked.find('.fas').removeClass('fa-caret-right');
+		    const button = clicked.find('.fas.fa-caret-right');
+			button.removeClass('fa-caret-right');
+			button.addClass('fa-caret-down');
 		}
 	});
 }
@@ -385,83 +385,98 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
+    let total_modifiers = 0;
+    let modifiers = [];
+    let rof;
+    if (!render_data.trait_roll.rolls.length) {
+        // New roll, we need top get all tje options
+        let options = get_roll_options(html, {});
+        rof = options.rof || 1;
+        // Trait modifier
+        if (trait_dice.die.modifier){
+            const mod_value = parseInt(trait_dice.die.modifier)
+            modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
+                value: mod_value, extra_class: ''});
+            total_modifiers += mod_value;
+        }
+        // Betterrolls modifiers
+        options.additionalMods.forEach(mod => {
+            const mod_value = parseInt(mod);
+            modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
+            total_modifiers += mod_value;
+        })
+        // Wounds
+        const woundPenalties = actor.calcWoundPenalties();
+        if (woundPenalties !== 0) {
+            modifiers.push({
+                name: game.i18n.localize('SWADE.Wounds'),
+                value: woundPenalties,
+            });
+            total_modifiers += woundPenalties;
+        }
+        // Fatigue
+        const fatiguePenalties = actor.calcFatiguePenalties();
+        if (fatiguePenalties !== 0) {
+            modifiers.push({
+                name: game.i18n.localize('SWADE.Fatigue'),
+                value: fatiguePenalties,
+            });
+            total_modifiers += fatiguePenalties;
+        }
+        // Own status
+        const statusPenalties = actor.calcStatusPenalties();
+        if (statusPenalties !== 0) {
+            modifiers.push({
+                name: game.i18n.localize('SWADE.Status'),
+                value: statusPenalties,
+            });
+            total_modifiers += statusPenalties;
+        }
+        // Target Mods
+        if (game.user.targets.size) {
+            const objetive = Array.from(game.user.targets);
+            console.log(objetive[0].actor)
+            // noinspection JSUnresolvedVariable
+            if (objetive[0].actor.data.data.status.isVulnerable ||
+                objetive[0].actor.data.data.status.isStunned) {
+                modifiers.push({
+                    name: `${objetive[0].name}: ${game.i18n.localize('SWADE.Vuln')}`,
+                    value: 2
+                });
+                total_modifiers += 2;
+            }
+        }
+        //Conviction
+        if (actor.isWildcard &&
+                game.settings.get('swade', 'enableConviction') &&
+                getProperty(actor.data, 'data.details.conviction.active')) {
+            let conviction_roll = new Roll('1d6x');
+            conviction_roll.roll();
+            conviction_roll.toMessage(
+                {flavor: game.i18n.localize('BRWS.ConvictionRoll')});
+            modifiers.push({
+                'name': game.i18n.localize('SWADE.Conv'),
+                value: conviction_roll.total
+            });
+            total_modifiers += conviction_roll.total;
+        }
+    } else {
+        // Reroll, keep old options
+        rof = render_data.trait_roll.rolls.length - 1;
+        modifiers = render_data.trait_roll.modifiers;
+        modifiers.forEach(mod => {
+            total_modifiers += mod.value
+        });
+        render_data.trait_roll.rolls = [];
+    }
     // Get options from html
-    let options = get_roll_options(html, {});
-    let rof = options.rof || 1;
     let fumble_possible = 0;
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
-    let modifiers = [];
     let dice = [];
-    let total_modifiers = 0;
     let roll_string = `1d${trait_dice.die.sides}x`
     for (let i = 0; i < (rof - 1); i++) {
         roll_string += `+1d${trait_dice.die.sides}x`
-    }
-    // Trait modifier
-    if (trait_dice.die.modifier){
-        const mod_value = parseInt(trait_dice.die.modifier)
-        modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
-            value: mod_value, extra_class: ''});
-        total_modifiers += mod_value;
-    }
-    // Betterrolls modifiers
-    options.additionalMods.forEach(mod => {
-        const mod_value = parseInt(mod);
-        modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
-        total_modifiers += mod_value;
-    })
-    // Wounds
-    const woundPenalties = actor.calcWoundPenalties();
-    if (woundPenalties !== 0) {
-        modifiers.push({
-            name: game.i18n.localize('SWADE.Wounds'),
-            value: woundPenalties,
-        });
-        total_modifiers += woundPenalties;
-    }
-    // Fatigue
-    const fatiguePenalties = actor.calcFatiguePenalties();
-    if (fatiguePenalties !== 0) {
-        modifiers.push({
-            name: game.i18n.localize('SWADE.Fatigue'),
-            value: fatiguePenalties,
-        });
-        total_modifiers += fatiguePenalties;
-    }
-    // Own status
-    const statusPenalties = actor.calcStatusPenalties();
-    if (statusPenalties !== 0) {
-        modifiers.push({
-            name: game.i18n.localize('SWADE.Status'),
-            value: statusPenalties,
-        });
-        total_modifiers += statusPenalties;
-    }
-    // Target Mods
-    if (game.user.targets.size) {
-        const objetive = Array.from(game.user.targets);
-        console.log(objetive[0].actor)
-        // noinspection JSUnresolvedVariable
-        if (objetive[0].actor.data.data.status.isVulnerable ||
-                objetive[0].actor.data.data.status.isStunned) {
-            modifiers.push({
-                name: `${objetive[0].name}: ${game.i18n.localize('SWADE.Vuln')}`,
-                value: 2});
-            total_modifiers += 2;
-        }
-    }
-    //Conviction
-    if (actor.isWildcard &&
-            game.settings.get('swade', 'enableConviction') &&
-            getProperty(actor.data, 'data.details.conviction.active')) {
-        let conviction_roll = new Roll('1d6x');
-        conviction_roll.roll();
-        conviction_roll.toMessage(
-            {flavor: game.i18n.localize('BRWS.ConvictionRoll')});
-        modifiers.push({'name': game.i18n.localize('SWADE.Conv'),
-            value: conviction_roll.total});
-        total_modifiers += conviction_roll.total;
     }
     // Make penalties red
     modifiers.forEach(mod => {
@@ -530,15 +545,14 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true)
     }
-    // TODO: Rerolls
-    // TODO: Rerolls with bennie
-    // TODO: Results
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
     await message.setFlag('betterrolls-swade2', 'render_data', render_data)
-    render_data.actor = get_actor_from_message(message);
+    create_render_options(actor, render_data);
     const new_content = await renderTemplate(template, render_data);
     message.update({content: new_content});
+    delete render_data.actor; // Can't be stored on a flag.
+    delete render_data.bennie_avaliable;
     return render_data.trait_roll
 }
