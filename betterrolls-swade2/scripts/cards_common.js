@@ -409,6 +409,33 @@ export async function roll_trait(message, trait_dice, dice_label) {
         modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
         total_modifiers += mod_value;
     })
+    // Wounds
+    const woundPenalties = actor.calcWoundPenalties();
+    if (woundPenalties !== 0) {
+        modifiers.push({
+            name: game.i18n.localize('SWADE.Wounds'),
+            value: woundPenalties,
+        });
+        total_modifiers += woundPenalties;
+    }
+    // Fatigue
+    const fatiguePenalties = actor.calcFatiguePenalties();
+    if (fatiguePenalties !== 0) {
+        modifiers.push({
+            name: game.i18n.localize('SWADE.Fatigue'),
+            value: fatiguePenalties,
+        });
+        total_modifiers += fatiguePenalties;
+    }
+    // Own status
+    const statusPenalties = actor.calcStatusPenalties();
+    if (statusPenalties !== 0) {
+        modifiers.push({
+            name: game.i18n.localize('SWADE.Status'),
+            value: statusPenalties,
+        });
+        total_modifiers += statusPenalties;
+    }
     // Make penalties red
     modifiers.forEach(mod => {
         if (mod.value < 0) {
@@ -469,6 +496,7 @@ export async function roll_trait(message, trait_dice, dice_label) {
         is_fumble = dice[dice.length - 1].results[0] === 1;
     }
     // TODO: Other modifiers from core
+    // TODO: Conviction
     // TODO: Target modifiers
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
