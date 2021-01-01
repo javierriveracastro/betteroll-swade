@@ -17,7 +17,7 @@ export const BRSW_CONST = {
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
-    this.dice = []; // Array with the dices {sides, results: [int], label}
+    this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
 }
 
 
@@ -378,13 +378,14 @@ export function trait_to_string(trait) {
  * @param message
  * @param trait_dice An object representing a trait dice
  * @param dice_label: Label for the trait die
+ * @param {string} html: Html to be parsed for extra options.
  */
-export async function roll_trait(message, trait_dice, dice_label) {
+export async function roll_trait(message, trait_dice, dice_label, html) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
     // Get options from html
-    let options = get_roll_options('', {});
+    let options = get_roll_options(html, {});
     let rof = options.rof || 1;
     let fumble_possible = 0;
     let is_fumble = false;
@@ -478,7 +479,8 @@ export async function roll_trait(message, trait_dice, dice_label) {
             trait_rolls.push({sides: term.faces,
                 result: term.total + total_modifiers, extra_class: extra_class});
             // Dies
-            let new_die = {faces: term.faces, results: [], label: dice_label};
+            let new_die = {faces: term.faces, results: [], label: dice_label,
+                extra_class: ''};
             term.results.forEach(result => {
                 new_die.results.push(result.result);
             })
@@ -492,8 +494,9 @@ export async function roll_trait(message, trait_dice, dice_label) {
         }
     })
     if (actor.isWildcard) {
-        trait_rolls[min_position].extra_class += ' brsw-discarded-roll'
-        dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie")
+        trait_rolls[min_position].extra_class += ' brsw-discarded-roll';
+        dice[min_position].extra_class += ' brsw-discarded-roll';
+        dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
     }
     // Fumble detection
     if (!actor.isWildcard && fumble_possible < 1) {
@@ -509,7 +512,6 @@ export async function roll_trait(message, trait_dice, dice_label) {
         is_fumble = dice[dice.length - 1].results[0] === 1;
     }
     // TODO: Conviction
-    // TODO: Html modifiers (advanced options).
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');

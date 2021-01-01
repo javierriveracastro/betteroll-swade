@@ -134,7 +134,7 @@ export async function roll_attribute(message, html,
     let actor = get_actor_from_message(message);
     const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
     await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
-        "BRSW.AbilityDie"));
+        "BRSW.AbilityDie"), html);
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
     if (expend_bennie) spend_bennie(actor);
