@@ -450,6 +450,18 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
             total_modifiers += 2;
         }
     }
+    //Conviction
+    if (actor.isWildcard &&
+            game.settings.get('swade', 'enableConviction') &&
+            getProperty(actor.data, 'data.details.conviction.active')) {
+        let conviction_roll = new Roll('1d6x');
+        conviction_roll.roll();
+        conviction_roll.toMessage(
+            {flavor: game.i18n.localize('BRWS.ConvictionRoll')});
+        modifiers.push({'name': game.i18n.localize('SWADE.Conv'),
+            value: conviction_roll.total});
+        total_modifiers += conviction_roll.total;
+    }
     // Make penalties red
     modifiers.forEach(mod => {
         if (mod.value < 0) {
@@ -511,7 +523,6 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         // It is only a fumble if the Wild Die is 1
         is_fumble = dice[dice.length - 1].results[0] === 1;
     }
-    // TODO: Conviction
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');

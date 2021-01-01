@@ -61,5 +61,6 @@
     "BRSW.BackBennieHint": "Indica la imagen que se mostrara en la parte trasera del Beni (en blanco usa la frontal",
     "BRSW.Rolls": "Tiradas",
     "BRSW.TraitMod": "Modificador de rasgo",
-  	"BRSW.AbilityDie": "Dado de atributo"
+  	"BRSW.AbilityDie": "Dado de atributo",
+    "BRWS.ConvictionRoll": "Tirada de convicción"
 }
