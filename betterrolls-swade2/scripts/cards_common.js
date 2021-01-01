@@ -403,6 +403,12 @@ export async function roll_trait(message, trait_dice, dice_label) {
             value: mod_value, extra_class: ''});
         total_modifiers += mod_value;
     }
+    // Betterrolls modifiers
+    options.additionalMods.forEach(mod => {
+        const mod_value = parseInt(mod);
+        modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
+        total_modifiers += mod_value;
+    })
     // Make penalties red
     modifiers.forEach(mod => {
         if (mod.value < 0) {
@@ -462,7 +468,6 @@ export async function roll_trait(message, trait_dice, dice_label) {
         // It is only a fumble if the Wild Die is 1
         is_fumble = dice[dice.length - 1].results[0] === 1;
     }
-    // TODO: Betterrolls modifiers
     // TODO: Other modifiers from core
     // TODO: Target modifiers
     if (game.dice3d) {
