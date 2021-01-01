@@ -60,7 +60,7 @@ Betterrolls will add this section above the chat window
 
 You can use this to quickly add modifiers to a roll.
 
-Click on any element to selec it, its background will turn white. If you click on it again, its background will become red. Finally, another click will deselect it changing it backgond to the same as the char window.
+Click on any element to selec it, its background will turn white. If you click on it again, its background will become red. Finally, another click will deselect it changing it background to the same as the char window.
 
 White backgrounds elements will be used in the next roll ant automatically deselected. Red backgounds ones will be keep after the roll, until you deselect them manually.
 
@@ -141,6 +141,12 @@ Power cards are very similar to weapon cards, and for now they work the same.
 ## Drag and Drop
 
 ## Dice Tray support
+
+## Custom Bennies
+
+The module come with some custom bennies that can be found in the assets/bennies folder.
+
+Currently, it ships with some classical roman and greek coins.
 
 ## Macros and API
 
@@ -226,10 +232,12 @@ game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].ac
 
 ## Authors
 - JuanV, base of drag and drop support, custom bennies.
-- SalieriC, gun reloading.
-- Kandashi, gun reloading.
+- SalieriC, manual ammunition management.
+- Kandashi, manual ammunition management.
 - Sergut, documentation corrections.
 - Javier Rivera, most code and this doc.
+- Art assets shipped with the system are attributed by a README file in the same directory.
+- The shipped bennies are property of Classical Numismatic Group, Inc.
 
 ## Acknowledgements
 - Atropos for making Foundry VTT
