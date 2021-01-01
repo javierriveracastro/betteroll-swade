@@ -18,6 +18,7 @@ export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
+    this.is_fumble = false
 }
 
 
@@ -388,7 +389,7 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     let options = get_roll_options(html, {});
     let rof = options.rof || 1;
     let fumble_possible = 0;
-    let is_fumble = false;
+    render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
     let modifiers = [];
     let dice = [];
@@ -517,11 +518,11 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         test_fumble_roll.toMessage(
     {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
         if (test_fumble_roll.total === 1) {
-            is_fumble = true;
+            render_data.trait_roll.is_fumble = true;
         }
     } else if (actor.isWildcard && fumble_possible < 0) {
         // It is only a fumble if the Wild Die is 1
-        is_fumble = dice[dice.length - 1].results[0] === 1;
+        render_data.trait_roll.is_fumble = dice[dice.length - 1].results[0] === 1;
     }
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
@@ -529,6 +530,9 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true)
     }
+    // TODO: Rerolls
+    // TODO: Rerolls with bennie
+    // TODO: Results
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
@@ -536,4 +540,5 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     render_data.actor = get_actor_from_message(message);
     const new_content = await renderTemplate(template, render_data);
     message.update({content: new_content});
+    return render_data.trait_roll
 }

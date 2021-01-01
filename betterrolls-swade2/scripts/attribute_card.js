@@ -1,8 +1,8 @@
 // Functions for cards representing attributes
 
 import {BRSW_CONST, get_action_from_click, get_actor_from_message,
-    get_roll_options, detect_fumble, spend_bennie, get_actor_from_ids,
-    trait_to_string, create_common_card, BRWSRoll, roll_trait} from "./cards_common.js";
+    spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
+    BRWSRoll, roll_trait} from "./cards_common.js";
 import {create_result_card, show_fumble_card} from './result_card.js'
 
 /**
@@ -133,41 +133,17 @@ export async function roll_attribute(message, html,
                                      expend_bennie, default_options){
     let actor = get_actor_from_message(message);
     const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
-    await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
+    let roll = await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html);
     // If character is a token get true actor
     // noinspection JSUnresolvedVariable
     if (expend_bennie) spend_bennie(actor);
-    let options = get_roll_options(html, default_options);
-    let total_modifiers = 0;
-    options.suppressChat = true;
-    options.rof = 1;
-    let roll_mods = actor._buildTraitRollModifiers(
-        actor.data.data.attributes[attribute_id], options);
-    let roll = actor.rollAttribute(attribute_id, options);
-    // Customize flavour text
-    let flavour =
-        `${game.i18n.localize(CONFIG.SWADE.attributes[attribute_id].long)} ${game.i18n.localize('SWADE.AttributeTest')}<br>`;
-    roll_mods.forEach(mod => {
-        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
-        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
-        total_modifiers = total_modifiers + parseInt(mod.value);
-    })
-    // If actor is a wild card customize Wild dice color.
-    if (actor.isWildcard && game.dice3d) {
-        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
-            'betterrolls-swade2', 'wildDieTheme');
-    }
-/*    // Show roll card
-    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
-        flavor: flavour});
     // Detect fumbles and show result card
-    let is_fumble = await detect_fumble(roll)
-    if (is_fumble) {
-        await show_fumble_card(actor);
-    } else {
-        // noinspection JSCheckFunctionSignatures
-        await create_result_card(actor, roll.results, total_modifiers,
-            message.id, options);
-    }*/
+    // if (roll.is_fumble) {
+    //     await show_fumble_card(actor);
+    // } else {
+    //     // noinspection JSCheckFunctionSignatures
+    //     await create_result_card(actor, roll.results, total_modifiers,
+    //         message.id, options);
+    // }
 }

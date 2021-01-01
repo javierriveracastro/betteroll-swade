@@ -225,3 +225,8 @@
 .brsw-blue-text {
     color: blue;
 }
+
+.brsw-row-button {
+    line-height: 80%;
+    width: 2em;
+}

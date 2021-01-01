@@ -4,6 +4,10 @@
         {{#each trait_roll.rolls}}
             <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">{{ this.result }}</span>
         {{/each}}
+        <button class="brsw-trait-reroll brsw-row-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+        <button class="brsw-trait-reroll brsw-row-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+            <i class="fas fa-bullseye"></i>
+        </button>
     </span>
 </div>
 <div class="brsw-roll-detail brsw-collapsed">
