@@ -436,6 +436,19 @@ export async function roll_trait(message, trait_dice, dice_label) {
         });
         total_modifiers += statusPenalties;
     }
+    // Target Mods
+    if (game.user.targets.size) {
+        const objetive = Array.from(game.user.targets);
+        console.log(objetive[0].actor)
+        // noinspection JSUnresolvedVariable
+        if (objetive[0].actor.data.data.status.isVulnerable ||
+                objetive[0].actor.data.data.status.isStunned) {
+            modifiers.push({
+                name: `${objetive[0].name}: ${game.i18n.localize('SWADE.Vuln')}`,
+                value: 2});
+            total_modifiers += 2;
+        }
+    }
     // Make penalties red
     modifiers.forEach(mod => {
         if (mod.value < 0) {
@@ -487,7 +500,7 @@ export async function roll_trait(message, trait_dice, dice_label) {
         let test_fumble_roll = new Roll('1d6');
         test_fumble_roll.roll()
         test_fumble_roll.toMessage(
-{flavor: game.i18n.localize('BRWS.Testing_fumbles')});
+    {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
         if (test_fumble_roll.total === 1) {
             is_fumble = true;
         }
@@ -495,9 +508,8 @@ export async function roll_trait(message, trait_dice, dice_label) {
         // It is only a fumble if the Wild Die is 1
         is_fumble = dice[dice.length - 1].results[0] === 1;
     }
-    // TODO: Other modifiers from core
     // TODO: Conviction
-    // TODO: Target modifiers
+    // TODO: Html modifiers (advanced options).
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');
