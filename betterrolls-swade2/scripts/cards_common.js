@@ -580,6 +580,10 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     if (!render_data.trait_roll.is_fumble) {
         calculate_results(trait_rolls);
     }
+    // TODO: Restrict result row to GM
+    // TODO: Edit modifiers
+    // TODO: Edit TNs
+    // TODO: Keep old rolls
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
