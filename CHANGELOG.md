@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.99
+* Don't activate listeners until last flag is set
+* New assests for bennies: classical coins
+* Attribute cards are now consolidated.
+
 ## Version 1.98
 * Hopefully resolves the settings erros.
 
