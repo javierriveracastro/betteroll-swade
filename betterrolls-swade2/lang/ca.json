@@ -1,7 +1,7 @@
 {
     "BRSW.Show_Betterrolls_card": "Veure la carta de Betterrolls",
     "BRSW.Show_card_and_trait": "Veure la carta i fer la tirada de Betterrolls",
-    "BRSW.Shift_click_action": "Acció quan fas clic  amb la MAJÚSCULA",
+    "BRSW.Shift_click_action": "Acció quan fas clic amb la MAJÚSCULA",
     "BRSW.Shit_click_hint": "Tria que passa quan fas un clic mentres prems MAJÚSCULA",
     "BRSW.Master_only_result_card": "Només el Director de joc pot veure la carta",
     "I18N.MAINTAINERS": [
@@ -61,7 +61,7 @@
     "BRSW.To_selected": "Seleccionats",
     "BRSW.ChatFormTittle": "Modificadors per Better Rolls",
     "BRSW.BennieFrontName": "Imatge frontal del beni",
-    "BRSW.BackBennieHint": "Tria la imatge que ese mostrarà en la parte del revers dels  beni (en blanc fa servir la frontal)",
+    "BRSW.BackBennieHint": "Tria la imatge que ese mostrarà en la parte del revers dels beni (en blanc fa servir la frontal)",
     "BRWS.Control_click_hint": "Tria que passa quan cliques mentre prems CONTROL",
     "BRSW.Control_click_action": "Acció quan fas clic amb  CONTROL"
 }
