@@ -180,6 +180,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
+    border-top: solid lightgrey 2px;
+    padding: 5px;
 }
 
 .brsw-roll-detail-row {

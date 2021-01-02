@@ -26,7 +26,8 @@ Hooks.on(`ready`, () => {
     const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
         'modules/betterrolls-swade2/templates/common_card_footer.html',
         'modules/betterrolls-swade2/templates/common_more_options.html',
-        'modules/betterrolls-swade2/templates/trait_roll_partial.html'];
+        'modules/betterrolls-swade2/templates/trait_roll_partial.html',
+        'modules/betterrolls-swade2/templates/trait_result_partial.html'];
     loadTemplates(templatePaths).then(() => {
         console.log("Better Rolls templates preloaded")
     });

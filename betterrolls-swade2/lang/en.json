@@ -62,5 +62,6 @@
 	"BRSW.Rolls": "Rolls",
 	"BRSW.TraitMod": "Trait Modifier",
 	"BRSW.AbilityDie": "Ability Die",
-	"BRWS.ConvictionRoll": "Conviction roll"
+	"BRSW.ConvictionRoll": "Conviction roll",
+	"BRSW.Result": "Result"
 }

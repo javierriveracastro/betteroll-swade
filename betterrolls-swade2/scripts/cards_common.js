@@ -15,7 +15,8 @@ export const BRSW_CONST = {
  * @constructor
  */
 export function BRWSRoll() {
-    this.rolls = []; // Array with all the dice rolled {sides, result, extra_class}
+    this.rolls = []; // Array with all the dice rolled {sides, result,
+        // extra_class, tn, result_txt, result_icons}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
     this.is_fumble = false
@@ -375,6 +376,33 @@ export function trait_to_string(trait) {
 
 
 /**
+ * Calculates the results of a roll
+ * @param {[]} rolls A rolls list see BSWRoll doc
+ */
+function calculate_results(rolls) {
+    rolls.forEach(roll => {
+        let result = roll.result - roll.tn;
+        if (result < 0) {
+            roll.result_text = game.i18n.localize('BRSW.Failure');
+            roll.result_icon = '<i class="brsw-red-text fas fa-minus-circle"></i>'
+        } else if (result < 4) {
+            roll.result_text = game.i18n.localize('BRSW.Success');
+            roll.result_icon = '<i class="brsw-blue-text fas fa-check"></i>'
+        } else if(result < 8) {
+            roll.result_text = game.i18n.localize('BRSW.Raise');
+            roll.result_icon = '<i class="brsw-blue-text fas fa-check-double"></i>'
+        } else {
+            const raises = Math.floor(result / 4)
+            roll.result_text = game.i18n.localize(
+                'BRSW.Raise_plural') + ' ' + raises;
+            roll.result_icon = raises.toString() +
+                '<i class="brsw-blue-text fas fa-check-double"></i>';
+        }
+    });
+}
+
+
+/**
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
@@ -388,9 +416,9 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     let total_modifiers = 0;
     let modifiers = [];
     let rof;
+    let options = get_roll_options(html, {});
     if (!render_data.trait_roll.rolls.length) {
         // New roll, we need top get all tje options
-        let options = get_roll_options(html, {});
         rof = options.rof || 1;
         // Trait modifier
         if (trait_dice.die.modifier){
@@ -453,7 +481,7 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
             let conviction_roll = new Roll('1d6x');
             conviction_roll.roll();
             conviction_roll.toMessage(
-                {flavor: game.i18n.localize('BRWS.ConvictionRoll')});
+                {flavor: game.i18n.localize('BRSW.ConvictionRoll')});
             modifiers.push({
                 'name': game.i18n.localize('SWADE.Conv'),
                 value: conviction_roll.total
@@ -505,7 +533,8 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
                 extra_class = ' brsw-blue-text';
             }
             trait_rolls.push({sides: term.faces,
-                result: term.total + total_modifiers, extra_class: extra_class});
+                result: term.total + total_modifiers, extra_class: extra_class,
+                tn: options.tn});
             // Dies
             let new_die = {faces: term.faces, results: [], label: dice_label,
                 extra_class: ''};
@@ -521,8 +550,10 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
             index += 1;
         }
     })
+    // Remove Wild die
     if (actor.isWildcard) {
         trait_rolls[min_position].extra_class += ' brsw-discarded-roll';
+        trait_rolls[min_position].tn = 0;
         dice[min_position].extra_class += ' brsw-discarded-roll';
         dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
     }
@@ -544,6 +575,10 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
             'betterrolls-swade2', 'wildDieTheme');
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true)
+    }
+    // Calculate results
+    if (!render_data.trait_roll.is_fumble) {
+        calculate_results(trait_rolls);
     }
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;

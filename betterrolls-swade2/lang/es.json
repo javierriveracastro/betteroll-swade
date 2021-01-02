@@ -62,5 +62,6 @@
     "BRSW.Rolls": "Tiradas",
     "BRSW.TraitMod": "Modificador de rasgo",
   	"BRSW.AbilityDie": "Dado de atributo",
-    "BRWS.ConvictionRoll": "Tirada de convicción"
+    "BRSW.ConvictionRoll": "Tirada de convicción",
+  	"BRSW.Result": "Resultado"
 }
