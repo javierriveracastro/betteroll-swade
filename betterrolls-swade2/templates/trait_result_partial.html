@@ -3,7 +3,7 @@
         {{ localize 'BRSW.Fumble' }}
     </div>
 {{ else }}
-    <div class="brsw-roll-row">
+    <div class="brsw-roll-row {{# if result_master_only}}brsw-master-only{{/if}}">
         <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-result-detail">
             <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Result'}} :
         </span>

@@ -95,6 +95,8 @@ export function create_basic_chat_data(actor, type){
 export function create_render_options(actor, options) {
     options.bennie_avaliable = are_bennies_available(actor);
     options.actor = actor;
+    options.result_master_only =
+        game.settings.get('betterrolls-swade2', 'result-card') === 'master';
     return options;
 }
 

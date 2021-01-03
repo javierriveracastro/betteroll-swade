@@ -72,6 +72,10 @@ Hooks.on('renderChatMessage', (message, html) => {
         if (game.user.id !== message.user.id && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
+        // Hide master only setions
+        if (!game.user.isGM) {
+            html.find('.brsw-master-only').remove();
+        }
     }
 });
 
@@ -207,7 +211,6 @@ function register_settings_version2() {
         scope: 'world',
         type: String,
         choices: {
-            none: game.i18n.localize('BRSW.No_result_card'),
             master: game.i18n.localize('BRSW.Master_only_result_card'),
             all: game.i18n.localize('BRSW.Everybody')
         },
