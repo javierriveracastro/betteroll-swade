@@ -81,7 +81,7 @@ The skill cards are very similar to attribute ones.
 
 ![skill card](docs/skill_card.png)
 
-The main difference is the addition of a collapsed skill description and the ability to roll any number of trait dice. This is useful for some spells, frenzy attacks, etc...
+The main difference is the addition of a collapsed skill description.
 
 The result card will show one row of results for each dice.
 
