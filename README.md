@@ -42,9 +42,6 @@ This is the card that is shown after clicking on an attribute name:
 You can do quite a lot of things here:
 
 * Click the portrait to open, minimize, and maximize the character sheet.
-* Click the icon on the upper right corner (under the trash icon if you are the DM) to open the card on a floating window.
-
-![Attribute card floating](docs/Attribute_card_floating.png)
 
 * Click on More options to expand a small form to add your own modifier or target number.
 
@@ -76,7 +73,7 @@ After clicking `Roll` the module will roll a standard system roll; if you enable
 
 In the image above you can see two cards: the first one is a system roll (with minor modifications), the second one is the result card.
 
-The three boxes are the number rolled on the dice, the modifier, and the target number. You can change them after the roll and it will update the result.
+Both rows can be expanded to show more details about the roll or the result.
 
 ## Skill card
 
@@ -222,7 +219,7 @@ game.brsw.create_skill_card_from_id(canvas.tokens.controlled[0].id, '', canvas.t
  * @param {SwadeActor, token} character, The instance who is rolling
  * @param {string} skill_id the id of the skill we are going to roll
  * @param {string} html, The html code from a card that will be parsed for options,
- *      it could be an empty string.
+ it could be an empty string.
  * @param {boolean} expend_bennie, True if we want to spend a bennie
 
 Example:
@@ -236,6 +233,9 @@ game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].ac
 - Javier Rivera, most code and this doc.
 - Art assets shipped with the system are attributed by a README file in the same directory.
 - The shipped bennies are property of Classical Numismatic Group, Inc.
+
+## Translations
+- Catalá: David Montilla
 
 ## Acknowledgements
 - Atropos for making Foundry VTT
