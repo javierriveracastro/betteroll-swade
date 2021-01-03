@@ -1,7 +1,7 @@
 // Functions for cards representing all items but skills
 
 import {
-    BRSW_CONST, create_basic_chat_data, create_render_options, detect_fumble,
+    BRSW_CONST, BRWSRoll, create_basic_chat_data, create_common_card, create_render_options, detect_fumble,
     get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
 } from "./cards_common.js";
 import {create_result_card, show_fumble_card} from "./result_card.js";
@@ -37,31 +37,21 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 async function create_item_card(origin, item_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
-    let chatData = create_basic_chat_data(actor, CONST.CHAT_MESSAGE_TYPES.IC);
     let footer = make_item_footer(item);
     const skill = get_item_skill(item, actor);
     const skill_title = skill ? skill.name + ' ' +
         trait_to_string(skill.data.data) : '';
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
-    let render_object = create_render_options(
-        actor, {actor: actor, header: {type: 'Item', title: item.name,
+    let trait_roll = new BRWSRoll();
+    let message = await create_common_card(origin,
+        {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
-            skill_title: skill_title, show_rof: skill !== undefined,
-            ammo: parseFloat(item.data.data.shots)});
-    chatData.content = await renderTemplate(
-        "modules/betterrolls-swade2/templates/item_card.html", render_object);
-    let message = await ChatMessage.create(chatData);
+            skill_title: skill_title, ammo: parseFloat(item.data.data.shots),
+            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+        "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
-    // We always set the actor (as a fallback, and the token if possible)
-    await message.setFlag('betterrolls-swade2', 'actor',
-            actor.id)
-    if (actor !== origin) {
-        // noinspection JSUnresolvedVariable
-        await message.setFlag('betterrolls-swade2', 'token',
-            origin.id)
-    }
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ITEM_CARD)
     return message;

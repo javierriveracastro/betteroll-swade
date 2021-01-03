@@ -24,9 +24,27 @@ export function BRWSRoll() {
 
 
 /**
+ * Stores a flag with the render data, deletes data can't be stored
+ *
+ * @param message
+ * @param render_object
+ */
+async function store_render_flag(message, render_object) {
+    const properties_to_delete = ['actor', 'skill', 'bennie_avaliable'];
+    properties_to_delete.forEach(property => {
+        if (render_object.hasOwnProperty(property)) {
+            delete render_object[property];
+        }
+    });
+    await message.setFlag('betterrolls-swade2', 'render_data',
+        render_object);
+}
+
+
+/**
  * Creates a char card
  *
- * @param {Token, SwadeActor} origin The origin of this card
+ * @param {Token, SwadeActor} origin The origin of this cardº
  * @param {object} render_data Data to pass to the render template
  * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card
@@ -40,9 +58,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
     chatData.content = await renderTemplate(template, render_object);
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
-    delete render_object.actor;
-    await message.setFlag('betterrolls-swade2', 'render_data',
-        render_object);
+    await store_render_flag(message, render_object);
     await message.setFlag('betterrolls-swade2', 'template',
         template);
     await message.setFlag('betterrolls-swade2', 'actor',
@@ -584,11 +600,9 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
-    await message.setFlag('betterrolls-swade2', 'render_data', render_data)
     create_render_options(actor, render_data);
     const new_content = await renderTemplate(template, render_data);
     message.update({content: new_content});
-    delete render_data.actor; // Can't be stored on a flag.
-    delete render_data.bennie_avaliable;
+    await store_render_flag(message, render_data)
     return render_data.trait_roll
 }
