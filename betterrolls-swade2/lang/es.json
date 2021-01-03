@@ -23,7 +23,7 @@
    "BRWS.Testing_fumbles": "Comprobando si es una pifia",
 	"BRSW.Failure": "Fallo",
 	"BRSW.Success": "Éxito",
-	"BRSW.Raise": "¡Aumento!!",
+	"BRSW.Raise": "¡Aumento!",
 	"BRSW.Raise_plural": "¡Aumentos!",
     "BRSW.Roll": "Tirar",
     "BRSW.Fumble": "¡PIFIA!",
@@ -63,5 +63,6 @@
     "BRSW.TraitMod": "Modificador de rasgo",
   	"BRSW.AbilityDie": "Dado de atributo",
     "BRSW.ConvictionRoll": "Tirada de convicción",
-  	"BRSW.Result": "Resultado"
+  	"BRSW.Result": "Resultado",
+  	"BRSW.SkillDie": "Dado de habilidad"
 }

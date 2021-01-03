@@ -79,7 +79,7 @@ async function attribute_click_listener(ev, target) {
     // Show card
     const message = await create_attribute_card(target, attribute_id);
     if (action.includes('trait')) {
-        await roll_attribute(message, '', false, {})
+        await roll_attribute(message, '', false)
     }
 }
 
@@ -117,7 +117,7 @@ export function activate_attribute_listeners(app, html) {
 export function activate_attribute_card_listeners(message, html) {
     html.find('.brsw-roll-button').click(async ev =>{
         await roll_attribute(message, html, ev.currentTarget.classList.contains(
-            'roll-bennie-button'), {});
+            'roll-bennie-button'));
     })
 }
 
@@ -128,10 +128,9 @@ export function activate_attribute_card_listeners(message, html) {
  * @param {ChatMessage} message
  * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie, True if we want to spend a bennie
- * @param {object} default_options: Options to use when there is no html
  */
 export async function roll_attribute(message, html,
-                                     expend_bennie, default_options){
+                                     expend_bennie){
     let actor = get_actor_from_message(message);
     const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
     if (expend_bennie) await spend_bennie(actor);

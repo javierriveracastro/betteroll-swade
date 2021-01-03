@@ -15,8 +15,14 @@
             {{>"modules/betterrolls-swade2/templates/common_more_options.html"}}
         </div>
     </div>
-    <div class="brsw-button-row">
-        <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
-    </div>
+    {{# unless trait_roll.rolls }}
+        <div class="brsw-button-row">
+            <button class="brsw-roll-button">{{ localize 'BRSW.Roll' }}</button>
+        </div>
+    {{/unless}}
 </div>
+{{# if trait_roll.rolls }}
+    {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
+    {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
+{{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}

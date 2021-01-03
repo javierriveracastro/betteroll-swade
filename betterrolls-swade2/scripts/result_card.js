@@ -113,10 +113,10 @@ function reroll_clicked(message, use_bennie) {
     console.log(origin_type)
     if (origin_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
         // noinspection JSIgnoredPromiseFromCall
-        roll_attribute(origin_message, '', use_bennie, origin_options);
+        roll_attribute(origin_message, '', use_bennie);
     } else if (origin_type === BRSW_CONST.TYPE_SKILL_CARD) {
         // noinspection JSIgnoredPromiseFromCall
-        roll_skill(origin_message, '', use_bennie, origin_options);
+        roll_skill(origin_message, '', use_bennie);
     } else if (origin_type === BRSW_CONST.TYPE_ITEM_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_item(origin_message, '', use_bennie, origin_options);
