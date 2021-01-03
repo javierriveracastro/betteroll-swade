@@ -136,8 +136,6 @@ Power cards are very similar to weapon cards, and for now they work the same.
 
 ![power_cards](docs/power_cards.png)
 
-## Damage cards
-
 ## Drag and Drop
 
 ## Dice Tray support
@@ -231,7 +229,7 @@ Example:
 game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id, '', false)
 
 ## Authors
-- JuanV, base of drag and drop support, custom bennies.
+- JuanV, base of drag and drop support, custom bennies, translation infrastructure.
 - SalieriC, manual ammunition management.
 - Kandashi, manual ammunition management.
 - Sergut, documentation corrections.

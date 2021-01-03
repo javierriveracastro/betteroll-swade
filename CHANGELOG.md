@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.100
+* Hide result roll to players when setting selected
+* Catalan translation
+* Skills use the new consolidated card.
+
 ## Version 1.99
 * Don't activate listeners until last flag is set
 * New assests for bennies: classical coins
