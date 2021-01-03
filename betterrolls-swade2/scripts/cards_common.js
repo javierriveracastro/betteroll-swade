@@ -182,12 +182,6 @@ export function activate_common_listeners(message, html) {
     html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
     manage_collapsables(html);
-    // Popout button
-    // noinspection JSUnresolvedFunction
-    html.find(".brsw-popup").click(() => {
-        let popup = new ChatPopout(message);
-        popup.render(true);
-    })
 }
 
 
@@ -421,7 +415,7 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         // New roll, we need top get all tje options
         rof = options.rof || 1;
         // Trait modifier
-        if (trait_dice.die.modifier){
+        if (parseInt(trait_dice.die.modifier)){
             const mod_value = parseInt(trait_dice.die.modifier)
             modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
                 value: mod_value, extra_class: ''});
