@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 1.101
+* Item cards now use the new consolidated card for trait rolls (damage is still using old one)
+
 ## Version 1.100
 * Hide result roll to players when setting selected
 * Catalan translation
