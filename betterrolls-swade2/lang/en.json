@@ -64,5 +64,7 @@
 	"BRSW.AbilityDie": "Ability Die",
 	"BRSW.ConvictionRoll": "Conviction roll",
 	"BRSW.Result": "Result",
-	"BRSW.SkillDie": "Skill Die"
+	"BRSW.SkillDie": "Skill Die",
+	"BRSW.ItemMod": "Item modifier",
+	"BRSW.Default": "Default"
 }

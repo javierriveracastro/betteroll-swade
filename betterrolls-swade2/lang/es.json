@@ -64,5 +64,7 @@
   	"BRSW.AbilityDie": "Dado de atributo",
     "BRSW.ConvictionRoll": "Tirada de convicción",
   	"BRSW.Result": "Resultado",
-  	"BRSW.SkillDie": "Dado de habilidad"
+  	"BRSW.SkillDie": "Dado de habilidad",
+    "BRSW.ItemMod": "Modificador objeto",
+  	"BRSW.Default": "Por defecto"
 }

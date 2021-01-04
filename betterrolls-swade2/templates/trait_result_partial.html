@@ -19,7 +19,7 @@
         {{#each trait_roll.rolls}}
             {{# if this.tn }}
                 <div class="brsw-roll-detail-row">
-                    <span>{{ localize "BRSW.TN" }} {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
+                    <span>{{ localize "BRSW.TN" }}({{ this.tn_reason}}) {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
                     <span>{{ this.result_text }}</span>
                 </div>
             {{/if}}

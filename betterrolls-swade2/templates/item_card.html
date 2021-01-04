@@ -7,13 +7,13 @@
     {{{ description }}}
 </div>{{/if}}
 {{# if skill }}
+    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
+        <i class="fas fa-caret-right"></i>{{ skill_title }}
+    </div>
+    <div class="brsw-skill-description brsw-collapsed">
+        {{{ skill.data.data.description }}}
+    </div>
     <div class="brsw-form">
-        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
-            <i class="fas fa-caret-right"></i>{{ skill_title }}
-        </div>
-        <div class="brsw-skill-description brsw-collapsed">
-            {{{ skill.data.data.description }}}
-        </div>
         {{# if ammo }}<div class="brws-attribute-buttons">
             <div class="brws-common-modifiers">
                 <span class="brws-selectable brsw-clickable brws-selected brsw-ammo-toggle">
@@ -33,13 +33,19 @@
             </div>
         </div>
         <div class="brsw-button-row">
-            <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
-            {{# if damage }}
-                <button id="damage-button" class="brsw-button-smaller">
-                    {{ localize 'BRSW.DamageCard' }}
-                </button>
-            {{/if}}
+            {{# unless trait_roll.rolls }}
+                <button id="roll-button">{{ localize 'BRSW.Roll' }}</button>
+            {{/unless}}
         </div>
+        {{# if damage }}<div class="brsw-button-row">
+            <button id="damage-button" class="brsw-button-smaller">
+                {{ localize 'BRSW.DamageCard' }}
+            </button>
+        </div>{{/if}}
     </div>
+    {{# if trait_roll.rolls }}
+        {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
+        {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
+    {{/if}}
 {{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}

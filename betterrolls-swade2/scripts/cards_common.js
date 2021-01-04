@@ -44,7 +44,7 @@ async function store_render_flag(message, render_object) {
 /**
  * Creates a char card
  *
- * @param {Token, SwadeActor} origin The origin of this cardº
+ * @param {Token, SwadeActor} origin The origin of this card
  * @param {object} render_data Data to pass to the render template
  * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card
@@ -107,6 +107,7 @@ export function create_basic_chat_data(actor, type){
  * Creates de common render options for all the cards
  * @param {Actor} actor
  * @param {object} options: options for this card
+ * @para item: An item object
  */
 export function create_render_options(actor, options) {
     options.bennie_avaliable = are_bennies_available(actor);
@@ -301,6 +302,7 @@ export function get_roll_options(html, old_options){
     let modifiers = old_options.additionalMods || [];
     let dmg_modifiers = old_options.dmgMods || [];
     let tn = old_options.tn || 4;
+    let tn_reason = old_options.tn_reason || game.i18n.localize("BRSW.Default");
     let rof = old_options.rof || 1;
     // noinspection JSUnresolvedFunction
     html.find('.brsw-input-options').each((_, element) => {
@@ -340,35 +342,8 @@ export function get_roll_options(html, old_options){
             modifiers.push(tray_modifier);
         }
     }
-    return {additionalMods: modifiers, dmgMods: dmg_modifiers, tn: tn, rof: rof}
-}
-
-/**
- * Try to detect if a roll is a fumble
- * @param {Roll} roll
- */
-export function detect_fumble(roll) {
-    let fumble = 0;
-    // noinspection ES6MissingAwait
-    roll.terms[0].results.forEach(partial_roll => {
-        if (partial_roll.hasOwnProperty('result')) {
-            // Extra rolling one dice
-            // noinspection JSIncompatibleTypesComparison
-            if (partial_roll.result === 1 && roll.terms[0].results.length === 1) {
-                let test_fumble_roll = new Roll('1d6');
-                test_fumble_roll.roll()
-                test_fumble_roll.toMessage(
-                    {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
-                // noinspection EqualityComparisonWithCoercionJS
-                if (test_fumble_roll.result == 1) fumble=999;
-            }
-        } else {
-            partial_roll.dice.forEach(die => {
-                fumble += die.total === 1 ? 1: -1
-            });
-        }
-    });
-    return fumble > 0;
+    return {additionalMods: modifiers, dmgMods: dmg_modifiers, tn: tn, rof: rof,
+        tn_reason: tn_reason}
 }
 
 
@@ -420,15 +395,21 @@ function calculate_results(rolls) {
  * @param trait_dice An object representing a trait dice
  * @param dice_label: Label for the trait die
  * @param {string} html: Html to be parsed for extra options.
+ * @param extra_data: Extra data to add to render options
  */
-export async function roll_trait(message, trait_dice, dice_label, html) {
+export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
     let total_modifiers = 0;
     let modifiers = [];
     let rof;
-    let options = get_roll_options(html, {});
+    let extra_options = {};
+    if (extra_data.hasOwnProperty('tn')) {
+        extra_options.tn = extra_data.tn;
+        extra_options.tn_reason = extra_data.tn_reason.slice(0,20);
+    }
+    let options = get_roll_options(html, extra_options);
     if (!render_data.trait_roll.rolls.length) {
         // New roll, we need top get all tje options
         rof = options.rof || 1;
@@ -475,7 +456,6 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
         // Target Mods
         if (game.user.targets.size) {
             const objetive = Array.from(game.user.targets);
-            console.log(objetive[0].actor)
             // noinspection JSUnresolvedVariable
             if (objetive[0].actor.data.data.status.isVulnerable ||
                 objetive[0].actor.data.data.status.isStunned) {
@@ -484,6 +464,17 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
                     value: 2
                 });
                 total_modifiers += 2;
+            }
+        }
+        // Action mods
+        if (trait_dice.hasOwnProperty('actions')) {
+            if (trait_dice.actions.skillMod) {
+                const mod_value = parseInt(trait_dice.actions.skillMod);
+                modifiers.push({
+                    name: game.i18n.localize("BRSW.ItemMod"),
+                    value: mod_value
+                })
+                total_modifiers += mod_value
             }
         }
         //Conviction
@@ -546,7 +537,7 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
             }
             trait_rolls.push({sides: term.faces,
                 result: term.total + total_modifiers, extra_class: extra_class,
-                tn: options.tn});
+                tn: options.tn, tn_reason: options.tn_reason});
             // Dies
             let new_die = {faces: term.faces, results: [], label: dice_label,
                 extra_class: ''};
@@ -600,6 +591,12 @@ export async function roll_trait(message, trait_dice, dice_label, html) {
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
+    for (let key in extra_data) {
+        if (extra_data.hasOwnProperty(key)) {
+            render_data[key] = extra_data[key];
+
+        }
+    }
     create_render_options(actor, render_data);
     const new_content = await renderTemplate(template, render_data);
     message.update({content: new_content});

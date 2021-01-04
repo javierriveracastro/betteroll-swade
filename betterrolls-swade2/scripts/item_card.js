@@ -1,11 +1,10 @@
 // Functions for cards representing all items but skills
 
 import {
-    BRSW_CONST, BRWSRoll, create_basic_chat_data, create_common_card, create_render_options, detect_fumble,
-    get_action_from_click, get_actor_from_message, get_roll_options, spend_bennie, trait_to_string
+    BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
+    get_actor_from_message, roll_trait, spend_bennie, trait_to_string
 } from "./cards_common.js";
-import {create_result_card, show_fumble_card} from "./result_card.js";
-import {create_item_damage_card, roll_dmg} from "./damage_card.js";
+import {create_item_damage_card} from "./damage_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -111,7 +110,7 @@ async function item_click_listener(ev, target) {
     // Show card
     let message = await create_item_card(target, item_id);
     if (action.includes('trait')) {
-        await roll_item(message, '', false, {},
+        await roll_item(message, '', false,
             action.includes('damage'));
     }
 }
@@ -137,7 +136,7 @@ export function activate_item_listeners(app, html) {
         const actor_id = app.object ? app.object.id : '';
         macro_data.command =
             `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
-             message => {game.brsw.roll_item(message, "", false, {})});`;
+             message => {game.brsw.roll_item(message, "", false)});`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
@@ -159,7 +158,7 @@ export function activate_item_card_listeners(message, html) {
         item.sheet.render(true);
     });
     html.find('#roll-button').click(async _ =>{
-        await roll_item(message, html, false, {});
+        await roll_item(message, html, false);
     });
     html.find('#damage-button').click(_ => {
         const actor = get_actor_from_message(message);
@@ -168,7 +167,6 @@ export function activate_item_card_listeners(message, html) {
             'betterrolls-swade2', 'item_id'));
     });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
-        console.log(ammo_button)
         ammo_button.removeClass('brws-selected');
         manual_ammo(item, actor);
     })
@@ -294,11 +292,13 @@ function get_parry_from_target() {
     let targets = game.user.targets;
     let objective;
     let target_number;
+    let target_name;
     if (targets.size) objective = Array.from(targets)[0];
     if (objective) {
-        target_number = parseInt(objective.actor.data.data.stats.parry.value)
+        target_number = parseInt(objective.actor.data.data.stats.parry.value);
+        target_name = objective.name;
     }
-    return target_number;
+    return {tn: target_number, name: target_name};
 }
 
 
@@ -360,88 +360,40 @@ async function discount_ammo(item, rof) {
  * @param message: Message that originates this roll
  * @param html: Html code to parse for extra options
  * @param expend_bennie: Whenever to expend a bennie
- * @param default_options: Default options if this roll is not original (a reroll)
  * @param roll_damage: true if we want to autoroll damage
  *
  * @return {Promise<void>}
  */
-export async function roll_item(message, html, expend_bennie, default_options,
+export async function roll_item(message, html, expend_bennie,
                                 roll_damage){
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     const skill = get_item_skill(item, actor);
-    if (expend_bennie) spend_bennie(actor);
-    if (! default_options.hasOwnProperty('rof')) {
-        // If there is no other default for rof use items.
-        default_options.rof = item.data.data.rof
+    let extra_data = {skill: skill}
+    if (expend_bennie) await spend_bennie(actor);
+    // If this is a fighting attack get tn from parry
+    if (is_this_fighting(skill)) {
+        const target_data = get_parry_from_target();
+        extra_data.tn = target_data.tn;
+        extra_data.tn_reason = game.i18n.localize("SSO.Parry") + ": " + target_data.name;
     }
-    let options = get_roll_options(html, default_options);
-    if (! default_options.hasOwnProperty('additionalMods')) {
-        // If we are in a new roll with no data from before
-        // noinspection JSUnresolvedVariable
-        if (item.data.data.actions.skillMod) {
-            // noinspection JSUnresolvedVariable
-            let action_mod = item.data.data.actions.skillMod;
-            // Add a plus sign if needed
-            action_mod = '+-'.includes(action_mod.slice(0, 1)) ? action_mod :
-                "+" + action_mod;
-            options.additionalMods.push(action_mod);
-        }
-        // If this is a new roll we also default tn to parry for melee attacks
-        if (is_this_fighting(skill)) {
-            options.tn = get_parry_from_target() || options.tn
-        }
-    }
-    let total_modifiers = 0;
-    options.suppressChat = true;
-    let roll_mods = actor._buildTraitRollModifiers(
-        skill.data.data, options);
-    let roll = actor.rollSkill(skill.id, options);
+    const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
+        "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : false;
     if (dis_ammo_selected) {
-        await discount_ammo(item, options.rof || 1);
-    }
-    // Customize flavour text
-    let flavour =
-        `${skill.name} ${game.i18n.localize('BRSW.SkillTest')}<br>`;
-    roll_mods.forEach(mod => {
-        const positive = parseInt(mod.value) > 0?'brsw-positive':'';
-        flavour += `<span class="brsw-modifier ${positive}">${mod.label}:&nbsp${mod.value} </span>`;
-        total_modifiers = total_modifiers + parseInt(mod.value);
-    })
-    // If actor is a wild card customize Wild dice color.
-    if (actor.isWildcard && game.dice3d) {
-        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
-            'betterrolls-swade2', 'wildDieTheme');
-    }
-    // Show roll card
-    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
-        flavor: flavour});
-    // Detect fumbles and show result card
-    let is_fumble = await detect_fumble(roll);
-    if (is_fumble) {
-        await show_fumble_card(actor);
-    } else {
-        await create_result_card(actor, roll.terms[0].values, total_modifiers,
-            message.id, options);
-        if (item.data.data.damage) {
-            if (roll_damage) {
-                // Direct roll
-                roll.terms[0].values.forEach(value => {
-                    let result = value - options.tn;
-                    if (result > 0) {
-                        roll_dmg(message, $(''), false,
-                            {}, (result >= 4));
-                    }
-                })
-            } else {
-                await create_item_damage_card(actor, item_id);
-            }
+        let rof = trait_data.dice.length;
+        if (actor.isWildcard) {
+            rof -= 1;
         }
+        await discount_ammo(item, rof || 1);
+    }
+    if (item.data.data.damage) {
+        await create_item_damage_card(actor, item_id);
     }
 }
+
 
 function manual_ammo(weapon, actor) {
     // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
@@ -490,7 +442,9 @@ function manual_ammo(weapon, actor) {
                     const updates = [
                         {_id: weapon.id, "data.currentShots": `${newCharges}`},
                     ];
+                    // noinspection JSIgnoredPromiseFromCall
                     actor.updateOwnedItem(updates);
+                    // noinspection JSIgnoredPromiseFromCall
                     ChatMessage.create({
                         speaker: {
                             alias: actor.name
