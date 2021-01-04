@@ -138,5 +138,5 @@ export async function roll_skill(message, html, expend_bennie){
     const skill = actor.items.find((item) => item.id === skill_id);
     if (expend_bennie) await spend_bennie(actor);
     await roll_trait(message, skill.data.data , game.i18n.localize(
-        "BRSW.SkillDie"), html);
+        "BRSW.SkillDie"), html, {});
 }
