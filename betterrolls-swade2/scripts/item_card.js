@@ -157,8 +157,9 @@ export function activate_item_card_listeners(message, html) {
     html.find('.brsw-header-img').click(_ => {
         item.sheet.render(true);
     });
-    html.find('#roll-button').click(async _ =>{
-        await roll_item(message, html, false);
+    html.find('.brsw-roll-button').click(async ev =>{
+        await roll_item(message, html, ev.currentTarget.classList.contains(
+            'roll-bennie-button'));
     });
     html.find('#damage-button').click(_ => {
         const actor = get_actor_from_message(message);
