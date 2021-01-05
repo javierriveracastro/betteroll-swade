@@ -24,7 +24,7 @@
 		}
 	],
 	"systems": ["swade"],
-	"esmodules": ["./scripts/brsw2-init.js"],
+	"esmodules": ["./scripts/brsw2-init.js", "./scripts/swade-tools/start.js"],
 	"scripts": ["./scripts/settings-extender.js"],
 	"styles": ["./css/brsw-styles.css"],
 	"packs": [],
