@@ -66,5 +66,6 @@
 	"BRSW.Result": "Result",
 	"BRSW.SkillDie": "Skill Die",
 	"BRSW.ItemMod": "Item modifier",
-	"BRSW.Default": "Default"
+	"BRSW.Default": "Default",
+	"BRSW.OldRoll": "Older rolls"
 }

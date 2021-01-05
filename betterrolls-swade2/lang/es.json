@@ -66,5 +66,6 @@
   	"BRSW.Result": "Resultado",
   	"BRSW.SkillDie": "Dado de habilidad",
     "BRSW.ItemMod": "Modificador objeto",
-  	"BRSW.Default": "Por defecto"
+  	"BRSW.Default": "Por defecto",
+  	"BRSW.OldRoll": "Tiradas anteriores"
 }

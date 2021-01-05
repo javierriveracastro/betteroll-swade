@@ -1,6 +1,7 @@
 // Common functions used in all cards
 
 import {getWhisperData, spendMastersBenny} from "./utils.js";
+import {get_item_from_message, get_item_skill} from "./item_card.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -20,6 +21,7 @@ export function BRWSRoll() {
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
     this.is_fumble = false
+    this.old_rolls = [] // Array with an array of old rolls.
 }
 
 
@@ -201,6 +203,11 @@ export function activate_common_listeners(message, html) {
     html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
     manage_collapsables(html);
+    // Old rolls
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-old-roll').click(async ev => {
+        await old_roll_clicked(ev, message);
+    });
 }
 
 
@@ -498,6 +505,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         modifiers.forEach(mod => {
             total_modifiers += mod.value
         });
+        render_data.trait_roll.old_rolls.push(
+            render_data.trait_roll.rolls);
         render_data.trait_roll.rolls = [];
     }
     // Get options from html
@@ -600,6 +609,43 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     create_render_options(actor, render_data);
     const new_content = await renderTemplate(template, render_data);
     message.update({content: new_content});
-    await store_render_flag(message, render_data)
-    return render_data.trait_roll
+    await store_render_flag(message, render_data);
+    return render_data.trait_roll;
+}
+
+
+/**
+ * Function that exchanges roll when clicked
+ * @param event: mouse click event
+ * @param message:
+ */
+async function old_roll_clicked(event, message) {
+    const index = event.currentTarget.dataset.index;
+    const template = message.getFlag('betterrolls-swade2', 'template');
+    const actor = get_actor_from_message(message);
+    const item = get_item_from_message(message, actor);
+    console.log(item)
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    render_data.trait_roll.old_rolls.push(render_data.trait_roll.rolls);
+    render_data.trait_roll.rolls = render_data.trait_roll.old_rolls[index];
+    delete render_data.trait_roll.old_rolls[index];
+    // Recreate die
+    let total_modifier = 0;
+    render_data.trait_roll.modifiers.forEach(mod => {
+        total_modifier += mod.value;
+    })
+    render_data.trait_roll.dice.forEach((die, index) => {
+        die.results = [];
+        let final_result = render_data.trait_roll.rolls[index].result - total_modifier;
+        for (let number = final_result; number > 0; number -= die.faces) {
+            die.results.push(number > die.faces ? die.faces : number);
+        }
+    })
+    if (item) {
+        render_data.skill = get_item_skill(item, actor);
+    }
+    create_render_options(actor, render_data);
+    const new_content = await renderTemplate(template, render_data);
+    message.update({content: new_content});
+    await store_render_flag(message, render_data);
 }

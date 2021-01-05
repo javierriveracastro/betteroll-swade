@@ -1,3 +1,13 @@
+{{# if trait_roll.old_rolls }}
+    <div class="brsw-roll-row">
+        <span class="brsw-small-font">{{ localize 'BRSW.OldRoll' }}</span>
+        {{# each trait_roll.old_rolls}}
+                <span class="brsw-old-roll brsw-clickable" data-index="{{@index}}">{{# each this }}
+                    <span class="brsw-d{{this.sides}} brsw-small-dice-image{{this.extra_calss}}">{{ this.result }}</span>
+                {{/each}}</span>
+        {{/each}}
+    </div>
+{{/if}}
 <div class="brsw-roll-row">
     <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
         <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}} :

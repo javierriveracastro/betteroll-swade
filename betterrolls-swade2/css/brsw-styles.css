@@ -216,6 +216,14 @@
     padding: 10px;
 }
 
+.brsw-small-dice-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 10px;
+    padding: 4px;
+}
+
 .brsw-discarded-roll {
     text-decoration: red line-through;
 }
@@ -231,4 +239,12 @@
 .brsw-row-button {
     line-height: 80%;
     width: 2em;
+}
+
+.brsw-small-font {
+    font-size: 11px;
+}
+
+.brsw-old-roll {
+    margin: 5px;
 }

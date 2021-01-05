@@ -234,7 +234,7 @@ export function make_item_footer(item) {
  * @param {SwadeItem} item The item.
  * @param {SwadeActor} actor The owner of the iem
  */
-function get_item_skill(item, actor) {
+export function get_item_skill(item, actor) {
     // Some types of items doesn't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
             item.type.toLowerCase())) return;
@@ -382,15 +382,15 @@ export async function roll_item(message, html, expend_bennie,
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
-    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : false;
-    if (dis_ammo_selected) {
+    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : true;
+    if (dis_ammo_selected && !trait_data.old_rolls.length) {
         let rof = trait_data.dice.length;
         if (actor.isWildcard) {
             rof -= 1;
         }
         await discount_ammo(item, rof || 1);
     }
-    if (item.data.data.damage) {
+    if (item.data.data.damage && !trait_data.old_rolls.length) {
         await create_item_damage_card(actor, item_id);
     }
 }
@@ -456,4 +456,14 @@ function manual_ammo(weapon, actor) {
             },
         }
     }).render(true)
+}
+
+
+/**
+ * If a message has an item retrieve it
+ * @param message:
+ */
+export function get_item_from_message(message, actor) {
+    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
+    return actor.items.find((item) => item.id === item_id);
 }
