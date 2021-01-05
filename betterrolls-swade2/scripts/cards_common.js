@@ -416,6 +416,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         extra_options.tn = extra_data.tn;
         extra_options.tn_reason = extra_data.tn_reason.slice(0,20);
     }
+    if (extra_data.hasOwnProperty('rof')) {
+        extra_options.rof = extra_data.rof;
+    }
     let options = get_roll_options(html, extra_options);
     if (!render_data.trait_roll.rolls.length) {
         // New roll, we need top get all tje options
@@ -596,7 +599,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     // TODO: Delete modifiers
     // TODO: Edit modifiers.
     // TODO: Edit TNs
-    // TODO: Keep old rolls
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;

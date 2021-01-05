@@ -379,6 +379,9 @@ export async function roll_item(message, html, expend_bennie,
         extra_data.tn = target_data.tn;
         extra_data.tn_reason = game.i18n.localize("SSO.Parry") + ": " + target_data.name;
     }
+    // Check rof if avaliable
+    console.log(item)
+    extra_data.rof = item.data.data.rof || 1;
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
@@ -462,6 +465,7 @@ function manual_ammo(weapon, actor) {
 /**
  * If a message has an item retrieve it
  * @param message:
+ * @param actor
  */
 export function get_item_from_message(message, actor) {
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
