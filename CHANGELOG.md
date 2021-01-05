@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.102
+* Various bugdixes, including items not rolling and not rerolling.
+* Added ability to see and interact with old rolls after rerolling
+* Added status integration for swade-tools.
+
 ## Version 1.101
 * Item cards now use the new consolidated card for trait rolls (damage is still using old one)
 
