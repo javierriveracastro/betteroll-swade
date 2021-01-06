@@ -309,10 +309,15 @@ function get_parry_from_target() {
  * @param {string} skill_name
  */
 function skill_from_string(actor, skill_name) {
-    return  actor.items.find(skill => {
+    let skill = actor.items.find(skill => {
         return skill.name.toLowerCase().replace('★ ', '') ===
             skill_name.toLowerCase().replace('★ ', '');
     });
+    if (!skill) {
+        // No skill was found, we try to find untrained
+        skill = check_skill_in_actor(actor, UNTRAINED_SKILLS);
+    }
+    return skill;
 }
 
 
