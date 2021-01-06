@@ -389,7 +389,7 @@ export async function roll_item(message, html, expend_bennie,
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : true;
-    if (dis_ammo_selected && !trait_data.old_rolls.length) {
+    if (dis_ammo_selected && parseInt(item.data.data.shots) && !trait_data.old_rolls.length) {
         let rof = trait_data.dice.length;
         if (actor.isWildcard) {
             rof -= 1;
