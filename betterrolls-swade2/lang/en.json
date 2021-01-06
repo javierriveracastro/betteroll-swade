@@ -68,5 +68,7 @@
 	"BRSW.ItemMod": "Item modifier",
 	"BRSW.Default": "Default",
 	"BRSW.OldRoll": "Older rolls",
-	"BRSW.SubtractPP": "Subtract Power points"
+	"BRSW.SubtractPP": "Subtract Power points",
+	"BRSW.ManuallyAdded": "Manually added",
+	"BRSW.AddModifier": "Add modifier"
 }

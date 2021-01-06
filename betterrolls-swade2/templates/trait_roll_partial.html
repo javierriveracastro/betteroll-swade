@@ -25,6 +25,11 @@
     </span>
 </div>
 <div class="brsw-roll-detail brsw-collapsed">
+    <div class="brsw-form">
+        <span class="brsw-clickable brsw-add-modifier">
+            <i class="fas fa-plus-circle" title="{{ localize 'BRSW.AddModifier' }}"></i>
+        </span>
+    </div>
     {{#each trait_roll.dice as |current_dice|}}
         <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.label }}</span>

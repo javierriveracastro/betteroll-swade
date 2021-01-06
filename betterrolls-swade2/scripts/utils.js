@@ -46,7 +46,7 @@ export function spendMastersBenny() {
 
 export function broofa() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        let r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
 }
@@ -56,6 +56,43 @@ export function get_item(jquery_selector, actor) {
 		// We are likely inside a li who contains the item id
 		jquery_selector = $(jquery_selector).parents(".item");
 	}
-	let item = actor.getOwnedItem(String(jquery_selector.attr("data-item-id")));
-	return item
+	return actor.getOwnedItem(String(jquery_selector.attr("data-item-id")));
+}
+
+
+/**
+ * Show a simple form
+ *
+ * @param {string} title: The form title
+ * @param {[object]} fields: Array of {label, default_value}
+ * @param {function} callback: A callback function that will called
+ */
+export function simple_form(title, fields, callback) {
+    let content = '<form>'
+    fields.forEach(field => {
+        // noinspection JSUnresolvedVariable
+        content += `<div class="form-group"><label>${field.label}</label>
+            <input id='input_${field.label}' value='${field.default_value}'></div>`
+    })
+    content += '</form>'
+    new Dialog({
+        title: title,
+        content: content,
+        buttons: {
+            one: {
+                label: "OK",
+                callback: (html) => {
+                    let values = {};
+                    fields.forEach(field => {
+                        values[field.label] = html.find(`#input_${field.label}`).val();
+                    })
+                    callback(values);
+                }
+            },
+            two: {
+                label: "Cancel",
+            },
+        }
+    }).render(true)
+
 }

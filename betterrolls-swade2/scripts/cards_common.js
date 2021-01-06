@@ -1,6 +1,6 @@
 // Common functions used in all cards
 
-import {getWhisperData, spendMastersBenny} from "./utils.js";
+import {getWhisperData, spendMastersBenny, simple_form} from "./utils.js";
 import {get_item_from_message, get_item_skill} from "./item_card.js";
 
 export const BRSW_CONST = {
@@ -208,6 +208,18 @@ export function activate_common_listeners(message, html) {
     html.find('.brsw-old-roll').click(async ev => {
         await old_roll_clicked(ev, message);
     });
+    // Add modifiers
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-add-modifier').click(() => {
+        const label_mod = game.i18n.localize("BRSW.Modifier");
+        simple_form(game.i18n.localize("BRSW.AddModifier"),
+            [{label: 'Label', default_value: ''},
+                {label: label_mod,
+                default_value: 1}], async values => {
+                await add_modifier(message, {label: values.Label,
+                    value: values[label_mod]});
+            });
+    })
 }
 
 
@@ -268,7 +280,7 @@ async function manage_sheet(actor) {
             await actor.sheet.minimize();
         }
     } else {
-            await actor.sheet.render(true);
+        await actor.sheet.render(true);
     }
 }
 
@@ -397,6 +409,21 @@ function calculate_results(rolls) {
 
 
 /**
+ * Updates a message using a new render_data
+ * @param {ChatMessage} message
+ * @param {SwadeActor }actor
+ * @param render_data
+ */
+async function update_message(message, actor, render_data) {
+    const template = message.getFlag('betterrolls-swade2', 'template');
+    create_render_options(actor, render_data);
+    const new_content = await renderTemplate(template, render_data);
+    await message.update({content: new_content});
+    await store_render_flag(message, render_data);
+}
+
+
+/**
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
@@ -406,7 +433,6 @@ function calculate_results(rolls) {
  */
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
     let total_modifiers = 0;
     let modifiers = [];
@@ -608,10 +634,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
 
         }
     }
-    create_render_options(actor, render_data);
-    const new_content = await renderTemplate(template, render_data);
-    message.update({content: new_content});
-    await store_render_flag(message, render_data);
+    await update_message(message, actor, render_data)
     return render_data.trait_roll;
 }
 
@@ -623,10 +646,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
  */
 async function old_roll_clicked(event, message) {
     const index = event.currentTarget.dataset.index;
-    const template = message.getFlag('betterrolls-swade2', 'template');
     const actor = get_actor_from_message(message);
     const item = get_item_from_message(message, actor);
-    console.log(item)
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     render_data.trait_roll.old_rolls.push(render_data.trait_roll.rolls);
     render_data.trait_roll.rolls = render_data.trait_roll.old_rolls[index];
@@ -646,8 +667,31 @@ async function old_roll_clicked(event, message) {
     if (item) {
         render_data.skill = get_item_skill(item, actor);
     }
-    create_render_options(actor, render_data);
-    const new_content = await renderTemplate(template, render_data);
-    message.update({content: new_content});
-    await store_render_flag(message, render_data);
+    await update_message(message, actor, render_data);
+}
+
+
+/**
+ * Add a modifier to a message
+ * @param {ChatMessage} message
+ * @param modifier: A {name, value} modifier
+ */
+async function add_modifier(message, modifier) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const mod_value = parseInt(modifier.value);
+    if (mod_value) {
+        let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
+        const extra_class = mod_value < 0 ? ' brsw-red-text' : ''
+        render_data.trait_roll.modifiers.push({name: name, value: mod_value,
+            extra_class: extra_class})
+        render_data.trait_roll.rolls.forEach(roll => {
+            roll.result += mod_value;
+        });
+        render_data.trait_roll.old_rolls.forEach(old_roll => {
+            old_roll.forEach(roll => {
+                roll.result += mod_value;
+            });
+        });
+        await update_message(message, get_actor_from_message(message), render_data);
+    }
 }

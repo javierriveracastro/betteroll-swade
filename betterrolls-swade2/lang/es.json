@@ -68,5 +68,7 @@
     "BRSW.ItemMod": "Modificador objeto",
   	"BRSW.Default": "Por defecto",
   	"BRSW.OldRoll": "Tiradas anteriores",
-    "BRSW.SubtractPP": "Restar puntos de poder"
+    "BRSW.SubtractPP": "Restar puntos de poder",
+    "BRSW.ManuallyAdded": "Añadido manualmente",
+  	"BRSW.AddModifier": "Añadir un modificador"
 }
