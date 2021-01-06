@@ -383,7 +383,6 @@ export async function roll_item(message, html, expend_bennie,
         extra_data.tn_reason = game.i18n.localize("SSO.Parry") + ": " + target_data.name;
     }
     // Check rof if avaliable
-    console.log(item)
     extra_data.rof = item.data.data.rof || 1;
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
@@ -395,6 +394,16 @@ export async function roll_item(message, html, expend_bennie,
             rof -= 1;
         }
         await discount_ammo(item, rof || 1);
+    }
+    if (roll_damage) {
+        console.log(trait_data)
+        console.log(trait_data.rolls)
+        trait_data.rolls.forEach(roll => {
+            if (roll.result >= roll.tn && roll.tn > 0) {
+                roll_dmg(message, html, false, {},
+                    roll.result > roll.tn + 3)
+            }
+        });
     }
 }
 
