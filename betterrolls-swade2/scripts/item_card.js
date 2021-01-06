@@ -47,7 +47,8 @@ async function create_item_card(origin, item_id) {
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: parseFloat(item.data.data.shots),
-            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+            trait_roll: trait_roll,
+            powerpoints: parseFloat(item.data.data.pp)}, CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
@@ -345,16 +346,36 @@ function check_skill_in_actor(actor, possible_skills) {
  */
 async function discount_ammo(item, rof) {
     // noinspection JSUnresolvedVariable
-    let ammo = item.data.data.currentShots;
+    const ammo = parseInt(item.data.data.currentShots);
     const ammo_spent = ROF_BULLETS[rof];
-    if ((ammo - ammo_spent > 0)) {
-        await item.update({'data.currentShots': ammo - ammo_spent});
-    } else {
-        await item.update({'data.currentShots': 0});
+    const final_ammo = Math.max(ammo - ammo_spent, 0)
+    // noinspection JSUnresolvedVariable
+    let content = `<p>${ammo_spent} shot has been expended from ${item.name}. There are ${final_ammo} shots remaining</p>`
+    if (ammo_spent > ammo) {
+        content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
-    // noinspection JSIgnoredPromiseFromCall,JSUnresolvedVariable
+    await item.update({'data.currentShots': final_ammo});
+    await ChatMessage.create({content: content});
+}
+
+/**
+ * Discount pps from an actor
+ *
+ * @param actor
+ * @param item
+ */
+async function discount_pp(actor, item) {
+    const pp = parseInt(item.data.data.pp);
+    console.log(actor)
+    const current_pp = actor.data.data.powerPoints.value;
+    const final_pp = Math.max(current_pp - pp, 0);
+    let content = `<p>${pp} power points have been expended by ${actor.name}. ${final_pp} remaining</p>`;
+    if (current_pp < pp) {
+        content = '<p class="brsw-fumble-row">Not enough PP!</p>' +  content;
+    }
+    actor.update({'data.powerPoints.value': final_pp});
     await ChatMessage.create({
-        content: `${ammo_spent} shot has been expended from ${item.name}. There are ${item.data.data.currentShots} shots remaining`
+        content: content
     });
 }
 
@@ -395,9 +416,12 @@ export async function roll_item(message, html, expend_bennie,
         }
         await discount_ammo(item, rof || 1);
     }
+    // Power point management
+    const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length : true;
+    if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
+        await discount_pp(actor, item);
+    }
     if (roll_damage) {
-        console.log(trait_data)
-        console.log(trait_data.rolls)
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {
                 roll_dmg(message, html, false, {},

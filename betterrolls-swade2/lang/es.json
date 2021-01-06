@@ -67,5 +67,6 @@
   	"BRSW.SkillDie": "Dado de habilidad",
     "BRSW.ItemMod": "Modificador objeto",
   	"BRSW.Default": "Por defecto",
-  	"BRSW.OldRoll": "Tiradas anteriores"
+  	"BRSW.OldRoll": "Tiradas anteriores",
+    "BRSW.SubtractPP": "Restar puntos de poder"
 }

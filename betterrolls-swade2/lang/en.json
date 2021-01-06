@@ -67,5 +67,6 @@
 	"BRSW.SkillDie": "Skill Die",
 	"BRSW.ItemMod": "Item modifier",
 	"BRSW.Default": "Default",
-	"BRSW.OldRoll": "Older rolls"
+	"BRSW.OldRoll": "Older rolls",
+	"BRSW.SubtractPP": "Subtract Power points"
 }
