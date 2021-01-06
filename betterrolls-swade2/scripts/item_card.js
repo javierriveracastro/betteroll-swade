@@ -366,7 +366,6 @@ async function discount_ammo(item, rof) {
  */
 async function discount_pp(actor, item) {
     const pp = parseInt(item.data.data.pp);
-    console.log(actor)
     const current_pp = actor.data.data.powerPoints.value;
     const final_pp = Math.max(current_pp - pp, 0);
     let content = `<p>${pp} power points have been expended by ${actor.name}. ${final_pp} remaining</p>`;
