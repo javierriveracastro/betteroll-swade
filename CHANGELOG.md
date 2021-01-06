@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.103
+* Bug: Use weapon rof as default.
+* Bug: Use untrained skill if present and a skill that is not owned by the actor is mentioned in a weapon.
+* Bug: When shots are 0 now it doesn't disscounts ammo.
+* Delete damage card, move functionality to item card
+* Autoroll damage as many times as attacks hit.
+* Basic power point management, when rolling for powers, power pps will be deducted from actor.
+* Ability to edit a roll by adding a modifier.
+
 ## Version 1.102
 * Various bugdixes, including items not rolling and not rerolling.
 * Added ability to see and interact with old rolls after rerolling
