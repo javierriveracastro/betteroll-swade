@@ -8,7 +8,6 @@ import {skill_card_hooks, activate_skill_listeners,
 import {activate_result_card_listeners} from "./result_card.js";
 import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
-import {damage_card_hooks, activate_damage_card_listeners} from "./damage_card.js";
 
 // Startup scripts
 
@@ -20,7 +19,6 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
     skill_card_hooks();
     item_card_hooks();
-    damage_card_hooks();
     register_settings_version2();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
@@ -65,14 +63,12 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_skill_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             activate_item_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_DMG_CARD) {
-            activate_damage_card_listeners(message, html);
         }
         // Hide forms to non master, non owner
         if (game.user.id !== message.user.id && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
-        // Hide master only setions
+        // Hide master only sections
         if (!game.user.isGM) {
             html.find('.brsw-master-only').remove();
         }

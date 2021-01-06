@@ -2,9 +2,9 @@
 
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
-    get_actor_from_message, roll_trait, spend_bennie, trait_to_string
+    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string
 } from "./cards_common.js";
-import {create_item_damage_card} from "./damage_card.js";
+import {create_result_card} from "./result_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -161,12 +161,10 @@ export function activate_item_card_listeners(message, html) {
         await roll_item(message, html, ev.currentTarget.classList.contains(
             'roll-bennie-button'));
     });
-    html.find('#damage-button').click(_ => {
-        const actor = get_actor_from_message(message);
+    html.find('.brsw-damage-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
-        create_item_damage_card(actor, message.getFlag(
-            'betterrolls-swade2', 'item_id'));
-    });
+        roll_dmg(message, html, false, {}, ev.currentTarget.id.includes('raise'));
+    })
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
         ammo_button.removeClass('brws-selected');
         manual_ammo(item, actor);
@@ -398,9 +396,6 @@ export async function roll_item(message, html, expend_bennie,
         }
         await discount_ammo(item, rof || 1);
     }
-    if (item.data.data.damage && !trait_data.old_rolls.length) {
-        await create_item_damage_card(actor, item_id);
-    }
 }
 
 
@@ -475,4 +470,72 @@ function manual_ammo(weapon, actor) {
 export function get_item_from_message(message, actor) {
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     return actor.items.find((item) => item.id === item_id);
+}
+
+
+// DAMAGE ROLLS
+
+
+/**
+ * Gets the tougness value for the targeted token
+ */
+function get_tougness_targeted() {
+    const targets = game.user.targets;
+    let objetive;
+    let defense_values = {toughness: 4, armor: 0}
+    if (targets.size) objetive = Array.from(targets)[0];
+    if (objetive) {
+        defense_values.toughness = parseInt(
+              objetive.actor.data.data.stats.toughness.value);
+        defense_values.armor = parseInt(
+              objetive.actor.data.data.stats.toughness.armor);
+    }
+    return defense_values
+}
+
+
+
+/**
+ * Rolls damage dor an item
+ * @param message
+ * @param html
+ * @param expend_bennie
+ * @param default_options
+ * @param {boolean} raise
+ * @return {Promise<void>}
+ */
+export async function roll_dmg(message, html, expend_bennie, default_options, raise){
+    const actor = get_actor_from_message(message)
+    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
+    const item = actor.items.find((item) => item.id === item_id);
+    if (expend_bennie) await spend_bennie(actor);
+    let total_modifiers = 0;
+    let options = get_roll_options(html, default_options);
+    options.suppressChat = true;
+    options.rof = 1; // Damage rolls are always rof 1
+    options.additionalMods = options.dmgMods;
+    if (! default_options.hasOwnProperty('additionalMods')) {
+        // Get tougness and armor from selected token.
+        const defense_values = get_tougness_targeted()
+        options.tn = defense_values.toughness;
+        options.target_armor = defense_values.armor;
+    }
+    let roll = item.rollDamage(options);
+    let formula = roll.formula;
+    if (raise) {
+        formula += '+1d6x'
+    }
+    roll = new Roll(formula);
+    // Customize flavour text
+    let flavour =
+        `${item.name} ${game.i18n.localize('BRSW.DamageTest')}<br>`;
+    // Store if it is a raise roll and item ap
+    options.raise = raise;
+    options.ap = item.data.data.ap || 0;
+    // Show roll card
+    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
+        flavor: flavour});
+    // Show result card
+    await create_result_card(actor, [roll.total], total_modifiers,
+        message.id, options);
 }

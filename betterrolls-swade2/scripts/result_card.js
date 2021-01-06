@@ -4,8 +4,7 @@ import {BRSW_CONST, create_basic_chat_data, create_render_options} from "./cards
 import {broofa} from "./utils.js";
 import {roll_attribute} from "./attribute_card.js";
 import {roll_skill} from "./skill_card.js";
-import {roll_item} from "./item_card.js";
-import {roll_dmg} from "./damage_card.js";
+import {roll_item, roll_dmg} from "./item_card.js";
 
 
 /// TRAIT RESULT CARD

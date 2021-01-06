@@ -37,15 +37,16 @@
                 <button class="brsw-roll-button">{{ localize 'BRSW.Roll' }}</button>
             {{/unless}}
         </div>
-        {{# if damage }}<div class="brsw-button-row">
-            <button id="damage-button" class="brsw-button-smaller">
-                {{ localize 'BRSW.DamageCard' }}
-            </button>
-        </div>{{/if}}
     </div>
     {{# if trait_roll.rolls }}
         {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
         {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
     {{/if}}
+    {{# if damage }}<div class="brsw-form brsw-button-row">
+        <button id="roll-damage" class="brsw-damage-button">{{ localize 'BRSW.Damage' }}</button>
+        <button id="roll-raise-damage" class="brsw-button-smaller brsw-damage-button">
+            {{ localize 'BRSW.RaiseDamage' }}
+        </button>
+    </div>{{/if}}
 {{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}
