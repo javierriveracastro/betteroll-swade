@@ -118,7 +118,8 @@ function reroll_clicked(message, use_bennie) {
         roll_skill(origin_message, '', use_bennie);
     } else if (origin_type === BRSW_CONST.TYPE_ITEM_CARD) {
         // noinspection JSIgnoredPromiseFromCall
-        roll_item(origin_message, '', use_bennie);
+        roll_dmg(origin_message, '', use_bennie, origin_options,
+            origin_options.raise);
     } else if (origin_type === BRSW_CONST.TYPE_DMG_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_dmg(origin_message, '', use_bennie, origin_options,
