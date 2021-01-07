@@ -220,6 +220,11 @@ export function activate_common_listeners(message, html) {
                     value: values[label_mod]});
             });
     })
+    // Delete modifiers
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-delete-modifier').click(async (ev) => {
+        await delete_modifier(message, ev.currentTarget.dataset.index);
+    })
 }
 
 
@@ -416,6 +421,11 @@ function calculate_results(rolls) {
  */
 async function update_message(message, actor, render_data) {
     const template = message.getFlag('betterrolls-swade2', 'template');
+    if (message.getFlag('betterrolls-swade2', 'card_type') ===
+            BRSW_CONST.TYPE_ITEM_CARD) {
+        const item = get_item_from_message(message, actor);
+        render_data.skill = get_item_skill(item, actor);
+    }
     create_render_options(actor, render_data);
     const new_content = await renderTemplate(template, render_data);
     await message.update({content: new_content});
@@ -621,8 +631,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     if (!render_data.trait_roll.is_fumble) {
         calculate_results(trait_rolls);
     }
-    // TODO: Add modifiers
-    // TODO: Delete modifiers
     // TODO: Edit modifiers.
     // TODO: Edit TNs
     render_data.trait_roll.rolls = trait_rolls;
@@ -672,6 +680,24 @@ async function old_roll_clicked(event, message) {
 
 
 /**
+ * Updates the total results of a old stored rolls in a value
+ * @param trait_roll
+ * @param mod_value
+ */
+function update_roll_results(trait_roll, mod_value) {
+        trait_roll.rolls.forEach(roll => {
+            roll.result += mod_value;
+        });
+        calculate_results(trait_roll.rolls);
+        trait_roll.old_rolls.forEach(old_roll => {
+            old_roll.forEach(roll => {
+                roll.result += mod_value;
+            });
+            calculate_results(old_roll);
+        });
+}
+
+/**
  * Add a modifier to a message
  * @param {ChatMessage} message
  * @param modifier: A {name, value} modifier
@@ -684,14 +710,21 @@ async function add_modifier(message, modifier) {
         const extra_class = mod_value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push({name: name, value: mod_value,
             extra_class: extra_class})
-        render_data.trait_roll.rolls.forEach(roll => {
-            roll.result += mod_value;
-        });
-        render_data.trait_roll.old_rolls.forEach(old_roll => {
-            old_roll.forEach(roll => {
-                roll.result += mod_value;
-            });
-        });
+        update_roll_results(render_data.trait_roll, mod_value);
         await update_message(message, get_actor_from_message(message), render_data);
     }
+}
+
+/**
+ * Deletes a modifier from a message
+ * @param {ChatMessage} message
+ * @param {int} index: Index of the modifier to delete.
+ */
+async function delete_modifier(message, index) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    let modifier = render_data.trait_roll.modifiers[index];
+    console.log(modifier)
+    update_roll_results(render_data.trait_roll, - modifier.value);
+    delete render_data.trait_roll.modifiers[index]
+    await update_message(message, get_actor_from_message(message), render_data);
 }
