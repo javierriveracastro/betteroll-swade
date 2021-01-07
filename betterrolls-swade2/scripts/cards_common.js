@@ -513,9 +513,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             }
         }
         // Action mods
-        if (trait_dice.hasOwnProperty('actions')) {
-            if (trait_dice.actions.skillMod) {
-                const mod_value = parseInt(trait_dice.actions.skillMod);
+        if (message.getFlag('betterrolls-swade2', 'card_type') ===
+                BRSW_CONST.TYPE_ITEM_CARD) {
+            const item = get_item_from_message(message, actor)
+            if (item.data.data.actions.skillMod) {
+                const mod_value = parseInt(item.data.data.actions.skillMod);
                 modifiers.push({
                     name: game.i18n.localize("BRSW.ItemMod"),
                     value: mod_value
