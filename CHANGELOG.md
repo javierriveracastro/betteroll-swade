@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.104
+* Bugfix: Weapon skill modifier wasn't beign added correctly.
+* Modifiers can now de added and deleted.
+* Integrate SalieriC power points management macro
+
 ## Version 1.103
 * Bug: Use weapon rof as default.
 * Bug: Use untrained skill if present and a skill that is not owned by the actor is mentioned in a weapon.
