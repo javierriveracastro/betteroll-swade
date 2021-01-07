@@ -633,6 +633,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     }
     // TODO: Edit modifiers.
     // TODO: Edit TNs
+    // TODO: Get TNs from Parry.
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;

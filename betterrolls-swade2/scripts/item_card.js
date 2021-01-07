@@ -154,7 +154,8 @@ export function activate_item_card_listeners(message, html) {
     const actor = get_actor_from_message(message);
     const item = actor.getOwnedItem(message.getFlag(
         'betterrolls-swade2', 'item_id'));
-    const ammo_button = html.find('.brws-selected.brsw-ammo-toggle')
+    const ammo_button = html.find('.brws-selected.brsw-ammo-toggle');
+    const pp_button = html.find('.brws-selected.brsw-pp-toggle')
     html.find('.brsw-header-img').click(_ => {
         item.sheet.render(true);
     });
@@ -165,10 +166,14 @@ export function activate_item_card_listeners(message, html) {
     html.find('.brsw-damage-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
         roll_dmg(message, html, false, {}, ev.currentTarget.id.includes('raise'));
-    })
+    });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
         ammo_button.removeClass('brws-selected');
         manual_ammo(item, actor);
+    });
+   html.find('.brsw-false-button.brsw-pp-manual').click(() => {
+        pp_button.removeClass('brws-selected');
+        manual_pp(actor);
     })
 }
 
@@ -361,18 +366,19 @@ async function discount_ammo(item, rof) {
 /**
  * Discount pps from an actor
  *
- * @param actor
+ * @param {SwadeActor }actor
  * @param item
  */
 async function discount_pp(actor, item) {
     const pp = parseInt(item.data.data.pp);
+    // noinspection JSUnresolvedVariable
     const current_pp = actor.data.data.powerPoints.value;
     const final_pp = Math.max(current_pp - pp, 0);
     let content = `<p>${pp} power points have been expended by ${actor.name}. ${final_pp} remaining</p>`;
     if (current_pp < pp) {
         content = '<p class="brsw-fumble-row">Not enough PP!</p>' +  content;
     }
-    actor.update({'data.powerPoints.value': final_pp});
+    await actor.update({'data.powerPoints.value': final_pp});
     await ChatMessage.create({
         content: content
     });
@@ -570,4 +576,119 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Show result card
     await create_result_card(actor, [roll.total], total_modifiers,
         message.id, options);
+}
+
+
+/**
+ * Function to manually manage power points (c) SalieriC
+ * @param {SwadeActor} actor
+ */
+function manual_pp(actor) {
+    // noinspection JSUnresolvedVariable
+    const ppv = actor.data.data.powerPoints.value;
+    // noinspection JSUnresolvedVariable
+    const ppm = actor.data.data.powerPoints.max;
+    const fv = actor.data.data.fatigue.value;
+    const fm = actor.data.data.fatigue.max;
+    new Dialog({
+        title: 'Power Point Management',
+        content: `<form>
+            <div class="form-group">
+                <label for="num">Amount of Power Points: </label>
+                <input id="num" name="num" type="number" min="0" value="5">
+            </div>
+        </form>`,
+        buttons: {
+            one: {
+                label: game.i18n.localize("BRSW.ExpendPP"),
+                callback: (html) => {
+                    //Button 1: Spend Power Point(s) (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
+                    let number = Number(html.find("#num")[0].value);
+                    let newPP = Math.max(ppv - number, 0);
+                    if (newPP < 0) {
+                        ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
+                    }
+                    else {
+                        // noinspection JSIgnoredPromiseFromCall
+                        actor.update({ "data.powerPoints.value": newPP });
+                    }
+                    // noinspection JSIgnoredPromiseFromCall
+                    ChatMessage.create({
+                        speaker: {
+                            alias: actor.name
+                        },
+                        content: game.i18n.format('BRSW.ExpendPPText', {name: actor.name, number: number, newPP: newPP})
+                    })
+                }
+            },
+            two: {
+                label: game.i18n.localize("BRSW.RechargePP"),
+                callback: (html) => {
+                    //Button 2: Recharge Power Points (uses a number given that increases the data.powerPoints.value a like amount but does not increase it above the number given in data.powerPoints.max (number field))
+                    let number = Number(html.find("#num")[0].value);
+                    let newPP = ppv + number
+                    if (newPP > ppm) {
+                        // noinspection JSIgnoredPromiseFromCall
+                        actor.update({ "data.powerPoints.value": ppm });
+                    }
+                    else {
+                        actor.update({ "data.powerPoints.value": newPP });
+                    }
+                    ChatMessage.create({
+                        speaker: {
+                            alias: name
+                        },
+                        content: game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: number, newPP: newPP})
+                    })
+                }
+            },
+            three: {
+                label: game.i18n.localize("BRSW.PPBeniRecharge"),
+                callback: () => {
+                    //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
+                    if (actor.data.data.bennies.value < 1) {
+                        ui.notifications.notify(game.i18n.localize("BRSW.NoBennies"));
+                    }
+                    else {
+                        let newPP = ppv + 5
+                        actor.update({ "data.powerPoints.value": Math.min(newPP, ppm)});
+                        actor.spendBenny();
+                        if (game.dice3d) {
+                            const benny = new Roll('1dB').roll();
+                            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
+                            game.dice3d.showForRoll(benny, game.user, true, null, false);
+                        }
+                        ChatMessage.create({
+                            speaker: {
+                                alias: name
+                            },
+                            content: game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP})
+                        })
+                    }
+                }
+            },
+            four: {
+                label: "Soul Drain",
+                callback: () => {
+                    //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
+                    let newFV = fv + 1
+                    if (newFV > fm) {
+                        ui.notifications.notify("You cannot exceed your maximum Fatigue using Soul Drain.")
+                    }
+                    else {
+                        let newPP = ppv + 5
+                        actor.update(
+                            {"data.powerPoints.value": Math.min(newPP, ppm),
+                                "data.fatigue.value": fv + 1})
+                        ChatMessage.create({
+                            speaker: {
+                                alias: name
+                            },
+                            content: `${name} recharges 5 Power Point(s) using Soul Drain and now has <b>${newPP}</b>.`
+                        })
+                    }
+                },
+            }
+        }
+    }).render(true)
 }

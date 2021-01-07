@@ -70,5 +70,14 @@
   	"BRSW.OldRoll": "Tiradas anteriores",
     "BRSW.SubtractPP": "Restar puntos de poder",
     "BRSW.ManuallyAdded": "Añadido manualmente",
-  	"BRSW.AddModifier": "Añadir un modificador"
+  	"BRSW.AddModifier": "Añadir un modificador",
+    "BRSW.ManualPP": "Gestión manual de PP",
+  	"BRSW.InsufficientPP": "No tienes suficientes puntos de poder",
+    "BRSW.ExpendPPText": "{name} gasta {number} Punto(s) de poder y le quedan <b>{newPP}</b>.",
+    "BRSW.ExpendPP": "Gasta PP",
+  	"BRSW.RechargePP": "Recarga PP",
+    "BRSW.RechargePPText": "{name} recarga {number} Punto(s) de poder y ahora tiene <b>{newPP}</b>.",
+    "BRSW.PPBeniRecharge": "Recarga con beni",
+    "BRSW.NoBennies": "No te quedan benis",
+  	"BRSW.RechargePPBennyText": "{name} recarga 5 Puntos de poder usando un beni y ahora tiene <b>{newPP}</b>."
 }

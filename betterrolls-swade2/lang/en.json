@@ -70,5 +70,14 @@
 	"BRSW.OldRoll": "Older rolls",
 	"BRSW.SubtractPP": "Subtract Power points",
 	"BRSW.ManuallyAdded": "Manually added",
-	"BRSW.AddModifier": "Add modifier"
+	"BRSW.AddModifier": "Add modifier",
+	"BRSW.ManualPP": "Manual PP management",
+	"BRSW.InsufficientPP": "You have insufficient Power Points.",
+	"BRSW.ExpendPPText": "{name} spends {number} Power Point(s) and has <b>{newPP}</b> left.",
+	"BRSW.ExpendPP": "Expend PP",
+	"BRSW.RechargePP": "Recharge PP",
+	"BRSW.RechargePPText": "{name} recharges {number} Power Point(s) and now has <b>{newPP}</b>.",
+	"BRSW.PPBeniRecharge": "Benny Recharge",
+	"BRSW.NoBennies": "You have no Bennies left.",
+	"BRSW.RechargePPBennyText": "{name} recharges 5 Power Point(s) using a Benny and now has <b>{newPP}</b>."
 }
