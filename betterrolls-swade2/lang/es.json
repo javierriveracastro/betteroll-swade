@@ -79,5 +79,6 @@
     "BRSW.RechargePPText": "{name} recarga {number} Punto(s) de poder y ahora tiene <b>{newPP}</b>.",
     "BRSW.PPBeniRecharge": "Recarga con beni",
     "BRSW.NoBennies": "No te quedan benis",
-  	"BRSW.RechargePPBennyText": "{name} recarga 5 Puntos de poder usando un beni y ahora tiene <b>{newPP}</b>."
+  	"BRSW.RechargePPBennyText": "{name} recarga 5 Puntos de poder usando un beni y ahora tiene <b>{newPP}</b>.",
+    "BRSW.EditModifier": "Editar modificador"
 }

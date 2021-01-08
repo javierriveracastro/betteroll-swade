@@ -220,6 +220,23 @@ export function activate_common_listeners(message, html) {
                     value: values[label_mod]});
             });
     })
+    // Edit modifiers
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-edit-modifier').click((ev) => {
+        const label_mod = game.i18n.localize("BRSW.Modifier");
+        const default_value = ev.currentTarget.dataset.value;
+        const default_label = ev.currentTarget.dataset.label;
+        const index = ev.currentTarget.dataset.index;
+        console.log(default_label)
+        simple_form(game.i18n.localize("BRSW.EditModifier"),
+            [{label: 'Label', default_value: default_label},
+                {label: label_mod, default_value: default_value}],
+            async values => {
+                await edit_modifier(message, index,
+                    {name: values.Label, value: values[label_mod],
+                        extra_class: parseInt(values[label_mod]) < 0 ? ' brsw-red-text' : ''});
+            });
+    })
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
@@ -516,7 +533,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         if (message.getFlag('betterrolls-swade2', 'card_type') ===
                 BRSW_CONST.TYPE_ITEM_CARD) {
             const item = get_item_from_message(message, actor)
+            // noinspection JSUnresolvedVariable
             if (item.data.data.actions.skillMod) {
+                // noinspection JSUnresolvedVariable
                 const mod_value = parseInt(item.data.data.actions.skillMod);
                 modifiers.push({
                     name: game.i18n.localize("BRSW.ItemMod"),
@@ -726,8 +745,28 @@ async function add_modifier(message, modifier) {
 async function delete_modifier(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     let modifier = render_data.trait_roll.modifiers[index];
-    console.log(modifier)
     update_roll_results(render_data.trait_roll, - modifier.value);
     delete render_data.trait_roll.modifiers[index]
     await update_message(message, get_actor_from_message(message), render_data);
+}
+
+
+/**
+ * Edits one modifier
+ * @param {ChatMessage} message
+ * @param {int} index
+ * @param {Object} new_modifier
+ */
+async function edit_modifier(message, index, new_modifier) {
+    // noinspection JSCheckFunctionSignatures
+    let mod_value = parseInt(new_modifier.value);
+    if (mod_value) {
+        let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+        const modifier = render_data.trait_roll.modifiers[index];
+        const difference = mod_value - modifier.value;
+        new_modifier.value = mod_value;
+        render_data.trait_roll.modifiers[index] = new_modifier;
+        update_roll_results(render_data.trait_roll, difference);
+        await update_message(message, get_actor_from_message(message), render_data);
+    }
 }

@@ -79,5 +79,6 @@
 	"BRSW.RechargePPText": "{name} recharges {number} Power Point(s) and now has <b>{newPP}</b>.",
 	"BRSW.PPBeniRecharge": "Benny Recharge",
 	"BRSW.NoBennies": "You have no Bennies left.",
-	"BRSW.RechargePPBennyText": "{name} recharges 5 Power Point(s) using a Benny and now has <b>{newPP}</b>."
+	"BRSW.RechargePPBennyText": "{name} recharges 5 Power Point(s) using a Benny and now has <b>{newPP}</b>.",
+	"BRSW.EditModifier": "Edit a modifier"
 }

@@ -41,7 +41,11 @@
     {{#each trait_roll.modifiers}}
         <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.name }}</span>
-            <span>{{ this.value }} <i class="brsw-delete-modifier brsw-clickable fas fa-trash" data-index="{{@index}}"></i></span>
+            <span>
+                {{ this.value }}
+                <i class="brsw-edit-modifier brsw-clickable fas fa-edit" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}"></i>
+                <i class="brsw-delete-modifier brsw-clickable fas fa-trash" data-index="{{@index}}"></i>
+            </span>
         </div>
     {{/each}}
 </div>
