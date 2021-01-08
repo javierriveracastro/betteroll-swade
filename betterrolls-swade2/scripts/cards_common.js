@@ -645,8 +645,12 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     if (game.dice3d) {
         roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
             'betterrolls-swade2', 'wildDieTheme');
+        let users = null;
+        if (message.data.whisper.length > 0) {
+            users = message.data.whisper;
+        }
         // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(roll, game.user, true);
+        game.dice3d.showForRoll(roll, game.user, true, users);
     }
     // Calculate results
     if (!render_data.trait_roll.is_fumble) {
