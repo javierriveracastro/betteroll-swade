@@ -20,7 +20,10 @@
             {{# if this.tn }}
                 <div class="brsw-roll-detail-row">
                     <span>{{ localize "BRSW.TN" }}({{ this.tn_reason}}) {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
-                    <span>{{ this.result_text }}</span>
+                    <span>
+                        {{ this.result_text }}
+                        <i class="brsw-edit-tn brsw-clickable fas fa-edit" data-index="{{@index}}" data-value="{{this.tn}}"></i>
+                    </span>
                 </div>
             {{/if}}
         {{/each}}

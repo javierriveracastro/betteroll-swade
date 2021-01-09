@@ -227,7 +227,6 @@ export function activate_common_listeners(message, html) {
         const default_value = ev.currentTarget.dataset.value;
         const default_label = ev.currentTarget.dataset.label;
         const index = ev.currentTarget.dataset.index;
-        console.log(default_label)
         simple_form(game.i18n.localize("BRSW.EditModifier"),
             [{label: 'Label', default_value: default_label},
                 {label: label_mod, default_value: default_value}],
@@ -241,7 +240,19 @@ export function activate_common_listeners(message, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
         await delete_modifier(message, ev.currentTarget.dataset.index);
-    })
+    });
+    // Edit TNs
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-edit-tn').click(async (ev) => {
+        const old_tn = ev.currentTarget.dataset.value;
+        const index = parseInt(ev.currentTarget.dataset.index);
+        const tn_trans = game.i18n.localize("BRSW.TN");
+        simple_form(game.i18n.localize("BRSW.EditTN"), [
+            {label: tn_trans, default_value: old_tn}],
+            async values => {
+                await edit_tn(message, index, values[tn_trans]);
+        });
+    });
 }
 
 
@@ -656,8 +667,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     if (!render_data.trait_roll.is_fumble) {
         calculate_results(trait_rolls);
     }
-    // TODO: Edit TNs
-    // TODO: Get TNs from Parry.
+    // TODO: Edit all TNs
+    // TODO: Workou targeting
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
@@ -772,4 +783,19 @@ async function edit_modifier(message, index, new_modifier) {
         update_roll_results(render_data.trait_roll, difference);
         await update_message(message, get_actor_from_message(message), render_data);
     }
+}
+
+
+/**
+ * Changes the of one of the rolls.
+ *
+ * @param {ChatMessage} message
+ * @param {int} index
+ * @param {int} new_tn
+ */
+async function edit_tn(message, index, new_tn) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    render_data.trait_roll.rolls[index].tn = new_tn;
+    update_roll_results(render_data.trait_roll, 0);
+    await update_message(message, get_actor_from_message(message), render_data)
 }
