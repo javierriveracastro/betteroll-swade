@@ -81,5 +81,7 @@
     "BRSW.RechargePP": "Recarrega PP",
     "BRSW.RechargePPText": "{name} recarrega {number} punt(s) de poder i ara té <b>{newPP}</b>.",
     "BRSW.PPBeniRecharge": "Recarrega amb beni",
-    "BRSW.InsufficientPP": "No tens prous punts de poder"
+    "BRSW.InsufficientPP": "No tens prous punts de poder",
+    "BRSW.EditTN": "Edita nombre objectiu",
+    "BRSW.EditModifier": "Edita modificador"
 }
