@@ -65,5 +65,21 @@
     "BRWS.Control_click_hint": "Tria que passa quan cliques mentre prems CONTROL",
     "BRSW.Control_click_action": "Acció quan fas clic amb CONTROL",
     "BRSW.ConvictionRoll": "Tirada de convicció",
-    "BRSW.Result": "Resultat"
+    "BRSW.Result": "Resultat",
+    "BRSW.ExpendPPText": "{name} gasta {number} punt(s) de poder i encara li queden <b>{newPP}</b> .",
+    "BRSW.NoBennies": "No et queden benis",
+    "BRSW.RechargePPBennyText": "{name} recarrega 5 punts de poder fent servir un beni i ara té <b>{newPP}</b>.",
+    "BRSW.SkillDie": "Dau d'habilitat",
+    "BRSW.Default": "Per defecte",
+    "BRSW.OldRoll": "Tirades anteriors",
+    "BRSW.SubtractPP": "Restar punts de poder",
+    "BRSW.ManuallyAdded": "Afegit manualment",
+    "BRSW.AddModifier": "Afegir un modificador",
+    "BRSW.ManualPP": "Gestió manual de PP",
+    "BRSW.ItemMod": "Modificador d'objecte",
+    "BRSW.ExpendPP": "Gasta PP",
+    "BRSW.RechargePP": "Recarrega PP",
+    "BRSW.RechargePPText": "{name} recarrega {number} punt(s) de poder i ara té <b>{newPP}</b>.",
+    "BRSW.PPBeniRecharge": "Recarrega amb beni",
+    "BRSW.InsufficientPP": "No tens prous punts de poder"
 }
