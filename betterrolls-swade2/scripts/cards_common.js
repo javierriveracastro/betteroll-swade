@@ -128,7 +128,7 @@ function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
         if (actor.data.data.bennies.value < 1) return false;
     }
-    return true;
+    return game.user.getFlag('swade', 'bennies') > 0;
 }
 
 /**
@@ -147,7 +147,7 @@ export async function spend_bennie(actor){
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
         await actor.spendBenny();
     } else {
-        spendMastersBenny();
+        await spendMastersBenny();
     }
 }
 

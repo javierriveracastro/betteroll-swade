@@ -33,13 +33,14 @@ export function makeExplotable(expresion) {
     return expresion;
 }
 
-export function spendMastersBenny() {
+export async function spendMastersBenny() {
     // Expends one benny from the master stack
     game.users.forEach((user) => {
         if (user.isGM) {
             let value = user.getFlag('swade', 'bennies');
-            // noinspection JSIgnoredPromiseFromCall
-            user.setFlag('swade', 'bennies', value - 1);
+            if (value > 0){
+                user.setFlag('swade', 'bennies', value - 1);
+            }
         }
     })
 }
