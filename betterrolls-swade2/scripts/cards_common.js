@@ -528,17 +528,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             total_modifiers += statusPenalties;
         }
         // Target Mods
-        if (game.user.targets.size) {
-            const objetive = Array.from(game.user.targets);
-            // noinspection JSUnresolvedVariable
-            if (objetive[0].actor.data.data.status.isVulnerable ||
-                objetive[0].actor.data.data.status.isStunned) {
-                modifiers.push({
-                    name: `${objetive[0].name}: ${game.i18n.localize('SWADE.Vuln')}`,
-                    value: 2
-                });
-                total_modifiers += 2;
-            }
+        if (extra_data.target_modifiers) {
+            extra_data.target_modifiers.forEach(modifier => {
+                total_modifiers += modifier.value;
+                modifiers.push(modifier);
+            })
         }
         // Action mods
         if (message.getFlag('betterrolls-swade2', 'card_type') ===

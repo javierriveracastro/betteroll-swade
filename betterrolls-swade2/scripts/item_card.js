@@ -386,6 +386,7 @@ export async function roll_item(message, html, expend_bennie,
         const target_data = get_tn_from_token(skill, objetive);
         extra_data.tn = target_data.value;
         extra_data.tn_reason = target_data.reason;
+        extra_data.target_modifiers = target_data.modifiers;
     }
     // Check rof if avaliable
     extra_data.rof = item.data.data.rof || 1;

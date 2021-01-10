@@ -155,16 +155,25 @@ export function is_skill_fighting(skill) {
 
 
 /**
- * Get a target number from a token appropriated to a skill
+ * Get a target number and modifiers from a token appropriated to a skill
+ *
  * @param {Item} skill
  * @param {Token} token
  */
 export function get_tn_from_token(skill, token) {
     // For now we only support parry
-    let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4};
+    let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
+        modifiers:[]};
     if (is_skill_fighting(skill)) {
         tn.reason = `${game.i18n.localize("SSO.Parry")} - ${token.name}`;
         tn.value = parseInt(token.actor.data.data.stats.parry.value);
     }
-    return tn
+    // noinspection JSUnresolvedVariable
+    if (token.actor.data.data.status.isVulnerable ||
+            token.actor.data.data.status.isStunned) {
+        tn.modifiers.push(
+            {name: `${token.name}: ${game.i18n.localize('SWADE.Vuln')}`,
+                value: 2});
+    }
+    return tn;
 }
