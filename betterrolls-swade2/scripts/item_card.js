@@ -372,22 +372,6 @@ export async function roll_item(message, html, expend_bennie,
     const skill = get_item_skill(item, actor);
     let extra_data = {skill: skill}
     if (expend_bennie) await spend_bennie(actor);
-    // We try to find a tn from the action target
-    let objetive = get_targeted_token();
-    if (!objetive) {
-        canvas.tokens.controlled.forEach(token => {
-            console.log(token)
-            if (token.actor !== actor) {
-                objetive = token;
-            }
-        })
-    }
-    if (objetive) {
-        const target_data = get_tn_from_token(skill, objetive);
-        extra_data.tn = target_data.value;
-        extra_data.tn_reason = target_data.reason;
-        extra_data.target_modifiers = target_data.modifiers;
-    }
     // Check rof if avaliable
     extra_data.rof = item.data.data.rof || 1;
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(

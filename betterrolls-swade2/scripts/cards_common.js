@@ -1,7 +1,8 @@
 // Common functions used in all cards
 
-import {getWhisperData, spendMastersBenny, simple_form} from "./utils.js";
+import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
 import {get_item_from_message, get_item_skill} from "./item_card.js";
+import {get_tn_from_token} from "./skill_card.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -471,20 +472,47 @@ async function update_message(message, actor, render_data) {
  */
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const type = message.getFlag('betterrolls-swade2', 'card_type');
     const actor = get_actor_from_message(message);
     let total_modifiers = 0;
     let modifiers = [];
     let rof;
     let extra_options = {};
-    if (extra_data.hasOwnProperty('tn')) {
-        extra_options.tn = extra_data.tn;
-        extra_options.tn_reason = extra_data.tn_reason.slice(0,20);
-    }
-    if (extra_data.hasOwnProperty('rof')) {
-        extra_options.rof = extra_data.rof;
-    }
-    let options = get_roll_options(html, extra_options);
+    let options = {};
     if (!render_data.trait_roll.rolls.length) {
+        // Get target options
+        let objetive = get_targeted_token();
+        if (!objetive) {
+            canvas.tokens.controlled.forEach(token => {
+                // noinspection JSUnresolvedVariable
+                if (token.actor !== actor) {
+                    objetive = token;
+                }
+            })
+        }
+        let skill;
+        if (type === BRSW_CONST.TYPE_SKILL_CARD) {
+            const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
+            skill = actor.items.find((item) => item.id === skill_id);
+        } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
+            const item = actor.getOwnedItem(message.getFlag(
+                'betterrolls-swade2', 'item_id'));
+            skill = get_item_skill(item, actor);
+        }
+        if (objetive && skill) {
+            const target_data = get_tn_from_token(skill, objetive);
+            extra_options.tn = target_data.value;
+            extra_options.tn_reason = target_data.reason;
+            extra_options.target_modifiers = target_data.modifiers;
+        }
+        if (extra_data.hasOwnProperty('tn')) {
+            extra_options.tn = extra_data.tn;
+            extra_options.tn_reason = extra_data.tn_reason.slice(0,20);
+        }
+        if (extra_data.hasOwnProperty('rof')) {
+            extra_options.rof = extra_data.rof;
+        }
+        options = get_roll_options(html, extra_options);
         // New roll, we need top get all tje options
         rof = options.rof || 1;
         // Trait modifier
@@ -528,8 +556,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             total_modifiers += statusPenalties;
         }
         // Target Mods
-        if (extra_data.target_modifiers) {
-            extra_data.target_modifiers.forEach(modifier => {
+        if (extra_options.target_modifiers) {
+            extra_options.target_modifiers.forEach(modifier => {
                 total_modifiers += modifier.value;
                 modifiers.push(modifier);
             })
@@ -569,12 +597,14 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         modifiers = render_data.trait_roll.modifiers;
         modifiers.forEach(mod => {
             total_modifiers += mod.value
+        // Ugly hack, we loss all edited TNs...
+        options = {tn: render_data.trait_roll.rolls[0].tn,
+            tn_reason: render_data.trait_roll.rolls[0].tn_reason};
         });
         render_data.trait_roll.old_rolls.push(
             render_data.trait_roll.rolls);
         render_data.trait_roll.rolls = [];
     }
-    // Get options from html
     let fumble_possible = 0;
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
