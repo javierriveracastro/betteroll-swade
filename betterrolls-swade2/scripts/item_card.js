@@ -4,7 +4,9 @@ import {
     BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string
 } from "./cards_common.js";
+import {get_tn_from_token, FIGHTING_SKILLS} from "./skill_card.js"
 import {create_result_card} from "./result_card.js";
+import {get_targeted_token} from "./utils.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -17,7 +19,6 @@ const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'hechiceria', 'foi', 'magie', 'science étrange', 'science etrange',
     'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
     'weird science'];
-const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
 const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
 const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
     "athlétisme", "★ athletics"];
@@ -275,37 +276,6 @@ export function get_item_skill(item, actor) {
 }
 
 
-/***
- * Checks if a skill is fighting, likely not the best way
- *
- * @param skill
- * @return {boolean}
- */
-function is_this_fighting(skill) {
-    return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
-}
-
-
-/**
- * Gets the parry value of the selected token
- */
-function get_parry_from_target() {
-    /**
-     * Sets the difficulty as the parry value of the targeted
-     * or selected token
-     */
-    let targets = game.user.targets;
-    let objective;
-    let target_number;
-    let target_name;
-    if (targets.size) objective = Array.from(targets)[0];
-    if (objective) {
-        target_number = parseInt(objective.actor.data.data.stats.parry.value);
-        target_name = objective.name;
-    }
-    return {tn: target_number, name: target_name};
-}
-
 
 /**
  * Get an skill from an actor and the skill name
@@ -402,11 +372,20 @@ export async function roll_item(message, html, expend_bennie,
     const skill = get_item_skill(item, actor);
     let extra_data = {skill: skill}
     if (expend_bennie) await spend_bennie(actor);
-    // If this is a fighting attack get tn from parry
-    if (is_this_fighting(skill)) {
-        const target_data = get_parry_from_target();
-        extra_data.tn = target_data.tn;
-        extra_data.tn_reason = game.i18n.localize("SSO.Parry") + ": " + target_data.name;
+    // We try to find a tn from the action target
+    let objetive = get_targeted_token();
+    if (!objetive) {
+        canvas.tokens.controlled.forEach(token => {
+            console.log(token)
+            if (token.actor !== actor) {
+                objetive = token;
+            }
+        })
+    }
+    if (objetive) {
+        const target_data = get_tn_from_token(skill, objetive);
+        extra_data.tn = target_data.value;
+        extra_data.tn_reason = target_data.reason;
     }
     // Check rof if avaliable
     extra_data.rof = item.data.data.rof || 1;

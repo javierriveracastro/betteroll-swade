@@ -97,3 +97,17 @@ export function simple_form(title, fields, callback) {
     }).render(true)
 
 }
+
+/**
+ * Gets the first targeted token
+ */
+export function get_targeted_token() {
+    /**
+     * Sets the difficulty as the parry value of the targeted
+     * or selected token
+     */
+    let targets = game.user.targets;
+    let objective;
+    if (targets.size) objective = Array.from(targets)[0];
+    return objective;
+}

@@ -4,6 +4,8 @@ import {BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
     get_actor_from_ids, get_actor_from_message, roll_trait, spend_bennie,
     trait_to_string} from "./cards_common.js";
 
+export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
+
 /**
 * Creates a chat card for a skill
 *
@@ -139,4 +141,30 @@ export async function roll_skill(message, html, expend_bennie){
     if (expend_bennie) await spend_bennie(actor);
     await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, {});
+}
+
+/***
+ * Checks if a skill is fighting, likely not the best way
+ *
+ * @param skill
+ * @return {boolean}
+ */
+export function is_skill_fighting(skill) {
+    return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
+}
+
+
+/**
+ * Get a target number from a token appropriated to a skill
+ * @param {Item} skill
+ * @param {Token} token
+ */
+export function get_tn_from_token(skill, token) {
+    // For now we only support parry
+    let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4};
+    if (is_skill_fighting(skill)) {
+        tn.reason = `${game.i18n.localize("SSO.Parry")} - ${token.name}`;
+        tn.value = parseInt(token.actor.data.data.stats.parry.value);
+    }
+    return tn
 }

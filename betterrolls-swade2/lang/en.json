@@ -82,5 +82,6 @@
 	"BRSW.RechargePPBennyText": "{name} recharges 5 Power Point(s) using a Benny and now has <b>{newPP}</b>.",
 	"BRSW.EditModifier": "Edit a modifier",
 	"BRSW.EditTN": "Edit a Target Number",
-	"BRSW.EditAllTN": "Edit all Target Numbers"
+	"BRSW.EditAllTN": "Edit all Target Numbers",
+	"BRSW.TNTargeted": "Get TN from targets"
 }

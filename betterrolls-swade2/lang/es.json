@@ -82,5 +82,6 @@
   	"BRSW.RechargePPBennyText": "{name} recarga 5 Puntos de poder usando un beni y ahora tiene <b>{newPP}</b>.",
     "BRSW.EditModifier": "Editar modificador",
     "BRSW.EditTN": "Editar Número Objetivo",
-    "BRSW.EditAllTN": "Editar todos los Números Objetivo"
+    "BRSW.EditAllTN": "Editar todos los Números Objetivo",
+    "BRSW.TNTargeted": "Obtener el NO de los objetivos"
 }
