@@ -236,7 +236,7 @@ export function make_item_footer(item) {
 
 /**
  * Guess the skill that should be rolled for an item
- * @param {SwadeItem} item The item.
+ * @param {Item} item The item.
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_skill(item, actor) {

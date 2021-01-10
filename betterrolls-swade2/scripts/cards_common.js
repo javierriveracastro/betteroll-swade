@@ -251,9 +251,15 @@ export function activate_common_listeners(message, html) {
         simple_form(game.i18n.localize("BRSW.EditTN"), [
             {label: tn_trans, default_value: old_tn}],
             async values => {
-                await edit_tn(message, index, values[tn_trans]);
+                await edit_tn(message, index, values[tn_trans], "");
         });
     });
+    // TNs from target
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-target-tn').click(ev => {
+        const index = ev.currentTarget.dataset.index;
+        get_tn_from_target(message, index, false);
+    })
 }
 
 
@@ -472,7 +478,6 @@ async function update_message(message, actor, render_data) {
  */
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const type = message.getFlag('betterrolls-swade2', 'card_type');
     const actor = get_actor_from_message(message);
     let total_modifiers = 0;
     let modifiers = [];
@@ -490,15 +495,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
                 }
             })
         }
-        let skill;
-        if (type === BRSW_CONST.TYPE_SKILL_CARD) {
-            const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
-            skill = actor.items.find((item) => item.id === skill_id);
-        } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
-            const item = actor.getOwnedItem(message.getFlag(
-                'betterrolls-swade2', 'item_id'));
-            skill = get_item_skill(item, actor);
-        }
+        let skill = get_skill_from_message(message, actor);
         if (objetive && skill) {
             const target_data = get_tn_from_token(skill, objetive);
             extra_options.tn = target_data.value;
@@ -706,6 +703,25 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     return render_data.trait_roll;
 }
 
+/**
+ * Get a skill in a message
+ * @param {ChatMessage} message
+ * @param {SwadeActor} actor
+ */
+function get_skill_from_message(message, actor) {
+    const type = message.getFlag('betterrolls-swade2', 'card_type');
+    let skill;
+    if (type === BRSW_CONST.TYPE_SKILL_CARD) {
+        const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
+        skill = actor.items.find((item) => item.id === skill_id);
+    } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
+        const item = actor.getOwnedItem(message.getFlag(
+            'betterrolls-swade2', 'item_id'));
+        skill = get_item_skill(item, actor);
+    }
+    return skill
+}
+
 
 /**
  * Function that exchanges roll when clicked
@@ -816,16 +832,54 @@ async function edit_modifier(message, index, new_modifier) {
  * @param {ChatMessage} message
  * @param {int} index: -1 to update all tns
  * @param {int} new_tn
+ * @param {string} reason: If it is set the reason will be changed
  */
-async function edit_tn(message, index, new_tn) {
+async function edit_tn(message, index, new_tn, reason) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     if (index >= 0) {
         render_data.trait_roll.rolls[index].tn = new_tn;
+        if (reason) {
+            render_data.trait_roll.rolls[index].tn_reason = reason;
+        }
     } else {
         render_data.trait_roll.rolls.forEach(roll => {
             roll.tn = new_tn;
+            if (reason) {
+                roll.tn_reason = reason;
+            }
         });
     }
     update_roll_results(render_data.trait_roll, 0);
     await update_message(message, get_actor_from_message(message), render_data)
+}
+
+
+/**
+ * Change the TNs of a roll from a token (targeted or selected)
+ *
+ * @param {ChatMessage} message
+ * @param {int} index
+ * @param {boolean} selected: True to select targeted, false for selected
+ */
+function get_tn_from_target(message, index, selected) {
+    let objetive;
+    if (selected) {
+        canvas.tokens.controlled.forEach(token => {
+            // noinspection JSUnresolvedVariable
+            if (token.actor !== actor) {
+                objetive = token;
+            }
+        });
+    } else {
+        objetive = get_targeted_token();
+    }
+    if (objetive) {
+        const skill = get_skill_from_message(message, get_actor_from_message(message));
+        const target = get_tn_from_token(skill, objetive);
+        if (target.value) {
+            // Don't update if we didn't get a value
+            // noinspection JSIgnoredPromiseFromCall
+            edit_tn(message, index, target.value, target.reason)
+        }
+    }
 }
