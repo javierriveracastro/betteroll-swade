@@ -790,12 +790,18 @@ async function edit_modifier(message, index, new_modifier) {
  * Changes the of one of the rolls.
  *
  * @param {ChatMessage} message
- * @param {int} index
+ * @param {int} index: -1 to update all tns
  * @param {int} new_tn
  */
 async function edit_tn(message, index, new_tn) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    render_data.trait_roll.rolls[index].tn = new_tn;
+    if (index >= 0) {
+        render_data.trait_roll.rolls[index].tn = new_tn;
+    } else {
+        render_data.trait_roll.rolls.forEach(roll => {
+            roll.tn = new_tn;
+        });
+    }
     update_roll_results(render_data.trait_roll, 0);
     await update_message(message, get_actor_from_message(message), render_data)
 }

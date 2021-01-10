@@ -13,16 +13,19 @@
                     <span>{{{ this.result_icon }}}</span>
                 {{/if}}
             {{/each}}
+            <i class="brsw-edit-tn brsw-clickable fas fa-edit" data-index="-1"
+               data-value="4" title='{{ localize "BRSW.EditAllTN" }}'></i>
         </span>
     </div>
     <div class="brsw-result-detail brsw-collapsed">
         {{#each trait_roll.rolls}}
             {{# if this.tn }}
                 <div class="brsw-roll-detail-row">
-                    <span>{{ localize "BRSW.TN" }}({{ this.tn_reason}}) {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
+                    <span title="{{ this.tn_reason}}">{{ localize "BRSW.TN" }} {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
                     <span>
                         {{ this.result_text }}
-                        <i class="brsw-edit-tn brsw-clickable fas fa-edit" data-index="{{@index}}" data-value="{{this.tn}}"></i>
+                        <i class="brsw-edit-tn brsw-clickable fas fa-edit" data-index="{{@index}}"
+                           data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}'></i>
                     </span>
                 </div>
             {{/if}}
