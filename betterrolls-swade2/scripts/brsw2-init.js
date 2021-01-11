@@ -29,6 +29,11 @@ Hooks.on(`ready`, () => {
     loadTemplates(templatePaths).then(() => {
         console.log("Better Rolls templates preloaded")
     });
+    // Collapse the char window if needed
+    if (game.settings.get('betterrolls-swade2', 'collapse-chat-window')) {
+        $('.brws-common-modifiers').addClass('brsw-collapsed');
+        $('.brsw-chat-form i').removeClass('fa-caret-down').addClass('fa-caret-right');
+    }
     // Add some jquery magic to allow binding our functions prior to system
     $.fn.bindFirst = function(name, fn) {
         // bind as you normally would
@@ -212,6 +217,15 @@ function register_settings_version2() {
         },
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'collapse-chat-window', {
+        name: game.i18n.localize('BRSW.collapse-chat-window'),
+        hint: game.i18n.localize('BRSW.collapse-chat-window_hint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
+
 }
 
 // Settings related to Dice So Nice.

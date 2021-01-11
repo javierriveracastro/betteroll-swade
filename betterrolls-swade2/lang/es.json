@@ -84,5 +84,8 @@
     "BRSW.EditTN": "Editar Número Objetivo",
     "BRSW.EditAllTN": "Editar todos los Números Objetivo",
     "BRSW.TNTargeted": "Obtener el VO de los objetivos",
-  	"BRSW.TNSelected": "Obtener el VO de los seleccionados"
+  	"BRSW.TNSelected": "Obtener el VO de los seleccionados",
+  	"BRSW.collapse-chat-window": "Colapsar al empezar la ventana de modificadores",
+	"BRSW.collapse-chat-window_hint": "La ventana de modificadores que esta encima del chat empieza colapsada"
+
 }

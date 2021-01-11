@@ -84,5 +84,7 @@
 	"BRSW.EditTN": "Edit a Target Number",
 	"BRSW.EditAllTN": "Edit all Target Numbers",
 	"BRSW.TNTargeted": "Get TN from targets",
-	"BRSW.TNSelected": "Get TN from selected"
+	"BRSW.TNSelected": "Get TN from selected",
+	"BRSW.collapse-chat-window": "Collapse by defatul the modifier window",
+	"BRSW.collapse-chat-window_hint": "Start with the window above the chat collapsed"
 }
