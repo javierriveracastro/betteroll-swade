@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 1.105
+* Quite important refactoring of rolling, tns and modifiers based on targeted tokens.
+* Ability to edit the modifiers after a roll
+* Updated catalan translations
+* Don't allow the master's bennies to go below 0.
+* Ability to edit all TNs at the same time
+* Better vulnerable management
+* Get TNs from targeted or selected tokens.
+* Spanish translations bugfixes.
+* Added an option to collapse the modifier box over the chat at start.
+
 ## Version 1.104
 * Bugfix: Weapon skill modifier wasn't beign added correctly.
 * Modifiers can now de added and deleted.
