@@ -15,6 +15,10 @@
             {{/each}}
             <i class="brsw-edit-tn brsw-clickable fas fa-edit" data-index="-1"
                data-value="4" title='{{ localize "BRSW.EditAllTN" }}'></i>
+            <i class="brsw-target-tn brsw-clickable fas fa-bullseye" data-index="-1"
+                title="{{ localize "BRSW.TNTargeted"}}"></i>
+            <i class="brsw-selected-tn brsw-clickable fas fa-object-ungroup" data-index="-1"
+                title="{{ localize "BRSW.TNSelected"}}"></i>
         </span>
     </div>
     <div class="brsw-result-detail brsw-collapsed">
@@ -28,6 +32,8 @@
                            data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}'></i>
                         <i class="brsw-target-tn brsw-clickable fas fa-bullseye" data-index="{{@index}}"
                             title="{{ localize "BRSW.TNTargeted"}}"></i>
+                        <i class="brsw-selected-tn brsw-clickable fas fa-object-ungroup" data-index="{{@index}}"
+                            title="{{ localize "BRSW.TNSelected"}}"></i>
                     </span>
                 </div>
             {{/if}}

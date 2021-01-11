@@ -256,9 +256,10 @@ export function activate_common_listeners(message, html) {
     });
     // TNs from target
     // noinspection JSUnresolvedFunction
-    html.find('.brsw-target-tn').click(ev => {
+    html.find('.brsw-target-tn, .brsw-selected-tn').click(ev => {
         const index = ev.currentTarget.dataset.index;
-        get_tn_from_target(message, index, false);
+        get_tn_from_target(message, index,
+            ev.currentTarget.classList.contains('brsw-selected-tn'));
     })
 }
 
@@ -689,7 +690,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         calculate_results(trait_rolls);
     }
     // TODO: Edit all TNs
-    // TODO: Workou targeting
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
@@ -843,9 +843,11 @@ async function edit_tn(message, index, new_tn, reason) {
         }
     } else {
         render_data.trait_roll.rolls.forEach(roll => {
-            roll.tn = new_tn;
-            if (reason) {
-                roll.tn_reason = reason;
+            if (roll.tn) {
+                roll.tn = new_tn;
+                if (reason) {
+                    roll.tn_reason = reason;
+                }
             }
         });
     }
@@ -864,6 +866,7 @@ async function edit_tn(message, index, new_tn, reason) {
 function get_tn_from_target(message, index, selected) {
     let objetive;
     if (selected) {
+        let actor = get_actor_from_message(message);
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
             if (token.actor !== actor) {

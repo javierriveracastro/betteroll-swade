@@ -83,5 +83,6 @@
     "BRSW.EditModifier": "Editar modificador",
     "BRSW.EditTN": "Editar Número Objetivo",
     "BRSW.EditAllTN": "Editar todos los Números Objetivo",
-    "BRSW.TNTargeted": "Obtener el VO de los objetivos"
+    "BRSW.TNTargeted": "Obtener el VO de los objetivos",
+  	"BRSW.TNSelected": "Obtener el VO de los seleccionados"
 }

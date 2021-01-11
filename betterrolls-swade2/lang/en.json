@@ -83,5 +83,6 @@
 	"BRSW.EditModifier": "Edit a modifier",
 	"BRSW.EditTN": "Edit a Target Number",
 	"BRSW.EditAllTN": "Edit all Target Numbers",
-	"BRSW.TNTargeted": "Get TN from targets"
+	"BRSW.TNTargeted": "Get TN from targets",
+	"BRSW.TNSelected": "Get TN from selected"
 }
