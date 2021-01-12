@@ -408,7 +408,7 @@ function manual_ammo(weapon, actor) {
     // noinspection JSUnresolvedVariable
     const currentCharges = parseInt(weapon.data.data.currentShots);
     new Dialog({
-        title: 'Shooting & Reloading',
+        title: 'Ammo Management',
         content: `<form>
                 <div class="form-group">
                     <label for="num"># of Shots: </label>
@@ -424,17 +424,22 @@ function manual_ammo(weapon, actor) {
                     const updates = [
                         {_id: weapon.id, "data.currentShots": `${newCharges}`},
                     ];
-                    // noinspection JSIgnoredPromiseFromCall
-                    actor.updateOwnedItem(updates);
-                    // noinspection JSIgnoredPromiseFromCall
-                    actor.updateOwnedItem(updates);
-                    // noinspection JSIgnoredPromiseFromCall
-                    ChatMessage.create({
-                        speaker: {
-                            alias: actor.name
-                        },
-                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${actor.name} fires ${number} round(s) from a ${weapon.name} and has ${newCharges} left.</p>`
-                    })
+                    if (currentCharges < number) {
+                        ui.notifications.notify("You have insufficient ammunition.")
+                    }
+                    else {
+                        // noinspection JSIgnoredPromiseFromCall
+                        actor.updateOwnedItem(updates);
+                        // noinspection JSIgnoredPromiseFromCall
+                        actor.updateOwnedItem(updates);
+                        // noinspection JSIgnoredPromiseFromCall
+                        ChatMessage.create({
+                            speaker: {
+                                alias: actor.name
+                            },
+                            content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${actor.name} fires ${number} round(s) from a ${weapon.name} and has ${newCharges} left.</p>`
+                        })
+                    }
                 }
             },
             two: {

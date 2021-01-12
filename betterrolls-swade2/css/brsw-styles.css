@@ -105,6 +105,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 2px;
+    align-items: center;
 }
 
 .brsw-label-options {
@@ -247,4 +248,14 @@
 
 .brsw-old-roll {
     margin: 5px;
+}
+
+/* Damage buttons */
+
+.brsw-damage-buttons-box {
+    flex-grow: 3;
+}
+
+.brsw-damage-button {
+    width: 4em;
 }
