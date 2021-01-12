@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.106
+* Solved a bug with macros with no token data
+* Updated SalieriC ammo macro
+* Initial work for damage card incorporation into item cards.
+
 ## Version 1.105
 * Quite important refactoring of rolling, tns and modifiers based on targeted tokens.
 * Ability to edit the modifiers after a roll
