@@ -76,10 +76,11 @@ function create_item_card_from_id(token_id, actor_id, skill_id){
             let token = canvas.tokens.get(token_id);
             if (token) {
                 origin = token;
-            } else {
-                origin = game.actors.get(actor_id);
             }
         }
+    }
+    if (!origin && actor_id) {
+        origin = game.actors.get(actor_id);
     }
     return create_item_card(origin, skill_id);
 }
