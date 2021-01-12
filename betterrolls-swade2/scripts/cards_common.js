@@ -455,7 +455,7 @@ function calculate_results(rolls) {
  * @param {SwadeActor }actor
  * @param render_data
  */
-async function update_message(message, actor, render_data) {
+export async function update_message(message, actor, render_data) {
     const template = message.getFlag('betterrolls-swade2', 'template');
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
             BRSW_CONST.TYPE_ITEM_CARD) {
@@ -689,7 +689,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     if (!render_data.trait_roll.is_fumble) {
         calculate_results(trait_rolls);
     }
-    // TODO: Edit all TNs
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;

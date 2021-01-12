@@ -52,19 +52,22 @@
         {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
         {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
     {{/if}}
-    {{# if damage }}
-        <hr>
-        <div class="brsw-form brsw-button-row brsw-form-options">
-            {{ localize 'BRSW.Damage' }}
-            <span>
-                <button id="roll-damage" class="brsw-damage-button" title="{{ localize 'BRSW.Damage' }}">
-                    <i class="fas fa-plus"></i><i class="fas fa-dice-six"></i>
-                </button>
-                <button id="roll-raise-damage" class="brsw-damage-button" title="{{ localize 'BRSW.RaiseDamage' }}">
-                    <i class="fas fa-plus"></i><i class="fas fa-dice"></i>
-                </button>
-            </span>
-        </div>
-    {{/if}}
+{{/if}}
+{{# if damage }}
+    <hr>
+    <div class="brsw-form brsw-button-row brsw-form-options">
+        {{ localize 'BRSW.Damage' }}
+        <span>
+            <button id="roll-damage" class="brsw-damage-button" title="{{ localize 'BRSW.Damage' }}">
+                <i class="fas fa-plus"></i><i class="fas fa-dice-six"></i>
+            </button>
+            <button id="roll-raise-damage" class="brsw-damage-button" title="{{ localize 'BRSW.RaiseDamage' }}">
+                <i class="fas fa-plus"></i><i class="fas fa-dice"></i>
+            </button>
+        </span>
+    </div>
+    {{# each damage_rolls }}
+        {{>"modules/betterrolls-swade2/templates/damage_partial.html"}}
+    {{/each}}
 {{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}

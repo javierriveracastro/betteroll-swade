@@ -1,0 +1,16 @@
+<div class="brsw-roll-row">
+    <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-damage-detail">
+        <i class="fas fa-caret-right"></i>Target.TEMP :
+    </span>
+    <span>
+        {{#each this.rolls}}
+            <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
+        {{/each}}
+        <button class="brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+        {{#if bennie_avaliable}}
+            <button class="brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                <i class="fas fa-bullseye"></i>
+            </button>
+        {{/if}}
+    </span>
+</div>

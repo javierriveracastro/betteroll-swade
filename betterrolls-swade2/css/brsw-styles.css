@@ -259,3 +259,12 @@
 .brsw-damage-button {
     width: 4em;
 }
+
+.brsw-damage-roll {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 15px;
+    padding: 8px;
+    background-image: url("/icons/svg/combat.svg");
+}

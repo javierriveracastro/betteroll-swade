@@ -2,11 +2,11 @@
 
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
-    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string
+    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message
 } from "./cards_common.js";
 import {get_tn_from_token, FIGHTING_SKILLS} from "./skill_card.js"
 import {create_result_card} from "./result_card.js";
-import {get_targeted_token} from "./utils.js";
+import {get_targeted_token, makeExplotable} from "./utils.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -48,7 +48,7 @@ async function create_item_card(origin, item_id) {
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: parseFloat(item.data.data.shots),
-            trait_roll: trait_roll,
+            trait_roll: trait_roll, damage_rolls: [],
             powerpoints: parseFloat(item.data.data.pp)}, CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
@@ -513,12 +513,34 @@ function get_tougness_targeted() {
  * @return {Promise<void>}
  */
 export async function roll_dmg(message, html, expend_bennie, default_options, raise){
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     if (expend_bennie) await spend_bennie(actor);
     let total_modifiers = 0;
+    let damage_roll = new BRWSRoll();
+    let roll = new Roll(item.data.data.damage, actor.getRollShortcuts());
+    roll = new Roll(makeExplotable(roll.formula));
     let options = get_roll_options(html, default_options);
+    roll.evaluate();
+    damage_roll.rolls.push({result: roll.total});
+    render_data.damage_rolls.push(damage_roll);
+    await update_message(message, actor, render_data);
+    // TODO: Show total
+    // TODO: Decouple dice and modifiers
+    // TODO: Show details
+    // TODO: Add betterrolls modifiers
+    // TODO: Add item modifier
+    // Show result card
+    const defense_values = get_tougness_targeted()
+    options.tn = defense_values.toughness;
+    options.target_armor = defense_values.armor;
+    await create_result_card(actor, [roll.total], 0,
+        message.id, options);
+
+
+    /**
     options.suppressChat = true;
     options.rof = 1; // Damage rolls are always rof 1
     options.additionalMods = options.dmgMods;
@@ -546,6 +568,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Show result card
     await create_result_card(actor, [roll.total], total_modifiers,
         message.id, options);
+     **/
 }
 
 
