@@ -14,3 +14,13 @@
         {{/if}}
     </span>
 </div>
+<div class="brsw-damage-detail brsw-collapsed">
+    {{#each this.dice as |current_dice|}}
+        <div class="brsw-roll-detail-row{{ this.extra_class }}">
+            <span>{{ this.label }}</span>
+            <span>{{#each this.results}}
+                <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
+            {{/each}}</span>
+        </div>
+    {{/each}}
+</div>

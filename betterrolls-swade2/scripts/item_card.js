@@ -520,14 +520,36 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     if (expend_bennie) await spend_bennie(actor);
     let total_modifiers = 0;
     let damage_roll = new BRWSRoll();
-    let roll = new Roll(item.data.data.damage, actor.getRollShortcuts());
-    roll = new Roll(makeExplotable(roll.formula));
+    let formula = makeExplotable(item.data.data.damage)
+    let roll = new Roll(raise ? formula + "+1d6x" : formula,
+        actor.getRollShortcuts());
     let options = get_roll_options(html, default_options);
     roll.evaluate();
     damage_roll.rolls.push({result: roll.total});
+    roll.terms.forEach(term => {
+        if (term.hasOwnProperty('faces')) {
+            let new_die = {faces: term.faces, results: [],
+                extra_class: '',
+                label: game.i18n.localize("SSO.Dmg") + `(${formula})`};
+            if (term.total > term.faces) {
+                new_die.extra_class = ' brsw-blue-text';
+                if (!damage_roll.rolls[0].extra_class) {
+                    damage_roll.rolls[0].extra_class = ' brsw-blue-text';
+                }
+            }
+            term.results.forEach(result => {
+                new_die.results.push(result.result);
+            })
+            damage_roll.dice.push(new_die);
+        }
+    })
+    if (raise) {
+        // Last die is raise die.
+        damage_roll.dice[damage_roll.dice.length - 1].label = game.i18n.localize(
+            "BRSW.Raise");
+    }
     render_data.damage_rolls.push(damage_roll);
     await update_message(message, actor, render_data);
-    // TODO: Show total
     // TODO: Decouple dice and modifiers
     // TODO: Show details
     // TODO: Add betterrolls modifiers

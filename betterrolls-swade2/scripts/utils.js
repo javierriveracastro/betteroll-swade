@@ -25,7 +25,7 @@ export function makeExplotable(expresion) {
         dice_strings.forEach((match) => {
             if (used.indexOf(match) === -1) {
                 expresion = expresion.replace(new RegExp(match.slice(0, -1), 'g'),
-                                              match.slice(0, -1) + "x=");
+                                              match.slice(0, -1) + "x");
                 used.push(match);
             }
         })
