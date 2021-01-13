@@ -526,6 +526,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let options = get_roll_options(html, default_options);
     roll.evaluate();
     damage_roll.rolls.push({result: roll.total});
+    let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
             let new_die = {faces: term.faces, results: [],
@@ -541,6 +542,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 new_die.results.push(result.result);
             })
             damage_roll.dice.push(new_die);
+        } else {
+            let modifier_value = parseInt(last_string_term + term);
+            last_string_term = term;
+            if (modifier_value) {
+                damage_roll.modifiers.push({'value': modifier_value,
+                    'name': game.i18n.localize("SSO.Dmg") + `(${formula})`});
+                total_modifiers += modifier_value;
+            }
         }
     })
     if (raise) {
@@ -550,16 +559,16 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     render_data.damage_rolls.push(damage_roll);
     await update_message(message, actor, render_data);
-    // TODO: Decouple dice and modifiers
-    // TODO: Show details
     // TODO: Add betterrolls modifiers
     // TODO: Add item modifier
+    // TODO: Add color to modifiers (sacar funcion comun?)
+    // TODO: Dice So Nice
     // Show result card
     const defense_values = get_tougness_targeted()
     options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;
-    await create_result_card(actor, [roll.total], 0,
-        message.id, options);
+    await create_result_card(actor, [roll.total],
+        total_modifiers, message.id, options);
 
 
     /**

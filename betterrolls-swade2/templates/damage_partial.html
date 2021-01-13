@@ -23,4 +23,12 @@
             {{/each}}</span>
         </div>
     {{/each}}
+    {{#each this.modifiers}}
+        <div class="brsw-roll-detail-row{{ this.extra_class }}">
+            <span>{{ this.name }}</span>
+            <span>
+                {{ this.value }}
+            </span>
+        </div>
+    {{/each}}
 </div>
