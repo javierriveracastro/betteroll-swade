@@ -1,34 +1,36 @@
-<div class="brsw-roll-row">
-    <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-damage-detail">
-        <i class="fas fa-caret-right"></i>Target.TEMP :
-    </span>
-    <span>
-        {{#each this.rolls}}
-            <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
+{{# each damage_rolls }}
+    <div class="brsw-roll-row">
+        <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-damage-detail{{@index}}">
+            <i class="fas fa-caret-right"></i>Target.TEMP :
+        </span>
+        <span>
+            {{#each this.rolls}}
+                <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
+            {{/each}}
+            <button class="brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+            {{#if bennie_avaliable}}
+                <button class="brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                    <i class="fas fa-bullseye"></i>
+                </button>
+            {{/if}}
+        </span>
+    </div>
+    <div class="brsw-damage-detail{{@index}} brsw-collapsed">
+        {{#each this.dice as |current_dice|}}
+            <div class="brsw-roll-detail-row{{ this.extra_class }}">
+                <span>{{ this.label }}</span>
+                <span>{{#each this.results}}
+                    <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
+                {{/each}}</span>
+            </div>
         {{/each}}
-        <button class="brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
-        {{#if bennie_avaliable}}
-            <button class="brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
-                <i class="fas fa-bullseye"></i>
-            </button>
-        {{/if}}
-    </span>
-</div>
-<div class="brsw-damage-detail brsw-collapsed">
-    {{#each this.dice as |current_dice|}}
-        <div class="brsw-roll-detail-row{{ this.extra_class }}">
-            <span>{{ this.label }}</span>
-            <span>{{#each this.results}}
-                <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
-            {{/each}}</span>
-        </div>
-    {{/each}}
-    {{#each this.modifiers}}
-        <div class="brsw-roll-detail-row{{ this.extra_class }}">
-            <span>{{ this.name }}</span>
-            <span>
-                {{ this.value }}
-            </span>
-        </div>
-    {{/each}}
-</div>
+        {{#each this.modifiers}}
+            <div class="brsw-roll-detail-row{{ this.extra_class }}">
+                <span>{{ this.name }}</span>
+                <span>
+                    {{ this.value }}
+                </span>
+            </div>
+        {{/each}}
+    </div>
+{{/each}}

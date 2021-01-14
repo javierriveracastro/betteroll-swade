@@ -519,13 +519,23 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item = actor.items.find((item) => item.id === item_id);
     if (expend_bennie) await spend_bennie(actor);
     let total_modifiers = 0;
+    // Calculate modifiers
+    let options = get_roll_options(html, default_options);
+    // Betterrolls modifiers
     let damage_roll = new BRWSRoll();
+    options.dmgMods.forEach(mod => {
+        const mod_value = parseInt(mod);
+        damage_roll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
+        total_modifiers += mod_value;
+    })
+    // Remove with result card.
+    const temp_mods = total_modifiers;
+    // Roll
     let formula = makeExplotable(item.data.data.damage)
     let roll = new Roll(raise ? formula + "+1d6x" : formula,
         actor.getRollShortcuts());
-    let options = get_roll_options(html, default_options);
     roll.evaluate();
-    damage_roll.rolls.push({result: roll.total});
+    damage_roll.rolls.push({result: roll.total + total_modifiers});
     let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
@@ -543,13 +553,15 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             })
             damage_roll.dice.push(new_die);
         } else {
-            let modifier_value = parseInt(last_string_term + term);
-            last_string_term = term;
-            if (modifier_value) {
-                damage_roll.modifiers.push({'value': modifier_value,
-                    'name': game.i18n.localize("SSO.Dmg") + `(${formula})`});
-                total_modifiers += modifier_value;
+            if (parseInt(term)) {
+                let modifier_value = parseInt(last_string_term + term);
+                if (modifier_value) {
+                    damage_roll.modifiers.push({'value': modifier_value,
+                        'name': game.i18n.localize("SSO.Dmg") + `(${formula})`});
+                    total_modifiers += modifier_value;
+                }
             }
+            last_string_term = term;
         }
     })
     if (raise) {
@@ -559,7 +571,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     render_data.damage_rolls.push(damage_roll);
     await update_message(message, actor, render_data);
-    // TODO: Add betterrolls modifiers
     // TODO: Add item modifier
     // TODO: Add color to modifiers (sacar funcion comun?)
     // TODO: Dice So Nice
@@ -567,7 +578,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const defense_values = get_tougness_targeted()
     options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;
-    await create_result_card(actor, [roll.total],
+    // Ugly hack until result card is removed
+    options.rof = 2;
+    await create_result_card(actor, [roll.total + temp_mods],
         total_modifiers, message.id, options);
 
 
