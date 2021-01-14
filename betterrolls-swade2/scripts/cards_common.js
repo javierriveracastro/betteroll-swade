@@ -128,6 +128,8 @@ export function create_render_options(actor, options) {
 function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
         if (actor.data.data.bennies.value < 1) return false;
+    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        return true;
     }
     return game.user.getFlag('swade', 'bennies') > 0;
 }
