@@ -4,7 +4,7 @@ import {
     BRSW_CONST, BRWSRoll, check_and_roll_conviction, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message
 } from "./cards_common.js";
-import {get_tn_from_token, FIGHTING_SKILLS} from "./skill_card.js"
+import {FIGHTING_SKILLS} from "./skill_card.js"
 import {create_result_card} from "./result_card.js";
 import {get_targeted_token, makeExplotable} from "./utils.js";
 
@@ -486,17 +486,26 @@ export function get_item_from_message(message, actor) {
 
 /**
  * Gets the tougness value for the targeted token
+ * @param {SwadeActor} acting_actor
  */
-function get_tougness_targeted() {
-    const targets = game.user.targets;
-    let objetive;
-    let defense_values = {toughness: 4, armor: 0}
-    if (targets.size) objetive = Array.from(targets)[0];
+function get_tougness_targeted_selected(acting_actor) {
+    let objetive = get_targeted_token();
+    if (!objetive) {
+        canvas.tokens.controlled.forEach(token => {
+            // noinspection JSUnresolvedVariable
+            if (token.actor !== acting_actor) {
+                objetive = token;
+            }
+        })
+    }
+    let defense_values = {toughness: 4, armor: 0,
+        name: game.i18n.localize("BRSW.Default")};
     if (objetive) {
         defense_values.toughness = parseInt(
               objetive.actor.data.data.stats.toughness.value);
         defense_values.armor = parseInt(
               objetive.actor.data.data.stats.toughness.armor);
+        defense_values.name = objetive.name;
     }
     return defense_values
 }
@@ -522,18 +531,18 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
     // Betterrolls modifiers
-    let damage_roll = new BRWSRoll();
+    let damage_roll = {label: '---', brswroll: new BRWSRoll()};
     options.dmgMods.forEach(mod => {
         const mod_value = parseInt(mod);
-        damage_roll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
+        damage_roll.brswroll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
         total_modifiers += mod_value;
     })
     // Action mods
-    console.log(item)
+    // noinspection JSUnresolvedVariable
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
         const mod_value = parseInt(item.data.data.actions.dmgMod);
-        damage_roll.modifiers.push({
+        damage_roll.brswroll.modifiers.push({
             name: game.i18n.localize("BRSW.ItemMod"),
             value: mod_value
         })
@@ -542,7 +551,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
     if (conviction_modifier) {
-        damage_roll.modifiers.push(conviction_modifier);
+        damage_roll.brswroll.modifiers.push(conviction_modifier);
         total_modifiers += conviction_modifier.value;
     }
     // Remove with result card.
@@ -552,7 +561,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let roll = new Roll(raise ? formula + "+1d6x" : formula,
         actor.getRollShortcuts());
     roll.evaluate();
-    damage_roll.rolls.push({result: roll.total + total_modifiers});
+    damage_roll.brswroll.rolls.push({result: roll.total + total_modifiers});
     let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
@@ -561,19 +570,19 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 label: game.i18n.localize("SSO.Dmg") + `(${formula})`};
             if (term.total > term.faces) {
                 new_die.extra_class = ' brsw-blue-text';
-                if (!damage_roll.rolls[0].extra_class) {
-                    damage_roll.rolls[0].extra_class = ' brsw-blue-text';
+                if (!damage_roll.brswroll.rolls[0].extra_class) {
+                    damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
                 }
             }
             term.results.forEach(result => {
                 new_die.results.push(result.result);
             })
-            damage_roll.dice.push(new_die);
+            damage_roll.brswroll.dice.push(new_die);
         } else {
             if (parseInt(term)) {
                 let modifier_value = parseInt(last_string_term + term);
                 if (modifier_value) {
-                    damage_roll.modifiers.push({'value': modifier_value,
+                    damage_roll.brswroll.modifiers.push({'value': modifier_value,
                         'name': game.i18n.localize("SSO.Dmg") + `(${formula})`});
                     total_modifiers += modifier_value;
                 }
@@ -583,9 +592,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     })
     if (raise) {
         // Last die is raise die.
-        damage_roll.dice[damage_roll.dice.length - 1].label = game.i18n.localize(
-            "BRSW.Raise");
+        damage_roll.brswroll.dice[damage_roll.brswroll.dice.length - 1].label =
+            game.i18n.localize("BRSW.Raise");
     }
+    const defense_values = get_tougness_targeted_selected(actor);
+    damage_roll.label = defense_values.name;
     render_data.damage_rolls.push(damage_roll);
     // Dice so nice
     if (game.dice3d) {
@@ -604,11 +615,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     await update_message(message, actor, render_data);
     // Show result card
-    const defense_values = get_tougness_targeted()
+    // TODO: Result row with damage
+    // Ugly hack until result card is removed
     options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;
-    // TODO: Get target.
-    // Ugly hack until result card is removed
+    options.ap = item.data.data.ap || 0;
     options.rof = 2;
     await create_result_card(actor, [roll.total + temp_mods],
         total_modifiers, message.id, options);

@@ -1,10 +1,10 @@
 {{# each damage_rolls }}
     <div class="brsw-roll-row">
         <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-damage-detail{{@index}}">
-            <i class="fas fa-caret-right"></i>Target.TEMP :
+            <i class="fas fa-caret-right"></i>{{ this.label}} :
         </span>
         <span>
-            {{#each this.rolls}}
+            {{#each this.brswroll.rolls}}
                 <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
             {{/each}}
             <button class="brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
@@ -16,7 +16,7 @@
         </span>
     </div>
     <div class="brsw-damage-detail{{@index}} brsw-collapsed">
-        {{#each this.dice as |current_dice|}}
+        {{#each this.brswroll.dice as |current_dice|}}
             <div class="brsw-roll-detail-row{{ this.extra_class }}">
                 <span>{{ this.label }}</span>
                 <span>{{#each this.results}}
@@ -24,7 +24,7 @@
                 {{/each}}</span>
             </div>
         {{/each}}
-        {{#each this.modifiers}}
+        {{#each this.brswroll.modifiers}}
             <div class="brsw-roll-detail-row{{ this.extra_class }}">
                 <span>{{ this.name }}</span>
                 <span>
