@@ -470,6 +470,29 @@ export async function update_message(message, actor, render_data) {
 
 
 /**
+ * Checks and rolls convictions
+ * @param {SwadeActor }actor
+ * @return: Modifiers Array
+ */
+export function check_and_roll_conviction(actor) {
+    let conviction_modifier;
+    if (actor.isWildcard &&
+        game.settings.get('swade', 'enableConviction') &&
+        getProperty(actor.data, 'data.details.conviction.active')) {
+        let conviction_roll = new Roll('1d6x');
+        conviction_roll.roll();
+        conviction_roll.toMessage(
+            {flavor: game.i18n.localize('BRSW.ConvictionRoll')});
+        conviction_modifier = {
+            'name': game.i18n.localize('SWADE.Conv'),
+            value: conviction_roll.total
+        }
+    }
+    console.log(conviction_modifier)
+    return conviction_modifier
+}
+
+/**
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
@@ -576,18 +599,10 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             }
         }
         //Conviction
-        if (actor.isWildcard &&
-                game.settings.get('swade', 'enableConviction') &&
-                getProperty(actor.data, 'data.details.conviction.active')) {
-            let conviction_roll = new Roll('1d6x');
-            conviction_roll.roll();
-            conviction_roll.toMessage(
-                {flavor: game.i18n.localize('BRSW.ConvictionRoll')});
-            modifiers.push({
-                'name': game.i18n.localize('SWADE.Conv'),
-                value: conviction_roll.total
-            });
-            total_modifiers += conviction_roll.total;
+        const conviction_modifier = check_and_roll_conviction(actor);
+        if (conviction_modifier) {
+            modifiers.push(conviction_modifier);
+            total_modifiers += conviction_modifier.value
         }
     } else {
         // Reroll, keep old options

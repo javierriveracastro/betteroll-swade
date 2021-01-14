@@ -1,7 +1,7 @@
 // Functions for cards representing all items but skills
 
 import {
-    BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
+    BRSW_CONST, BRWSRoll, check_and_roll_conviction, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message
 } from "./cards_common.js";
 import {get_tn_from_token, FIGHTING_SKILLS} from "./skill_card.js"
@@ -539,6 +539,12 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         })
         total_modifiers += mod_value
     }
+    //Conviction
+    const conviction_modifier = check_and_roll_conviction(actor);
+    if (conviction_modifier) {
+        damage_roll.modifiers.push(conviction_modifier);
+        total_modifiers += conviction_modifier.value;
+    }
     // Remove with result card.
     const temp_mods = total_modifiers;
     // Roll
@@ -601,6 +607,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const defense_values = get_tougness_targeted()
     options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;
+    // TODO: Get target.
     // Ugly hack until result card is removed
     options.rof = 2;
     await create_result_card(actor, [roll.total + temp_mods],
