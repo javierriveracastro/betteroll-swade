@@ -528,6 +528,17 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
         total_modifiers += mod_value;
     })
+    // Action mods
+    console.log(item)
+    if (item.data.data.actions.dmgMod) {
+        // noinspection JSUnresolvedVariable
+        const mod_value = parseInt(item.data.data.actions.dmgMod);
+        damage_roll.modifiers.push({
+            name: game.i18n.localize("BRSW.ItemMod"),
+            value: mod_value
+        })
+        total_modifiers += mod_value
+    }
     // Remove with result card.
     const temp_mods = total_modifiers;
     // Roll
@@ -570,10 +581,22 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             "BRSW.Raise");
     }
     render_data.damage_rolls.push(damage_roll);
+    // Dice so nice
+    if (game.dice3d) {
+        let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
+        if (damage_theme !== 'None') {
+            roll.dice.forEach(die => {
+               die.options.colorset = damage_theme;
+            });
+        }
+        let users = null;
+        if (message.data.whisper.length > 0) {
+            users = message.data.whisper;
+        }
+        // noinspection ES6MissingAwait
+        game.dice3d.showForRoll(roll, game.user, true, users);
+    }
     await update_message(message, actor, render_data);
-    // TODO: Add item modifier
-    // TODO: Add color to modifiers (sacar funcion comun?)
-    // TODO: Dice So Nice
     // Show result card
     const defense_values = get_tougness_targeted()
     options.tn = defense_values.toughness;

@@ -259,22 +259,33 @@ function register_dsn_settings(){
     });
     // noinspection JSFileReferences
     import('../../dice-so-nice/DiceColors.js').then(dsn => {
-    let theme_choice = {};
-    // noinspection JSUnresolvedVariable
-        for (let theme in dsn.COLORSETS) {
+        let theme_choice = {};
         // noinspection JSUnresolvedVariable
+        for (let theme in dsn.COLORSETS) {
+            // noinspection JSUnresolvedVariable
             if (dsn.COLORSETS.hasOwnProperty(theme)) {
-            theme_choice[theme] = theme;
+                theme_choice[theme] = theme;
+            }
         }
-    }
-    game.settings.register('betterrolls-swade2', 'wildDieTheme', {
-        name: 'Wild die theme',
-        hint: "Choose a theme from Dice So Nice for the Wild Die",
-        default: "fire",
-        scope: "client",
-        type: String,
-        choices: theme_choice,
-        config: true
-    })
+        let damage_theme_choice = Object.assign({}, theme_choice);
+        damage_theme_choice['None'] = 'None';
+        game.settings.register('betterrolls-swade2', 'wildDieTheme', {
+            name: 'Wild die theme',
+            hint: "Choose a theme from Dice So Nice for the Wild Die",
+            default: "black",
+            scope: "client",
+            type: String,
+            choices: theme_choice,
+            config: true
+        });
+        game.settings.register('betterrolls-swade2', 'damageDieTheme', {
+            name: 'Damage dice theme',
+            hint: "Choose a theme from Dice So Nice for damage dice",
+            default: "None",
+            scope: "client",
+            type: String,
+            choices: damage_theme_choice,
+            config: true
+        });
 	}).catch(()=>{console.log('Dice So Nice not installed')});
 }
