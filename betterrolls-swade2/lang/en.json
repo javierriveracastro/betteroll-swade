@@ -86,5 +86,10 @@
 	"BRSW.TNTargeted": "Get TN from targets",
 	"BRSW.TNSelected": "Get TN from selected",
 	"BRSW.collapse-chat-window": "Collapse by defatul the modifier window",
-	"BRSW.collapse-chat-window_hint": "Start with the window above the chat collapsed"
+	"BRSW.collapse-chat-window_hint": "Start with the window above the chat collapsed",
+	"BRSW.NoAmmunition": "You have insufficient ammunition.",
+	"BRSW.AmmunitionStatus": "{actor_name} fires {number} round(s) from a {weapon_name} and has {newCharges} left",
+	"BRSW.Shooting": "Shooting",
+	"BRSW.Reload": "Reload",
+	"BRSW.ReloadStatus": "{actor_name} reloads his/her {weapon_name}."
 }

@@ -417,7 +417,7 @@ function manual_ammo(weapon, actor) {
             </form>`,
         buttons: {
             one: {
-                label: "Shooting",
+                label: game.i18n.localize("BRSW.Shooting"),
                 callback: (html) => {
                     let number = Number(html.find("#num")[0].value);
                     const newCharges = currentCharges - number;
@@ -425,7 +425,7 @@ function manual_ammo(weapon, actor) {
                         {_id: weapon.id, "data.currentShots": `${newCharges}`},
                     ];
                     if (currentCharges < number) {
-                        ui.notifications.notify("You have insufficient ammunition.")
+                        ui.notifications.notify(game.i18n.localize("BRSW.NoAmmunition"))
                     }
                     else {
                         // noinspection JSIgnoredPromiseFromCall
@@ -437,13 +437,15 @@ function manual_ammo(weapon, actor) {
                             speaker: {
                                 alias: actor.name
                             },
-                            content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${actor.name} fires ${number} round(s) from a ${weapon.name} and has ${newCharges} left.</p>`
+                            content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${game.i18n.format(
+                                "BRSW.AmmunitionStatus", 
+                                {actor_name: actor.name, number: number, weapon_name: weapon.name, newCharges: newCharges})}</p>`
                         })
                     }
                 }
             },
             two: {
-                label: "Reloading",
+                label: game.i18n.localize("BRSW.Reload"),
                 callback: (html) => {
                     // If the quantity of ammo is less than the amount required, use whatever is left.
                     let number = Number(html.find("#num")[0].value);
@@ -461,7 +463,8 @@ function manual_ammo(weapon, actor) {
                         speaker: {
                             alias: actor.name
                         },
-                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${actor.name} reloads his/her ${weapon.name}.</p>`
+                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${game.i18n.format(
+                            "BRSW.ReloadStatus", {actor_name: actor.name, weapon_name:weapon.name})}</p>`
                     })
                 }
             },

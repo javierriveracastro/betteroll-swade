@@ -86,6 +86,10 @@
     "BRSW.TNTargeted": "Obtener el VO de los objetivos",
   	"BRSW.TNSelected": "Obtener el VO de los seleccionados",
   	"BRSW.collapse-chat-window": "Colapsar al empezar la ventana de modificadores",
-	"BRSW.collapse-chat-window_hint": "La ventana de modificadores que esta encima del chat empieza colapsada"
-
+	"BRSW.collapse-chat-window_hint": "La ventana de modificadores que esta encima del chat empieza colapsada",
+  	"BRSW.NoAmmunition": "No tienes suficiente munición",
+    "BRSW.AmmunitionStatus": "{actor_name} dispara {number} de tiros de {weapon_name} y le quedan {newCharges}",
+  	"BRSW.Shooting": "Disparar",
+	"BRSW.Reload": "Recargar",
+  	"BRSW.ReloadStatus": "{actor_name} recarga su {weapon_name}."
 }
