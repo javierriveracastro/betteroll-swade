@@ -615,7 +615,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     await update_message(message, actor, render_data);
     // Show result card
-    // TODO: Result row with damage
     // Ugly hack until result card is removed
     options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;

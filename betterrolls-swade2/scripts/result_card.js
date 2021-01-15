@@ -53,11 +53,10 @@ export async function create_result_card(actor, results, modifier,
     const render_options = create_render_options(
         actor, {flat_rolls: flat_rolls, modifier: modifier,
         target_number: origin_options.tn})
-    if (origin_options.hasOwnProperty('raise')) {
-        render_options.damage = true;
-        render_options.ap = origin_options.ap;
-        render_options.target_armor = origin_options.target_armor || 0;
-    }
+    // Always damage (temporal)
+    render_options.damage = true;
+    render_options.ap = origin_options.ap;
+    render_options.target_armor = origin_options.target_armor || 0;
     chatData.content = await renderTemplate(
     "modules/betterrolls-swade2/templates/result_card.html", render_options);
     let message =  await ChatMessage.create(chatData);
