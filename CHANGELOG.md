@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.107
+* Damage rolls incorporated into item card.
+* Support for a different Dice So Nice theme for damage rolls
+* Conviction dice added to damage rolls
+* Bug: Solved a bug where the master was not shown the bennie reroll button while having master's bennies
+
 ## Version 1.106
 * Solved a bug with macros with no token data
 * Updated SalieriC ammo macro
