@@ -217,6 +217,11 @@
     padding: 10px;
 }
 
+.brsw-button-image {
+    border: none;
+    vertical-align: text-bottom;
+}
+
 .brsw-small-dice-image {
     background-size: contain;
     background-repeat: no-repeat;
@@ -240,6 +245,8 @@
 .brsw-row-button {
     line-height: 80%;
     width: 2em;
+    height: 2em;
+    padding: 3px;
 }
 
 .brsw-small-font {

@@ -117,6 +117,9 @@ export function create_render_options(actor, options) {
     options.actor = actor;
     options.result_master_only =
         game.settings.get('betterrolls-swade2', 'result-card') === 'master';
+        // Benny image
+    options.benny_image = game.settings.get('betterrolls-swade2',
+            'bennyFront') || '/systems/swade/assets/benny/benny-chip-front.png'
     return options;
 }
 
@@ -490,7 +493,6 @@ export function check_and_roll_conviction(actor) {
             value: conviction_roll.total
         }
     }
-    console.log(conviction_modifier)
     return conviction_modifier
 }
 

@@ -91,5 +91,6 @@
 	"BRSW.AmmunitionStatus": "{actor_name} fires {number} round(s) from a {weapon_name} and has {newCharges} left",
 	"BRSW.Shooting": "Shooting",
 	"BRSW.Reload": "Reload",
-	"BRSW.ReloadStatus": "{actor_name} reloads his/her {weapon_name}."
+	"BRSW.ReloadStatus": "{actor_name} reloads his/her {weapon_name}.",
+	"BRSW.MultiResults": "Multiple results"
 }

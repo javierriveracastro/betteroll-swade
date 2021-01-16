@@ -91,5 +91,6 @@
     "BRSW.AmmunitionStatus": "{actor_name} dispara {number} de tiros de {weapon_name} y le quedan {newCharges}",
   	"BRSW.Shooting": "Disparar",
 	"BRSW.Reload": "Recargar",
-  	"BRSW.ReloadStatus": "{actor_name} recarga su {weapon_name}."
+  	"BRSW.ReloadStatus": "{actor_name} recarga su {weapon_name}.",
+    "BRSW.MultiResults": "Resultados multiples"
 }
