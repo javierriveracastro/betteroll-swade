@@ -44,7 +44,7 @@
         </div>
         <div class="brsw-button-row">
             {{# unless trait_roll.rolls }}
-                <button class="brsw-roll-button">{{ localize 'BRSW.Roll' }}</button>
+                <button class="brsw-roll-button brsw-form">{{ localize 'BRSW.Roll' }}</button>
             {{/unless}}
         </div>
     </div>
@@ -58,10 +58,10 @@
     <div class="brsw-form brsw-button-row brsw-form-options">
         {{ localize 'BRSW.Damage' }}
         <span>
-            <button id="roll-damage" class="brsw-damage-button" title="{{ localize 'BRSW.Damage' }}">
+            <button id="roll-damage" class="brsw-damage-button brsw-form" title="{{ localize 'BRSW.Damage' }}">
                 <i class="fas fa-dice"></i></i>
             </button>
-            <button id="roll-raise-damage" class="brsw-damage-button" title="{{ localize 'BRSW.RaiseDamage' }}">
+            <button id="roll-raise-damage" class="brsw-damage-button brsw-form" title="{{ localize 'BRSW.RaiseDamage' }}">
                 <i class="fas fa-plus"></i><i class="fas fa-dice-six"></i>
             </button>
         </span>

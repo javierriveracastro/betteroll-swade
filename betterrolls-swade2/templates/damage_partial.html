@@ -7,9 +7,9 @@
             {{#each this.brswroll.rolls}}
                 <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
             {{/each}}
-            <button class="brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+            <button class="brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
             {{#if bennie_avaliable}}
-                <button class="brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                <button class="brsw-row-button brsw-roll-button roll-bennie-button brsw-form" title="{{ localize 'BRSW.Roll_and_bennie' }}">
                     <i class="fas fa-bullseye"></i>
                 </button>
             {{/if}}

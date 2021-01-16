@@ -16,9 +16,9 @@
         {{#each trait_roll.rolls}}
             <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">{{ this.result }}</span>
         {{/each}}
-        <button class="brsw-trait-reroll brsw-row-button brsw-roll-button" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+        <button class="brsw-trait-reroll brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
         {{#if bennie_avaliable}}
-            <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+            <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button brsw-form" title="{{ localize 'BRSW.Roll_and_bennie' }}">
                 <img src="{{{ benny_image }}}" class="brsw-button-image">
             </button>
         {{/if}}
@@ -43,8 +43,8 @@
             <span>{{ this.name }}</span>
             <span>
                 {{ this.value }}
-                <i class="brsw-edit-modifier brsw-clickable fas fa-edit" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}"></i>
-                <i class="brsw-delete-modifier brsw-clickable fas fa-trash" data-index="{{@index}}"></i>
+                <i class="brsw-edit-modifier brsw-clickable fas fa-edit brsw-form" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}"></i>
+                <i class="brsw-delete-modifier brsw-clickable fas fa-trash brsw-form" data-index="{{@index}}"></i>
             </span>
         </div>
     {{/each}}
