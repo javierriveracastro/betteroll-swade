@@ -430,25 +430,46 @@ export function trait_to_string(trait) {
 /**
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
+ * @param {boolean} damage Tru if this is a damage roll
  */
-function calculate_results(rolls) {
+export function calculate_results(rolls, damage) {
     rolls.forEach(roll => {
         let result = roll.result - roll.tn;
+        console.log(roll)
+        console.log(roll.result)
+        console.log(roll.tn)
         if (result < 0) {
             roll.result_text = game.i18n.localize('BRSW.Failure');
             roll.result_icon = '<i class="brsw-red-text fas fa-minus-circle"></i>'
         } else if (result < 4) {
-            roll.result_text = game.i18n.localize('BRSW.Success');
-            roll.result_icon = '<i class="brsw-blue-text fas fa-check"></i>'
+            if (damage) {
+                roll.result_text = game.i18n.localize('BRSW.Shaken');
+                roll.result_icon = '<i class="brsw-blue-text fas fa-certificate"></i>'
+            } else {
+                roll.result_text = game.i18n.localize('BRSW.Success');
+                roll.result_icon = '<i class="brsw-blue-text fas fa-check"></i>'
+            }
         } else if(result < 8) {
-            roll.result_text = game.i18n.localize('BRSW.Raise');
-            roll.result_icon = '<i class="brsw-blue-text fas fa-check-double"></i>'
+            if (damage) {
+                roll.result_text = game.i18n.localize('BRSW.Wound');
+                roll.result_icon = '<i class="brsw-red-text fas fa-tint"></i>'                 
+            } else {
+                roll.result_text = game.i18n.localize('BRSW.Raise');
+                roll.result_icon = '<i class="brsw-blue-text fas fa-check-double"></i>'
+            }
         } else {
             const raises = Math.floor(result / 4)
-            roll.result_text = game.i18n.localize(
-                'BRSW.Raise_plural') + ' ' + raises;
-            roll.result_icon = raises.toString() +
-                '<i class="brsw-blue-text fas fa-check-double"></i>';
+            if (damage) {
+                roll.result_text =
+                    game.i18n.localize('BRSW.Wounds') + ' ' + raises;
+                roll.result_icon = raises.toString() + ' ' +
+                    '<i class="brsw-red-text fas fa-tint"></i>';
+            } else {
+                roll.result_text = game.i18n.localize(
+                    'BRSW.Raise_plural') + ' ' + raises;
+                roll.result_icon = raises.toString() +
+                    '<i class="brsw-blue-text fas fa-check-double"></i>';
+            }
         }
     });
 }
@@ -706,7 +727,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     }
     // Calculate results
     if (!render_data.trait_roll.is_fumble) {
-        calculate_results(trait_rolls);
+        calculate_results(trait_rolls, false);
     }
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
@@ -782,12 +803,12 @@ function update_roll_results(trait_roll, mod_value) {
         trait_roll.rolls.forEach(roll => {
             roll.result += mod_value;
         });
-        calculate_results(trait_roll.rolls);
+        calculate_results(trait_roll.rolls, false);
         trait_roll.old_rolls.forEach(old_roll => {
             old_roll.forEach(roll => {
                 roll.result += mod_value;
             });
-            calculate_results(old_roll);
+            calculate_results(old_roll, false);
         });
 }
 

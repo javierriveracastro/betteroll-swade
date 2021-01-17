@@ -5,7 +5,7 @@ import Char from './Char.js';
 export default class StatusIcon {
 
     statuses = [
-        {stat: 'isShaken', icon: '/modules/betterrolls-swade2/scripts/swade-tools//icons/shaken.png'},
+        {stat: 'isShaken', icon: '/modules/betterrolls-swade2/scripts/swade-tools/icons/shaken.png'},
         {stat: 'isDistracted', icon: '/systems/swade/assets/icons/status/status_distracted.svg'},
         {stat: 'isVulnerable', icon: '/systems/swade/assets/icons/status/status_vulnerable.svg'},
         {stat: 'isStunned', icon: '/systems/swade/assets/icons/status/status_stunned.svg'},

@@ -2,7 +2,8 @@
 
 import {
     BRSW_CONST, BRWSRoll, check_and_roll_conviction, create_common_card, get_action_from_click,
-    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message
+    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message,
+    calculate_results
 } from "./cards_common.js";
 import {FIGHTING_SKILLS} from "./skill_card.js"
 import {create_result_card} from "./result_card.js";
@@ -564,7 +565,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let roll = new Roll(raise ? formula + "+1d6x" : formula,
         actor.getRollShortcuts());
     roll.evaluate();
-    damage_roll.brswroll.rolls.push({result: roll.total + total_modifiers});
+    const defense_values = get_tougness_targeted_selected(actor);
+    damage_roll.brswroll.rolls.push(
+        {result: roll.total + total_modifiers, tn: defense_values.toughness});
     let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
@@ -598,7 +601,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.dice[damage_roll.brswroll.dice.length - 1].label =
             game.i18n.localize("BRSW.Raise");
     }
-    const defense_values = get_tougness_targeted_selected(actor);
     damage_roll.label = defense_values.name;
     render_data.damage_rolls.push(damage_roll);
     // Dice so nice
@@ -616,16 +618,18 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    await update_message(message, actor, render_data);
-    // Show result card
-    // Ugly hack until result card is removed
-    options.tn = defense_values.toughness;
     options.target_armor = defense_values.armor;
     options.ap = item.data.data.ap || 0;
-    options.rof = 2;
-    await create_result_card(actor, [roll.total + temp_mods],
-        total_modifiers, message.id, options);
-
+    // TODO: Use armor and ap for result calculation
+    // TODO: Reroll with bennie (bug???)
+    // TODO: Apply damage.
+    // TODO: Change target
+    // TODO: Add a dice to damage
+    // TODO: Add a modificer
+    // TODO: Edit a modifier
+    // TODO: Delete a modifier
+    calculate_results(damage_roll.brswroll.rolls, true);
+    await update_message(message, actor, render_data);
 
     /**
     options.suppressChat = true;
