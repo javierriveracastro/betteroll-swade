@@ -6,7 +6,6 @@ import {
     calculate_results
 } from "./cards_common.js";
 import {FIGHTING_SKILLS} from "./skill_card.js"
-import {create_result_card} from "./result_card.js";
 import {get_targeted_token, makeExplotable} from "./utils.js";
 
 
@@ -558,8 +557,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(conviction_modifier);
         total_modifiers += conviction_modifier.value;
     }
-    // Remove with result card.
-    const temp_mods = total_modifiers;
     // Roll
     let formula = makeExplotable(item.data.data.damage)
     let roll = new Roll(raise ? formula + "+1d6x" : formula,
@@ -567,7 +564,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     roll.evaluate();
     const defense_values = get_tougness_targeted_selected(actor);
     damage_roll.brswroll.rolls.push(
-        {result: roll.total + total_modifiers, tn: defense_values.toughness});
+        {result: roll.total + total_modifiers, tn: defense_values.toughness,
+        armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0});
     let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
@@ -618,14 +616,12 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    options.target_armor = defense_values.armor;
-    options.ap = item.data.data.ap || 0;
-    // TODO: Use armor and ap for result calculation
-    // TODO: Reroll with bennie (bug???)
+    // TODO: Damage detail calculation
     // TODO: Apply damage.
+    // TODO: Damage re-rolls.
     // TODO: Change target
     // TODO: Add a dice to damage
-    // TODO: Add a modificer
+    // TODO: Add a modifier
     // TODO: Edit a modifier
     // TODO: Delete a modifier
     calculate_results(damage_roll.brswroll.rolls, true);

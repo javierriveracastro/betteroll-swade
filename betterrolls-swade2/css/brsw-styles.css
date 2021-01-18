@@ -183,6 +183,7 @@
     margin-bottom: 5px;
     border-top: solid lightgrey 2px;
     padding: 5px;
+    align-items: center;
 }
 
 .brsw-roll-detail-row {
@@ -274,4 +275,13 @@
     font-size: 15px;
     padding: 8px;
     background-image: url("/icons/svg/combat.svg");
+}
+
+.brsw-ap-info {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 15px;
+    padding: 8px;
+    background-image: url("/icons/svg/lightning.svg");
 }

@@ -18,7 +18,7 @@ export const BRSW_CONST = {
  */
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result,
-        // extra_class, tn, result_txt, result_icons}
+        // extra_class, tn, result_txt, result_icons, ap, armor}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
     this.is_fumble = false
@@ -435,6 +435,10 @@ export function trait_to_string(trait) {
 export function calculate_results(rolls, damage) {
     rolls.forEach(roll => {
         let result = roll.result - roll.tn;
+        if (roll.ap) {
+            // We have an AP value, add it to the result
+            result = result + Math.min(roll.ap, roll.armor);
+        }
         console.log(roll)
         console.log(roll.result)
         console.log(roll.tn)
