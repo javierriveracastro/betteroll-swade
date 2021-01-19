@@ -439,9 +439,6 @@ export function calculate_results(rolls, damage) {
             // We have an AP value, add it to the result
             result = result + Math.min(roll.ap, roll.armor);
         }
-        console.log(roll)
-        console.log(roll.result)
-        console.log(roll.tn)
         if (result < 0) {
             roll.result_text = game.i18n.localize('BRSW.Failure');
             roll.result_icon = '<i class="brsw-red-text fas fa-minus-circle"></i>'

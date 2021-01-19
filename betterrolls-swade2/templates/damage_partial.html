@@ -7,13 +7,14 @@
             {{#each this.brswroll.rolls}}
                 <span class="brsw-damage-roll{{this.extra_class}}">{{ this.result }}</span>
                 {{# if this.ap }}<span class="brsw-ap-info" title="{{ localize "SWADE.APLong" }}">
-                    {{ this.ap }}
+                    ({{ localize "SWADE.Ap" }} {{ this.ap }})
                 </span>{{/if}}
             {{/each}}
-            <button class="brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
-            {{#if bennie_avaliable}}
-                <button class="brsw-row-button brsw-roll-button roll-bennie-button brsw-form" title="{{ localize 'BRSW.Roll_and_bennie' }}">
-                    <i class="fas fa-bullseye"></i>
+            {{#if ../bennie_avaliable}}
+                <button class="brsw-row-button brsw-damage-bennie-button brsw-form"
+                        {{# if this.raise}}id="raise_roll"{{/if}}
+                        title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                    <img src="{{{ ../benny_image }}}" class="brsw-button-image">
                 </button>
             {{/if}}
         </span>
@@ -40,6 +41,11 @@
                 <span>
                     {{ this.value }}
                 </span>
+            </div>
+        {{/each}}
+        {{#each this.brswroll.rolls}}
+            <div class="brsw-damage-calculation">
+                {{ localize "SWADE.Tough" }} {{ this.tn }}, {{ localize "SWADE.APLong" }} {{ this.ap }}, {{ localize "SWADE.Armor" }} {{ this.armor }}
             </div>
         {{/each}}
     </div>

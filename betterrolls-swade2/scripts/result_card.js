@@ -108,7 +108,6 @@ function reroll_clicked(message, use_bennie) {
         return message.id === origin_message_id;
     });
     const origin_type = origin_message.getFlag('betterrolls-swade2', 'card_type');
-    console.log(origin_type)
     if (origin_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
         // noinspection JSIgnoredPromiseFromCall
         roll_attribute(origin_message, '', use_bennie);

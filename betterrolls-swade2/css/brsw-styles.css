@@ -285,3 +285,9 @@
     padding: 8px;
     background-image: url("/icons/svg/lightning.svg");
 }
+
+.brsw-damage-calculation {
+    border-bottom: 1px solid blue;
+    margin: 4px;
+    padding: 4px;
+}

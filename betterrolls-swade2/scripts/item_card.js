@@ -165,9 +165,10 @@ export function activate_item_card_listeners(message, html) {
         await roll_item(message, html, ev.currentTarget.classList.contains(
             'roll-bennie-button'));
     });
-    html.find('.brsw-damage-button').click((ev) => {
+    html.find('.brsw-damage-button, .brsw-damage-bennie-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
-        roll_dmg(message, html, false, {}, ev.currentTarget.id.includes('raise'));
+        roll_dmg(message, html, ev.currentTarget.classList.contains('brsw-damage-bennie-button'),
+            {}, ev.currentTarget.id.includes('raise'));
     });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
         ammo_button.removeClass('brws-selected');
@@ -534,7 +535,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
     // Betterrolls modifiers
-    let damage_roll = {label: '---', brswroll: new BRWSRoll()};
+    let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     options.dmgMods.forEach(mod => {
         const mod_value = parseInt(mod);
         damage_roll.brswroll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
@@ -616,9 +617,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Damage detail calculation
     // TODO: Apply damage.
-    // TODO: Damage re-rolls.
     // TODO: Change target
     // TODO: Add a dice to damage
     // TODO: Add a modifier
