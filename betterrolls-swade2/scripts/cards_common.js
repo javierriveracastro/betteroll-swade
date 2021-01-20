@@ -18,7 +18,7 @@ export const BRSW_CONST = {
  */
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result,
-        // extra_class, tn, result_txt, result_icons, ap, armor}
+        // extra_class, tn, result_txt, result_icons, ap, armor, target_id}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
     this.is_fumble = false
@@ -433,8 +433,9 @@ export function trait_to_string(trait) {
  * @param {boolean} damage Tru if this is a damage roll
  */
 export function calculate_results(rolls, damage) {
+    let result;
     rolls.forEach(roll => {
-        let result = roll.result - roll.tn;
+        result = roll.result - roll.tn;
         if (roll.ap) {
             // We have an AP value, add it to the result
             result = result + Math.min(roll.ap, roll.armor);
@@ -473,6 +474,11 @@ export function calculate_results(rolls, damage) {
             }
         }
     });
+    if (result > 0) {
+        // noinspection JSUnusedAssignment
+        return result;
+    }
+    return 0;
 }
 
 

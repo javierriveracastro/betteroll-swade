@@ -177,7 +177,11 @@ export function activate_item_card_listeners(message, html) {
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
         pp_button.removeClass('brws-selected');
         manual_pp(actor);
-    })
+    });
+   html.find('.brsw-apply-damage').click((ev) => {
+       apply_damage(ev.currentTarget.dataset.token,
+           ev.currentTarget.dataset.damage);
+   })
 }
 
 
@@ -510,6 +514,7 @@ function get_tougness_targeted_selected(acting_actor) {
         defense_values.armor = parseInt(
               objetive.actor.data.data.stats.toughness.armor);
         defense_values.name = objetive.name;
+        defense_values.token_id = objetive.id;
     }
     return defense_values
 }
@@ -566,7 +571,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const defense_values = get_tougness_targeted_selected(actor);
     damage_roll.brswroll.rolls.push(
         {result: roll.total + total_modifiers, tn: defense_values.toughness,
-        armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0});
+        armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
+        target_id: defense_values.token_id || 0});
     let last_string_term = ''
     roll.terms.forEach(term => {
         if (term.hasOwnProperty('faces')) {
@@ -617,44 +623,49 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Apply damage.
     // TODO: Change target
     // TODO: Add a dice to damage
     // TODO: Add a modifier
     // TODO: Edit a modifier
     // TODO: Delete a modifier
-    calculate_results(damage_roll.brswroll.rolls, true);
+    // TODO: Remove ammo chat card???
+    damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
     await update_message(message, actor, render_data);
+}
 
-    /**
-    options.suppressChat = true;
-    options.rof = 1; // Damage rolls are always rof 1
-    options.additionalMods = options.dmgMods;
-    if (! default_options.hasOwnProperty('additionalMods')) {
-        // Get tougness and armor from selected token.
-        const defense_values = get_tougness_targeted()
-        options.tn = defense_values.toughness;
-        options.target_armor = defense_values.armor;
+
+/**
+ * Applies damage to a token
+ * @param token
+ * @param damage
+ */
+function apply_damage(token, damage) {
+    if (damage < 0) return;
+    if (!token.hasOwnProperty('actor')) {
+        // If this is not a token then it is a token id
+        token = canvas.tokens.get(token);
     }
-    let roll = item.rollDamage(options);
-    let formula = roll.formula;
-    if (raise) {
-        formula += '+1d6x'
+    let wounds = Math.floor(damage / 4);
+    // noinspection JSUnresolvedVariable
+    if (damage < 1 && token.actor.data.data.status.isShaken) {
+        // Shaken twice
+        wounds = 1;
     }
-    roll = new Roll(formula);
-    // Customize flavour text
-    let flavour =
-        `${item.name} ${game.i18n.localize('BRSW.DamageTest')}<br>`;
-    // Store if it is a raise roll and item ap
-    options.raise = raise;
-    options.ap = item.data.data.ap || 0;
-    // Show roll card
-    await roll.toMessage({speaker: ChatMessage.getSpeaker({ actor: actor }),
-        flavor: flavour});
-    // Show result card
-    await create_result_card(actor, [roll.total], total_modifiers,
-        message.id, options);
-     **/
+    const final_wounds = token.actor.data.data.wounds.value + wounds;
+    if (final_wounds > token.actor.data.data.wounds.max) {
+        token.actor.update({'data.wounds.value': token.actor.data.data.wounds.max});
+    } else {
+        token.actor.update({'data.wounds.value': final_wounds});
+    }
+    token.actor.update({'data.status.isShaken': true});
+    // noinspection JSIgnoredPromiseFromCall
+    ChatMessage.create({
+        speaker: {
+            alias: token.name
+        },
+        content: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
+            `${token.name} is now shaken`
+    });
 }
 
 

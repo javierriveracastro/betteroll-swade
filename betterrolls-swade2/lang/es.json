@@ -92,5 +92,6 @@
   	"BRSW.Shooting": "Disparar",
 	"BRSW.Reload": "Recargar",
   	"BRSW.ReloadStatus": "{actor_name} recarga su {weapon_name}.",
-    "BRSW.MultiResults": "Resultados multiples"
+    "BRSW.MultiResults": "Resultados multiples",
+  	"BRSW.ApplyDamage": "Aplicar daño"
 }
