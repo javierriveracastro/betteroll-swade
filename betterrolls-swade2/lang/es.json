@@ -93,5 +93,6 @@
 	"BRSW.Reload": "Recargar",
   	"BRSW.ReloadStatus": "{actor_name} recarga su {weapon_name}.",
     "BRSW.MultiResults": "Resultados multiples",
-  	"BRSW.ApplyDamage": "Aplicar daño"
+  	"BRSW.ApplyDamage": "Aplicar daño",
+    "BRSW.TGTargetSelected": "Obtener dureza de los objetivos o la selección"
 }

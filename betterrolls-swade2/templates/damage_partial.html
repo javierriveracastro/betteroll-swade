@@ -35,6 +35,14 @@
         </span>
     </div>
     <div class="brsw-damage-detail{{@index}} brsw-collapsed">
+        <div class="brsw-roll-detail-row">
+            <span>
+            </span>
+            <span>
+                <i class="brsw-target-tough brsw-clickable fas fa-bullseye brsw-form" data-index="{{@index}}"
+                    title="{{ localize "BRSW.TGTargetSelected"}}"></i>
+            </span>
+        </div>
         {{#each this.brswroll.dice as |current_dice|}}
             <div class="brsw-roll-detail-row{{ this.extra_class }}">
                 <span>{{ this.label }}</span>

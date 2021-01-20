@@ -3,7 +3,7 @@
 ## Version 1.108
 * Added translation strings for complex ammo tracking
 * Hide icons so chat card is clearer.
-* Let only gamestart and card owners click on buttons
+* Let only gamemasters and card owners click on buttons
 * See damage results as icons.
 * Reroll damage spending a bennie
 * Apply damage from the item card.

@@ -181,7 +181,10 @@ export function activate_item_card_listeners(message, html) {
    html.find('.brsw-apply-damage').click((ev) => {
        apply_damage(ev.currentTarget.dataset.token,
            ev.currentTarget.dataset.damage);
-   })
+   });
+   html.find('.brsw-target-tough').click(ev => {
+      edit_tougness(message, ev.currentTarget.dataset.index);
+   });
 }
 
 
@@ -623,11 +626,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Change target
     // TODO: Add a dice to damage
     // TODO: Add a modifier
     // TODO: Edit a modifier
     // TODO: Delete a modifier
+    // TODO: Remove result card leftover code
     // TODO: Remove ammo chat card???
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
     await update_message(message, actor, render_data);
@@ -666,6 +669,30 @@ function apply_damage(token, damage) {
         content: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
             `${token.name} is now shaken`
     });
+}
+
+
+
+/**
+ * Changes the damage target of one of the rolls.
+ *
+ * @param {ChatMessage} message
+ * @param {int} index:
+ */
+function edit_tougness(message, index) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const actor = get_actor_from_message(message);
+    const defense_values = get_tougness_targeted_selected(actor);
+    console.log(render_data)
+    let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
+    damage_rolls[0].tn = defense_values.toughness;
+    damage_rolls[0].armor = defense_values.armor;
+    damage_rolls[0].target_id = defense_values.token_id || 0;
+    render_data.damage_rolls[index].label = defense_values.name;
+    render_data.damage_rolls[index].damage_result = calculate_results(
+        damage_rolls, true);
+    // noinspection JSIgnoredPromiseFromCall
+    update_message(message, actor, render_data)
 }
 
 
