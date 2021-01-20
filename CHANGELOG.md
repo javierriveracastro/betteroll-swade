@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 1.108
+* Added translation strings for complex ammo tracking
+* Hide icons so chat card is clearer.
+* Let only gamestart and card owners click on buttons
+* See damage results as icons.
+* Reroll damage spending a bennie
+* Apply damage from the item card.
+
 ## Version 1.107
 * Damage rolls incorporated into item card.
 * Support for a different Dice So Nice theme for damage rolls
