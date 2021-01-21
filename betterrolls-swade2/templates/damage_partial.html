@@ -14,7 +14,7 @@
                 <button class="brsw-row-button brsw-damage-bennie-button brsw-form"
                         {{# if this.raise}}id="raise_roll"{{/if}}
                         title="{{ localize 'BRSW.Roll_and_bennie' }}">
-                    <img src="{{{ ../benny_image }}}" class="brsw-button-image">
+                    <img src="{{{ ../benny_image }}}" class="brsw-button-image" alt="Reroll with benny">
                 </button>
             {{/if}}
         </span>
@@ -39,6 +39,10 @@
             <span>
             </span>
             <span>
+                <span class="brsw-form brsw-clickable brsw-add-damage-d6"
+                            data-index="{{@index}}" title="{{ localize "BRSW.AddD6Damage" }}">
+                    <i class="fas fa-plus"></i> <i class="fas fa-dice-six"></i>
+                </span>
                 <i class="brsw-target-tough brsw-clickable fas fa-bullseye brsw-form" data-index="{{@index}}"
                     title="{{ localize "BRSW.TGTargetSelected"}}"></i>
             </span>

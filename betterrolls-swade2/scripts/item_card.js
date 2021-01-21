@@ -185,6 +185,9 @@ export function activate_item_card_listeners(message, html) {
    html.find('.brsw-target-tough').click(ev => {
       edit_tougness(message, ev.currentTarget.dataset.index);
    });
+   html.find('.brsw-add-damage-d6').click(ev => {
+       add_damage_dice(message, ev.currentTarget.dataset.index);
+   })
 }
 
 
@@ -638,6 +641,53 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
 
 
 /**
+ * Add a d6 to a damage roll
+ * @param {ChatMessage} message
+ * @param {int }index
+ */
+function add_damage_dice(message, index) {
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const actor = get_actor_from_message(message);
+    let damage_rolls = render_data.damage_rolls[index].brswroll;
+    let roll = new Roll("1d6x");
+    roll.evaluate();
+    damage_rolls.rolls[0].result += roll.total;
+    roll.terms.forEach(term => {
+        let new_die = {
+            faces: term.faces, results: [],
+            extra_class: '',
+            label: game.i18n.localize("SSO.Dmg")
+        };
+        if (term.total > term.faces) {
+            new_die.extra_class = ' brsw-blue-text';
+        }
+        term.results.forEach(result => {
+            new_die.results.push(result.result);
+        })
+        damage_rolls.dice.push(new_die);
+    });
+    render_data.damage_rolls[index].damage_result = calculate_results(
+        damage_rolls.rolls, true);
+    if (game.dice3d) {
+        let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
+        if (damage_theme !== 'None') {
+            roll.dice.forEach(die => {
+               die.options.colorset = damage_theme;
+            });
+        }
+        let users = null;
+        if (message.data.whisper.length > 0) {
+            users = message.data.whisper;
+        }
+        // noinspection ES6MissingAwait
+        game.dice3d.showForRoll(roll, game.user, true, users);
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    update_message(message, actor, render_data)
+}
+
+
+/**
  * Applies damage to a token
  * @param token
  * @param damage
@@ -683,7 +733,6 @@ function edit_tougness(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     const defense_values = get_tougness_targeted_selected(actor);
-    console.log(render_data)
     let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
     damage_rolls[0].tn = defense_values.toughness;
     damage_rolls[0].armor = defense_values.armor;

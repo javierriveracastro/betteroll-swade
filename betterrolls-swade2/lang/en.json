@@ -94,5 +94,6 @@
 	"BRSW.ReloadStatus": "{actor_name} reloads his/her {weapon_name}.",
 	"BRSW.MultiResults": "Multiple results",
 	"BRSW.ApplyDamage": "Apply Damage",
-	"BRSW.TGTargetSelected": "Get tougness from target or selected token"
+	"BRSW.TGTargetSelected": "Get tougness from target or selected token",
+	"BRSW.AddD6Damage": "Add a d6 to damage"
 }
