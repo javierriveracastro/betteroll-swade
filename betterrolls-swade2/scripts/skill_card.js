@@ -98,9 +98,13 @@ export function activate_skill_listeners(app, html) {
     skill_li.bindFirst('dragstart',async ev => {
         // First term for PC, second one for NPCs
         const skill_id = ev.currentTarget.dataset.itemId;
-        const macro_data = {name: "Skill roll", type: "script", scope: "global"};
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
+        const actor = game.actors.get(actor_id);
+        const item = actor.getOwnedItem(skill_id);
+        console.log(item)
+        let macro_data = {name: `${actor.name}: ${item.name}`, type: "script",
+            scope: "global", img: item.img};
         macro_data.command = `game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}').then(
             message => {game.brsw.roll_skill(message, "", false)})`;
         ev.originalEvent.dataTransfer.setData(

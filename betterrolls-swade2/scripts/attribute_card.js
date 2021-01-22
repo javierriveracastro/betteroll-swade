@@ -97,11 +97,11 @@ export function activate_attribute_listeners(app, html) {
     });
     attribute_labels.attr('draggable', 'true');
     attribute_labels.on('dragstart',async ev => {
-        const macro_data = {name: "Attribute roll", type: "script", scope: "global"}
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
         const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
             ev.currentTarget.parentElement.dataset.attribute
+        let macro_data = {name: attribute_name, type: "script", scope: "global"}
         macro_data.command = `game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}').then(
             message => {game.brsw.roll_attribute(message, "")})`;
         ev.originalEvent.dataTransfer.setData(

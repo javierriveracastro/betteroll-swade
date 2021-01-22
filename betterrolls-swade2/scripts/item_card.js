@@ -134,9 +134,12 @@ export function activate_item_listeners(app, html) {
     item_li.attr('draggable', 'true');
     item_li.bindFirst('dragstart',async ev => {
         const item_id = ev.currentTarget.dataset.itemId;
-        const macro_data = {name: "Item roll", type: "script", scope: "global"};
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
+        const actor = game.actors.get(actor_id);
+        const item = actor.getOwnedItem(item_id);
+        const macro_data = {name: `${actor.name}: ${item.name}`, img: item.img,
+            type: "script", scope: "global"};
         macro_data.command =
             `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
              message => {game.brsw.roll_item(message, "", false)});`;
