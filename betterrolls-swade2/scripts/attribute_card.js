@@ -102,7 +102,8 @@ export function activate_attribute_listeners(app, html) {
         const actor_id = app.object ? app.object.id : '';
         const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
             ev.currentTarget.parentElement.dataset.attribute
-        macro_data.command = `game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}')`;
+        macro_data.command = `game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}').then(
+            message => {game.brsw.roll_attribute(message, "")})`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });

@@ -101,7 +101,8 @@ export function activate_skill_listeners(app, html) {
         const macro_data = {name: "Skill roll", type: "script", scope: "global"};
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
-        macro_data.command = `game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}')`;
+        macro_data.command = `game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}').then(
+            message => {game.brsw.roll_skill(message, "", false)})`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
