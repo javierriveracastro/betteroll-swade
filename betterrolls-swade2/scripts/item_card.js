@@ -629,10 +629,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Add a dice to damage
-    // TODO: Add a modifier
-    // TODO: Edit a modifier
-    // TODO: Delete a modifier
     // TODO: Remove result card leftover code
     // TODO: Remove ammo chat card???
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
