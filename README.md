@@ -1,6 +1,6 @@
-# Better rolls for SWADE (Alpha version)
+# Better rolls for SWADE (RC version)
 
-This is an alpha for version 2 of the module. If you are not familiarized with it, you are probably better using the 1.x version.
+This is a release canditate for better rolls. Roll cards are mostly done, testing is encouraged.
 
 Please leave your feedback on the official Foundry discord. Feel free to ping me if you want. 
 

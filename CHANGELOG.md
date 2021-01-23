@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.109
+* Change the target of a damage roll
+* Add a d6 to a damage roll
+* Removal of lots of code
+* Make macros dragged to the hotbar roll by default
+* Give names and images to items dragged to the macro hotbar.
+
 ## Version 1.108
 * Added translation strings for complex ammo tracking
 * Hide icons so chat card is clearer.
