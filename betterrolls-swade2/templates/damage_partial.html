@@ -18,7 +18,7 @@
                 </button>
             {{/if}}
         </span>
-        <span>
+        <span class="{{# if ../result_master_only}}brsw-master-only{{/if}}">
             {{#each this.brswroll.rolls}}
                 {{# if this.tn }}
                     <span title="{{ this.result_text }}">{{{ this.result_icon }}}</span>
