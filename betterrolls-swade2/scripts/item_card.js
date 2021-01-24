@@ -344,11 +344,12 @@ function check_skill_in_actor(actor, possible_skills) {
  *
  * @param item Item that has ben shoot
  * @param rof Rof of the shot
+ * @param {int} shot_override
  */
-async function discount_ammo(item, rof) {
+async function discount_ammo(item, rof, shot_override) {
     // noinspection JSUnresolvedVariable
     const ammo = parseInt(item.data.data.currentShots);
-    const ammo_spent = ROF_BULLETS[rof];
+    const ammo_spent = shot_override >= 0 ? shot_override : ROF_BULLETS[rof];
     const final_ammo = Math.max(ammo - ammo_spent, 0)
     // noinspection JSUnresolvedVariable
     let content = `<p>${ammo_spent} shot has been expended from ${item.name}. There are ${final_ammo} shots remaining</p>`
@@ -395,8 +396,9 @@ export async function roll_item(message, html, expend_bennie,
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
-    const skill = get_item_skill(item, actor);
-    let extra_data = {skill: skill}
+    let skill = get_item_skill(item, actor);
+    let shots_override = -1;  // Override the number of shots used
+    let extra_data = {skill: skill};
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
     // Actions
@@ -413,6 +415,14 @@ export async function roll_item(message, html, expend_bennie,
             extra_data.modifiers = extra_data.modifiers ?
                 extra_data.modifiers.push(modifier) : [modifier];
         }
+        // noinspection JSUnresolvedVariable
+        if (action.skillOverride) {
+            skill = skill_from_string(actor, action.skillOverride);
+        }
+        // noinspection JSUnresolvedVariable
+        if (action.shotsUsed) {
+            shots_override = parseInt(action.shotsUsed);
+        }
     });
     // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
@@ -424,7 +434,7 @@ export async function roll_item(message, html, expend_bennie,
         if (actor.isWildcard) {
             rof -= 1;
         }
-        await discount_ammo(item, rof || 1);
+        await discount_ammo(item, rof || 1, shots_override);
     }
     // Power point management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length : true;
