@@ -401,10 +401,17 @@ export async function roll_item(message, html, expend_bennie,
     extra_data.rof = item.data.data.rof || 1;
     // Actions
     html.find('.brsw-action.brws-selected').each((_, element) => {
+        // noinspection JSUnresolvedVariable
         let action = item.data.data.actions.additional[element.dataset.action_id];
         console.log(action)
         if (action.rof) {
             extra_data.rof = action.rof;
+        }
+        // noinspection JSUnresolvedVariable
+        if (action.skillMod) {
+            let modifier = {name: action.name, value: parseInt(action.skillMod)};
+            extra_data.modifiers = extra_data.modifiers ?
+                extra_data.modifiers.push(modifier) : [modifier];
         }
     });
     // Check rof if avaliable

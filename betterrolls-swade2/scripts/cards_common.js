@@ -626,6 +626,13 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
                 total_modifiers += mod_value
             }
         }
+        // Options set from card
+        if (extra_data.modifiers) {
+            extra_data.modifiers.forEach(modifier => {
+                modifiers.push(modifier);
+                total_modifiers += modifier.value;
+            })
+        }
         //Conviction
         const conviction_modifier = check_and_roll_conviction(actor);
         if (conviction_modifier) {
