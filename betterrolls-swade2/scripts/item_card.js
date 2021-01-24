@@ -854,11 +854,6 @@ function manual_pp(actor) {
                         let newPP = ppv + 5
                         actor.update({ "data.powerPoints.value": Math.min(newPP, ppm)});
                         actor.spendBenny();
-                        if (game.dice3d) {
-                            const benny = new Roll('1dB').roll();
-                            // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
-                            game.dice3d.showForRoll(benny, game.user, true, null, false);
-                        }
                         ChatMessage.create({
                             speaker: {
                                 alias: name
