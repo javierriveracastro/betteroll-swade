@@ -266,15 +266,6 @@ function register_dsn_settings(){
         }
         let damage_theme_choice = Object.assign({}, theme_choice);
         damage_theme_choice['None'] = 'None';
-        game.settings.register('betterrolls-swade2', 'wildDieTheme', {
-            name: 'Wild die theme',
-            hint: "Choose a theme from Dice So Nice for the Wild Die",
-            default: "black",
-            scope: "client",
-            type: String,
-            choices: theme_choice,
-            config: true
-        });
         game.settings.register('betterrolls-swade2', 'damageDieTheme', {
             name: 'Damage dice theme',
             hint: "Choose a theme from Dice So Nice for damage dice",
