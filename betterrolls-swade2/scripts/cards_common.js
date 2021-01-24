@@ -433,7 +433,7 @@ export function trait_to_string(trait) {
  * @param {boolean} damage Tru if this is a damage roll
  */
 export function calculate_results(rolls, damage) {
-    let result;
+    let result = 0;
     rolls.forEach(roll => {
         result = roll.result - roll.tn;
         if (roll.ap) {
@@ -474,11 +474,7 @@ export function calculate_results(rolls, damage) {
             }
         }
     });
-    if (result > 0) {
-        // noinspection JSUnusedAssignment
-        return result;
-    }
-    return 0;
+    return Math.max(0, result)
 }
 
 
