@@ -4,7 +4,7 @@
 	"description": "A module to make rolling in SWADE easier for experienced players",
 	"minimumCoreVersion": "0.7.4",
 	"compatibleCoreVersion": "0.7.9",
-	"version": "1.109",
+	"version": "1.110",
 	"author": "Javier Rivera",
 	"languages": [
 		{

@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 1.110
+* Adaptations to make it work better with SWADE 0.16
+* Use of system settings for the wild die
+* Remove module settings for selecting wild die theme
+* Various minor refactoring.
+* Remove status linking code, please use SWADE Toolkit
+* Support "skill" item actions
+* Solved a bug in the logic that detected when bennies where available
+* Avoid duplication of the bennie animation on 0.16
+* Remove deprecated SSO. translations string.
+
 ## Version 1.109
 * Change the target of a damage roll
 * Add a d6 to a damage roll
