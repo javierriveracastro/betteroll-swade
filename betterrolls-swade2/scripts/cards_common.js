@@ -645,9 +645,14 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         modifiers = render_data.trait_roll.modifiers;
         modifiers.forEach(mod => {
             total_modifiers += mod.value
-        // Ugly hack, we loss all edited TNs...
-        options = {tn: render_data.trait_roll.rolls[0].tn,
-            tn_reason: render_data.trait_roll.rolls[0].tn_reason};
+        });
+        render_data.trait_roll.rolls.forEach(roll => {
+            if (roll.tn) {
+                // We hackly use tn = 0 to mark discarded dice,
+                // here we pay for it
+                options = {tn: roll.tn,
+                    tn_reason: roll.tn_reason};
+            }
         });
         render_data.trait_roll.old_rolls.push(
             render_data.trait_roll.rolls);
@@ -749,6 +754,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     }
     await update_message(message, actor, render_data)
+    console.log(render_data.trait_roll)
     return render_data.trait_roll;
 }
 
