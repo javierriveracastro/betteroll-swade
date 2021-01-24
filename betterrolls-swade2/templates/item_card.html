@@ -34,6 +34,15 @@
                 </span>
             </div>
         {{/if}}
+        {{# if actions }}
+            <div class="brws-common-modifiers">
+                {{# each actions }}
+                    <span class="brws-selectable brsw-clickable">
+                        {{ this.name }}
+                    </span>
+                {{/each}}
+            </div>
+        {{/if}}
         <div>
             <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
                 <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}

@@ -43,13 +43,25 @@ async function create_item_card(origin, item_id) {
         trait_to_string(skill.data.data) : '';
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
     let trait_roll = new BRWSRoll();
+    let actions = [];
+    // noinspection JSUnresolvedVariable
+    for (let action in item.data.data.actions.additional) {
+        // noinspection JSUnresolvedVariable
+        if (item.data.data.actions.additional.hasOwnProperty(action)) {
+            // noinspection JSUnresolvedVariable
+            actions.push(
+                {'code': action, 'name': item.data.data.actions.additional[action].name});
+        }
+    }
+    console.log(actions)
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: parseFloat(item.data.data.shots),
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: parseFloat(item.data.data.pp)}, CONST.CHAT_MESSAGE_TYPES.IC,
+            powerpoints: parseFloat(item.data.data.pp), actions: actions},
+            CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
