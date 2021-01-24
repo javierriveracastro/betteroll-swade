@@ -53,7 +53,6 @@ async function create_item_card(origin, item_id) {
                 {'code': action, 'name': item.data.data.actions.additional[action].name});
         }
     }
-    console.log(actions)
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
@@ -399,8 +398,16 @@ export async function roll_item(message, html, expend_bennie,
     const skill = get_item_skill(item, actor);
     let extra_data = {skill: skill}
     if (expend_bennie) await spend_bennie(actor);
-    // Check rof if avaliable
     extra_data.rof = item.data.data.rof || 1;
+    // Actions
+    html.find('.brsw-action.brws-selected').each((_, element) => {
+        let action = item.data.data.actions.additional[element.dataset.action_id];
+        console.log(action)
+        if (action.rof) {
+            extra_data.rof = action.rof;
+        }
+    });
+    // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
