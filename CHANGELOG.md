@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.2.8 aka likely the last one
+* Use system settings for wild die color.
+* Removal of own settings for dice so nice integration.
+* Get ready to move version 1 out of main brach.
+
 # 1.2.7 aka Let this bennies roll
 * Add animation while spending bennies if Dice So Nice is enabled.
 
