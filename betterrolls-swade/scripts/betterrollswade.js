@@ -112,24 +112,6 @@ function register_settings() {
 		type: Boolean,
 		config: true
 	});
-	// noinspection JSFileReferences
-	import('../../dice-so-nice/DiceColors.js').then(dsn => {
-		let theme_choice = {};
-		for (let theme in dsn.COLORSETS) {
-			if (dsn.COLORSETS.hasOwnProperty(theme)) {
-				theme_choice[theme] = theme;
-			}
-		}
-		game.settings.register('betterrolls-swade', 'wildDieTheme', {
-			name: 'Wild die theme',
-			hint: "Choose a theme from Dice So Nice for the Wild Die",
-			default: "fire",
-			scope: "client",
-			type: String,
-			choices: theme_choice,
-			config: true
-		})
-	}).catch(()=>{console.log('Dice So Nice not installed')});
 }
 
 function calculate_result(id_roll, html) {

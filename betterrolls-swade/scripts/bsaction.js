@@ -253,7 +253,7 @@ export class brAction {
                                 type: `d${dice.faces}`,
                                 options: index<roll_array.length - 1?{}:
                                     {'colorset': game.settings.get(
-                                        'betterrolls-swade', 'wildDieTheme')},
+                                        'swade', 'dsnWildDie')},
                                 vectors: []});
                     }
                     if (roll.exploded) {
