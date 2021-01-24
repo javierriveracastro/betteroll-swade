@@ -252,7 +252,7 @@ export function make_item_footer(item) {
         }
         footer.push(locations)
     } else if (item.type === "shield") {
-        footer.push(game.i18n.localize("SSO.Parry") + ": " + item.data.data.parry);
+        footer.push(game.i18n.localize("SWADE.Parry") + ": " + item.data.data.parry);
         // noinspection JSUnresolvedVariable
         footer.push(game.i18n.localize("SWADE.Cover") + ": " + item.data.data.cover);
     }
@@ -623,7 +623,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         if (term.hasOwnProperty('faces')) {
             let new_die = {faces: term.faces, results: [],
                 extra_class: '',
-                label: game.i18n.localize("SSO.Dmg") + `(${formula})`};
+                label: game.i18n.localize("SWADE.Dmg") + `(${formula})`};
             if (term.total > term.faces) {
                 new_die.extra_class = ' brsw-blue-text';
                 if (!damage_roll.brswroll.rolls[0].extra_class) {
@@ -639,7 +639,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 let modifier_value = parseInt(last_string_term + term);
                 if (modifier_value) {
                     damage_roll.brswroll.modifiers.push({'value': modifier_value,
-                        'name': game.i18n.localize("SSO.Dmg") + `(${formula})`});
+                        'name': game.i18n.localize("SWADE.Dmg") + `(${formula})`});
                     total_modifiers += modifier_value;
                 }
             }
@@ -691,7 +691,7 @@ function add_damage_dice(message, index) {
         let new_die = {
             faces: term.faces, results: [],
             extra_class: '',
-            label: game.i18n.localize("SSO.Dmg")
+            label: game.i18n.localize("SWADE.Dmg")
         };
         if (term.total > term.faces) {
             new_die.extra_class = ' brsw-blue-text';

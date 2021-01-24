@@ -170,7 +170,7 @@ export function get_tn_from_token(skill, token) {
     let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
         modifiers:[]};
     if (is_skill_fighting(skill)) {
-        tn.reason = `${game.i18n.localize("SSO.Parry")} - ${token.name}`;
+        tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${token.name}`;
         tn.value = parseInt(token.actor.data.data.stats.parry.value);
     }
     // noinspection JSUnresolvedVariable
