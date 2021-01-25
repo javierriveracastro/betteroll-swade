@@ -584,6 +584,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let total_modifiers = 0;
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
+    let roll_formula = item.data.data.damage;
     // Betterrolls modifiers
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     options.dmgMods.forEach(mod => {
@@ -599,9 +600,25 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push({
             name: game.i18n.localize("BRSW.ItemMod"),
             value: mod_value
-        })
+        });
         total_modifiers += mod_value
     }
+    // Actions
+    html.find('.brsw-action.brws-selected').each((_, element) => {
+        // noinspection JSUnresolvedVariable
+        let action = item.data.data.actions.additional[element.dataset.action_id];
+        console.log(action)
+        // noinspection JSUnresolvedVariable
+        const intDmgMod = parseInt(action.dmgMod)
+        if (intDmgMod) {
+            damage_roll.brswroll.modifiers.push(
+                {name: action.name, value: intDmgMod});
+            total_modifiers += intDmgMod
+        }
+        if (action.dmgOverride) {
+            roll_formula = action.dmgOverride;
+        }
+    });
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
     if (conviction_modifier) {
@@ -609,7 +626,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += conviction_modifier.value;
     }
     // Roll
-    let formula = makeExplotable(item.data.data.damage)
+    let formula = makeExplotable(roll_formula);
     let roll = new Roll(raise ? formula + "+1d6x" : formula,
         actor.getRollShortcuts());
     roll.evaluate();
