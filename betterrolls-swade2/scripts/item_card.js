@@ -141,7 +141,7 @@ export function activate_item_listeners(app, html) {
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
-    let item_li = html.find('.gear-card.item, .item.flexrow')
+    let item_li = html.find('.gear-card.item, .item.flexrow, .power.item')
     item_li.attr('draggable', 'true');
     item_li.bindFirst('dragstart',async ev => {
         const item_id = ev.currentTarget.dataset.itemId;
@@ -402,28 +402,30 @@ export async function roll_item(message, html, expend_bennie,
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
     // Actions
-    html.find('.brsw-action.brws-selected').each((_, element) => {
-        // noinspection JSUnresolvedVariable
-        let action = item.data.data.actions.additional[element.dataset.action_id];
-        console.log(action)
-        if (action.rof) {
-            extra_data.rof = action.rof;
-        }
-        // noinspection JSUnresolvedVariable
-        if (action.skillMod) {
-            let modifier = {name: action.name, value: parseInt(action.skillMod)};
-            extra_data.modifiers = extra_data.modifiers ?
-                extra_data.modifiers.push(modifier) : [modifier];
-        }
-        // noinspection JSUnresolvedVariable
-        if (action.skillOverride) {
-            skill = skill_from_string(actor, action.skillOverride);
-        }
-        // noinspection JSUnresolvedVariable
-        if (action.shotsUsed) {
-            shots_override = parseInt(action.shotsUsed);
-        }
-    });
+    if (html) {
+        html.find('.brsw-action.brws-selected').each((_, element) => {
+            // noinspection JSUnresolvedVariable
+            let action = item.data.data.actions.additional[element.dataset.action_id];
+            console.log(action)
+            if (action.rof) {
+                extra_data.rof = action.rof;
+            }
+            // noinspection JSUnresolvedVariable
+            if (action.skillMod) {
+                let modifier = {name: action.name, value: parseInt(action.skillMod)};
+                extra_data.modifiers = extra_data.modifiers ?
+                    extra_data.modifiers.push(modifier) : [modifier];
+            }
+            // noinspection JSUnresolvedVariable
+            if (action.skillOverride) {
+                skill = skill_from_string(actor, action.skillOverride);
+            }
+            // noinspection JSUnresolvedVariable
+            if (action.shotsUsed) {
+                shots_override = parseInt(action.shotsUsed);
+            }
+        });
+    }
     // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
