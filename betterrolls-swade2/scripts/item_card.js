@@ -500,13 +500,19 @@ function manual_ammo(weapon, actor) {
                 label: game.i18n.localize("BRSW.Reload"),
                 callback: (html) => {
                     // If the quantity of ammo is less than the amount required, use whatever is left.
+                    let item = actor.getOwnedItem(weapon.id);
+                    let ammo = actor.items.find(possible_ammo => {
+                        return possible_ammo.name === item.data.data.ammo
+                    })
                     let number = Number(html.find("#num")[0].value);
                     let max_ammo = parseInt(weapon.data.data.shots);
                     // noinspection JSUnresolvedVariable
                     let current_ammo = parseInt(weapon.data.data.currentShots);
-                    let newCharges =  Math.min(max_ammo, current_ammo + number);
+                    let newCharges =  Math.min(max_ammo, current_ammo + number,
+                        ammo.data.data.quantity);
                     const updates = [
                         {_id: weapon.id, "data.currentShots": `${newCharges}`},
+                        {_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges}
                     ];
                     // noinspection JSIgnoredPromiseFromCall
                     actor.updateOwnedItem(updates);
@@ -687,7 +693,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Remove result card leftover code
     // TODO: Remove ammo chat card???
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
     await update_message(message, actor, render_data);
