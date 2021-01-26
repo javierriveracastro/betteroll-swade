@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.111 aka So close to release is time to bring comments back
+* Bug: Result as misscalculated in some situations
+* Support for damage actions on items.
+* Drag and drop support from powers outside quick acess
+* Support amunition field in weapon.
+
 ## Version 1.110
 * Adaptations to make it work better with SWADE 0.16
 * Use of system settings for the wild die
