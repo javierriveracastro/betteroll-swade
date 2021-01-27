@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.112 aka you didn't need to reload don't you.
+* Big bug: Ammo management was completely broken by yesterday update
+* Various fixes to ammo management
+* Option to make ammo management optional by default (you can still activate it in the card)
+* Solved a bug that lose description links on card update.
+
 ## Version 1.111 aka So close to release is time to bring comments back
 * Bug: Result as misscalculated in some situations
 * Support for damage actions on items.
