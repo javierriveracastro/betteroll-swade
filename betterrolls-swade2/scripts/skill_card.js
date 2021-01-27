@@ -102,7 +102,6 @@ export function activate_skill_listeners(app, html) {
         const actor_id = app.object ? app.object.id : '';
         const actor = game.actors.get(actor_id);
         const item = actor.getOwnedItem(skill_id);
-        console.log(item)
         let macro_data = {name: `${actor.name}: ${item.name}`, type: "script",
             scope: "global", img: item.img};
         macro_data.command = `game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}').then(

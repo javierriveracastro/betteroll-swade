@@ -754,7 +754,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     }
     await update_message(message, actor, render_data)
-    console.log(render_data.trait_roll)
     return render_data.trait_roll;
 }
 

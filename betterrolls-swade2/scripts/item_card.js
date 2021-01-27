@@ -406,7 +406,6 @@ export async function roll_item(message, html, expend_bennie,
         html.find('.brsw-action.brws-selected').each((_, element) => {
             // noinspection JSUnresolvedVariable
             let action = item.data.data.actions.additional[element.dataset.action_id];
-            console.log(action)
             if (action.rof) {
                 extra_data.rof = action.rof;
             }
@@ -620,7 +619,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     html.find('.brsw-action.brws-selected').each((_, element) => {
         // noinspection JSUnresolvedVariable
         let action = item.data.data.actions.additional[element.dataset.action_id];
-        console.log(action)
         // noinspection JSUnresolvedVariable
         const intDmgMod = parseInt(action.dmgMod)
         if (intDmgMod) {
