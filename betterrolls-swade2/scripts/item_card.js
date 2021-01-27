@@ -504,16 +504,21 @@ function manual_ammo(weapon, actor) {
                     let ammo = actor.items.find(possible_ammo => {
                         return possible_ammo.name === item.data.data.ammo
                     })
+                    let ammo_quantity = 999999999;
+                    if (ammo) {
+                        ammo_quantity = ammo.data.data.quantity;
+                    }
                     let number = Number(html.find("#num")[0].value);
                     let max_ammo = parseInt(weapon.data.data.shots);
                     // noinspection JSUnresolvedVariable
                     let current_ammo = parseInt(weapon.data.data.currentShots);
                     let newCharges =  Math.min(max_ammo, current_ammo + number,
-                        ammo.data.data.quantity);
-                    const updates = [
-                        {_id: weapon.id, "data.currentShots": `${newCharges}`},
-                        {_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges}
-                    ];
+                        ammo_quantity);
+                    let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
+                    if (ammo) {
+                        // noinspection JSCheckFunctionSignatures
+                        updates.push({_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges + current_ammo});
+                    }
                     // noinspection JSIgnoredPromiseFromCall
                     actor.updateOwnedItem(updates);
                     // noinspection JSIgnoredPromiseFromCall
