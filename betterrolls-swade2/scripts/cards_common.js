@@ -492,7 +492,8 @@ export async function update_message(message, actor, render_data) {
         render_data.skill = get_item_skill(item, actor);
     }
     create_render_options(actor, render_data);
-    const new_content = await renderTemplate(template, render_data);
+    let new_content = await renderTemplate(template, render_data);
+    new_content = TextEditor.enrichHTML(new_content, {});
     await message.update({content: new_content});
     await store_render_flag(message, render_data);
 }
