@@ -765,7 +765,7 @@ function apply_damage(token, damage) {
     }
     let wounds = Math.floor(damage / 4);
     // noinspection JSUnresolvedVariable
-    if (damage < 1 && token.actor.data.data.status.isShaken) {
+    if (wounds < 1 && token.actor.data.data.status.isShaken) {
         // Shaken twice
         wounds = 1;
     }
