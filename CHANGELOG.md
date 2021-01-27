@@ -1,5 +1,8 @@
 # Changelog
 
+# Version 1.113 aka Stealth BugSolving
+* Double shaken was not working right.
+
 ## Version 1.112 aka you didn't need to reload don't you.
 * Big bug: Ammo management was completely broken by yesterday update
 * Various fixes to ammo management
