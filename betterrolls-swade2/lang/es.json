@@ -95,5 +95,8 @@
     "BRSW.MultiResults": "Resultados multiples",
   	"BRSW.ApplyDamage": "Aplicar daño",
     "BRSW.TGTargetSelected": "Obtener dureza de los objetivos o la selección",
-  	"BRSW.AddD6Damage": "Añadir un d6 al daño"
+  	"BRSW.AddD6Damage": "Añadir un d6 al daño",
+  	"BRSW.AddD6Damage": "Add a d6 to damage",
+	"BRSW.AmmoManagement": "Modo de gestión de munición por defecto",
+	"BRSW.AmmoManagementHint": "Al marcar esta opción restar munición aparecerá marcado por defecto"
 }

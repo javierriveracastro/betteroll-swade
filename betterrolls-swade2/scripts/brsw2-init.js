@@ -223,7 +223,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
-
+    game.settings.register('betterrolls-swade2', 'default-ammo-management', {
+        name: game.i18n.localize('BRSW.AmmoManagement'),
+        hint: game.i18n.localize('BRSW.AmmoManagementHint'),
+        default: true,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.
