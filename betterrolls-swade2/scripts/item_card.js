@@ -7,6 +7,7 @@ import {
 } from "./cards_common.js";
 import {FIGHTING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
+import {create_damage_card} from "./damage_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -196,8 +197,9 @@ export function activate_item_card_listeners(message, html) {
         manual_pp(actor);
     });
    html.find('.brsw-apply-damage').click((ev) => {
-       apply_damage(ev.currentTarget.dataset.token,
-           ev.currentTarget.dataset.damage);
+       create_damage_card(ev.currentTarget.dataset.token,
+           ev.currentTarget.dataset.damage,
+           `${actor.name} - ${item.name}`);
    });
    html.find('.brsw-target-tough').click(ev => {
       edit_tougness(message, ev.currentTarget.dataset.index);
@@ -750,42 +752,6 @@ function add_damage_dice(message, index) {
     // noinspection JSIgnoredPromiseFromCall
     update_message(message, actor, render_data)
 }
-
-
-/**
- * Applies damage to a token
- * @param token
- * @param damage
- */
-function apply_damage(token, damage) {
-    if (damage < 0) return;
-    if (!token.hasOwnProperty('actor')) {
-        // If this is not a token then it is a token id
-        token = canvas.tokens.get(token);
-    }
-    let wounds = Math.floor(damage / 4);
-    // noinspection JSUnresolvedVariable
-    if (wounds < 1 && token.actor.data.data.status.isShaken) {
-        // Shaken twice
-        wounds = 1;
-    }
-    const final_wounds = token.actor.data.data.wounds.value + wounds;
-    if (final_wounds > token.actor.data.data.wounds.max) {
-        token.actor.update({'data.wounds.value': token.actor.data.data.wounds.max});
-    } else {
-        token.actor.update({'data.wounds.value': final_wounds});
-    }
-    token.actor.update({'data.status.isShaken': true});
-    // noinspection JSIgnoredPromiseFromCall
-    ChatMessage.create({
-        speaker: {
-            alias: token.name
-        },
-        content: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
-            `${token.name} is now shaken`
-    });
-}
-
 
 
 /**

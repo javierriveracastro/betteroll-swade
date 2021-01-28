@@ -1,0 +1,10 @@
+{{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
+<hr>
+<div class="brsw-form">
+    {{{ text }}}
+</div>
+{{# if trait_roll.rolls }}
+    {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
+    {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
+{{/if}}
+{{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}
