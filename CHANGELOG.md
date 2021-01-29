@@ -1,5 +1,9 @@
 # Changelog
 
+# Version 1.114 aka New cards join the show.
+* Damage card with ability to undo damage
+* Better message data hiding logic.
+
 # Version 1.113 aka Stealth BugSolving
 * Double shaken was not working right.
 
