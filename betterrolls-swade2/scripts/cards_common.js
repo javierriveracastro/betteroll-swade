@@ -493,6 +493,7 @@ export async function update_message(message, actor, render_data) {
     }
     create_render_options(actor, render_data);
     let new_content = await renderTemplate(template, render_data);
+    // noinspection JSCheckFunctionSignatures
     new_content = TextEditor.enrichHTML(new_content, {});
     await message.update({content: new_content});
     await store_render_flag(message, render_data);
@@ -640,6 +641,12 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             modifiers.push(conviction_modifier);
             total_modifiers += conviction_modifier.value
         }
+        // Joker
+        if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
+            modifiers.push({name: 'Joker', value: 2});
+            total_modifiers += 2;
+        }
+        console.log(has_joker(message.getFlag('betterrolls-swade2', 'token')))
     } else {
         // Reroll, keep old options
         rof = render_data.trait_roll.rolls.length - 1;
@@ -649,7 +656,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         });
         render_data.trait_roll.rolls.forEach(roll => {
             if (roll.tn) {
-                // We hackly use tn = 0 to mark discarded dice,
+                // We hacky use tn = 0 to mark discarded dice,
                 // here we pay for it
                 options = {tn: roll.tn,
                     tn_reason: roll.tn_reason};
@@ -940,4 +947,21 @@ function get_tn_from_target(message, index, selected) {
             edit_tn(message, index, target.value, target.reason)
         }
     }
+}
+
+
+function has_joker(token_id) {
+    let joker = false;
+    game.combat?.combatants.forEach(combatant => {
+        if (combatant.tokenId === token_id) {
+            const swade_value = combatant.flags.swade.cardValue;
+            console.log(swade_value)
+            console.log(swade_value > 95)
+            console.log(swade_value >= 95)
+            if (swade_value >= 95) {
+                joker = true;
+            }
+        }
+    });
+    return joker;
 }
