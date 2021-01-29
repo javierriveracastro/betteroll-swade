@@ -2,6 +2,10 @@
 <hr>
 <div>
     {{{ text }}}
+
+    <button class="brsw-form brsw-row-button brsw-undo-damage" title="{{ localize "BRSW.UndoDamage" }}">
+        <i class="fas fa-undo"></i>
+    </button>
 </div>
 {{# if trait_roll.rolls }}
     {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}

@@ -97,5 +97,6 @@
 	"BRSW.TGTargetSelected": "Get tougness from target or selected token",
 	"BRSW.AddD6Damage": "Add a d6 to damage",
 	"BRSW.AmmoManagement": "Subtract ammo by default",
-	"BRSW.AmmoManagementHint": "When marked Subtract ammo will be selected by default"
+	"BRSW.AmmoManagementHint": "When marked Subtract ammo will be selected by default",
+	"BRSW.UndoDamage": "Undo damage"
 }

@@ -7,6 +7,7 @@ import {skill_card_hooks, activate_skill_listeners,
     activate_skill_card_listeners} from './skill_card.js';
 import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
+import {activate_damage_card_listeners} from "./damage_card.js";
 
 // Startup scripts
 
@@ -66,6 +67,8 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_skill_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             activate_item_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_DMG_CARD) {
+            activate_damage_card_listeners(message, html);
         }
         // Hide forms to non master, non owner
         if (game.user.id !== message.data.user && !game.user.isGM) {
