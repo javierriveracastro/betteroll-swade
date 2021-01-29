@@ -28,6 +28,8 @@ export async function create_damage_card(token_id, damage, damage_text) {
             notes: damage_text}, text: text, footer: footer,
             trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
+    console.log(message)
+    await message.update({user: user._id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message

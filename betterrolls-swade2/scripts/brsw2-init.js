@@ -68,7 +68,7 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_item_card_listeners(message, html);
         }
         // Hide forms to non master, non owner
-        if (game.user.id !== message.user.id && !game.user.isGM) {
+        if (game.user.id !== message.data.user && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
         // Hide master only sections
