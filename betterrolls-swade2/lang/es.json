@@ -100,5 +100,6 @@
 	"BRSW.AmmoManagement": "Modo de gestión de munición por defecto",
 	"BRSW.AmmoManagementHint": "Al marcar esta opción restar munición aparecerá marcado por defecto",
     "BRSW.UndoDamage": "Deshacer el daño",
-  	"BRSW.SoakRoll": "Absorber (Vigor)"
+  	"BRSW.SoakRoll": "Absorber (Vigor)",
+  	"BRSW.RemoveWounds": "Eliminar modificador heridas"
 }

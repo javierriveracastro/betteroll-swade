@@ -1,7 +1,8 @@
 // Functions for the damage card
+import {
+    BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
+    roll_trait, spend_bennie} from "./cards_common.js";
 
-
-import {BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available} from "./cards_common.js";
 
 /**
  * Shows a damage card and applies damage to the token/actor
@@ -35,6 +36,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
+    await message.setFlag('betterrolls-swade2', 'attribute_id', 'vigor');
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message
@@ -43,6 +45,10 @@ export async function create_damage_card(token_id, damage, damage_text) {
 }
 
 
+/**
+ * Gets the owner of an actor
+ * @param {SwadeActor} actor
+ */
 function get_owner(actor) {
     let player;
     let gm;
@@ -57,6 +63,7 @@ function get_owner(actor) {
     })
     return player || gm;
 }
+
 
 /**
  * Applies damage to a token
@@ -112,5 +119,25 @@ async function undo_damage(message){
 export function activate_damage_card_listeners(message, html) {
     html.find('.brsw-undo-damage').click(async () =>{
         await undo_damage(message);
-    })
+    });
+    html.find('.brsw-soak-button').click(() =>{
+        roll_soak(message);
+    });
+}
+
+/**
+ * Males a soak roll
+ * @param {ChatMessage} message
+ */
+async function roll_soak(message) {
+    // TODO: Save somewhere the wounds made.
+    // TODO: Use this wounds in the modifier
+    // TODO: Apply results of the soak roll and store them
+    // TODO: Manage rerolls.
+    const actor = get_actor_from_message(message);
+    await spend_bennie(actor);
+    await roll_trait(message, actor.data.data.attributes.vigor, game.i18n.localize(
+        "BRSW.SoakRoll"), '',
+        {modifiers:[{name: game.i18n.localize("BRSW.RemoveWounds"),
+            value: 2}]});
 }

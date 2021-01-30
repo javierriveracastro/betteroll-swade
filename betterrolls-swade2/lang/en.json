@@ -99,5 +99,6 @@
 	"BRSW.AmmoManagement": "Subtract ammo by default",
 	"BRSW.AmmoManagementHint": "When marked Subtract ammo will be selected by default",
 	"BRSW.UndoDamage": "Undo damage",
-	"BRSW.SoakRoll": "Soak (Vigor) roll"
+	"BRSW.SoakRoll": "Soak (Vigor) roll",
+	"BRSW.RemoveWounds": "Remove wound modifier"
 }
