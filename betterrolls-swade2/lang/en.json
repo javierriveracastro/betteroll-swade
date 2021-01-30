@@ -98,5 +98,6 @@
 	"BRSW.AddD6Damage": "Add a d6 to damage",
 	"BRSW.AmmoManagement": "Subtract ammo by default",
 	"BRSW.AmmoManagementHint": "When marked Subtract ammo will be selected by default",
-	"BRSW.UndoDamage": "Undo damage"
+	"BRSW.UndoDamage": "Undo damage",
+	"BRSW.SoakRoll": "Soak (Vigor) roll"
 }

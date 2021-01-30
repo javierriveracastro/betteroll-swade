@@ -1,7 +1,7 @@
 // Functions for the damage card
 
 
-import {BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, update_message} from "./cards_common.js";
+import {BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available} from "./cards_common.js";
 
 /**
  * Shows a damage card and applies damage to the token/actor
@@ -30,7 +30,9 @@ export async function create_damage_card(token_id, damage, damage_text) {
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
-        trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+        trait_roll: trait_roll,
+        soak_possible: (actor.isWildcard && are_bennies_available(actor) && damage > 3)},
+        CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
     await message.setFlag('betterrolls-swade2', 'card_type',
@@ -98,7 +100,7 @@ async function undo_damage(message){
     console.log(render_data)
     await actor.update({"data.wounds.value": render_data.undo_values.wounds,
         "data.status.isShaken": render_data.undo_values.shaken});
-    message.delete();
+    await message.delete();
 }
 
 

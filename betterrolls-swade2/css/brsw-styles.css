@@ -291,3 +291,9 @@
     margin: 4px;
     padding: 4px;
 }
+
+/* Damage card */
+.brws-soak-benny {
+    float: left;
+    height: 2em;
+}

@@ -128,7 +128,7 @@ export function create_render_options(actor, options) {
  * Returns true if an actor has bennies available or is master controlled.
  * @param {Actor} actor: The actor that we are checking
  */
-function are_bennies_available(actor) {
+export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
         return (actor.data.data.bennies.value > 0);
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {

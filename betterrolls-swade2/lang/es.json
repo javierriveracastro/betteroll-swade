@@ -99,5 +99,6 @@
   	"BRSW.AddD6Damage": "Add a d6 to damage",
 	"BRSW.AmmoManagement": "Modo de gestión de munición por defecto",
 	"BRSW.AmmoManagementHint": "Al marcar esta opción restar munición aparecerá marcado por defecto",
-    "BRSW.UndoDamage": "Deshacer el daño"
+    "BRSW.UndoDamage": "Deshacer el daño",
+  	"BRSW.SoakRoll": "Absorber (Vigor)"
 }
