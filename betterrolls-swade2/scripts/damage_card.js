@@ -1,7 +1,8 @@
 // Functions for the damage card
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
-    roll_trait, spend_bennie} from "./cards_common.js";
+    roll_trait, spend_bennie, update_message
+} from "./cards_common.js";
 
 
 /**
@@ -17,8 +18,8 @@ export async function create_damage_card(token_id, damage, damage_text) {
     // noinspection JSUnresolvedVariable
     let undo_values = {wounds: actor.data.data.wounds.value,
         shaken: actor.data.data.status.isShaken};
-    const results = await apply_damage(token, damage);
-    const text = results.text
+    const wounds = Math.floor(damage / 4)
+    const text = await apply_damage(token, wounds, 0);
     let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
     for (let status in actor.data.data.status) {
         // noinspection JSUnfilteredForInLoop
@@ -28,12 +29,12 @@ export async function create_damage_card(token_id, damage, damage_text) {
         }
     }
     let trait_roll = new BRWSRoll();
-    let message = await create_common_card(actor,
+    let message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
-        trait_roll: trait_roll, wounds: results.wounds,
-        soak_possible: (actor.isWildcard && are_bennies_available(actor) && results.wounds)},
+        trait_roll: trait_roll, wounds: wounds, soaked: 0,
+        soak_possible: (actor.isWildcard && are_bennies_available(actor) && wounds)},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
@@ -41,7 +42,6 @@ export async function create_damage_card(token_id, damage, damage_text) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message
-    // TODO: Soak rolls
     // TODO: Remove conditions from footer???
 }
 
@@ -69,30 +69,41 @@ function get_owner(actor) {
 /**
  * Applies damage to a token
  * @param token
- * @param damage
+ * @param {int} wounds
+ * @param {int} soaked
  */
-async function apply_damage(token, damage) {
-    if (damage < 0) return;
+async function apply_damage(token, wounds, soaked=0) {
+    if (wounds < 0) return;
     if (!token.hasOwnProperty('actor')) {
         // If this is not a token then it is a token id
         token = canvas.tokens.get(token);
     }
-    let wounds = Math.floor(damage / 4);
     // noinspection JSUnresolvedVariable
     if (wounds < 1 && token.actor.data.data.status.isShaken) {
         // Shaken twice
         wounds = 1;
     }
-    const final_wounds = token.actor.data.data.wounds.value + wounds;
+    const damage_taken = Math.max(0, wounds - soaked);
+    const final_wounds = token.actor.data.data.wounds.value + damage_taken;
     if (final_wounds > token.actor.data.data.wounds.max) {
         await token.actor.update({'data.wounds.value': token.actor.data.data.wounds.max});
     } else {
         await token.actor.update({'data.wounds.value': final_wounds});
     }
-    await token.actor.update({'data.status.isShaken': true});
+    if (final_wounds > 0) {
+        await token.actor.update({'data.status.isShaken': true});
+    }
+    let text = wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
+        `<p>${token.name} has been shaken</p>`;
+    if (soaked) {
+        if (damage_taken <= 0) {
+            text += "<p>but soaked all wounds, removing shaken</p>"
+        } else {
+            text += `<p>But if have soaked ${soaked} wound(s)</p>`
+        }
+    }
     // noinspection JSIgnoredPromiseFromCall
-    return  {text: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
-            `${token.name} is now shaken`, wounds: wounds};
+    return text;
 }
 
 
@@ -101,11 +112,9 @@ async function apply_damage(token, damage) {
  * @param {ChatMessage} message
  */
 async function undo_damage(message){
-    console.log(message)
     const actor = get_actor_from_message(message);
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
-    console.log(render_data)
     await actor.update({"data.wounds.value": render_data.undo_values.wounds,
         "data.status.isShaken": render_data.undo_values.shaken});
     await message.delete();
@@ -122,6 +131,7 @@ export function activate_damage_card_listeners(message, html) {
         await undo_damage(message);
     });
     html.find('.brsw-soak-button').click(() =>{
+        // noinspection JSIgnoredPromiseFromCall
         roll_soak(message);
     });
 }
@@ -131,14 +141,26 @@ export function activate_damage_card_listeners(message, html) {
  * @param {ChatMessage} message
  */
 async function roll_soak(message) {
-    // TODO: Save somewhere the wounds made.
-    // TODO: Use this wounds in the modifier
-    // TODO: Apply results of the soak roll and store them
     // TODO: Manage rerolls.
+    const render_data = message.getFlag('betterrolls-swade2',
+        'render_data');
     const actor = get_actor_from_message(message);
     await spend_bennie(actor);
-    await roll_trait(message, actor.data.data.attributes.vigor, game.i18n.localize(
-        "BRSW.SoakRoll"), '',
-        {modifiers:[{name: game.i18n.localize("BRSW.RemoveWounds"),
-            value: 2}]});
+    const roll = await roll_trait(message,
+        actor.data.data.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
+        '', {modifiers:[
+            {name: game.i18n.localize("BRSW.RemoveWounds"), value: 2}]});
+    let result = 0;
+    roll.rolls.forEach(roll => {
+        result = Math.max(roll.result, result);
+    })
+    if (result > 4) {
+        render_data.soaked = Math.floor(result / 4);
+        await actor.update({"data.wounds.value": render_data.undo_values.wounds,
+            "data.status.isShaken": render_data.undo_values.shaken});
+        render_data.text = (await apply_damage(message.getFlag(
+            'betterrolls-swade2', 'token'), render_data.wounds,
+            render_data.soaked));
+        await update_message(message, actor, render_data);
+    }
 }

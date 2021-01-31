@@ -646,7 +646,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             modifiers.push({name: 'Joker', value: 2});
             total_modifiers += 2;
         }
-        console.log(has_joker(message.getFlag('betterrolls-swade2', 'token')))
     } else {
         // Reroll, keep old options
         rof = render_data.trait_roll.rolls.length - 1;
