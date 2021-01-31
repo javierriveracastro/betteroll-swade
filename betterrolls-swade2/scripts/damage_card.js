@@ -17,7 +17,8 @@ export async function create_damage_card(token_id, damage, damage_text) {
     // noinspection JSUnresolvedVariable
     let undo_values = {wounds: actor.data.data.wounds.value,
         shaken: actor.data.data.status.isShaken};
-    let text = await apply_damage(token, damage);
+    const results = await apply_damage(token, damage);
+    const text = results.text
     let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
     for (let status in actor.data.data.status) {
         // noinspection JSUnfilteredForInLoop
@@ -31,8 +32,8 @@ export async function create_damage_card(token_id, damage, damage_text) {
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
-        trait_roll: trait_roll,
-        soak_possible: (actor.isWildcard && are_bennies_available(actor) && damage > 3)},
+        trait_roll: trait_roll, wounds: results.wounds,
+        soak_possible: (actor.isWildcard && are_bennies_available(actor) && results.wounds)},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
@@ -90,8 +91,8 @@ async function apply_damage(token, damage) {
     }
     await token.actor.update({'data.status.isShaken': true});
     // noinspection JSIgnoredPromiseFromCall
-    return  wounds ? `${wounds} wound(s) has been added to ${token.name}` :
-            `${token.name} is now shaken`;
+    return  {text: wounds ? `${wounds} wound(s) has been added to ${token.name}` :
+            `${token.name} is now shaken`, wounds: wounds};
 }
 
 
