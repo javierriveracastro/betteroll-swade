@@ -1,5 +1,9 @@
 # Changelog
 
+# Version 1.115 aka Not at all playing catch up with Swade Tools
+* Soak rolls
+* Characters in combat that have been giving a Joker gets a +2 bonus
+
 # Version 1.114 aka New cards join the show.
 * Damage card with ability to undo damage
 * Better message data hiding logic.
