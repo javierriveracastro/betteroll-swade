@@ -130,7 +130,7 @@ export function activate_damage_card_listeners(message, html) {
     html.find('.brsw-undo-damage').click(async () =>{
         await undo_damage(message);
     });
-    html.find('.brsw-soak-button').click(() =>{
+    html.find('.brsw-soak-button, .brsw-roll-button').click(() =>{
         // noinspection JSIgnoredPromiseFromCall
         roll_soak(message);
     });
@@ -141,7 +141,6 @@ export function activate_damage_card_listeners(message, html) {
  * @param {ChatMessage} message
  */
 async function roll_soak(message) {
-    // TODO: Manage rerolls.
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
     const actor = get_actor_from_message(message);
@@ -153,6 +152,12 @@ async function roll_soak(message) {
     let result = 0;
     roll.rolls.forEach(roll => {
         result = Math.max(roll.result, result);
+    })
+    roll.old_rolls.forEach(old_roll => {
+        old_roll.forEach(roll => {
+            console.log(roll)
+            result = Math.max(roll.result, result);
+        })
     })
     if (result > 4) {
         render_data.soaked = Math.floor(result / 4);
