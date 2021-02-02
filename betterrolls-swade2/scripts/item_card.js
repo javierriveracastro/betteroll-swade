@@ -517,7 +517,7 @@ function manual_ammo(weapon, actor) {
                     // noinspection JSUnresolvedVariable
                     let current_ammo = parseInt(weapon.data.data.currentShots);
                     let newCharges =  Math.min(max_ammo, current_ammo + number,
-                        ammo_quantity);
+                        current_ammo + ammo_quantity);
                     let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
                     if (ammo) {
                         // noinspection JSCheckFunctionSignatures
