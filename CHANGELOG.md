@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.9 aka Never say never 
+* Support for Dice So Nice settings in SWADE 0.16.3
+
 # 1.2.8 aka likely the last one
 * Use system settings for wild die color.
 * Removal of own settings for dice so nice integration.
