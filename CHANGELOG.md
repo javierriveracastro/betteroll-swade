@@ -1,5 +1,9 @@
 # Changelog
 
+# Version 1.116 aka Moving settins
+* Support for Dice So Nice and SWADE 0.16.2
+* Hitting return in the ammo or power points management menu should reload foundry.
+
 # Version 1.115 aka Not at all playing catch up with Swade Tools
 * Soak rolls
 * Characters in combat that have been giving a Joker gets a +2 bonus
