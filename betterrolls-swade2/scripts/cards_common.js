@@ -738,8 +738,17 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         render_data.trait_roll.is_fumble = dice[dice.length - 1].results[0] === 1;
     }
     if (game.dice3d) {
-        roll.dice[roll.dice.length - 1].options.colorset = game.settings.get(
-            'swade', 'dsnWildDie');
+        let wild_die_theme;
+        try {
+            // Swade 16
+            wild_die_theme = game.settings.get('swade', 'dsnWildDie');
+        } catch (_) {
+            // Swade 16.0.3
+            wild_die_theme = game.user.getFlag('swade', 'dsnWildDie') || "none";
+        }
+        if (wild_die_theme !== 'none') {
+            roll.dice[roll.dice.length - 1].options.colorset = wild_die_theme;
+        }
         let users = null;
         if (message.data.whisper.length > 0) {
             users = message.data.whisper;
