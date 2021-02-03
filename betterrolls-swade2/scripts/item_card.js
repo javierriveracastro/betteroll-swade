@@ -471,6 +471,7 @@ function manual_ammo(weapon, actor) {
                     <input id="num" name="num" type="number" min="0" value="1">
                 </div>
             </form>`,
+        default: 'one',
         buttons: {
             one: {
                 label: game.i18n.localize("BRSW.Shooting"),
@@ -795,6 +796,7 @@ function manual_pp(actor) {
                 <input id="num" name="num" type="number" min="0" value="5">
             </div>
         </form>`,
+        default: 'one',
         buttons: {
             one: {
                 label: game.i18n.localize("BRSW.ExpendPP"),
