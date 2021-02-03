@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.2.10 ake Never make jokes with Never say Never
+* Really support Dice So Nice settins in SWADE 0.16.3
+
 # 1.2.9 aka Never say never 
 * Support for Dice So Nice settings in SWADE 0.16.3
 
