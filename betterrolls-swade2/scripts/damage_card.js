@@ -34,7 +34,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
         trait_roll: trait_roll, wounds: wounds, soaked: 0,
-        soak_possible: (actor.isWildcard && are_bennies_available(actor) && wounds)},
+        soak_possible: (are_bennies_available(actor) && wounds)},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
