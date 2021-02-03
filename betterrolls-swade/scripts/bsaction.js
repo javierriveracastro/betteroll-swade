@@ -246,14 +246,20 @@ export class brAction {
             }
             currentRoll.dice.forEach((dice) => {
                 let roll_index = 0;
+                let wild_die_theme = '';
+                try {
+                    // Swade 16
+                    wild_die_theme = game.settings.get('swade', 'dsnWildDie');
+                } catch (_) {
+                    // Swade 16.0.3
+                    wild_die_theme = game.user.getFlag('swade', 'dsnWildDie') || '';
+                }
                 dice.results.forEach((roll) => {
                     if (game.dice3d) {
                         dice3d_die[roll_index].dice.push(
                             {resultLabel: roll.result, result: roll.result,
                                 type: `d${dice.faces}`,
-                                options: index<roll_array.length - 1?{}:
-                                    {'colorset': game.settings.get(
-                                        'swade', 'dsnWildDie')},
+                                options: wild_die_theme,
                                 vectors: []});
                     }
                     if (roll.exploded) {
