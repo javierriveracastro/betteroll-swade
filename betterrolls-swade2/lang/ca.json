@@ -97,5 +97,10 @@
     "BRSW.MultiResults": "Resultats múltiples",
     "BRSW.ApplyDamage": "Aplica el mal",
     "BRSW.TGTargetSelected": "Obtindre la duresa dels objectius o els seleccionats",
-    "BRSW.AddD6Damage": "Afegeix un d6 al mal"
+    "BRSW.AddD6Damage": "Afegeix un d6 al mal",
+    "BRSW.AmmoManagement": "Mode de gestió de munició per defecte",
+    "BRSW.AmmoManagementHint": "Al triar aquesta opció restar munició sortirà marcada per defecte",
+    "BRSW.UndoDamage": "Desfer el mal",
+    "BRSW.SoakRoll": "Tirada d'absorbir (Vigor)",
+    "BRSW.RemoveWounds": "Eliminar modificador de ferides"
 }
