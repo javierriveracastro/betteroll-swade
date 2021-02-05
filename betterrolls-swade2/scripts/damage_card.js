@@ -42,7 +42,6 @@ export async function create_damage_card(token_id, damage, damage_text) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message
-    // TODO: Remove conditions from footer???
 }
 
 
@@ -87,6 +86,14 @@ async function apply_damage(token, wounds, soaked=0) {
     const final_wounds = token.actor.data.data.wounds.value + damage_taken;
     if (final_wounds > token.actor.data.data.wounds.max) {
         await token.actor.update({'data.wounds.value': token.actor.data.data.wounds.max});
+        // Mark as defeated if the token is in a combat
+        game.combat?.combatants.forEach(combatant => {
+            if (combatant.tokenId === token.id) {
+                token.update({overlayEffect: 'icons/svg/skull.svg'});
+                game.combat.updateCombatant(
+                    {_id: combatant._id, defeated: true});
+            }
+        });
     } else {
         await token.actor.update({'data.wounds.value': final_wounds});
     }
@@ -117,6 +124,16 @@ async function undo_damage(message){
         'render_data');
     await actor.update({"data.wounds.value": render_data.undo_values.wounds,
         "data.status.isShaken": render_data.undo_values.shaken});
+    const token = message.getFlag('betterrolls-swade2', 'token');
+    if (token) {
+        game.combat?.combatants.forEach(combatant => {
+            if (combatant.tokenId === token) {
+                canvas.tokens.get(token).update({overlayEffect: ''});
+                game.combat.updateCombatant(
+                    {_id: combatant._id, defeated: false});
+            }
+        });
+    }
     await message.delete();
 }
 
