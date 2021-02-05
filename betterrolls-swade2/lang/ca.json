@@ -83,5 +83,19 @@
     "BRSW.PPBeniRecharge": "Recarrega amb beni",
     "BRSW.InsufficientPP": "No tens prous punts de poder",
     "BRSW.EditTN": "Edita nombre objectiu",
-    "BRSW.EditModifier": "Edita modificador"
+    "BRSW.EditModifier": "Edita modificador",
+    "BRSW.EditAllTN": "Edita tots els nombres objectius",
+    "BRSW.TNTargeted": "Agafa el VO dels objectius",
+    "BRSW.TNSelected": "Agafa el VO dels seleccionats",
+    "BRSW.collapse-chat-window": "Minimitza per defecte la finestra de modificadors",
+    "BRSW.collapse-chat-window_hint": "Inicia amb la finestra de modificadors del xat minimitzada",
+    "BRSW.NoAmmunition": "No tens prou munició.",
+    "BRSW.AmmunitionStatus": "{actor_name} dispara {number} de trets de {weapon_name} i li queden {newCharges}",
+    "BRSW.Shooting": "Disparar",
+    "BRSW.Reload": "Recarrega",
+    "BRSW.ReloadStatus": "{actor_name} recarrega la seva {weapon_name}.",
+    "BRSW.MultiResults": "Resultats múltiples",
+    "BRSW.ApplyDamage": "Aplica el mal",
+    "BRSW.TGTargetSelected": "Obtindre la duresa dels objectius o els seleccionats",
+    "BRSW.AddD6Damage": "Afegeix un d6 al mal"
 }
