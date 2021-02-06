@@ -101,5 +101,7 @@
 	"BRSW.AmmoManagementHint": "Al marcar esta opción restar munición aparecerá marcado por defecto",
     "BRSW.UndoDamage": "Deshacer el daño",
   	"BRSW.SoakRoll": "Absorber (Vigor)",
-  	"BRSW.RemoveWounds": "Eliminar modificador heridas"
+  	"BRSW.RemoveWounds": "Eliminar modificador heridas",
+  	"BRSW.PPManagement": "Restar puntos de poder por defecto",
+	"BRSW.PPManagementHint": "Si esta marcado, en las cartas, restar puntos de poder aparece marcado por defecto"
 }

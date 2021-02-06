@@ -55,15 +55,18 @@ async function create_item_card(origin, item_id) {
         }
     }
     let ammo = parseFloat(item.data.data.shots);
+    let power_points = parseFloat(item.data.data.pp);
     const subtract_select = ammo ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
+    const subtract_pp_select =  power_points ? game.settings.get(
+        'betterrolls-swade2', 'default-pp-management') : false;
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: ammo, subtract_selected: subtract_select,
-            trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: parseFloat(item.data.data.pp), actions: actions},
+            subtract_pp: subtract_pp_select, trait_roll: trait_roll, damage_rolls: [],
+            powerpoints: power_points, actions: actions},
             CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',

@@ -26,7 +26,7 @@
         </div>{{/if}}
         {{# if powerpoints}}
             <div class="brws-common-modifiers">
-                <span class="brws-selectable brsw-clickable brws-selected brsw-pp-toggle">
+                <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
                     {{ localize 'BRSW.SubtractPP' }}
                 </span>
                 <span class="brsw-false-button brsw-clickable brsw-pp-manual">

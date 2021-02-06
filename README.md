@@ -228,7 +228,7 @@ game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].ac
 ## Authors
 - Lipefl, author of swade-tools, all the code and assets under swade-tools dir. for now status icons and manteinance.
 - JuanV, base of drag and drop support, custom bennies, translation infrastructure.
-- SalieriC, manual ammunition management.
+- SalieriC, manual ammunition management, power point management, typo hunting.
 - Kandashi, manual ammunition management.
 - Sergut, documentation corrections.
 - Javier Rivera, most code and this doc.

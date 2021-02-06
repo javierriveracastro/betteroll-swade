@@ -233,6 +233,13 @@ function register_settings_version2() {
         scope: 'world',
         type: Boolean,
         config: true
+    });    game.settings.register('betterrolls-swade2', 'default-pp-management', {
+        name: game.i18n.localize('BRSW.PPManagement'),
+        hint: game.i18n.localize('BRSW.PPManagementHint'),
+        default: true,
+        scope: 'world',
+        type: Boolean,
+        config: true
     });
 }
 
