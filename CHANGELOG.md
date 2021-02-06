@@ -1,5 +1,11 @@
 # Changelog
 
+# Version 1.117 aka Bugfixing
+* BUGFIX: Extras can now soak
+* BUGFIX: The module doesn't break when Dice So Nice is not installed
+* When in combat, mark defeated tokens after damaga
+* Added an option to disable auto power-point managemet.
+
 # Version 1.116 aka Moving settins
 * Support for Dice So Nice and SWADE 0.16.2
 * Hitting return in the ammo or power points management menu should reload foundry.
