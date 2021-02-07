@@ -3,18 +3,22 @@
         <span class="brsw-small-font">{{ localize 'BRSW.OldRoll' }}</span>
         {{# each trait_roll.old_rolls}}
                 <span class="brsw-old-roll brsw-clickable" data-index="{{@index}}">{{# each this }}
-                    <span class="brsw-d{{this.sides}} brsw-small-dice-image{{this.extra_calss}}">{{ this.result }}</span>
+                    <span class="brsw-d{{this.sides}} brsw-small-dice-image{{this.extra_calss}}">
+                        {{ this.result }}
+                    </span>
                 {{/each}}</span>
         {{/each}}
     </div>
 {{/if}}
 <div class="brsw-roll-row">
     <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
-        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}} :
+        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}}{{# if trait_roll.modifiers }}(*){{/if}} :
     </span>
     <span>
         {{#each trait_roll.rolls}}
-            <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">{{ this.result }}</span>
+            <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
+                {{ this.result }}
+            </span>
         {{/each}}
         <button class="brsw-trait-reroll brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
         {{#if bennie_avaliable}}

@@ -20,7 +20,7 @@ export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result,
         // extra_class, tn, result_txt, result_icons, ap, armor, target_id}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
-    this.dice = []; // Array with the dices {sides, results: [int], label, extra_class}
+    this.dice = []; // Array with the dice {sides, results: [int], label, extra_class}
     this.is_fumble = false
     this.old_rolls = [] // Array with an array of old rolls.
 }
