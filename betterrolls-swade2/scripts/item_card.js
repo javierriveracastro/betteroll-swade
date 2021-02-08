@@ -45,6 +45,7 @@ async function create_item_card(origin, item_id) {
     const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
     let trait_roll = new BRWSRoll();
     let actions = [];
+    let possible_default_dmg_action;
     // noinspection JSUnresolvedVariable
     for (let action in item.data.data.actions.additional) {
         // noinspection JSUnresolvedVariable
@@ -52,6 +53,11 @@ async function create_item_card(origin, item_id) {
             // noinspection JSUnresolvedVariable
             actions.push(
                 {'code': action, 'name': item.data.data.actions.additional[action].name});
+            if (!possible_default_dmg_action &&
+                    item.data.data.actions.additional[action].dmgOverride) {
+                possible_default_dmg_action =
+                    item.data.data.actions.additional[action].dmgOverride;
+            }
         }
     }
     let ammo = parseFloat(item.data.data.shots);
@@ -60,9 +66,14 @@ async function create_item_card(origin, item_id) {
         'betterrolls-swade2', 'default-ammo-management') : false;
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
+    let damage = item.data.data.damage;
+    if (!damage && possible_default_dmg_action) {
+        damage = possible_default_dmg_action;
+        console.log(damage)
+    }
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
-            notes: notes, img: item.img}, footer: footer, damage: item.data.data.damage,
+            notes: notes, img: item.img}, footer: footer, damage: damage,
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: ammo, subtract_selected: subtract_select,
             subtract_pp: subtract_pp_select, trait_roll: trait_roll, damage_rolls: [],
@@ -641,6 +652,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             roll_formula = action.dmgOverride;
         }
     });
+    if (!roll_formula) {
+        // Damage is empty and damage action has been selected...
+        roll_formula = "3d6" // Bet for a shotgun.
+    }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
     if (conviction_modifier) {
