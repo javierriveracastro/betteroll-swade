@@ -437,7 +437,8 @@ export async function roll_item(message, html, expend_bennie,
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
-    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length : true;
+    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
+        game.settings.get('betterrolls-swade2', 'default-ammo-management');
     if (dis_ammo_selected && parseInt(item.data.data.shots) && !trait_data.old_rolls.length) {
         let rof = trait_data.dice.length;
         if (actor.isWildcard) {
@@ -446,7 +447,8 @@ export async function roll_item(message, html, expend_bennie,
         await discount_ammo(item, rof || 1, shots_override);
     }
     // Power point management
-    const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length : true;
+    const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
+        game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item);
     }
