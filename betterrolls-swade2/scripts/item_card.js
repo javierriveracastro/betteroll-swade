@@ -72,8 +72,11 @@ async function create_item_card(origin, item_id) {
         damage = possible_default_dmg_action;
     }
     get_actions(item, actor).forEach(global_action => {
+        console.log(global_action.button_name.slice(0, 5))
+        const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
+            game.i18n.localize(global_action.button_name) : global_action.button_name;
         actions.push(
-            {code: global_action.name, name: global_action.button_name});
+            {code: global_action.name, name: button_name});
     })
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,

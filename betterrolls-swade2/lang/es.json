@@ -103,5 +103,6 @@
   	"BRSW.RemoveWounds": "Eliminar modificador heridas",
   	"BRSW.PPManagement": "Restar puntos de poder por defecto",
 	"BRSW.PPManagementHint": "Si esta marcado, en las cartas, restar puntos de poder aparece marcado por defecto",
-  	"BRSW.SkillName-fighting": "pelear"
+  	"BRSW.SkillName-fighting": "pelear",
+    "BRSW.WildAttack": "Ataque Salvaje"
 }

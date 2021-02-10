@@ -1,8 +1,9 @@
 import {get_item_skill} from "./item_card.js";
 
 const SYSTEM_GLOBAL_ACTION = [
-    {name: "Wild Attack", button_name: "Wild Attack", skill_mod: 2, alt_skill: "",
-    dmg_mod: 2, dmg_override: "", selector_type: "skill", selector_value: "fighting"},
+    {name: "Wild Attack", button_name: "BRSW.WildAttack",
+        skill_mod: 2, alt_skill: "", dmg_mod: 2, dmg_override: "",
+        selector_type: "skill", selector_value: "fighting"},
 ]
 
 /**
