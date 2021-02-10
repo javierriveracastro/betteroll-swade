@@ -8,6 +8,7 @@ import {
 import {FIGHTING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
+import {get_actions} from "./global_actions.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -69,8 +70,11 @@ async function create_item_card(origin, item_id) {
     let damage = item.data.data.damage;
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
-        console.log(damage)
     }
+    get_actions(item, actor).forEach(global_action => {
+        actions.push(
+            {code: global_action.name, name: global_action.button_name});
+    })
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: damage,
