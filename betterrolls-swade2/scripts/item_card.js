@@ -8,7 +8,7 @@ import {
 import {FIGHTING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
-import {get_actions} from "./global_actions.js";
+import {get_actions, get_global_action_from_name} from "./global_actions.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -54,8 +54,10 @@ async function create_item_card(origin, item_id) {
             // noinspection JSUnresolvedVariable
             actions.push(
                 {'code': action, 'name': item.data.data.actions.additional[action].name});
+            // noinspection JSUnresolvedVariable
             if (!possible_default_dmg_action &&
                     item.data.data.actions.additional[action].dmgOverride) {
+                // noinspection JSUnresolvedVariable
                 possible_default_dmg_action =
                     item.data.data.actions.additional[action].dmgOverride;
             }
@@ -72,7 +74,6 @@ async function create_item_card(origin, item_id) {
         damage = possible_default_dmg_action;
     }
     get_actions(item, actor).forEach(global_action => {
-        console.log(global_action.button_name.slice(0, 5))
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         actions.push(
@@ -431,7 +432,14 @@ export async function roll_item(message, html, expend_bennie,
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             // noinspection JSUnresolvedVariable
-            let action = item.data.data.actions.additional[element.dataset.action_id];
+            let action;
+            if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+                // noinspection JSUnresolvedVariable
+                action = item.data.data.actions.additional[element.dataset.action_id];
+            } else {
+                // GLOBAL ACTION
+                action = get_global_action_from_name(element.dataset.action_id);
+            }
             if (action.rof) {
                 extra_data.rof = action.rof;
             }

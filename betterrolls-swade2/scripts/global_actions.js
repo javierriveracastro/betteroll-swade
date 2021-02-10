@@ -1,8 +1,9 @@
 import {get_item_skill} from "./item_card.js";
 
+// DMG override is still not implemented.
 const SYSTEM_GLOBAL_ACTION = [
     {name: "Wild Attack", button_name: "BRSW.WildAttack",
-        skill_mod: 2, alt_skill: "", dmg_mod: 2, dmg_override: "",
+        skillMod: 2, dmg_mod: 2, dmg_override: "",
         selector_type: "skill", selector_value: "fighting"},
 ]
 
@@ -37,4 +38,16 @@ export function get_actions(item, actor) {
         }
     });
     return actions_avaliable;
+}
+
+/**
+ * Returns a global action from a name
+ * @param {string} name
+ */
+export function get_global_action_from_name(name) {
+    for (let action of game.brsw.GLOBAL_ACTIONS) {
+        if (action.name === name) {
+            return action;
+        }
+    }
 }
