@@ -24,9 +24,12 @@ export function get_actions(item, actor) {
         let selected = false;
         if (action.selector_type === 'skill') {
            const skill = get_item_skill(item, actor);
-           selected = skill.name.toLowerCase().includes(action.selector_value);
-            // TODO: Use translations for skills.
-            // TODO: Use translations for button names.
+           if (skill) {
+               selected = skill.name.toLowerCase().includes(action.selector_value) ||
+                    skill.name.toLowerCase().includes(
+                        game.i18n.localize("BRSW.SkillName-" + action.selector_value));
+                // TODO: Use translations for button names.
+           }
        }
         if (selected) {
             actions_avaliable.push(action);

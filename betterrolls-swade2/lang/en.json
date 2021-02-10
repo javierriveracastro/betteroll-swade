@@ -85,7 +85,7 @@
 	"BRSW.EditAllTN": "Edit all Target Numbers",
 	"BRSW.TNTargeted": "Get TN from targets",
 	"BRSW.TNSelected": "Get TN from selected",
-	"BRSW.collapse-chat-window": "Collapse by defatul the modifier window",
+	"BRSW.collapse-chat-window": "Collapse by default the modifier window",
 	"BRSW.collapse-chat-window_hint": "Start with the window above the chat collapsed",
 	"BRSW.NoAmmunition": "You have insufficient ammunition.",
 	"BRSW.AmmunitionStatus": "{actor_name} fires {number} round(s) from a {weapon_name} and has {newCharges} left",
@@ -102,5 +102,6 @@
 	"BRSW.SoakRoll": "Soak (Vigor) roll",
 	"BRSW.RemoveWounds": "Remove wound modifier",
 	"BRSW.PPManagement": "Subtract Power points by default",
-	"BRSW.PPManagementHint": "When checked Subtract pp will be selected by default"
+	"BRSW.PPManagementHint": "When checked Subtract pp will be selected by default",
+	"BRSW.SkillName-fighting": "fighting"
 }
