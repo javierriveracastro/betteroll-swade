@@ -19,6 +19,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     let undo_values = {wounds: actor.data.data.wounds.value,
         shaken: actor.data.data.status.isShaken};
     const wounds = Math.floor(damage / 4)
+    const can_soak = wounds || actor.data.data.status.isShaken;
     const text = await apply_damage(token, wounds, 0);
     let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
     for (let status in actor.data.data.status) {
@@ -34,7 +35,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
         trait_roll: trait_roll, wounds: wounds, soaked: 0,
-        soak_possible: (are_bennies_available(actor) && wounds)},
+        soak_possible: (are_bennies_available(actor) && can_soak)},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
@@ -97,7 +98,11 @@ async function apply_damage(token, wounds, soaked=0) {
     } else {
         await token.actor.update({'data.wounds.value': final_wounds});
     }
-    if (final_wounds > 0) {
+    // Shaken
+    if (final_wounds === 0 || soaked > 0) {
+        // If all wounds have been soaked remove shaken
+        await token.actor.update({'data.status.isShaken': false});
+    } else {
         await token.actor.update({'data.status.isShaken': true});
     }
     let text = wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
