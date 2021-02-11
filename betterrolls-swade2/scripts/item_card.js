@@ -433,6 +433,7 @@ export async function roll_item(message, html, expend_bennie,
         html.find('.brsw-action.brws-selected').each((_, element) => {
             // noinspection JSUnresolvedVariable
             let action;
+            // noinspection JSUnresolvedVariable
             if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
                 // noinspection JSUnresolvedVariable
                 action = item.data.data.actions.additional[element.dataset.action_id];
@@ -654,8 +655,15 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     // Actions
     html.find('.brsw-action.brws-selected').each((_, element) => {
+        let action;
         // noinspection JSUnresolvedVariable
-        let action = item.data.data.actions.additional[element.dataset.action_id];
+        if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+            // noinspection JSUnresolvedVariable
+            action = item.data.data.actions.additional[element.dataset.action_id];
+        } else {
+            // GLOBAL ACTION
+            action = get_global_action_from_name(element.dataset.action_id);
+        }
         // noinspection JSUnresolvedVariable
         const intDmgMod = parseInt(action.dmgMod)
         if (intDmgMod) {
