@@ -79,8 +79,18 @@ async function apply_damage(token, wounds, soaked=0) {
     }
     // noinspection JSUnresolvedVariable
     if (wounds < 1 && token.actor.data.data.status.isShaken) {
+        // Check for Hardy Special Ability
+        const hardy = token.actor.data.items.find(function (item) {
+            return item.name.toLowerCase() === "hardy" && item.type === "edge";
+        });
+        // Shaken twice does not cause a wound on hardy creatures
+        if (hardy) {
+            wounds = 0;
+        }
+        else {
         // Shaken twice
         wounds = 1;
+        }
     }
     const damage_taken = Math.max(0, wounds - soaked);
     const final_wounds = token.actor.data.data.wounds.value + damage_taken;
@@ -106,7 +116,7 @@ async function apply_damage(token, wounds, soaked=0) {
         if (damage_taken <= 0) {
             text += "<p>but soaked all wounds, removing shaken</p>"
         } else {
-            text += `<p>But if have soaked ${soaked} wound(s)</p>`
+            text += `<p>But soaked ${soaked} wound(s)</p>`
         }
     }
     // noinspection JSIgnoredPromiseFromCall
