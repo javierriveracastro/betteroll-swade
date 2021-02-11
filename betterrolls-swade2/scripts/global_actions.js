@@ -3,7 +3,7 @@ import {get_item_skill} from "./item_card.js";
 // DMG override is still not implemented.
 const SYSTEM_GLOBAL_ACTION = [
     {name: "Wild Attack", button_name: "BRSW.WildAttack",
-        skillMod: 2, dmg_mod: 2, dmg_override: "",
+        skillMod: 2, dmgMod: 2, dmgOverride: "",
         selector_type: "skill", selector_value: "fighting"},
 ]
 
@@ -30,7 +30,6 @@ export function get_actions(item, actor) {
                selected = skill.name.toLowerCase().includes(action.selector_value) ||
                     skill.name.toLowerCase().includes(
                         game.i18n.localize("BRSW.SkillName-" + action.selector_value));
-                // TODO: Use translations for button names.
            }
        }
         if (selected) {

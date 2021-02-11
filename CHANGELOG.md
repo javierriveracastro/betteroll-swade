@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.118 aka Something global is born.
+* Show an (*) after Roll: when modifiers are active
+* Start of the "Global action" implementation.
+* "Wild Attack" global action should appear on figthing items, it should give +2 to attack and damage
+* Follow setting options about ammo and pp management in direct rolls
+
 # Version 1.117 aka Bugfixing
 * BUGFIX: Extras can now soak
 * BUGFIX: The module doesn't break when Dice So Nice is not installed
