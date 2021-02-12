@@ -158,21 +158,29 @@ export function activate_damage_card_listeners(message, html) {
     html.find('.brsw-undo-damage').click(async () =>{
         await undo_damage(message);
     });
-    html.find('.brsw-soak-button, .brsw-roll-button').click(() =>{
+    html.find('.brsw-soak-button, .brsw-roll-button').click((ev) =>{
+        let spend_bennie = false
+        if (ev.currentTarget.classList.contains('roll-bennie-button') ||
+                ev.currentTarget.classList.contains('brsw-soak-button')) {
+            spend_bennie=true
+        }
         // noinspection JSIgnoredPromiseFromCall
-        roll_soak(message);
+        roll_soak(message, spend_bennie);
     });
 }
 
 /**
  * Males a soak roll
  * @param {ChatMessage} message
+ * @param {Boolean} use_bennie
  */
-async function roll_soak(message) {
+async function roll_soak(message, use_bennie) {
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
     const actor = get_actor_from_message(message);
-    await spend_bennie(actor);
+    if (use_bennie) {
+        await spend_bennie(actor);
+    }
     const roll = await roll_trait(message,
         actor.data.data.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers:[

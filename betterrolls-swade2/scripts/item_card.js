@@ -745,7 +745,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(roll, game.user, true, users);
     }
-    // TODO: Remove ammo chat card???
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
     await update_message(message, actor, render_data);
 }
