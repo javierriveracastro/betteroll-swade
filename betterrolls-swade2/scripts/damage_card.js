@@ -91,7 +91,8 @@ async function apply_damage(token, wounds, soaked=0) {
         damage_wounds = 1;
     }
     let text = wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
-        `<p>${token.name} has been shaken</p>`;
+        (damage_wounds ? `<p>${token.name} has been wounded for a double shaken` :
+            `<p>${token.name} has been shaken</p>`);
     // Now we look for soaking
     if (soaked) {
         damage_wounds = damage_wounds - soaked;

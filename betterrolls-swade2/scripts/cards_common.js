@@ -475,7 +475,12 @@ export function calculate_results(rolls, damage) {
             }
         }
     });
-    return Math.max(0, result)
+    if (result < 0) {
+        return 0
+    } else if (result === 0) {
+        return 0.01  // Ugly hack to differentiate from failure
+    }
+    return result
 }
 
 
