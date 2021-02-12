@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 1.119 Did I already used bugfixing?
+* Multiple bugs in soak rolls. Logic got rewritten so lots of bugs solved, some new ones likely introduced.
+* Don't spend bennies for FREE soak rerolls
+* Show the apply damage option for exact shaken results.
+
 ## Version 1.118 aka Something global is born.
 * Show an (*) after Roll: when modifiers are active
 * Start of the "Global action" implementation.
