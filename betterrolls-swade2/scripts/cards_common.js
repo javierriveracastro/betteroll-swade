@@ -963,15 +963,16 @@ function get_tn_from_target(message, index, selected) {
     }
 }
 
-
+/**
+ * Returns true if a token has drawn a joker.
+ * @param token_id
+ * @return {boolean}
+ */
 function has_joker(token_id) {
     let joker = false;
     game.combat?.combatants.forEach(combatant => {
         if (combatant.tokenId === token_id) {
             const swade_value = combatant.flags.swade.cardValue;
-            console.log(swade_value)
-            console.log(swade_value > 95)
-            console.log(swade_value >= 95)
             if (swade_value >= 95) {
                 joker = true;
             }

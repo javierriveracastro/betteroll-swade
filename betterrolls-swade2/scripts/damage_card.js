@@ -192,7 +192,6 @@ async function roll_soak(message, use_bennie) {
     })
     roll.old_rolls.forEach(old_roll => {
         old_roll.forEach(roll => {
-            console.log(roll)
             result = Math.max(roll.result, result);
         })
     })
