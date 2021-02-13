@@ -439,6 +439,7 @@ export async function roll_item(message, html, expend_bennie,
                 action = item.data.data.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
+                // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
             if (action.rof) {
@@ -654,27 +655,29 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += mod_value
     }
     // Actions
-    html.find('.brsw-action.brws-selected').each((_, element) => {
-        let action;
-        // noinspection JSUnresolvedVariable
-        if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+    if (html.hasOwnProperty('find')) {
+        html.find('.brsw-action.brws-selected').each((_, element) => {
+            let action;
             // noinspection JSUnresolvedVariable
-            action = item.data.data.actions.additional[element.dataset.action_id];
-        } else {
-            // GLOBAL ACTION
-            action = get_global_action_from_name(element.dataset.action_id);
-        }
-        // noinspection JSUnresolvedVariable
-        const intDmgMod = parseInt(action.dmgMod)
-        if (intDmgMod) {
-            damage_roll.brswroll.modifiers.push(
-                {name: action.name, value: intDmgMod});
-            total_modifiers += intDmgMod
-        }
-        if (action.dmgOverride) {
-            roll_formula = action.dmgOverride;
-        }
-    });
+            if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+                // noinspection JSUnresolvedVariable
+                action = item.data.data.actions.additional[element.dataset.action_id];
+            } else {
+                // GLOBAL ACTION
+                action = get_global_action_from_name(element.dataset.action_id);
+            }
+            // noinspection JSUnresolvedVariable
+            const intDmgMod = parseInt(action.dmgMod)
+            if (intDmgMod) {
+                damage_roll.brswroll.modifiers.push(
+                    {name: action.name, value: intDmgMod});
+                total_modifiers += intDmgMod
+            }
+            if (action.dmgOverride) {
+                roll_formula = action.dmgOverride;
+            }
+        });
+    }
     if (!roll_formula) {
         // Damage is empty and damage action has been selected...
         roll_formula = "3d6" // Bet for a shotgun.
