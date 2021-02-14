@@ -475,7 +475,12 @@ export function calculate_results(rolls, damage) {
             }
         }
     });
-    return Math.max(0, result)
+    if (result < 0) {
+        return 0
+    } else if (result === 0) {
+        return 0.01  // Ugly hack to differentiate from failure
+    }
+    return result
 }
 
 
@@ -958,15 +963,16 @@ function get_tn_from_target(message, index, selected) {
     }
 }
 
-
+/**
+ * Returns true if a token has drawn a joker.
+ * @param token_id
+ * @return {boolean}
+ */
 function has_joker(token_id) {
     let joker = false;
     game.combat?.combatants.forEach(combatant => {
         if (combatant.tokenId === token_id) {
             const swade_value = combatant.flags.swade.cardValue;
-            console.log(swade_value)
-            console.log(swade_value > 95)
-            console.log(swade_value >= 95)
             if (swade_value >= 95) {
                 joker = true;
             }
