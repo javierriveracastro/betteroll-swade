@@ -104,5 +104,6 @@
 	"BRSW.PPManagement": "Subtract Power points by default",
 	"BRSW.PPManagementHint": "When checked Subtract pp will be selected by default",
 	"BRSW.SkillName-fighting": "fighting",
-	"BRSW.WildAttack": "Wild Attack"
+	"BRSW.WildAttack": "Wild Attack",
+	"BRSW.HardyIdentifier": "hardy"
 }

@@ -86,11 +86,20 @@ async function apply_damage(token, wounds, soaked=0) {
     // We test for double shaken
     let damage_wounds = wounds;
     let final_shaken = true; // Any damage also shakes the token
+    let text = ''
     if (wounds < 1 && initial_shaken) {
         // Shaken twice
-        damage_wounds = 1;
+        if (token.actor.data.items.find(item => {
+            return item.name.toLowerCase().includes(
+                game.i18n.localize("BRSW.HardyIdentifier")) && item.type == "edge";
+            })) {
+            text += 'Hardy prevents double shaken'
+            damage_wounds = 0
+        } else {
+            damage_wounds = 1;
+        }
     }
-    let text = wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
+    text += wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
         (damage_wounds ? `<p>${token.name} has been wounded for a double shaken` :
             `<p>${token.name} has been shaken</p>`);
     // Now we look for soaking
