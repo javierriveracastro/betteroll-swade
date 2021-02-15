@@ -39,6 +39,11 @@ async function store_render_flag(message, render_object) {
             delete render_object[property];
         }
     });
+    // Get sure thar there is a diff so update socket gets fired.
+    console.log(message.data)
+    if (message.data.flags?.['betterrolls-swade2']?.['render_data']) {
+        message.data.flags['betterrolls-swade2']['render_data']= {};
+    }
     await message.setFlag('betterrolls-swade2', 'render_data',
         render_object);
 }
