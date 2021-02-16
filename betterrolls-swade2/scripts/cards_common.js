@@ -40,7 +40,6 @@ async function store_render_flag(message, render_object) {
         }
     });
     // Get sure thar there is a diff so update socket gets fired.
-    console.log(message.data)
     if (message.data.flags?.['betterrolls-swade2']?.['render_data']) {
         message.data.flags['betterrolls-swade2']['render_data']= {};
     }
