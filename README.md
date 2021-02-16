@@ -69,8 +69,25 @@ By expanding that option you can also see, which dice rolled which number and yo
 ### 6.	Stat section
 The small section below the damage section will provide vital information on the active item. While attribute and skills will only provide attribute information like values or linked attributes, weapons will show things like Range, ROF, Damage and so on, while powers will provide information on Power Points, Range and Duration.
 
+## Modifier row
 
-## Attribute card
+Betterrolls will add this section above the chat window
+
+![Chat Window](docs/chat_modifiers.png)
+
+You can use this to quickly add modifiers to a roll.
+
+You can either set a one time modifier or a persistent modifier. If you click once, the selected icon will turn white and will be deselected after one roll. Click twice, it will turn red and will apply to any roll until you deselect it.
+
+Use the "Trait roll modifier" line to affect any trait roll either from a skill, attribute or item.
+
+Use "Number of trait dice" to use multiple trait dice on a skill roll, either from a skill, attribute or item card.
+
+Finally the "Damage roll modifier" adds modifiers to damage rolls.
+
+## Card types
+
+### Attribute card
 
 This is the card that is shown after clicking on an attribute name:
 
@@ -86,23 +103,7 @@ You can do quite a lot of things here:
 
 Finally, you can click in the big buttons to roll the attribute. If you use the smaller `with bennie` button, it will subtract one bennie from your pool (or the master pool, if you are the master and the actor has no bennies available).
 
-## Modifier row
-
-Betterrolls will add this section above the chat window
-
-![Chat Window](docs/chat_modifiers.png)
-
-You can use this to quickly add modifiers to a roll.
-
-Click on any element to selec it, its background will turn white. If you click on it again, its background will become red. Finally, another click will deselect it changing it background to the same as the char window.
-
-White backgrounds elements will be used in the next roll ant automatically deselected. Red backgounds ones will be keep after the roll, until you deselect them manually.
-
-Use the "Trait roll modifier" line to affect any trait roll either from a skill, attribute or item
-Use "Number of trait dice" to use multiple trait dice on a skill roll, either from a skill or item card. Attributes are not current supported
-Finally de "Damage roll modifier" adds modifiers to damage rolls.
-
-## Skill card
+### Skill card
 
 The skill cards are very similar to attribute ones.
 
@@ -114,7 +115,7 @@ The result card will show one row of results for each dice.
 
 ![multiple rof result](docs/result_row_multiple_rof.png)
 
-## Item cards
+### Item cards
 
 Item cards can be the simplest or the most complicated of the cards.
 
@@ -126,21 +127,23 @@ If there is a description available, it will show it. The next screenshots shows
 
 ![blind_core_hindrance](docs/blind_edge.png)
 
-## Weapon cards
+### Weapon cards
 
 Weapon are the most complicated of the items cards. TODO
 
-## Power cards
+### Power cards
 
 TODO
 
-## Soak Rolls
+### Soak Rolls
 
 TODO
 
 ## Drag and Drop
 
-TODO
+You can also use the weapon or power icon to drag it over the actor you want to target. It will execute the "Show card and trait roll" action.
+
+![Drag and Drop](docs/drag_and_drop_v-1-2-10.gif)
 
 ## Module Integration
 
@@ -177,6 +180,7 @@ The following information assumes a passing knowledge of both javascript and Fou
 The module exposes an API in game.brsw.
 
 ## Authors
+
 - JuanV, base of drag and drop support, custom bennies, translation infrastructure.
 - SalieriC, manual ammunition management, power point management, typo hunting, hardy.
 - Kandashi, manual ammunition management.
@@ -190,7 +194,7 @@ The module exposes an API in game.brsw.
 - Catalá: David Montilla
 
 ## Acknowledgements
-- All the people reporting bugs and opening issues. Without them this module will be far worse. 
+- All the people reporting bugs and opening issues. Without them this module would be far worse. 
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
