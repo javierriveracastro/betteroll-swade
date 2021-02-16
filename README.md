@@ -134,6 +134,10 @@ Weapon are the most complicated of the items cards. TODO
 
 TODO
 
+## Soak Rolls
+
+TODO
+
 ## Drag and Drop
 
 TODO
@@ -144,9 +148,21 @@ TODO
 
 This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings:
 
+TODO: Add picture
+
 ### Dice Tray support
 
 If Dice Tray is enabled, better rolls will use it's modifier box:
+
+TODO: Add picture
+
+## Recommended modules
+
+Better Rolls for SWADE works well together with the SWADE Toolkit: https://foundryvtt.com/packages/swade-toolkit/
+
+## Known incompatibilities
+
+SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
 
 ## Custom Bennies
 
