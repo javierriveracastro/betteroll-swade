@@ -476,6 +476,7 @@ export async function roll_item(message, html, expend_bennie,
         "BRSW.SkillDie"), html, extra_data)
     let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
     // Pinned actions
+    // noinspection JSUnresolvedVariable
     render_data.actions.forEach(action => {
         action.pinned = pinned_actions.includes(action.code)
     });
