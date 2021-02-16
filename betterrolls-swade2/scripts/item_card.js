@@ -461,8 +461,12 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
+            if (action.self_add_status) {
+                let new_state = {};
+                new_state[`data.status.is${action.self_add_status}`] = true
+                actor.update(new_state)
+            }
             if (element.classList.contains("brws-permanent-selected")) {
-                console.log(action)
                 pinned_actions.push(action.name);
             }
         });
@@ -667,7 +671,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += mod_value
     }
     // Actions
-    if (html.hasOwnProperty('find')) {
+    if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
             // noinspection JSUnresolvedVariable
@@ -679,6 +683,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
+            console.log(action)
             // noinspection JSUnresolvedVariable
             const intDmgMod = parseInt(action.dmgMod)
             if (intDmgMod) {
@@ -688,6 +693,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
             if (action.dmgOverride) {
                 roll_formula = action.dmgOverride;
+            }
+            if (action.self_add_status) {
+                let new_state = {};
+                new_state[`data.status.is${action.self_add_status}`] = true
+                actor.update(new_state)
             }
         });
     }
