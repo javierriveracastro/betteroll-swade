@@ -48,7 +48,7 @@ async function create_item_card(origin, item_id) {
     let actions = [];
     let possible_default_dmg_action;
     // noinspection JSUnresolvedVariable
-    for (let action in item.data.data.actions.additional) {
+    for (let action in item.data.data?.actions?.additional) {
         // noinspection JSUnresolvedVariable
         if (item.data.data.actions.additional.hasOwnProperty(action)) {
             // noinspection JSUnresolvedVariable
