@@ -32,7 +32,7 @@ Other options allow to switch on and off the automatic ammo and power point hand
 ## Anatomy of a Better Rolls card
 The template for the Better Rolls cards provides a lot of useful information that will be detailed below:
 
-<img src="/docs/Anatomy_Overview_v1-119.png" alt="Anatomy of a card" style="float: left; margin-right: 10px;"/>
+![Overview](docs/Anatomy_Overview_v1-119.png)
 
 ### 1.	Header section: 
 The header section shows basic information on the roll:
