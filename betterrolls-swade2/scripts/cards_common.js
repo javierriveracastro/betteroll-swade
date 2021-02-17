@@ -3,6 +3,7 @@
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_skill} from "./item_card.js";
 import {get_tn_from_token} from "./skill_card.js";
+import {roll_attribute} from "./attribute_card.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -1001,10 +1002,18 @@ async function duplicate_message(message, event) {
     let data = duplicate(message.data);
     console.log(data)
     // Remove rolls
+    data.timestamp = new Date().getTime();
     data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
     data.flags['betterrolls-swade2'].render_data.damage_rolls = [];
+    delete data._id;
     let new_message = await ChatMessage.create(data);
     await update_message(new_message, get_actor_from_message(message),
         data.flags['betterrolls-swade2'].render_data);
+    const action = get_action_from_click(event);
+    if (action.includes('trait')) {
+        if (data.flags['betterrolls-swade2'].card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+            await roll_attribute(new_message, '', false);
+        }
+    }
     return new_message
 }
