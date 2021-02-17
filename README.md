@@ -152,7 +152,7 @@ Available global actions are "Subtract Power points" - can be activated in the s
 
 ### Soak Rolls
 
-![Soak card](docs/soak_card_v1-119.jpg)
+![Soak card](docs/Soak_Card_v1-119.jpg)
 
 When an actor has been targeted and damaged using the "Apply damage" button, the "Soak card" will appear. This will allow the actor to make a "Soak (Vigor) roll" to spend a Benny and soak damage. This will only be available, if there are Bennies left to spend.
 
@@ -178,17 +178,12 @@ The following information assumes a passing knowledge of both javascript and Fou
 
 The module exposes an API in game.brsw.
 
-### Module Integration
+## Other Modules
 
-### Dice so Nice support
+### Integrations
 
-This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
-
-### Dice Tray support
-
-If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
-
-## Modules
+* **Dice so Nice:** This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
+* **Dice Tray:** If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
 
 ### Recommendations
 
@@ -196,7 +191,8 @@ Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundry
 
 ### Known incompatibilities
 
-SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
+* SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
+* ModBox and Better Rolls do not work together
 
 ## Authors
 
