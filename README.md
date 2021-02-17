@@ -178,7 +178,7 @@ The following information assumes a passing knowledge of both javascript and Fou
 
 The module exposes an API in game.brsw.
 
-## Modules
+## Other Modules
 
 ### Integrations
 
