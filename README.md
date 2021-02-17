@@ -32,7 +32,7 @@ Other options allow to switch on and off the automatic ammo and power point hand
 ## Anatomy of a Better Rolls card
 The template for the Better Rolls cards provides a lot of useful information that will be detailed below:
 
-![Overview](docs/Anatomy_Overview_v1-119.png)
+<img src="/docs/Anatomy_Overview_v1-119.png" alt="Anatomy of a card" style="float: left; margin-right: 10px;"/>
 
 ### 1.	Header section: 
 The header section shows basic information on the roll:
@@ -152,7 +152,7 @@ Available global actions are "Subtract Power points" - can be activated in the s
 
 ### Soak Rolls
 
-![Soak card](docs/soak_card_v1-119.jpg)
+![Soak card](docs/Soak_Card_v1-119.jpg)
 
 When an actor has been targeted and damaged using the "Apply damage" button, the "Soak card" will appear. This will allow the actor to make a "Soak (Vigor) roll" to spend a Benny and soak damage. This will only be available, if there are Bennies left to spend.
 
