@@ -478,7 +478,9 @@ export async function roll_item(message, html, expend_bennie,
     // Pinned actions
     // noinspection JSUnresolvedVariable
     render_data.actions.forEach(action => {
-        action.pinned = pinned_actions.includes(action.code)
+        // Global and local actions are different
+        action.pinned = pinned_actions.includes(action.code) ||
+            pinned_actions.includes(action.name)
     });
     // Ammo management
     const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
@@ -672,6 +674,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += mod_value
     }
     // Actions
+    let pinned_actions = [];
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
@@ -684,7 +687,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
-            console.log(action)
             // noinspection JSUnresolvedVariable
             const intDmgMod = parseInt(action.dmgMod)
             if (intDmgMod) {
@@ -699,6 +701,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 let new_state = {};
                 new_state[`data.status.is${action.self_add_status}`] = true
                 actor.update(new_state)
+            }
+            if (element.classList.contains("brws-permanent-selected")) {
+                pinned_actions.push(action.name);
             }
         });
     }
@@ -757,6 +762,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     damage_roll.label = defense_values.name;
     render_data.damage_rolls.push(damage_roll);
+    // Pinned actions
+    // noinspection JSUnresolvedVariable
+    render_data.actions.forEach(action => {
+        // Global and local actions are different
+        action.pinned = pinned_actions.includes(action.code) ||
+            pinned_actions.includes(action.name)
+    });
     // Dice so nice
     if (game.dice3d) {
         let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
