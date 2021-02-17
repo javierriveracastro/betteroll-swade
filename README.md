@@ -196,7 +196,8 @@ Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundry
 
 ### Known incompatibilities
 
-SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
+* SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
+* ModBox and Better Rolls do not work together
 
 ## Authors
 
