@@ -48,12 +48,13 @@ async function create_item_card(origin, item_id) {
     let actions = [];
     let possible_default_dmg_action;
     // noinspection JSUnresolvedVariable
-    for (let action in item.data.data.actions.additional) {
+    for (let action in item.data.data?.actions?.additional) {
         // noinspection JSUnresolvedVariable
         if (item.data.data.actions.additional.hasOwnProperty(action)) {
             // noinspection JSUnresolvedVariable
             actions.push(
-                {'code': action, 'name': item.data.data.actions.additional[action].name});
+                {'code': action, 'name': item.data.data.actions.additional[action].name,
+                    pinned: false});
             // noinspection JSUnresolvedVariable
             if (!possible_default_dmg_action &&
                     item.data.data.actions.additional[action].dmgOverride) {
@@ -77,7 +78,7 @@ async function create_item_card(origin, item_id) {
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         actions.push(
-            {code: global_action.name, name: button_name});
+            {code: global_action.name, name: button_name, pinned: false});
     })
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
@@ -428,6 +429,7 @@ export async function roll_item(message, html, expend_bennie,
     let extra_data = {skill: skill};
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
+    let pinned_actions = []
     // Actions
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
@@ -459,11 +461,25 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
+            if (action.self_add_status) {
+                let new_state = {};
+                new_state[`data.status.is${action.self_add_status}`] = true
+                actor.update(new_state)
+            }
+            if (element.classList.contains("brws-permanent-selected")) {
+                pinned_actions.push(action.name);
+            }
         });
     }
     // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
+    let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
+    // Pinned actions
+    // noinspection JSUnresolvedVariable
+    render_data.actions.forEach(action => {
+        action.pinned = pinned_actions.includes(action.code)
+    });
     // Ammo management
     const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-ammo-management');
@@ -480,6 +496,7 @@ export async function roll_item(message, html, expend_bennie,
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item);
     }
+    await update_message(message, actor, render_data);
     if (roll_damage) {
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {
@@ -655,7 +672,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += mod_value
     }
     // Actions
-    if (html.hasOwnProperty('find')) {
+    if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
             // noinspection JSUnresolvedVariable
@@ -664,8 +681,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 action = item.data.data.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
+                // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
+            console.log(action)
             // noinspection JSUnresolvedVariable
             const intDmgMod = parseInt(action.dmgMod)
             if (intDmgMod) {
@@ -675,6 +694,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
             if (action.dmgOverride) {
                 roll_formula = action.dmgOverride;
+            }
+            if (action.self_add_status) {
+                let new_state = {};
+                new_state[`data.status.is${action.self_add_status}`] = true
+                actor.update(new_state)
             }
         });
     }

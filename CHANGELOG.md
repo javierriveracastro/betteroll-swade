@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.0 aka Release...
+* BUGFIX: Damage was not beign rolled when in full automation.
+* BUGFIX: Actions marked in red now are keeped after rolling.
+* Hardy is now supported.
+* BUGFIX: Message update is forced to avoid some corner problems. 
+* Global actions can now set status on user.
+* As a result Wild Attack now makes the user vulnerable
+* Better documentation, big thanks to Razortide.
+
 ## Version 1.119 Did I already used bugfixing?
 * Multiple bugs in soak rolls. Logic got rewritten so lots of bugs solved, some new ones likely introduced.
 * Don't spend bennies for FREE soak rerolls

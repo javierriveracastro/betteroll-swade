@@ -1,6 +1,4 @@
-# Better rolls for SWADE (RC version)
-
-This is a release canditate for better rolls. Roll cards are mostly done, testing is encouraged.
+# Better Rolls for SWADE 
 
 Please leave your feedback on the official Foundry discord. Feel free to ping me if you want. 
 
@@ -13,225 +11,201 @@ This module adds a new rolling mode to the SWADE system that adds the ability to
 
 ## Settings
 
-This module is quite configurable. Most people should take a look at the setting and make sure that they reflect their preferences just after installing. These are the exposed settings:
+![Settings](docs/Settings_v1-119.jpg)
 
-![Settings](docs/settings.png)
+Better Rolls 2 offers a few display modes that you can switch between using different click actions:
 
+### Show Better rolls card (Default)
+This option will display the Better Rolls 2 card, when single clicking on a Trait, Weapon or Power. See details below. This option is useful, if you need to add some settings on the card itself (like global actions; e.g. Wild Attack, changes in Ammo or Power Point handling).
 
-The first options define what happens when you click with different keys pressed. You can choose three actions:
+### Show card and trait roll
+This option will display the card and automatically rolling the selected trait (powers and weapons rely on the arcane/weapon skill). It will automatically factor in the Better Rolls modifiers from the chat bar as well as modifications through Wounds, Fatigue, or states like *Distracted* or *Vulnerable*. Additionally, the selected “Modifiers for Better Rolls” will apply.
 
-* Default system roll: Better rolls will do nothing, the default system behaviour will be preserved.
-* Show BetterRolls card: A card will be shown where you can click to roll with different options (see below).
-* Show card and trait roll: The same card will be displayed, but it also will make a roll with the default options, show it, and (if it is enabled) show the results.
-* Show card and roll trait and damage: The full automation option. This will show the card, roll the relevant trait, and if it is an item with a damage field it will also roll damage if the trait roll was successful. It will roll raise damage for a raise result in the trait test.
+### Show card and roll trait and damage
+See above, but the damage will also be rolled automatically-
 
-The next setting ("See result card") lets you choose if a result card will be shown after a roll; and, if it is, who can see it: either everybody or just the master. Note that the master can make it public later with the right--click context button.
+### Default system roll
+This will open the default modification popup window of the SWADE rule system.
 
-The custom bennie images lets you select a front and back image for the benny animation shown when you spend one. The front image will also be shown on the Official Character Sheet.
+Other options allow to switch on and off the automatic ammo and power point handling (see below), the uploading of custom benny images and the option to select a different Dice so nice! theme for your damage dice.
 
-Leave both fields empty to use the default bennies, or left the back empty to use the same image for both sides.
+## Anatomy of a Better Rolls card
+The template for the Better Rolls cards provides a lot of useful information that will be detailed below:
 
-Finally, if you are using `Dice So Nice`, you can set the theme for the Wild Die. To make it easy to spot, I recommend using a flat theme like white or black.
+![Overview](docs/Anatomy_Overview_v1-119.png)
 
-## Attribute card
+### 1.	Header section: 
+The header section shows basic information on the roll:
+1.	Actors name and portrait (clicking the portrait will open the character sheet)
+2.	Used item, skill, or power. Also linked to the target (with the exception of attributes)
+3.	Any notes regarding the used item, skill, or power – if none are present the used skill will be displayed.
+### 2.	Basic information section: 
+This section shows basic information and modifications. The header and basic info section are the only ones displayed, before a roll is made.
+1.	Description: This drop down field will display the description of the item, skill or power selected.
+2.	Skill + Level: You can extend the skill description here. This is only applicable for weapon or power rolls.
+3.	Global actions: Some items might have global actions attached to it. This is still in development but will provide options like “Wild Attack” or options to modify ammo or power points.
+4.	More options: In more options you can set a value for a modifier (positive and negatives values are allowed) as well as the TN for this roll – you can change this data later as well.
+### 3.	Roll section: 
+The roll section shows the “meat” of the roll and provides some options to interact with your roll:
+1.	Older rolls will show all rolls done on that card until now, usually through the usage of Bennies or rerolls (will only be displayed if there are older rolls). You can select an older result to proceed with a damage roll if needed.
+2.	Rolls: This section is expandable and will usually only show the rolled dice and will strikethrough the lower value. Next to the dice symbols you see two buttons:
+    1. The reroll button will repeat the current roll with the same modifiers for free
+    2. The benny button will repeat the current roll with the same modifiers and will also spend a Benny. Gamemaster controlled Wild Cards will first use up their own, before using the Gamemaster Bennies.
+    
+While expanding, a table will show the results of the dice as well as any applied modifications. Better Roll2 can recognize *Distracted* on the acting character, *Vulnerable* on the targeted actors, it will factor in the modification provided in "More options" and will also add the modifications done in the modifiers menu right above the chat box. If you missed a modifier, hit the plus symbol in the upper left of the table to add it later:
 
-This is the card that is shown after clicking on an attribute name:
+![Roll Status](docs/Trait_Card_Roll_detail_v1-119.jpg)
 
-![Attribute Card](docs/attribute_card.png)
+### 4.	Result section
+The result section will compare the result with the TN and give a first indication if the roll has been a Critical Failure, a Failure, a Success and one or more Raises.
+1.	You can directly edit the TN by clicking the edit symbol (the one with the pen) OR
+2.	You can also “Get the TN from the target” actor by clicking the target icon (only works with melee weapons) OR
+3.	You can get the TN from the selected actor by clicking the icon to the right (only works with melee weapons).
 
-You can do quite a lot of things here:
+### 5.	Damage section
+The damage section will allow you to roll damage or raise damage, roll it and compare it to the target’s Toughness (if a target is selected). It will also show the AP value of the weapon.
+By expanding that option you can also see, which dice rolled which number and you are also able to throw an additional d6 of damage (in case you forgot the raise) or you can add the Toughness of the target into the roll. If a target is selected, you also have the option to apply the damage (not shown in this overview).
 
-* Click the portrait to open, minimize, and maximize the character sheet.
+NOTE: Although it is possible to select multiple targets with one attack (like Sweep, Frenzy or Weapons with a RoF > 1), damage will only be rolled and applied to a single target.
 
-* Click on More options to expand a small form to add your own modifier or target number.
-
-![Attribute card more options](docs/Attribute_car_more_options.png)
-
-Finally, you can click in the big buttons to roll the attribute. If you use the smaller `with bennie` button, it will subtract one bennie from your pool (or the master pool, if you are the master and the actor has no bennies available).
+### 6.	Stat section
+The small section below the damage section will provide vital information on the active item. While attribute and skills will only provide attribute information like values or linked attributes, weapons will show more details like Range, ROF, Damage and so on, while powers will provide information on Power Points, Range and Duration.
 
 ## Modifier row
 
-Betterrolls will add this section above the chat window
+Better Rolls 2 will add this section above the chat window
 
 ![Chat Window](docs/chat_modifiers.png)
 
 You can use this to quickly add modifiers to a roll.
 
-Click on any element to selec it, its background will turn white. If you click on it again, its background will become red. Finally, another click will deselect it changing it background to the same as the char window.
+You can either set a one time modifier or a persistent modifier. If you click once, the selected icon will turn white and will be deselected after one roll. Click twice, it will turn red and will apply to any roll until you deselect it.
 
-White backgrounds elements will be used in the next roll ant automatically deselected. Red backgounds ones will be keep after the roll, until you deselect them manually.
+Use the "Trait roll modifier" line to affect any trait roll either from a skill, attribute or item.
 
-Use the "Trait roll modifier" line to affect any trait roll either from a skill, attribute or item
-Use "Number of trait dice" to use multiple trait dice on a skill roll, either from a skill or item card. Attributes are not current supported
-Finally de "Damage roll modifier" adds modifiers to damage rolls.
+Use "Number of trait dice" to use multiple trait dice on a skill roll, either from a skill, attribute or item card.
 
-## Result card
+Finally the "Damage roll modifier" adds modifiers to damage rolls.
 
-After clicking `Roll` the module will roll a standard system roll; if you enabled it in settings, it will show a result card after it.
+If you prefer to hide this section, you can find an option to collapse it by default in the settings.
 
-![Roll and resulc cards](docs/roll_and_result_cards.png)
+## Card types
 
-In the image above you can see two cards: the first one is a system roll (with minor modifications), the second one is the result card.
+### Attribute card
 
-Both rows can be expanded to show more details about the roll or the result.
+This is the card that is shown after clicking on an attribute name:
 
-## Skill card
+![Attribute card more options](docs/Attribute_car_more_options.png)
 
-The skill cards are very similar to attribute ones.
+### Skill card
 
-![skill card](docs/skill_card.png)
-
-The main difference is the addition of a collapsed skill description.
-
-The result card will show one row of results for each dice.
+The skill cards are very similar to attribute ones. Please note the collapsed skill description. When rolling multiple Trait dice + Wild die it will show all results.
 
 ![multiple rof result](docs/result_row_multiple_rof.png)
 
-## Item cards
+### Item cards
 
-Item cards can be the simplest or the most complicated of the cards.
+Item Cards can be broken down into different categories. Gear cards are straightforward, while weapon or power cards add a lot of functionality.
 
 A simple item, like an armor would look like this:
 
 ![simple_armor](docs/simple_armor_card.png)
 
-If there is a description available, it will show it. The next screenshots shows the Blind hindrance with the official Core Rules module:
+If there is a description available, it will show it.
+
+#### Edges and Hindrances
+
+Edges and Hindrances, being treated as items in Foundry VTT have the same look:
 
 ![blind_core_hindrance](docs/blind_edge.png)
 
-## Weapon cards
 
-Weapon are the most complicated of the items cards. They look like that.
+#### Melee weapons
 
-![weapon_card](docs/weapon_card.png)
+![Melee weapon](docs/Weapon_Card_Results_v1-119.jpg)
 
-It's quite similar to other item cards, but there some differences.
+In this example, the damage has already been rolled. The roll will than be compared with the TN. This is usually 4, but if you have targeted another actor, it will use that actors Parry instead. As described earlier, you can use a reroll or a Benny to alter your result - all earlier rolls will be added to the "Older rolls" row above the rolls section.
 
-Description starts collapsed because the card is quite big.
+If you are satisfied with your skill roll, you can go ahead and roll damage (either normal damage or raise damage):
 
-There is related ability, in this example shooting. Clicking on it will show its description.
+![Melee damage](docs/Weapon_Card_Damage_v1-119.jpg)
 
-![weapon_card_description](docs/weapon_card_description.png)
+As you can see, you can also use a Benny to reroll the damage, this will add a new row as shown above. If the damage is sufficient to cause a wound or make an opponent shaken, you will also see the "Apply damage" box. If targeted, the damage roll will be compared against the targets Toughness. (see "Soak Rolls" below)
 
-Afterwards there is an option row similar to the one shown on skills. It works the same.
+#### Ranged weapons
 
-If the weapon has ammunition, there is an option (selected by default) to remove shots from it.
+Ranged weapons work similar than melee weapons but their TN is always 4, if not modified in the "More options" section. In the sample below, *Vulnerable* as well as *Distracted* has been factored in this roll:
 
-Finally, there are two buttons, one for rolling the skill and another one to show the damage card.
+![Ranged weapon](docs/Weapon_Card_Shots_and_Status_v1-119.jpg)
 
-If the skill is fighting, the target number of the roll will be taken from the parry value of the first targeted token.
+Please note the "subtract ammo by default" setting in action. If you selected this option in the Settings, the "Subtract ammo" global action will be selected by default and automatically spend an amount of shots based on the amount of Trait die used (1/5/10/20/40/50). With the "Reload/Manual ammo" option you can define an amount of shots you want to reload or fire (like 6 if you want to fan the hammer in a *Deadlands* session). The weapon cannot load more bullets than its maximum capacity though. 
 
-Weapon cards also discount ammo from weapons who have defined a number of shots.
+#### Power cards
 
-![weapons_shots](docs/weapon_shots.png)
+Power cards are very similar to ranged weapons (if they have damaging effects).
 
-If you don't want it to subtract then, please unmark "Subtract ammo". Please note that it will use the normal bullets per rof table in SWADE. If you are using some special attack, like "Rapid Fire" edge, you will need to count ammo yourself.
+![Power Card](docs/power_card_v1-119.jpg)
 
-## Power cards
+Available global actions are "Subtract Power points" - can be activated in the settings as default and "Manual PP management". The automatic solution will always deduct the base amount defined in the power. With the second option you can manually either expend or recharge Power Points
 
-Power cards are very similar to weapon cards, and for now they work the same.
+![Power Point Management](docs/power_point_management_v1-119.jpg)
 
-![power_cards](docs/power_cards.png)
+### Soak Rolls
 
-## Drag and Drop
+![Soak card](docs/soak_card_v1-119.jpg)
 
-## Dice Tray support
+When an actor has been targeted and damaged using the "Apply damage" button, the "Soak card" will appear. This will allow the actor to make a "Soak (Vigor) roll" to spend a Benny and soak damage. This will only be available, if there are Bennies left to spend.
 
-## Custom Bennies
+## More functionalities
 
-The module come with some custom bennies that can be found in the assets/bennies folder.
+### Drag and Drop
+
+You can also use the weapon or power icon to drag it over the actor you want to target. It will execute the "Show card and trait roll" action.
+
+![Drag and Drop](docs/drag_and_drop_v-1-2-10.gif)
+
+For easier accessability, instead of dragging the icon on an actor, you can also drag it to the macro bar, creating an automatic macro instead.
+
+### Custom Bennies
+
+The module comes with some custom bennies that can be found in the assets/bennies folder.
 
 Currently, it ships with some classical roman and greek coins.
 
-## Macros and API
-
-THIS PART OF THE DOCUMENTATION IS OUTDATED, PLEASE CHECK THE SOURCE FOR CURRENT OPTIONS.
+### Macros and API
 
 The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
 
-The module exposes an API in game.brsw, these are the current supported functions:
+The module exposes an API in game.brsw.
 
-### async function create_attribute_card(origin, name)
+### Module Integration
 
-* Creates a chat card for an attribute
-*
-* @param {Token, SwadeActor} origin  The actor or token owning the attribute
-* @param {string} name The name of the attribute like 'vigor'
-* @return A promise for the ChatMessage object
+### Dice so Nice support
 
-Example:
+This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
 
-game.brsw.create_atribute_card(canvas.tokens.controlled[0], "Strength")
+### Dice Tray support
 
-### function create_attribute_card_from_id(token_id, actor_id, name)
+If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
 
- * Creates an attribute card from a token or actor id
- *
- * @param {string} token_id A token id, if it can be solved it will be used before actor
- * @param {string} actor_id An actor id, it could be set as fallback or if you keep token empty as the only way to find the actor
- * @param {string} name: Name of the attribute to roll, like 'vigor'
- * @return {Promise} a promise fot the ChatMessage object
+## Modules
 
-Example:
+### Recommendations
 
-game.brsw.create_attribute_card_from_id(canvas.tokens.controlled[0].id,'', 'spirit')
+Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundryvtt.com/packages/swade-toolkit/
 
-### async function roll_attribute(character, attribute_id, html, expend_bennie)
+### Known incompatibilities
 
- * Roll an attribute showing the roll card and the result card when enables
- *
- * @param {SwadeActor, token} character, The instance who is rolling
- * @param {string} attribute_id, Attribute name like 'spirit'
- * @param {string} html, The html code from a card that will be parsed for options, it could be an empty string.
- * @param {boolean} expend_bennie, True if we want to spend a bennie
-
-Example:
-
-game.brsw.roll_attribute(canvas.tokens.controlled[0], 'spirit', '', false)
-
-### async function create_skill_card(origin, skill_id)
-
-* Creates a chat card for a skill
-*
-* @param {Token, SwadeActor} origin  The actor or token owning the attribute
-* @param {string} skill_id The id of the skill that we want to show
-* @return A promise for the ChatMessage object
-
-Example:
-game.brsw.create_skill_card(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id)
-
-### function create_skill_card_from_id(token_id, actor_id, skill_id)
-
-* Creates a skill card from a token or actor id, mainly for use in macros
-*
-* @param {string} token_id A token id, if it can be solved it will be used
-*  before actor
-* @param {string} actor_id An actor id, it could be set as fallback or
-*  if you keep token empty as the only way to find the actor
-* @param {string} skill_id: Id of the skill item
-* @return {Promise} a promise fot the ChatMessage object
-
-Example:
-game.brsw.create_skill_card_from_id(canvas.tokens.controlled[0].id, '', canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id)
-
-### async function roll_skill(character, skill_id, html, expend_bennie)
-
- * @param {SwadeActor, token} character, The instance who is rolling
- * @param {string} skill_id the id of the skill we are going to roll
- * @param {string} html, The html code from a card that will be parsed for options,
- it could be an empty string.
- * @param {boolean} expend_bennie, True if we want to spend a bennie
-
-Example:
-game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].actor.items.filter(item => {return item.name==="Athletics"})[0].id, '', false)
+SWADE Tools and Better Rolls implement similar things in very different ways. Since both modules affect the same functionalities, neither can live while the other survives (please don't have them active at the same time).
 
 ## Authors
-- Lipefl, author of swade-tools, all the code and assets under swade-tools dir. for now status icons and manteinance.
+
 - JuanV, base of drag and drop support, custom bennies, translation infrastructure.
-- SalieriC, manual ammunition management, power point management, typo hunting.
+- SalieriC, manual ammunition management, power point management, typo hunting, hardy.
 - Kandashi, manual ammunition management.
 - Sergut, documentation corrections.
-- Javier Rivera, most code and this doc.
+- Razortide, documentation, the best parts of this doc are his.
+- Javier Rivera, maintainer.
 - Art assets shipped with the system are attributed by a README file in the same directory.
 - The shipped bennies are property of Classical Numismatic Group, Inc.
 
@@ -239,9 +213,11 @@ game.brsw.roll_skill(canvas.tokens.controlled[0], canvas.tokens.controlled[0].ac
 - Catalá: David Montilla
 
 ## Acknowledgements
+- All the people reporting bugs and opening issues. Without them this module would be far worse. 
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
+- Lipefl, author of swade-tools, for inspiration and just shameless code ripping.
 - All the nice people in the #swade channel of the official discord. Such a great community,
 
 ## License

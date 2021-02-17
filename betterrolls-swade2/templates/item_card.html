@@ -37,7 +37,8 @@
         {{# if actions }}
             <div class="brws-common-modifiers">
                 {{# each actions }}
-                    <span class="brws-selectable brsw-clickable brsw-action" data-action_id="{{ this.code }}">
+                    <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
+                            data-action_id="{{ this.code }}">
                         {{ this.name }}
                     </span>
                 {{/each}}
