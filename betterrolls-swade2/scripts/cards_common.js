@@ -1,6 +1,6 @@
 // Common functions used in all cards
 
-import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
+import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_skill} from "./item_card.js";
 import {get_tn_from_token} from "./skill_card.js";
 
@@ -270,6 +270,12 @@ export function activate_common_listeners(message, html) {
         const index = ev.currentTarget.dataset.index;
         get_tn_from_target(message, index,
             ev.currentTarget.classList.contains('brsw-selected-tn'));
+    })
+    // Repeat card
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-repeat-card').click((ev) => {
+        // noinspection JSIgnoredPromiseFromCall
+        duplicate_message(message, ev);
     })
 }
 
@@ -983,4 +989,22 @@ function has_joker(token_id) {
         }
     });
     return joker;
+}
+
+
+/**
+ * Duplicate a message and clean rolls
+ * @param {ChatMessage} message
+ * @param event: javascript event for click
+ */
+async function duplicate_message(message, event) {
+    let data = duplicate(message.data);
+    console.log(data)
+    // Remove rolls
+    data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
+    data.flags['betterrolls-swade2'].render_data.damage_rolls = [];
+    let new_message = await ChatMessage.create(data);
+    await update_message(new_message, get_actor_from_message(message),
+        data.flags['betterrolls-swade2'].render_data);
+    return new_message
 }

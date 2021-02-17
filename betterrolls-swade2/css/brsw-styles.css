@@ -47,6 +47,11 @@
     top: -.35em;
 }
 
+.brsw-repeat-card {
+    position: relative;
+    top: -4px;
+}
+
 /* Styles for the card body */
 
 .brsw-false-button {
