@@ -178,17 +178,12 @@ The following information assumes a passing knowledge of both javascript and Fou
 
 The module exposes an API in game.brsw.
 
-### Module Integration
-
-### Dice so Nice support
-
-This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
-
-### Dice Tray support
-
-If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
-
 ## Modules
+
+### Integrations
+
+* **Dice so Nice:** This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
+* **Dice Tray:** If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
 
 ### Recommendations
 
