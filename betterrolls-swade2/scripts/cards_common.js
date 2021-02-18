@@ -1,8 +1,8 @@
 // Common functions used in all cards
 
-import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
-import {get_item_from_message, get_item_skill} from "./item_card.js";
-import {get_tn_from_token} from "./skill_card.js";
+import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
+import {get_item_from_message, get_item_skill, roll_item} from "./item_card.js";
+import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 
 export const BRSW_CONST = {
@@ -1011,8 +1011,16 @@ async function duplicate_message(message, event) {
         data.flags['betterrolls-swade2'].render_data);
     const action = get_action_from_click(event);
     if (action.includes('trait')) {
-        if (data.flags['betterrolls-swade2'].card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+        // noinspection JSUnresolvedVariable
+        const card_type = data.flags['betterrolls-swade2'].card_type;
+        if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             await roll_attribute(new_message, '', false);
+        } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
+            await roll_skill(new_message, '', false);
+        } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
+            const roll_damage = action.includes('damage')
+            await roll_item(new_message, '', false,
+                roll_damage);
         }
     }
     return new_message
