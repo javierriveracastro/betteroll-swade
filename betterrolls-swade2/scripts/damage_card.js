@@ -91,17 +91,19 @@ async function apply_damage(token, wounds, soaked=0) {
         // Shaken twice
         if (token.actor.data.items.find(item => {
             return item.name.toLowerCase().includes(
-                game.i18n.localize("BRSW.HardyIdentifier")) && item.type == "edge";
+                game.i18n.localize("BRSW.HardyIdentifier")) && item.type === "edge";
             })) {
-            text += 'Hardy prevents double shaken'
+            text += game.i18n.localize("BRSW.HardyActivated");
             damage_wounds = 0
         } else {
             damage_wounds = 1;
         }
     }
-    text += wounds ? `<p>${token.name} has been damaged for ${wounds} wound(s)</p>` :
-        (damage_wounds ? `<p>${token.name} has been wounded for a double shaken` :
-            `<p>${token.name} has been shaken</p>`);
+    text += wounds ? game.i18n.format(
+        "BRSW.TokenWounded", {token_name:token.name, wounds: wounds}) :
+        (damage_wounds ? game.i18n.format("BRSW.DoubleShaken",
+            {token_name: token.name}) :
+            game.i18n.format("BRSW.TokenShaken", {token_name:token.name}));
     // Now we look for soaking
     if (soaked) {
         damage_wounds = damage_wounds - soaked;
@@ -109,9 +111,9 @@ async function apply_damage(token, wounds, soaked=0) {
             // All damage soaked, remove shaken
             damage_wounds = 0;
             final_shaken = false;
-            text += "<p>but soaked all wounds, removing shaken</p>"
+            text += game.i18n.localize("BRSW.AllSoaked");
         } else {
-            text += `<p>But if have soaked ${soaked} wound(s)</p>`
+            text += game.i18n.format("BRSW.SomeSoaked", {soaked: soaked});
         }
     }
     // Final damage

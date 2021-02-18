@@ -106,5 +106,11 @@
 	"BRSW.PPManagementHint": "Si esta marcado, en las cartas, restar puntos de poder aparece marcado por defecto",
   	"BRSW.SkillName-fighting": "pelear",
     "BRSW.WildAttack": "Ataque Salvaje",
-  	"BRSW.HardyIdentifier": "resistente"
+  	"BRSW.HardyIdentifier": "resistente",
+  	"BRSW.HardyActivated": "<b>Resistente</b> evita un doble aturdimiento",
+  	"BRSW.TokenWounded": "<p>{token_name} ha recibido {wounds} herida(s)</p>",
+    "BRSW.DoubleShaken": "<p>{token_name} ha recibido una herida por doble aturdimiento",
+  	"BRSW.TokenShaken": "<p>{token_name} ha sido aturdido</p>",
+  	"BRSW.AllSoaked": "<p>pero absorbe todas las heridas, elimiando el aturdimiento</p>",
+  	"BRSW.SomeSoaked": "<p>pero ha logrado absorber {soaked} herida(s)</p>"
 }

@@ -107,5 +107,11 @@
 	"BRSW.PPManagementHint": "When checked Subtract pp will be selected by default",
 	"BRSW.SkillName-fighting": "fighting",
 	"BRSW.WildAttack": "Wild Attack",
-	"BRSW.HardyIdentifier": "hardy"
+	"BRSW.HardyIdentifier": "hardy",
+	"BRSW.HardyActivated": "Hardy prevents double shaken",
+	"BRSW.TokenWounded": "<p>{token_name} has been damaged for {wounds} wound(s)</p>",
+	"BRSW.DoubleShaken": "<p>{token_name} has been wounded for a double shaken",
+	"BRSW.TokenShaken": "<p>{token_name} has been shaken</p>",
+	"BRSW.AllSoaked": "<p>but soaked all wounds, removing shaken</p>",
+	"BRSW.SomeSoaked": "<p>But was able to soak {soaked} wound(s)</p>"
 }
