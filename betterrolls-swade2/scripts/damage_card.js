@@ -206,7 +206,7 @@ async function roll_soak(message, use_bennie) {
             result = Math.max(roll.result, result);
         })
     })
-    if (result > 4) {
+    if (result => 4) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds,
             "data.status.isShaken": render_data.undo_values.shaken});
