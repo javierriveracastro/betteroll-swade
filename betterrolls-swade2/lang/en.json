@@ -77,7 +77,7 @@
 	"BRSW.ExpendPP": "Expend PP",
 	"BRSW.RechargePP": "Recharge PP",
 	"BRSW.RechargePPText": "{name} recharges {number} Power Point(s) and now has <b>{newPP}</b>.",
-	"BRSW.RechargePPTextHitMax": "{name} recharges {rechargedPP} and now is at the maximum of <b>ppm</b>.",
+	"BRSW.RechargePPTextHitMax": "{name} recharges {rechargedPP} and now is at the maximum of <b>{ppm}</b>.",
 	"BRSW.PPBeniRecharge": "Benny Recharge",
 	"BRSW.NoBennies": "You have no Bennies left.",
 	"BRSW.RechargePPBennyText": "{name} recharges 5 Power Point(s) using a Benny and now has <b>{newPP}</b>.",

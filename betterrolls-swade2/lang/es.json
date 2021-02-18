@@ -77,6 +77,7 @@
     "BRSW.ExpendPP": "Gasta PP",
   	"BRSW.RechargePP": "Recarga PP",
     "BRSW.RechargePPText": "{name} recarga {number} Punto(s) de poder y ahora tiene <b>{newPP}</b>.",
+  	"BRSW.RechargePPTextHitMax": "{name} ha recargado {rechargedPP} puntos de poder y esta en su máximo de <b>{ppm}</b>.",
     "BRSW.PPBeniRecharge": "Recarga con beni",
     "BRSW.NoBennies": "No te quedan benis",
   	"BRSW.RechargePPBennyText": "{name} recarga 5 Puntos de poder usando un beni y ahora tiene <b>{newPP}</b>.",
