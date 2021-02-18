@@ -910,16 +910,24 @@ function manual_pp(actor) {
                     if (newPP > ppm) {
                         // noinspection JSIgnoredPromiseFromCall
                         actor.update({ "data.powerPoints.value": ppm });
+                        // Declaring variables to reflect hitting the maximum
+                        let rechargedPP = ppm - ppv;
+                        ChatMessage.create({
+                            speaker: {
+                                alias: name
+                            },
+                            content: game.i18n.format("BRSW.RechargePPTextHitMax", {name: actor.name, rechargedPP: rechargedPP, ppm: ppm})
+                        })
                     }
                     else {
                         actor.update({ "data.powerPoints.value": newPP });
+                        ChatMessage.create({
+                            speaker: {
+                                alias: name
+                            },
+                            content: game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: number, newPP: newPP})
+                        })
                     }
-                    ChatMessage.create({
-                        speaker: {
-                            alias: name
-                        },
-                        content: game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: number, newPP: newPP})
-                    })
                 }
             },
             three: {
@@ -930,15 +938,25 @@ function manual_pp(actor) {
                         ui.notifications.notify(game.i18n.localize("BRSW.NoBennies"));
                     }
                     else {
-                        let newPP = ppv + 5
-                        actor.update({ "data.powerPoints.value": Math.min(newPP, ppm)});
+                        let newPP = Math.min(ppv + 5, ppm);
+                        actor.update({ "data.powerPoints.value": newPP });
                         actor.spendBenny();
-                        ChatMessage.create({
-                            speaker: {
-                                alias: name
-                            },
-                            content: game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP})
-                        })
+                        if (newPP === ppm) {
+                            ChatMessage.create({
+                                speaker: {
+                                    alias: name
+                                },
+                                content: game.i18n.format("BRSW.RechargePPBennyTextHitMax", {name: actor.name, ppm: ppm})
+                            })
+                        }
+                        else {
+                            ChatMessage.create({
+                                speaker: {
+                                    alias: name
+                                },
+                                content: game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP})
+                            })
+                        }
                     }
                 }
             },
