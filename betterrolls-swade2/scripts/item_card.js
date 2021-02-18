@@ -885,7 +885,7 @@ function manual_pp(actor) {
                     //Button 1: Spend Power Point(s) (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
                     let number = Number(html.find("#num")[0].value);
                     let newPP = Math.max(ppv - number, 0);
-                    if (newPP < 0) {
+                    if (ppv - number < 0) {
                         ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
                     }
                     else {
