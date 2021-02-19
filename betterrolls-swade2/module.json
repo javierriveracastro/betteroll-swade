@@ -21,6 +21,11 @@
 			"lang": "ca",
 			"name": "Catalan",
 			"path": "lang/ca.json"
+		},
+		{
+			"lang": "de",
+			"name": "German",
+			"path": "lang/de.json"
 		}
 	],
 	"systems": ["swade"],
