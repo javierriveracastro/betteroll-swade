@@ -52,9 +52,15 @@ async function create_item_card(origin, item_id) {
         // noinspection JSUnresolvedVariable
         if (item.data.data.actions.additional.hasOwnProperty(action)) {
             // noinspection JSUnresolvedVariable
+            const has_skill_mod =
+                !!(item.data.data.actions.additional[action].skillMod ||
+                    item.data.data.actions.additional[action].skillOverride);
+            const has_dmg_mod =
+                !!item.data.data.actions.additional[action].dmgMod;
             actions.push(
                 {'code': action, 'name': item.data.data.actions.additional[action].name,
-                    pinned: false});
+                    pinned: false, damage_icon: has_dmg_mod,
+                    skill_icon: has_skill_mod});
             // noinspection JSUnresolvedVariable
             if (!possible_default_dmg_action &&
                     item.data.data.actions.additional[action].dmgOverride) {
@@ -75,11 +81,15 @@ async function create_item_card(origin, item_id) {
         damage = possible_default_dmg_action;
     }
     get_actions(item, actor).forEach(global_action => {
+        const has_skill_mod = !!global_action.skillMod;
+        const has_dmg_mod = !!global_action.dmgMod;
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         actions.push(
-            {code: global_action.name, name: button_name, pinned: false});
+            {code: global_action.name, name: button_name, pinned: false,
+                damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
     })
+    console.log(actions)
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: damage,
