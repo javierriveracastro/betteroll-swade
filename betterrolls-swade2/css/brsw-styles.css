@@ -78,6 +78,11 @@
     border: 1px solid darkgray;
     border-radius: 5px;
     font-size: 12px;
+    white-space: nowrap;
+}
+
+.brsw-action {
+    line-height: 1.7;
 }
 
 .brws-selectable.brws-selected {
