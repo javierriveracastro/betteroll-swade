@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.1 aka Google Übersetzer sagen, dies sollte deutsch sein
+* German translations (Razortide)
+* Updated documentation (Razortide)
+* Show a message when pp overflows (SalieriC)
+* Better management of pinned (marked in red) actions.
+* New button to repeat a card
+* Old rolls are a 30% bigger.
+* Soak text and translations updated (Javier Rivera/Razortide)
+* BUGFIX: A soak roll of 4 now removes a wound
+* Actions now show an icon before than an have bigger margins.
+
 ## Version 2.0 aka Release...
 * BUGFIX: Damage was not beign rolled when in full automation.
 * BUGFIX: Actions marked in red now are keeped after rolling.
