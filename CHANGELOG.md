@@ -1,10 +1,10 @@
 # Changelog
 
-## version 2,1 aka Google Übersetzer sagen, dies sollte deutsch sein
+## Version 2.1 aka Google Übersetzer sagen, dies sollte deutsch sein
 * German translations (Razortide)
 * Updated documentation (Razortide)
 * Show a message when pp overflows (SalieriC)
-* Better managemente of pinned (marked in red) actions.
+* Better management of pinned (marked in red) actions.
 * New button to repeat a card
 * Old rolls are a 30% bigger.
 * Soak text and translations updated (Javier Rivera/Razortide)
