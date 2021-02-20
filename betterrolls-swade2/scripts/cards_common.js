@@ -429,7 +429,7 @@ export function get_roll_options(html, old_options){
  * @param trait
  */
 export function trait_to_string(trait) {
-    let string = `${name} d${trait.die.sides}`;
+    let string = `d${trait.die.sides}`;
     let modifier = parseInt(
         trait.die.modifier);
     if (modifier) {
