@@ -1,6 +1,6 @@
-# Better Rolls for SWADE 
+# Better Rolls for SWADE
 
-Please leave your feedback on the official Foundry discord. Feel free to ping me if you want. 
+Please leave your feedback on the official Foundry discord. Feel free to ping me if you want.
 
 Criticism, feature requests, and UI changes are all welcome but, if you want me to do something about it, please be as detailed as you can. Please, at the very least, tell me what you expect and why do you believe your approach is better.
 
@@ -34,24 +34,24 @@ The template for the Better Rolls cards provides a lot of useful information tha
 
 ![Overview](docs/Anatomy_Overview_v1-119.png)
 
-### 1.	Header section: 
+### 1.	Header section:
 The header section shows basic information on the roll:
 1.	Actors name and portrait (clicking the portrait will open the character sheet)
-2.	Used item, skill, or power. Also linked to the target (with the exception of attributes)
+2.	Used item, skill, or power. Also linked to the target (with the exception of attributes). NEW Feature in V2.1: You can now repeat the whole roll with the arrow next to the name.
 3.	Any notes regarding the used item, skill, or power – if none are present the used skill will be displayed.
-### 2.	Basic information section: 
+### 2.	Basic information section:
 This section shows basic information and modifications. The header and basic info section are the only ones displayed, before a roll is made.
 1.	Description: This drop down field will display the description of the item, skill or power selected.
 2.	Skill + Level: You can extend the skill description here. This is only applicable for weapon or power rolls.
 3.	Global actions: Some items might have global actions attached to it. This is still in development but will provide options like “Wild Attack” or options to modify ammo or power points.
 4.	More options: In more options you can set a value for a modifier (positive and negatives values are allowed) as well as the TN for this roll – you can change this data later as well.
-### 3.	Roll section: 
+### 3.	Roll section:
 The roll section shows the “meat” of the roll and provides some options to interact with your roll:
 1.	Older rolls will show all rolls done on that card until now, usually through the usage of Bennies or rerolls (will only be displayed if there are older rolls). You can select an older result to proceed with a damage roll if needed.
 2.	Rolls: This section is expandable and will usually only show the rolled dice and will strikethrough the lower value. Next to the dice symbols you see two buttons:
     1. The reroll button will repeat the current roll with the same modifiers for free
     2. The benny button will repeat the current roll with the same modifiers and will also spend a Benny. Gamemaster controlled Wild Cards will first use up their own, before using the Gamemaster Bennies.
-    
+
 While expanding, a table will show the results of the dice as well as any applied modifications. Better Roll2 can recognize *Distracted* on the acting character, *Vulnerable* on the targeted actors, it will factor in the modification provided in "More options" and will also add the modifications done in the modifiers menu right above the chat box. If you missed a modifier, hit the plus symbol in the upper left of the table to add it later:
 
 ![Roll Status](docs/Trait_Card_Roll_detail_v1-119.jpg)
@@ -138,7 +138,7 @@ Ranged weapons work similar than melee weapons but their TN is always 4, if not 
 
 ![Ranged weapon](docs/Weapon_Card_Shots_and_Status_v1-119.jpg)
 
-Please note the "subtract ammo by default" setting in action. If you selected this option in the Settings, the "Subtract ammo" global action will be selected by default and automatically spend an amount of shots based on the amount of Trait die used (1/5/10/20/40/50). With the "Reload/Manual ammo" option you can define an amount of shots you want to reload or fire (like 6 if you want to fan the hammer in a *Deadlands* session). The weapon cannot load more bullets than its maximum capacity though. 
+Please note the "subtract ammo by default" setting in action. If you selected this option in the Settings, the "Subtract ammo" global action will be selected by default and automatically spend an amount of shots based on the amount of Trait die used (1/5/10/20/40/50). With the "Reload/Manual ammo" option you can define an amount of shots you want to reload or fire (like 6 if you want to fan the hammer in a *Deadlands* session). The weapon cannot load more bullets than its maximum capacity though.
 
 #### Power cards
 
@@ -209,7 +209,7 @@ Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundry
 - Catalá: David Montilla
 
 ## Acknowledgements
-- All the people reporting bugs and opening issues. Without them this module would be far worse. 
+- All the people reporting bugs and opening issues. Without them this module would be far worse.
 - Atropos for making Foundry VTT
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
