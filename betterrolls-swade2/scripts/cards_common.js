@@ -10,6 +10,7 @@ export const BRSW_CONST = {
     TYPE_SKILL_CARD: 2,
     TYPE_ITEM_CARD: 3,
     TYPE_DMG_CARD: 10,
+    TYPE_INC_CARD: 11,
     TYPE_RESULT_CARD: 100,
 };
 
@@ -22,6 +23,7 @@ export function BRWSRoll() {
         // extra_class, tn, result_txt, result_icons, ap, armor, target_id}
     this.modifiers = []; // Array of modifiers {name,  value, extra_class}
     this.dice = []; // Array with the dice {sides, results: [int], label, extra_class}
+    // noinspection JSUnusedGlobalSymbols
     this.is_fumble = false
     this.old_rolls = [] // Array with an array of old rolls.
 }

@@ -22,14 +22,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     // noinspection JSUnresolvedVariable
     const can_soak = wounds || actor.data.data.status.isShaken;
     const text = await apply_damage(token, wounds, 0);
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
-    for (let status in actor.data.data.status) {
-        // noinspection JSUnfilteredForInLoop
-        if (actor.data.data.status[status]) {
-            // noinspection JSUnfilteredForInLoop
-            footer.push(status.slice(2));
-        }
-    }
+    const footer = damage_card_footer(actor);
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
@@ -48,10 +41,30 @@ export async function create_damage_card(token_id, damage, damage_text) {
 
 
 /**
+ * Creates the footer for damage and incapacitation cards
+ * @param {{SwadeActor}} actor
+ * @return {[string]}
+ */
+function damage_card_footer(actor){
+    // noinspection JSUnresolvedVariable
+    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
+    // noinspection JSUnresolvedVariable
+    for (let status in actor.data.data.status) {
+        // noinspection JSUnfilteredForInLoop,JSUnresolvedVariable
+        if (actor.data.data.status[status]) {
+            // noinspection JSUnfilteredForInLoop
+            footer.push(status.slice(2));
+        }
+    }
+    return footer
+}
+
+
+/**
  * Gets the owner of an actor
  * @param {SwadeActor} actor
  */
-function get_owner(actor) {
+export function get_owner(actor) {
     let player;
     let gm;
     game.users.forEach(user => {
@@ -206,7 +219,7 @@ async function roll_soak(message, use_bennie) {
             result = Math.max(roll.result, result);
         })
     })
-    if (result => 4) {
+    if (result >= 4) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds,
             "data.status.isShaken": render_data.undo_values.shaken});

@@ -112,5 +112,9 @@
     "BRSW.DoubleShaken": "<p>{token_name} ha recibido una herida por doble aturdimiento",
   	"BRSW.TokenShaken": "<p>{token_name} ha sido aturdido</p>",
   	"BRSW.AllSoaked": "<p>pero absorbe todas las heridas, elimiando el aturdimiento</p>",
-  	"BRSW.SomeSoaked": "<p>pero ha logrado absorber {soaked} herida(s)</p>"
+  	"BRSW.SomeSoaked": "<p>pero ha logrado absorber {soaked} herida(s)</p>",
+  	"BRSW.IncapacitatedText": "<p>{token_name} ha sido incapacitado",
+  	"BRSW.IncapacitatedMustVigor": " y debe lanzar vigor para conocer su destiono</p>",
+  	"BRSW.Incapacitation": "Incapacitado",
+  	"BRSW.IncapacitationRoll": "Tirar por incapacitación (Vigor)"
 }

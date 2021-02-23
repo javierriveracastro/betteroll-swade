@@ -113,5 +113,9 @@
 	"BRSW.DoubleShaken": "<p>{token_name} has been wounded for a double shaken",
 	"BRSW.TokenShaken": "<p>{token_name} has been shaken</p>",
 	"BRSW.AllSoaked": "<p>but soaked all wounds, removing shaken</p>",
-	"BRSW.SomeSoaked": "<p>But was able to soak {soaked} wound(s)</p>"
+	"BRSW.SomeSoaked": "<p>But was able to soak {soaked} wound(s)</p>",
+	"BRSW.IncapacitatedText": "<p>{token_name} has been incapacitated",
+	"BRSW.IncapacitatedMustVigor": "and must roll vigor to known his fate</p>",
+	"BRWS.Incapacitation": "Incapacitation",
+	"BRSW.IncapacitationRoll": "Roll Incapacitation (Vigor)"
 }
