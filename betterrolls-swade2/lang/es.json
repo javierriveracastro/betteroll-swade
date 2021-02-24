@@ -116,5 +116,6 @@
   	"BRSW.IncapacitatedText": "<p>{token_name} ha sido incapacitado",
   	"BRSW.IncapacitatedMustVigor": " y debe lanzar vigor para conocer su destiono</p>",
   	"BRSW.Incapacitation": "Incapacitado",
-  	"BRSW.IncapacitationRoll": "Tirar por incapacitación (Vigor)"
+  	"BRSW.IncapacitationRoll": "Tirar por incapacitación (Vigor)",
+	"BRSW.IncapcitationCard": "Ver carta incapacitacion"
 }

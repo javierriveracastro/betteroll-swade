@@ -19,4 +19,12 @@
         </div>
     {{/if}}
 {{/if}}
+{{# if show_incapacitation }}
+    <hr>
+    <div class="brsw-button-row brsw-form">
+        <button class="brsw-show-incapacitation">
+            {{ localize "BRSW.IncapcitationCard" }}
+        </button>
+    </div>
+{{/if}}
 {{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}

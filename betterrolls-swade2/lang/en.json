@@ -116,6 +116,7 @@
 	"BRSW.SomeSoaked": "<p>But was able to soak {soaked} wound(s)</p>",
 	"BRSW.IncapacitatedText": "<p>{token_name} has been incapacitated",
 	"BRSW.IncapacitatedMustVigor": "and must roll vigor to known his fate</p>",
-	"BRWS.Incapacitation": "Incapacitation",
-	"BRSW.IncapacitationRoll": "Roll Incapacitation (Vigor)"
+	"BRSW.Incapacitation": "Incapacitation",
+	"BRSW.IncapacitationRoll": "Roll Incapacitation (Vigor)",
+	"BRSW.IncapcitationCard": "Show Incapacitation card"
 }

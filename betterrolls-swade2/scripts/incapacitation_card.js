@@ -8,11 +8,14 @@ import {get_owner} from "./damage_card.js";
  * @param {string} token_id As it comes from damage its target is always a token
  */
 export async function create_incapacitation_card(token_id) {
+    console.log(token_id)
     let token = canvas.tokens.get(token_id);
+    console.log(token)
     let actor = token.actor;
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
-    const text = game.i18n.format("BRSW.IncapacitatedText");
+    const text = game.i18n.format("BRSW.IncapacitatedText",
+        {token_name: token.name});
     const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor")
     let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
     for (let status in actor.data.data.status) {
@@ -24,7 +27,7 @@ export async function create_incapacitation_card(token_id) {
     }
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
-    {header: {type: game.i18n.localize("BRSW.Incapacitation"),
+    {header: {type: '',
         title: game.i18n.localize("BRSW.Incapacitation"),
         notes: token.name}, text: text, text_after: text_after,
         footer: footer, trait_roll: trait_roll},
