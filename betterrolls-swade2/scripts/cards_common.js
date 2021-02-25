@@ -137,11 +137,15 @@ export function create_render_options(actor, options) {
  * @param {Actor} actor: The actor that we are checking
  */
 export function are_bennies_available(actor) {
+    console.log("HEREEEEEEEEEE")
     if (actor.hasPlayerOwner) {
         return (actor.data.data.bennies.value > 0);
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        console.log('actor bennie')
         return true;
     }
+    console.log('gm bennie')
+    console.log(game.user.getFlag('swade', 'bennies'))
     return game.user.getFlag('swade', 'bennies') > 0;
 }
 

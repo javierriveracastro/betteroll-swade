@@ -35,14 +35,15 @@ export function makeExplotable(expresion) {
 
 export async function spendMastersBenny() {
     // Expends one benny from the master stack
-    game.users.forEach((user) => {
+    // noinspection ES6MissingAwait
+    for (let user of game.users) {
         if (user.isGM) {
             let value = user.getFlag('swade', 'bennies');
             if (value > 0){
-                user.setFlag('swade', 'bennies', value - 1);
+                await user.setFlag('swade', 'bennies', value - 1);
             }
         }
-    })
+    }
 }
 
 export function broofa() {
@@ -50,14 +51,6 @@ export function broofa() {
         let r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
-}
-
-export function get_item(jquery_selector, actor) {
-	if (! jquery_selector.attr('data-item-id')) {
-		// We are likely inside a li who contains the item id
-		jquery_selector = $(jquery_selector).parents(".item");
-	}
-	return actor.getOwnedItem(String(jquery_selector.attr("data-item-id")));
 }
 
 
