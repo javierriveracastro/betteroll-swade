@@ -117,5 +117,10 @@
   	"BRSW.IncapacitatedMustVigor": " y debe lanzar vigor para conocer su destiono</p>",
   	"BRSW.Incapacitation": "Incapacitado",
   	"BRSW.IncapacitationRoll": "Tirar por incapacitación (Vigor)",
-	"BRSW.IncapcitationCard": "Ver carta incapacitacion"
+	"BRSW.IncapcitationCard": "Ver carta incapacitación",
+	"BRSW.IncapacitationRoll": "Tirada de incapacitación",
+	"BRSW.IsDead": "esta muerto",
+	"BRSW.BleedingOutResult": ", ha sufrido una herida permanente y esta desangrandose.</p>",
+	"BRSW.TempInjury": ", y ha sufrido una herida temporal (se va cuando se curen todas las heridas).</p>",
+	"BRSW.TempInjury24": ", y ha sufrido una herida temporal que se pasa en 24 horas o cuando se curen todas las heridas.</p>"
 }

@@ -118,5 +118,10 @@
 	"BRSW.IncapacitatedMustVigor": "and must roll vigor to known his fate</p>",
 	"BRSW.Incapacitation": "Incapacitation",
 	"BRSW.IncapacitationRoll": "Roll Incapacitation (Vigor)",
-	"BRSW.IncapcitationCard": "Show Incapacitation card"
+	"BRSW.IncapcitationCard": "Show Incapacitation card",
+	"BRSW.IncapacitationRoll": "Incacacitation roll",
+	"BRSW.IsDead": "is now dead",
+	"BRSW.BleedingOutResult": ", has suffered a permanent injury and is bleeding out</p>",
+	"BRSW.TempInjury": ", and has suffered a temporary injury (goes away when all wounds are cured).</p>",
+	"BRSW.TempInjury24": ", and has suffered an injury that goes away in 24 hours or when all wounds are healed</p>"
 }

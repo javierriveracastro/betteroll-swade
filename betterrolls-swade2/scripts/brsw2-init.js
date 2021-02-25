@@ -9,6 +9,7 @@ import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
 import {activate_damage_card_listeners} from "./damage_card.js";
 import {register_actions} from "./global_actions.js";
+import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
 
 // Startup scripts
 
@@ -71,6 +72,8 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_item_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_DMG_CARD) {
             activate_damage_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_INC_CARD) {
+            activate_incapacitation_card_listeners(message, html);
         }
         // Hide forms to non master, non owner
         if (game.user.id !== message.data.user && !game.user.isGM) {
