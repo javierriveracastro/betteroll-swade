@@ -26,18 +26,21 @@ export function register_actions() {
  */
 export function get_actions(item, actor) {
     let actions_avaliable = [];
+    const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
-        let selected = false;
-        if (action.selector_type === 'skill') {
-           const skill = get_item_skill(item, actor);
-           if (skill) {
-               selected = skill.name.toLowerCase().includes(action.selector_value) ||
-                    skill.name.toLowerCase().includes(
-                        game.i18n.localize("BRSW.SkillName-" + action.selector_value));
+        if (!disabled_actions.includes(action.id)) {
+            let selected = false;
+            if (action.selector_type === 'skill') {
+               const skill = get_item_skill(item, actor);
+               if (skill) {
+                   selected = skill.name.toLowerCase().includes(action.selector_value) ||
+                        skill.name.toLowerCase().includes(
+                            game.i18n.localize("BRSW.SkillName-" + action.selector_value));
+               }
            }
-       }
-        if (selected) {
-            actions_avaliable.push(action);
+            if (selected) {
+                actions_avaliable.push(action);
+            }
         }
     });
     return actions_avaliable;
@@ -84,7 +87,6 @@ export class SystemGlobalConfiguration extends FormApplication {
         let disabled_actions = [];
         for (let id in formData) {
             if (!formData[id]) {
-                console.log(id)
                 disabled_actions.push(id);
             }
         }

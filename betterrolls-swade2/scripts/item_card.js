@@ -89,7 +89,6 @@ async function create_item_card(origin, item_id) {
             {code: global_action.name, name: button_name, pinned: false,
                 damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
     })
-    console.log(actions)
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             notes: notes, img: item.img}, footer: footer, damage: damage,
