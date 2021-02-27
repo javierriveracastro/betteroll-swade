@@ -64,7 +64,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
     let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     let render_object = create_render_options(
         actor, render_data)
-    let chatData = create_basic_chat_data(actor, chat_type);
+    let chatData = create_basic_chat_data(origin, chat_type);
     chatData.content = await renderTemplate(template, render_object);
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
@@ -83,11 +83,22 @@ export async function create_common_card(origin, render_data, chat_type, templat
 
 /**
 * Creates the basic chat data common to most cards
-* @param {SwadeActor} actor:  The actor origin of the message
+* @param {SwadeActor, Token} origin:  The actor origin of the message
 * @param {int} type: The type of message
 * @return An object suitable to create a ChatMessage
 */
-export function create_basic_chat_data(actor, type){
+export function create_basic_chat_data(origin, type){
+    let actor;
+    let token;
+    if (origin.hasOwnProperty('actor')) {
+        // This is a token
+        actor = origin.actor;
+        token = origin;
+    } else {
+        // This is an actor
+        actor = origin;
+        token = actor.token;
+    }
     let whisper_data = getWhisperData();
     // noinspection JSUnresolvedVariable
     let chatData = {
@@ -95,8 +106,8 @@ export function create_basic_chat_data(actor, type){
         content: '<p>Default content, likely an error in Better Rolls</p>',
         speaker: {
             actor: actor._idx,
-            token: actor.token,
-            alias: actor.name
+            token: token,
+            alias: origin.name
         },
         type: type,
         blind: whisper_data.blind
