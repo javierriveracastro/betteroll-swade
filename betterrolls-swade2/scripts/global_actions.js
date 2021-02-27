@@ -37,7 +37,9 @@ export function get_actions(item, actor) {
                         skill.name.toLowerCase().includes(
                             game.i18n.localize("BRSW.SkillName-" + action.selector_value));
                }
-           }
+           } else if (action.selector_type === 'item_type') {
+                selected = item.type === action.selector_value;
+            }
             if (selected) {
                 actions_avaliable.push(action);
             }
