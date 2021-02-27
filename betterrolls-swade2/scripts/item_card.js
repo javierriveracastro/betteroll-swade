@@ -183,8 +183,13 @@ export function activate_item_listeners(app, html) {
         const item_id = ev.currentTarget.dataset.itemId;
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
-        const actor = game.actors.get(actor_id);
-        const item = actor.getOwnedItem(item_id);
+        let actor = game.actors.get(actor_id);
+        let item = actor.getOwnedItem(item_id);
+        if (!actor || !item) {
+            // Fallback to token
+           actor = canvas.tokens.get(token_id);
+           item = actor.actor.getOwnedItem(item_id);
+        }
         const macro_data = {name: `${actor.name}: ${item.name}`, img: item.img,
             type: "script", scope: "global"};
         macro_data.command =
