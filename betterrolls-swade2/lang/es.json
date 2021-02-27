@@ -124,6 +124,7 @@
 	"BRSW.TempInjury24": ", y ha sufrido una herida temporal que se pasa en 24 horas o cuando se curen todas las heridas.</p>",
 	"BRSW.SystemGlobalMenu": "Activa o desactiva acciones globales",
 	"BRSW.SystemGlobalMenuHint": "Usa esta ventana para seleccionar que acciones globales quieres que esten activas",
-	"BRSW.SystemGlobalMenuLabel": "Acciones globales"
-
+	"BRSW.SystemGlobalMenuLabel": "Acciones globales",
+	"BRSW.Save": "Guardar",
+	"BRSW.TheDrop": "Superioridad"
 }

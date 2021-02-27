@@ -1,1 +1,13 @@
-<h1>Enable/disable global actions</h1>
+<form id="brsw-global-actions">
+    <h2>{{ localize "BRSW.SystemGlobalMenu" }}</h2>
+    <table>
+        {{# each actions }}<tr>
+            <td>
+                <input type="checkbox" name="{{{ this.id }}}"
+                    {{#if this.enabled}}checked="checked"{{/if}}>
+            </td>
+            <td>{{ this.name }}</td>
+        </tr>{{/ each}}
+    </table>
+    <button type="submit"><i class="far fa-save"></i>{{localize "BRSW.Save"}}</button>
+</form>

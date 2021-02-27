@@ -174,7 +174,13 @@ function register_settings_version2() {
         label: "BRSW.SystemGlobalMenuLabel",
         hint: "BRSW.SystemGlobalMenuHint",
         type: SystemGlobalConfiguration
-    })
+    });
+    game.settings.register('betterrolls-swade2', 'system_action_disabled', {
+        name: "System_Actions_disabled",
+        default: [],
+        type: Array,
+        config: false
+    });
     const br_choices = {
         system: game.i18n.localize('BRSW.Default_system_roll'),
         card: game.i18n.localize('BRSW.Show_Betterrolls_card'),

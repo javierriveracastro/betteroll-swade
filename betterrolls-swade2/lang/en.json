@@ -125,5 +125,7 @@
 	"BRSW.TempInjury24": ", and has suffered an injury that goes away in 24 hours or when all wounds are healed</p>",
 	"BRSW.SystemGlobalMenu": "Enable or disable global actions",
 	"BRSW.SystemGlobalMenuHint": "Use this window to enable or disable individual global actions defined by the system",
-	"BRSW.SystemGlobalMenuLabel": "Global actions"
+	"BRSW.SystemGlobalMenuLabel": "Global actions",
+	"BRSW.Save": "Save",
+	"BRSW.TheDrop": "The Drop"
 }
