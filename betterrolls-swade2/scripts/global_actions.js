@@ -51,3 +51,15 @@ export function get_global_action_from_name(name) {
         }
     }
 }
+
+
+/**
+ * The global action selection window
+ */
+export class SystemGlobalConfiguration extends FormApplication {
+    static get defaultOptions() {
+        let options = super.defaultOptions;
+        options.template = "/modules/betterrolls-swade2/templates/system_globals.html";
+        return options;
+    }
+}
