@@ -8,7 +8,10 @@ const SYSTEM_GLOBAL_ACTION = [
         self_add_status: "Vulnerable"},
     {id: "DROP", name:"The Drop", button_name: "BRSW.TheDrop", skillMod: 4,
         dmgMod: 4, dmgOverride: "", selector_type: "item_type",
-        selector_value: "weapon"}
+        selector_value: "weapon"},
+    {id: "HEAD", name:"Called Shot: Head", button_name: "BRSW.CalledHead", skillMod: -4,
+        dmgMod: +4, dmgOverride: "", selector_type: "item_type",
+        selector_value: "weapon"},
 ]
 
 /**

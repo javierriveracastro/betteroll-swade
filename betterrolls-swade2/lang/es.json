@@ -126,5 +126,6 @@
 	"BRSW.SystemGlobalMenuHint": "Usa esta ventana para seleccionar que acciones globales quieres que esten activas",
 	"BRSW.SystemGlobalMenuLabel": "Acciones globales",
 	"BRSW.Save": "Guardar",
-	"BRSW.TheDrop": "Superioridad"
+	"BRSW.TheDrop": "Superioridad",
+	"BRSW.CalledHead": "Disparo apuntado: Cabeza"
 }

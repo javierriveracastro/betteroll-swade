@@ -127,5 +127,6 @@
 	"BRSW.SystemGlobalMenuHint": "Use this window to enable or disable individual global actions defined by the system",
 	"BRSW.SystemGlobalMenuLabel": "Global actions",
 	"BRSW.Save": "Save",
-	"BRSW.TheDrop": "The Drop"
+	"BRSW.TheDrop": "The Drop",
+	"BRSW.CalledHead": "Called shot: Head"
 }
