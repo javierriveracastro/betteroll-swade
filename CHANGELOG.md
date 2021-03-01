@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.2 aka Scared of 0.8
+* BUGFIS: Some debug info was shown in char card.
+* Incapacitation card.
+* Global actions can be enabled/disabled on settings
+* Global actions for "The Drop" and "Called Shot:Head"
+* Global actions can now be selected by item type.
+* Actor and token names are used with more consistence.
+
 ## Version 2.1 aka Google Übersetzer sagen, dies sollte deutsch sein
 * German translations (Razortide)
 * Updated documentation (Razortide)
