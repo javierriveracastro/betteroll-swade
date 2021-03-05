@@ -129,5 +129,10 @@
 	"BRSW.Save": "Save",
 	"BRSW.TheDrop": "The Drop",
 	"BRSW.CalledHead": "Called shot: Head",
-	"BRSW.RollInjury": "Roll for injury"
+	"BRSW.RollInjury": "Roll for injury",
+	"BRSW.Unmentionables": "Unmentionables",
+	"BRSW.Arm": "Arm",
+	"BRSW.Guts": "Guts",
+	"BRSW.Leg": "Leg",
+	"BRSW.Head": "Head"
 }

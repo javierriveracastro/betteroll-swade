@@ -10,6 +10,14 @@ import {
 } from "./cards_common.js";
 import {get_owner} from "./damage_card.js";
 
+const INJURY_BASE = {
+    2: "BRSW.Unmentionables",
+    4: "BRSW.Arm",
+    5: "BRSW.Guts",
+    10: "BRSW.Leg",
+    12: "BRSW.Head"
+}
+
 /**
  * Shows a incapacitation card an
  * @param {string} token_id As it comes from damage its target is always a token
@@ -125,13 +133,39 @@ export async function create_injury_card(token_id) {
             footer.push(status.slice(2));
         }
     }
+    // First roll
+    let first_roll = new Roll("2d6");
+    first_roll.evaluate();
+    if (game.dice3d) {
+        // noinspection ES6MissingAwait
+        game.dice3d.showForRoll(first_roll, game.user, true);
+    }
     let message = await create_common_card(token,
     {header: {type: '',
         title: game.i18n.localize("BRSW.InjuryCard"),
-        notes: token.name}, footer: footer}, CONST.CHAT_MESSAGE_TYPES.IC,
+        notes: token.name}, first_roll: first_roll,
+        first_location: read_table(INJURY_BASE, first_roll.result),
+        footer: footer}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/injury_card.html")
     await message.update({user: user._id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INJ_CARD)
     return message
+}
+
+/**
+ * Reads the result on a table
+ * @param {object} table
+ * @param {integer} value
+ */
+function read_table(table, value) {
+    let result;
+    for (let index in table) {
+        if (table.hasOwnProperty(index)) {
+            if (parseInt(index) <= value) {
+                result = table[index];
+            }
+        }
+    }
+    return game.i18n.localize(result)
 }

@@ -129,5 +129,10 @@
     "BRSW.TheDrop": "Superioridad",
     "BRSW.CalledHead": "Disparo apuntado: Cabeza",
     "BRSW.RechargePPBennyTextHitMax": "{name} obtiene 5 Puntos de Poder usando un Beni y ahora esta al máximo de <b>{ppm}</b>.",
-	"BRSW.RollInjury": "Tirar por herida"
+	"BRSW.RollInjury": "Tirar por herida",
+  	"BRSW.Unmentionables": "Inmencionables",
+	"BRSW.Arm": "Brazo",
+	"BRSW.Guts": "Entrañas",
+	"BRSW.Leg": "Pierna",
+	"BRSW.Head": "Cabeza"
 }
