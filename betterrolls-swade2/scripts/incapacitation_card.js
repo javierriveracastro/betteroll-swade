@@ -35,7 +35,7 @@ export async function create_incapacitation_card(token_id) {
     {header: {type: '',
         title: game.i18n.localize("BRSW.Incapacitation"),
         notes: token.name}, text: text, text_after: text_after,
-        footer: footer, trait_roll: trait_roll},
+        footer: footer, trait_roll: trait_roll, show_roll_injury: false},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
     await message.update({user: user._id});
@@ -59,6 +59,10 @@ export function activate_incapacitation_card_listeners(message, html) {
         // noinspection JSIgnoredPromiseFromCall
         roll_incapacitation(message, spend_bennie);
     });
+    html.find('.brsw-injury-button').click(() => {
+        // noinspection JSIgnoredPromiseFromCall
+        create_injury_card(message.getFlag('betterrolls-swade2', 'token'))
+    })
 }
 
 
@@ -89,8 +93,10 @@ async function roll_incapacitation(message, spend_benny) {
             });
         }
     })
+    render_data.show_roll_injury = true;
     if (roll.is_fumble) {
         render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
+        render_data.show_roll_injury = false;  // For what...
     } else if (result < 4) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
     } else if (result < 8) {
@@ -99,4 +105,33 @@ async function roll_incapacitation(message, spend_benny) {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
     }
     await update_message(message, actor, render_data);
+}
+
+
+/**
+ * Shows an injury card and rolls it.
+ * @param token_id
+ */
+export async function create_injury_card(token_id) {
+    let token = canvas.tokens.get(token_id);
+    let actor = token.actor;
+    let user = get_owner(actor);
+    // noinspection JSUnresolvedVariable
+    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
+    for (let status in actor.data.data.status) {
+        // noinspection JSUnfilteredForInLoop
+        if (actor.data.data.status[status]) {
+            // noinspection JSUnfilteredForInLoop
+            footer.push(status.slice(2));
+        }
+    }
+    let message = await create_common_card(token,
+    {header: {type: '',
+        title: game.i18n.localize("BRSW.InjuryCard"),
+        notes: token.name}, footer: footer}, CONST.CHAT_MESSAGE_TYPES.IC,
+    "modules/betterrolls-swade2/templates/injury_card.html")
+    await message.update({user: user._id});
+    await message.setFlag('betterrolls-swade2', 'card_type',
+        BRSW_CONST.TYPE_INJ_CARD)
+    return message
 }

@@ -11,6 +11,7 @@ export const BRSW_CONST = {
     TYPE_ITEM_CARD: 3,
     TYPE_DMG_CARD: 10,
     TYPE_INC_CARD: 11,
+    TYPE_INJ_CARD: 12,
     TYPE_RESULT_CARD: 100,
 };
 
