@@ -128,5 +128,6 @@
     "BRSW.SystemGlobalMenuLabel": "Acciones globales",
     "BRSW.Save": "Guardar",
     "BRSW.TheDrop": "Superioridad",
-    "BRSW.CalledHead": "Disparo apuntado: Cabeza"
+    "BRSW.CalledHead": "Disparo apuntado: Cabeza",
+    "BRSW.RechargePPBennyTextHitMax": "{name} obtiene 5 Puntos de Poder usando un Beni y ahora esta al máximo de <b>{ppm}</b>."
 }
