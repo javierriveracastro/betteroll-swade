@@ -163,6 +163,14 @@ Hooks.on("renderCharacterSheet", (sheet, html, _) => {
         activate_attribute_listeners(app, html);
         activate_skill_listeners(app, html);
         activate_item_listeners(app, html);
+        if (name === 'SwadeNPCSheet') {
+            // Edit with right click, like skills.
+            html.find('.item').on('contextmenu', (ev) => {
+                const actor = app.token?app.token.actor:app.object;
+                const item = actor.getOwnedItem(ev.currentTarget.dataset.itemId);
+                item.sheet.render(true);
+        });
+        }
     })
 })
 
