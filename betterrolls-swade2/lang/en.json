@@ -134,5 +134,11 @@
 	"BRSW.Arm": "Arm",
 	"BRSW.Guts": "Guts",
 	"BRSW.Leg": "Leg",
-	"BRSW.Head": "Head"
+	"BRSW.Head": "Head",
+	"BRSW.Broken": "Broken",
+	"BRSW.Battered": "Battered",
+	"BRSW.Busted": "Busted",
+	"BRSW.Scar": "Hideous scar",
+	"BRSW.Blinded": "Blinded",
+	"BRSW.Brain": "Brain damage"
 }

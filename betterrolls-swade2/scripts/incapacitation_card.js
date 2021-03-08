@@ -12,10 +12,23 @@ import {get_owner} from "./damage_card.js";
 
 const INJURY_BASE = {
     2: "BRSW.Unmentionables",
-    4: "BRSW.Arm",
+    3: "BRSW.Arm",
     5: "BRSW.Guts",
     10: "BRSW.Leg",
     12: "BRSW.Head"
+}
+
+const SECOND_INJURY_TABLES = {
+    "BRSW.Guts": {
+        1: "BRSW.Broken",
+        3: "BRSW.Battered",
+        5: "BRSW.Busted"
+    },
+    "BRSW.Head" : {
+        1: "BRSW.Scar",
+        4: "BRSW.Blinded",
+        6: "BRSW.Brain"
+    }
 }
 
 /**
@@ -140,11 +153,29 @@ export async function create_injury_card(token_id) {
         // noinspection ES6MissingAwait
         game.dice3d.showForRoll(first_roll, game.user, true);
     }
+    const first_result = read_table(INJURY_BASE, parseInt(first_roll.result));
+    let second_result = ''
+    // Check for another roll
+    let second_roll = new Roll("1d6");
+    for (let table in SECOND_INJURY_TABLES) {
+        if (SECOND_INJURY_TABLES.hasOwnProperty(table)) {
+            if (first_result === table) {
+                second_roll.evaluate();
+                if (game.dice3d) {
+                    // noinspection ES6MissingAwait
+                    game.dice3d.showForRoll(second_roll, game.user, true);
+                }
+                second_result = read_table(SECOND_INJURY_TABLES[table],
+                    parseInt(second_roll.result));
+            }
+        }
+    }
     let message = await create_common_card(token,
     {header: {type: '',
         title: game.i18n.localize("BRSW.InjuryCard"),
-        notes: token.name}, first_roll: first_roll,
-        first_location: read_table(INJURY_BASE, first_roll.result),
+        notes: token.name}, first_roll: first_roll, second_roll: second_roll,
+        first_location: game.i18n.localize(first_result),
+        second_location: game.i18n.localize(second_result),
         footer: footer}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/injury_card.html")
     await message.update({user: user._id});
@@ -156,7 +187,7 @@ export async function create_injury_card(token_id) {
 /**
  * Reads the result on a table
  * @param {object} table
- * @param {integer} value
+ * @param {Number} value
  */
 function read_table(table, value) {
     let result;
@@ -167,5 +198,5 @@ function read_table(table, value) {
             }
         }
     }
-    return game.i18n.localize(result)
+    return result;
 }

@@ -134,5 +134,12 @@
 	"BRSW.Arm": "Brazo",
 	"BRSW.Guts": "Entrañas",
 	"BRSW.Leg": "Pierna",
-	"BRSW.Head": "Cabeza"
+	"BRSW.Head": "Cabeza",
+	"BRSW.Broken": "Roto",
+	"BRSW.Battered": "Machadado",
+	"BRSW.Busted": "Busted",
+	"BRSW.Scar": "Cicatriz horrible",
+	"BRSW.Blinded": "Ceguera",
+	"BRSW.Brain": "Daño cerebral"
+
 }
