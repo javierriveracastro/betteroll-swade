@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.21 aka Injuries!!!!
+* BUGFIX: Betterrolls shouldn't break when in combat an with no card deal
+* Updated Spanish translations
+* Injury card and rolls.
+* Injury that decreases an atribute applied as active effects.
+* Edit Edges, Hindrances and abilities in the NPC sheet with right click (consistent with skills)
+* Show Edges, Hindrances and abilities in the NPC with left clicks
+* Power rolls when failed, and expend PP is activated, deduct just 1 point.
+
 ## Version 2.2 aka Scared of 0.8
 * BUGFIS: Some debug info was shown in char card.
 * Incapacitation card.
