@@ -173,7 +173,7 @@ async function item_click_listener(ev, target) {
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, .item-control.item-edit');
+    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, span.item>.item-control.item-edit');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
@@ -406,9 +406,16 @@ async function discount_ammo(item, rof, shot_override) {
  *
  * @param {SwadeActor }actor
  * @param item
+ * @param {Roll[]} rolls
  */
-async function discount_pp(actor, item) {
-    const pp = parseInt(item.data.data.pp);
+async function discount_pp(actor, item, rolls) {
+    let success = false;
+    for (let roll of rolls) {
+        if (roll.result >= 4) {
+            success = true
+        }
+    }
+    const pp = success ? parseInt(item.data.data.pp) : 1;
     // noinspection JSUnresolvedVariable
     const current_pp = actor.data.data.powerPoints.value;
     const final_pp = Math.max(current_pp - pp, 0);
@@ -509,7 +516,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        await discount_pp(actor, item);
+        await discount_pp(actor, item, trait_data.rolls);
     }
     await update_message(message, actor, render_data);
     if (roll_damage) {
