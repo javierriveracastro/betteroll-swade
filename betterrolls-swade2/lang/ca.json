@@ -130,5 +130,11 @@
     "BRSW.SystemGlobalMenuLabel": "Accions globals",
     "BRSW.Save": "Desar",
     "BRSW.TheDrop": "Superioritat",
-    "BRSW.CalledHead": "Tret apuntat: Cap"
+    "BRSW.CalledHead": "Tret apuntat: Cap",
+    "BRSW.Unmentionables": "Inmencionables",
+    "BRSW.Arm": "Braç",
+    "BRSW.Guts": "Budells",
+    "BRSW.Leg": "cama",
+    "BRSW.Head": "Cap",
+    "BRSW.RollInjury": "Tirar per lesions"
 }
