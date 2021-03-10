@@ -182,7 +182,6 @@ export async function create_injury_card(token_id) {
         let new_data = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
         new_data.label = game.i18n.localize(second_result);
         new_data.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        console.log(new_data)
         await actor.createEmbeddedEntity('ActiveEffect', new_data);
     }
     let message = await create_common_card(token,

@@ -470,8 +470,11 @@ export async function roll_item(message, html, expend_bennie,
             // noinspection JSUnresolvedVariable
             if (action.skillMod) {
                 let modifier = {name: action.name, value: parseInt(action.skillMod)};
-                extra_data.modifiers = extra_data.modifiers ?
-                    extra_data.modifiers.push(modifier) : [modifier];
+                if (extra_data.modifiers) {
+                    extra_data.modifiers.push(modifier);
+                } else {
+                    extra_data.modifiers = [modifier];
+                }
             }
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
