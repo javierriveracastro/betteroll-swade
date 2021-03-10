@@ -18,7 +18,8 @@ const SYSTEM_GLOBAL_ACTION = [
  * Registers all the avaliable global actions
  */
 export function register_actions() {
-    game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION;
+    game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(
+        game.settings.get('betterrolls-swade2', 'world_global_actions'));
 }
 
 
@@ -98,3 +99,12 @@ export class SystemGlobalConfiguration extends FormApplication {
         game.settings.set('betterrolls-swade2', 'system_action_disabled', disabled_actions);
     }
 }
+
+// TODOS:
+// Add that setting to the global actions.
+// Create a window where all user defined actions are shown in a table
+// Add a button to delete an entry
+// Add a button to edit an entre
+// Add another window (FormApplication?) to edit the action.
+// Make a compact "descriptio/skill/action" list in cards.
+// Don't show by default actions for cards already rolled.

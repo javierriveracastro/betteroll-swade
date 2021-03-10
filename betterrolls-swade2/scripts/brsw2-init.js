@@ -21,8 +21,8 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
     skill_card_hooks();
     item_card_hooks();
-    register_actions();
     register_settings_version2();
+    register_actions();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
         'modules/betterrolls-swade2/templates/common_card_footer.html',
@@ -188,6 +188,13 @@ function register_settings_version2() {
         default: [],
         type: Array,
         config: false
+    });
+    game.settings.register('betterrolls-swade2', 'world_global_actions', {
+        name: "World global actions",
+        default: [],
+        type: Array,
+        config: false,
+        scope: "world"
     });
     const br_choices = {
         system: game.i18n.localize('BRSW.Default_system_roll'),
