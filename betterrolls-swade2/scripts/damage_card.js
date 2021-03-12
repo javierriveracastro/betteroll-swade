@@ -21,16 +21,16 @@ export async function create_damage_card(token_id, damage, damage_text) {
     const wounds = Math.floor(damage / 4)
     // noinspection JSUnresolvedVariable
     const can_soak = wounds || actor.data.data.status.isShaken;
-    const text = await apply_damage(token, wounds, 0);
+    const damage_result = await apply_damage(token, wounds, 0);
     const footer = damage_card_footer(actor);
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
-        notes: damage_text}, text: text, footer: footer, undo_values: undo_values,
-        trait_roll: trait_roll, wounds: wounds, soaked: 0,
-        soak_possible: (are_bennies_available(actor) && can_soak),
-        show_incapacitation: (undo_values.wounds + wounds) > actor.data.data.wounds.max && actor.isWildcard},
+        notes: damage_text}, text: damage_result.text, footer: footer,
+        undo_values: undo_values, trait_roll: trait_roll, wounds: wounds,
+        soaked: 0, soak_possible: (are_bennies_available(actor) && can_soak),
+        show_incapacitation: damage_result.incapacitated && actor.isWildcard},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
@@ -89,6 +89,7 @@ export function get_owner(actor) {
  */
 async function apply_damage(token, wounds, soaked=0) {
     if (wounds < 0) return;
+    let incapacitated = false;
     if (!token.hasOwnProperty('actor')) {
         // If this is not a token then it is a token id
         token = canvas.tokens.get(token);
@@ -133,6 +134,7 @@ async function apply_damage(token, wounds, soaked=0) {
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
     if (final_wounds > token.actor.data.data.wounds.max) {
+        incapacitated = true;
         // Mark as defeated if the token is in a combat
         game.combat?.combatants.forEach(combatant => {
             if (combatant.tokenId === token.id) {
@@ -147,7 +149,7 @@ async function apply_damage(token, wounds, soaked=0) {
     // Finally we update actor and mark defeated
     token.actor.update({'data.wounds.value': final_wounds,
         'data.status.isShaken': final_shaken})
-    return text;
+    return {text: text, incapacitated: incapacitated};
 }
 
 
@@ -194,6 +196,7 @@ export function activate_damage_card_listeners(message, html) {
         roll_soak(message, spend_bennie);
     });
     html.find('.brsw-show-incapacitation').click(() => {
+        // noinspection JSIgnoredPromiseFromCall
         create_incapacitation_card(message.getFlag('betterrolls-swade2', 'token'))
     })
 }
@@ -227,11 +230,11 @@ async function roll_soak(message, use_bennie) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds,
             "data.status.isShaken": render_data.undo_values.shaken});
-        render_data.text = (await apply_damage(message.getFlag(
+        const damage_result = (await apply_damage(message.getFlag(
             'betterrolls-swade2', 'token'), render_data.wounds,
             render_data.soaked));
-        render_data.show_incapacitation =
-            (render_data.undo_values.wounds + render_data.wounds - render_data.soaked) > actor.data.data.wounds.max &&
+        render_data.text = damage_result.text
+        render_data.show_incapacitation = damage_result.incapacitated &&
             actor.isWildcard;
         await update_message(message, actor, render_data);
     }
