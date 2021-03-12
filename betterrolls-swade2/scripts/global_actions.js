@@ -101,7 +101,6 @@ export class SystemGlobalConfiguration extends FormApplication {
 }
 
 // TODOS:
-// Add that setting to the global actions.
 // Create a window where all user defined actions are shown in a table
 // Add a button to delete an entry
 // Add a button to edit an entre
