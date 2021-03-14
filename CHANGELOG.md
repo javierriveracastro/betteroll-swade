@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Added the "Voidomancy" arcane Skill from the Sundered Skies Companion (english only).
+
 ## Version 2.21 aka Injuries!!!!
 * BUGFIX: Betterrolls shouldn't break when in combat an with no card deal
 * Updated Spanish translations
