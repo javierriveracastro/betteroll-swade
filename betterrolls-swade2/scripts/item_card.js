@@ -20,7 +20,7 @@ const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'hrimmagie', 'gesangsmagie', 'psiónica', 'psionica', 'fe', 'hechicería',
     'hechiceria', 'foi', 'magie', 'science étrange', 'science etrange',
     'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
-    'weird science'];
+    'weird science', 'voidomancy'];
 const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
 const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
     "athlétisme", "★ athletics"];
