@@ -2,6 +2,7 @@
 
 ## Unreleased
 * Added the "Voidomancy" arcane Skill from the Sundered Skies Companion (english only).
+* BUGFIX: Skills and other items of the same name should no longer cause BR to pick the wrong item to roll a Trait from.
 
 ## Version 2.21 aka Injuries!!!!
 * BUGFIX: Betterrolls shouldn't break when in combat an with no card deal

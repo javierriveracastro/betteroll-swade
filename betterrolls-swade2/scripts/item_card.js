@@ -352,7 +352,8 @@ export function get_item_skill(item, actor) {
 function skill_from_string(actor, skill_name) {
     let skill = actor.items.find(skill => {
         return skill.name.toLowerCase().replace('★ ', '') ===
-            skill_name.toLowerCase().replace('★ ', '');
+            skill_name.toLowerCase().replace('★ ', '')
+            && skill.type === 'skill';
     });
     if (!skill) {
         // No skill was found, we try to find untrained
