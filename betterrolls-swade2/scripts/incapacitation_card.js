@@ -36,6 +36,8 @@ const INJURY_ACTIVE_EFFECT = {
     "BRSW.Guts+BRSW.Battered": {changes: [{key: "data.attributes.vigor.die.sides", mode: 2, value: -2}]},
     "BRSW.Guts+BRSW.Busted": {changes: [{key: "data.attributes.strength.die.sides", mode: 2, value: -2}]},
     "BRSW.Head+BRSW.Brain": {changes: [{key: "data.attributes.smarts.die.sides", mode: 2, value: -2}]},
+    "BRSW.Leg+": {changes: [{key: "data.stats.speed.runningDie", mode: 2, value: -2},
+            {key: "data.stats.speed.value", mode: 2, value: -2}]}
 }
 
 /**
@@ -180,7 +182,11 @@ export async function create_injury_card(token_id) {
     const active_effect_index = `${first_result}+${second_result}`;
     if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
         let new_data = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
-        new_data.label = game.i18n.localize(second_result);
+        if (second_result) {
+            new_data.label = game.i18n.localize(second_result);
+        } else {
+            new_data.label = game.i18n.localize(first_result);
+        }
         new_data.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
         await actor.createEmbeddedEntity('ActiveEffect', new_data);
     }
