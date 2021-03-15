@@ -171,6 +171,10 @@ export function get_tn_from_token(skill, token) {
     if (is_skill_fighting(skill)) {
         tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${token.name}`;
         tn.value = parseInt(token.actor.data.data.stats.parry.value);
+        const parry_mod = parseInt(token.actor.data.data.stats.parry.modifier);
+        if (parry_mod) {
+            tn.value += parry_mod;
+        }
     }
     // noinspection JSUnresolvedVariable
     if (token.actor.data.data.status.isVulnerable ||
