@@ -37,7 +37,9 @@ const INJURY_ACTIVE_EFFECT = {
     "BRSW.Guts+BRSW.Busted": {changes: [{key: "data.attributes.strength.die.sides", mode: 2, value: -2}]},
     "BRSW.Head+BRSW.Brain": {changes: [{key: "data.attributes.smarts.die.sides", mode: 2, value: -2}]},
     "BRSW.Leg+": {changes: [{key: "data.stats.speed.runningDie", mode: 2, value: -2},
-            {key: "data.stats.speed.value", mode: 2, value: -2}]}
+            {key: "data.stats.speed.value", mode: 2, value: -2}]},
+    "BRSW.Head+BRSW.Blinded" : {},
+    "BRSW.Head+BRSE.Scar": {}
 }
 
 /**
