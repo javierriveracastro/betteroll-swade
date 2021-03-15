@@ -1,8 +1,17 @@
 # Changelog
 
-## Unreleased
-* Added the "Voidomancy" arcane Skill from the Sundered Skies Companion (english only).
-* BUGFIX: Skills and other items of the same name should no longer cause BR to pick the wrong item to roll a Trait from.
+## Version 2.22 aka les enfants de la Foundry
+* Added the "Voidomancy" arcane Skill from the Sundered Skies Companion (english only). (SalieriC)
+* BUGFIX: Skills and other items of the same name should no longer cause BR to pick the wrong item to roll a Trait from.(SalieriC)
+* Infrastructure work to allow personal global actions
+* BUGFIX: The module didn't roll when multiple actions where selected.
+* Initial support for Manifest+
+* Updated translations for all the supported languages
+* Added French to supported languages.
+* BUGFIX: Chat is forced to scroll when the last card is modified.
+* Better handling of the incapacitation test.
+* Added active effects for the remaining injuries
+* BUGFIX: Use parry modifier when available to calculate TN.
 
 ## Version 2.21 aka Injuries!!!!
 * BUGFIX: Betterrolls shouldn't break when in combat an with no card deal
