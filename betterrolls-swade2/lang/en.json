@@ -141,5 +141,8 @@
     "BRSW.Busted": "Busted",
     "BRSW.Scar": "Hideous scar",
     "BRSW.Blinded": "Blinded",
-    "BRSW.Brain": "Brain damage"
+    "BRSW.Brain": "Brain damage",
+    "BRSW.AmmountPP": "Amount of Power Points",
+    "BRSW.SoulDrain": "Soul Drain",
+    "BRSW.PPManagement": "Power Point Management"
 }

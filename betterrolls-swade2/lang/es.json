@@ -140,6 +140,8 @@
 	"BRSW.Busted": "Busted",
 	"BRSW.Scar": "Cicatriz horrible",
 	"BRSW.Blinded": "Ceguera",
-	"BRSW.Brain": "Daño cerebral"
-
+	"BRSW.Brain": "Daño cerebral",
+    "BRSW.AmmountPP": "Número puntos de poder",
+    "BRSW.SoulDrain": "Soul Drain",
+    "BRSW.PPManagement": "Gestión de puntos de poder"
 }

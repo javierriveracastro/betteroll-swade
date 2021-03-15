@@ -893,14 +893,13 @@ function manual_pp(actor) {
     const ppm = actor.data.data.powerPoints.max;
     const fv = actor.data.data.fatigue.value;
     const fm = actor.data.data.fatigue.max;
+    const ammout_pp = game.i18n.localize("BRSW.AmmountPP");
     new Dialog({
-        title: 'Power Point Management',
-        content: `<form>
-            <div class="form-group">
-                <label for="num">Amount of Power Points: </label>
-                <input id="num" name="num" type="number" min="0" value="5">
-            </div>
-        </form>`,
+        title: game.i18n.localize("BRSW.PPManagement"),
+        content: `<form> <div class="form-group"> 
+            <label for="num">${ammout_pp}: </label>
+             <input id="num" name="num" type="number" min="0" value="5">
+              </div> </form>`,
         default: 'one',
         buttons: {
             one: {
@@ -985,7 +984,7 @@ function manual_pp(actor) {
                 }
             },
             four: {
-                label: "Soul Drain",
+                label: game.i18n.localize("BRSW.SoulDrain"),
                 callback: () => {
                     //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
                     let newFV = fv + 1
