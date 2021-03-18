@@ -1,0 +1,13 @@
+<form id="brsw-optional-rules">
+    <h2>{{ localize "BRSW.OptionalRules" }}</h2>
+    <table>
+        {{# each rules }}<tr>
+            <td>
+                <input type="checkbox" name="{{{ this.id }}}"
+                    {{#if this.enabled}}checked="checked"{{/if}}>
+            </td>
+            <td>{{ this.name }}</td>
+        </tr>{{/ each}}
+    </table>
+    <button type="submit"><i class="far fa-save"></i>{{localize "BRSW.Save"}}</button>
+</form>

@@ -10,6 +10,7 @@ import {activate_item_listeners, item_card_hooks,
 import {activate_damage_card_listeners} from "./damage_card.js";
 import {register_actions, SystemGlobalConfiguration} from "./global_actions.js";
 import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
+import {OptionalRulesConfiguration} from "./optinal_rules.js";
 
 // Startup scripts
 
@@ -183,8 +184,20 @@ function register_settings_version2() {
         hint: "BRSW.SystemGlobalMenuHint",
         type: SystemGlobalConfiguration
     });
+    game.settings.registerMenu('betterrolls-swade2', 'optional_rules', {
+        name: "BRSW.OptionalRules",
+        label: "BRSW.OptionalRulesLabel",
+        hint: "BRSW.OptionalRulesHint",
+        type: OptionalRulesConfiguration
+    });
     game.settings.register('betterrolls-swade2', 'system_action_disabled', {
         name: "System_Actions_disabled",
+        default: [],
+        type: Array,
+        config: false
+    });
+    game.settings.register('betterrolls-swade2', 'optional_rules_enabled', {
+        name: "Optional rules enabled",
         default: [],
         type: Array,
         config: false

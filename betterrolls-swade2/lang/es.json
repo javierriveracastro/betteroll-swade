@@ -143,5 +143,10 @@
 	"BRSW.Brain": "Daño cerebral",
     "BRSW.AmmountPP": "Número puntos de poder",
     "BRSW.SoulDrain": "Soul Drain",
-    "BRSW.PPManagement": "Gestión de puntos de poder"
+    "BRSW.PPManagement": "Gestión de puntos de poder",
+    "BRSW.OptionalRules": "Reglas opcionales",
+    "BRSW.OR.GrittyDamage": "Daño descarnado",
+    "BRSW.OptionalRulesLabel": "Elige reglas opcionales",
+    "BRSW.OptionalRulesHint": "Abre una ventana para seleccionar las reglas opcionales que se usaran"
+
 }

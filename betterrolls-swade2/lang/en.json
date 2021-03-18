@@ -144,5 +144,9 @@
     "BRSW.Brain": "Brain damage",
     "BRSW.AmmountPP": "Amount of Power Points",
     "BRSW.SoulDrain": "Soul Drain",
-    "BRSW.PPManagement": "Power Point Management"
+    "BRSW.PPManagement": "Power Point Management",
+    "BRSW.OptionalRules": "Optional rules",
+    "BRSW.OR.GrittyDamage": "Gritty Damage",
+    "BRSW.OptionalRulesLabel": "Select optional rules",
+    "BRSW.OptionalRulesHint": "Opens a window to select what optional rules are applied"
 }
