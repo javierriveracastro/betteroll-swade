@@ -84,6 +84,14 @@ Hooks.on('renderChatMessage', (message, html) => {
         if (!game.user.isGM) {
             html.find('.brsw-master-only').remove();
         }
+        // Scroll the chat to the bottom if this is the last message
+        if (game.messages.entities[game.messages.entities.length - 1] === message) {
+            let chat_bar = $('#chat-log');
+            console.log(chat_bar[0].scrollTop, chat_bar[0].scrollHeight)
+            if (chat_bar[0].scrollTop / chat_bar[0].scrollHeight > .7){
+                chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
+            }
+        }
     }
 });
 
@@ -175,16 +183,6 @@ Hooks.on("renderCharacterSheet", (sheet, html, _) => {
     })
 })
 
-
-// Hooks for scrolling messages
-
-Hooks.on('updateChatMessage', (message) => {
-        if (game.messages.entities[game.messages.entities.length - 1] === message) {
-        // If this is the last message scroll the chat
-        let chat_bar = $('#chat-log');
-        chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
-    }
-})
 
 // Settings
 
