@@ -175,6 +175,17 @@ Hooks.on("renderCharacterSheet", (sheet, html, _) => {
     })
 })
 
+
+// Hooks for scrolling messages
+
+Hooks.on('updateChatMessage', (message) => {
+        if (game.messages.entities[game.messages.entities.length - 1] === message) {
+        // If this is the last message scroll the chat
+        let chat_bar = $('#chat-log');
+        chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
+    }
+})
+
 // Settings
 
 function register_settings_version2() {

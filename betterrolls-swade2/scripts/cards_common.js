@@ -529,11 +529,6 @@ export async function update_message(message, actor, render_data) {
     new_content = TextEditor.enrichHTML(new_content, {});
     await message.update({content: new_content});
     await store_render_flag(message, render_data);
-    if (game.messages.entities[game.messages.entities.length - 1] === message) {
-        // If this is the last message scroll the chat
-        let chat_bar = $('#chat-log');
-        chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
-    }
 }
 
 
