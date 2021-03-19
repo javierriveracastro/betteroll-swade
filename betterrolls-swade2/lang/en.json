@@ -148,5 +148,6 @@
     "BRSW.OptionalRules": "Optional rules",
     "BRSW.OR.GrittyDamage": "Gritty Damage",
     "BRSW.OptionalRulesLabel": "Select optional rules",
-    "BRSW.OptionalRulesHint": "Opens a window to select what optional rules are applied"
+    "BRSW.OptionalRulesHint": "Opens a window to select what optional rules are applied",
+    "BRSW.Actions": "Actions"
 }

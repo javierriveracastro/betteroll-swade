@@ -147,6 +147,6 @@
     "BRSW.OptionalRules": "Reglas opcionales",
     "BRSW.OR.GrittyDamage": "Daño descarnado",
     "BRSW.OptionalRulesLabel": "Elige reglas opcionales",
-    "BRSW.OptionalRulesHint": "Abre una ventana para seleccionar las reglas opcionales que se usaran"
-
+    "BRSW.OptionalRulesHint": "Abre una ventana para seleccionar las reglas opcionales que se usaran",
+    "BRSW.Actions": "Acciones"
 }

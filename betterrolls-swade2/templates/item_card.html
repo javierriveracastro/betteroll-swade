@@ -14,36 +14,41 @@
         {{{ skill.data.data.description }}}
     </div>
     <div class="brsw-form">
-        {{# if ammo }}<div class="brws-attribute-buttons">
-            <div class="brws-common-modifiers">
-                <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">
-                    {{ localize 'BRSW.SubtractAmmo' }}
-                </span>
-                <span class="brsw-false-button brsw-clickable brsw-ammo-manual">
-                    {{ localize 'BRSW.ManualAmmo' }}
-                </span>
-            </div>
-        </div>{{/if}}
-        {{# if powerpoints}}
-            <div class="brws-common-modifiers">
-                <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
-                    {{ localize 'BRSW.SubtractPP' }}
-                </span>
-                <span class="brsw-false-button brsw-clickable brsw-pp-manual">
-                    {{ localize 'BRSW.ManualPP' }}
-                </span>
-            </div>
-        {{/if}}
-        {{# if actions }}
-            <div class="brws-common-modifiers">
-                {{# each actions }}
-                    <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
-                            data-action_id="{{ this.code }}">
-                        {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
+        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions">
+            <i class="fas fa-caret-down"></i>{{ localize 'BRSW.Actions'}}
+        </div>
+        <div class="brsw-actions">
+            {{# if ammo }}<div class="brws-attribute-buttons">
+                <div class="brws-common-modifiers">
+                    <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">
+                        {{ localize 'BRSW.SubtractAmmo' }}
                     </span>
-                {{/each}}
-            </div>
-        {{/if}}
+                    <span class="brsw-false-button brsw-clickable brsw-ammo-manual">
+                        {{ localize 'BRSW.ManualAmmo' }}
+                    </span>
+                </div>
+            </div>{{/if}}
+            {{# if powerpoints}}
+                <div class="brws-common-modifiers">
+                    <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
+                        {{ localize 'BRSW.SubtractPP' }}
+                    </span>
+                    <span class="brsw-false-button brsw-clickable brsw-pp-manual">
+                        {{ localize 'BRSW.ManualPP' }}
+                    </span>
+                </div>
+            {{/if}}
+            {{# if actions }}
+                <div class="brws-common-modifiers">
+                    {{# each actions }}
+                        <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
+                                data-action_id="{{ this.code }}">
+                            {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
+                        </span>
+                    {{/each}}
+                </div>
+            {{/if}}
+        </div>
         <div>
             <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
                 <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
