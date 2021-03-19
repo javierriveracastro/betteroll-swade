@@ -3,7 +3,7 @@ import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
     roll_trait, spend_bennie, update_message
 } from "./cards_common.js";
-import {create_incapacitation_card} from "./incapacitation_card.js";
+import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
 /**
  * Shows a damage card and applies damage to the token/actor
@@ -23,6 +23,9 @@ export async function create_damage_card(token_id, damage, damage_text) {
     const can_soak = wounds || actor.data.data.status.isShaken;
     const damage_result = await apply_damage(token, wounds, 0);
     const footer = damage_card_footer(actor);
+    const show_injury = (game.settings.get(
+        'betterrolls-swade2', 'optional_rules_enabled')[0].indexOf(
+            "GrittyDamage") > -1) && can_soak && (actor.data.data.wounds.max > 1);
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
@@ -30,7 +33,8 @@ export async function create_damage_card(token_id, damage, damage_text) {
         notes: damage_text}, text: damage_result.text, footer: footer,
         undo_values: undo_values, trait_roll: trait_roll, wounds: wounds,
         soaked: 0, soak_possible: (are_bennies_available(actor) && can_soak),
-        show_incapacitation: damage_result.incapacitated && actor.isWildcard},
+        show_incapacitation: damage_result.incapacitated && actor.isWildcard,
+        show_injury: show_injury},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
@@ -198,6 +202,10 @@ export function activate_damage_card_listeners(message, html) {
     html.find('.brsw-show-incapacitation').click(() => {
         // noinspection JSIgnoredPromiseFromCall
         create_incapacitation_card(message.getFlag('betterrolls-swade2', 'token'))
+    });
+    html.find('.brsw-injury-button').click(() => {
+        // noinspection JSIgnoredPromiseFromCall
+        create_injury_card(message.getFlag('betterrolls-swade2', 'token'))
     })
 }
 
@@ -236,6 +244,9 @@ async function roll_soak(message, use_bennie) {
         render_data.text = damage_result.text
         render_data.show_incapacitation = damage_result.incapacitated &&
             actor.isWildcard;
+        render_data.show_injury = (game.settings.get(
+        'betterrolls-swade2', 'optional_rules_enabled')[0].indexOf(
+            "GrittyDamage") > -1) && (render_data.wounds > render_data.soaked)
         await update_message(message, actor, render_data);
     }
 }
