@@ -159,6 +159,10 @@ async function item_click_listener(ev, target) {
         ev.currentTarget.parentElement.dataset.itemId
     // Show card
     let message = await create_item_card(target, item_id);
+    // Shortcut for rolling damage
+    if (ev.currentTarget.classList.contains('damage-roll')) {
+        await roll_dmg(message, '', false, false);
+    }
     if (action.includes('trait')) {
         await roll_item(message, '', false,
             action.includes('damage'));
@@ -173,7 +177,7 @@ async function item_click_listener(ev, target) {
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, span.item>.item-control.item-edit, .item-name');
+    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, span.item>.item-control.item-edit, .item-name, .damage-roll');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
