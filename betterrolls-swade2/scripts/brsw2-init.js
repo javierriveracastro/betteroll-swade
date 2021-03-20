@@ -338,8 +338,8 @@ function register_dsn_settings(){
         let damage_theme_choice = Object.assign({}, theme_choice);
         damage_theme_choice['None'] = 'None';
         game.settings.register('betterrolls-swade2', 'damageDieTheme', {
-            name: 'Damage dice theme',
-            hint: "Choose a theme from Dice So Nice for damage dice",
+            name: game.i18n.localize("BRSW.DamageDiceTheme"),
+            hint: game.i18n.localize("BRSW.DamageDiceThemeHint"),
             default: "None",
             scope: "client",
             type: String,

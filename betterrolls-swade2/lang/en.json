@@ -149,5 +149,7 @@
     "BRSW.OR.GrittyDamage": "Gritty Damage",
     "BRSW.OptionalRulesLabel": "Select optional rules",
     "BRSW.OptionalRulesHint": "Opens a window to select what optional rules are applied",
-    "BRSW.Actions": "Actions"
+    "BRSW.Actions": "Actions",
+    "BRSW.DamageDiceTheme": "Damage dice theme",
+    "BRSW.DamageDiceThemeHint": "Choose a theme from Dice So Nice for damage dice"
 }

@@ -148,5 +148,7 @@
     "BRSW.OR.GrittyDamage": "Daño descarnado",
     "BRSW.OptionalRulesLabel": "Elige reglas opcionales",
     "BRSW.OptionalRulesHint": "Abre una ventana para seleccionar las reglas opcionales que se usaran",
-    "BRSW.Actions": "Acciones"
+    "BRSW.Actions": "Acciones",
+    "BRSW.DamageDiceTheme": "Tema para los dados de daño",
+    "BRSW.DamageDiceThemeHint": "Elige un tema de Dice So Nice para aplicar a los dados de daño"
 }
