@@ -151,5 +151,8 @@
     "BRSW.OptionalRulesHint": "Opens a window to select what optional rules are applied",
     "BRSW.Actions": "Actions",
     "BRSW.DamageDiceTheme": "Damage dice theme",
-    "BRSW.DamageDiceThemeHint": "Choose a theme from Dice So Nice for damage dice"
+    "BRSW.DamageDiceThemeHint": "Choose a theme from Dice So Nice for damage dice",
+    "BRSW.Label": "Label",
+    "BRSW.ExpendedPoints": "<p>{pp} power points have been expended by {name}. {final_pp} remaining.</p>",
+    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Not enough PP!</p>"
 }

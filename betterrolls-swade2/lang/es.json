@@ -150,5 +150,8 @@
     "BRSW.OptionalRulesHint": "Abre una ventana para seleccionar las reglas opcionales que se usaran",
     "BRSW.Actions": "Acciones",
     "BRSW.DamageDiceTheme": "Tema para los dados de daño",
-    "BRSW.DamageDiceThemeHint": "Elige un tema de Dice So Nice para aplicar a los dados de daño"
+    "BRSW.DamageDiceThemeHint": "Elige un tema de Dice So Nice para aplicar a los dados de daño",
+    "BRSW.Label": "Etiqueta",
+    "BRSW.ExpendedPoints": "<p>{name} ha gastado {pp} puntos de poder. Le quedan {final_pp}.</p>",
+    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>¡No quedan PP!</p>"
 }

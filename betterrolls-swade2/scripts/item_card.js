@@ -424,9 +424,10 @@ async function discount_pp(actor, item, rolls) {
     // noinspection JSUnresolvedVariable
     const current_pp = actor.data.data.powerPoints.value;
     const final_pp = Math.max(current_pp - pp, 0);
-    let content = `<p>${pp} power points have been expended by ${actor.name}. ${final_pp} remaining</p>`;
+    let content = game.i18n.format("BRSW.ExpendedPoints",
+        {name: actor.name, final_pp: final_pp, pp: pp});
     if (current_pp < pp) {
-        content = '<p class="brsw-fumble-row">Not enough PP!</p>' +  content;
+        content = game.i18n.localize("BRSW.NotEnoughPP") +  content;
     }
     await actor.update({'data.powerPoints.value': final_pp});
     await ChatMessage.create({

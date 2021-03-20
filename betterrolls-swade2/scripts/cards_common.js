@@ -240,7 +240,7 @@ export function activate_common_listeners(message, html) {
     html.find('.brsw-add-modifier').click(() => {
         const label_mod = game.i18n.localize("BRSW.Modifier");
         simple_form(game.i18n.localize("BRSW.AddModifier"),
-            [{label: 'Label', default_value: ''},
+            [{label: game.i18n.localize("BRSW.Label"), default_value: ''},
                 {label: label_mod,
                 default_value: 1}], async values => {
                 await add_modifier(message, {label: values.Label,
