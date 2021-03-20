@@ -82,7 +82,7 @@ export class SystemGlobalConfiguration extends FormApplication {
         // No idea why the 0...
         let disable_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
         for (let action of SYSTEM_GLOBAL_ACTION) {
-            actions.push({id: action.id, name: action.name,
+            actions.push({id: action.id, name: game.i18n.localize(action.button_name),
                 enabled: !disable_actions.includes(action.id)});
         }
         // noinspection JSValidateTypes
@@ -101,7 +101,6 @@ export class SystemGlobalConfiguration extends FormApplication {
 }
 
 // TODOS:
-// Make a compact "descriptio/skill/action" list in cards.
 // Don't show by default actions for cards already rolled.
 // Create a window where all user defined actions are shown in a table
 // Add a button to delete an entry
