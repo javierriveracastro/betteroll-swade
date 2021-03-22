@@ -15,9 +15,9 @@
     </div>
     <div class="brsw-form">
         <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions">
-            <i class="fas fa-caret-down"></i>{{ localize 'BRSW.Actions'}}
+            <i class="fas {{# if actions_collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Actions'}}
         </div>
-        <div class="brsw-actions">
+    <div class="brsw-actions {{# if actions_collapsed}}brsw-collapsed{{/if}}">
             {{# if ammo }}<div class="brws-attribute-buttons">
                 <div class="brws-common-modifiers">
                     <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">

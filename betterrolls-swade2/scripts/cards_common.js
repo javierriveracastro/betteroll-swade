@@ -152,7 +152,6 @@ export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
         return (actor.data.data.bennies.value > 0);
     } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
-        console.log('actor bennie')
         return true;
     }
     return game.user.getFlag('swade', 'bennies') > 0;

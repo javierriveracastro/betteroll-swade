@@ -34,9 +34,10 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 *
 * @param {Token, SwadeActor} origin  The actor or token owning the attribute
 * @param {string} item_id The id of the item that we want to show
+* @param {boolean} collapse_actions True if the action selector should start collapsed
 * @return A promise for the ChatMessage object
 */
-async function create_item_card(origin, item_id) {
+async function create_item_card(origin, item_id, collapse_actions) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
@@ -95,7 +96,8 @@ async function create_item_card(origin, item_id) {
             description: item.data.data.description, skill: skill,
             skill_title: skill_title, ammo: ammo, subtract_selected: subtract_select,
             subtract_pp: subtract_pp_select, trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, actions: actions},
+            powerpoints: power_points, actions: actions,
+            actions_collapsed: collapse_actions},
             CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
@@ -157,8 +159,10 @@ async function item_click_listener(ev, target) {
     // First term for PC, second one for NPCs
     const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.dataset.itemId
+    const collapse_actions = action.includes('trait') || action.includes('damage');
+    console.log(collapse_actions)
     // Show card
-    let message = await create_item_card(target, item_id);
+    let message = await create_item_card(target, item_id, collapse_actions);
     // Shortcut for rolling damage
     if (ev.currentTarget.classList.contains('damage-roll')) {
         await roll_dmg(message, '', false, false);
