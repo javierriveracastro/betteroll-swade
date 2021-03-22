@@ -101,7 +101,6 @@ export class SystemGlobalConfiguration extends FormApplication {
 }
 
 // TODOS:
-// Don't show by default actions for cards already rolled.
 // Create a window where all user defined actions are shown in a table
 // Add a button to delete an entry
 // Add a button to edit an entre
