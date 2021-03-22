@@ -101,7 +101,9 @@ export class SystemGlobalConfiguration extends FormApplication {
 }
 
 // TODOS:
+// Delete other options?
 // Create a window where all user defined actions are shown in a table
+// Add a button to add an entry
+// Add another window (FormApplication?) to edit the action.
 // Add a button to delete an entry
 // Add a button to edit an entre
-// Add another window (FormApplication?) to edit the action.
