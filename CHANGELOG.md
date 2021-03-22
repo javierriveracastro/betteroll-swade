@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.23 aka Click Hijacking
+* Add a setting window for optional rules
+* Support Gritty Damage as an optional rule.
+* Actions in the chat card are now collapsable
+* Translations updates.
+* Auto-scroll to see the end of a modified chat card is now more aggresive
+* Apply damage icon changed
+* On the character sheet, on quick access, clicking the item name now shows a better rolls card, please use modifiers to see the default behaviour
+
+
 ## Version 2.22 aka les enfants de la Foundry
 * Added the "Voidomancy" arcane Skill from the Sundered Skies Companion (english only). (SalieriC)
 * BUGFIX: Skills and other items of the same name should no longer cause BR to pick the wrong item to roll a Trait from.(SalieriC)
