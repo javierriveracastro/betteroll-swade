@@ -181,7 +181,7 @@ async function item_click_listener(ev, target) {
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, span.item>.item-control.item-edit, .item-name, .damage-roll');
+    const item_images = html.find('.item-image, .item-img, .item.flexrow > img, .item-show, span.item>.item-control.item-edit, .gear-card>.card-header>.item-name, .damage-roll, .item>.item-name, .power-header>.item-name');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
