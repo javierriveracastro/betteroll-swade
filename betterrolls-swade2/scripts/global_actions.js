@@ -100,10 +100,29 @@ export class SystemGlobalConfiguration extends FormApplication {
     }
 }
 
+
+// noinspection JSPrimitiveTypeWrapperUsage
+export class WorldGlobalActions extends FormApplication {
+    static get defaultOptions() {
+        let options = super.defaultOptions;
+        options.id = 'brsw-world-actions';
+        options.template = '/modules/betterrolls-swade2/templates/world_globals.html';
+        return options;
+    }
+
+    getData(_) {
+        return {};
+    }
+
+    async _updateObject(_, formData){
+
+    }
+}
+
 // TODOS:
-// Delete other options?
-// Create a window where all user defined actions are shown in a table
 // Add a button to add an entry
 // Add another window (FormApplication?) to edit the action.
-// Add a button to delete an entry
+// Save that entry
+// Show all entries in a table
 // Add a button to edit an entre
+// Add a button to delete an entry

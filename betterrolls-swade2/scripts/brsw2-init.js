@@ -8,7 +8,7 @@ import {skill_card_hooks, activate_skill_listeners,
 import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
 import {activate_damage_card_listeners} from "./damage_card.js";
-import {register_actions, SystemGlobalConfiguration} from "./global_actions.js";
+import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from "./global_actions.js";
 import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 
@@ -192,6 +192,12 @@ function register_settings_version2() {
         label: "BRSW.SystemGlobalMenuLabel",
         hint: "BRSW.SystemGlobalMenuHint",
         type: SystemGlobalConfiguration
+    });
+    game.settings.registerMenu('betterrolls-swade2', 'world_global-Menus', {
+       name: "BRSW.WorldGlobalMenu",
+       label: "BRSW.WorldGlobalMenuLabel",
+       hint: "BRSW.WorldGlobalMenuHint",
+       type: WorldGlobalActions
     });
     game.settings.registerMenu('betterrolls-swade2', 'optional_rules', {
         name: "BRSW.OptionalRules",
