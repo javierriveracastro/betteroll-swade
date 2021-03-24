@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.24, Did I boroke Official Sheet?
+* BUGFIX: Skill couldn't be rolled from the Official Sheet.
+* Actions are now  collapsed on direct rolls.
+* There is a window that do nothing in settings from World Global Actions.
+
 ## Version 2.23 aka Click Hijacking
 * Add a setting window for optional rules
 * Support Gritty Damage as an optional rule.
