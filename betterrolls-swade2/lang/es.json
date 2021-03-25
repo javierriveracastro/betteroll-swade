@@ -157,5 +157,6 @@
     "BRSW.InjuryCard": "Herida",
     "BRSW.WorldGlobalMenu": "Configura acciones globales",
     "BRSW.WorldGlobalMenuLabel": "Acciones globales de mundo",
-    "BRSW.WorldGlobalMenuHint": "Usa esta ventana para crear y modificar acciones globales de mundo"
+    "BRSW.WorldGlobalMenuHint": "Usa esta ventana para crear y modificar acciones globales de mundo",
+    "BRSW.NewAction": "Acción nueva"
 }

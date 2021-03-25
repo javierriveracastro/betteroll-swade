@@ -117,6 +117,14 @@ export class WorldGlobalActions extends FormApplication {
     async _updateObject(_, formData){
 
     }
+
+    activateListeners(html) {
+        // noinspection JSUnresolvedFunction
+        html.find('.brsw-new-action').on('click', ev => {
+            ev.preventDefault();
+            window.alert("Clicked!")
+        });
+    }
 }
 
 // TODOS:
