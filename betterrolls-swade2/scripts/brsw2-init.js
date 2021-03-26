@@ -87,8 +87,7 @@ Hooks.on('renderChatMessage', (message, html) => {
         // Scroll the chat to the bottom if this is the last message
         if (game.messages.entities[game.messages.entities.length - 1] === message) {
             let chat_bar = $('#chat-log');
-            console.log(chat_bar[0].scrollTop, chat_bar[0].scrollHeight)
-            if (chat_bar[0].scrollTop / chat_bar[0].scrollHeight > .7){
+            if ((chat_bar[0].scrollHeight - chat_bar.height() * 2) < chat_bar[0].scrollTop){
                 chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
             }
         }
