@@ -107,6 +107,8 @@ export class WorldGlobalActions extends FormApplication {
         let options = super.defaultOptions;
         options.id = 'brsw-world-actions';
         options.template = '/modules/betterrolls-swade2/templates/world_globals.html';
+        options.width = 400;
+        options.height = 600;
         return options;
     }
 
@@ -122,14 +124,16 @@ export class WorldGlobalActions extends FormApplication {
         // noinspection JSUnresolvedFunction
         html.find('.brsw-new-action').on('click', ev => {
             ev.preventDefault();
-            window.alert("Clicked!")
+            // noinspection JSUnresolvedFunction
+            const action_list = html.find(".brsw-action-list");
+            console.log(action_list)
+            action_list.prepend("<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3><textarea class='brsw-action-json'></textarea></div>");
         });
     }
 }
 
 // TODOS:
-// Add a button to add an entry
-// Add another window (FormApplication?) to edit the action.
+// When a rule text is modified, check if it is valid (as much as possible).
 // Save that entry
 // Show all entries in a table
 // Add a button to edit an entre
