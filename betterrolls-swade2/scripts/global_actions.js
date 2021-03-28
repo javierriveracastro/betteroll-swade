@@ -126,14 +126,43 @@ export class WorldGlobalActions extends FormApplication {
             ev.preventDefault();
             // noinspection JSUnresolvedFunction
             const action_list = html.find(".brsw-action-list");
-            console.log(action_list)
-            action_list.prepend("<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3><textarea class='brsw-action-json'></textarea></div>");
+            let new_action = $("<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3></textarea></div>");
+            let new_textarea = $("<textarea class='brsw-action-json'>")
+            new_textarea.on('blur', this.check_json);
+            action_list.prepend(new_action.append(new_textarea));
         });
+    }
+    
+    check_json(ev) {
+        // Checks the json in a textarea
+        const text_area = ev.currentTarget;
+        let error = '';
+        let action;
+        // Json loads.
+        try {
+            action = JSON.parse(text_area.value);
+        } catch (_) {
+            error = game.i18n.localize("BRSW.InvalidJSONError");
+        }
+        if (!error) {
+            // Need to have an id, name, selector_type, selector_value
+            for (let requisite of ['id', 'name', 'selector_type', 'selector_value']) {
+                if (!action.hasOwnProperty(requisite)) {
+                    error = game.i18n.localize("BRSW.MissingJSON") + requisite;
+                }
+            }
+        }
+        const action_title = text_area.previousSibling;
+        console.log(action_title, text_area)
+        if (error) {
+            action_title.innerHTML = error;
+        } else {
+            action_title.innerHTML = action.name;
+        }
     }
 }
 
 // TODOS:
-// When a rule text is modified, check if it is valid (as much as possible).
 // Save that entry
 // Show all entries in a table
 // Add a button to edit an entre
