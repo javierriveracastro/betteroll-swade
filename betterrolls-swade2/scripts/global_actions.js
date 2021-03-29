@@ -19,7 +19,7 @@ const SYSTEM_GLOBAL_ACTION = [
  */
 export function register_actions() {
     game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(
-        game.settings.get('betterrolls-swade2', 'world_global_actions'));
+        game.settings.get('betterrolls-swade2', 'world_global_actions')[0]);
 }
 
 
@@ -117,7 +117,13 @@ export class WorldGlobalActions extends FormApplication {
     }
 
     async _updateObject(_, formData){
-
+        let new_world_actions = [];
+        for (let action in formData) {
+            new_world_actions.push(JSON.parse(formData[action]));
+        }
+        await game.settings.set('betterrolls-swade2', 'world_global_actions',
+            new_world_actions);
+        register_actions();
     }
 
     activateListeners(html) {
@@ -131,6 +137,7 @@ export class WorldGlobalActions extends FormApplication {
             new_textarea.on('blur', this.check_json);
             action_list.prepend(new_action.append(new_textarea));
         });
+        super.activateListeners(html);
     }
     
     check_json(ev) {
@@ -153,11 +160,13 @@ export class WorldGlobalActions extends FormApplication {
             }
         }
         const action_title = text_area.previousSibling;
-        console.log(action_title, text_area)
         if (error) {
+            // Inputs without name are not passed to updateObject
             action_title.innerHTML = error;
+            text_area.removeAttribute('name')
         } else {
             action_title.innerHTML = action.name;
+            text_area.name = action.name;
         }
     }
 }
