@@ -113,7 +113,15 @@ export class WorldGlobalActions extends FormApplication {
     }
 
     getData(_) {
-        return {};
+        const actions = game.settings.get('betterrolls-swade2',
+            'world_global_actions')[0];
+        let formatted_actions = []
+        for (let action of actions) {
+            formatted_actions.push({name: action.name,
+                json: JSON.stringify(action)});
+        }
+        // noinspection JSValidateTypes
+        return {actions: formatted_actions};
     }
 
     async _updateObject(_, formData){
@@ -132,8 +140,8 @@ export class WorldGlobalActions extends FormApplication {
             ev.preventDefault();
             // noinspection JSUnresolvedFunction
             const action_list = html.find(".brsw-action-list");
-            let new_action = $("<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3></textarea></div>");
-            let new_textarea = $("<textarea class='brsw-action-json'>")
+            let new_action = $("<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3></div>");
+            let new_textarea = $("<textarea class='brsw-action-json'></textarea>")
             new_textarea.on('blur', this.check_json);
             action_list.prepend(new_action.append(new_textarea));
         });
@@ -172,7 +180,4 @@ export class WorldGlobalActions extends FormApplication {
 }
 
 // TODOS:
-// Save that entry
-// Show all entries in a table
-// Add a button to edit an entre
 // Add a button to delete an entry
