@@ -181,3 +181,4 @@ export class WorldGlobalActions extends FormApplication {
 
 // TODOS:
 // Add a button to delete an entry
+// Add minumun documentation.
