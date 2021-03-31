@@ -155,5 +155,11 @@
     "BRSW.Actions": "Aktionen",
     "BRSW.DamageDiceThemeHint": "Wähle ein Dice So Nice Theme für die Schadenwürfel aus",
     "BRSW.Label": "Bezeichnung",
-    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Nicht genügend MP!</p>"
+    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Nicht genügend MP!</p>",
+    "BRSW.WorldGlobalMenu": "Globale Aktionen konfigurieren",
+    "BRSW.WorldGlobalMenuLabel": "Globale Aktionen (Welt)",
+    "BRSW.WorldGlobalMenuHint": "Erstelle globale Aktionen für diese Welt",
+    "BRSW.NewAction": "Neue Aktion",
+    "BRSW.InvalidJSONError": "Ungültiges JSON",
+    "BRSW.MissingJSON": "Fehlendes Element "
 }
