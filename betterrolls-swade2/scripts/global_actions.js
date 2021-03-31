@@ -145,6 +145,11 @@ export class WorldGlobalActions extends FormApplication {
             new_textarea.on('blur', this.check_json);
             action_list.prepend(new_action.append(new_textarea));
         });
+        // noinspection JSUnresolvedFunction
+        html.find('.fas.fa-trash').on('click', ev => {
+            const row = ev.currentTarget.parentElement.parentElement;
+            row.remove();
+        })
         super.activateListeners(html);
     }
     
@@ -180,5 +185,4 @@ export class WorldGlobalActions extends FormApplication {
 }
 
 // TODOS:
-// Add a button to delete an entry
 // Add minumun documentation.

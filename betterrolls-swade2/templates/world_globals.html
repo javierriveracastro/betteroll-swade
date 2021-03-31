@@ -4,7 +4,7 @@
     <div class="brsw-action-list">
         {{#each actions }}
             <div class='brsw-edit-action'>
-                <h3>{{ this.name }}</h3>
+                <h3>{{ this.name }} <i class="fas fa-trash brsw-clickable"></i></h3>
                 <textarea class='brsw-action-json' name="{{ this.name }}">
                     {{ this.json }}
                 </textarea>
