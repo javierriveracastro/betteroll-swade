@@ -183,6 +183,3 @@ export class WorldGlobalActions extends FormApplication {
         }
     }
 }
-
-// TODOS:
-// Add minumun documentation.
