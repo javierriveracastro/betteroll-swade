@@ -172,6 +172,10 @@ The module comes with some custom bennies that can be found in the assets/bennie
 
 Currently, it ships with some classical roman and greek coins.
 
+### Global actions.
+
+The module let's you define your own actions, see this [docs](GLOBAL_ACTIONS.md):
+
 ### Macros and API
 
 The following information assumes a passing knowledge of both javascript and Foundry API. It's geared towards macro or module developers.
