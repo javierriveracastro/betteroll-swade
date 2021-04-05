@@ -16,12 +16,12 @@ export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
 async function create_skill_card(origin, skill_id) {
     const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
     const skill = actor.items.find(item => {return item.id === skill_id});
-    const notes = skill.name + ' ' + trait_to_string(skill.data.data)
+    const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
-                    title: skill.name, notes: notes, img: skill.img},
+                    title: extra_name, img: skill.img},
             footer: footer, description: skill.data.data.description,
             trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/skill_card.html")

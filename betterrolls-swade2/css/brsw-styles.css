@@ -13,7 +13,11 @@
 
 .brws-actor-img {
     float: left;
-    height: 3em;
+    height: 1.5em;
+}
+
+.brsw-header {
+    margin-bottom: .5em;
 }
 
 .brsw-header-tittle {
@@ -43,13 +47,12 @@
 }
 
 .brsw-header-txt {
-    position: relative;
-    top: -.35em;
+    line-height: 1.5em;
+    vertical-align: top;
 }
 
 .brsw-repeat-card {
-    position: relative;
-    top: -4px;
+    font-size: 70%;
 }
 
 /* Styles for the card body */

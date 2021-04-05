@@ -1,5 +1,5 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
-<hr>
+{{# if notes}}<strong>{{{ notes }}}</strong>{{/if}}
 {{# if description }}<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-item-description">
     <i class="fas {{#if skill}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Description'}}
 </div>
