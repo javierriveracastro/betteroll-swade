@@ -1,5 +1,10 @@
 # Changelog
 
+## Versio 2.25, World global actions aka What?
+* Added a settings window to create and manage global actions tied to a world.
+* Yet another attempt at having a sane chat scroll
+* Shorter cards.
+
 ## Version 2.24, Did I boroke Official Sheet?
 * BUGFIX: Skill couldn't be rolled from the Official Sheet.
 * Actions are now  collapsed on direct rolls.
