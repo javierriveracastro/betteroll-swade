@@ -5,7 +5,7 @@
 * Yet another attempt at having a sane chat scroll
 * Shorter cards.
 
-## Version 2.24, Did I boroke Official Sheet?
+## Version 2.24, Did I broke Official Sheet?
 * BUGFIX: Skill couldn't be rolled from the Official Sheet.
 * Actions are now  collapsed on direct rolls.
 * There is a window that do nothing in settings from World Global Actions.
