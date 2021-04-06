@@ -22,8 +22,8 @@ async function create_skill_card(origin, skill_id) {
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
-            footer: footer, description: skill.data.data.description,
-            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+            footer: footer, trait_roll: trait_roll},
+        CONST.CHAT_MESSAGE_TYPES.IC,
         "modules/betterrolls-swade2/templates/skill_card.html")
     await message.setFlag('betterrolls-swade2', 'skill_id',
         skill_id)
