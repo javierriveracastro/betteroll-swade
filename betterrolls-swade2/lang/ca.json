@@ -136,5 +136,11 @@
     "BRSW.Guts": "Budells",
     "BRSW.Leg": "cama",
     "BRSW.Head": "Cap",
-    "BRSW.RollInjury": "Tirar per lesions"
+    "BRSW.RollInjury": "Tirar per lesions",
+    "BRSW.Brain": "Dany cerebral",
+    "BRSW.Broken": "Trencat",
+    "BRSW.Battered": "Abatut",
+    "BRSW.Busted": "Rebentat",
+    "BRSW.Scar": "Cicatriu horrible",
+    "BRSW.Blinded": "Cegat"
 }
