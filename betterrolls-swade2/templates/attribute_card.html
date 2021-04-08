@@ -1,11 +1,5 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
 <div class="brsw-form">
-    <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-complete-form-options">
-        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.More_options'}}
-    </div>
-    <div class="brsw-complete-form-options brsw-collapsed">
-        {{>"modules/betterrolls-swade2/templates/common_more_options.html"}}
-    </div>
     {{# unless trait_roll.rolls}}
     <div class="brsw-button-row brsw-form">
         <button class="brsw-roll-button">{{ localize 'BRSW.Roll' }}</button>

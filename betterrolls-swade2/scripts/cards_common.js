@@ -395,24 +395,6 @@ export function get_roll_options(html, old_options){
     let tn = old_options.tn || 4;
     let tn_reason = old_options.tn_reason || game.i18n.localize("BRSW.Default");
     let rof = old_options.rof || 1;
-    // noinspection JSUnresolvedFunction
-    html.find('.brsw-input-options').each((_, element) => {
-        if (element.value) {
-            if (element.dataset.type === 'modifier') {
-                // Modifiers need to start by a math symbol
-                if (element.value.slice(0, 1) === '+'
-                        || element.value.slice(0, 1) === '-') {
-                    modifiers.push(element.value);
-                } else {
-                    modifiers.push('+' + element.value);
-                }
-            } else if (element.dataset.type === 'tn') {
-                tn = parseInt(element.value) || 0;
-            } else if (element.dataset.type === 'rof') {
-                rof = parseInt(element.value) || 1;
-            }
-        }
-    })
     // We only check for modifiers when there are no old ones.
     if (! old_options.hasOwnProperty('additionalMods')) {
         $('.brsw-chat-form .brws-selectable.brws-selected').each((_, element) => {
