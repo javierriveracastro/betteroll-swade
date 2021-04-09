@@ -1,11 +1,20 @@
 // Functions for cards representing all items but skills
 
 import {
-    BRSW_CONST, BRWSRoll, check_and_roll_conviction, create_common_card, get_action_from_click,
-    get_actor_from_message, get_roll_options, roll_trait, spend_bennie, trait_to_string, update_message,
-    calculate_results
+    BRSW_CONST,
+    BRWSRoll,
+    calculate_results,
+    check_and_roll_conviction,
+    create_common_card,
+    get_action_from_click,
+    get_actor_from_message,
+    get_roll_options,
+    roll_trait,
+    spend_bennie,
+    trait_to_string,
+    update_message
 } from "./cards_common.js";
-import {FIGHTING_SKILLS} from "./skill_card.js"
+import {FIGHTING_SKILLS, SHOOTING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {get_actions, get_global_action_from_name} from "./global_actions.js";
@@ -21,7 +30,6 @@ const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'hechiceria', 'foi', 'magie', 'science étrange', 'science etrange',
     'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
     'weird science', 'voidomancy'];
-const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
 const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
     "athlétisme", "★ athletics"];
 const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
@@ -160,7 +168,6 @@ async function item_click_listener(ev, target) {
     const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.dataset.itemId
     const collapse_actions = action.includes('trait') || action.includes('damage');
-    console.log(collapse_actions)
     // Show card
     let message = await create_item_card(target, item_id, collapse_actions);
     // Shortcut for rolling damage

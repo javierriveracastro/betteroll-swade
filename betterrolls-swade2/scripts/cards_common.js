@@ -389,7 +389,6 @@ export function get_action_from_click(event){
  * @param old_options: Options used as default
  */
 export function get_roll_options(html, old_options){
-    html = $(html)
     let modifiers = old_options.additionalMods || [];
     let dmg_modifiers = old_options.dmgMods || [];
     let tn = old_options.tn || 4;
@@ -564,7 +563,10 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
         let skill = get_skill_from_message(message, actor);
         if (objetive && skill) {
-            const target_data = get_tn_from_token(skill, objetive);
+            const token_id = message.getFlag('betterrolls-swade2', 'token')
+            const origin_token = token_id ? canvas.tokens.get(token_id) :
+                actor.getActiveTokens()[0]
+            const target_data = get_tn_from_token(skill, objetive, origin_token);
             extra_options.tn = target_data.value;
             extra_options.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
@@ -948,8 +950,8 @@ async function edit_tn(message, index, new_tn, reason) {
  */
 function get_tn_from_target(message, index, selected) {
     let objetive;
+    let actor = get_actor_from_message(message);
     if (selected) {
-        let actor = get_actor_from_message(message);
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
             if (token.actor !== actor) {
@@ -960,8 +962,11 @@ function get_tn_from_target(message, index, selected) {
         objetive = get_targeted_token();
     }
     if (objetive) {
+        const token_id = message.getFlag('betterrolls-swade2', 'token')
+        const origin_token = token_id ? canvas.tokens.get(token_id) :
+                actor.getActiveTokens()[0]
         const skill = get_skill_from_message(message, get_actor_from_message(message));
-        const target = get_tn_from_token(skill, objetive);
+        const target = get_tn_from_token(skill, objetive, origin_token);
         if (target.value) {
             // Don't update if we didn't get a value
             // noinspection JSIgnoredPromiseFromCall

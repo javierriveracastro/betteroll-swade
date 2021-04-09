@@ -1,10 +1,19 @@
 // Functions for cards representing skills
 
-import {BRSW_CONST, BRWSRoll, create_common_card, get_action_from_click,
-    get_actor_from_ids, get_actor_from_message, roll_trait, spend_bennie,
-    trait_to_string} from "./cards_common.js";
+import {
+    BRSW_CONST,
+    BRWSRoll,
+    create_common_card,
+    get_action_from_click,
+    get_actor_from_ids,
+    get_actor_from_message,
+    roll_trait,
+    spend_bennie,
+    trait_to_string
+} from "./cards_common.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
+export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
 
 /**
 * Creates a chat card for a skill
@@ -157,30 +166,53 @@ export function is_skill_fighting(skill) {
     return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
 }
 
+/***
+ * Checks if a skill is shooting.
+ * @param skill
+ * @return {boolean}
+ */
+export function is_shooting_skill(skill) {
+    let shooting_names = SHOOTING_SKILLS;
+    shooting_names.push(game.i18n.localize("BRSW.ShootingSkill"));
+    return shooting_names.includes(skill.name.toLowerCase());
+}
+
 
 /**
  * Get a target number and modifiers from a token appropriated to a skill
  *
  * @param {Item} skill
- * @param {Token} token
+ * @param {Token} target_token
+ * @param {Token} origin_token
  */
-export function get_tn_from_token(skill, token) {
-    // For now we only support parry
+export function get_tn_from_token(skill, target_token, origin_token) {
     let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
         modifiers:[]};
+    let use_parry_as_tn = false;
     if (is_skill_fighting(skill)) {
-        tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${token.name}`;
-        tn.value = parseInt(token.actor.data.data.stats.parry.value);
-        const parry_mod = parseInt(token.actor.data.data.stats.parry.modifier);
+        use_parry_as_tn = true;
+    } else if (is_shooting_skill(skill)) {
+        const grid_unit = canvas.grid.grid.options.dimensions.distance
+        let distance = canvas.grid.measureDistance(
+            origin_token, target_token, {gridSpaces: true})
+        if (distance < grid_unit * 2) {
+            use_parry_as_tn = true;
+        }
+        console.log('Shooting', distance, grid_unit)
+    }
+    if (use_parry_as_tn) {
+        tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
+        tn.value = parseInt(target_token.actor.data.data.stats.parry.value);
+        const parry_mod = parseInt(target_token.actor.data.data.stats.parry.modifier);
         if (parry_mod) {
             tn.value += parry_mod;
         }
     }
     // noinspection JSUnresolvedVariable
-    if (token.actor.data.data.status.isVulnerable ||
-            token.actor.data.data.status.isStunned) {
+    if (target_token.actor.data.data.status.isVulnerable ||
+            target_token.actor.data.data.status.isStunned) {
         tn.modifiers.push(
-            {name: `${token.name}: ${game.i18n.localize('SWADE.Vuln')}`,
+            {name: `${target_token.name}: ${game.i18n.localize('SWADE.Vuln')}`,
                 value: 2});
     }
     return tn;
