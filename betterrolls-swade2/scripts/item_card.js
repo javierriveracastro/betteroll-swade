@@ -14,7 +14,7 @@ import {
     trait_to_string,
     update_message
 } from "./cards_common.js";
-import {FIGHTING_SKILLS, SHOOTING_SKILLS} from "./skill_card.js"
+import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {get_actions, get_global_action_from_name} from "./global_actions.js";
@@ -30,8 +30,6 @@ const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'hechiceria', 'foi', 'magie', 'science étrange', 'science etrange',
     'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
     'weird science', 'voidomancy'];
-const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
-    "athlétisme", "★ athletics"];
 const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
     "non entraine", "non entrainé"];
 

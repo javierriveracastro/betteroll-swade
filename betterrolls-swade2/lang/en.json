@@ -162,5 +162,6 @@
     "BRSW.NewAction": "New action",
     "BRSW.InvalidJSONError": "Invalid JSON",
     "BRSW.MissingJSON": "Missing element ",
-    "BRSW.ShootingSkill": "shooting"
+    "BRSW.ShootingSkill": "shooting",
+    "BRSW.ThrowingSkill": "atletismo"
 }

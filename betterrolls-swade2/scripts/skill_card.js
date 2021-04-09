@@ -14,6 +14,8 @@ import {
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
 export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
+export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
+    "athlétisme", "★ athletics"];
 
 /**
 * Creates a chat card for a skill
@@ -177,6 +179,16 @@ export function is_shooting_skill(skill) {
     return shooting_names.includes(skill.name.toLowerCase());
 }
 
+/***
+ * Checks if a skill is throwing
+ * @param skill
+ * @return {boolean}
+ */
+export function is_throwing_skill(skill) {
+    let shooting_names = THROWING_SKILLS;
+    shooting_names.push(game.i18n.localize("BRSW.ThrowingSkill"));
+    return shooting_names.includes(skill.name.toLowerCase());
+}
 
 /**
  * Get a target number and modifiers from a token appropriated to a skill
@@ -191,7 +203,7 @@ export function get_tn_from_token(skill, target_token, origin_token) {
     let use_parry_as_tn = false;
     if (is_skill_fighting(skill)) {
         use_parry_as_tn = true;
-    } else if (is_shooting_skill(skill)) {
+    } else if (is_shooting_skill(skill) || is_throwing_skill(skill)) {
         const grid_unit = canvas.grid.grid.options.dimensions.distance
         let distance = canvas.grid.measureDistance(
             origin_token, target_token, {gridSpaces: true})
@@ -217,3 +229,9 @@ export function get_tn_from_token(skill, target_token, origin_token) {
     }
     return tn;
 }
+
+// TODO:
+// Calculate a weapon range for shooting weapons.
+// Pass the range to get_tn_from_token
+// calculata range modifiers.
+// Do the same for throwing weapons.
