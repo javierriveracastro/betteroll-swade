@@ -196,8 +196,9 @@ export function is_throwing_skill(skill) {
  * @param {Item} skill
  * @param {Token} target_token
  * @param {Token} origin_token
+ * @param {SwadeItem} item
  */
-export function get_tn_from_token(skill, target_token, origin_token) {
+export function get_tn_from_token(skill, target_token, origin_token, item) {
     let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
         modifiers:[]};
     let use_parry_as_tn = false;
@@ -209,8 +210,23 @@ export function get_tn_from_token(skill, target_token, origin_token) {
             origin_token, target_token, {gridSpaces: true})
         if (distance < grid_unit * 2) {
             use_parry_as_tn = true;
+        } else if (item) {
+            const range = item.data.data.range.split('/')
+            distance = distance / grid_unit;
+            let distance_penalty = 0;
+            for (let i=0; i<3 && i<range.length; i++) {
+                let range_int = parseInt(range[i])
+                if (range_int && range_int < distance) {
+                    distance_penalty = i < 2 ? (i + 1) * 2 : 8;
+                }
+            }
+            if (distance_penalty) {
+                tn.modifiers.push(
+                    {'name': game.i18n.localize("BRSW.Range") + " " +
+                            distance.toFixed(2),
+                    'value': - distance_penalty})
+            }
         }
-        console.log('Shooting', distance, grid_unit)
     }
     if (use_parry_as_tn) {
         tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
@@ -230,8 +246,3 @@ export function get_tn_from_token(skill, target_token, origin_token) {
     return tn;
 }
 
-// TODO:
-// Calculate a weapon range for shooting weapons.
-// Pass the range to get_tn_from_token
-// calculata range modifiers.
-// Do the same for throwing weapons.

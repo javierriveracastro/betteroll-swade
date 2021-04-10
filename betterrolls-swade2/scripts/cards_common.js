@@ -566,7 +566,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             const token_id = message.getFlag('betterrolls-swade2', 'token')
             const origin_token = token_id ? canvas.tokens.get(token_id) :
                 actor.getActiveTokens()[0]
-            const target_data = get_tn_from_token(skill, objetive, origin_token);
+            const item = get_item_from_message(message, actor)
+            const target_data = get_tn_from_token(
+                skill, objetive, origin_token, item);
             extra_options.tn = target_data.value;
             extra_options.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
@@ -963,10 +965,11 @@ function get_tn_from_target(message, index, selected) {
     }
     if (objetive) {
         const token_id = message.getFlag('betterrolls-swade2', 'token')
+        const item = get_item_from_message(message, actor)
         const origin_token = token_id ? canvas.tokens.get(token_id) :
                 actor.getActiveTokens()[0]
         const skill = get_skill_from_message(message, get_actor_from_message(message));
-        const target = get_tn_from_token(skill, objetive, origin_token);
+        const target = get_tn_from_token(skill, objetive, origin_token, item);
         if (target.value) {
             // Don't update if we didn't get a value
             // noinspection JSIgnoredPromiseFromCall

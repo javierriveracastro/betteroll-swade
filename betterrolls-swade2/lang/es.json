@@ -162,5 +162,6 @@
     "BRSW.InvalidJSONError": "JSON invalido",
     "BRSW.MissingJSON": "Falta el elemento ",
     "BRSW.ShootingSkill": "disparar",
-    "BRSW.ThrowingSkill": "atleticas"
+    "BRSW.ThrowingSkill": "atleticas",
+    "BRSW.Range": "Distancia"
 }
