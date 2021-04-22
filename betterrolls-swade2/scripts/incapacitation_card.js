@@ -39,7 +39,7 @@ const INJURY_ACTIVE_EFFECT = {
     "BRSW.Leg+": {changes: [{key: "data.stats.speed.runningDie", mode: 2, value: -2},
             {key: "data.stats.speed.value", mode: 2, value: -2}]},
     "BRSW.Head+BRSW.Blinded" : {},
-    "BRSW.Head+BRSE.Scar": {}
+    "BRSW.Head+BRSW.Scar": {}
 }
 
 /**
@@ -162,7 +162,7 @@ export async function create_injury_card(token_id) {
     first_roll.evaluate();
     if (game.dice3d) {
         // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(first_roll, game.user, true);
+        await game.dice3d.showForRoll(first_roll, game.user, true);
     }
     const first_result = read_table(INJURY_BASE, parseInt(first_roll.result));
     let second_result = ''
@@ -174,7 +174,7 @@ export async function create_injury_card(token_id) {
                 second_roll.evaluate();
                 if (game.dice3d) {
                     // noinspection ES6MissingAwait
-                    game.dice3d.showForRoll(second_roll, game.user, true);
+                    await game.dice3d.showForRoll(second_roll, game.user, true);
                 }
                 second_result = read_table(SECOND_INJURY_TABLES[table],
                     parseInt(second_roll.result));

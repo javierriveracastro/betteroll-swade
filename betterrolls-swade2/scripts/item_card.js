@@ -820,7 +820,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             users = message.data.whisper;
         }
         // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(roll, game.user, true, users);
+        await game.dice3d.showForRoll(roll, game.user, true, users);
     }
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
     await update_message(message, actor, render_data);

@@ -771,7 +771,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             users = message.data.whisper;
         }
         // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(roll, game.user, true, users);
+        await game.dice3d.showForRoll(roll, game.user, true, users);
     }
     // Calculate results
     if (!render_data.trait_roll.is_fumble) {
