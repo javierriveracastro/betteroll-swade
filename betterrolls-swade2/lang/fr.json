@@ -28,7 +28,7 @@
     "BRSW.Free_reroll": "Relance gratuite",
     "BRSW.Damage": "Dégâts",
     "BRSW.Shaken": "Secoué",
-    "BRSW.TN": "Diff.",
+    "BRSW.TN": "Diff",
     "BRSW.More_options": "Plus d'options",
     "BRSW.Roll_and_bennie": "Relancer (Jeton)",
     "BRSW.To_selected": "Sélectionné",
@@ -153,5 +153,12 @@
     "BRSW.Label": "Libellé",
     "BRSW.ExpendedPoints": "<p>{name} a dépensé {pp} points de pouvoir. Il ne lui en reste plus que {final_pp}.</p>",
     "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Pas assez de PP !</p>",
-    "BRSW.DamageDiceTheme": "Thème pour les dés de dégâts"
+    "BRSW.DamageDiceTheme": "Thème pour les dés de dégâts",
+    "BRSW.InjuryCard": "Séquelle",
+    "BRSW.WorldGlobalMenuHint": "Utiliser cette boîte de dialogue pour créer des actions globales sur ce monde",
+    "BRSW.WorldGlobalMenu": "Configurer les actions globales",
+    "BRSW.WorldGlobalMenuLabel": "Actions Globales au Monde",
+    "BRSW.NewAction": "Nouvelle action",
+    "BRSW.InvalidJSONError": "JSON invalide",
+    "BRSW.MissingJSON": "Élément manquant "
 }
