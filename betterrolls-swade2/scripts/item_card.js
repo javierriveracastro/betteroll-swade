@@ -1,4 +1,5 @@
 // Functions for cards representing all items but skills
+// noinspection JSCheckFunctionSignatures
 
 import {
     BRSW_CONST,
@@ -12,7 +13,8 @@ import {
     roll_trait,
     spend_bennie,
     trait_to_string,
-    update_message
+    update_message,
+    has_joker
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
@@ -710,6 +712,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             value: mod_value
         });
         total_modifiers += mod_value
+    }
+    // Joker
+    if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
+        damage_roll.brswroll.modifiers.push({name: 'Joker', value: 2});
+        total_modifiers += 2;
     }
     // Actions
     let pinned_actions = [];

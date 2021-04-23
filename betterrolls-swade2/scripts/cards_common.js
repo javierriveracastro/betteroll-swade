@@ -983,7 +983,7 @@ function get_tn_from_target(message, index, selected) {
  * @param token_id
  * @return {boolean}
  */
-function has_joker(token_id) {
+export function has_joker(token_id) {
     let joker = false;
     game.combat?.combatants.forEach(combatant => {
         if (combatant.tokenId === token_id) {
