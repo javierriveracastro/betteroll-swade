@@ -539,10 +539,8 @@ export async function roll_item(message, html, expend_bennie,
         await discount_pp(actor, item, trait_data.rolls);
     }
     await update_message(message, actor, render_data);
-    
     //Call a hook after roll for other modules
-    Hooks.call("betterRollsRollItem", message, html );
-
+    Hooks.call("BRSW-RollItem", message, html );
     if (roll_damage) {
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {
