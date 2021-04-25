@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.26, The late one
+* Lots of translation and spelling fixes
+* Remove "more options" from cards
+* Use parry as difficult to hit adjacent targets with ranged attacks
+* Autoapply distance penalties for ranged attacks
+* Respect DSN configuration about showing the result after or before rolling
+* Joker now modify damage
+* Various sheet fixes
+* Better handling of soak rolls.
+
 ## Versio 2.25, World global actions aka What?
 * Added a settings window to create and manage global actions tied to a world.
 * Yet another attempt at having a sane chat scroll
