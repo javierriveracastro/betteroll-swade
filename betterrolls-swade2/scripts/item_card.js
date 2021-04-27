@@ -106,7 +106,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, actions: actions,
             actions_collapsed: collapse_actions},
-            CONST.CHAT_MESSAGE_TYPES.IC,
+            CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
