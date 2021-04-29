@@ -211,6 +211,7 @@ Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundry
 
 ## Translations
 - Catalá: David Montilla
+- French : Cyril Ronseaux
 
 ## Acknowledgements
 - All the people reporting bugs and opening issues. Without them this module would be far worse.
