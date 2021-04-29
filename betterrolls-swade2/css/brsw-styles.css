@@ -136,7 +136,7 @@
 .brsw-chat-form .brws-selectable.brws-selected:before,
 .brsw-chat-form .brws-selectable.permanent-selected:before
 {
-    color: white;
+    color: #2bec5c;
 }
 
 .brsw-chat-form .brws-selectable.brws-selected:before {
