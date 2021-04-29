@@ -27,7 +27,7 @@ Global actions are pre-defined global actions that are ready to use. You can cho
 
 With the World global action functionality, you can define your own global actions for this world. You need to provide a JSON file to add them:
 
-![Add a new World Global Actions](docs/new-world-global-actions.jpg)
+![Add a new World Global Action](docs/new-world-global-action.jpg)
 
 see [GLOBAL_ACTIONS.md](GLOBAL_ACTIONS.md) for more information on how to create global actions.
 
