@@ -1,8 +1,8 @@
 /* General Styles */
 
 .brsw-clickable:hover {
-	cursor: pointer;
-	box-shadow: 0 0 8px red;
+    cursor: pointer;
+    box-shadow: 0 0 8px red;
 }
 
 .brsw-display-none {
@@ -59,12 +59,13 @@
 
 .brsw-false-button {
     background: rgba(255, 255, 240, 0.8);
-    padding: 1px;
+    padding: 0 4px 0 4px;
     margin: 2px;
     border: 1px solid darkgray;
-    border-radius: 5px;
-    font-size: 12px;
+    border-radius: 3px;
     display: inline-block;
+    font-size: 13px;
+    line-height: 26px;
 }
 
 .brws-attribute-buttons {
@@ -77,39 +78,83 @@
 }
 
 .brws-selectable {
-    padding: 1px;
+    padding: 0 4px 0 4px;
     margin: 2px;
     border: 1px solid darkgray;
-    border-radius: 5px;
+    border-radius: 3px;
     font-size: 12px;
     white-space: nowrap;
     display: inline-block;
+    line-height: 1.7;
+}
+
+.brws-selectable:before {
+    font-family: "Font Awesome 5 Free";
+    #content: "\f0c8";
+    #display: inline-block;
+    #padding-right: 3px;
+    #vertical-align: middle;
+    font-weight: 900;
+    color: white;
 }
 
 .brsw-action {
     line-height: 1.7;
 }
 
+
 .brws-selectable.brws-selected {
+    border-color: red red rgb(255, 100, 0);
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: rgb(255, 100, 0) 0 0 10px;
+}
+
+.brsw-form .brws-selectable.brws-selected {
     background: white;
     color: black;
 }
 
-.brws-selectable.brws-selected.brws-permanent-selected {
-    background: red;
+.brws-selectable.brws-selected:before {
+    content: "\f00c";
+    color: green;
+    font-weight: 900;
+}
+
+.brws-selectable.brws-selected.brws-permanent-selected:before{
+    content: "\f560";
+    font-weight: 900;
+    color: green;
+}
+
+.brsw-chat-form .brws-selectable.brws-selected,
+.brsw-chat-form .brws-selectable.permanent-selected
+{
+    position: relative;
+}
+
+.brsw-chat-form .brws-selectable.brws-selected:before,
+.brsw-chat-form .brws-selectable.permanent-selected:before
+{
     color: white;
 }
 
+.brsw-chat-form .brws-selectable.brws-selected:before {
+    position: absolute;
+    top: -12px;
+    right: 0
+}
+
 .brsw-modifier {
-	padding: 1px;
-	margin: 2px;
-	border: 1px solid red;
-	border-radius: 5px;
-	font-size: 12px;
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: 12px;
 }
 
 .brsw-modifier.brsw-positive {
-	border-color: blue;
+    border-color: blue;
 }
 
 .brsw-collapsed {
@@ -143,19 +188,19 @@
 /* Styles for the footer */
 
 .card-footer {
-	margin-top: 2px;
-	border-top: 2px groove #FFF;
+    margin-top: 2px;
+    border-top: 2px groove #FFF;
 }
 
 .card-footer span {
-	font-size: 10px;
-	border-right: 2px groove #FFF;
-	padding-right: 5px;
+    font-size: 10px;
+    border-right: 2px groove #FFF;
+    padding-right: 5px;
 }
 
 .card-footer span:last-child {
-	border-right: 0;
-	padding-right: 0;
+    border-right: 0;
+    padding-right: 0;
 }
 
 /* Styles for the result card */
@@ -165,14 +210,14 @@
 }
 
 .brsw-bar-input {
-	max-width: 2em;
+    max-width: 2em;
 }
 
 .brsw-result-text {
     margin: 2px;
-	text-align: center;
-	border-style: solid;
-	border-radius: 5px;
+    text-align: center;
+    border-style: solid;
+    border-radius: 5px;
 }
 
 /* Styles for the critical failure card */
@@ -180,7 +225,7 @@
 .brsw-fumble-row {
     text-align: center;
     border-style: solid;
-	border-radius: 5px;
+    border-radius: 5px;
     border-color: red;
 }
 
