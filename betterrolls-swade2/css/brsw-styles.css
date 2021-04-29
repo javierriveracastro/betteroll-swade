@@ -51,6 +51,15 @@
     vertical-align: top;
 }
 
+.brsw-collapse-button.brsw-clickable {
+    margin-bottom: 3px;
+}
+
+.brsw-collapse-button .fas {
+    margin-right: 3px;
+}
+
+
 .brsw-repeat-card {
     font-size: 70%;
 }
@@ -58,14 +67,18 @@
 /* Styles for the card body */
 
 .brsw-false-button {
-    background: rgba(255, 255, 240, 0.8);
-    padding: 0 4px 0 4px;
-    margin: 2px;
-    border: 1px solid darkgray;
-    border-radius: 3px;
+    cursor: default;
     display: inline-block;
-    font-size: 13px;
-    line-height: 26px;
+    font-size: 12px;
+    height: 24px;
+    line-height: 20px;
+    margin: 7px 0;
+    width: 100%;
+    background: rgba(255, 255, 240, 0.8) none repeat scroll 0% 0%;
+    border: 1px solid rgb(181, 179, 164);
+    border-radius: 3px;
+    font-family: "Signika", sans-serif;
+    text-align: center;
 }
 
 .brws-attribute-buttons {
