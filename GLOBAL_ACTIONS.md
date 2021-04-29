@@ -1,4 +1,4 @@
-# Better Rolls 2 for SWADE: Globa actions documentation.
+# Better Rolls 2 for SWADE: Global actions documentation.
 
 Global actions are a json encoded set of instructions that allow the user to customize how Better Rolls work.
 
@@ -9,12 +9,12 @@ Global actions are a json encoded set of instructions that allow the user to cus
 "skillMod":-4,"dmgMod":4,"dmgOverride":"","selector_type":"item_type","selector_value":"weapon"}
 ```
 
-This piece of json will add an actions called "Leg Remover" to every weapon card.
+This piece of json will add an action called "Leg Remover" to every weapon card.
 If this action is checked it will add a penalty of 4 to the skill roll and a bonus of 4 to the damage roll.
 
 ## Needed fields:
 
-* id: Any string, need to be different for each action.
+* id: Any string, needs to be different for each action.
 * name: The name of the action.
 * button_name: The name that will be displayed on the icon. Will be made optional in some update.
 
