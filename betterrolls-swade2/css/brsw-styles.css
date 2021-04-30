@@ -55,7 +55,7 @@
     margin-bottom: 3px;
 }
 
-.brsw-collapse-button .fas {
+.brsw-collapse-button .fa-caret-right {
     margin-right: 3px;
 }
 
@@ -79,6 +79,7 @@
     border-radius: 3px;
     font-family: "Signika", sans-serif;
     text-align: center;
+    padding: 1px
 }
 
 .brws-attribute-buttons {
@@ -101,16 +102,6 @@
     line-height: 1.7;
 }
 
-.brws-selectable:before {
-    font-family: "Font Awesome 5 Free";
-    #content: "\f0c8";
-    #display: inline-block;
-    #padding-right: 3px;
-    #vertical-align: middle;
-    font-weight: 900;
-    color: white;
-}
-
 .brsw-action {
     line-height: 1.7;
 }
@@ -123,39 +114,15 @@
     box-shadow: rgb(255, 100, 0) 0 0 10px;
 }
 
-.brsw-form .brws-selectable.brws-selected {
+.brws-selectable.brws-selected {
     background: white;
     color: black;
 }
 
-.brws-selectable.brws-selected:before {
-    content: "\f00c";
-    color: green;
-    font-weight: 900;
-}
 
-.brws-selectable.brws-selected.brws-permanent-selected:before{
-    content: "\f560";
-    font-weight: 900;
-    color: green;
-}
-
-.brsw-chat-form .brws-selectable.brws-selected,
-.brsw-chat-form .brws-selectable.permanent-selected
-{
-    position: relative;
-}
-
-.brsw-chat-form .brws-selectable.brws-selected:before,
-.brsw-chat-form .brws-selectable.permanent-selected:before
-{
-    color: #2bec5c;
-}
-
-.brsw-chat-form .brws-selectable.brws-selected:before {
-    position: absolute;
-    top: -12px;
-    right: 0
+.brws-selectable.brws-selected.brws-permanent-selected {
+    background: red;
+    color: white;
 }
 
 .brsw-modifier {
