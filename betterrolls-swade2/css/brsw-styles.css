@@ -72,9 +72,9 @@
     font-size: 12px;
     height: 24px;
     line-height: 20px;
-    margin: 7px 0;
+    margin: 7px 1px;
     width: 100%;
-    background: rgba(255, 255, 240, 0.8) none repeat scroll 0% 0%;
+    background: rgba(255, 255, 240, 0.8) none repeat scroll 0 0;
     border: 1px solid rgb(181, 179, 164);
     border-radius: 3px;
     font-family: "Signika", sans-serif;
@@ -92,7 +92,7 @@
 
 .brws-selectable {
     padding: 0 4px 0 4px;
-    margin: 2px;
+    margin: 2px 0 2px 2px;
     border: 1px solid darkgray;
     border-radius: 3px;
     font-size: 12px;
