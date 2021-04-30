@@ -59,7 +59,6 @@
     margin-right: 3px;
 }
 
-
 .brsw-repeat-card {
     font-size: 70%;
 }
@@ -67,7 +66,6 @@
 /* Styles for the card body */
 
 .brsw-false-button {
-    cursor: default;
     display: inline-block;
     font-size: 12px;
     height: 24px;
