@@ -220,7 +220,7 @@
     justify-content: space-between;
     margin-bottom: 5px;
     border-top: solid lightgrey 2px;
-    padding: 5px;
+    padding: 5px 5px 5px 0;
     align-items: center;
 }
 
