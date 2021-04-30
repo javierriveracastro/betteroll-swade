@@ -198,7 +198,7 @@ export async function create_injury_card(token_id) {
         notes: token.name}, first_roll: first_roll, second_roll: second_roll,
         first_location: game.i18n.localize(first_result),
         second_location: game.i18n.localize(second_result),
-        footer: footer}, CONST.CHAT_MESSAGE_TYPES.IC,
+        footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/injury_card.html")
     await message.update({user: user._id});
     await message.setFlag('betterrolls-swade2', 'card_type',

@@ -26,7 +26,7 @@ async function create_attribute_card(origin, name){
     let message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.IC,
+            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     await message.setFlag('betterrolls-swade2', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
