@@ -12,8 +12,10 @@ import {
     trait_to_string
 } from "./cards_common.js";
 
-export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat"];
-export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir"];
+export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
+    "lutar"];
+export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir",
+    "atirar"];
 export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
     "athlétisme", "★ athletics"];
 
