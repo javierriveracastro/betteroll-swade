@@ -104,7 +104,6 @@
     "BRSW.UndoDamage": "Undo damage",
     "BRSW.SoakRoll": "Soak (Vigor) roll",
     "BRSW.RemoveWounds": "Remove wound modifier",
-    "BRSW.PPManagement": "Subtract Power points by default",
     "BRSW.PPManagementHint": "When checked Subtract pp will be selected by default",
     "BRSW.SkillName-fighting": "fighting",
     "BRSW.WildAttack": "Wild Attack",
