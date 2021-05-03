@@ -1,8 +1,8 @@
 /* General Styles */
 
 .brsw-clickable:hover {
-	cursor: pointer;
-	box-shadow: 0 0 8px red;
+    cursor: pointer;
+    box-shadow: 0 0 8px red;
 }
 
 .brsw-display-none {
@@ -51,6 +51,14 @@
     vertical-align: top;
 }
 
+.brsw-collapse-button.brsw-clickable {
+    margin-bottom: 3px;
+}
+
+.brsw-collapse-button .fa-caret-right {
+    margin-right: 3px;
+}
+
 .brsw-repeat-card {
     font-size: 70%;
 }
@@ -58,12 +66,18 @@
 /* Styles for the card body */
 
 .brsw-false-button {
-    background: rgba(255, 255, 240, 0.8);
-    padding: 1px;
-    margin: 2px;
-    border: 1px solid darkgray;
-    border-radius: 5px;
+    display: inline-block;
     font-size: 12px;
+    height: 24px;
+    line-height: 20px;
+    margin: 7px 1px;
+    width: 100%;
+    background: rgba(255, 255, 240, 0.8) none repeat scroll 0 0;
+    border: 1px solid rgb(181, 179, 164);
+    border-radius: 3px;
+    font-family: "Signika", sans-serif;
+    text-align: center;
+    padding: 1px
 }
 
 .brws-attribute-buttons {
@@ -76,16 +90,26 @@
 }
 
 .brws-selectable {
-    padding: 1px;
-    margin: 2px;
+    padding: 0 4px 0 4px;
+    margin: 2px 0 2px 2px;
     border: 1px solid darkgray;
-    border-radius: 5px;
+    border-radius: 3px;
     font-size: 12px;
     white-space: nowrap;
+    display: inline-block;
+    line-height: 1.7;
 }
 
 .brsw-action {
     line-height: 1.7;
+}
+
+
+.brws-selectable.brws-selected {
+    border-color: red red rgb(255, 100, 0);
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: rgb(255, 100, 0) 0 0 10px;
 }
 
 .brws-selectable.brws-selected {
@@ -93,21 +117,22 @@
     color: black;
 }
 
+
 .brws-selectable.brws-selected.brws-permanent-selected {
     background: red;
     color: white;
 }
 
 .brsw-modifier {
-	padding: 1px;
-	margin: 2px;
-	border: 1px solid red;
-	border-radius: 5px;
-	font-size: 12px;
+    padding: 1px;
+    margin: 2px;
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: 12px;
 }
 
 .brsw-modifier.brsw-positive {
-	border-color: blue;
+    border-color: blue;
 }
 
 .brsw-collapsed {
@@ -141,19 +166,19 @@
 /* Styles for the footer */
 
 .card-footer {
-	margin-top: 2px;
-	border-top: 2px groove #FFF;
+    margin-top: 2px;
+    border-top: 2px groove #FFF;
 }
 
 .card-footer span {
-	font-size: 10px;
-	border-right: 2px groove #FFF;
-	padding-right: 5px;
+    font-size: 10px;
+    border-right: 2px groove #FFF;
+    padding-right: 5px;
 }
 
 .card-footer span:last-child {
-	border-right: 0;
-	padding-right: 0;
+    border-right: 0;
+    padding-right: 0;
 }
 
 /* Styles for the result card */
@@ -163,14 +188,14 @@
 }
 
 .brsw-bar-input {
-	max-width: 2em;
+    max-width: 2em;
 }
 
 .brsw-result-text {
     margin: 2px;
-	text-align: center;
-	border-style: solid;
-	border-radius: 5px;
+    text-align: center;
+    border-style: solid;
+    border-radius: 5px;
 }
 
 /* Styles for the critical failure card */
@@ -178,7 +203,7 @@
 .brsw-fumble-row {
     text-align: center;
     border-style: solid;
-	border-radius: 5px;
+    border-radius: 5px;
     border-color: red;
 }
 
@@ -195,7 +220,7 @@
     justify-content: space-between;
     margin-bottom: 5px;
     border-top: solid lightgrey 2px;
-    padding: 5px;
+    padding: 5px 5px 5px 0;
     align-items: center;
 }
 
