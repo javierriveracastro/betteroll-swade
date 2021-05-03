@@ -163,5 +163,6 @@
     "BRSW.MissingJSON": "Missing element ",
     "BRSW.ShootingSkill": "shooting",
     "BRSW.ThrowingSkill": "athletics",
-    "BRSW.Range": "Range"
+    "BRSW.Range": "Range",
+    "BRSW.HalfDamage": "Half damage"
 }

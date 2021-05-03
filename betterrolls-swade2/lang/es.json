@@ -163,5 +163,6 @@
     "BRSW.MissingJSON": "Falta el elemento ",
     "BRSW.ShootingSkill": "disparar",
     "BRSW.ThrowingSkill": "atleticas",
-    "BRSW.Range": "Distancia"
+    "BRSW.Range": "Distancia",
+    "BRSW.HalfDamage": "Mitad de daño"
 }
