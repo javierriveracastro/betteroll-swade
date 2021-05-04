@@ -258,6 +258,9 @@ export function activate_item_card_listeners(message, html) {
    html.find('.brsw-add-damage-d6').click(ev => {
        add_damage_dice(message, ev.currentTarget.dataset.index);
    })
+    html.find('.brsw-half-damage').click(ev => {
+        half_damage(message, ev.currentTarget.dataset.index);
+    })
 }
 
 
@@ -839,7 +842,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
 /**
  * Add a d6 to a damage roll
  * @param {ChatMessage} message
- * @param {int }index
+ * @param {int} index
  */
 function add_damage_dice(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
@@ -880,6 +883,26 @@ function add_damage_dice(message, index) {
     }
     // noinspection JSIgnoredPromiseFromCall
     update_message(message, actor, render_data)
+}
+
+
+/**
+ * Change a damage to half
+ * @param {ChatMessage} message
+ * @param {number} index
+ */
+async function half_damage(message, index){
+    const actor = get_actor_from_message(message);
+    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    let damage_rolls = render_data.damage_rolls[index].brswroll;
+    const half_damage = - Math.round(damage_rolls.rolls[0].result / 2);
+    damage_rolls.modifiers.push(
+        {'value': half_damage,
+            'name': game.i18n.localize("BRSW.HalfDamage")});
+    damage_rolls.rolls[0].result += half_damage;
+    render_data.damage_rolls[index].damage_result = calculate_results(
+        damage_rolls.rolls, true);
+    await update_message(message, actor, render_data);
 }
 
 
