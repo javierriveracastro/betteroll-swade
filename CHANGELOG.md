@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.27, Now I feel like Linus...
+* Added a hook to allow other modules to run code when a button is clicked (radyrosales)
+* Change the type of the chat cards to roll
+* Added italian translation (zgsuppo)
+* Various fixes to documentation (Cyril Ronseaux)
+* Updated documentation (Razortide)
+* First part of portuguese support (amaurijr1976)
+* Much better css styling in the cards (DanieleSuppo)
+* More typos in documentation (gronyon)
+* Show an icon to make an attack deal half damage
+* Accept skill in lowe case for Wold Global Actinos (tm).
+
 ## Version 2.26, The late one
 * Lots of translation and spelling fixes
 * Remove "more options" from cards
