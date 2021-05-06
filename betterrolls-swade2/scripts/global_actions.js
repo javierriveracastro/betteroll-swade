@@ -37,7 +37,7 @@ export function get_actions(item, actor) {
             if (action.selector_type === 'skill') {
                const skill = get_item_skill(item, actor);
                if (skill) {
-                   selected = skill.name.toLowerCase().includes(action.selector_value) ||
+                   selected = skill.name.toLowerCase().includes(action.selector_value.toLowerCase()) ||
                         skill.name.toLowerCase().includes(
                             game.i18n.localize("BRSW.SkillName-" + action.selector_value));
                }
