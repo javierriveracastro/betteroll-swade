@@ -94,8 +94,9 @@ async function create_item_card(origin, item_id, collapse_actions) {
         const has_dmg_mod = !!global_action.dmgMod;
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
+        const pinned = global_action.hasOwnProperty('defaultChecked')
         actions.push(
-            {code: global_action.name, name: button_name, pinned: false,
+            {code: global_action.name, name: button_name, pinned: pinned,
                 damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
     })
     let message = await create_common_card(origin,
