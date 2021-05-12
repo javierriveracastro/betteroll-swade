@@ -466,6 +466,7 @@ export async function roll_item(message, html, expend_bennie,
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
     let skill = get_item_skill(item, actor);
+    let macros = [];
     let shots_override = -1;  // Override the number of shots used
     let extra_data = {skill: skill};
     if (expend_bennie) await spend_bennie(actor);
@@ -510,6 +511,9 @@ export async function roll_item(message, html, expend_bennie,
                 new_state[`data.status.is${action.self_add_status}`] = true
                 actor.update(new_state)
             }
+            if (action.runSkillMacro) {
+                macros.push(action.runSkillMacro);
+            }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
@@ -541,6 +545,15 @@ export async function roll_item(message, html, expend_bennie,
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item, trait_data.rolls);
+    }
+    if (macros) {
+        for (let macro_name of macros) {
+            const real_macro = game.macros.find(macro => macro.data.name === macro_name);
+            console.log(real_macro)
+            if (real_macro) {
+                real_macro.execute();
+            }
+        }
     }
     await update_message(message, actor, render_data);
     //Call a hook after roll for other modules

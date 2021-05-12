@@ -24,6 +24,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * dmgMod: A number that will be used as a modifier for a damage roll
 * dmsOverride: A foundry die expresion that will be rolled for damage instead of the weapon default.
 * defaultChecked: If this key exist the acion button will start pinned (marked in red)
+* runSkillMacro: This key will run a macro named like its value after skill roll.
 
 ## Selector fields:
 

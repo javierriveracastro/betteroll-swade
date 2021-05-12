@@ -184,5 +184,4 @@ export class WorldGlobalActions extends FormApplication {
     }
 }
 
-// TODO: Run a macro after clicking the roll button
 // TODO: Run a macro after clicking the damage button.
