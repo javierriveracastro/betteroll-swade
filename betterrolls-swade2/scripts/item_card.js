@@ -450,6 +450,23 @@ async function discount_pp(actor, item, rolls) {
     });
 }
 
+
+/**
+ * Execute a list of macros
+ * @param macros
+ */
+function run_macros(macros) {
+    if (macros) {
+        for (let macro_name of macros) {
+            const real_macro = game.macros.find(macro => macro.data.name === macro_name);
+            if (real_macro) {
+                real_macro.execute();
+            }
+        }
+    }
+}
+
+
 /**
  * Roll the item damage
  *
@@ -546,15 +563,7 @@ export async function roll_item(message, html, expend_bennie,
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item, trait_data.rolls);
     }
-    if (macros) {
-        for (let macro_name of macros) {
-            const real_macro = game.macros.find(macro => macro.data.name === macro_name);
-            console.log(real_macro)
-            if (real_macro) {
-                real_macro.execute();
-            }
-        }
-    }
+    run_macros(macros);
     await update_message(message, actor, render_data);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", message, html );
@@ -709,6 +718,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
+    let macros = [];
     if (expend_bennie) await spend_bennie(actor);
     let total_modifiers = 0;
     // Calculate modifiers
@@ -765,6 +775,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 let new_state = {};
                 new_state[`data.status.is${action.self_add_status}`] = true
                 actor.update(new_state)
+            }
+            if (action.runDamageMacro) {
+                macros.push(action.runDamageMacro);
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
@@ -833,6 +846,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         action.pinned = pinned_actions.includes(action.code) ||
             pinned_actions.includes(action.name)
     });
+    // Run macros
+    run_macros(macros);
     // Dice so nice
     if (game.dice3d) {
         let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
