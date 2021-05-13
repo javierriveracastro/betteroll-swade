@@ -454,13 +454,26 @@ async function discount_pp(actor, item, rolls) {
 /**
  * Execute a list of macros
  * @param macros
+ * @param actor_param
+ * @param item_param
+ * @param message
  */
-function run_macros(macros) {
+function run_macros(macros, actor_param, item_param, message) {
     if (macros) {
         for (let macro_name of macros) {
             const real_macro = game.macros.find(macro => macro.data.name === macro_name);
             if (real_macro) {
-                real_macro.execute();
+                const actor = actor_param;
+                const item = item_param;
+                const speaker = ChatMessage.getSpeaker();
+                const token = canvas.tokens.get(speaker.token);
+                const character = game.user.character;
+                try {
+                    eval(real_macro.data.command);
+                } catch (err) {
+                    ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
+                    console.error(err);
+                }
             }
         }
     }
@@ -563,7 +576,7 @@ export async function roll_item(message, html, expend_bennie,
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item, trait_data.rolls);
     }
-    run_macros(macros);
+    run_macros(macros, actor, item, message);
     await update_message(message, actor, render_data);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", message, html );
@@ -847,7 +860,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             pinned_actions.includes(action.name)
     });
     // Run macros
-    run_macros(macros);
+    run_macros(macros, actor, item, message);
     // Dice so nice
     if (game.dice3d) {
         let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
