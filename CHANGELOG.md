@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.28 Global macros... or whatever
+* Spanish language renamed to español
+* Global actions can now star pinned (red)
+* Global actions can now execute a macro after a skill or damage roll.
+
 ## Version 2.27, Now I feel like Linus...
 * Added a hook to allow other modules to run code when a button is clicked (radyrosales)
 * Change the type of the chat cards to roll
