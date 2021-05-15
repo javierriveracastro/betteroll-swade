@@ -140,6 +140,7 @@ export function create_render_options(actor, options) {
     options.benny_image = game.settings.settings.has('betterrolls-swade2.bennyFront') ?
         game.settings.get('betterrolls-swade2', 'bennyFront') || '/systems/swade/assets/benny/benny-chip-front.png' :
         '/systems/swade/assets/benny/benny-chip-front.png';
+    options.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && options.trait_roll.is_fumble);
     return options;
 }
 
