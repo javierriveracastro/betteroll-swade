@@ -472,7 +472,7 @@ async function discount_pp(actor, item, rolls) {
  * @param item_param
  * @param message
  */
-function run_macros(macros, actor_param, item_param, message) {
+function run_macros(macros, actor_param, item_param, message_param) {
     if (macros) {
         for (let macro_name of macros) {
             const real_macro = game.macros.find(macro => macro.data.name === macro_name);
@@ -482,6 +482,7 @@ function run_macros(macros, actor_param, item_param, message) {
                 const speaker = ChatMessage.getSpeaker();
                 const token = canvas.tokens.get(speaker.token);
                 const character = game.user.character;
+                const message = message_param;
                 try {
                     eval(real_macro.data.command);
                 } catch (err) {

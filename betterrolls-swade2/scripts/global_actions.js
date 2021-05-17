@@ -43,6 +43,8 @@ export function get_actions(item, actor) {
                }
            } else if (action.selector_type === 'item_type') {
                 selected = item.type === action.selector_value;
+            } else if (action.selector_type === 'actor_name'){
+                selected = actor.name.toLowerCase().includes(action.selector_value.toLowerCase())
             }
             if (selected) {
                 actions_avaliable.push(action);
@@ -183,5 +185,3 @@ export class WorldGlobalActions extends FormApplication {
         }
     }
 }
-
-// TODO: Run a macro after clicking the damage button.
