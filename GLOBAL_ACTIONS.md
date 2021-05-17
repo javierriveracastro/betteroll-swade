@@ -29,13 +29,20 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 
 ## Selector fields:
 
-This group of fields are used to select when the action is avaliable, you will need to specicy a selector_type and a selector_value
+This group of fields are used to select when the action is avaliable, you will need to specicy a selector_type and a selector_value for a simple selection. You can also use and_selector and give it a list of simple selectors.
 
 ### selector_type:
 * skill: selector_value must be a string. The action will be available when the item uses a skill with that name
 * item_type: selector_value must be another string, a valid SWADE item type: weapon, power, edge, ...
 * actor_name: selector_value must be a string. The action will be avaliable to actor that include that string in their name.
-    
+
+### complex_selectors:
+* and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an exemple the folowing json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
+
+```  
+and_selector: [{'selector_type': 'skill', 'selector_value':'figthing}, {'selector_type':'actor', 'selector_value': 'Jhon'}] 
+```
+
 ## Macros:
 The following variables are pre-populated in a macro run from global actions for macro writer convenience.
 Note that all info is already stored in the message, all the other are just conveniences.

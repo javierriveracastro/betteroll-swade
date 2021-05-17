@@ -33,7 +33,17 @@ export function get_actions(item, actor) {
     const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
         if (!disabled_actions.includes(action.id)) {
-            let selected = check_selector(action.selector_type, action.selector_value, item, actor);
+            let selected = false;
+            if (action.hasOwnProperty('selector_type')) {
+                selected = check_selector(action.selector_type, action.selector_value, item, actor);
+            } else if (action.hasOwnProperty('and_selector')) {
+                selected = true;
+                for (let selection_option of action.and_selector) {
+                    selected &= check_selector(
+                        selection_option.selector_type,
+                        selection_option.selector_value, item, actor);
+                }
+            }
             if (selected) {
                 actions_avaliable.push(action);
             }
@@ -180,8 +190,8 @@ export class WorldGlobalActions extends FormApplication {
             error = game.i18n.localize("BRSW.InvalidJSONError");
         }
         if (!error) {
-            // Need to have an id, name, selector_type, selector_value
-            for (let requisite of ['id', 'name', 'selector_type', 'selector_value']) {
+            // Need to have an id, name
+            for (let requisite of ['id', 'name']) {
                 if (!action.hasOwnProperty(requisite)) {
                     error = game.i18n.localize("BRSW.MissingJSON") + requisite;
                 }
