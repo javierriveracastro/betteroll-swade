@@ -437,14 +437,28 @@ async function discount_pp(actor, item, rolls) {
     }
     const pp = success ? parseInt(item.data.data.pp) : 1;
     // noinspection JSUnresolvedVariable
-    const current_pp = actor.data.data.powerPoints.value;
+    let current_pp;
+    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)) {
+        // Specific power points
+        current_pp = actor.data.data.powerPoints[item.data.data.arcane].value;
+    } else {
+        // General pool
+        current_pp = actor.data.data.powerPoints.value;
+    }
     const final_pp = Math.max(current_pp - pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
         {name: actor.name, final_pp: final_pp, pp: pp});
     if (current_pp < pp) {
         content = game.i18n.localize("BRSW.NotEnoughPP") +  content;
     }
-    await actor.update({'data.powerPoints.value': final_pp});
+    let data = {}
+    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)) {
+        data['data.powerPoints.' + item.data.data.arcane + '.value'] =
+            final_pp;
+    } else {
+        data['data.powerPoints.value'] = final_pp;
+    }
+    await actor.update(data);
     await ChatMessage.create({
         content: content
     });
