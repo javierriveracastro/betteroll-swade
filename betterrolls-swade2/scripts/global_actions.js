@@ -33,19 +33,7 @@ export function get_actions(item, actor) {
     const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
         if (!disabled_actions.includes(action.id)) {
-            let selected = false;
-            if (action.selector_type === 'skill') {
-               const skill = get_item_skill(item, actor);
-               if (skill) {
-                   selected = skill.name.toLowerCase().includes(action.selector_value.toLowerCase()) ||
-                        skill.name.toLowerCase().includes(
-                            game.i18n.localize("BRSW.SkillName-" + action.selector_value));
-               }
-           } else if (action.selector_type === 'item_type') {
-                selected = item.type === action.selector_value;
-            } else if (action.selector_type === 'actor_name'){
-                selected = actor.name.toLowerCase().includes(action.selector_value.toLowerCase())
-            }
+            let selected = check_selector(action.selector_type, action.selector_value, item, actor);
             if (selected) {
                 actions_avaliable.push(action);
             }
@@ -53,6 +41,31 @@ export function get_actions(item, actor) {
     });
     return actions_avaliable;
 }
+
+/**
+ * Check if a selector matches
+ * @param type: Type of the selector
+ * @param value: Value of the selector
+ * @param item: item beign checked
+ * @param actor: actor beign checked
+ */
+function check_selector(type, value, item, actor){
+    let selected = false;
+    if (type === 'skill') {
+       const skill = get_item_skill(item, actor);
+       if (skill) {
+           selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
+                skill.name.toLowerCase().includes(
+                    game.i18n.localize("BRSW.SkillName-" + value));
+       }
+    } else if (type === 'item_type') {
+        selected = item.type === value;
+    } else if (type === 'actor_name'){
+        selected = actor.name.toLowerCase().includes(value.toLowerCase())
+    }
+    return selected;
+}
+
 
 /**
  * Returns a global action from a name
