@@ -107,7 +107,7 @@ export function create_basic_chat_data(origin, type){
         content: '<p>Default content, likely an error in Better Rolls</p>',
         speaker: {
             actor: actor._idx,
-            token: token.id,
+            token: token ? token.id:token,
             alias: origin.name
         },
         type: type,
