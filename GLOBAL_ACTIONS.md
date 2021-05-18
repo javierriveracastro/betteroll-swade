@@ -26,6 +26,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * defaultChecked: If this key exist the action button will start pinned (marked in red)
 * runSkillMacro: This key will run a macro named like its value after skill roll.
 * runDamageMacro: This key will run a macro named like its value after damage roll.
+* raiseDamageFormula: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substition should done in a similar way, i.e. "+1d10x" to add a normal exploding d10.
 
 ## Selector fields:
 

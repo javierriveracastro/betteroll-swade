@@ -746,6 +746,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
+    let raise_formula = '+1d6x';
     let macros = [];
     if (expend_bennie) await spend_bennie(actor);
     let total_modifiers = 0;
@@ -807,6 +808,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (action.runDamageMacro) {
                 macros.push(action.runDamageMacro);
             }
+            if (action.raiseDamageFormula) {
+                raise_formula = action.raiseDamageFormula;
+            }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
@@ -824,7 +828,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     // Roll
     let formula = makeExplotable(roll_formula);
-    let roll = new Roll(raise ? formula + "+1d6x" : formula,
+    let roll = new Roll(raise ? formula + raise_formula : formula,
         actor.getRollShortcuts());
     roll.evaluate();
     const defense_values = get_tougness_targeted_selected(actor);
