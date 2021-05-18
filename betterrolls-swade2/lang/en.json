@@ -21,7 +21,7 @@
     "BRSW.No_result_card": "No result card",
     "BRSW.Master_only_result_card": "Only the master can see the card",
     "BRSW.Everybody": "Everybody",
-    "BRWS.Testing_fumbles": "Testing for fumbles",
+    "BRWS.Testing_fumbles": "Testing for Critical Failure",
     "BRSW.Failure": "Failure",
     "BRSW.Success": "Success",
     "BRSW.Raise": "Raise!",
@@ -165,6 +165,6 @@
     "BRSW.ThrowingSkill": "athletics",
     "BRSW.Range": "Range",
     "BRSW.HalfDamage": "Half damage",
-    "BRSW.HideReRolls": "Hide reroll on fumble",
-    "BRSW.HideReRollsHint": "Check this to hide reroll options from the card in a fumble"
+    "BRSW.HideReRolls": "Hide reroll on Critical Failure",
+    "BRSW.HideReRollsHint": "Check this to hide reroll options from the card on a Critical Failure"
 }
