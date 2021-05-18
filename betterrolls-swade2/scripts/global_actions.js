@@ -70,8 +70,10 @@ function check_selector(type, value, item, actor){
        }
     } else if (type === 'item_type') {
         selected = item.type === value;
-    } else if (type === 'actor_name'){
+    } else if (type === 'actor_name') {
         selected = actor.name.toLowerCase().includes(value.toLowerCase())
+    } else if (type === 'item_name') {
+        selected = item.name.toLowerCase().includes(value.toLowerCase())
     }
     return selected;
 }
