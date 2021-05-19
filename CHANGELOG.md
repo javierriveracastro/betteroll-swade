@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.29 Global actions going crazy
+* There is now an option to hide reroll buttons on critical failures (SalieriC if you ever read this note that I didn't say fumbles)
+* Modifications to chat card metadata, hoping to make it work better with CUB
+* Remove PP for the arcane backgound when possible instead of the general pool.
+* New global action selectors: actor_name_selector, item_name_selector, actor_has_effect
+* Lots of typos (Razortide, SalieriC)
+* The raise dice can now be changed by a global action (using a d12 instead of d6)
+
 ## Version 2.28 Global macros... or whatever
 * Spanish language renamed to español
 * Global actions can now star pinned (red)
