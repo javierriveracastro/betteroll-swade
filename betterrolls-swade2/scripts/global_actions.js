@@ -56,8 +56,8 @@ export function get_actions(item, actor) {
  * Check if a selector matches
  * @param type: Type of the selector
  * @param value: Value of the selector
- * @param item: item beign checked
- * @param actor: actor beign checked
+ * @param item: item been checked
+ * @param actor: actor been checked
  */
 function check_selector(type, value, item, actor){
     let selected = false;
@@ -71,9 +71,14 @@ function check_selector(type, value, item, actor){
     } else if (type === 'item_type') {
         selected = item.type === value;
     } else if (type === 'actor_name') {
-        selected = actor.name.toLowerCase().includes(value.toLowerCase())
+        selected = actor.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_name') {
-        selected = item.name.toLowerCase().includes(value.toLowerCase())
+        selected = item.name.toLowerCase().includes(value.toLowerCase());
+    } else if (type === 'actor_has_effect') {
+        const effect = actor.effects.find(
+            effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
+        selected = effect ? ! effect.data.disabled : false;
+        console.log(effect, effect.disabled, selected)
     }
     return selected;
 }

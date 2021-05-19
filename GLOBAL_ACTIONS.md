@@ -37,6 +37,7 @@ This group of fields are used to select when the action is available, you will n
 * item_type: selector_value must be another string, a valid SWADE item type: weapon, power, edge, ...
 * actor_name: selector_value must be a string. The action will be avaliable to actor that include that string in their name.
 * item_name: selector value must be again a string that this time is compared with the item name.
+* actor_has_effect: Another string selector, will select actors that have an enabled effect whose label contains the string.
 
 ### complex_selectors:
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
