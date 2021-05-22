@@ -870,14 +870,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             game.i18n.localize("BRSW.Raise");
     }
     damage_roll.label = defense_values.name;
-    render_data.damage_rolls.push(damage_roll);
-    // Pinned actions
-    // noinspection JSUnresolvedVariable
-    render_data.actions.forEach(action => {
-        // Global and local actions are different
-        action.pinned = pinned_actions.includes(action.code) ||
-            pinned_actions.includes(action.name)
-    });
     // Run macros
     run_macros(macros, actor, item, message);
     // Dice so nice
@@ -896,6 +888,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         await game.dice3d.showForRoll(roll, game.user, true, users);
     }
     damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
+    render_data.damage_rolls.push(damage_roll);
+    // Pinned actions
+    // noinspection JSUnresolvedVariable
+    render_data.actions.forEach(action => {
+        // Global and local actions are different
+        action.pinned = pinned_actions.includes(action.code) ||
+            pinned_actions.includes(action.name)
+    });
     await update_message(message, actor, render_data);
 }
 
