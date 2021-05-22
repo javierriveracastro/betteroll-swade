@@ -276,6 +276,14 @@ function register_settings_version2() {
         },
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'expand-results', {
+        name: game.i18n.localize('BRSW.expand-results'),
+        hint: game.i18n.localize('BRSW.expand-results_hint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
     game.settings.register('betterrolls-swade2', 'collapse-chat-window', {
         name: game.i18n.localize('BRSW.collapse-chat-window'),
         hint: game.i18n.localize('BRSW.collapse-chat-window_hint'),

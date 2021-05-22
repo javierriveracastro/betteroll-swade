@@ -5,7 +5,7 @@
 {{ else }}
     <div class="brsw-roll-row {{# if result_master_only}}brsw-master-only{{/if}}">
         <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-result-detail">
-            <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Result'}} :
+            <i class="fas {{#if collapse_results }}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Result'}} :
         </span>
         <span>
             {{#each trait_roll.rolls}}
@@ -15,7 +15,7 @@
             {{/each}}
         </span>
     </div>
-    <div class="brsw-result-detail brsw-collapsed">
+    <div class="brsw-result-detail {{# if collapse_results }}brsw-collapsed{{/if}}">
         <div class="brsw-roll-detail-row">
             <span>
             </span>

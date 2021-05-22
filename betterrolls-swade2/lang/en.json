@@ -166,5 +166,7 @@
     "BRSW.Range": "Range",
     "BRSW.HalfDamage": "Half damage",
     "BRSW.HideReRolls": "Hide reroll on Critical Failure",
-    "BRSW.HideReRollsHint": "Check this to hide reroll options from the card on a Critical Failure"
+    "BRSW.HideReRollsHint": "Check this to hide reroll options from the card on a Critical Failure",
+    "BRSW.expand-results": "Expand results",
+    "BRSW.expand-results_hint": "See the result details by default (you can still click on them to hide)"
 }
