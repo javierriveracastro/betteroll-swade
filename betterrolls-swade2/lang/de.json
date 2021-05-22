@@ -21,7 +21,7 @@
     "BRSW.No_result_card": "Keine Ergebniskarte",
     "BRSW.Master_only_result_card": "Die Karte wird nur dem Spielleiter gezeigt",
     "BRSW.Everybody": "Die Karte wird allen gezeigt",
-    "BRWS.Testing_fumbles": "Kritischer Fehlschlag Test",
+    "BRWS.Testing_fumbles": "Test auf kritischen Fehlschlag",
     "BRSW.Failure": "Fehlschlag",
     "BRSW.Succeß": "Erfolg",
     "BRSW.Raise": "Steigerung!",
@@ -147,7 +147,7 @@
     "BRSW.ExpendedPoints": "<p>{name} verbraucht <strong>{pp}</strong> Machtpunkte. Es sind noch <strong>{final_pp}</strong> MP übrig.</p>",
     "BRSW.InjuryCard": "Verletzung",
     "BRSW.AmmountPP": "Anzahl Machtpunkte",
-    "BRSW.SoulDrain": "Seelenentzug",
+    "BRSW.SoulDrain": "Machtpunkte entziehen",
     "BRSW.OptionalRules": "Optionale Regeln",
     "BRSW.OR.GrittyDamage": "Fieser Schaden",
     "BRSW.OptionalRulesLabel": "Wähle optionale Regeln",
@@ -165,7 +165,7 @@
     "BRSW.ShootingSkill": "Schießen",
     "BRSW.ThrowingSkill": "Athletik",
     "BRSW.Range": "Reichweite",
-    "BRSW.HideReRolls": "Verstecke Wiederholungswurf bei Patzer",
+    "BRSW.HideReRolls": "Verstecke Wiederholungswurf bei Kritischem Fehlschlag",
     "BRSW.HalfDamage": "Schaden halbieren",
-    "BRSW.HideReRollsHint": "Verbirgt den Wiederholungswurf-Knopf bei einem Patzer"
+    "BRSW.HideReRollsHint": "Verbirgt den Wiederholungswurf-Knopf bei einem Kritischen Fehlschlag"
 }
