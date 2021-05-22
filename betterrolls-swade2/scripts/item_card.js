@@ -470,7 +470,7 @@ async function discount_pp(actor, item, rolls) {
  * @param macros
  * @param actor_param
  * @param item_param
- * @param message
+ * @param message_param
  */
 function run_macros(macros, actor_param, item_param, message_param) {
     if (macros) {
@@ -706,9 +706,10 @@ export function get_item_from_message(message, actor) {
 /**
  * Gets the tougness value for the targeted token
  * @param {SwadeActor} acting_actor
+ * @param {Token} target
  */
-function get_tougness_targeted_selected(acting_actor) {
-    let objetive = get_targeted_token();
+function get_tougness_targeted_selected(acting_actor, target=undefined) {
+    let objetive = target ? target : get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
@@ -828,67 +829,74 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     // Roll
     let formula = makeExplotable(roll_formula);
-    let roll = new Roll(raise ? formula + raise_formula : formula,
-        actor.getRollShortcuts());
-    roll.evaluate();
-    const defense_values = get_tougness_targeted_selected(actor);
-    damage_roll.brswroll.rolls.push(
-        {result: roll.total + total_modifiers, tn: defense_values.toughness,
-        armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
-        target_id: defense_values.token_id || 0});
-    let last_string_term = ''
-    roll.terms.forEach(term => {
-        if (term.hasOwnProperty('faces')) {
-            let new_die = {faces: term.faces, results: [],
-                extra_class: '',
-                label: game.i18n.localize("SWADE.Dmg") + `(${formula})`};
-            if (term.total > term.faces) {
-                new_die.extra_class = ' brsw-blue-text';
-                if (!damage_roll.brswroll.rolls[0].extra_class) {
-                    damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
-                }
-            }
-            term.results.forEach(result => {
-                new_die.results.push(result.result);
-            })
-            damage_roll.brswroll.dice.push(new_die);
-        } else {
-            if (parseInt(term)) {
-                let modifier_value = parseInt(last_string_term + term);
-                if (modifier_value) {
-                    damage_roll.brswroll.modifiers.push({'value': modifier_value,
-                        'name': game.i18n.localize("SWADE.Dmg") + `(${formula})`});
-                    total_modifiers += modifier_value;
-                }
-            }
-            last_string_term = term;
-        }
-    })
-    if (raise) {
-        // Last die is raise die.
-        damage_roll.brswroll.dice[damage_roll.brswroll.dice.length - 1].label =
-            game.i18n.localize("BRSW.Raise");
+    let targets = [undefined];
+    if (game.user.targets.size > 0) {
+        targets = game.user.targets;
     }
-    damage_roll.label = defense_values.name;
-    // Run macros
-    run_macros(macros, actor, item, message);
-    // Dice so nice
-    if (game.dice3d) {
-        let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
-        if (damage_theme !== 'None') {
-            roll.dice.forEach(die => {
-               die.options.colorset = damage_theme;
-            });
+    for (let target of targets) {
+        let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
+        let roll = new Roll(raise ? formula + raise_formula : formula,
+            actor.getRollShortcuts());
+        roll.evaluate();
+        const defense_values = get_tougness_targeted_selected(actor, target);
+        current_damage_roll.brswroll.rolls.push(
+            {result: roll.total + total_modifiers, tn: defense_values.toughness,
+            armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
+            target_id: defense_values.token_id || 0});
+        let last_string_term = ''
+        roll.terms.forEach(term => {
+            if (term.hasOwnProperty('faces')) {
+                let new_die = {faces: term.faces, results: [],
+                    extra_class: '',
+                    label: game.i18n.localize("SWADE.Dmg") + `(${formula})`};
+                if (term.total > term.faces) {
+                    new_die.extra_class = ' brsw-blue-text';
+                    if (!current_damage_roll.brswroll.rolls[0].extra_class) {
+                        current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
+                    }
+                }
+                term.results.forEach(result => {
+                    new_die.results.push(result.result);
+                })
+                current_damage_roll.brswroll.dice.push(new_die);
+            } else {
+                if (parseInt(term)) {
+                    let modifier_value = parseInt(last_string_term + term);
+                    if (modifier_value) {
+                        current_damage_roll.brswroll.modifiers.push({'value': modifier_value,
+                            'name': game.i18n.localize("SWADE.Dmg") + `(${formula})`});
+                        total_modifiers += modifier_value;
+                    }
+                }
+                last_string_term = term;
+            }
+        })
+        if (raise) {
+            // Last die is raise die.
+            current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
+                game.i18n.localize("BRSW.Raise");
         }
-        let users = null;
-        if (message.data.whisper.length > 0) {
-            users = message.data.whisper;
+        current_damage_roll.label = defense_values.name;
+        // Run macros
+        run_macros(macros, actor, item, message);
+        // Dice so nice
+        if (game.dice3d) {
+            let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
+            if (damage_theme !== 'None') {
+                roll.dice.forEach(die => {
+                   die.options.colorset = damage_theme;
+                });
+            }
+            let users = null;
+            if (message.data.whisper.length > 0) {
+                users = message.data.whisper;
+            }
+            // noinspection ES6MissingAwait
+            await game.dice3d.showForRoll(roll, game.user, true, users);
         }
-        // noinspection ES6MissingAwait
-        await game.dice3d.showForRoll(roll, game.user, true, users);
+        current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
+        render_data.damage_rolls.push(current_damage_roll);
     }
-    damage_roll.damage_result = calculate_results(damage_roll.brswroll.rolls, true);
-    render_data.damage_rolls.push(damage_roll);
     // Pinned actions
     // noinspection JSUnresolvedVariable
     render_data.actions.forEach(action => {
