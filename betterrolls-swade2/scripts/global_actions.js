@@ -78,7 +78,6 @@ function check_selector(type, value, item, actor){
         const effect = actor.effects.find(
             effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
         selected = effect ? ! effect.data.disabled : false;
-        console.log(effect, effect.disabled, selected)
     }
     return selected;
 }
