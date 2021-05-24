@@ -699,8 +699,12 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     })
     // Wild Die
-    if (actor.isWildcard) {
-        roll_string += `+1d${trait_dice['wild-die'].sides}x`
+    let wild_die_formula = `+1d${trait_dice['wild-die'].sides}x`;
+    if (extra_data.hasOwnProperty('wildDieFormula')) {
+        wild_die_formula = extra_data.wildDieFormula;
+    }
+    if (actor.isWildcard && wild_die_formula) {
+        roll_string += wild_die_formula;
     }
     let roll = new Roll(roll_string);
     roll.evaluate()

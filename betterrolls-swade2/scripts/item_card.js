@@ -556,6 +556,9 @@ export async function roll_item(message, html, expend_bennie,
                 new_state[`data.status.is${action.self_add_status}`] = true
                 actor.update(new_state)
             }
+            if (action.hasOwnProperty('wildDieFormula')) {
+                extra_data.wildDieFormula = action.wildDieFormula;
+            }
             if (action.runSkillMacro) {
                 macros.push(action.runSkillMacro);
             }
