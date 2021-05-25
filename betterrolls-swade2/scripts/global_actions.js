@@ -83,7 +83,6 @@ function check_selector(type, value, item, actor){
             return item.data.type === 'edge' && item.data.name.toLowerCase().includes(value.toLowerCase());
         });
         selected = !!edge;
-        console.log(edge, selected)
     }
     return selected;
 }

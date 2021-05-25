@@ -669,9 +669,18 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         // Reroll, keep old options
         rof = render_data.trait_roll.rolls.length - 1;
         modifiers = render_data.trait_roll.modifiers;
+        let reroll_mods_applied = false;
         modifiers.forEach(mod => {
             total_modifiers += mod.value
+            if (mod.name.includes('(reroll)')) {
+                reroll_mods_applied = true;
+            }
         });
+        if (extra_data.reroll_modifier && !reroll_mods_applied) {
+            modifiers.push({name: `${extra_data.reroll_modifier.name} (reroll)`,
+                            value: extra_data.reroll_modifier.value});
+            total_modifiers += extra_data.reroll_modifier.value;
+        }
         render_data.trait_roll.rolls.forEach(roll => {
             if (roll.tn) {
                 // We hacky use tn = 0 to mark discarded dice,

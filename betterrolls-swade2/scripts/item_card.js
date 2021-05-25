@@ -507,6 +507,7 @@ function run_macros(macros, actor_param, item_param, message_param) {
  */
 export async function roll_item(message, html, expend_bennie,
                                 roll_damage){
+    let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
@@ -543,6 +544,10 @@ export async function roll_item(message, html, expend_bennie,
                     extra_data.modifiers = [modifier];
                 }
             }
+            if (action.rerollSkillMod) {
+                //Reroll
+                extra_data.reroll_modifier = {name: action.name, value: parseInt(action.rerollSkillMod)};
+            }
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
                 skill = skill_from_string(actor, action.skillOverride);
@@ -570,7 +575,7 @@ export async function roll_item(message, html, expend_bennie,
     // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
-    let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
+    render_data = await message.getFlag('betterrolls-swade2', 'render_data');
     // Pinned actions
     // noinspection JSUnresolvedVariable
     render_data.actions.forEach(action => {
