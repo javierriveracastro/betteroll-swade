@@ -78,6 +78,12 @@ function check_selector(type, value, item, actor){
         const effect = actor.effects.find(
             effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
         selected = effect ? ! effect.data.disabled : false;
+    } else if (type === 'actor_has_edge') {
+        const edge = actor.items.find(item => {
+            return item.data.type === 'edge' && item.data.name.toLowerCase().includes(value.toLowerCase());
+        });
+        selected = !!edge;
+        console.log(edge, selected)
     }
     return selected;
 }
