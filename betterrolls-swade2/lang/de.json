@@ -167,5 +167,9 @@
     "BRSW.Range": "Reichweite",
     "BRSW.HideReRolls": "Verstecke Wiederholungswurf bei Kritischem Fehlschlag",
     "BRSW.HalfDamage": "Schaden halbieren",
-    "BRSW.HideReRollsHint": "Verbirgt den Wiederholungswurf-Knopf bei einem Kritischen Fehlschlag"
+    "BRSW.HideReRollsHint": "Verbirgt den Wiederholungswurf-Knopf bei einem Kritischen Fehlschlag",
+    "BRSW.EdgeName-Elan": "Elan",
+    "BRSW.EdgeName-NoMercy": "Keine Gnade",
+    "BRSW.expand-results": "Ergebnisse ausklappen",
+    "BRSW.expand-results_hint": "Wurfergebnisse direkt ausklappen"
 }
