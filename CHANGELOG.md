@@ -3,44 +3,43 @@
 ## Version 2.30 aka At least something useful from all that global actions
 * Updated German and Spanish translations
 * Add an option to show the results details expanded by default
-* If you have multiple tokens targeted Better Rools will now roll damage once for each.
-* Global actions gets a formula to: change or remove de wild die, add a modifier to a skill reroll, add a modifier to a damage reroll
+* If you have multiple tokens targeted Better Rolls will now roll damage once for each.
+* Global actions get a formula to: change or remove the wild die, add a modifier to a skill reroll, add a modifier to a damage reroll
 * Global actions get a selector for when an actor has an edge
 * Elan and No Mercy are now supported via global actions.
 * Macros are now executed inside an async function as Foundry version 0.7.10 does.
 
 ## Version 2.29 Global actions going crazy
-* There is now an option to hide reroll buttons on critical failures (SalieriC if you ever read this note that I didn't say fumbles)
+* There is now an option to hide reroll buttons on critical failures (SalieriC if you ever read this, note that I didn't say fumbles)
 * Modifications to chat card metadata, hoping to make it work better with CUB
-* Remove PP for the arcane backgound when possible instead of the general pool.
+* Remove PP from the arcane backgound when possible instead of from the general pool.
 * New global action selectors: actor_name_selector, item_name_selector, actor_has_effect
 * Lots of typos (Razortide, SalieriC)
-* The raise dice can now be changed by a global action (using a d12 instead of d6)
+* The raise dice can now be changed by a global action (e.g. using a d12 instead of d6)
 
 ## Version 2.28 Global macros... or whatever
 * Spanish language renamed to español
-* Global actions can now star pinned (red)
+* Global actions can now be star pinned (red)
 * Global actions can now execute a macro after a skill or damage roll.
 
 ## Version 2.27, Now I feel like Linus...
 * Added a hook to allow other modules to run code when a button is clicked (radyrosales)
 * Change the type of the chat cards to roll
 * Added italian translation (zgsuppo)
-* Various fixes to documentation (Cyril Ronseaux)
+* Various fixes to documentation (Cyril "Gronyon" Ronseaux)
 * Updated documentation (Razortide)
 * First part of portuguese support (amaurijr1976)
 * Much better css styling in the cards (DanieleSuppo)
-* More typos in documentation (gronyon)
 * Show an icon to make an attack deal half damage
-* Accept skill in lowe case for Wold Global Actinos (tm).
+* Accept skill in lower case for World Global Actinos (tm).
 
 ## Version 2.26, The late one
 * Lots of translation and spelling fixes
 * Remove "more options" from cards
-* Use parry as difficult to hit adjacent targets with ranged attacks
+* Use parry as Target Number to hit adjacent targets with ranged attacks
 * Autoapply distance penalties for ranged attacks
 * Respect DSN configuration about showing the result after or before rolling
-* Joker now modify damage
+* Joker now modifies damage
 * Various sheet fixes
 * Better handling of soak rolls.
 
