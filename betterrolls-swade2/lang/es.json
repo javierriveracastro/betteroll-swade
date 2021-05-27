@@ -166,5 +166,7 @@
     "BRSW.Range": "Distancia",
     "BRSW.HalfDamage": "Mitad de daño",
     "BRSW.HideReRolls": "Ocultar repeticiones al tirar",
-    "BRSW.HideReRollsHit": "Marca esta opción para que la carta no muestre las opciones de repetir tiradas en un pifia"
+    "BRSW.HideReRollsHit": "Marca esta opción para que la carta no muestre las opciones de repetir tiradas en un pifia",
+    "BRSW.EdgeName-Elan": "Ardor",
+    "BRSW.EdgeName-NoMercy": "Sin Piedad"
 }

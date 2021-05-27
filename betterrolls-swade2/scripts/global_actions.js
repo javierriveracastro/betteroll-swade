@@ -12,6 +12,11 @@ const SYSTEM_GLOBAL_ACTION = [
     {id: "HEAD", name:"Called Shot: Head", button_name: "BRSW.CalledHead", skillMod: -4,
         dmgMod: +4, dmgOverride: "", selector_type: "item_type",
         selector_value: "weapon"},
+    {id:"ELAN", name:"Elan Edge", button_name:"BRSW.EdgeName-Elan", rerollSkillMod:"+2",
+        selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Elan", defaultChecked:"on"},
+    {id:"NO_MERCY", name:"No Mercy Edge", button_name:"BRSW.EdgeName-NoMercy",
+        rerollDamageMod:"+2", selector_type:"actor_has_edge",
+        selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on"}
 ]
 
 /**
@@ -79,8 +84,10 @@ function check_selector(type, value, item, actor){
             effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
         selected = effect ? ! effect.data.disabled : false;
     } else if (type === 'actor_has_edge') {
+        const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         const edge = actor.items.find(item => {
-            return item.data.type === 'edge' && item.data.name.toLowerCase().includes(value.toLowerCase());
+            return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+                edge_name.toLowerCase());
         });
         selected = !!edge;
     }
