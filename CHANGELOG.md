@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.30 aka At least something useful from all that global actions
+* Updated German and Spanish translations
+* Add an option to show the results details expanded by default
+* If you have multiple tokens targeted Better Rools will now roll damage once for each.
+* Global actions gets a formula to: change or remove de wild die, add a modifier to a skill reroll, add a modifier to a damage reroll
+* Global actions get a selector for when an actor has an edge
+* Elan and No Mercy are now supported via global actions.
+* Macros are now executed inside an async function as Foundry version 0.7.10 does.
+
 ## Version 2.29 Global actions going crazy
 * There is now an option to hide reroll buttons on critical failures (SalieriC if you ever read this note that I didn't say fumbles)
 * Modifications to chat card metadata, hoping to make it work better with CUB
