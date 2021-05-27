@@ -820,6 +820,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (action.raiseDamageFormula) {
                 raise_formula = action.raiseDamageFormula;
             }
+            if (action.rerollDamageMod && expend_bennie) {
+                const reroll_mod = parseInt(action.rerollDamageMod);
+                damage_roll.brswroll.modifiers.push({name: action.name, value: reroll_mod});
+                total_modifiers += reroll_mod;
+            }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
