@@ -483,11 +483,14 @@ function run_macros(macros, actor_param, item_param, message_param) {
                 const token = canvas.tokens.get(speaker.token);
                 const character = game.user.character;
                 const message = message_param;
+                // Attempt script execution
+                const body = `(async () => {${real_macro.data.command}})()`;
+                const fn = Function("speaker", "actor", "token", "character", "item", "message", body);
                 try {
-                    eval(real_macro.data.command);
+                  fn.call(this, speaker, actor, token, character, item, message);
                 } catch (err) {
-                    ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
-                    console.error(err);
+                  ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
+                  console.error(err);
                 }
             }
         }
