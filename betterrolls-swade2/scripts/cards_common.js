@@ -700,10 +700,14 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let roll_string = `1d${trait_dice.die.sides}x`
     // @zk-sn: If roll is a 1d1x (example: Strength score of 1), change it to 1d1 to prevent exploding die recursion.  (Fix for #211)
     if (roll_string === `1d1x`) {
-	roll_string = `1d1`;    
-    }
-    for (let i = 0; i < (rof - 1); i++) {
-        roll_string += `+1d${trait_dice.die.sides}x`
+	    roll_string = `1d1`;
+        for (let i = 0; i < (rof - 1); i++) {
+          roll_string += `+1d${trait_dice.die.sides}`;
+        }    
+    } else { 
+        for (let i = 0; i < (rof - 1); i++) {
+            roll_string += `+1d${trait_dice.die.sides}x`
+        }
     }
     // Make penalties red
     modifiers.forEach(mod => {
