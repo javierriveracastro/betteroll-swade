@@ -554,6 +554,8 @@ export async function roll_item(message, html, expend_bennie,
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
                 skill = skill_from_string(actor, action.skillOverride);
+                render_data.skill_title = skill ? skill.name + ' ' +
+                    trait_to_string(skill.data.data) : '';
             }
             // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {
@@ -578,7 +580,6 @@ export async function roll_item(message, html, expend_bennie,
     // Check rof if avaliable
     const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
-    render_data = await message.getFlag('betterrolls-swade2', 'render_data');
     // Pinned actions
     // noinspection JSUnresolvedVariable
     render_data.actions.forEach(action => {
@@ -852,7 +853,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     for (let target of targets) {
         let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
         // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
-        // let roll = new Roll(raise ? formula + raise_formula : formula, actor.getRollShortcuts());
         let shortcuts = actor.getRollShortcuts();
         if (shortcuts.str === "1d1x[Strength]") {
             shortcuts.str = "1d1[Strength]";
