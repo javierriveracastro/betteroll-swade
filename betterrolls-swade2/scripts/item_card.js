@@ -173,10 +173,10 @@ async function item_click_listener(ev, target) {
     let message = await create_item_card(target, item_id, collapse_actions);
     // Shortcut for rolling damage
     if (ev.currentTarget.classList.contains('damage-roll')) {
-        await roll_dmg(message, '', false, false);
+        await roll_dmg(message, $(message.data.content), false, false);
     }
     if (action.includes('trait')) {
-        await roll_item(message, '', false,
+        await roll_item(message, $(message.data.content), false,
             action.includes('damage'));
     }
 }
