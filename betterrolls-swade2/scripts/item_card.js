@@ -105,7 +105,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             skill: skill, skill_title: skill_title, ammo: ammo,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, actions: actions,
+            powerpoints: power_points, actions: actions, used_shots: 0,
             actions_collapsed: collapse_actions},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
@@ -406,6 +406,7 @@ function check_skill_in_actor(actor, possible_skills) {
  * @param item Item that has ben shoot
  * @param rof Rof of the shot
  * @param {int} shot_override
+ * @return {int} used shots
  */
 async function discount_ammo(item, rof, shot_override) {
     // noinspection JSUnresolvedVariable
@@ -419,6 +420,7 @@ async function discount_ammo(item, rof, shot_override) {
     }
     await item.update({'data.currentShots': final_ammo});
     await ChatMessage.create({content: content});
+    return ammo_spent;
 }
 
 /**
@@ -595,7 +597,7 @@ export async function roll_item(message, html, expend_bennie,
         if (actor.isWildcard) {
             rof -= 1;
         }
-        await discount_ammo(item, rof || 1, shots_override);
+        render_data.used_shots = await discount_ammo(item, rof || 1, shots_override);
     }
     // Power point management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
