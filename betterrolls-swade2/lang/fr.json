@@ -160,5 +160,15 @@
     "BRSW.WorldGlobalMenuLabel": "Actions Globales au Monde",
     "BRSW.NewAction": "Nouvelle action",
     "BRSW.InvalidJSONError": "JSON invalide",
-    "BRSW.MissingJSON": "Élément manquant "
+    "BRSW.MissingJSON": "Élément manquant ",
+    "BRSW.ShootingSkill": "tir",
+    "BRSW.ThrowingSkill": "athlétisme",
+    "BRSW.Range": "Portée",
+    "BRSW.EdgeName-Elan": "Panache",
+    "BRSW.EdgeName-NoMercy": "Sans pitié",
+    "BRSW.HalfDamage": "Moitié dégâts",
+    "BRSW.HideReRolls": "Cacher l'option Relance sur Échec Critique",
+    "BRSW.HideReRollsHint": "Cocher pour cacher les boutons permettant de Relancer un jet en Échec Critique",
+    "BRSW.expand-results_hint": "Voir le détail des résultats par défaut (vous pourrez toujours cliquer pour les replier)",
+    "BRSW.expand-results": "Panneau résultats déplié"
 }
