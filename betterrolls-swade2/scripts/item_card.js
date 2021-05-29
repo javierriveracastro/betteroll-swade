@@ -52,7 +52,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const skill = get_item_skill(item, actor);
     const skill_title = skill ? skill.name + ' ' +
         trait_to_string(skill.data.data) : '';
-    const notes = item.data.data.notes || (skill === undefined ? item.name : skill.name);
+    const notes = item.data.data.notes || "";
     let trait_roll = new BRWSRoll();
     let actions = [];
     let possible_default_dmg_action;
