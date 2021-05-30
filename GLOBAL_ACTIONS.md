@@ -65,6 +65,19 @@ const message = message_param; // The full message objetc
 
 ## Examples:
 
+### Called Shot
+```json
+{
+  "id": "CALLEDSHOTHAND",
+  "name": "Called shot: Hand",
+  "button_name": "Called shot: Hand",
+  "skillMod": "-4",
+  "dmgMod": "+4",
+  "selector_type": "skill",
+  "selector_value": "Shooting"  
+}
+```
+
 ### Cover & Obstacles
 ```json
 {
@@ -106,3 +119,13 @@ const message = message_param; // The full message objetc
   "selector_value": "weapon"
 }
 ```
+
+### Edges
+{
+   "id":"MONKRAISE",
+   "name":"Monk attack",
+   "button_name":"Monk",
+   "defaulChecked":"on",
+   "Raise Damage Fórmula":"1d10x",
+   "actor_has_edge":"monk"
+}
