@@ -62,3 +62,47 @@ const token = canvas.tokens.get(speaker.token);
 const character = game.user.character;
 const message = message_param; // The full message objetc
 ```
+
+## Examples:
+
+### Cover & Obstacles
+```json
+{
+  "id": "LightCover",
+  "name": "Light Cover",
+  "button_name": "Light Cover",
+  "skillMod": "-2",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "MediumCover",
+  "name": "Medium Cover",
+  "button_name": "Medium Cover",
+  "skillMod": "-4",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "HeavyCover",
+  "name": "Heavy Cover",
+  "button_name": "Heavy Cover",
+  "skillMod": "-6",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "NearTotalCover",
+  "name": "Near Total Cover",
+  "button_name": "Near Total Cover",
+  "skillMod": "-8",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
