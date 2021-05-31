@@ -612,7 +612,7 @@ export async function roll_item(message, html, expend_bennie,
     run_macros(macros, actor, item, message);
     await update_message(message, actor, render_data);
     //Call a hook after roll for other modules
-    Hooks.call("BRSW-RollItem", message, html );
+    Hooks.call("BRSW-RollItem", message, html);
     if (roll_damage) {
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {
