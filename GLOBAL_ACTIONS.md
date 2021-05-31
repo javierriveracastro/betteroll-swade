@@ -3,11 +3,19 @@
 Global actions are a json encoded set of instructions that allow the user to customize how Better Rolls work.
 
 ## Example Action
-
+```json
+{
+   "id":"LEG",
+   "name":"Called Shot: Leg",
+   "button_name":"Leg Remover",
+   "skillMod":-4,
+   "dmgMod":4,
+   "dmgOverride":"",
+   "selector_type":"item_type",
+   "selector_value":"weapon"
+}
 ```
-{"id":"LEG","name":"Called Shot: Leg","button_name":"Leg Remover",
-"skillMod":-4,"dmgMod":4,"dmgOverride":"","selector_type":"item_type","selector_value":"weapon"}
-```
+More in the end of this file.
 
 This piece of json will add an action called "Leg Remover" to every weapon card.
 If this action is checked it will add a penalty of 4 to the skill roll and a bonus of 4 to the damage roll.
@@ -119,13 +127,70 @@ const message = message_param; // The full message objetc
   "selector_value": "weapon"
 }
 ```
+### Unarmed Defender
+```json
+{
+  "id": "UNARMEDDEFENDER",
+  "name": "Unarmed Defender",
+  "button_name": "Unarmed Defender",
+  "skillMod": "+2",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Touch Attack
+```json
+{
+  "id": "TOUCHATTACK",
+  "name": "Touch Attack",
+  "button_name": "Touch Attack",
+  "skillMod": "+2",
+  "dmgOverride": "0",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Off-Hand Attacks
+```json
+{
+  "id": "OFFHANDATTACKS",
+  "name": "Off-Hand Attacks",
+  "button_name": "Off-Hand Attacks",
+  "skillMod": "-2",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"  
+}
+```
+### Nonlethal Damage
+```json
+{
+  "id": "NONLETHALDAMAGE",
+  "name": "Nonlethal Damage",
+  "button_name": "Nonlethal Damage",
+  "skillMod": "-1",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Two Weapons
+```json
+{
+  "id": "Two Weapons",
+  "name": "Two Weapons",
+  "button_name": "Two Weapons",
+  "skillMod": "+1",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
 
 ### Edges
-{
+```json
    "id":"MONKRAISE",
    "name":"Monk attack",
    "button_name":"Monk",
    "defaulChecked":"on",
    "Raise Damage Fórmula":"1d10x",
-   "actor_has_edge":"monk"
+   "actor_has_edge":"Monk"
 }
+```
