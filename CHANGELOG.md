@@ -1,5 +1,14 @@
 # Changelog
 
+# Version 2.31 aka Before the 0.8 apocalipsys
+* Lots of typos everywhere (zk-sn, Cyrul ROnseaux, Bruno Calado)
+* Lots of translation updates (Weblate teams)
+* Fix for Str 1. (zk-sn)
+* Change the skill name in the card when an action makes it roll one different from the default one
+* Remove duplication of skill name in the card.
+* used_shots are now passed to macros
+* Direct roll respect now the default_checked global action
+
 ## Version 2.30 aka At least something useful from all that global actions
 * Updated German and Spanish translations
 * Add an option to show the results details expanded by default
