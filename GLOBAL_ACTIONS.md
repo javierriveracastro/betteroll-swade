@@ -3,11 +3,19 @@
 Global actions are a json encoded set of instructions that allow the user to customize how Better Rolls work.
 
 ## Example Action
-
+```json
+{
+   "id":"LEG",
+   "name":"Called Shot: Leg",
+   "button_name":"Leg Remover",
+   "skillMod":-4,
+   "dmgMod":4,
+   "dmgOverride":"",
+   "selector_type":"item_type",
+   "selector_value":"weapon"
+}
 ```
-{"id":"LEG","name":"Called Shot: Leg","button_name":"Leg Remover",
-"skillMod":-4,"dmgMod":4,"dmgOverride":"","selector_type":"item_type","selector_value":"weapon"}
-```
+More in the end of this file.
 
 This piece of json will add an action called "Leg Remover" to every weapon card.
 If this action is checked it will add a penalty of 4 to the skill roll and a bonus of 4 to the damage roll.
@@ -61,4 +69,128 @@ const speaker = ChatMessage.getSpeaker();
 const token = canvas.tokens.get(speaker.token);
 const character = game.user.character;
 const message = message_param; // The full message objetc
+```
+
+## Examples:
+
+### Called Shot
+```json
+{
+  "id": "CALLEDSHOTHAND",
+  "name": "Called shot: Hand",
+  "button_name": "Called shot: Hand",
+  "skillMod": "-4",
+  "dmgMod": "+4",
+  "selector_type": "skill",
+  "selector_value": "Shooting"  
+}
+```
+
+### Cover & Obstacles
+```json
+{
+  "id": "LightCover",
+  "name": "Light Cover",
+  "button_name": "Light Cover",
+  "skillMod": "-2",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "MediumCover",
+  "name": "Medium Cover",
+  "button_name": "Medium Cover",
+  "skillMod": "-4",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "HeavyCover",
+  "name": "Heavy Cover",
+  "button_name": "Heavy Cover",
+  "skillMod": "-6",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+```json
+{
+  "id": "NearTotalCover",
+  "name": "Near Total Cover",
+  "button_name": "Near Total Cover",
+  "skillMod": "-8",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"
+}
+```
+### Unarmed Defender
+```json
+{
+  "id": "UNARMEDDEFENDER",
+  "name": "Unarmed Defender",
+  "button_name": "Unarmed Defender",
+  "skillMod": "+2",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Touch Attack
+```json
+{
+  "id": "TOUCHATTACK",
+  "name": "Touch Attack",
+  "button_name": "Touch Attack",
+  "skillMod": "+2",
+  "dmgOverride": "0",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Off-Hand Attacks
+```json
+{
+  "id": "OFFHANDATTACKS",
+  "name": "Off-Hand Attacks",
+  "button_name": "Off-Hand Attacks",
+  "skillMod": "-2",
+  "selector_type": "item_type", 
+  "selector_value": "weapon"  
+}
+```
+### Nonlethal Damage
+```json
+{
+  "id": "NONLETHALDAMAGE",
+  "name": "Nonlethal Damage",
+  "button_name": "Nonlethal Damage",
+  "skillMod": "-1",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+### Two Weapons
+```json
+{
+  "id": "Two Weapons",
+  "name": "Two Weapons",
+  "button_name": "Two Weapons",
+  "skillMod": "+1",
+  "selector_type": "skill",
+  "selector_value": "Fighting"  
+}
+```
+
+### Edges
+```json
+   "id":"MONKRAISE",
+   "name":"Monk attack",
+   "button_name":"Monk",
+   "defaulChecked":"on",
+   "Raise Damage Fórmula":"1d10x",
+   "actor_has_edge":"Monk"
+}
 ```
