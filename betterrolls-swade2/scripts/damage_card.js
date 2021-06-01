@@ -94,7 +94,7 @@ export function get_owner(actor) {
 async function apply_damage(token, wounds, soaked=0) {
     if (wounds < 0) return;
     let incapacitated = false;
-    if (!token.hasOwnProperty('actor')) {
+    if (!token.hasOwnProperty('_actor')) {
         // If this is not a token then it is a token id
         token = canvas.tokens.get(token);
     }

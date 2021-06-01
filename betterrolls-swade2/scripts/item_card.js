@@ -46,7 +46,7 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 * @return A promise for the ChatMessage object
 */
 async function create_item_card(origin, item_id, collapse_actions) {
-    const actor = origin.hasOwnProperty('actor')?origin.actor:origin;
+    const actor = origin.hasOwnProperty('_actor')?origin.actor:origin;
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
     const skill = get_item_skill(item, actor);
