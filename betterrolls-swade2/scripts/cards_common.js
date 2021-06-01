@@ -185,7 +185,7 @@ export async function spend_bennie(actor){
  * @param actor_id
  */
 export function get_actor_from_ids(token_id, actor_id) {
-    if (canvas) {
+    if (canvas.tokens) {
         if (token_id) {
             let token = canvas.tokens.get(token_id);
             if (token) return token.actor
