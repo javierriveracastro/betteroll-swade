@@ -35,7 +35,7 @@ export function register_actions() {
  */
 export function get_actions(item, actor) {
     let actions_avaliable = [];
-    const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
+    const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
         if (!disabled_actions.includes(action.id)) {
             let selected = false;
@@ -123,7 +123,7 @@ export class SystemGlobalConfiguration extends FormApplication {
     getData(_) {
         let actions = [];
         // No idea why the 0...
-        let disable_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled')[0];
+        let disable_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
         for (let action of SYSTEM_GLOBAL_ACTION) {
             actions.push({id: action.id, name: game.i18n.localize(action.button_name),
                 enabled: !disable_actions.includes(action.id)});
