@@ -186,8 +186,16 @@ export async function spend_bennie(actor){
  */
 export function get_actor_from_ids(token_id, actor_id) {
     if (canvas.tokens) {
+        let token;
         if (token_id) {
-            let token = canvas.tokens.get(token_id);
+            try {
+                token = canvas.tokens.get(token_id);
+            } catch (_) {
+                // At boot the canvas can be still be drawn, we wait
+                setTimeout(() => {
+                    token =canvas.tokens.get(token_id);
+                }, 200);
+            }
             if (token) return token.actor
         }
     }
