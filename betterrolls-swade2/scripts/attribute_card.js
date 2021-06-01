@@ -12,7 +12,7 @@ import {BRSW_CONST, get_action_from_click, get_actor_from_message,
 * @return A promise for the ChatMessage object
 */
 async function create_attribute_card(origin, name){
-    let actor = origin.hasOwnProperty('actor')?origin.actor:origin;
+    let actor = origin.hasOwnProperty('_actor')?origin.actor:origin;
     let title = name + " " + trait_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
     let footer = [];
