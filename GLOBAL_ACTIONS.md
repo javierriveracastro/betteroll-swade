@@ -186,11 +186,15 @@ const message = message_param; // The full message objetc
 
 ### Edges
 ```json
-   "id":"MONKRAISE",
-   "name":"Monk attack",
-   "button_name":"Monk",
-   "defaulChecked":"on",
-   "Raise Damage Fórmula":"1d10x",
-   "actor_has_edge":"Monk"
+{
+  "id":"MONKRAISE",
+  "name":"Monk attack",
+  "button_name":"Monk",
+  "defaultChecked":"on",
+  "raiseDamageFormula": "+1d10x",
+  "and_selector": [
+    {"selector_type": "actor_has_edge", "selector_value":"Monk"}, 
+    {"selector_type": "skill", "selector_value": "Fighting"}
+  ] 
 }
 ```
