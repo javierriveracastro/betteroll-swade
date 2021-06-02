@@ -24,7 +24,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     const damage_result = await apply_damage(token, wounds, 0);
     const footer = damage_card_footer(actor);
     const show_injury = (game.settings.get(
-        'betterrolls-swade2', 'optional_rules_enabled')[0].indexOf(
+        'betterrolls-swade2', 'optional_rules_enabled').indexOf(
             "GrittyDamage") > -1) && can_soak && (actor.data.data.wounds.max > 1);
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
@@ -94,7 +94,7 @@ export function get_owner(actor) {
 async function apply_damage(token, wounds, soaked=0) {
     if (wounds < 0) return;
     let incapacitated = false;
-    if (!token.hasOwnProperty('_actor')) {
+    if (!(token instanceof Token)) {
         // If this is not a token then it is a token id
         token = canvas.tokens.get(token);
     }
