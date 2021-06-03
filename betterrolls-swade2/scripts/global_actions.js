@@ -24,7 +24,7 @@ const SYSTEM_GLOBAL_ACTION = [
  */
 export function register_actions() {
     game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(
-        game.settings.get('betterrolls-swade2', 'world_global_actions')[0]);
+        game.settings.get('betterrolls-swade2', 'world_global_actions'));
 }
 
 

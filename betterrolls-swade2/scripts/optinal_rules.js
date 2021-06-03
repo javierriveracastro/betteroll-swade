@@ -16,7 +16,7 @@ export class OptionalRulesConfiguration extends FormApplication {
     getData(_) {
         let rules = [];
         // No idea why the 0...
-        let enable_rules = game.settings.get('betterrolls-swade2', 'optional_rules_enabled')[0];
+        let enable_rules = game.settings.get('betterrolls-swade2', 'optional_rules_enabled');
         for (let rule of OPTIONAL_RULES) {
             rules.push({id: rule,
                 name: game.i18n.localize("BRSW.OR." + rule),
