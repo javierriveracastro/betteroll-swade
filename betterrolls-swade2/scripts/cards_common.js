@@ -98,8 +98,8 @@ export async function create_common_card(origin, render_data, chat_type, templat
 export function create_basic_chat_data(origin, type){
     let actor;
     let token;
-    if (origin.hasOwnProperty('_actor')) {
-        // This is a token
+    if (origin instanceof TokenDocument || origin instanceof Token) {
+        // This is a token or a TokenDocument
         actor = origin.actor;
         token = origin;
     } else {
