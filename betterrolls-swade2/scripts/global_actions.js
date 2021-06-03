@@ -156,7 +156,7 @@ export class WorldGlobalActions extends FormApplication {
 
     getData(_) {
         const actions = game.settings.get('betterrolls-swade2',
-            'world_global_actions')[0];
+            'world_global_actions');
         let formatted_actions = []
         for (let action of actions) {
             formatted_actions.push({name: action.name,
