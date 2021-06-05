@@ -23,8 +23,11 @@ const SYSTEM_GLOBAL_ACTION = [
  * Registers all the avaliable global actions
  */
 export function register_actions() {
-    game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(
-        game.settings.get('betterrolls-swade2', 'world_global_actions'));
+    let world_actions = game.settings.get('betterrolls-swade2', 'world_global_actions');
+    if (world_actions && world_actions[0] instanceof Array) {
+            world_actions = world_actions[0]
+    }
+    game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(world_actions);
 }
 
 
@@ -35,7 +38,10 @@ export function register_actions() {
  */
 export function get_actions(item, actor) {
     let actions_avaliable = [];
-    const disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
+    let disabled_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
+    if (disabled_actions && disabled_actions[0] instanceof Array) {
+        disabled_actions = disabled_actions[0]
+    }
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
         if (!disabled_actions.includes(action.id)) {
             let selected = false;
@@ -123,6 +129,9 @@ export class SystemGlobalConfiguration extends FormApplication {
     getData(_) {
         let actions = [];
         let disable_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
+        if (disable_actions && disable_actions[0] instanceof Array) {
+            disable_actions = disable_actions[0]
+        }
         for (let action of SYSTEM_GLOBAL_ACTION) {
             actions.push({id: action.id, name: game.i18n.localize(action.button_name),
                 enabled: !disable_actions.includes(action.id)});
@@ -155,8 +164,11 @@ export class WorldGlobalActions extends FormApplication {
     }
 
     getData(_) {
-        const actions = game.settings.get('betterrolls-swade2',
+        let actions = game.settings.get('betterrolls-swade2',
             'world_global_actions');
+        if (actions && actions[0] instanceof Array) {
+            actions = actions[0]
+        }
         let formatted_actions = []
         for (let action of actions) {
             formatted_actions.push({name: action.name,
