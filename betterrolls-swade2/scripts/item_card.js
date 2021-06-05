@@ -595,17 +595,20 @@ export async function roll_item(message, html, expend_bennie,
             pinned_actions.includes(action.name)
     });
     // Ammo management
-    const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
-        game.settings.get('betterrolls-swade2', 'default-ammo-management');
-    if (dis_ammo_selected || macros) {
-        let rof = trait_data.dice.length;
-        if (actor.isWildcard) {
-            rof -= 1;
-        }
-        if (dis_ammo_selected && !trait_data.old_rolls.length) {
-            render_data.used_shots = await discount_ammo(item, rof || 1, shots_override);
-        } else {
-            render_data.used_shots = shots_override >= 0 ? shots_override : ROF_BULLETS[rof || 1];
+    console.log(item)
+    if (parseInt(item.data.data.shots)){
+        const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
+            game.settings.get('betterrolls-swade2', 'default-ammo-management');
+        if (dis_ammo_selected || macros) {
+            let rof = trait_data.dice.length;
+            if (actor.isWildcard) {
+                rof -= 1;
+            }
+            if (dis_ammo_selected && !trait_data.old_rolls.length) {
+                render_data.used_shots = await discount_ammo(item, rof || 1, shots_override);
+            } else {
+                render_data.used_shots = shots_override >= 0 ? shots_override : ROF_BULLETS[rof || 1];
+            }
         }
     }
     // Power point management
