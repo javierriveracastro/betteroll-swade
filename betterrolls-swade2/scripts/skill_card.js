@@ -27,7 +27,12 @@ export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletism
 * @return A promise for the ChatMessage object
 */
 async function create_skill_card(origin, skill_id) {
-    const actor = origin.hasOwnProperty('_actor')?origin.actor:origin;
+    let actor;
+    if (origin instanceof TokenDocument || origin instanceof Token) {
+        actor = origin.actor;
+    } else {
+        actor = origin;
+    }
     const skill = actor.items.find(item => {return item.id === skill_id});
     const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]

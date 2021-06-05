@@ -68,8 +68,6 @@ export async function create_common_card(origin, render_data, chat_type, templat
     } else {
         actor = origin
     }
-    console.log(actor)
-    console.log(origin)
     let render_object = create_render_options(
         actor, render_data)
     let chatData = create_basic_chat_data(origin, chat_type);

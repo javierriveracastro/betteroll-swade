@@ -54,6 +54,10 @@ Hooks.on(`ready`, () => {
             handlers.splice(0, 0, handler);
         });
     };
+    // Tricks for 0.7 and 0.8 compatibility, remove some day
+    if (!("TokenDocument" in window)) {
+        window.TokenDocument = Token;
+    }
 })
 
 
