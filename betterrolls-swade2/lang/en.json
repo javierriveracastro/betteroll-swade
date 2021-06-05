@@ -170,5 +170,6 @@
     "BRSW.expand-results": "Expand results",
     "BRSW.expand-results_hint": "See the result details by default (you can still click on them to hide)",
     "BRSW.EdgeName-Elan": "Elan",
-    "BRSW.EdgeName-NoMercy": "No Mercy"
+    "BRSW.EdgeName-NoMercy": "No Mercy",
+    "BRSW.UnknownActionKey": "Unknown key in action:"
 }

@@ -192,6 +192,8 @@ export class WorldGlobalActions extends FormApplication {
             const row = ev.currentTarget.parentElement.parentElement;
             row.remove();
         })
+        // Activate json check on old actins
+        $('.brsw-action-json').on('blur', this.check_json)
         super.activateListeners(html);
     }
     
@@ -214,13 +216,26 @@ export class WorldGlobalActions extends FormApplication {
                 }
             }
         }
-        const action_title = text_area.previousSibling;
+        if (!error) {
+            // Check that the keys are supported
+            const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod',
+                'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
+                'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
+                'selector_type', 'selector_value', 'and_selector']
+            for (let key in action) {
+                if (SUPPORTED_KEYS.indexOf(key) < 0) {
+                    error = game.i18n.localize("BRSW.UnknownActionKey") + key
+                }
+            }
+        }
+        const action_title = $(text_area.parentElement).find('h3');
         if (error) {
             // Inputs without name are not passed to updateObject
-            action_title.innerHTML = error;
+            console.log(action_title)
+            action_title[0].innerHTML = error;
             text_area.removeAttribute('name')
         } else {
-            action_title.innerHTML = action.name;
+            action_title[0].innerHTML = action.name;
             text_area.name = action.name;
         }
     }
