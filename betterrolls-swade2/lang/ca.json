@@ -164,5 +164,12 @@
     "BRSW.DamageDiceThemeHint": "Tria un tema de Dice So Nice per aplicar als daus de mal",
     "BRSW.Label": "Etiqueta",
     "BRSW.ExpendedPoints": "<p>{name} ha utilitzat {pp} punts de poder. Li queden {final_pp}.</p>",
-    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>No tens prous PP!</p>"
+    "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>No tens prous PP!</p>",
+    "BRSW.HideReRolls": "Amagar repeticions al tirar",
+    "BRSW.HideReRollsHint": "Marqueu aquesta opció per ocultar les opcions de repetició de la targeta en cas d'error crític",
+    "BRSW.HalfDamage": "Meitat de mal",
+    "BRSW.expand-results": "Amplieu els resultats",
+    "BRSW.expand-results_hint": "Consulteu els detalls del resultat per defecte (podeu fer-hi clic per amagar-los)",
+    "BRSW.EdgeName-NoMercy": "Sense pietat",
+    "BRSW.EdgeName-Elan": "fervor"
 }
