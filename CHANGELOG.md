@@ -1,5 +1,15 @@
 # Changelog
 
+# Version 2.34 aka At the other side
+
+Thanks to all people who helped test the 0.8 and 0.7 compatibility
+
+* Updates to enable 0.8.6 compatibility
+* Better shot calculation
+* Documentation updates (Bruno Calado)
+* Solved a bug when drag and dropping attacks that causes the shot deduction logic to happen for melee weapons
+* The usual couple of translation from the weblate team.
+
 # Version 2.31 aka Before the 0.8 apocalipsys
 * Lots of typos everywhere (zk-sn, Cyrul ROnseaux, Bruno Calado)
 * Lots of translation updates (Weblate teams)
