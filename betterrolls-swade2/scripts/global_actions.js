@@ -1,4 +1,4 @@
-import {get_item_skill} from "./item_card.js";
+import {get_item_trait} from "./item_card.js";
 
 // DMG override is still not implemented.
 const SYSTEM_GLOBAL_ACTION = [
@@ -74,7 +74,7 @@ export function get_actions(item, actor) {
 function check_selector(type, value, item, actor){
     let selected = false;
     if (type === 'skill') {
-       const skill = get_item_skill(item, actor);
+       const skill = get_item_trait(item, actor);
        if (skill) {
            selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
                 skill.name.toLowerCase().includes(

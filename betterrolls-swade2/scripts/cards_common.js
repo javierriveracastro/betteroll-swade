@@ -1,7 +1,7 @@
 // Common functions used in all cards
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
-import {get_item_from_message, get_item_skill, roll_item} from "./item_card.js";
+import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 
@@ -516,7 +516,7 @@ export async function update_message(message, actor, render_data) {
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
             BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor);
-        render_data.skill = get_item_skill(item, actor);
+        render_data.skill = get_item_trait(item, actor);
     }
     create_render_options(actor, render_data);
     let new_content = await renderTemplate(template, render_data);
@@ -840,7 +840,7 @@ function get_skill_from_message(message, actor) {
     } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
         const item = actor.getOwnedItem(message.getFlag(
             'betterrolls-swade2', 'item_id'));
-        skill = get_item_skill(item, actor);
+        skill = get_item_trait(item, actor);
     }
     return skill
 }
@@ -872,7 +872,7 @@ async function old_roll_clicked(event, message) {
         }
     })
     if (item) {
-        render_data.skill = get_item_skill(item, actor);
+        render_data.skill = get_item_trait(item, actor);
     }
     await update_message(message, actor, render_data);
 }

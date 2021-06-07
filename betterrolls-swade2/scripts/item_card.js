@@ -54,9 +54,9 @@ async function create_item_card(origin, item_id, collapse_actions) {
     }
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
-    const skill = get_item_skill(item, actor);
-    const skill_title = skill ? skill.name + ' ' +
-        trait_to_string(skill.data.data) : '';
+    const trait = get_item_trait(item, actor);
+    const trait_tittle = trait ? trait.name + ' ' +
+        trait_to_string(trait.data.data) : '';
     const notes = item.data.data.notes || "";
     let trait_roll = new BRWSRoll();
     let actions = [];
@@ -107,7 +107,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
-            skill: skill, skill_title: skill_title, ammo: ammo,
+            skill: trait, skill_title: trait_tittle, ammo: ammo,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, actions: actions, used_shots: 0,
@@ -326,17 +326,17 @@ export function make_item_footer(item) {
 
 
 /**
- * Guess the skill that should be rolled for an item
+ * Guess the skill/attribute that should be rolled for an item
  * @param {Item} item The item.
  * @param {SwadeActor} actor The owner of the iem
  */
-export function get_item_skill(item, actor) {
+export function get_item_trait(item, actor) {
     // Some types of items doesn't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
             item.type.toLowerCase())) return;
     // First if the item has a skill in actions we use it
     if (item.data.data.actions && item.data.data.actions.skill) {
-        return skill_from_string(actor, item.data.data.actions.skill);
+        return trait_from_string(actor, item.data.data.actions.skill);
     }
     // Now check if there is something in the Arcane field
     // noinspection JSUnresolvedVariable
@@ -369,16 +369,27 @@ export function get_item_skill(item, actor) {
 
 
 /**
- * Get an skill from an actor and the skill name
+ * Get an skill or attribute from an actor and the skill name
  * @param {SwadeActor} actor Where search for the skill
- * @param {string} skill_name
+ * @param {string} trait_name
  */
-function skill_from_string(actor, skill_name) {
+function trait_from_string(actor, trait_name) {
     let skill = actor.items.find(skill => {
         return skill.name.toLowerCase().replace('★ ', '') ===
-            skill_name.toLowerCase().replace('★ ', '')
+            trait_name.toLowerCase().replace('★ ', '')
             && skill.type === 'skill';
     });
+    if (!skill) {
+        // Time to check for an attribute
+        const ATTRIBUTES = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor']
+        for (let attribute of ATTRIBUTES) {
+            const translation = game.i18n.localize("SWADE.Attr" + attribute.slice(0, 3))
+            if (trait_name.toLowerCase() === translation.toLowerCase())  {
+                return {data: {data: actor.data.data.attributes[attribute.toLowerCase()]},
+                        name: translation}
+            }
+        }
+    }
     if (!skill) {
         // No skill was found, we try to find untrained
         skill = check_skill_in_actor(actor, UNTRAINED_SKILLS);
@@ -521,10 +532,10 @@ export async function roll_item(message, html, expend_bennie,
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
-    let skill = get_item_skill(item, actor);
+    let trait = get_item_trait(item, actor);
     let macros = [];
     let shots_override = -1;  // Override the number of shots used
-    let extra_data = {skill: skill};
+    let extra_data = {skill: trait};
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
     let pinned_actions = []
@@ -560,9 +571,9 @@ export async function roll_item(message, html, expend_bennie,
             }
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
-                skill = skill_from_string(actor, action.skillOverride);
-                render_data.skill_title = skill ? skill.name + ' ' +
-                    trait_to_string(skill.data.data) : '';
+                trait = trait_from_string(actor, action.skillOverride);
+                render_data.skill_title = trait ? trait.name + ' ' +
+                    trait_to_string(trait.data.data) : '';
             }
             // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {
@@ -585,7 +596,7 @@ export async function roll_item(message, html, expend_bennie,
         });
     }
     // Check rof if avaliable
-    const trait_data = await roll_trait(message, skill.data.data , game.i18n.localize(
+    const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
     // noinspection JSUnresolvedVariable
