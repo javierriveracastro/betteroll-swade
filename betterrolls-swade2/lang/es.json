@@ -169,5 +169,8 @@
     "BRSW.HideReRollsHit": "Marca esta opción para que la carta no muestre las opciones de repetir tiradas en un pifia",
     "BRSW.EdgeName-Elan": "Ardor",
     "BRSW.EdgeName-NoMercy": "Sin Piedad",
-    "BRSW.UnknownActionKey": "Llave desconocida en la acción: "
+    "BRSW.UnknownActionKey": "Llave desconocida en la acción: ",
+    "BRSW.AttackOption": "Opciones de ataque",
+    "BRSW.SituationalModifiers": "Modificadores por situacion",
+    "BRSW.Edges": "Ventajas"
 }

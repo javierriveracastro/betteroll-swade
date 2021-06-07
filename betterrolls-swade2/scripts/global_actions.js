@@ -5,18 +5,19 @@ const SYSTEM_GLOBAL_ACTION = [
     {id: "WTK", name: "Wild Attack", button_name: "BRSW.WildAttack",
         skillMod: 2, dmgMod: 2, dmgOverride: "",
         selector_type: "skill", selector_value: "fighting",
-        self_add_status: "Vulnerable"},
+        self_add_status: "Vulnerable", group: "BRSW.AttackOption"},
     {id: "DROP", name:"The Drop", button_name: "BRSW.TheDrop", skillMod: 4,
         dmgMod: 4, dmgOverride: "", selector_type: "item_type",
-        selector_value: "weapon"},
+        selector_value: "weapon", group: "BRSW.SituationalModifiers"},
     {id: "HEAD", name:"Called Shot: Head", button_name: "BRSW.CalledHead", skillMod: -4,
         dmgMod: +4, dmgOverride: "", selector_type: "item_type",
-        selector_value: "weapon"},
+        selector_value: "weapon", group: "BRSW.AttackOption"},
     {id:"ELAN", name:"Elan Edge", button_name:"BRSW.EdgeName-Elan", rerollSkillMod:"+2",
-        selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Elan", defaultChecked:"on"},
+        selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Elan",
+        defaultChecked:"on", group: "BRSW.Edges"},
     {id:"NO_MERCY", name:"No Mercy Edge", button_name:"BRSW.EdgeName-NoMercy",
         rerollDamageMod:"+2", selector_type:"actor_has_edge",
-        selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on"}
+        selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on", group: "BRSW.Edges"}
 ]
 
 /**
@@ -204,7 +205,7 @@ export class WorldGlobalActions extends FormApplication {
             const row = ev.currentTarget.parentElement.parentElement;
             row.remove();
         })
-        // Activate json check on old actins
+        // Activate json check on old actions
         $('.brsw-action-json').on('blur', this.check_json)
         super.activateListeners(html);
     }
@@ -233,7 +234,7 @@ export class WorldGlobalActions extends FormApplication {
             const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod',
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
-                'selector_type', 'selector_value', 'and_selector']
+                'selector_type', 'selector_value', 'and_selector', 'group']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key

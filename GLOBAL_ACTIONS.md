@@ -71,6 +71,12 @@ const character = game.user.character;
 const message = message_param; // The full message objetc
 ```
 
+## Grouping
+
+This tag let's you group the actions, it is not mandatory, but it will be used in the card in some next update.
+
+* group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
+
 ## Examples:
 
 ### Called Shot
