@@ -204,3 +204,41 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   ] 
 }
 ```
+
+### Savage Pathfinder
+## Sneak Attack
+{
+   "id":"SNEAKATTACK",
+   "name":"Sneak Attack",
+   "button_name":"Sneak Attack",
+   "defaultChecked":"off",
+   "dmgMod":"+1d6x",
+   "and_selector":[
+      {
+         "selector_type":"actor_has_edge",
+         "selector_value":"Rogue"
+      },
+      {
+         "selector_type":"skill",
+         "selector_value":"Fighting"
+      }
+   ]
+}
+
+{
+   "id":"SNEAKATTACK",
+   "name":"Sneak Attack",
+   "button_name":"Sneak Attack",
+   "defaultChecked":"off",
+   "dmgMod":"+1d6x",
+   "and_selector":[
+      {
+         "selector_type":"actor_has_edge",
+         "selector_value":"Rogue"
+      },
+      {
+         "selector_type":"skill",
+         "selector_value":"Shooting"
+      }
+   ]
+}
