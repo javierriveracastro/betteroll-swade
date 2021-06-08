@@ -20,6 +20,7 @@ import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js
 import {get_targeted_token, makeExplotable} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {get_actions, get_global_action_from_name} from "./global_actions.js";
+import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -381,9 +382,9 @@ function trait_from_string(actor, trait_name) {
     });
     if (!skill) {
         // Time to check for an attribute
-        const ATTRIBUTES = ['Agility', 'Smarts', 'Spirit', 'Strength', 'Vigor']
+        const ATTRIBUTES = ['agility', 'smarts', 'spirit', 'strength', 'vigor']
         for (let attribute of ATTRIBUTES) {
-            const translation = game.i18n.localize("SWADE.Attr" + attribute.slice(0, 3))
+            const translation = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[attribute])
             if (trait_name.toLowerCase() === translation.toLowerCase())  {
                 return {data: {data: actor.data.data.attributes[attribute.toLowerCase()]},
                         name: translation}

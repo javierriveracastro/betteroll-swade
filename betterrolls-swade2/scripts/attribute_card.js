@@ -4,6 +4,15 @@ import {BRSW_CONST, get_action_from_click, get_actor_from_message,
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
     BRWSRoll, roll_trait} from "./cards_common.js";
 
+
+/**
+/ Translation map for attributes
+*/
+
+export const ATTRIBUTES_TRANSLATION_KEYS = {'agility': 'SWADE.AttrAgi',
+    'smarts': 'SWADE.AttrSma', 'spirit': 'SWADE.AttrSpr',
+    'strength': 'SWADE.AttrStr', 'vigor': 'SWADE.AttrVig'}
+
 /**
 * Creates a chat card for an attribute
 *
@@ -18,7 +27,8 @@ async function create_attribute_card(origin, name){
     } else {
         actor = origin;
     }
-    let title = name + " " + trait_to_string(
+    const translated_name = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[name]);
+    let title = translated_name + " " + trait_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
     let footer = [];
     for (let attribute in actor.data.data.attributes) {
