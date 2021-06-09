@@ -540,6 +540,10 @@ export async function roll_item(message, html, expend_bennie,
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
     let pinned_actions = []
+    // Try to recover the html from the browser
+    if (!html) {
+        html = $(`.chat-message.message.flexcol[data-message-id="${message._id}"]`)
+    }
     // Actions
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
@@ -607,7 +611,6 @@ export async function roll_item(message, html, expend_bennie,
             pinned_actions.includes(action.name)
     });
     // Ammo management
-    console.log(item)
     if (parseInt(item.data.data.shots)){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
