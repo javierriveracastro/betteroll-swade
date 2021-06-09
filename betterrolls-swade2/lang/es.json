@@ -172,5 +172,6 @@
     "BRSW.UnknownActionKey": "Llave desconocida en la acción: ",
     "BRSW.AttackOption": "Opciones de ataque",
     "BRSW.SituationalModifiers": "Modificadores por situacion",
-    "BRSW.Edges": "Ventajas"
+    "BRSW.Edges": "Ventajas",
+    "BRSW.SkillName-fighting" : "pelea"
 }

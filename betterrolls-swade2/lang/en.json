@@ -174,5 +174,6 @@
     "BRSW.UnknownActionKey": "Unknown key in action:",
     "BRSW.AttackOption": "Attack options",
     "BRSW.SituationalModifiers": "Situational modifiers",
-    "BRSW.Edges": "Edges"
+    "BRSW.Edges": "Edges",
+    "BRSW.SkillName-fighting" : "fighting"
 }
