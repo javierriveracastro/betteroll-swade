@@ -13,11 +13,11 @@ import {
 } from "./cards_common.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
-    "lutar"];
+    "lutar", "combattere"];
 export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir",
-    "atirar"];
+    "atirar", "sparare"];
 export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
-    "athlétisme", "★ athletics"];
+    "athlétisme", "★ athletics", "atletica"];
 
 /**
 * Creates a chat card for a skill
