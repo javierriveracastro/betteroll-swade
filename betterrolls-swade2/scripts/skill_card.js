@@ -172,7 +172,9 @@ export async function roll_skill(message, html, expend_bennie){
  * @return {boolean}
  */
 export function is_skill_fighting(skill) {
-    return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
+    let fighting_names = FIGHTING_SKILLS;
+    fighting_names.push(game.settings.get('swade', 'parryBaseSkill').toLowerCase());
+    return fighting_names.includes(skill.name.toLowerCase());
 }
 
 /***
