@@ -13,11 +13,11 @@ import {
 } from "./cards_common.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
-    "lutar"];
+    "lutar", "combattere"];
 export const SHOOTING_SKILLS = ["shooting", "schiessen", "disparar", "tir",
-    "atirar"];
+    "atirar", "sparare"];
 export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletisme",
-    "athlétisme", "★ athletics"];
+    "athlétisme", "★ athletics", "atletica"];
 
 /**
 * Creates a chat card for a skill
@@ -172,7 +172,9 @@ export async function roll_skill(message, html, expend_bennie){
  * @return {boolean}
  */
 export function is_skill_fighting(skill) {
-    return FIGHTING_SKILLS.includes(skill.name.toLowerCase());
+    let fighting_names = FIGHTING_SKILLS;
+    fighting_names.push(game.settings.get('swade', 'parryBaseSkill').toLowerCase());
+    return fighting_names.includes(skill.name.toLowerCase());
 }
 
 /***
