@@ -215,8 +215,27 @@ export function activate_item_listeners(app, html) {
         const macro_data = {name: `${actor.name}: ${item.name}`, img: item.img,
             type: "script", scope: "global"};
         macro_data.command =
-            `game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
-             message => {game.brsw.roll_item(message, "", false)});`;
+            `if(event){
+                let macro_behavior;
+                if(event.ctrlKey===true){
+                    macro_behavior=game.settings.get('betterrolls-swade2', 'ctrl_click');
+                } else if(event.altKey===true){
+                    macro_behavior = game.settings.get('betterrolls-swade2', 'alt_click');
+                } else if (event.shiftKey===true){
+                    macro_behavior = game.settings.get('betterrolls-swade2', 'shift_click');
+                }
+                if(macro_behavior==='trait'){
+                    game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
+                        message => {game.brsw.roll_item(message, "", false)});
+                    } else if (macro_behavior==='trait_damage') {
+                        game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}').then(
+                        message => {game.brsw.roll_item(message, "", false, true)});
+                    } else {
+                        game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}');
+                    }
+                } else {
+                    game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${item_id}');
+                }`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
