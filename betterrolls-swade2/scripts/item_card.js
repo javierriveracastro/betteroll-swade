@@ -539,6 +539,9 @@ export async function roll_item(message, html, expend_bennie,
     let extra_data = {skill: trait};
     if (expend_bennie) await spend_bennie(actor);
     extra_data.rof = item.data.data.rof || 1;
+    if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
+        extra_data.rof = 1;
+    }
     let pinned_actions = []
     // Try to recover the html from the browser
     if (!html) {
