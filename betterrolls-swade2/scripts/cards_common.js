@@ -22,7 +22,7 @@ export const BRSW_CONST = {
 export function BRWSRoll() {
     this.rolls = []; // Array with all the dice rolled {sides, result,
         // extra_class, tn, result_txt, result_icons, ap, armor, target_id}
-    this.modifiers = []; // Array of modifiers {name,  value, extra_class}
+    this.modifiers = []; // Array of modifiers {name,  value, extra_class, dice}
     this.dice = []; // Array with the dice {sides, results: [int], label, extra_class}
     // noinspection JSUnusedGlobalSymbols
     this.is_fumble = false
@@ -272,7 +272,7 @@ export function activate_common_listeners(message, html) {
             [{label: 'Label', default_value: default_label},
                 {label: label_mod, default_value: default_value}],
             async values => {
-                await edit_modifier(message, index,
+                await edit_modifier(message, parseInt(index),
                     {name: values.Label, value: values[label_mod],
                         extra_class: parseInt(values[label_mod]) < 0 ? ' brsw-red-text' : ''});
             });
@@ -280,7 +280,7 @@ export function activate_common_listeners(message, html) {
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
-        await delete_modifier(message, ev.currentTarget.dataset.index);
+        await delete_modifier(message, parseInt(ev.currentTarget.dataset.index));
     });
     // Edit TNs
     // noinspection JSUnresolvedFunction
@@ -298,7 +298,7 @@ export function activate_common_listeners(message, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brsw-target-tn, .brsw-selected-tn').click(ev => {
         const index = ev.currentTarget.dataset.index;
-        get_tn_from_target(message, index,
+        get_tn_from_target(message, parseInt(index),
             ev.currentTarget.classList.contains('brsw-selected-tn'));
     })
     // Repeat card
@@ -536,15 +536,14 @@ export function check_and_roll_conviction(actor) {
     let conviction_modifier;
     if (actor.isWildcard &&
         game.settings.get('swade', 'enableConviction') &&
-        getProperty(actor.data, 'data.details.conviction.active')) {
+            getProperty(actor.data, 'data.details.conviction.active')) {
         let conviction_roll = new Roll('1d6x');
         conviction_roll.roll();
+        // noinspection JSIgnoredPromiseFromCall
         conviction_roll.toMessage(
             {flavor: game.i18n.localize('BRSW.ConvictionRoll')});
-        conviction_modifier = {
-            'name': game.i18n.localize('SWADE.Conv'),
-            value: conviction_roll.total
-        }
+        conviction_modifier = create_modifier(
+            game.i18n.localize('SWADE.Conv'), conviction_roll.total)
     }
     return conviction_modifier
 }
@@ -601,41 +600,35 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         // Trait modifier
         if (parseInt(trait_dice.die.modifier)){
             const mod_value = parseInt(trait_dice.die.modifier)
-            modifiers.push({name: game.i18n.localize("BRSW.TraitMod"),
-                value: mod_value, extra_class: ''});
+            modifiers.push(create_modifier(
+                game.i18n.localize("BRSW.TraitMod"), mod_value))
             total_modifiers += mod_value;
         }
         // Betterrolls modifiers
         options.additionalMods.forEach(mod => {
             const mod_value = parseInt(mod);
-            modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
+            modifiers.push(create_modifier('Better Rolls', mod_value))
             total_modifiers += mod_value;
         })
         // Wounds
         const woundPenalties = actor.calcWoundPenalties();
         if (woundPenalties !== 0) {
-            modifiers.push({
-                name: game.i18n.localize('SWADE.Wounds'),
-                value: woundPenalties,
-            });
+            modifiers.push(create_modifier(
+                game.i18n.localize('SWADE.Wounds'), woundPenalties))
             total_modifiers += woundPenalties;
         }
         // Fatigue
         const fatiguePenalties = actor.calcFatiguePenalties();
         if (fatiguePenalties !== 0) {
-            modifiers.push({
-                name: game.i18n.localize('SWADE.Fatigue'),
-                value: fatiguePenalties,
-            });
+            modifiers.push(create_modifier(
+                game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
             total_modifiers += fatiguePenalties;
         }
         // Own status
         const statusPenalties = actor.calcStatusPenalties();
         if (statusPenalties !== 0) {
-            modifiers.push({
-                name: game.i18n.localize('SWADE.Status'),
-                value: statusPenalties,
-            });
+            modifiers.push(create_modifier(
+                game.i18n.localize('SWADE.Status'), statusPenalties))
             total_modifiers += statusPenalties;
         }
         // Target Mods
@@ -652,12 +645,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             // noinspection JSUnresolvedVariable
             if (item.data.data.actions.skillMod) {
                 // noinspection JSUnresolvedVariable
-                const mod_value = parseInt(item.data.data.actions.skillMod);
-                modifiers.push({
-                    name: game.i18n.localize("BRSW.ItemMod"),
-                    value: mod_value
-                })
-                total_modifiers += mod_value
+                let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), item.data.data.actions.skillMod)
+                modifiers.push(new_mod)
+                total_modifiers += new_mod.value
             }
         }
         // Options set from card
@@ -675,7 +665,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
         // Joker
         if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
-            modifiers.push({name: 'Joker', value: 2});
+            modifiers.push(create_modifier('Joker', 2))
             total_modifiers += 2;
         }
     } else {
@@ -690,8 +680,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             }
         });
         if (extra_data.reroll_modifier && !reroll_mods_applied) {
-            modifiers.push({name: `${extra_data.reroll_modifier.name} (reroll)`,
-                            value: extra_data.reroll_modifier.value});
+            modifiers.push(create_modifier(
+                `${extra_data.reroll_modifier.name} (reroll)`,
+                extra_data.reroll_modifier.value))
             total_modifiers += extra_data.reroll_modifier.value;
         }
         render_data.trait_roll.rolls.forEach(roll => {
@@ -781,7 +772,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     if (!actor.isWildcard && fumble_possible < 1) {
         let test_fumble_roll = new Roll('1d6');
         test_fumble_roll.roll()
-        test_fumble_roll.toMessage(
+        await test_fumble_roll.toMessage(
     {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
         if (test_fumble_roll.total === 1) {
             render_data.trait_roll.is_fumble = true;
@@ -907,8 +898,9 @@ async function add_modifier(message, modifier) {
     if (mod_value) {
         let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
         const extra_class = mod_value < 0 ? ' brsw-red-text' : ''
-        render_data.trait_roll.modifiers.push({name: name, value: mod_value,
-            extra_class: extra_class})
+        let new_mod = create_modifier(name, mod_value)
+        new_mod.extra_class = extra_class
+        render_data.trait_roll.modifiers.push(new_mod)
         update_roll_results(render_data.trait_roll, mod_value);
         await update_message(message, get_actor_from_message(message), render_data);
     }
@@ -1064,3 +1056,31 @@ async function duplicate_message(message, event) {
     }
     return new_message
 }
+
+/**
+ * Creates a modifier object to add to a list
+ * @param {String} label: Label of the modifier
+ * @param {String, Number} expression: A number or dice expression.
+ */
+export function create_modifier(label, expression) {
+    let modifier = {name: label, value: 0, extra_class: '', dice: null}
+    console.log(expression)
+    if (isNaN(expression)) {
+        if (expression.indexOf('d')) {
+            // This is a dice expression
+            modifier.dice = new Roll(expression)
+            modifier.dice.evaluate()
+            console.log(modifier.dice)
+            modifier.value = parseInt(modifier.dice.result)
+        } else {
+            modifier.value = parseInt(expression)
+        }
+    } else {
+        modifier.value = parseInt(expression)
+    }
+    return modifier
+}
+
+// TODO: See the 3d die for dice mofidiers
+// TODO: See a die background for dice modifiers.
+// TODO: Damage rolls with formulas

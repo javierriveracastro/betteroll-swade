@@ -9,7 +9,8 @@ import {
     get_actor_from_message,
     roll_trait,
     spend_bennie,
-    trait_to_string
+    trait_to_string,
+    create_modifier
 } from "./cards_common.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
@@ -228,10 +229,10 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
                 }
             }
             if (distance_penalty) {
-                tn.modifiers.push(
-                    {'name': game.i18n.localize("BRSW.Range") + " " +
+                tn.modifiers.push(create_modifier(
+                    game.i18n.localize("BRSW.Range") + " " +
                             distance.toFixed(2),
-                    'value': - distance_penalty})
+                     - distance_penalty))
             }
         }
     }
@@ -246,9 +247,8 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     // noinspection JSUnresolvedVariable
     if (target_token.actor.data.data.status.isVulnerable ||
             target_token.actor.data.data.status.isStunned) {
-        tn.modifiers.push(
-            {name: `${target_token.name}: ${game.i18n.localize('SWADE.Vuln')}`,
-                value: 2});
+        tn.modifiers.push(create_modifier(
+            `${target_token.name}: ${game.i18n.localize('SWADE.Vuln')}`,2));
     }
     return tn;
 }

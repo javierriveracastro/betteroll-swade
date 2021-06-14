@@ -14,7 +14,7 @@ import {
     spend_bennie,
     trait_to_string,
     update_message,
-    has_joker
+    has_joker, create_modifier
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable} from "./utils.js";
@@ -563,7 +563,7 @@ export async function roll_item(message, html, expend_bennie,
             }
             // noinspection JSUnresolvedVariable
             if (action.skillMod) {
-                let modifier = {name: action.name, value: parseInt(action.skillMod)};
+                let modifier = create_modifier(action.name, action.skillMod)
                 if (extra_data.modifiers) {
                     extra_data.modifiers.push(modifier);
                 } else {
@@ -572,7 +572,7 @@ export async function roll_item(message, html, expend_bennie,
             }
             if (action.rerollSkillMod) {
                 //Reroll
-                extra_data.reroll_modifier = {name: action.name, value: parseInt(action.rerollSkillMod)};
+                extra_data.reroll_modifier = create_modifier(action.name, action.rerollSkillMod)
             }
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
