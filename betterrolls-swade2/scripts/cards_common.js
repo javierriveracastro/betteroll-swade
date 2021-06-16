@@ -1,4 +1,5 @@
 // Common functions used in all cards
+// noinspection ES6MissingAwait
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
@@ -797,7 +798,13 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         if (message.data.whisper.length > 0) {
             users = message.data.whisper;
         }
-        // noinspection ES6MissingAwait
+        // Dices buried in modifiers.
+        for (let modifier of modifiers) {
+            if (modifier.dice) {
+                // noinspection ES6MissingAwait
+                game.dice3d.showForRoll(modifier.dice, game.user, true, users)
+            }
+        }
         await game.dice3d.showForRoll(roll, game.user, true, users);
     }
     // Calculate results
@@ -1081,6 +1088,5 @@ export function create_modifier(label, expression) {
     return modifier
 }
 
-// TODO: See the 3d die for dice mofidiers
 // TODO: See a die background for dice modifiers.
 // TODO: Damage rolls with formulas
