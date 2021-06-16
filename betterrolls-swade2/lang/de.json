@@ -171,5 +171,9 @@
     "BRSW.EdgeName-Elan": "Elan",
     "BRSW.EdgeName-NoMercy": "Keine Gnade",
     "BRSW.expand-results": "Ergebnisse ausklappen",
-    "BRSW.expand-results_hint": "Wurfergebnisse direkt ausklappen"
+    "BRSW.expand-results_hint": "Wurfergebnisse direkt ausklappen",
+    "BRSW.Edges": "Talente",
+    "BRSW.AttackOption": "Angriffsoptionen",
+    "BRSW.SituationalModifiers": "Situationsabhängige Modifikatoren",
+    "BRSW.UnknownActionKey": "Unbekannter Schlüssel in Aktion:"
 }

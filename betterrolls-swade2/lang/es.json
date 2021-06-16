@@ -105,7 +105,7 @@
     "BRSW.RemoveWounds": "Eliminar modificador heridas",
     "BRSW.PPManagement": "Gestión de puntos de poder",
     "BRSW.PPManagementHint": "Si esta marcado, en las cartas, restar puntos de poder aparece marcado por defecto",
-    "BRSW.SkillName-fighting": "pelear",
+    "BRSW.SkillName-fighting": "pelea",
     "BRSW.WildAttack": "Ataque Salvaje",
     "BRSW.HardyIdentifier": "resistente",
     "BRSW.HardyActivated": "<b>Resistente</b> evita un doble aturdimiento",
@@ -169,9 +169,8 @@
     "BRSW.HideReRollsHit": "Marca esta opción para que la carta no muestre las opciones de repetir tiradas en un pifia",
     "BRSW.EdgeName-Elan": "Ardor",
     "BRSW.EdgeName-NoMercy": "Sin Piedad",
-    "BRSW.UnknownActionKey": "Llave desconocida en la acción: ",
+    "BRSW.UnknownActionKey": "Llave desconocida en la acción:",
     "BRSW.AttackOption": "Opciones de ataque",
     "BRSW.SituationalModifiers": "Modificadores por situacion",
-    "BRSW.Edges": "Ventajas",
-    "BRSW.SkillName-fighting" : "pelea"
+    "BRSW.Edges": "Ventajas"
 }
