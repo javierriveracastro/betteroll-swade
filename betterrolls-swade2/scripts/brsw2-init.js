@@ -270,6 +270,18 @@ function register_settings_version2() {
         choices: br_choices,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'default_rate_of_fire', {
+        name: game.i18n.localize('BRSW.Default_rate_of_fire'),
+        hint: game.i18n.localize('BRSW.Default_rate_of_fire_hint'),
+        default: "max_rof",
+        scope: "client",
+        type: String,
+        choices: {
+            single_shot: game.i18n.localize('BRSW.Single_shot'),
+            max_rof: game.i18n.localize('BRSW.Max_rate_of_fire')
+        },
+        config: true
+    });
     game.settings.register('betterrolls-swade2', 'result-card', {
         name: game.i18n.localize('BRSW.See_result_card'),
         hint: game.i18n.localize('BRSW.See_result_hint'),
