@@ -172,5 +172,9 @@
     "BRSW.UnknownActionKey": "Llave desconocida en la acción:",
     "BRSW.AttackOption": "Opciones de ataque",
     "BRSW.SituationalModifiers": "Modificadores por situacion",
-    "BRSW.Edges": "Ventajas"
+    "BRSW.Edges": "Ventajas",
+    "BRSW.Default_rate_of_fire": "Cadencia de fuego por defecto",
+    "BRSW.Default_rate_of_fire_hint": "Escoge que cadencia de fuego usaran las armas si no la cambias",
+    "BRSW.Single_shot": "Un solo tiro",
+    "BRSW.Max_rate_of_fire": "El valor de CdF del arma"
 }

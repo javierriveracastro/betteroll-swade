@@ -175,5 +175,8 @@
     "BRSW.AttackOption": "Attack options",
     "BRSW.SituationalModifiers": "Situational modifiers",
     "BRSW.Edges": "Edges",
-    "BRSW.SkillName-fighting" : "fighting"
+    "BRSW.Default_rate_of_fire": "Default rate of fire",
+    "BRSW.Default_rate_of_fire_hint": "Choose the rate of fire used by default by weapon cards",
+    "BRSW.Single_shot": "Single shot",
+    "BRSW.Max_rate_of_fire": "Weapon ROF value"
 }
