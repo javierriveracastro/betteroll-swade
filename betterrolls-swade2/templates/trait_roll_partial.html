@@ -48,7 +48,9 @@
         <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.name }}</span>
             <span>
-                {{ this.value }}
+                <span {{# if this.dice}}class="brsw-d{{this.dice.terms.0.faces}} brsw-dice-image"{{/if}}>
+                    {{ this.value }}
+                </span>
                 <i class="brsw-edit-modifier brsw-clickable fas fa-edit brsw-form" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}"></i>
                 <i class="brsw-delete-modifier brsw-clickable fas fa-trash brsw-form" data-index="{{@index}}"></i>
             </span>
