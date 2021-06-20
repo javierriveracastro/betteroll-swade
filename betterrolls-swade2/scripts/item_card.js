@@ -467,7 +467,8 @@ async function discount_ammo(item, rof, shot_override) {
     const ammo_spent = shot_override >= 0 ? shot_override : ROF_BULLETS[rof];
     const final_ammo = Math.max(ammo - ammo_spent, 0)
     // noinspection JSUnresolvedVariable
-    let content = `<p>${ammo_spent} shot has been expended from ${item.name}. There are ${final_ammo} shots remaining</p>`
+    let content = game.i18n.format("BRSW.ExpendedAmmo",
+        {ammo_spent: ammo_spent, item_name: item.name, final_ammo: final_ammo});
     if (ammo_spent > ammo) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
