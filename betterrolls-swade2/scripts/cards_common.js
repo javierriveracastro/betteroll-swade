@@ -901,14 +901,20 @@ function update_roll_results(trait_roll, mod_value) {
  */
 async function add_modifier(message, modifier) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const mod_value = parseInt(modifier.value);
-    if (mod_value) {
+    if (modifier.value) {
         let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
-        const extra_class = mod_value < 0 ? ' brsw-red-text' : ''
-        let new_mod = create_modifier(name, mod_value)
-        new_mod.extra_class = extra_class
+        let new_mod = create_modifier(name, modifier.value)
+        console.log(new_mod)
+        if (game.dice3d && new_mod.dice) {
+            let users = null;
+            if (message.data.whisper.length > 0) {
+                users = message.data.whisper;
+            }
+            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users);
+        }
+        new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push(new_mod)
-        update_roll_results(render_data.trait_roll, mod_value);
+        update_roll_results(render_data.trait_roll, new_mod.value);
         await update_message(message, get_actor_from_message(message), render_data);
     }
 }
@@ -1071,13 +1077,11 @@ async function duplicate_message(message, event) {
  */
 export function create_modifier(label, expression) {
     let modifier = {name: label, value: 0, extra_class: '', dice: null}
-    console.log(expression)
     if (isNaN(expression)) {
         if (expression.indexOf('d')) {
             // This is a dice expression
             modifier.dice = new Roll(expression)
             modifier.dice.evaluate()
-            console.log(modifier.dice)
             modifier.value = parseInt(modifier.dice.result)
         } else {
             modifier.value = parseInt(expression)
