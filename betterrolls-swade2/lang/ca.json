@@ -171,5 +171,14 @@
     "BRSW.expand-results": "Amplieu els resultats",
     "BRSW.expand-results_hint": "Consulteu els detalls del resultat per defecte (podeu fer-hi clic per amagar-los)",
     "BRSW.EdgeName-NoMercy": "Sense pietat",
-    "BRSW.EdgeName-Elan": "fervor"
+    "BRSW.EdgeName-Elan": "fervor",
+    "BRSW.SituationalModifiers": "Modificadors de situació",
+    "BRSW.Edges": "Avantatges",
+    "BRSW.Default_rate_of_fire": "Cadència de foc per defecte",
+    "BRSW.Default_rate_of_fire_hint": "Escull la cadència de foc per defecte de les armes si no la canvies",
+    "BRSW.Single_shot": "Tret únic",
+    "BRSW.Max_rate_of_fire": "El valor de CdF de l'arma",
+    "BRSW.ExpendedAmmo": "<p>S'han fet {ammo_spent} trets de {item_name}. Queden {final_ammo} trets</p>",
+    "BRSW.AttackOption": "Options d'atac",
+    "BRSW.UnknownActionKey": "Clau desconeguda en l'acció:"
 }
