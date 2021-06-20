@@ -166,7 +166,7 @@
     "BRSW.Range": "Distancia",
     "BRSW.HalfDamage": "Mitad de daño",
     "BRSW.HideReRolls": "Ocultar repeticiones al tirar",
-    "BRSW.HideReRollsHit": "Marca esta opción para que la carta no muestre las opciones de repetir tiradas en un pifia",
+    "BRSW.HideReRollsHint": "Marca esta opción para esconder las opciones de repetir tiradas en un pifia",
     "BRSW.EdgeName-Elan": "Ardor",
     "BRSW.EdgeName-NoMercy": "Sin Piedad",
     "BRSW.UnknownActionKey": "Llave desconocida en la acción:",
@@ -177,5 +177,7 @@
     "BRSW.Default_rate_of_fire_hint": "Escoge que cadencia de fuego usaran las armas si no la cambias",
     "BRSW.Single_shot": "Un solo tiro",
     "BRSW.Max_rate_of_fire": "El valor de CdF del arma",
-    "BRSW.ExpendedAmmo": "<p>Se han gastado {ammo_spent} disparos de {item_name}. Quedan {final_ammo} disparos</p>"
+    "BRSW.ExpendedAmmo": "<p>Se han gastado {ammo_spent} disparos de {item_name}. Quedan {final_ammo} disparos</p>",
+    "BRSW.expand-results": "Expandir los resultados",
+    "BRSW.expand-results_hint": "Ver los detalles de los resultados de forma predeterminada (puedes pulsar para esconderlos)"
 }
