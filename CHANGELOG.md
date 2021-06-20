@@ -1,5 +1,18 @@
 # Changelog
 
+# Version 2.35 aka Stabilization between sides.
+
+* Added groups to global actions.
+* Add settings extender as a dependency.
+* Attributes can now be used for an item trait roll
+* Added languages strings, and again generally better translations.
+* Parry now works in italian (zk-sn)
+* Trait modifiers now allow for die formulas in addition to single numbers (i.e. "+1d4x")
+* Macros now use mod keys to set the default behaviour (zk-sn)
+* Option to select how multi-rof weapons work, single shot or maximum ROF (zk-sn)
+* Weblate team updates for Spanish, Italian and German translations
+* Custom modifiers names are now correctly shown.
+
 # Version 2.34 aka At the other side
 
 Thanks to all people who helped test the 0.8 and 0.7 compatibility
