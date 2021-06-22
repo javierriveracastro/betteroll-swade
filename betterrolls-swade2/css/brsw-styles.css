@@ -339,3 +339,12 @@
     float: left;
     height: 2em;
 }
+
+/* Settings */
+.brsw-section-title {
+    text-align: left;
+}
+
+.brsw-check-cell {
+    width: 10%;
+}

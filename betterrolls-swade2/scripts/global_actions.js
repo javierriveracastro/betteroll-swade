@@ -1,3 +1,5 @@
+// noinspection JSUnfilteredForInLoop
+
 import {get_item_trait} from "./item_card.js";
 
 // DMG override is still not implemented.
@@ -128,17 +130,32 @@ export class SystemGlobalConfiguration extends FormApplication {
     }
 
     getData(_) {
-        let actions = [];
+        let groups = {}
         let disable_actions = game.settings.get('betterrolls-swade2', 'system_action_disabled');
         if (disable_actions && disable_actions[0] instanceof Array) {
             disable_actions = disable_actions[0]
         }
         for (let action of SYSTEM_GLOBAL_ACTION) {
-            actions.push({id: action.id, name: game.i18n.localize(action.button_name),
-                enabled: !disable_actions.includes(action.id)});
+            if (! groups.hasOwnProperty(action.group)) {
+                groups[action.group] = {name: action.group, actions: []};
+            }
+            groups[action.group].actions.push(
+                {id: action.id, name: game.i18n.localize(action.button_name),
+                    enabled: !disable_actions.includes(action.id)});
         }
         // noinspection JSValidateTypes
-        return {actions: actions};
+        return {groups: groups};
+    }
+
+    activateListeners(html) {
+        html.find(".brsw-section-title").click((ev) => {
+            const checks = $(ev.currentTarget).parents('table').find('input[type=checkbox]')
+            if (checks.length) {
+                const new_status = ! $(checks[0]).prop('checked')
+                checks.prop('checked', new_status)
+            }
+        })
+        return super.activateListeners(html);
     }
 
     async _updateObject(_, formData) {
@@ -148,7 +165,7 @@ export class SystemGlobalConfiguration extends FormApplication {
                 disabled_actions.push(id);
             }
         }
-        game.settings.set('betterrolls-swade2', 'system_action_disabled', disabled_actions);
+        await game.settings.set('betterrolls-swade2', 'system_action_disabled', disabled_actions);
     }
 }
 
