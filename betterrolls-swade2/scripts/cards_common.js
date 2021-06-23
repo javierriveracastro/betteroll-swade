@@ -798,7 +798,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         if (message.data.whisper.length > 0) {
             users = message.data.whisper;
         }
-        // Dices buried in modifiers.
+        // Dice buried in modifiers.
         for (let modifier of modifiers) {
             if (modifier.dice) {
                 // noinspection ES6MissingAwait

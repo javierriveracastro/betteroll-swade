@@ -984,6 +984,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         run_macros(macros, actor, item, message);
         // Dice so nice
         if (game.dice3d) {
+            // Dice buried in modifiers.
+            for (let modifier of modifiers) {
+                if (modifier.dice) {
+                    // noinspection ES6MissingAwait
+                    game.dice3d.showForRoll(modifier.dice, game.user, true, users)
+                }
+            }
             let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
             if (damage_theme !== 'None') {
                 roll.dice.forEach(die => {
