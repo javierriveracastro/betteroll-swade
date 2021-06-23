@@ -838,24 +838,22 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Betterrolls modifiers
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     options.dmgMods.forEach(mod => {
-        const mod_value = parseInt(mod);
-        damage_roll.brswroll.modifiers.push({name: 'Better Rolls', value: mod_value, extra_class: ''});
-        total_modifiers += mod_value;
+        const new_mod = create_modifier('Better Rolls', mod)
+        damage_roll.brswroll.modifiers.push(new_mod);
+        total_modifiers += new_mod.value;
     })
     // Action mods
     // noinspection JSUnresolvedVariable
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
-        const mod_value = parseInt(item.data.data.actions.dmgMod);
-        damage_roll.brswroll.modifiers.push({
-            name: game.i18n.localize("BRSW.ItemMod"),
-            value: mod_value
-        });
-        total_modifiers += mod_value
+        const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
+            item.data.data.actions.dmgMod)
+        damage_roll.brswroll.modifiers.push(new_mod);
+        total_modifiers += new_mod.value
     }
     // Joker
     if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
-        damage_roll.brswroll.modifiers.push({name: 'Joker', value: 2});
+        damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
         total_modifiers += 2;
     }
     // Actions
@@ -874,10 +872,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
             // noinspection JSUnresolvedVariable
             const intDmgMod = parseInt(action.dmgMod)
-            if (intDmgMod) {
-                damage_roll.brswroll.modifiers.push(
-                    {name: action.name, value: intDmgMod});
-                total_modifiers += intDmgMod
+            if (action.dmgMod) {
+                const new_mod = create_modifier(action.name, action.dmgMod)
+                damage_roll.brswroll.modifiers.push(new_mod)
+                total_modifiers += new_mod.value
             }
             if (action.dmgOverride) {
                 roll_formula = action.dmgOverride;
@@ -894,9 +892,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 raise_formula = action.raiseDamageFormula;
             }
             if (action.rerollDamageMod && expend_bennie) {
-                const reroll_mod = parseInt(action.rerollDamageMod);
-                damage_roll.brswroll.modifiers.push({name: action.name, value: reroll_mod});
-                total_modifiers += reroll_mod;
+                const reroll_mod = create_modifier(
+                    action.name, action.rerollDamageMod)
+                damage_roll.brswroll.modifiers.push(reroll_mod);
+                total_modifiers += reroll_mod.value;
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
@@ -950,15 +949,29 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 })
                 current_damage_roll.brswroll.dice.push(new_die);
             } else {
-                if (parseInt(term)) {
-                    let modifier_value = parseInt(last_string_term + term);
+                console.log(term)
+                let integer_term;
+                if (term.hasOwnProperty('number')) {
+                    // 0.7.x compatibility, remove someday
+                    integer_term = term.number
+                } else {
+                    integer_term = parseInt(term)
+                }
+                if (integer_term) {
+                    let modifier_value = parseInt(last_string_term + integer_term);
                     if (modifier_value) {
-                        current_damage_roll.brswroll.modifiers.push({'value': modifier_value,
-                            'name': game.i18n.localize("SWADE.Dmg") + `(${formula})`});
-                        total_modifiers += modifier_value;
+                        const new_mod = create_modifier(
+                            game.i18n.localize("SWADE.Dmg")+ `(${formula})`,
+                            modifier_value)
+                        current_damage_roll.brswroll.modifiers.push(new_mod);
                     }
                 }
-                last_string_term = term;
+                if (term.hasOwnProperty('operator')) {
+                    // 0.7.x compatibility, remove someday
+                    last_string_term = term.operator
+                } else {
+                    last_string_term = term;
+                }
             }
         })
         if (raise) {
