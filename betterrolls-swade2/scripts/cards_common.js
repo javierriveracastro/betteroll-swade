@@ -671,7 +671,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     } else {
         // Reroll, keep old options
-        rof = render_data.trait_roll.rolls.length - 1;
+        rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
         modifiers = render_data.trait_roll.modifiers;
         let reroll_mods_applied = false;
         modifiers.forEach(mod => {
