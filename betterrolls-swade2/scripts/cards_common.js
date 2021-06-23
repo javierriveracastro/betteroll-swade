@@ -1092,5 +1092,6 @@ export function create_modifier(label, expression) {
     return modifier
 }
 
-// TODO: See a die background for dice modifiers.
 // TODO: Damage rolls with formulas
+// TODO: 3d Die for damage die modifiers
+// TODO: See a die background for dice modifiers.
