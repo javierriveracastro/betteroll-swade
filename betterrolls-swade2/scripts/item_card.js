@@ -949,7 +949,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 })
                 current_damage_roll.brswroll.dice.push(new_die);
             } else {
-                console.log(term)
                 let integer_term;
                 if (term.hasOwnProperty('number')) {
                     // 0.7.x compatibility, remove someday
@@ -985,10 +984,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // Dice so nice
         if (game.dice3d) {
             // Dice buried in modifiers.
-            for (let modifier of modifiers) {
+            let users = null;
+            if (message.data.whisper.length > 0) {
+                users = message.data.whisper;
+            }
+            for (let modifier of damage_roll.brswroll.modifiers) {
                 if (modifier.dice) {
                     // noinspection ES6MissingAwait
-                    game.dice3d.showForRoll(modifier.dice, game.user, true, users)
+                    game.dice3d.showForRoll(modifier.dice, game.user, true, users);
                 }
             }
             let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
@@ -996,10 +999,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 roll.dice.forEach(die => {
                    die.options.colorset = damage_theme;
                 });
-            }
-            let users = null;
-            if (message.data.whisper.length > 0) {
-                users = message.data.whisper;
             }
             // noinspection ES6MissingAwait
             await game.dice3d.showForRoll(roll, game.user, true, users);
