@@ -62,7 +62,7 @@
         {{#each this.brswroll.modifiers}}
             <div class="brsw-roll-detail-row{{ this.extra_class }}">
                 <span>{{ this.name }}</span>
-                <span>
+                <span {{# if this.dice}}class="brsw-d{{this.dice.terms.0.faces}} brsw-dice-image"{{/if}}>
                     {{ this.value }}
                 </span>
             </div>
