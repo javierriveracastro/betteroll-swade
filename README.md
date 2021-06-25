@@ -1,3 +1,8 @@
+# Documentation
+The read will be updated. Meanwhile you can use this link:
+https://javierriveracastro.github.io/betteroll-swade/
+
+
 # Better Rolls for SWADE
 
 Please leave your feedback on the official Foundry discord. Feel free to ping me if you want.
