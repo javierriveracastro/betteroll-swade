@@ -1,5 +1,5 @@
 # Documentation
-The read will be updated. Meanwhile you can use this link:
+This readme will be updated. Meanwhile you can use this link:
 https://javierriveracastro.github.io/betteroll-swade/
 
 
