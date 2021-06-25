@@ -937,7 +937,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (term.hasOwnProperty('faces')) {
                 let new_die = {faces: term.faces, results: [],
                     extra_class: '',
-                    label: game.i18n.localize("SWADE.Dmg") + `(${formula})`};
+                    label: game.i18n.localize("SWADE.Dmg") + ` (d${term.faces})`};
                 if (term.total > term.faces) {
                     new_die.extra_class = ' brsw-blue-text';
                     if (!current_damage_roll.brswroll.rolls[0].extra_class) {
@@ -960,7 +960,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                     let modifier_value = parseInt(last_string_term + integer_term);
                     if (modifier_value) {
                         const new_mod = create_modifier(
-                            game.i18n.localize("SWADE.Dmg")+ `(${formula})`,
+                            game.i18n.localize("SWADE.Dmg")+ ` (${modifier_value})`,
                             modifier_value)
                         current_damage_roll.brswroll.modifiers.push(new_mod);
                     }
