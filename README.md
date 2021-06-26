@@ -250,6 +250,7 @@ Better Rolls for SWADE works well with the SWADE Toolkit module: https://foundry
 - RedReign for Better Rolls 5e
 - FloRad for making the SWADE system for Foundry
 - Lipefl, author of swade-tools, for inspiration and just shameless code ripping.
+- Torg system team and @rwanoux for allowing me to use it's great token bars.
 - All the nice people in the #swade channel of the official discord. Such a great community,
 
 ## License

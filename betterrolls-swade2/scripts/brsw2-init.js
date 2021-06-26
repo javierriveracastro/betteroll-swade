@@ -11,8 +11,14 @@ import {activate_damage_card_listeners} from "./damage_card.js";
 import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from "./global_actions.js";
 import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
+import {modifyTokenBars} from "./tokenbars.js";
 
 // Startup scripts
+
+// Token Bar modifications
+Hooks.once("setup", async function () {
+  modifyTokenBars();
+})
 
 // Base Hook
 Hooks.on(`ready`, () => {
