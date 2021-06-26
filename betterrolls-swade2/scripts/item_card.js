@@ -172,8 +172,9 @@ async function item_click_listener(ev, target) {
     ev.preventDefault();
     ev.stopPropagation();
     // First term for PC, second one for NPCs
-    const item_id = ev.currentTarget.parentElement.parentElement.dataset.itemId ||
-        ev.currentTarget.parentElement.dataset.itemId
+    const item_id = ev.currentTarget.parentElement.dataset.itemId ||
+        ev.currentTarget.parentElement.parentElement.dataset.itemId ||
+        ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId
     const collapse_actions = action.includes('trait') || action.includes('damage');
     // Show card
     let message = await create_item_card(target, item_id, collapse_actions);
@@ -195,7 +196,7 @@ async function item_click_listener(ev, target) {
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const item_images = html.find('.item-image, .item-img, .name.item-show, span.item>.item-control.item-edit, .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4, .power-header>.item-name');
+    const item_images = html.find('.item-image, .item-img, .name.item-show, span.item>.item-control.item-edit, .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4, .power-header>.item-name, .card-button');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
