@@ -179,5 +179,10 @@
     "BRSW.Default_rate_of_fire_hint": "Choose the rate of fire used by default by weapon cards",
     "BRSW.Single_shot": "Single shot",
     "BRSW.Max_rate_of_fire": "Weapon ROF value",
-    "BRSW.ExpendedAmmo": "<p>{ammo_spent} shot has been expended from {item_name}. There are {final_ammo} shots remaining</p>"
+    "BRSW.ExpendedAmmo": "<p>{ammo_spent} shot has been expended from {item_name}. There are {final_ammo} shots remaining</p>",
+    "BRSW.LightCover": "Light cover",
+    "BRSW.Cover": "Cover",
+    "BRSW.MediumCover": "Medium cover",
+    "BRSW.HeavyCover": "Heavy cover",
+    "BRSW.NearTotalCover": "Near total cover"
 }

@@ -19,8 +19,15 @@ const SYSTEM_GLOBAL_ACTION = [
         defaultChecked:"on", group: "BRSW.Edges"},
     {id:"NO_MERCY", name:"No Mercy Edge", button_name:"BRSW.EdgeName-NoMercy",
         rerollDamageMod:"+2", selector_type:"actor_has_edge",
-        selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on", group: "BRSW.Edges"}
-]
+        selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on", group: "BRSW.Edges"},
+    {id: "LightCover", name: "Light Cover", button_name: "BRSW.LightCover", skillMod: "-2",
+        selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
+    {id: "MediumCover", name: "Medium Cover", button_name: "BRSW.MediumCover",
+        skillMod: "-4", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
+    {id: "HeavyCover", name: "Heavy Cover", button_name: "BRSW.HeavyCover", skillMod: "-6",
+        selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
+    {id: "NearTotalCover", name: "Near Total Cover", button_name: "BRSW.NearTotalCover",
+        skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"}]
 
 /**
  * Registers all the avaliable global actions

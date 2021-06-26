@@ -179,5 +179,10 @@
     "BRSW.Max_rate_of_fire": "El valor de CdF del arma",
     "BRSW.ExpendedAmmo": "<p>Se han gastado {ammo_spent} disparos de {item_name}. Quedan {final_ammo} disparos</p>",
     "BRSW.expand-results": "Expandir los resultados",
-    "BRSW.expand-results_hint": "Ver los detalles de los resultados de forma predeterminada (puedes pulsar para esconderlos)"
+    "BRSW.expand-results_hint": "Ver los detalles de los resultados de forma predeterminada (puedes pulsar para esconderlos)",
+    "BRSW.LightCover": "Cobertura ligera",
+    "BRSW.Cover": "Cobertura",
+    "BRSW.MediumCover": "Cobertura media",
+    "BRSW.HeavyCover": "Cobertura pesada",
+    "BRSW.NearTotalCover": "Cobertura casi total"
 }
