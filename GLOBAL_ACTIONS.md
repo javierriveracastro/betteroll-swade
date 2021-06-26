@@ -38,6 +38,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * wildDieFormula: Another string dice formula, this time used for the Wild Die. Remeber to specify the exploding. You can use an empty string for no wild die.
 * rerollSkillMod: A number used as a modifier for skill reroll
 * rerollDamageMod: A number used as a modifier for damage reroll
+* shotsUsed: A number that makes the action use that number of shots.
 
 ## Selector fields:
 
