@@ -180,5 +180,10 @@
     "BRSW.Max_rate_of_fire": "El valor de CdF de l'arma",
     "BRSW.ExpendedAmmo": "<p>S'han fet {ammo_spent} trets de {item_name}. Queden {final_ammo} trets</p>",
     "BRSW.AttackOption": "Options d'atac",
-    "BRSW.UnknownActionKey": "Clau desconeguda en l'acció:"
+    "BRSW.UnknownActionKey": "Clau desconeguda en l'acció:",
+    "BRSW.Cover": "Cobertura",
+    "BRSW.HeavyCover": "Cobertura pesada",
+    "BRSW.LightCover": "Cobertura lleugera",
+    "BRSW.MediumCover": "Cobertura mitjana",
+    "BRSW.NearTotalCover": "Cobertura gairebé total"
 }
