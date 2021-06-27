@@ -1,5 +1,21 @@
 # Changelog
 
+## Version 2.36 aka enjoying the other side.
+
+* Documentation has been revamped, not really a great improvement, but hopefully it will create the infrastructure for it.
+* System global actions are shown by group in settings and can be enabled and disabled by group
+* Fix non-wilcard hig-rof reroll (zk-sn)
+* Accept die trems modifiers for damage rolls
+* Improved docs (Bruno Calado)
+* Damage rolls details show the dice rolled instead of the full formula
+* Cover modifiers added to system global actions
+* Clicking the die in the official sheet now shows the br card
+* Clicking buttons on power cards now show the br card
+* Torg style token bars added (torg team)
+* Lots of updates translations (David Montilla, Cyril Ronseaux and others in the weblate team)
+* usedShots field added to global actions.
+* Fix mark/unmark defeated in 0.8.x (zk-sn)
+
 # Version 2.35 aka Stabilization between sides.
 
 * Added groups to global actions.
