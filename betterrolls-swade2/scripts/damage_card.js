@@ -141,7 +141,7 @@ async function apply_damage(token, wounds, soaked=0) {
         incapacitated = true;
         // Mark as defeated if the token is in a combat
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token.id) {
+            if (combatant.token._id === token.id) {
                 token.update({overlayEffect: 'icons/svg/skull.svg'});
                 game.combat.updateCombatant(
                     {_id: combatant._id, defeated: true});
@@ -151,7 +151,7 @@ async function apply_damage(token, wounds, soaked=0) {
         incapacitated = false;
         // Remove defeated mark in case it was marked as defeated before soak
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token.id) {
+            if (combatant.token._id === token.id) {
                 token.update({overlayEffect: ''});
                 game.combat.updateCombatant(
                     {_id: combatant._id, defeated: false});
@@ -180,7 +180,7 @@ async function undo_damage(message){
     const token = message.getFlag('betterrolls-swade2', 'token');
     if (token) {
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token) {
+            if (combatant.token._id === token) {
                 canvas.tokens.get(token).update({overlayEffect: ''});
                 game.combat.updateCombatant(
                     {_id: combatant._id, defeated: false});
