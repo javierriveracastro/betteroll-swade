@@ -255,6 +255,11 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         } else if (item) {
             const range = item.data.data.range.split('/')
             distance = distance / grid_unit;
+            if (origin_token.data.elevation !== target_token.data.elevation) {
+                let h_diff = Math.abs(
+                    origin_token.data.elevation - target_token.data.elevation)
+                distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
+            }
             let distance_penalty = 0;
             for (let i=0; i<3 && i<range.length; i++) {
                 let range_int = parseInt(range[i])
