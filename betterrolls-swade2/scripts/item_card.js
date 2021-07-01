@@ -673,8 +673,8 @@ export async function roll_item(message, html, expend_bennie,
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
         await discount_pp(actor, item, trait_data.rolls);
     }
-    run_macros(macros, actor, item, message);
     await update_message(message, actor, render_data);
+    run_macros(macros, actor, item, message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", message, html);
     if (roll_damage) {
@@ -872,7 +872,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 action = get_global_action_from_name(element.dataset.action_id);
             }
             // noinspection JSUnresolvedVariable
-            const intDmgMod = parseInt(action.dmgMod)
             if (action.dmgMod) {
                 const new_mod = create_modifier(action.name, action.dmgMod)
                 damage_roll.brswroll.modifiers.push(new_mod)
@@ -980,8 +979,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 game.i18n.localize("BRSW.Raise");
         }
         current_damage_roll.label = defense_values.name;
-        // Run macros
-        run_macros(macros, actor, item, message);
         // Dice so nice
         if (game.dice3d) {
             // Dice buried in modifiers.
@@ -1015,6 +1012,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             pinned_actions.includes(action.name)
     });
     await update_message(message, actor, render_data);
+        // Run macros
+        run_macros(macros, actor, item, message);
 }
 
 
