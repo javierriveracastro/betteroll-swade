@@ -120,7 +120,7 @@ export function activate_skill_listeners(app, html) {
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
         const actor = game.actors.get(actor_id);
-        const item = actor.getOwnedItem(skill_id);
+        const item = actor.items.get(skill_id);
         let macro_data = {name: `${actor.name}: ${item.name}`, type: "script",
             scope: "global", img: item.img};
         macro_data.command = `/*######### USAGE #########
@@ -175,7 +175,7 @@ export function activate_skill_card_listeners(message, html) {
     });
     html.find('.brsw-header-img').click(_ => {
         const actor = get_actor_from_message(message);
-        const item = actor.getOwnedItem(message.getFlag(
+        const item = actor.items.get(message.getFlag(
             'betterrolls-swade2', 'skill_id'));
         item.sheet.render(true);
     })

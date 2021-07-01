@@ -186,7 +186,7 @@ Hooks.on("renderCharacterSheet", (sheet, html, _) => {
             // Edit with right click, like skills.
             html.find('.item').on('contextmenu', (ev) => {
                 const actor = app.token?app.token.actor:app.object;
-                const item = actor.getOwnedItem(ev.currentTarget.dataset.itemId);
+                const item = actor.items.get(ev.currentTarget.dataset.itemId);
                 item.sheet.render(true);
         });
         }

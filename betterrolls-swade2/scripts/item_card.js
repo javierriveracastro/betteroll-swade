@@ -207,11 +207,11 @@ export function activate_item_listeners(app, html) {
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
         let actor = game.actors.get(actor_id);
-        let item = actor.getOwnedItem(item_id);
+        let item = actor.items.get(item_id);
         if (!actor || !item) {
             // Fallback to token
            actor = canvas.tokens.get(token_id);
-           item = actor.actor.getOwnedItem(item_id);
+           item = actor.actor.items.get(item_id);
         }
         const macro_data = {name: `${actor.name}: ${item.name}`, img: item.img,
             type: "script", scope: "global"};
@@ -267,7 +267,7 @@ if (event) {
  */
 export function activate_item_card_listeners(message, html) {
     const actor = get_actor_from_message(message);
-    const item = actor.getOwnedItem(message.getFlag(
+    const item = actor.items.get(message.getFlag(
         'betterrolls-swade2', 'item_id'));
     const ammo_button = html.find('.brws-selected.brsw-ammo-toggle');
     const pp_button = html.find('.brws-selected.brsw-pp-toggle')
@@ -735,7 +735,7 @@ function manual_ammo(weapon, actor) {
                 label: game.i18n.localize("BRSW.Reload"),
                 callback: (html) => {
                     // If the quantity of ammo is less than the amount required, use whatever is left.
-                    let item = actor.getOwnedItem(weapon.id);
+                    let item = actor.items.get(weapon.id);
                     let ammo = actor.items.find(possible_ammo => {
                         return possible_ammo.name === item.data.data.ammo
                     })
