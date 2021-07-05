@@ -7,47 +7,47 @@
     <div class="brsw-skill-description brsw-collapsed">
         {{{ skill.data.data.description }}}
     </div>
-    <div class="brsw-form">
-        <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions">
-            <i class="fas {{# if actions_collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Actions'}}
+    {{# if ammo }}<div class="brws-attribute-buttons">
+        <div class="brws-common-modifiers">
+            <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">
+                {{ localize 'BRSW.SubtractAmmo' }}
+            </span>
+            <span class="brsw-false-button brsw-clickable brsw-ammo-manual">
+                {{ localize 'BRSW.ManualAmmo' }}
+            </span>
         </div>
-    <div class="brsw-actions {{# if actions_collapsed}}brsw-collapsed{{/if}}">
-            {{# if ammo }}<div class="brws-attribute-buttons">
-                <div class="brws-common-modifiers">
-                    <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">
-                        {{ localize 'BRSW.SubtractAmmo' }}
-                    </span>
-                    <span class="brsw-false-button brsw-clickable brsw-ammo-manual">
-                        {{ localize 'BRSW.ManualAmmo' }}
-                    </span>
+    </div>{{/if}}
+    {{# if powerpoints}}
+        <div class="brws-common-modifiers">
+            <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
+                {{ localize 'BRSW.SubtractPP' }}
+            </span>
+            <span class="brsw-false-button brsw-clickable brsw-pp-manual">
+                {{ localize 'BRSW.ManualPP' }}
+            </span>
+        </div>
+    {{/if}}
+    {{# if action_groups }}
+        <div class="brsw-form">
+            {{# each action_groups }}
+                <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions-{{ this.id }}">
+                    <i class="fas {{# if actions_collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ this.name }}
                 </div>
-            </div>{{/if}}
-            {{# if powerpoints}}
-                <div class="brws-common-modifiers">
-                    <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
-                        {{ localize 'BRSW.SubtractPP' }}
-                    </span>
-                    <span class="brsw-false-button brsw-clickable brsw-pp-manual">
-                        {{ localize 'BRSW.ManualPP' }}
-                    </span>
-                </div>
-            {{/if}}
-            {{# if actions }}
-                <div class="brws-common-modifiers">
-                    {{# each actions }}
+                <div class="brsw-actions-{{ this.id }} {{# if actions_collapsed}}brsw-collapsed{{/if}}">
+                    {{# each this.actions }}
                         <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
                                 data-action_id="{{ this.code }}">
                             {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                         </span>
                     {{/each}}
                 </div>
-            {{/if}}
+            {{/each}}
         </div>
-        <div class="brsw-button-row">
-            {{# unless trait_roll.rolls }}
-                <button class="brsw-roll-button brsw-form">{{ localize 'BRSW.Roll' }}</button>
-            {{/unless}}
-        </div>
+    {{/if}}
+    <div class="brsw-button-row">
+        {{# unless trait_roll.rolls }}
+            <button class="brsw-roll-button brsw-form">{{ localize 'BRSW.Roll' }}</button>
+        {{/unless}}
     </div>
     {{# if trait_roll.rolls }}
         {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}

@@ -17,7 +17,7 @@ import {
     has_joker, create_modifier
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
-import {get_targeted_token, makeExplotable} from "./utils.js";
+import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {get_actions, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
@@ -60,9 +60,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
         trait_to_string(trait.data.data) : '';
     const notes = item.data.data.notes || "";
     let trait_roll = new BRWSRoll();
-    let actions = [];
+    let action_groups = {};
     let possible_default_dmg_action;
     // noinspection JSUnresolvedVariable
+    let item_actions = []
     for (let action in item.data.data?.actions?.additional) {
         // noinspection JSUnresolvedVariable
         if (item.data.data.actions.additional.hasOwnProperty(action)) {
@@ -72,7 +73,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
                     item.data.data.actions.additional[action].skillOverride);
             const has_dmg_mod =
                 !!item.data.data.actions.additional[action].dmgMod;
-            actions.push(
+            item_actions.push(
                 {'code': action, 'name': item.data.data.actions.additional[action].name,
                     pinned: false, damage_icon: has_dmg_mod,
                     skill_icon: has_skill_mod});
@@ -84,6 +85,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
                     item.data.data.actions.additional[action].dmgOverride;
             }
         }
+    }
+    if (item_actions.length) {
+        const name = game.i18n.localize("BRSW.ItemActions")
+        action_groups[name] = {name: name, actions: item_actions, id: broofa()}
     }
     let ammo = parseFloat(item.data.data.shots);
     let power_points = parseFloat(item.data.data.pp);
@@ -101,7 +106,14 @@ async function create_item_card(origin, item_id, collapse_actions) {
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         const pinned = global_action.hasOwnProperty('defaultChecked')
-        actions.push(
+        let group_name = global_action.group ? global_action.group : game.i18n.localize("BRSW.NoGroup")
+        if (!action_groups.hasOwnProperty(group_name)) {
+            const translated_group = group_name.slice(0, 5) == 'BRSW.' ?
+                game.i18n.localize(group_name) : group_name
+            action_groups[group_name] = {name: translated_group, actions: [],
+                id:broofa()}
+        }
+        action_groups[group_name].actions.push(
             {code: global_action.name, name: button_name, pinned: pinned,
                 damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
     })
@@ -111,7 +123,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             skill: trait, skill_title: trait_tittle, ammo: ammo,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, actions: actions, used_shots: 0,
+            powerpoints: power_points, action_groups: action_groups, used_shots: 0,
             actions_collapsed: collapse_actions},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")

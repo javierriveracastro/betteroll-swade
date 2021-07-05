@@ -184,5 +184,7 @@
     "BRSW.Cover": "Cover",
     "BRSW.MediumCover": "Medium cover",
     "BRSW.HeavyCover": "Heavy cover",
-    "BRSW.NearTotalCover": "Near total cover"
+    "BRSW.NearTotalCover": "Near total cover",
+    "BRSW.ItemActions": "Item actions",
+    "BRSW.NoGroup": "No group"
 }

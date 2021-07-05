@@ -184,5 +184,7 @@
     "BRSW.Cover": "Cobertura",
     "BRSW.MediumCover": "Cobertura media",
     "BRSW.HeavyCover": "Cobertura pesada",
-    "BRSW.NearTotalCover": "Cobertura casi total"
+    "BRSW.NearTotalCover": "Cobertura casi total",
+    "BRSW.ItemActions": "Acciones de objeto",
+    "BRSW.NoGroup": "Sin grupo"
 }
