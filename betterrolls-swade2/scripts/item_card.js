@@ -106,7 +106,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         const pinned = global_action.hasOwnProperty('defaultChecked')
-        let group_name = global_action.group ? global_action.group : game.i18n.localize("BRSW.NoGroup")
+        let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
+        group_name = group_name.split('.').join('')
         if (!action_groups.hasOwnProperty(group_name)) {
             const translated_group = group_name.slice(0, 5) == 'BRSW.' ?
                 game.i18n.localize(group_name) : group_name
@@ -658,11 +659,15 @@ export async function roll_item(message, html, expend_bennie,
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
     // noinspection JSUnresolvedVariable
-    render_data.actions.forEach(action => {
-        // Global and local actions are different
-        action.pinned = pinned_actions.includes(action.code) ||
-            pinned_actions.includes(action.name)
-    });
+    // Pinned actions
+    // noinspection JSUnresolvedVariable
+    for (let group in render_data.action_groups) {
+        for (let action of render_data.action_groups[group].actions) {
+            // Global and local actions are different
+            action.pinned = pinned_actions.includes(action.code) ||
+                pinned_actions.includes(action.name)
+        }
+    }
     // Ammo management
     if (parseInt(item.data.data.shots)){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
@@ -848,6 +853,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
     let roll_formula = item.data.data.damage;
+    // Shotgun
+    if (roll_formula === '1-3d6' && item.type === 'weapon') {
+        // Bet that this is shotgun
+        roll_formula = '3d6'
+    }
     // Betterrolls modifiers
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     options.dmgMods.forEach(mod => {
@@ -915,7 +925,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         });
     }
     if (!roll_formula) {
-        // Damage is empty and damage action has been selected...
+        // Damage is empty and damage action has not been selected...
         roll_formula = "3d6" // Bet for a shotgun.
     }
     //Conviction
@@ -1018,11 +1028,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
-    render_data.actions.forEach(action => {
-        // Global and local actions are different
-        action.pinned = pinned_actions.includes(action.code) ||
-            pinned_actions.includes(action.name)
-    });
+    for (let group in render_data.action_groups) {
+        for (let action of render_data.action_groups[group].actions) {
+            // Global and local actions are different
+            action.pinned = pinned_actions.includes(action.code) ||
+                pinned_actions.includes(action.name)
+        }
+    }
     await update_message(message, actor, render_data);
         // Run macros
         run_macros(macros, actor, item, message);
