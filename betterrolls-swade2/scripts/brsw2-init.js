@@ -340,6 +340,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'hide-weapon-actions', {
+        name: game.i18n.localize("BRSW.HideWeaponActions"),
+        hint: game.i18n.localize("BRSW.HideWeaponActionsHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.

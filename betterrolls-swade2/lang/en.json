@@ -186,5 +186,7 @@
     "BRSW.HeavyCover": "Heavy cover",
     "BRSW.NearTotalCover": "Near total cover",
     "BRSW.ItemActions": "Item actions",
-    "BRSW.NoGroup": "No group"
+    "BRSW.NoGroup": "No group",
+    "BRSW.HideWeaponActions": "Hide weapon actions",
+    "BRSW.HideWeaponActionsHint": "Show only global actions in the card, hidding weapon specific ones"
 }

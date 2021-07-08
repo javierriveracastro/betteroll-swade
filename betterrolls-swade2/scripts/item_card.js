@@ -62,33 +62,34 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let trait_roll = new BRWSRoll();
     let action_groups = {};
     let possible_default_dmg_action;
-    // noinspection JSUnresolvedVariable
-    let item_actions = []
-    for (let action in item.data.data?.actions?.additional) {
-        // noinspection JSUnresolvedVariable
-        if (item.data.data.actions.additional.hasOwnProperty(action)) {
+    if (!game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
+        let item_actions = []
+        for (let action in item.data.data?.actions?.additional) {
             // noinspection JSUnresolvedVariable
-            const has_skill_mod =
-                !!(item.data.data.actions.additional[action].skillMod ||
-                    item.data.data.actions.additional[action].skillOverride);
-            const has_dmg_mod =
-                !!item.data.data.actions.additional[action].dmgMod;
-            item_actions.push(
-                {'code': action, 'name': item.data.data.actions.additional[action].name,
-                    pinned: false, damage_icon: has_dmg_mod,
-                    skill_icon: has_skill_mod});
-            // noinspection JSUnresolvedVariable
-            if (!possible_default_dmg_action &&
-                    item.data.data.actions.additional[action].dmgOverride) {
+            if (item.data.data.actions.additional.hasOwnProperty(action)) {
                 // noinspection JSUnresolvedVariable
-                possible_default_dmg_action =
-                    item.data.data.actions.additional[action].dmgOverride;
+                const has_skill_mod =
+                    !!(item.data.data.actions.additional[action].skillMod ||
+                        item.data.data.actions.additional[action].skillOverride);
+                const has_dmg_mod =
+                    !!item.data.data.actions.additional[action].dmgMod;
+                item_actions.push(
+                    {'code': action, 'name': item.data.data.actions.additional[action].name,
+                        pinned: false, damage_icon: has_dmg_mod,
+                        skill_icon: has_skill_mod});
+                // noinspection JSUnresolvedVariable
+                if (!possible_default_dmg_action &&
+                        item.data.data.actions.additional[action].dmgOverride) {
+                    // noinspection JSUnresolvedVariable
+                    possible_default_dmg_action =
+                        item.data.data.actions.additional[action].dmgOverride;
+                }
             }
         }
-    }
-    if (item_actions.length) {
-        const name = game.i18n.localize("BRSW.ItemActions")
-        action_groups[name] = {name: name, actions: item_actions, id: broofa()}
+        if (item_actions.length) {
+            const name = game.i18n.localize("BRSW.ItemActions")
+            action_groups[name] = {name: name, actions: item_actions, id: broofa()}
+        }
     }
     let ammo = parseFloat(item.data.data.shots);
     let power_points = parseFloat(item.data.data.pp);
