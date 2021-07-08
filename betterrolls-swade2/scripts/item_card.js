@@ -108,14 +108,14 @@ async function create_item_card(origin, item_id, collapse_actions) {
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         const pinned = global_action.hasOwnProperty('defaultChecked')
         let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
-        group_name = group_name.split('.').join('')
-        if (!action_groups.hasOwnProperty(group_name)) {
+        let group_name_id = group_name.split('.').join('')
+        if (!action_groups.hasOwnProperty(group_name_id)) {
             const translated_group = group_name.slice(0, 5) == 'BRSW.' ?
                 game.i18n.localize(group_name) : group_name
-            action_groups[group_name] = {name: translated_group, actions: [],
+            action_groups[group_name_id] = {name: translated_group, actions: [],
                 id:broofa()}
         }
-        action_groups[group_name].actions.push(
+        action_groups[group_name_id].actions.push(
             {code: global_action.name, name: button_name, pinned: pinned,
                 damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
     })
