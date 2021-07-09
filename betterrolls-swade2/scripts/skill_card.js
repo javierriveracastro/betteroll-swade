@@ -283,6 +283,13 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             tn.value += parry_mod;
         }
     }
+    // Size modifiers
+    const origin_size_mod = sizeToModifier(origin_token.actor.data.data.stats.size);
+    const target_size_mod = sizeToModifier(target_token.actor.data.data.stats.size);
+    if (origin_size_mod !== target_size_mod) {
+        tn.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.Size"), target_size_mod - origin_size_mod))
+    }
     // noinspection JSUnresolvedVariable
     if (target_token.actor.data.data.status.isVulnerable ||
             target_token.actor.data.data.status.isStunned) {
@@ -292,3 +299,26 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     return tn;
 }
 
+/**
+ * Get the size modifier from size
+ *
+ * @param {int} size
+ **/
+
+function sizeToModifier(size) { //p179 swade core
+    if (size === -4) {
+        return -6;
+    } else if (size === -3) {
+        return -4;
+    } else if (size === -2) {
+        return -2;
+    } else if (size >= -1 && size <= 3) {
+        return 0;
+    } else if (size >= 4 && size <= 7) {
+        return 2;
+    } else if (size >= 8 && size <= 11) {
+        return 4;
+    } else if (size >= 12 && size <= 20) {
+        return 6;
+    }
+}
