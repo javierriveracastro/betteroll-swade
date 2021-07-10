@@ -189,5 +189,5 @@
     "BRSW.NoGroup": "No group",
     "BRSW.HideWeaponActions": "Hide weapon actions",
     "BRSW.HideWeaponActionsHint": "Show only global actions in the card, hidding weapon specific ones",
-    "BRSW.Size": "Size"
+    "BRSW.Scale": "Scale"
 }

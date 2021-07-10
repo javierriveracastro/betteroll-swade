@@ -189,5 +189,5 @@
     "BRSW.NoGroup": "Sin grupo",
     "BRSW.HideWeaponActions": "Esconde las acciones de arma",
     "BRSW.HideWeaponActionsHint": "Las cartas muestran solo las acciones globales, no las de arma",
-    "BRSW.Size": "Tamaño"
+    "BRSW.Scale": "Escala"
 }

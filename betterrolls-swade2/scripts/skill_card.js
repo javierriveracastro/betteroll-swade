@@ -284,11 +284,11 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         }
     }
     // Size modifiers
-    const origin_size_mod = sizeToModifier(origin_token.actor.data.data.stats.size);
-    const target_size_mod = sizeToModifier(target_token.actor.data.data.stats.size);
-    if (origin_size_mod !== target_size_mod) {
+    const origin_scale_mod = sizeToScale(origin_token.actor.data.data.stats.size);
+    const target_scale_mod = sizeToScale(target_token.actor.data.data.stats.size);
+    if (origin_scale_mod !== target_scale_mod) {
         tn.modifiers.push(create_modifier(
-            game.i18n.localize("BRSW.Size"), target_size_mod - origin_size_mod))
+            game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
     }
     // noinspection JSUnresolvedVariable
     if (target_token.actor.data.data.status.isVulnerable ||
@@ -305,7 +305,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
  * @param {int} size
  **/
 
-function sizeToModifier(size) { //p179 swade core
+function sizeToScale(size) { //p179 swade core
     if (size === -4) {
         return -6;
     } else if (size === -3) {
