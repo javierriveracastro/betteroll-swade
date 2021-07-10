@@ -134,35 +134,35 @@ export function create_basic_chat_data(origin, type){
 /**
  * Creates de common render options for all the cards
  * @param {Actor} actor
- * @param {object} options: options for this card
+ * @param {object} render_data: options for this card
  * @para item: An item object
  */
-export function create_render_options(actor, options) {
-    options.bennie_avaliable = are_bennies_available(actor);
-    options.actor = actor;
-    options.result_master_only =
+export function create_render_options(actor, render_data) {
+    render_data.bennie_avaliable = are_bennies_available(actor);
+    render_data.actor = actor;
+    render_data.result_master_only =
         game.settings.get('betterrolls-swade2', 'result-card') === 'master';
         // Benny image
-    options.benny_image = game.settings.settings.has('betterrolls-swade2.bennyFront') ?
+    render_data.benny_image = game.settings.settings.has('betterrolls-swade2.bennyFront') ?
         game.settings.get('betterrolls-swade2', 'bennyFront') || '/systems/swade/assets/benny/benny-chip-front.png' :
         '/systems/swade/assets/benny/benny-chip-front.png';
-    options.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && options.trait_roll?.is_fumble);
-    options.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
+    render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
+    render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
     // Retrieve object from ids.
-    if (options.hasOwnProperty('trait_id')) {
+    if (render_data.hasOwnProperty('trait_id')) {
         let trait;
-        if (options.trait_id.hasOwnProperty('name')) {
+        if (render_data.trait_id.hasOwnProperty('name')) {
             // This is an atribute
-            trait = options.trait_id;
+            trait = render_data.trait_id;
         } else {
             // Should be a skill
-            trait = actor.items.get(options.trait_id)
+            trait = actor.items.get(render_data.trait_id)
         }
-        options.skill = trait
-        options.skill_title = trait ? trait.name + ' ' +
+        render_data.skill = trait
+        render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
-    return options;
+    return render_data;
 }
 
 
