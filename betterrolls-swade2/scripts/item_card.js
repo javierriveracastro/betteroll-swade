@@ -56,8 +56,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
-    const trait_tittle = trait ? trait.name + ' ' +
-        trait_to_string(trait.data.data) : '';
     const notes = item.data.data.notes || "";
     let trait_roll = new BRWSRoll();
     let action_groups = {};
@@ -110,7 +108,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
         let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
         let group_name_id = group_name.split('.').join('')
         if (!action_groups.hasOwnProperty(group_name_id)) {
-            const translated_group = group_name.slice(0, 5) == 'BRSW.' ?
+            const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
                 game.i18n.localize(group_name) : group_name
             action_groups[group_name_id] = {name: translated_group, actions: [],
                 id:broofa()}
@@ -122,7 +120,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
-            skill: trait, skill_title: trait_tittle, ammo: ammo,
+            trait_id: trait.id || trait, ammo: ammo,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: action_groups, used_shots: 0,
@@ -632,8 +630,7 @@ export async function roll_item(message, html, expend_bennie,
             // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
                 trait = trait_from_string(actor, action.skillOverride);
-                render_data.skill_title = trait ? trait.name + ' ' +
-                    trait_to_string(trait.data.data) : '';
+                render_data.trait_id = trait.id;
             }
             // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {

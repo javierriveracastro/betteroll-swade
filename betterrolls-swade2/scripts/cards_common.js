@@ -148,6 +148,20 @@ export function create_render_options(actor, options) {
         '/systems/swade/assets/benny/benny-chip-front.png';
     options.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && options.trait_roll?.is_fumble);
     options.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
+    // Retrieve object from ids.
+    if (options.hasOwnProperty('trait_id')) {
+        let trait;
+        if (options.trait_id.hasOwnProperty('name')) {
+            // This is an atribute
+            trait = options.trait_id;
+        } else {
+            // Should be a skill
+            trait = actor.items.get(options.trait_id)
+        }
+        options.skill = trait
+        options.skill_title = trait ? trait.name + ' ' +
+            trait_to_string(trait.data.data) : '';
+    }
     return options;
 }
 
@@ -904,7 +918,6 @@ async function add_modifier(message, modifier) {
     if (modifier.value) {
         let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
         let new_mod = create_modifier(name, modifier.value)
-        console.log(new_mod)
         if (game.dice3d && new_mod.dice) {
             let users = null;
             if (message.data.whisper.length > 0) {
