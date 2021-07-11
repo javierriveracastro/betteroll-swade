@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.37 aka groups done at last.
+
+* Use heigh in distance calculations
+* Remove some warnings.
+* Macros are now run after the message is updated so they get the latest data.
+* Item actions are now grouped in the chat card.
+* There is now a setting to hide the weapon actions, so only global actions are shown.
+* The usual couple of translations updates (Weblate team).
+* Scale modifiers support (Bruno Calado)
+* Better internal way of storing skills in cards.
+
 ## Version 2.36 aka enjoying the other side.
 
 * Documentation has been revamped, not really a great improvement, but hopefully it will create the infrastructure for it.
