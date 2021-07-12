@@ -64,6 +64,15 @@ export function get_actions(item, actor) {
                         selection_option.selector_type,
                         selection_option.selector_value, item, actor);
                 }
+            } else if (action.hasOwnProperty('or_selector')) {
+                selected = false;
+                for (let selection_option of action.or_selector) {
+                    if (check_selector(selection_option.selector_type,
+                                selection_option.selector_value,item, actor)) {
+                        selected = true;
+                        break;
+                    }
+                }
             }
             if (selected) {
                 actions_avaliable.push(action);
@@ -258,7 +267,8 @@ export class WorldGlobalActions extends FormApplication {
             const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod',
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
-                'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed']
+                'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
+                'or_selector']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key
