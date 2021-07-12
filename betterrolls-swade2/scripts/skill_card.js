@@ -44,8 +44,6 @@ async function create_skill_card(origin, skill_id) {
             footer: footer, trait_roll: trait_roll, trait_id: skill.id},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
-    await message.setFlag('betterrolls-swade2', 'skill_id',
-        skill_id)
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_SKILL_CARD)
     return message;
@@ -174,9 +172,9 @@ export function activate_skill_card_listeners(message, html) {
             'roll-bennie-button'));
     });
     html.find('.brsw-header-img').click(_ => {
+        const render_data = message.getFlag('betterrolls-swade2', 'render_data')
         const actor = get_actor_from_message(message);
-        const item = actor.items.get(message.getFlag(
-            'betterrolls-swade2', 'skill_id'));
+        const item = actor.items.get(render_data.trait_id);
         item.sheet.render(true);
     })
 }
@@ -190,9 +188,9 @@ export function activate_skill_card_listeners(message, html) {
  * @param {boolean} expend_bennie, True if we want to spend a bennie
 */
 export async function roll_skill(message, html, expend_bennie){
+    const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     const actor = get_actor_from_message(message)
-    const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
-    const skill = actor.items.find((item) => item.id === skill_id);
+    const skill = actor.items.find((item) => item.id === render_data.trait_id);
     if (expend_bennie) await spend_bennie(actor);
     await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, {});

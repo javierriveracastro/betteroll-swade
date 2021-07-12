@@ -847,12 +847,12 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
  */
 function get_skill_from_message(message, actor) {
     const type = message.getFlag('betterrolls-swade2', 'card_type');
+    const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     let skill;
     if (type === BRSW_CONST.TYPE_SKILL_CARD) {
-        const skill_id = message.getFlag('betterrolls-swade2', 'skill_id');
-        skill = actor.items.find((item) => item.id === skill_id);
+        skill = actor.items.get(render_data.trait_id);
     } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = actor.items.get(message.getFlag(
+        const item = (message.getFlag(
             'betterrolls-swade2', 'item_id'));
         skill = get_item_trait(item, actor);
     }
