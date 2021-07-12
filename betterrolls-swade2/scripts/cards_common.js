@@ -149,6 +149,7 @@ export function create_render_options(actor, render_data) {
     render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
     render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
     // Retrieve object from ids.
+    console.log(render_data)
     if (render_data.hasOwnProperty('trait_id')) {
         let trait;
         if (render_data.trait_id.hasOwnProperty('name')) {
@@ -159,6 +160,7 @@ export function create_render_options(actor, render_data) {
             trait = actor.items.get(render_data.trait_id)
         }
         render_data.skill = trait
+        console.log(trait)
         render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
