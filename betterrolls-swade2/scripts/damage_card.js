@@ -34,11 +34,10 @@ export async function create_damage_card(token_id, damage, damage_text) {
         undo_values: undo_values, trait_roll: trait_roll, wounds: wounds,
         soaked: 0, soak_possible: (are_bennies_available(actor) && can_soak),
         show_incapacitation: damage_result.incapacitated && actor.isWildcard,
-        show_injury: show_injury},
+        show_injury: show_injury, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user._id});
-    await message.setFlag('betterrolls-swade2', 'attribute_id', 'vigor');
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message

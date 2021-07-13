@@ -67,11 +67,10 @@ export async function create_incapacitation_card(token_id) {
     {header: {type: '',
         title: game.i18n.localize("BRSW.Incapacitation"),
         notes: token.name}, text: text, text_after: text_after,
-        footer: footer, trait_roll: trait_roll, show_roll_injury: false},
+        footer: footer, trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
     await message.update({user: user._id});
-    await message.setFlag('betterrolls-swade2', 'attribute_id', 'vigor');
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INC_CARD)
     return message

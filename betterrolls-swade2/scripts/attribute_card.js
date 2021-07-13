@@ -41,9 +41,9 @@ async function create_attribute_card(origin, name){
     let message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll}, CONST.CHAT_MESSAGE_TYPES.ROLL,
+            trait_roll: trait_roll, attribute_name: name},
+        CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
-    await message.setFlag('betterrolls-swade2', 'attribute_id', name);
     // We always set the actor (as a fallback, and the token if possible)
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ATTRIBUTE_CARD)
@@ -183,7 +183,7 @@ export function activate_attribute_card_listeners(message, html) {
 export async function roll_attribute(message, html,
                                      expend_bennie){
     let actor = get_actor_from_message(message);
-    const attribute_id = message.getFlag('betterrolls-swade2', 'attribute_id');
+    const attribute_id = message.getFlag('betterrolls-swade2', 'render_data').attribute_name;
     if (expend_bennie) await spend_bennie(actor);
     await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html, {});
