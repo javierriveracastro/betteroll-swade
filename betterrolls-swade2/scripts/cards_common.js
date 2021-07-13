@@ -850,7 +850,7 @@ function get_skill_from_message(message, actor) {
     if (type === BRSW_CONST.TYPE_SKILL_CARD) {
         skill = actor.items.get(render_data.trait_id);
     } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = (message.getFlag(
+        const item = actor.items.get(message.getFlag(
             'betterrolls-swade2', 'item_id'));
         skill = get_item_trait(item, actor);
     }
