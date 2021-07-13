@@ -115,6 +115,14 @@ function check_selector(type, value, item, actor){
                 edge_name.toLowerCase());
         });
         selected = !!edge;
+    } else if (type === 'actor_has_hindrance') {
+        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+            game.i18n.localize(value) : value;
+        const hindrance = actor.items.find(item => {
+            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                hindrance_name.toLowerCase());
+        });
+        selected = !!hindrance;
     }
     return selected;
 }
