@@ -195,5 +195,6 @@
     "BRSW.Illumination": "Iluminación",
     "BRSW.IlluminationDim": "Dim",
     "BRSW.IlluminationDark": "Dark",
-    "BRSW.IlluminationPitch": "Pitch Dark"
+    "BRSW.IlluminationPitch": "Pitch Dark",
+    "BRSW.Gangup": "Gangup"
 }
