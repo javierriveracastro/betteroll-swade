@@ -189,5 +189,7 @@
     "BRSW.NoGroup": "No group",
     "BRSW.HideWeaponActions": "Hide weapon actions",
     "BRSW.HideWeaponActionsHint": "Show only global actions in the card, hidding weapon specific ones",
-    "BRSW.Scale": "Scale"
+    "BRSW.Scale": "Scale",
+    "BRSW.expand-rolls": "Expand roll result details",
+    "BRSW.expand-rolls_hint": "Enable this options to make the roll result details expanded, by default they are collapsed"
 }

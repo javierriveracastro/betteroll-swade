@@ -148,6 +148,7 @@ export function create_render_options(actor, render_data) {
         '/systems/swade/assets/benny/benny-chip-front.png';
     render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
     render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
+    render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
     // Retrieve object from ids.
     if (render_data.hasOwnProperty('trait_id')) {
         let trait;

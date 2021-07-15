@@ -308,6 +308,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'expand-rolls', {
+        name: game.i18n.localize('BRSW.expand-rolls'),
+        hint: game.i18n.localize('BRSW.expand-rolls_hint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
     game.settings.register('betterrolls-swade2', 'collapse-chat-window', {
         name: game.i18n.localize('BRSW.collapse-chat-window'),
         hint: game.i18n.localize('BRSW.collapse-chat-window_hint'),

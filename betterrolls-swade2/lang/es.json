@@ -189,5 +189,7 @@
     "BRSW.NoGroup": "Sin grupo",
     "BRSW.HideWeaponActions": "Esconde las acciones de arma",
     "BRSW.HideWeaponActionsHint": "Las cartas muestran solo las acciones globales, no las de arma",
-    "BRSW.Scale": "Escala"
+    "BRSW.Scale": "Escala",
+    "BRSW.expand-rolls": "Expandir los detalles de las tiradas",
+    "BRSW.expand-rolls_hint": "Marca esta opción para ver los detalles de las tiradas, por defecto el detalle aparece colapsado"
 }
