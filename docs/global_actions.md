@@ -61,6 +61,7 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_effect: Another string selector, will select actors that have an enabled effect whose label contains the string.
 * actor_has_edge: The same, this time it will look for an edge that contains that string.
 * actor_has_hindrance: Like the last two, but for hindrances.
+* all: It will always show this action.
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.

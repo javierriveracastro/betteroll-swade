@@ -27,7 +27,10 @@ const SYSTEM_GLOBAL_ACTION = [
     {id: "HeavyCover", name: "Heavy Cover", button_name: "BRSW.HeavyCover", skillMod: "-6",
         selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
     {id: "NearTotalCover", name: "Near Total Cover", button_name: "BRSW.NearTotalCover",
-        skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"}]
+        skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
+    {id: "Dim", name: "Dim", button_name: "BRSW.IlluminationDim", skillMod: "-2", selector_type: "all", group: "BRSW.Illumination"},
+    {id: "Dark", name: "Dark", button_name: "BRSW.IlluminationDark", skillMod: "-4", selector_type: "all", group: "BRSW.Illumination"},
+    {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-2", selector_type: "all", group: "BRSW.Illumination"}]
 
 /**
  * Registers all the avaliable global actions
@@ -92,12 +95,14 @@ export function get_actions(item, actor) {
 function check_selector(type, value, item, actor){
     let selected = false;
     if (type === 'skill') {
-       const skill = get_item_trait(item, actor);
-       if (skill) {
-           selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
+        const skill = get_item_trait(item, actor);
+        if (skill) {
+            selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
                 skill.name.toLowerCase().includes(
                     game.i18n.localize("BRSW.SkillName-" + value));
-       }
+        }
+    } else if (type === "all") {
+        selected = true;
     } else if (type === 'item_type') {
         selected = item.type === value;
     } else if (type === 'actor_name') {
