@@ -185,5 +185,12 @@
     "BRSW.HeavyCover": "Cobertura pesada",
     "BRSW.LightCover": "Cobertura lleugera",
     "BRSW.MediumCover": "Cobertura mitjana",
-    "BRSW.NearTotalCover": "Cobertura gairebé total"
+    "BRSW.NearTotalCover": "Cobertura gairebé total",
+    "BRSW.Scale": "Escala",
+    "BRSW.expand-rolls": "Mostrar els detalls de les tirades",
+    "BRSW.expand-rolls_hint": "Marca aquesta opció per veure els detalls de les tirades, per defecte es presenta reduït",
+    "BRSW.ItemActions": "Accions d'objecte",
+    "BRSW.NoGroup": "Sense grup",
+    "BRSW.HideWeaponActions": "Amaga les accions d'arma",
+    "BRSW.HideWeaponActionsHint": "Mostra només les accions globals a la carta, no pas les d'armes"
 }
