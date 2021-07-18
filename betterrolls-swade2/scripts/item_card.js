@@ -120,7 +120,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
-            trait_id: trait.id || trait, ammo: ammo,
+            trait_id: (trait !== undefined) ? trait.id : "", ammo: ammo,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: action_groups, used_shots: 0,
