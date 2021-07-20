@@ -150,7 +150,7 @@ export function create_render_options(actor, render_data) {
     render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
     render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
     // Retrieve object from ids.
-    if (render_data.hasOwnProperty('trait_id')) {
+    if (render_data.hasOwnProperty('trait_id') && render_data.trait_id) {
         let trait;
         if (render_data.trait_id.hasOwnProperty('name')) {
             // This is an atribute
