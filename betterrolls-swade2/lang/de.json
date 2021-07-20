@@ -175,5 +175,6 @@
     "BRSW.Edges": "Talente",
     "BRSW.AttackOption": "Angriffsoptionen",
     "BRSW.SituationalModifiers": "Situationsabhängige Modifikatoren",
-    "BRSW.UnknownActionKey": "Unbekannter Schlüssel in Aktion:"
+    "BRSW.UnknownActionKey": "Unbekannter Schlüssel in Aktion:",
+    "BRSW.ApShort": "AP"
 }

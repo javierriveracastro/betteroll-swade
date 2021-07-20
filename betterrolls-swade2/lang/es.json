@@ -196,5 +196,6 @@
     "BRSW.IlluminationDim": "Dim",
     "BRSW.IlluminationDark": "Dark",
     "BRSW.IlluminationPitch": "Pitch Dark",
-    "BRSW.Gangup": "Gangup"
+    "BRSW.Gangup": "Gangup",
+    "BRSW.ApShort": "PA"
 }
