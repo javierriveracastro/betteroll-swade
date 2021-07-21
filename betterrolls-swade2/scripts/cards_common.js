@@ -1041,8 +1041,8 @@ function get_tn_from_target(message, index, selected) {
 export function has_joker(token_id) {
     let joker = false;
     game.combat?.combatants.forEach(combatant => {
-        if (combatant.tokenId === token_id) {
-            const swade_value = combatant.flags?.swade?.cardValue || 0;
+        if (combatant.token.id === token_id) {
+            const swade_value = combatant.data?.flags?.swade?.cardValue || 0;
             if (swade_value >= 95) {
                 joker = true;
             }
