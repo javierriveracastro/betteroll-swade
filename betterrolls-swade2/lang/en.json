@@ -193,9 +193,10 @@
     "BRSW.expand-rolls": "Expand roll result details",
     "BRSW.expand-rolls_hint": "Enable this options to make the roll result details expanded, by default they are collapsed",
     "BRSW.Illumination": "Illumination",
-    "BRSW.IlluminationDim": "Penumbra",
-    "BRSW.IlluminationDark": "Oscuridad",
-    "BRSW.IlluminationPitch": "Oscuridad total",
     "BRSW.Gangup": "Gangup",
-    "BRSW.ApShort" : "AP"
+    "BRSW.ApShort" : "AP",
+    "BRSW.EdgeName-Frenzy": "Frenzy",
+    "BRSW.IlluminationDim": "Dim",
+    "BRSW.IlluminationDark": "Dark",
+    "BRSW.IlluminationPitch": "Pitch Dark"
 }
