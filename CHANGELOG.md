@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.38 aka let's try to organize changelogs, maybe someone will read them.
+
+* Cards: Description added to skill cards
+* Cards: Added a setting to expand roll results by default (holgaph)
+* Internal refactoring: skill_id and attribute_id moved to render_data
+* Global actions: Support of or_selector, support for ROF action, added actor_has_hindrande selector, added all selector
+* Global actions: Illumination actions added to system actions.
+* Bugs: Items card without rolls where not show (reicargaywood)
+* Bugs: Joker detection was not working
+* Rolls: Added support for gangup (brunocalado)
+* Translations: Added a custom string for AP (Armor Penetration abbreviated)
+* Translations: Usual bunch of updates from the weblate team
+
+
 ## Version 2.37 aka groups done at last.
 
 * Use heigh in distance calculations
