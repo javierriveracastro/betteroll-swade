@@ -48,6 +48,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * rerollSkillMod: A number used as a modifier for skill reroll
 * rerollDamageMod: A number used as a modifier for damage reroll
 * shotsUsed: A number that makes the action use that number of shots.
+* rof: Numer of trait dice rolled.
 
 **Selector fields:**
 
