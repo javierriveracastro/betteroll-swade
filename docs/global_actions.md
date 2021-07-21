@@ -106,49 +106,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
-**Cover & Obstacles**
-```json
-{
-  "id": "LightCover",
-  "name": "Light Cover",
-  "button_name": "Light Cover",
-  "skillMod": "-2",
-  "selector_type": "item_type", 
-  "selector_value": "weapon"
-}
-```
-```json
-{
-  "id": "MediumCover",
-  "name": "Medium Cover",
-  "button_name": "Medium Cover",
-  "skillMod": "-4",
-  "selector_type": "item_type", 
-  "selector_value": "weapon"
-}
-```
-```json
-{
-  "id": "HeavyCover",
-  "name": "Heavy Cover",
-  "button_name": "Heavy Cover",
-  "skillMod": "-6",
-  "selector_type": "item_type", 
-  "selector_value": "weapon"
-}
-```
-```json
-{
-  "id": "NearTotalCover",
-  "name": "Near Total Cover",
-  "button_name": "Near Total Cover",
-  "skillMod": "-8",
-  "selector_type": "item_type", 
-  "selector_value": "weapon"
-}
-```
-
 **Unarmed Defender**
+
 ```json
 {
   "id": "UNARMEDDEFENDER",
@@ -156,8 +115,32 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "button_name": "Unarmed Defender",
   "skillMod": "+2",
   "selector_type": "skill",
-  "selector_value": "Fighting"  
+  "selector_value": "Fighting",
+  "group": "Combat"  
 }
+```
+
+**Unstable Platform**
+
+```json
+{
+  "id": "UNSTABLEPLATFORM",
+  "name": "Unstable Platform",
+  "button_name": "Unstable Platform",
+  "skillMod": "-2",
+  "or_selector":[
+    {
+       "selector_type":"skill",
+       "selector_value":"Shooting"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Athletics"
+    }
+  ],  
+  "group": "Combat"  
+}
+
 ```
 
 **Touch Attack**
@@ -169,7 +152,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "+2",
   "dmgOverride": "0",
   "selector_type": "skill",
-  "selector_value": "Fighting"  
+  "selector_value": "Fighting",
+  "group": "Combat"
 }
 ```
 
@@ -182,7 +166,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "button_name": "Off-Hand Attacks",
   "skillMod": "-2",
   "selector_type": "item_type", 
-  "selector_value": "weapon"  
+  "selector_value": "weapon",
+  "group": "Combat"  
 }
 ```
 
@@ -195,7 +180,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "button_name": "Nonlethal Damage",
   "skillMod": "-1",
   "selector_type": "skill",
-  "selector_value": "Fighting"  
+  "selector_value": "Fighting",
+  "group": "Combat"    
 }
 ```
 
@@ -208,7 +194,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "button_name": "Two Weapons",
   "skillMod": "+1",
   "selector_type": "skill",
-  "selector_value": "Fighting"  
+  "selector_value": "Fighting",
+  "group": "Combat"      
 }
 ```
 
