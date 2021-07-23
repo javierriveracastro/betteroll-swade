@@ -92,7 +92,9 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 * group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
 
 # Examples
+**USE CONTROL+F TO SEARCH**
 
+## Basic Rules - Examples
 **Called Shot**
 ```json
 {
@@ -199,17 +201,63 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
-**Edges**
+## Edges - Examples 
+
+**Monk Attack**
 ```json
 {
   "id":"MONKRAISE",
-  "name":"Monk attack",
+  "name":"Monk Attack",
   "button_name":"Monk",
   "defaultChecked":"on",
   "raiseDamageFormula": "+1d10x",
   "and_selector": [
     {"selector_type": "actor_has_edge", "selector_value":"Monk"}, 
     {"selector_type": "skill", "selector_value": "Fighting"}
-  ] 
+  ],
+  "group": "edges"  
+}
+```
+
+**Sneak Attack**
+```json
+{
+  "id":"SNEAKATTACK",
+  "name":"Sneak Attack",
+  "button_name":"Sneak Attack",
+  "dmgMod":"+1d6x",
+  "and_selector":[
+    {
+       "selector_type":"actor_has_edge",
+       "selector_value":"Rogue"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Fighting"
+    }
+  ],
+  "group": "edges"     
+}
+```
+
+
+**Marksman**
+```json
+{
+  "id":"MARKSMAN",
+  "name":"Marksman",
+  "button_name":"Marksman",
+   "skillMod": "+1",
+  "and_selector":[
+    {
+       "selector_type":"actor_has_edge",
+       "selector_value":"Marksman"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Shooting"
+    }
+  ],
+  "group": "edges"     
 }
 ```
