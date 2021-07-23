@@ -105,6 +105,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "dmgMod": "+4",
   "selector_type": "skill",
   "selector_value": "Shooting"  
+  "group": "Attack options"  
 }
 ```
 
@@ -118,7 +119,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "+2",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Combat"  
+  "group": "Situational Modifiers"  
 }
 ```
 
@@ -140,7 +141,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
        "selector_value":"Athletics"
     }
   ],  
-  "group": "Combat"  
+  "group": "Situational Modifiers"  
 }
 
 ```
@@ -155,7 +156,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "dmgOverride": "0",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Combat"
+  "group": "Situational Modifiers"  
 }
 ```
 
@@ -169,7 +170,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "-2",
   "selector_type": "item_type", 
   "selector_value": "weapon",
-  "group": "Combat"  
+  "group": "Situational Modifiers"  
 }
 ```
 
@@ -183,7 +184,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "-1",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Combat"    
+  "group": "Situational Modifiers"  
 }
 ```
 
@@ -197,7 +198,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "+1",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Combat"      
+  "group": "Situational Modifiers"  
 }
 ```
 
