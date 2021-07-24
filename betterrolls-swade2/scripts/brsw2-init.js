@@ -143,7 +143,7 @@ Hooks.on('dropCanvasData', (canvas, item) => {
 });
 
 // Hooks for Dice So Nice
-Hooks.once('diceSoNiceReady', (dice3d) => {
+Hooks.once('diceSoNiceReady', () => {
     register_dsn_settings();
     const bennyLabelFront = game.settings.get('betterrolls-swade2',
         'bennyFront');
@@ -153,13 +153,27 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
         if (! bennyLabelBack) {
             bennyLabelBack = bennyLabelFront;
         }
-        dice3d.addSystem({ id: 'swade-benny', name: 'Savage Worlds Benny' }, false);
-        dice3d.addDicePreset({
-            type: 'db',
-            labels: [bennyLabelFront, bennyLabelBack],
-            system: 'standard',
-            colorset: 'black',
-        }, 'd2');
+        CONFIG.SWADE.bennies.textures.front = bennyLabelFront;
+        CONFIG.SWADE.bennies.textures.back = bennyLabelBack;
+        // Hacky as hell, if system hook has been run we already had a db,
+        // so we replace it. If it doesn't the above config values should be
+        // enough to change the bennie.
+        let system_die_found = false;
+        for (let die of game.dice3d.DiceFactory.systems.standard.dice){
+            // Check if systems has already created its dice
+            if (die.type === 'db') {
+                die.type = 'dsb';  // rename it and add our own
+                system_die_found = true;
+            }
+        }
+        if (system_die_found) {
+            game.dice3d.addDicePreset({
+                type: 'db',
+                labels: [bennyLabelFront, bennyLabelBack],
+                system: 'standard',
+                colorset: 'black',
+            }, 'd2')
+        }
     }
 });
 
