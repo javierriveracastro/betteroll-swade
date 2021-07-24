@@ -259,6 +259,7 @@
 .brsw-button-image {
     border: none;
     vertical-align: text-bottom;
+    max-width: 100%;
 }
 
 .brsw-small-dice-image {
