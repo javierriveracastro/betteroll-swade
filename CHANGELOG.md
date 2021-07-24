@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.39 aka rushed bugfixing, let's sacrifice a goat to Shane and hope for the best
+* Bug: Ilumination translation strings where mixed between Spanish and English.
+* Bug: Don't try to scroll the chatbar on the initial rendering.
+* Bug: Try to avoid racing with system to set bennie image.
+* Foundry citizenship: Use a local CSS rule instead of foundry one to set button with image
+* Translations: Another bunch of updates from the weblate team.
+* Global actions: Added frenzy to module actios.
+* Documentation: Lots of updates and reorganization (Bruno Calado)
+
+
 ## Version 2.38 aka let's try to organize changelogs, maybe someone will read them.
 
 * Cards: Description added to skill cards
