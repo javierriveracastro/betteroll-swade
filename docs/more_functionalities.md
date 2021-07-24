@@ -16,7 +16,7 @@ Currently, it ships with some classical roman and greek coins.
 
 # Global actions.
 
-The module let's you define your own actions, see this [docs](GLOBAL_ACTIONS.md):
+The module let's you define your own actions, see this [GLOBAL ACTIONS](global_actions.md):
 
 # Macros and API
 
