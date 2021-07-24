@@ -35,10 +35,11 @@ If you prefer to hide this section, you can find an option to collapse it by def
 See [Card Types](card_types.md).
 
 # More Functionalities
-- Drag and Drop
+- See [Combat Automation](combatautomation.md) to learn about gang up, size/scale modifier and distance with height.
 - Custom Bennies
-- See [GLOBAL ACTIONS](global_actions.md) for more information on how to create global actions.
+- Drag and Drop
 - Macros and API
+- See [GLOBAL ACTIONS](global_actions.md) for more information on how to create global actions.
 
 See [MORE FUNCTIONALITIES](more_functionalities.md).
 
