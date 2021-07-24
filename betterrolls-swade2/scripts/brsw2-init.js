@@ -155,6 +155,7 @@ Hooks.once('diceSoNiceReady', () => {
         }
         CONFIG.SWADE.bennies.textures.front = bennyLabelFront;
         CONFIG.SWADE.bennies.textures.back = bennyLabelBack;
+        CONFIG.SWADE.bennies.sheetImage = bennyLabelFront;
         // Hacky as hell, if system hook has been run we already had a db,
         // so we replace it. If it doesn't the above config values should be
         // enough to change the bennie.
@@ -173,18 +174,6 @@ Hooks.once('diceSoNiceReady', () => {
                 system: 'standard',
                 colorset: 'black',
             }, 'd2')
-        }
-    }
-});
-
-Hooks.on("renderCharacterSheet", (sheet, html, _) => {
-    if (game.dice3d) {
-        // Dice So Nice are required for custom bennies.
-        const bennyLabelFront = game.settings.get('betterrolls-swade2',
-            'bennyFront');
-        if (bennyLabelFront) {
-            html.find(".bennies .spend-benny").css(
-                "background-image", `url(${bennyLabelFront})`);
         }
     }
 });
