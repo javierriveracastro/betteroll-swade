@@ -70,14 +70,12 @@ export async function create_common_card(origin, render_data, chat_type, templat
         actor = origin
     }
     let render_object = create_render_options(
-        actor, render_data)
+        actor, render_data, template)
     let chatData = create_basic_chat_data(origin, chat_type);
     chatData.content = await renderTemplate(template, render_object);
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
     await store_render_flag(message, render_object);
-    await message.setFlag('betterrolls-swade2', 'template',
-        template);
     await message.setFlag('betterrolls-swade2', 'actor',
             actor.id)
     if (actor !== origin) {
@@ -136,8 +134,9 @@ export function create_basic_chat_data(origin, type){
  * @param {Actor} actor
  * @param {object} render_data: options for this card
  * @para item: An item object
+ * @param {string} template:
  */
-export function create_render_options(actor, render_data) {
+export function create_render_options(actor, render_data, template) {
     render_data.bennie_avaliable = are_bennies_available(actor);
     render_data.actor = actor;
     render_data.result_master_only =
@@ -149,11 +148,14 @@ export function create_render_options(actor, render_data) {
     render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
     render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
     render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
+    if (template) {
+        render_data.template = template;
+    }
     // Retrieve object from ids.
     if (render_data.hasOwnProperty('trait_id') && render_data.trait_id) {
         let trait;
         if (render_data.trait_id.hasOwnProperty('name')) {
-            // This is an atribute
+            // This is an attribute
             trait = render_data.trait_id;
         } else {
             // Should be a skill
@@ -528,14 +530,13 @@ export function calculate_results(rolls, damage) {
  * @param render_data
  */
 export async function update_message(message, actor, render_data) {
-    const template = message.getFlag('betterrolls-swade2', 'template');
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
             BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor);
         render_data.skill = get_item_trait(item, actor);
     }
-    create_render_options(actor, render_data);
-    let new_content = await renderTemplate(template, render_data);
+    create_render_options(actor, render_data, undefined);
+    let new_content = await renderTemplate(render_data.template, render_data);
     // noinspection JSCheckFunctionSignatures
     new_content = TextEditor.enrichHTML(new_content, {});
     await message.update({content: new_content});
