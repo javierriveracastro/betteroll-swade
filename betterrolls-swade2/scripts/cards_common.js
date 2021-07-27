@@ -1,7 +1,7 @@
 // Common functions used in all cards
 // noinspection ES6MissingAwait
 
-import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token} from "./utils.js";
+import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
@@ -46,7 +46,7 @@ async function store_render_flag(message, render_object) {
     });
     // Get sure thar there is a diff so update socket gets fired.
     if (message.data.flags?.['betterrolls-swade2']?.['render_data']) {
-        message.data.flags['betterrolls-swade2']['render_data']= {};
+        message.data.flags['betterrolls-swade2']['render_data'].update_uid = broofa();
     }
     await message.setFlag('betterrolls-swade2', 'render_data',
         render_object);
