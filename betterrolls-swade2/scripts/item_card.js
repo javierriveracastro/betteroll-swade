@@ -531,6 +531,7 @@ async function discount_pp(actor, item, rolls) {
     await ChatMessage.create({
         content: content
     });
+    return pp
 }
 
 
@@ -686,7 +687,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        await discount_pp(actor, item, trait_data.rolls);
+        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls);
     }
     await update_message(message, actor, render_data);
     run_macros(macros, actor, item, message);
