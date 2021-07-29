@@ -1,0 +1,17 @@
+{{# if action_groups }}
+    <div class="brsw-form">
+        {{# each action_groups }}
+            <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions-{{ this.id }}">
+                <i class="fas {{# if actions_collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ this.name }}
+            </div>
+            <div class="brsw-actions-{{ this.id }} {{# if actions_collapsed}}brsw-collapsed{{/if}}">
+                {{# each this.actions }}
+                    <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
+                            data-action_id="{{ this.code }}">
+                        {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
+                    </span>
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
+{{/if}}

@@ -112,7 +112,7 @@ function check_selector(type, value, item, actor){
         selected = item.type === value;
     } else if (type === 'actor_name') {
         selected = actor.name.toLowerCase().includes(value.toLowerCase());
-    } else if (type === 'item_name') {
+    } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'actor_has_effect') {
         const effect = actor.effects.find(

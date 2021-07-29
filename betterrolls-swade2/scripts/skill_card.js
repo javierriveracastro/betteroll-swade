@@ -12,6 +12,7 @@ import {
     trait_to_string,
     create_modifier
 } from "./cards_common.js";
+import {create_actions_array} from "./global_actions.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
     "lutar", "combattere"];
@@ -38,10 +39,12 @@ async function create_skill_card(origin, skill_id) {
     const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let trait_roll = new BRWSRoll();
+    let action_groups = create_actions_array({}, skill, actor);
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
-            footer: footer, trait_roll: trait_roll, trait_id: skill.id},
+            footer: footer, trait_roll: trait_roll, trait_id: skill.id,
+            action_groups: action_groups},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
     await message.setFlag('betterrolls-swade2', 'card_type',
@@ -405,3 +408,8 @@ function withinRange(origin, target, range) {
     distance = distance / grid_unit
     return range >= distance;
 }
+
+// Collapse actions on direct rolls
+// Pass the skill as the item to find actions.
+// Make skill selectors work.
+// Test, test and test again.
