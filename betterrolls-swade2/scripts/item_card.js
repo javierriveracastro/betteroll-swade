@@ -12,14 +12,13 @@ import {
     get_roll_options,
     roll_trait,
     spend_bennie,
-    trait_to_string,
     update_message,
     has_joker, create_modifier
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
-import {get_actions, get_global_action_from_name} from "./global_actions.js";
+import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
 
 
@@ -99,24 +98,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
     }
-    get_actions(item, actor).forEach(global_action => {
-        const has_skill_mod = !!global_action.skillMod;
-        const has_dmg_mod = !!global_action.dmgMod;
-        const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
-            game.i18n.localize(global_action.button_name) : global_action.button_name;
-        const pinned = global_action.hasOwnProperty('defaultChecked')
-        let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
-        let group_name_id = group_name.split('.').join('')
-        if (!action_groups.hasOwnProperty(group_name_id)) {
-            const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
-                game.i18n.localize(group_name) : group_name
-            action_groups[group_name_id] = {name: translated_group, actions: [],
-                id:broofa()}
-        }
-        action_groups[group_name_id].actions.push(
-            {code: global_action.name, name: button_name, pinned: pinned,
-                damage_icon: has_dmg_mod, skill_icon: has_skill_mod});
-    })
+    action_groups = create_actions_array(action_groups, item, actor);
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
@@ -452,7 +434,7 @@ function trait_from_string(actor, trait_name) {
  * Check if an actor has a skill in a list
  * @param {SwadeActor} actor
  * @param {[string]} possible_skills List of skills to check
- * @return {SwadeItem} found skill or undefined
+ * @return {Item} found skill or undefined
  */
 function check_skill_in_actor(actor, possible_skills) {
     let skill_found;

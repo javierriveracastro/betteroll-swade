@@ -1,6 +1,7 @@
-// noinspection JSUnfilteredForInLoop
+// noinspection JSUnfilteredForInLoop,JSCheckFunctionSignatures
 
 import {get_item_trait} from "./item_card.js";
+import {broofa} from "./utils.js";
 
 // DMG override is still not implemented.
 const SYSTEM_GLOBAL_ACTION = [
@@ -50,7 +51,7 @@ export function register_actions() {
 
 /**
  * Returns the global actions avaliable for an item
- * @param {SwadeItem} item
+ * @param {Item} item
  * @param {SwadeActor} actor
  */
 export function get_actions(item, actor) {
@@ -303,4 +304,36 @@ export class WorldGlobalActions extends FormApplication {
             text_area.name = action.name;
         }
     }
+}
+
+/**
+ * Creates the action group array
+ * @param action_groups
+ * @param item
+ * @param actor
+ */
+export function create_actions_array(action_groups,item, actor) {
+    get_actions(item, actor).forEach(global_action => {
+        const has_skill_mod = !!global_action.skillMod;
+        const has_dmg_mod = !!global_action.dmgMod;
+        const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
+            game.i18n.localize(global_action.button_name) : global_action.button_name;
+        const pinned = global_action.hasOwnProperty('defaultChecked')
+        let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
+        let group_name_id = group_name.split('.').join('')
+        if (!action_groups.hasOwnProperty(group_name_id)) {
+            const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
+                game.i18n.localize(group_name) : group_name
+            action_groups[group_name_id] = {
+                name: translated_group, actions: [],
+                id: broofa()
+            }
+        }
+        action_groups[group_name_id].actions.push(
+            {
+                code: global_action.name, name: button_name, pinned: pinned,
+                damage_icon: has_dmg_mod, skill_icon: has_skill_mod
+            });
+    });
+    return action_groups
 }
