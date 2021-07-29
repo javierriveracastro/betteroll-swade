@@ -69,7 +69,10 @@ This group of fields are used to select when the action is available, you will n
 * or_selector: Takes a list of sselectors and executes the action if at least one is true
 
 ```  
-and_selector: [{'selector_type': 'skill', 'selector_value':'figthing}, {'selector_type':'actor', 'selector_value': 'Jhon'}] 
+and_selector: [
+{'selector_type': 'skill', 'selector_value':'figthing}, 
+{'selector_type':'actor', 'selector_value': 'Jhon'}
+]
 ```
 
 # Macros:
@@ -202,7 +205,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
-## Edges - Examples 
+## Edges - Savage Pathfinder 
 
 **Monk Attack**
 ```json
@@ -260,5 +263,34 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
     }
   ],
   "group": "edges"     
+}
+```
+
+## Edges - Sprawlrunners
+**Passive Alarm**
+```json
+{
+   "id":"PASSIVEALARM",
+   "name":"Passive Alarm",
+   "button_name":"Passive Alarm",
+   "skillMod":1,
+   "dmgMod":1,
+   "selector_type":"actor_has_edge",
+   "selector_value":"Alarm",
+   "group": "Sprawlrunners"
+}
+```
+
+**Active Alarm**
+```json
+{
+   "id":"ACTIVEALARM",
+   "name":"Active Alarm",
+   "button_name":"Active Alarm",
+   "skillMod":2,
+   "dmgMod":2,
+   "selector_type":"actor_has_edge",
+   "selector_value":"Alarm",
+   "group": "Sprawlrunners"
 }
 ```
