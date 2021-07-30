@@ -100,7 +100,7 @@ export function get_actions(item, actor) {
 function check_selector(type, value, item, actor){
     let selected = false;
     if (type === 'skill') {
-        const skill = get_item_trait(item, actor);
+        const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
         if (skill) {
             selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
                 skill.name.toLowerCase().includes(

@@ -26,9 +26,10 @@ export const THROWING_SKILLS = ["athletics", "athletik", "atletismo", "athletism
 *
 * @param {Token, SwadeActor} origin  The actor or token owning the attribute
 * @param {string} skill_id The id of the skill that we want to show
+* @param {boolean} collapse_actions
 * @return A promise for the ChatMessage object
 */
-async function create_skill_card(origin, skill_id) {
+async function create_skill_card(origin, skill_id, collapse_actions) {
     let actor;
     if (origin instanceof TokenDocument || origin instanceof Token) {
         actor = origin.actor;
@@ -40,11 +41,12 @@ async function create_skill_card(origin, skill_id) {
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let trait_roll = new BRWSRoll();
     let action_groups = create_actions_array({}, skill, actor);
+    console.log(collapse_actions)
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
             footer: footer, trait_roll: trait_roll, trait_id: skill.id,
-            action_groups: action_groups},
+            action_groups: action_groups, actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
     await message.setFlag('betterrolls-swade2', 'card_type',
@@ -65,7 +67,7 @@ async function create_skill_card(origin, skill_id) {
 */
 function create_skill_card_from_id(token_id, actor_id, skill_id){
     const actor = get_actor_from_ids(token_id, actor_id);
-    return create_skill_card(actor, skill_id);
+    return create_skill_card(actor, skill_id, false);
 }
 
 
@@ -95,7 +97,7 @@ async function skill_click_listener(ev, target) {
         ev.currentTarget.parentElement.dataset.itemId
     // Show card
     let message = await create_skill_card(
-        target, skill_id);
+        target, skill_id, action.includes('trait'));
     if (action.includes('trait')) {
         await roll_skill(message, '', false)
     }
@@ -409,7 +411,6 @@ function withinRange(origin, target, range) {
     return range >= distance;
 }
 
-// Collapse actions on direct rolls
-// Pass the skill as the item to find actions.
-// Make skill selectors work.
+// See that an action selection is used in the roll.
+// Keep red marks.
 // Test, test and test again.
