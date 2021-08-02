@@ -10,9 +10,9 @@ import {
     roll_trait,
     spend_bennie,
     trait_to_string,
-    create_modifier
+    create_modifier, process_common_actions
 } from "./cards_common.js";
-import {create_actions_array} from "./global_actions.js";
+import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
     "lutar", "combattere"];
@@ -196,9 +196,32 @@ export async function roll_skill(message, html, expend_bennie){
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     const actor = get_actor_from_message(message)
     const skill = actor.items.find((item) => item.id === render_data.trait_id);
+    let extra_data = {}
+    let pinned_actions = []
+    let macros = [];
+    // Actions
+    if (html) {
+        html.find('.brsw-action.brws-selected').each((_, element) => {
+            // noinspection JSUnresolvedVariable
+            let action;
+            action = get_global_action_from_name(element.dataset.action_id);
+            process_common_actions(action, extra_data, macros, pinned_actions)
+            if (element.classList.contains("brws-permanent-selected")) {
+                pinned_actions.push(action.name);
+            }
+        });
+    }
+    for (let group in render_data.action_groups) {
+        for (let action of render_data.action_groups[group].actions) {
+            // Global and local actions are different
+            action.pinned = pinned_actions.includes(action.code) ||
+                pinned_actions.includes(action.name)
+        }
+    }
     if (expend_bennie) await spend_bennie(actor);
     await roll_trait(message, skill.data.data , game.i18n.localize(
-        "BRSW.SkillDie"), html, {});
+        "BRSW.SkillDie"), html, extra_data);
+    run_macros(macros, actor, null, message);
 }
 
 /***
@@ -241,7 +264,7 @@ export function is_throwing_skill(skill) {
  * @param {Item} skill
  * @param {Token} target_token
  * @param {Token} origin_token
- * @param {SwadeItem} item
+ * @param {Item} item
  */
 export function get_tn_from_token(skill, target_token, origin_token, item) {
     let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
@@ -410,7 +433,3 @@ function withinRange(origin, target, range) {
     distance = distance / grid_unit
     return range >= distance;
 }
-
-// See that an action selection is used in the roll.
-// Keep red marks.
-// Test, test and test again.
