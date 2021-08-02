@@ -1106,3 +1106,35 @@ export function create_modifier(label, expression) {
     }
     return modifier
 }
+
+
+/**
+ * Processes actions common to skill and item cards
+ */
+export function process_common_actions(action, extra_data, macros) {
+    // noinspection JSUnresolvedVariable
+    if (action.skillMod) {
+        let modifier = create_modifier(action.name, action.skillMod)
+        if (extra_data.modifiers) {
+            extra_data.modifiers.push(modifier);
+        } else {
+            extra_data.modifiers = [modifier];
+        }
+    }
+    if (action.rerollSkillMod) {
+        //Reroll
+        extra_data.reroll_modifier = create_modifier(action.name, action.rerollSkillMod)
+    }
+    // noinspection JSUnresolvedVariable
+    if (action.self_add_status) {
+        let new_state = {};
+        new_state[`data.status.is${action.self_add_status}`] = true
+        actor.update(new_state)
+    }
+    if (action.hasOwnProperty('wildDieFormula')) {
+        extra_data.wildDieFormula = action.wildDieFormula;
+    }
+    if (action.runSkillMacro) {
+        macros.push(action.runSkillMacro);
+    }
+}

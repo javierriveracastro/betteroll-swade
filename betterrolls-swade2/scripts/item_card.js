@@ -13,7 +13,7 @@ import {
     roll_trait,
     spend_bennie,
     update_message,
-    has_joker, create_modifier
+    has_joker, create_modifier, process_common_actions
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
@@ -373,7 +373,6 @@ export function get_item_trait(item, actor) {
     // Now check if there is something in the Arcane field
     // noinspection JSUnresolvedVariable
     if (item.data.data.arcane) {
-        // noinspection JSUnresolvedVariable
         return skill_from_string(actor, item.data.data.arcane);
     }
     // If there is no skill anyway we are left to guessing
@@ -594,23 +593,6 @@ export async function roll_item(message, html, expend_bennie,
                 // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
-            if (action.rof) {
-                extra_data.rof = action.rof;
-            }
-            // noinspection JSUnresolvedVariable
-            if (action.skillMod) {
-                let modifier = create_modifier(action.name, action.skillMod)
-                if (extra_data.modifiers) {
-                    extra_data.modifiers.push(modifier);
-                } else {
-                    extra_data.modifiers = [modifier];
-                }
-            }
-            if (action.rerollSkillMod) {
-                //Reroll
-                extra_data.reroll_modifier = create_modifier(action.name, action.rerollSkillMod)
-            }
-            // noinspection JSUnresolvedVariable
             if (action.skillOverride) {
                 trait = trait_from_string(actor, action.skillOverride);
                 render_data.trait_id = trait.id;
@@ -619,17 +601,10 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
-            if (action.self_add_status) {
-                let new_state = {};
-                new_state[`data.status.is${action.self_add_status}`] = true
-                actor.update(new_state)
+            if (action.rof) {
+                extra_data.rof = action.rof;
             }
-            if (action.hasOwnProperty('wildDieFormula')) {
-                extra_data.wildDieFormula = action.wildDieFormula;
-            }
-            if (action.runSkillMacro) {
-                macros.push(action.runSkillMacro);
-            }
+            process_common_actions(action, extra_data, macros, pinned_actions)
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
@@ -659,7 +634,7 @@ export async function roll_item(message, html, expend_bennie,
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = await discount_ammo(item, rof || 1, shots_override);
+                render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
             } else {
                 render_data.used_shots = shots_override >= 0 ? shots_override : ROF_BULLETS[rof || 1];
             }
