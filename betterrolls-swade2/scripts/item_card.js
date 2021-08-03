@@ -523,7 +523,7 @@ async function discount_pp(actor, item, rolls) {
  * @param item_param
  * @param message_param
  */
-function run_macros(macros, actor_param, item_param, message_param) {
+export function run_macros(macros, actor_param, item_param, message_param) {
     if (macros) {
         for (let macro_name of macros) {
             const real_macro = game.macros.find(macro => macro.data.name === macro_name);

@@ -13,6 +13,7 @@ import {
     create_modifier, process_common_actions
 } from "./cards_common.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
+import {run_macros} from "./item_card.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
     "lutar", "combattere"];
