@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.40 aka skills are no less than items
+* Refactoring: Template has been moved to render_data from a flag.
+* Refactoring: Now chat messages updates are forced in a less destructive way and this should prevent some issues.
+* UI: Right click now always opens an item to edit.
+* Skills: Skill cards now support actions.
+* Bug: Direct rolling now shows against all actions collapsed
+
 ## Version 2.39 aka rushed bugfixing, let's sacrifice a goat to Shane and hope for the best
 * Bug: Ilumination translation strings where mixed between Spanish and English.
 * Bug: Don't try to scroll the chatbar on the initial rendering.
