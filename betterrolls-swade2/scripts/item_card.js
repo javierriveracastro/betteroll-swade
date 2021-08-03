@@ -373,7 +373,7 @@ export function get_item_trait(item, actor) {
     // Now check if there is something in the Arcane field
     // noinspection JSUnresolvedVariable
     if (item.data.data.arcane) {
-        return skill_from_string(actor, item.data.data.arcane);
+        return trait_from_string(actor, item.data.data.arcane);
     }
     // If there is no skill anyway we are left to guessing
     let skill;
