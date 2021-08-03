@@ -57,9 +57,14 @@ Power cards are very similar to ranged weapons (if they have damaging effects).
 
 ![Power Card](img/power_card_v1-119.jpg)
 
-Available global actions are "Subtract Power points" - can be activated in the settings as default and "Manual PP management". The automatic solution will always deduct the base amount defined in the power. With the second option you can manually either expend or recharge Power Points
+Available global actions are "Subtract Power points" - can be activated in the settings as default and "Manual PP management". The automatic solution will always deduct the base amount defined in the power. With the second option you can manually either expend or recharge Power Points.  
 
-![Power Point Management](img/power_point_management_v1-119.jpg)
+![Power Point Management](img/power_point_management_v1-119.jpg)  
+  
+### Arcane Devices (by SalieriC)  
+The automated PP Management also supports Arcane Devices created with the Artificier Edge, this however requires you to set up an Additional Stat. Head to the System configuration and set up a new Additional Stat for items. The `Stat Key` *must* be exactly this: `devicePP`  
+The name doesn't matter, data type is `Number` and also check the checkbox "Has Max Value".  
+From now on you can make any power an Arcane Device by activating the Additional Stat you've just created on the power. If that Additional Stat is activated, the script will automatically detect it as an Arcane Device and use the Power Points stored on the Power itself, not the ones of the character.  
 
 # Soak Rolls
 
