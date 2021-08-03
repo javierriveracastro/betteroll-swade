@@ -283,7 +283,7 @@ export function activate_item_card_listeners(message, html) {
     });
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
         pp_button.removeClass('brws-selected');
-        manual_pp(actor);
+        manual_pp(actor, item);
     });
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
@@ -1109,11 +1109,27 @@ function edit_tougness(message, index) {
  * Function to manually manage power points (c) SalieriC
  * @param {SwadeActor} actor
  */
-function manual_pp(actor) {
+async function manual_pp(actor, item) {
     // noinspection JSUnresolvedVariable
-    const ppv = actor.data.data.powerPoints.value;
+    let ppv = actor.data.data.powerPoints.value;
     // noinspection JSUnresolvedVariable
-    const ppm = actor.data.data.powerPoints.max;
+    let ppm = actor.data.data.powerPoints.max;
+    // Activator and resources for Arcane Devices:
+    let arcaneDevice = false;
+    let otherArcane = false;
+    let data = {}
+    if (item.data.data.additionalStats.devicePP){
+        arcaneDevice = true;
+        ppv = item.data.data.additionalStats.devicePP.value;
+        ppm = item.data.data.additionalStats.devicePP.max;
+    }
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)   
+    && actor.data.data.powerPoints[item.data.data.arcane].max) {
+        // Specific power points
+        otherArcane = true;
+        ppv = actor.data.data.powerPoints[item.data.data.arcane].value;
+        ppm = actor.data.data.powerPoints[item.data.data.arcane].max;
+    }
     const fv = actor.data.data.fatigue.value;
     const fm = actor.data.data.fatigue.max;
     const ammout_pp = game.i18n.localize("BRSW.AmmountPP");
@@ -1134,9 +1150,23 @@ function manual_pp(actor) {
                     if (ppv - number < 0) {
                         ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
                     }
+                    else if (arcaneDevice === true) {
+                        const updates = [
+                            { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+                          ];
+                          // Updating the Arcane Device:
+                          actor.updateOwnedItem(updates); 
+                    }
                     else {
                         // noinspection JSIgnoredPromiseFromCall
-                        actor.update({ "data.powerPoints.value": newPP });
+                        if (otherArcane === true) {
+                            // Specific power points
+                            data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
+                        }
+                        else {
+                            data['data.powerPoints.value'] = newPP;
+                        }
+                        actor.update(data);
                     }
                     // noinspection JSIgnoredPromiseFromCall
                     ChatMessage.create({
@@ -1145,6 +1175,7 @@ function manual_pp(actor) {
                         },
                         content: game.i18n.format('BRSW.ExpendPPText', {name: actor.name, number: number, newPP: newPP})
                     })
+                    //Hooks.call("BRSW-ManualPPManagement", actor, item);
                 }
             },
             two: {
@@ -1155,7 +1186,23 @@ function manual_pp(actor) {
                     let newPP = ppv + number
                     if (newPP > ppm) {
                         // noinspection JSIgnoredPromiseFromCall
-                        actor.update({ "data.powerPoints.value": ppm });
+                        if (arcaneDevice === true) {
+                            const updates = [
+                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+                              ];
+                              // Updating the Arcane Device:
+                              actor.updateOwnedItem(updates); 
+                        }
+                        else {
+                            if (otherArcane === true) {
+                                // Specific power points
+                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
+                            }
+                            else {
+                                data['data.powerPoints.value'] = newPP;
+                            }
+                            actor.update(data);
+                        }
                         // Declaring variables to reflect hitting the maximum
                         let rechargedPP = ppm - ppv;
                         ChatMessage.create({
@@ -1164,15 +1211,33 @@ function manual_pp(actor) {
                             },
                             content: game.i18n.format("BRSW.RechargePPTextHitMax", {name: actor.name, rechargedPP: rechargedPP, ppm: ppm})
                         })
+                        Hooks.call("BRSW-ManualPPManagement", actor, item);
                     }
                     else {
-                        actor.update({ "data.powerPoints.value": newPP });
+                        if (arcaneDevice === true) {
+                            const updates = [
+                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+                              ];
+                              // Updating the Arcane Device:
+                              actor.updateOwnedItem(updates); 
+                        }
+                        else {
+                            if (otherArcane === true) {
+                                // Specific power points
+                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
+                            }
+                            else {
+                                data['data.powerPoints.value'] = newPP;
+                            }
+                            actor.update(data);
+                        }
                         ChatMessage.create({
                             speaker: {
                                 alias: name
                             },
                             content: game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: number, newPP: newPP})
                         })
+                        Hooks.call("BRSW-ManualPPManagement", actor, item);
                     }
                 }
             },
@@ -1185,7 +1250,23 @@ function manual_pp(actor) {
                     }
                     else {
                         let newPP = Math.min(ppv + 5, ppm);
-                        actor.update({ "data.powerPoints.value": newPP });
+                        if (arcaneDevice === true) {
+                            const updates = [
+                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+                              ];
+                              // Updating the Arcane Device:
+                              actor.updateOwnedItem(updates); 
+                        }
+                        else {
+                            if (otherArcane === true) {
+                                // Specific power points
+                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
+                            }
+                            else {
+                                data['data.powerPoints.value'] = newPP;
+                            }
+                            actor.update(data);
+                        }
                         actor.spendBenny();
                         if (newPP === ppm) {
                             ChatMessage.create({
@@ -1203,6 +1284,7 @@ function manual_pp(actor) {
                                 content: game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP})
                             })
                         }
+                        Hooks.call("BRSW-ManualPPManagement", actor, item);
                     }
                 }
             },
@@ -1211,20 +1293,30 @@ function manual_pp(actor) {
                 callback: () => {
                     //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
                     let newFV = fv + 1
-                    if (newFV > fm) {
+                    if (arcaneDevice === true) {
+                        ui.notifications.notify("You cannot use Soul Drain to recharge Arcane Devices.")
+                    }
+                    else if (newFV > fm) {
                         ui.notifications.notify("You cannot exceed your maximum Fatigue using Soul Drain.")
                     }
                     else {
                         let newPP = ppv + 5
-                        actor.update(
-                            {"data.powerPoints.value": Math.min(newPP, ppm),
-                                "data.fatigue.value": fv + 1})
+                        if (otherArcane === true) {
+                            // Specific power points
+                            data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
+                        }
+                        else {
+                            data['data.powerPoints.value'] = newPP;
+                        }
+                        actor.update(data)
+                        actor.update({"data.fatigue.value": fv + 1})
                         ChatMessage.create({
                             speaker: {
                                 alias: name
                             },
                             content: `${name} recharges 5 Power Point(s) using Soul Drain and now has <b>${newPP}</b>.`
                         })
+                        Hooks.call("BRSW-ManualPPManagement", actor, item);
                     }
                 },
             }
