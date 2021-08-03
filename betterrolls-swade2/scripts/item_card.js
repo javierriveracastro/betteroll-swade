@@ -472,7 +472,7 @@ async function discount_ammo(item, rof, shot_override) {
 }
 
 /**
- * Discount pps from an actor
+ * Discount pps from an actor (c) Javier or Arcane Device (c) Salieri
  *
  * @param {SwadeActor }actor
  * @param item
@@ -488,7 +488,16 @@ async function discount_pp(actor, item, rolls) {
     const pp = success ? parseInt(item.data.data.pp) : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
-    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)) {
+    // If devicePP is found, it will be treated as an Arcane Device:
+    let arcaneDevice = false;
+    if (item.data.data.additionalStats.devicePP) {
+        // Get the devices PP:
+        current_pp = item.data.data.additionalStats.devicePP.value;
+        arcaneDevice = true;
+    }
+    // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)   
+    && actor.data.data.powerPoints[item.data.data.arcane].max) {
         // Specific power points
         current_pp = actor.data.data.powerPoints[item.data.data.arcane].value;
     } else {
@@ -502,13 +511,23 @@ async function discount_pp(actor, item, rolls) {
         content = game.i18n.localize("BRSW.NotEnoughPP") +  content;
     }
     let data = {}
-    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)) {
+    if (arcaneDevice === true) {
+        const updates = [
+            { _id: item.id, "data.additionalStats.devicePP.value": `${final_pp}` },
+          ];
+          // Updating the Arcane Device:
+          actor.updateOwnedItem(updates);
+    }
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)
+    && actor.data.data.powerPoints[item.data.data.arcane].max) {
         data['data.powerPoints.' + item.data.data.arcane + '.value'] =
             final_pp;
     } else {
         data['data.powerPoints.value'] = final_pp;
     }
-    await actor.update(data);
+    if (arcaneDevice === false) {
+        await actor.update(data);
+    }
     await ChatMessage.create({
         content: content
     });
