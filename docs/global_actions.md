@@ -108,7 +108,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "dmgMod": "+4",
   "selector_type": "skill",
   "selector_value": "Shooting",  
-  "group": "Attack Options"  
+  "group": "BRSW.AttackOption"  
 }
 ```
 
