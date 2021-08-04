@@ -35,7 +35,7 @@ const SYSTEM_GLOBAL_ACTION = [
         skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
     {id: "Dim", name: "Dim", button_name: "BRSW.IlluminationDim", skillMod: "-2", selector_type: "all", group: "BRSW.Illumination"},
     {id: "Dark", name: "Dark", button_name: "BRSW.IlluminationDark", skillMod: "-4", selector_type: "all", group: "BRSW.Illumination"},
-    {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-2", selector_type: "all", group: "BRSW.Illumination"}]
+    {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-6", selector_type: "all", group: "BRSW.Illumination"}]
 
 /**
  * Registers all the avaliable global actions
