@@ -383,18 +383,21 @@ function calculate_gangUp(attacker, target) {
             && t.actor.data.data.status.isStunned === false
             && t.visible
             && withinRange(target, t, itemRange)
+            && !t.combatant?.data.defeated
         );
         alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
             && t.data.disposition === 1
             && t.actor.data.data.status.isStunned === false
             && withinRange(target, t, itemRange)
+            && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
             t.data.disposition === 1
             && t.actor.data.data.status.isStunned === false
             && withinRange(attacker, t, itemRange)
+            && !t.combatant?.data.defeated
         );
     } else if (attacker.data.disposition === 1) { // PCs (friendly) is attacking NPC (hostile)
         withinRangeOfToken = canvas.tokens.placeables.filter(t =>
@@ -403,18 +406,21 @@ function calculate_gangUp(attacker, target) {
             && t.actor.data.data.status.isStunned === false
             && t.visible
             && withinRange(target, t, itemRange)
+            && !t.combatant?.data.defeated
         );
         alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
             && t.data.disposition === -1
             && t.actor.data.data.status.isStunned === false
             && withinRange(target, t, itemRange)
+            && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
             t.data.disposition === -1
             && t.actor.data.data.status.isStunned === false
             && withinRange(attacker, t, itemRange)
+            && !t.combatant?.data.defeated
         );
     }
 
