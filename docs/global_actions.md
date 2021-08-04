@@ -107,8 +107,8 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "-4",
   "dmgMod": "+4",
   "selector_type": "skill",
-  "selector_value": "Shooting"  
-  "group": "Attack options"  
+  "selector_value": "Shooting",  
+  "group": "BRSW.AttackOption"  
 }
 ```
 
@@ -122,7 +122,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "+2",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
 }
 ```
 
@@ -144,7 +144,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
        "selector_value":"Athletics"
     }
   ],  
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
 }
 
 ```
@@ -159,7 +159,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "dmgOverride": "0",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
 }
 ```
 
@@ -173,7 +173,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "-2",
   "selector_type": "item_type", 
   "selector_value": "weapon",
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
 }
 ```
 
@@ -187,7 +187,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "-1",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
 }
 ```
 
@@ -201,7 +201,74 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
   "skillMod": "+1",
   "selector_type": "skill",
   "selector_value": "Fighting",
-  "group": "Situational Modifiers"  
+  "group": "BRSW.SituationalModifiers"
+}
+```
+
+
+## Edges - SWADE Core
+**Marksman**
+```json
+{
+  "id":"MARKSMAN",
+  "name":"Marksman",
+  "button_name":"Marksman",
+   "skillMod": "+1",
+  "and_selector":[
+    {
+       "selector_type":"actor_has_edge",
+       "selector_value":"Marksman"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Shooting"
+    }
+  ],
+  "group": "Edges"     
+}
+```
+
+**Alertness**
+```json
+{
+  "id":"ALERTNESS",
+  "name":"Alertness",
+  "button_name":"Alertness",
+  "skillMod": "+2",   
+  "and_selector":[
+    {
+      "selector_type":"actor_has_edge",
+      "selector_value":"Alertness"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Notice"
+    }
+  ],
+  "defaultChecked":"on",
+  "group": "Edges"     
+}
+```
+
+**Mr Fix It**
+```json
+{
+  "id":"MRFIXIT",
+  "name":"Mr Fix It",
+  "button_name":"Mr Fix It",
+  "skillMod": "+2",   
+  "and_selector":[
+    {
+      "selector_type":"actor_has_edge",
+      "selector_value":"Mr Fix It"
+    },
+    {
+       "selector_type":"skill",
+       "selector_value":"Repair"
+    }
+  ],
+  "defaultChecked":"on",
+  "group": "Edges"     
 }
 ```
 
@@ -219,7 +286,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
     {"selector_type": "actor_has_edge", "selector_value":"Monk"}, 
     {"selector_type": "skill", "selector_value": "Fighting"}
   ],
-  "group": "edges"  
+  "group": "Savage Pathfinder"  
 }
 ```
 
@@ -240,29 +307,7 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
        "selector_value":"Fighting"
     }
   ],
-  "group": "edges"     
-}
-```
-
-
-**Marksman**
-```json
-{
-  "id":"MARKSMAN",
-  "name":"Marksman",
-  "button_name":"Marksman",
-   "skillMod": "+1",
-  "and_selector":[
-    {
-       "selector_type":"actor_has_edge",
-       "selector_value":"Marksman"
-    },
-    {
-       "selector_type":"skill",
-       "selector_value":"Shooting"
-    }
-  ],
-  "group": "edges"     
+  "group": "Savage Pathfinder"     
 }
 ```
 
