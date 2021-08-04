@@ -274,7 +274,6 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     if (is_skill_fighting(skill)) {
         use_parry_as_tn = true;
         const gangup_bonus = calculate_gangUp(origin_token, target_token)
-        console.log(gangup_bonus)
         if (gangup_bonus) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Gangup"), gangup_bonus));
@@ -368,62 +367,61 @@ function sizeToScale(size) { //p179 swade core
  * - Each ally adjacent to the defender cancels out one point of Gang Up bonus from an attacker adjacent to both.
  */
 function calculate_gangUp(attacker, target) {
-  let itemRange=1; // dist 1''
-  let enemies;
-  let allies;
-  let modifier=0;
+    if (attacker.data.disposition === target.data.disposition) return 0;
+    let itemRange = 1; // dist 1''
+    let enemies;
+    let allies;
+    let modifier = 0;
+    let withinRangeOfToken;
+    let alliedWithinRangeOfToken;
+    let alliedWithinRangeOfTargetAndAttacker;
 
-  let withinRangeOfToken;
-  let alliedWithinRangeOfToken;
-  let alliedWithinRangeOfTargetAndAttacker;
+    if (attacker.data.disposition === -1) { // NPC (hostile) is attacking PCs (friendly)
+        withinRangeOfToken = canvas.tokens.placeables.filter(t =>
+            t.id !== attacker.id
+            && t.data.disposition === -1
+            && t.actor.data.data.status.isStunned === false
+            && t.visible
+            && withinRange(target, t, itemRange)
+        );
+        alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
+            t.id !== target.id
+            && t.data.disposition === 1
+            && t.actor.data.data.status.isStunned === false
+            && withinRange(target, t, itemRange)
+        );
+        //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
+        alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
+            t.data.disposition === 1
+            && t.actor.data.data.status.isStunned === false
+            && withinRange(attacker, t, itemRange)
+        );
+    } else if (attacker.data.disposition === 1) { // PCs (friendly) is attacking NPC (hostile)
+        withinRangeOfToken = canvas.tokens.placeables.filter(t =>
+            t.id !== attacker.id
+            && t.data.disposition === 1
+            && t.actor.data.data.status.isStunned === false
+            && t.visible
+            && withinRange(target, t, itemRange)
+        );
+        alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
+            t.id !== target.id
+            && t.data.disposition === -1
+            && t.actor.data.data.status.isStunned === false
+            && withinRange(target, t, itemRange)
+        );
+        //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
+        alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
+            t.data.disposition === -1
+            && t.actor.data.data.status.isStunned === false
+            && withinRange(attacker, t, itemRange)
+        );
+    }
 
-  if (attacker.data.disposition === -1) { // NPC (hostile) is attacking PCs (friendly)
-    withinRangeOfToken = canvas.tokens.placeables.filter(t =>
-      t.id !== attacker.id
-      && t.data.disposition === -1
-      && t.actor.data.data.status.isStunned === false
-      && t.visible
-      && withinRange(target, t, itemRange)
-    );
-    alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
-      t.id !== target.id
-      && t.data.disposition === 1
-      && t.actor.data.data.status.isStunned === false
-      && withinRange(target, t, itemRange)
-    );
-    //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
-    alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
-      t.data.disposition === 1
-      && t.actor.data.data.status.isStunned === false
-      && withinRange(attacker, t, itemRange)
-    );
-  } else if (attacker.data.disposition===1) { // PCs (friendly) is attacking NPC (hostile)
-    withinRangeOfToken = canvas.tokens.placeables.filter(t =>
-      t.id !== attacker.id
-      && t.data.disposition === 1
-      && t.actor.data.data.status.isStunned === false
-      && t.visible
-      && withinRange(target, t, itemRange)
-    );
-    alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
-      t.id !== target.id
-      && t.data.disposition === -1
-      && t.actor.data.data.status.isStunned === false
-      && withinRange(target, t, itemRange)
-    );
-    //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
-    alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
-      t.data.disposition === -1
-      && t.actor.data.data.status.isStunned === false
-      && withinRange(attacker, t, itemRange)
-    );
-  }
-
-  enemies = withinRangeOfToken.length;
-  allies = alliedWithinRangeOfTargetAndAttacker.length;
-  modifier = Math.max(0, (enemies-allies) );
-
-  return Math.min( 4, modifier );
+    enemies = withinRangeOfToken.length;
+    allies = alliedWithinRangeOfTargetAndAttacker.length;
+    modifier = Math.max(0, (enemies - allies));
+    return Math.min(4, modifier);
 }
 
 // function from Kekilla
