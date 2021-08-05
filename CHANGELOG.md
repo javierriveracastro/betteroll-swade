@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.41 aka killing lots of lovely animals.
+* Bug: Macros now run on skill actions.
+* Bug: Removed old uses os skill_from_string that makes arcane skills fail to roll
+* Bug: Initial support for arcane devices (SalieriC)
+* Bug: Pitch dark modifier was -2 instead of the correct -6
+* Bug: Attacks from tokens with the same disposition now don't calculate gangup
+* Bug: Defeated enemies are not counted for gangup
+* Bug: Gangup was not fired when action changed the skill to fighting, nor suppressed when it was change away from figthing
+* Bug: Soaking was miscalculating bonuses for characters that ignore wound penalties
+* Bug: Items in inventory where not draggable to macro bar
+* Bug: Armor localizations in the footer of the item card are not space separated and translated
+
 ## Version 2.40 aka skills are no less than items
 * Refactoring: Template has been moved to render_data from a flag.
 * Refactoring: Now chat messages updates are forced in a less destructive way and this should prevent some issues.
