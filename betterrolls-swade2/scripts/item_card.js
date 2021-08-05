@@ -344,7 +344,9 @@ export function make_item_footer(item) {
         for (let armor_location in item.data.data.locations) {
             if (item.data.data.locations.hasOwnProperty(armor_location) &&
                     item.data.data.locations[armor_location]) {
-                locations += armor_location + " ";
+                const location_formatted = armor_location.charAt(0).toUpperCase() +
+                    armor_location.slice(1)
+                locations += game.i18n.localize(`SWADE.${location_formatted}`) + " ";
             }
         }
         footer.push(locations)
