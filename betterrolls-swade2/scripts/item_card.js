@@ -194,7 +194,7 @@ export function activate_item_listeners(app, html) {
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
-    let item_li = html.find('.gear-card.item, .item.flexrow, .power.item')
+    let item_li = html.find('.gear-card.item, .item.flexrow, .power.item, .weapon.item')
     item_li.attr('draggable', 'true');
     item_li.bindFirst('dragstart',async ev => {
         const item_id = ev.currentTarget.dataset.itemId;
