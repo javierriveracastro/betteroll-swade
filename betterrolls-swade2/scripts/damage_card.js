@@ -230,8 +230,12 @@ async function roll_soak(message, use_bennie) {
     if (use_bennie) {
         await spend_bennie(actor);
     }
-    const undo_wound_modifier = Math.min(actor.data.data.wounds.value, 3) -
+    let undo_wound_modifier = Math.min(actor.data.data.wounds.value, 3) -
         render_data.undo_values.wounds;
+    const ignored_wounds = parseInt(actor.data.data.wounds.ignored);
+    if (ignored_wounds) {
+        undo_wound_modifier = Math.max(0, undo_wound_modifier -ignored_wounds)
+    }
     const roll = await roll_trait(message,
         actor.data.data.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers:[
