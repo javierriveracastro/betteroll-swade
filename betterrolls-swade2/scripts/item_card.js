@@ -344,7 +344,7 @@ export function make_item_footer(item) {
         for (let armor_location in item.data.data.locations) {
             if (item.data.data.locations.hasOwnProperty(armor_location) &&
                     item.data.data.locations[armor_location]) {
-                locations += armor_location;
+                locations += armor_location + " ";
             }
         }
         footer.push(locations)
