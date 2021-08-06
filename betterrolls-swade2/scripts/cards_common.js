@@ -1112,6 +1112,7 @@ export function create_modifier(label, expression) {
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros) {
+    let updates = {}
     // noinspection JSUnresolvedVariable
     if (action.skillMod) {
         let modifier = create_modifier(action.name, action.skillMod)
@@ -1127,9 +1128,7 @@ export function process_common_actions(action, extra_data, macros) {
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
-        let new_state = {};
-        new_state[`data.status.is${action.self_add_status}`] = true
-        actor.update(new_state)
+        updates[`data.status.is${action.self_add_status}`] = true
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
@@ -1137,4 +1136,5 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
     }
+    return updates
 }

@@ -625,7 +625,10 @@ export async function roll_item(message, html, expend_bennie,
             if (action.rof) {
                 extra_data.rof = action.rof;
             }
-            process_common_actions(action, extra_data, macros, pinned_actions)
+            let updates = process_common_actions(action, extra_data, macros, pinned_actions)
+            if (updates){
+                actor.update(updates)
+            }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }

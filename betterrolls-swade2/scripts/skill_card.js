@@ -206,7 +206,10 @@ export async function roll_skill(message, html, expend_bennie){
             // noinspection JSUnresolvedVariable
             let action;
             action = get_global_action_from_name(element.dataset.action_id);
-            process_common_actions(action, extra_data, macros, pinned_actions)
+            let updates = process_common_actions(action, extra_data, macros, pinned_actions)
+            if (updates) {
+                actor.update(updates)
+            }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
