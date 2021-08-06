@@ -1187,6 +1187,7 @@ async function manual_pp(actor, item) {
                     let number = Number(html.find("#num")[0].value);
                     let newPP = ppv + number
                     if (newPP > ppm) {
+                        newPP = ppm;
                         // noinspection JSIgnoredPromiseFromCall
                         if (arcaneDevice === true) {
                             const updates = [
