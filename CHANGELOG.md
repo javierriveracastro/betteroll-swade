@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.42 aka they say that finding bug is good...
+* Bug: Rolls don't break anymore when bt can't find a origin token
+* Bug: Solved a overflowing in manual pp management (SalieriC)
+* Bug: Don't break if for some reason we try to calculata gang up with no tokens
+* Bug: Actions can now again set conditions (Wild Attack is working again)
+
 ## Version 2.41 aka killing lots of lovely animals.
 * Bug: Macros now run on skill actions.
 * Bug: Removed old uses os skill_from_string that makes arcane skills fail to roll
