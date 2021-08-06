@@ -1,66 +1,77 @@
 {
-	"name": "betterrolls-swade2",
-	"title": "Better Rolls 2 for Savage Worlds",
-	"description": "A module to make rolling in SWADE easier for experienced players",
-	"minimumCoreVersion": "0.7.4",
-	"compatibleCoreVersion": "0.8.8",
-	"version": "2.42",
-	"author": "Javier Rivera",
-	"languages": [
-		{
-			"lang": "en",
-			"name": "English",
-			"path": "lang/en.json"
-		},
-		{
-			"lang": "es",
-			"name": "Español",
-			"path": "lang/es.json"
-		},
-		{
-			"lang": "ca",
-			"name": "Catalan",
-			"path": "lang/ca.json"
-		},
-		{
-			"lang": "de",
-			"name": "German",
-			"path": "lang/de.json"
-		},
-		{
-			"lang": "fr",
-			"name": "French",
-			"path": "lang/fr.json"
-		},
-		{
-			"lang": "it",
-			"name": "Italian",
-			"path": "lang/it.json"
-		}
-	],
-	"systems": ["swade"],
-	"esmodules": ["./scripts/brsw2-init.js"],
-	"scripts": ["./scripts/settings-extender.js"],
-	"styles": ["./css/brsw-styles.css"],
-	"packs": [],
-	"url": "https://github.com/javierriveracastro/betteroll-swade/tree/version_2",
-	"manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/betterrolls-swade2/module.json",
-	"download": "https://github.com/javierriveracastro/betteroll-swade/blob/version_2/betterrolls-swade2.zip?raw=true",
-	"manifestPlusVersion": "1.1.0",
-	"media": [
-	  {
-		"type": "screenshot",
-		"url": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/docs/Weapon_Card_Damage_v1-119.jpg"
-	  }
-	],
-	"conflicts": [
-	  {
-		"name": "swade-tools",
-		"type": "module"
-	  }
-	],
-	"dependencies": [
-	{
-	  "name": "settings-extender"
-	}]
+  "name": "betterrolls-swade2",
+  "title": "Better Rolls 2 for Savage Worlds",
+  "description": "A module to make rolling in SWADE easier for experienced players",
+  "minimumCoreVersion": "0.7.4",
+  "compatibleCoreVersion": "0.8.8",
+  "version": "2.42",
+  "author": "Javier Rivera",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json"
+    },
+    {
+      "lang": "ca",
+      "name": "Catalan",
+      "path": "lang/ca.json"
+    },
+    {
+      "lang": "de",
+      "name": "German",
+      "path": "lang/de.json"
+    },
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
+    },
+    {
+      "lang": "it",
+      "name": "Italian",
+      "path": "lang/it.json"
+    }
+  ],
+  "esmodules": [
+    "./scripts/brsw2-init.js"
+  ],
+  "scripts": [
+    "./scripts/settings-extender.js"
+  ],
+  "styles": [
+    "./css/brsw-styles.css"
+  ],
+  "packs": [],
+  "url": "https://github.com/javierriveracastro/betteroll-swade/tree/version_2",
+  "manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/betterrolls-swade2/module.json",
+  "download": "https://github.com/javierriveracastro/betteroll-swade/blob/version_2/betterrolls-swade2.zip?raw=true",
+  "manifestPlusVersion": "1.1.0",
+  "media": [
+    {
+      "type": "screenshot",
+      "url": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/docs/Weapon_Card_Damage_v1-119.jpg"
+    }
+  ],
+  "conflicts": [
+    {
+      "name": "swade-tools",
+      "type": "module"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "settings-extender",
+      "type": "module"
+    },
+    {
+      "name": "swade",
+      "type": "system"
+    }
+  ]
 }
