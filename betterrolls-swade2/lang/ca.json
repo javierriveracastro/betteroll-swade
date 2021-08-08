@@ -192,5 +192,12 @@
     "BRSW.ItemActions": "Accions d'objecte",
     "BRSW.NoGroup": "Sense grup",
     "BRSW.HideWeaponActions": "Amaga les accions d'arma",
-    "BRSW.HideWeaponActionsHint": "Mostra només les accions globals a la carta, no pas les d'armes"
+    "BRSW.HideWeaponActionsHint": "Mostra només les accions globals a la carta, no pas les d'armes",
+    "BRSW.Illumination": "Il·luminació",
+    "BRSW.Gangup": "Múltiples adversaris",
+    "BRSW.ApShort": "PA",
+    "BRSW.EdgeName-Frenzy": "Frenesí",
+    "BRSW.IlluminationDark": "Fosc",
+    "BRSW.IlluminationDim": "Feble",
+    "BRSW.IlluminationPitch": "Foscor total"
 }
