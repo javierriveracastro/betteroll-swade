@@ -258,6 +258,9 @@ export class WorldGlobalActions extends FormApplication {
         })
         // Activate json check on old actions
         $('.brsw-action-json').on('blur', this.check_json)
+        // Export and import
+        $('.brsw-export-json').on('click', export_global_actions)
+        $('.brsw-import-json').on('click', import_global_actions)
         super.activateListeners(html);
     }
     
@@ -336,4 +339,48 @@ export function create_actions_array(action_groups,item, actor) {
             });
     });
     return action_groups
+}
+
+/**
+ * Exports custom global actions to a json file.
+ */
+function export_global_actions() {
+    let actions = game.settings.get('betterrolls-swade2',
+            'world_global_actions');
+    saveDataToFile(JSON.stringify(actions), 'json', "world_actions.json")
+}
+
+/**
+ * Import global actions from disk
+ * @return {Promise<void>}
+ */
+async function import_global_actions() {
+    new Dialog({
+      title: `Import Data: ${this.name}`,
+      content: await renderTemplate("templates/apps/import-data.html",
+          {
+            hint1: 'hint1',
+            hint2: 'hint2'}),
+      buttons: {
+        import: {
+          icon: '<i class="fas fa-file-import"></i>',
+          label: "Import",
+          callback: html => {
+            const form = html.find("form")[0];
+            if ( !form.data.files.length ) return ui.notifications.error("You did not upload a data file!");
+            readTextFromFile(form.data.files[0]).then((json) => {
+                game.settings.set('betterrolls-swade2', "world_global_actions", JSON.parse(json))
+                window.location.reload()
+            });
+          }
+        },
+        no: {
+          icon: '<i class="fas fa-times"></i>',
+          label: "Cancel"
+        }
+      },
+      default: "import"
+    }, {
+      width: 400
+    }).render(true);
 }

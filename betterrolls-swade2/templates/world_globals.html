@@ -11,5 +11,9 @@
             </div>
         {{/each}}
     </div>
-    <button type="submit"><i class="fas fa-save"></i>{{localize "BRSW.Save"}}</button>
+    <div class="form-group">
+        <button type="submit"><i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
+        <button class="brsw-export-json"><i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>
+        <button class="brsw-import-json"><i class="fas fa-file-import"></i> {{ localize "BRSW.Import" }}</button>
+    </div>
 </form>

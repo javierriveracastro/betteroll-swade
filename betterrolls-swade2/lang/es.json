@@ -197,5 +197,7 @@
     "BRSW.IlluminationDark": "Oscuridad",
     "BRSW.IlluminationPitch": "Oscuridad total",
     "BRSW.Gangup": "Gangup",
-    "BRSW.ApShort": "PA"
+    "BRSW.ApShort": "PA",
+    "BRSW.Export": "Exportar a JSON",
+    "BRSW.Import": "Importar"
 }

@@ -198,5 +198,7 @@
     "BRSW.EdgeName-Frenzy": "Frenzy",
     "BRSW.IlluminationDim": "Dim",
     "BRSW.IlluminationDark": "Dark",
-    "BRSW.IlluminationPitch": "Pitch Dark"
+    "BRSW.IlluminationPitch": "Pitch Dark",
+    "BRSW.Export": "Export to json",
+    "BRSW.Import": "Import"
 }
