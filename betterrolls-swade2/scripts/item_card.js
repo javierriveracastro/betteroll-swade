@@ -1320,7 +1320,7 @@ async function manual_pp(actor, item) {
                             speaker: {
                                 alias: name
                             },
-                            content: `${name} recharges 5 Power Point(s) using Soul Drain and now has <b>${newPP}</b>.`
+                            content: game.i18n.format("BRSW.RechargePPSoulDrainText", {name: actor.name, newPP: newPP})
                         })
                         Hooks.call("BRSW-ManualPPManagement", actor, item);
                     }
