@@ -60,7 +60,6 @@ async function store_render_flag(message, render_object) {
  * @param {object} render_data Data to pass to the render template
  * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card
- * @return {Promise<ChatMessage>}
  */
 export async function create_common_card(origin, render_data, chat_type, template) {
     let actor;

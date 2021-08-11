@@ -38,12 +38,14 @@ const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
 const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 
 /**
-* Creates a chat card for an item
-*
-* @param {Token, SwadeActor} origin  The actor or token owning the attribute
-* @param {string} item_id The id of the item that we want to show
-* @param {boolean} collapse_actions True if the action selector should start collapsed
-* @return A promise for the ChatMessage object
+ * Creates a chat card for an item
+ *
+ * @param {Token, SwadeActor} origin  The actor or token owning the attribute
+ * @param {string} item_id The id of the item that we want to show
+ * @param {boolean} collapse_actions True if the action selector should start collapsed
+ * @property {Object} item.data.data.actions.additional Aditional ations.
+ * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
+ * @return A promise for the ChatMessage object
 */
 async function create_item_card(origin, item_id, collapse_actions) {
     let actor;
@@ -283,12 +285,12 @@ export function activate_item_card_listeners(message, html) {
     });
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
         pp_button.removeClass('brws-selected');
-        manual_pp(actor, item);
+        manual_pp(actor, item).error(console.error);
     });
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
            ev.currentTarget.dataset.damage,
-           `${actor.name} - ${item.name}`);
+           `${actor.name} - ${item.name}`).error(console.error);
    });
    html.find('.brsw-target-tough').click(ev => {
       edit_tougness(message, ev.currentTarget.dataset.index);
@@ -297,6 +299,7 @@ export function activate_item_card_listeners(message, html) {
        add_damage_dice(message, ev.currentTarget.dataset.index);
    })
     html.find('.brsw-half-damage').click(ev => {
+        // noinspection JSIgnoredPromiseFromCall
         half_damage(message, ev.currentTarget.dataset.index);
     })
 }
@@ -362,6 +365,10 @@ export function make_item_footer(item) {
 /**
  * Guess the skill/attribute that should be rolled for an item
  * @param {Item} item The item.
+ * @param {string} item.data.data.arcane
+ * @param {Object} item.data
+ * @param {Object} item.data.data.actions
+ * @param {string} item.data.data.range
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
@@ -405,6 +412,8 @@ export function get_item_trait(item, actor) {
 /**
  * Get an skill or attribute from an actor and the skill name
  * @param {SwadeActor} actor Where search for the skill
+ * @param {Object} actor.data
+ * @param {Array} actor.items
  * @param {string} trait_name
  */
 function trait_from_string(actor, trait_name) {
@@ -477,7 +486,8 @@ async function discount_ammo(item, rof, shot_override) {
 /**
  * Discount pps from an actor (c) Javier or Arcane Device (c) Salieri
  *
- * @param {SwadeActor }actor
+ * @param {SwadeActor} actor
+ * @param {function} actor.update
  * @param item
  * @param {Roll[]} rolls
  */
@@ -1026,6 +1036,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
 /**
  * Add a d6 to a damage roll
  * @param {ChatMessage} message
+ * @param {function} message.getFlag
  * @param {int} index
  */
 function add_damage_dice(message, index) {
@@ -1062,8 +1073,8 @@ function add_damage_dice(message, index) {
         if (message.data.whisper.length > 0) {
             users = message.data.whisper;
         }
-        // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(roll, game.user, true, users);
+        // noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
+        game.dice3d.showForRoll(roll, game.user, true, users)
     }
     // noinspection JSIgnoredPromiseFromCall
     update_message(message, actor, render_data)
@@ -1073,6 +1084,7 @@ function add_damage_dice(message, index) {
 /**
  * Change a damage to half
  * @param {ChatMessage} message
+ * @param {function} message.getFlag
  * @param {number} index
  */
 async function half_damage(message, index){
@@ -1094,6 +1106,7 @@ async function half_damage(message, index){
  * Changes the damage target of one of the rolls.
  *
  * @param {ChatMessage} message
+ * @param {function} message.getFlag
  * @param {int} index:
  */
 function edit_tougness(message, index) {
@@ -1115,6 +1128,8 @@ function edit_tougness(message, index) {
 /**
  * Function to manually manage power points (c) SalieriC
  * @param {SwadeActor} actor
+ * @param {function} actor.update
+ * @param {Item} item
  */
 async function manual_pp(actor, item) {
     // noinspection JSUnresolvedVariable
