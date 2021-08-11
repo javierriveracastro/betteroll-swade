@@ -179,7 +179,7 @@
     "BRSW.ApShort": "AP",
     "BRSW.Default_rate_of_fire_hint": "Wähle die Feuerrate die als Standardwert auf Waffenkarten verwendet wird",
     "BRSW.Single_shot": "Einzelschuss",
-    "BRSW.Max_rate_of_fire": "Feuerrate der Waffe",
+    "BRSW.Max_rate_of_fire": "Feuerrate (Waffe)",
     "BRSW.LightCover": "Leichte Deckung",
     "BRSW.Cover": "Deckung",
     "BRSW.MediumCover": "Mittlere Deckung",
