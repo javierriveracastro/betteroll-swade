@@ -33,7 +33,7 @@ const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'élémentalisme', 'elementalisme', 'druidisme', 'magie solaire',
     'weird science', 'voidomancy'];
 const UNTRAINED_SKILLS = ["untrained", "untrainiert", "desentrenada",
-    "non entraine", "non entrainé"];
+    "non entraine", "non entrainé", "unskilled", "unskilled attempt"];
 
 const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
 
@@ -394,7 +394,8 @@ export function get_item_trait(item, actor) {
         }
     }
     if (skill === undefined) {
-        skill = check_skill_in_actor(actor, UNTRAINED_SKILLS);
+        skill = check_skill_in_actor(actor, UNTRAINED_SKILLS) ||
+            check_skill_in_actor(actor, game.i18n.localize("BRSW.SkillName-untrained"));
     }
     return skill;
 }

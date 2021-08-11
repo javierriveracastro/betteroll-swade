@@ -199,5 +199,6 @@
     "BRSW.Gangup": "Gangup",
     "BRSW.ApShort": "PA",
     "BRSW.Export": "Exportar a JSON",
-    "BRSW.Import": "Importar"
+    "BRSW.Import": "Importar",
+    "BRSW.SkillName-untrained": "sin entrenar"
 }
