@@ -518,7 +518,7 @@ async function discount_pp(actor, item, rolls) {
             { _id: item.id, "data.additionalStats.devicePP.value": `${final_pp}` },
           ];
           // Updating the Arcane Device:
-          actor.updateOwnedItem(updates);
+          await actor.updateOwnedItem(updates);
     }
     else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)
     && actor.data.data.powerPoints[item.data.data.arcane].max) {
@@ -554,12 +554,13 @@ export function run_macros(macros, actor_param, item_param, message_param) {
                 const speaker = ChatMessage.getSpeaker();
                 const token = canvas.tokens.get(speaker.token);
                 const character = game.user.character;
+                const targets = game.user.targets;
                 const message = message_param;
                 // Attempt script execution
                 const body = `(async () => {${real_macro.data.command}})()`;
-                const fn = Function("speaker", "actor", "token", "character", "item", "message", body);
+                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body);
                 try {
-                  fn.call(this, speaker, actor, token, character, item, message);
+                  fn.call(this, speaker, actor, token, character, item, message, targets);
                 } catch (err) {
                   ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
                   console.error(err);
