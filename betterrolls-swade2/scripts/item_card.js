@@ -20,6 +20,7 @@ import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
+import SwadeMeasuredTemplate from "/systems/swade/module/documents/SwadeMeasuredTemplate.js";
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -108,7 +109,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: action_groups, used_shots: 0,
-            actions_collapsed: collapse_actions},
+            actions_collapsed: collapse_actions,
+            swade_templates: get_template_from_description(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
@@ -302,6 +304,30 @@ export function activate_item_card_listeners(message, html) {
         // noinspection JSIgnoredPromiseFromCall
         half_damage(message, ev.currentTarget.dataset.index);
     })
+    html.find('.brsw-template-button').on('click', ev => {
+                let templateData = {
+            user: game.user.id,
+            distance: 0,
+            direction: 0,
+            x: 0,
+            y: 0,
+            fillColor: game.user.data.color,
+        };
+        const type = ev.currentTarget.dataset.size
+        if (type === 'cone') {
+            templateData.t = 'cone'
+            templateData.distance = 9
+        } else {
+            templateData.t = 'circle'
+            templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
+        }
+        // Adjust to grid distance
+        templateData.distance *= canvas.grid.grid.options.dimensions.distance
+        const template_base = new CONFIG.MeasuredTemplate.documentClass(
+            templateData, { parent: canvas.scene });
+        let template = new SwadeMeasuredTemplate(template_base)
+        template.drawPreview(ev)
+    })
 }
 
 
@@ -444,6 +470,7 @@ function trait_from_string(actor, trait_name) {
 /**
  * Check if an actor has a skill in a list
  * @param {SwadeActor} actor
+ * @param {Object} actor.items
  * @param {[string]} possible_skills List of skills to check
  * @return {Item} found skill or undefined
  */
@@ -1345,4 +1372,33 @@ async function manual_pp(actor, item) {
             }
         }
     }).render(true)
+}
+
+/**
+ * Get's a template name from an item description
+ * @param {Item} item
+ */
+function get_template_from_description(item){
+    const TEMPLATE_KEYS = {
+        cone: ['BRSW.Cone', 'cone'],
+        sbt: ['BRSW.SmallTemplate', 'sbt', 'small blast'],
+        mbt: ['BRSW.MediumTemplate', 'mbt', 'medium blast'],
+        lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast']
+    }
+    if (item.type !== 'weapon' && item.type !== "power") return;
+    let templates_found = []
+    for (let template_key in TEMPLATE_KEYS) {
+        for (let key_text of TEMPLATE_KEYS[template_key]) {
+            let translated_key_text = key_text
+            if (key_text.slice(0,4) === 'BRSW') {
+                translated_key_text = game.i18n.localize(key_text)
+            }
+            if (item.data.data.description.toLowerCase().includes(translated_key_text) ||
+                    item.data.data.range.toLowerCase().includes(translated_key_text)) {
+                templates_found.push(template_key)
+                break
+            }
+        }
+    }
+    return templates_found
 }

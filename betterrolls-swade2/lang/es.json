@@ -200,5 +200,9 @@
     "BRSW.ApShort": "PA",
     "BRSW.Export": "Exportar a JSON",
     "BRSW.Import": "Importar",
-    "BRSW.SkillName-untrained": "sin entrenar"
+    "BRSW.SkillName-untrained": "sin entrenar",
+    "BRSW.Cone": "plantilla de cono",
+    "BRSW.SmallTemplate": "plantilla de área pequeña",
+    "BRSW.MediumTemplate": "plantilla de área mediana",
+    "BRSW.LargeTemplate": "plantilla de área grande"
 }

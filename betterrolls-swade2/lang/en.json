@@ -202,5 +202,9 @@
     "BRSW.IlluminationPitch": "Pitch Dark",
     "BRSW.Export": "Export to json",
     "BRSW.Import": "Import",
-    "BRSW.SkillName-untrained": "unskilled attempt"
+    "BRSW.SkillName-untrained": "unskilled attempt",
+    "BRSW.Cone": "cone template",
+    "BRSW.SmallTemplate": "small blast template",
+    "BRSW.MediumTemplate": "medium blast template",
+    "BRSW.LargeTemplate": "large blast template"
 }

@@ -38,6 +38,13 @@
         {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
     {{/if}}
 {{/if}}
+{{# if swade_templates }}
+    <div class="brsw-form brsw-button-row brsw-form-options">
+        {{# each swade_templates }}
+            <button class="brsw-template-button" data-size="{{ this }}"><i class="fas fa-ruler-combined"></i> {{ this }}</button>
+        {{/each}}
+    </div>
+{{/if}}
 {{# if damage }}
     <hr>
     <div class="brsw-form brsw-button-row brsw-form-options">
