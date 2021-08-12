@@ -103,7 +103,7 @@
     "BRSW.Default_rate_of_fire_hint": "Escolha a cadência de tiros padrão dos cartões de armas",
     "BRSW.Single_shot": "Tiro único",
     "BRSW.Max_rate_of_fire": "Valor da CdT da arma",
-    "BRSW.ExpendedAmmo": "<p>A/o {item_name} efetuou {ammo_spent} disparos . Faltam ainda {final_ammo} tiros</p>",
+    "BRSW.ExpendedAmmo": "<p>{item_name} efetuou {ammo_spent} disparo(s). Faltam ainda {final_ammo} tiro(s)</p>",
     "BRSW.LightCover": "Cobertura leve",
     "BRSW.Cover": "Cobertura",
     "BRSW.MediumCover": "Cobertura média",
