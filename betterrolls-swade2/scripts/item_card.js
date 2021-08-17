@@ -286,8 +286,9 @@ export function activate_item_card_listeners(message, html) {
         manual_ammo(item, actor);
     });
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
-        pp_button.removeClass('brws-selected');
-        manual_pp(actor, item).error(console.error);
+       pp_button.removeClass('brws-selected');
+       // noinspection JSIgnoredPromiseFromCall
+       manual_pp(actor, item);
     });
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
