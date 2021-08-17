@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.43 aka the importing and exporting.
+* Refactoring: Use new syntax for systems in module.json
+* Translations: Another batch of updated translations from the weblate team
+* Translations: Brazilian portuguese added as a supported language (Diogo Gomes)
+* Global actions: Added an option to export and import world actions.
+* Global actions: Targets are now passed to macros run from global actions
+* Refactoring: Better detection of the not trained skill
+* Refactoring: Remove lots of IDE warnings
+* Translation: Added missing translations string in manual pp management (SalieriC)
+* Cards: Cards now show a button to place templates when it detects an item that uses them
+* Health Bars: They now show whe not "used" wounds as transparent to make it useful to colorblinf people
+* Global actions: Added actions for unstable platform, marksman, alertness and Mr. Fix It (Bruno Calado)
+
 ## Version 2.42 aka they say that finding bug is good...
 * Bug: Rolls don't break anymore when bt can't find a origin token
 * Bug: Solved a overflowing in manual pp management (SalieriC)
