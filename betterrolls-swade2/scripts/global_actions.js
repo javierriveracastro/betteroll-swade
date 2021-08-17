@@ -35,8 +35,20 @@ const SYSTEM_GLOBAL_ACTION = [
         skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
     {id: "Dim", name: "Dim", button_name: "BRSW.IlluminationDim", skillMod: "-2", selector_type: "all", group: "BRSW.Illumination"},
     {id: "Dark", name: "Dark", button_name: "BRSW.IlluminationDark", skillMod: "-4", selector_type: "all", group: "BRSW.Illumination"},
-    {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-6", selector_type: "all", group: "BRSW.Illumination"}]
-
+    {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-6", selector_type: "all", group: "BRSW.Illumination"},
+    {id: "UNSTABLEPLATFORM", name: "Unstable Platform", button_name: "BRSW.UnstablePlatform", "skillMod": "-2", "or_selector":[
+        {"selector_type":"skill", "selector_value":"BRSW.Shooting"}, {"selector_type":"skill", "selector_value":"BRSW.ThrowingSkill"}],
+        "group": "BRSW.SituationalModifiers"},
+    {id:"MARKSMAN", name:"Marksman", button_name: "BRSW.EdgeName-Marksman", "skillMod": "+1", "and_selector":[
+        {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Marksman"},
+        {selector_type:"skill", selector_value:"BRSW.Shooting"}], group: "BRSW.Edges"},
+    {id:"ALERTNESS", name:"Alertness", button_name:"BRSW.EdgeName-Alertness", skillMod: "+2", and_selector:[
+        {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Alertness"},
+        {selector_type:"skill", selector_value:"BRSW.Notice"}], "defaultChecked":"on", "group": "BRSW.Edges"},
+    {id:"MRFIXIT", name:"Mr Fix It", button_name:"BRSW.EdgeName-MrFixIt", skillMod: "+2", and_selector:[
+        {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-MrFixIt"},
+        {selector_type:"skill", selector_value:"Repair"}], defaultChecked:"on", group: "BRSW.Edges"}
+]
 /**
  * Registers all the avaliable global actions
  */
@@ -102,9 +114,14 @@ function check_selector(type, value, item, actor){
     if (type === 'skill') {
         const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
         if (skill) {
-            selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
-                skill.name.toLowerCase().includes(
-                    game.i18n.localize("BRSW.SkillName-" + value));
+            if (value.slice(0, 4) === "BRSW.") {
+                selected = skill.name.toLowerCase().includes(
+                    game.i18n.localize(value).toLowerCase())
+            } else {
+                selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
+                    skill.name.toLowerCase().includes(
+                        game.i18n.localize("BRSW.SkillName-" + value));
+            }
         }
     } else if (type === "all") {
         selected = true;

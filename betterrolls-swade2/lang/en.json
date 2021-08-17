@@ -206,5 +206,11 @@
     "BRSW.Cone": "cone template",
     "BRSW.SmallTemplate": "small blast template",
     "BRSW.MediumTemplate": "medium blast template",
-    "BRSW.LargeTemplate": "large blast template"
+    "BRSW.LargeTemplate": "large blast template",
+    "BRSW.UnstablePlatform": "Unstable Platform",
+    "BRSW.EdgeName-Marksman": "Marksman",
+    "BRSW.EdgeName-Alertness": "Alertness",
+    "BRSW.EdgeName-MrFixIt": "Mr Fix It",
+    "BRSW.SkillName-Repair": "Repair",
+    "BRSW.SkillName-Notice": "Notice"
 }

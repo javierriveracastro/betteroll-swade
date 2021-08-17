@@ -204,5 +204,11 @@
     "BRSW.Cone": "plantilla de cono",
     "BRSW.SmallTemplate": "plantilla de área pequeña",
     "BRSW.MediumTemplate": "plantilla de área mediana",
-    "BRSW.LargeTemplate": "plantilla de área grande"
+    "BRSW.LargeTemplate": "plantilla de área grande",
+    "BRSW.UnstablePlatform": "Plataforma inestable",
+    "BRSW.EdgeName-Marksman": "Puntería",
+    "BRSW.EdgeName-Alertness": "Alerta",
+    "BRSW.EdgeName-MrFixIt": "Mr Arreglatodo",
+    "BRSW.SkillName-Repair": "Raparar",
+    "BRSW.SkillName-Notice": "Notar"
 }
