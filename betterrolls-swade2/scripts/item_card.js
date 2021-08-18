@@ -1386,6 +1386,7 @@ function get_template_from_description(item){
         mbt: ['BRSW.MediumTemplate', 'mbt', 'medium blast'],
         lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast']
     }
+    console.log(item)
     if (item.type !== 'weapon' && item.type !== "power") return;
     let templates_found = []
     for (let template_key in TEMPLATE_KEYS) {
@@ -1394,8 +1395,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data.description.toLowerCase().includes(translated_key_text) ||
-                    item.data.data.range.toLowerCase().includes(translated_key_text)) {
+            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) ||
+                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) {
                 templates_found.push(template_key)
                 break
             }
