@@ -3,7 +3,7 @@
   "title": "Better Rolls 2 for Savage Worlds",
   "description": "A module to make rolling in SWADE easier for experienced players",
   "minimumCoreVersion": "0.7.4",
-  "compatibleCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "0.8.9",
   "version": "2.43",
   "author": "Javier Rivera",
   "languages": [
