@@ -199,5 +199,19 @@
     "BRSW.ItemActions": "Gegenstandsaktionen",
     "BRSW.NoGroup": "Keine Gruppe",
     "BRSW.HideWeaponActions": "Verberge Waffenaktionen",
-    "BRSW.HideWeaponActionsHint": "Zeige nur globale Aktionen, verberge Waffenaktionen"
+    "BRSW.HideWeaponActionsHint": "Zeige nur globale Aktionen, verberge Waffenaktionen",
+    "BRSW.UnstablePlatform": "Unsicherer Grund",
+    "BRSW.EdgeName-Alertness": "Aufmerksamkeit",
+    "BRSW.EdgeName-MrFixIt": "Reparaturgenie",
+    "BRSW.SkillName-Repair": "Reparieren",
+    "BRSW.RechargePPSoulDrainText": "{name} setzt Seelenentzug ein, um 5 Machtpunkte zu regenerieren und hat nun <b>${newPP}</b> MP.",
+    "BRSW.SkillName-untrained": "Ungeübt",
+    "BRSW.EdgeName-Marksman": "Meisterschütze",
+    "BRSW.SkillName-Notice": "Wahrnehmung",
+    "BRSW.Export": "JSON-Export",
+    "BRSW.Import": "Importieren",
+    "BRSW.Cone": "Kegelschablone",
+    "BRSW.SmallTemplate": "kleine Flächenschablone",
+    "BRSW.MediumTemplate": "MIttlere Flächenschablone",
+    "BRSW.LargeTemplate": "Große Flächenschablone"
 }
