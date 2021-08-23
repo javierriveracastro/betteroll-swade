@@ -284,7 +284,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     } else if (is_shooting_skill(skill) || is_throwing_skill(skill)) {
         const grid_unit = canvas.grid.grid.options.dimensions.distance
         let distance = canvas.grid.measureDistance(
-            origin_token, target_token, {gridSpaces: true})
+            origin_token, target_token);
         if (distance < grid_unit * 2) {
             use_parry_as_tn = true;
         } else if (item) {
@@ -381,59 +381,38 @@ function calculate_gangUp(attacker, target) {
     let enemies;
     let allies;
     let modifier = 0;
-    let withinRangeOfToken;
-    let alliedWithinRangeOfToken;
-    let alliedWithinRangeOfTargetAndAttacker;
-    let tokensWithoutActor;
-
+    let allies_within_range_of_target;
+    let enemies_within_range_of_target;
+    let enemies_within_range_both_attacker_target;
     if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
         // disposition -1 means NPC (hostile) is attacking PCs (friendly)
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
-        let attackerDisposition = attacker.data.disposition;
-        let defenderDisposition = attacker.data.disposition * -1;
-
-        tokensWithoutActor = canvas.tokens.placeables.filter(t =>
+        allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id
-            && t.actor == null
-            && withinRange(target, t, itemRange)
-        );
-
-        if (!attacker || !target) {
-            console.log("BetterRolls 2: Unable to calculate gangUp because some tokens do not have an actor", tokensWithoutActor, attacker, target)
-            return 0;
-        }
-
-        withinRangeOfToken = canvas.tokens.placeables.filter(t =>
-            t.id !== attacker.id
-            && t.data.disposition === attackerDisposition
-            && t.actor != null
-            && t.actor.data.data.status.isStunned === false
+            && t.data.disposition === attacker.data.disposition
+            && t?.actor.data.data.status.isStunned === false
             && t.visible
             && withinRange(target, t, itemRange)
             && !t.combatant?.data.defeated
         );
-        alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
+        enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
-            && t.data.disposition === defenderDisposition
-            && t.actor != null
-            && t.actor.data.data.status.isStunned === false
+            && t.data.disposition === attacker.data.disposition * -1
+            && t?.actor.data.data.status.isStunned === false
             && withinRange(target, t, itemRange)
             && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
-        alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
-            t.data.disposition === defenderDisposition
-            
-            && t.actor != null
-            && t.actor.data.data.status.isStunned === false
+        enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
+            t.data.disposition === attacker.data.disposition * -1
+            && t?.actor.data.data.status.isStunned === false
             && withinRange(attacker, t, itemRange)
             && !t.combatant?.data.defeated
         );
 
     }
-
-    enemies = withinRangeOfToken.length;
-    allies = alliedWithinRangeOfTargetAndAttacker.length;
+    enemies = allies_within_range_of_target.length;
+    allies = enemies_within_range_both_attacker_target.length;
     modifier = Math.max(0, (enemies - allies));
     return Math.min(4, modifier);
 }
@@ -442,7 +421,7 @@ function calculate_gangUp(attacker, target) {
 function withinRange(origin, target, range) {
     const ray = new Ray(origin, target);
     const grid_unit = canvas.grid.grid.options.dimensions.distance
-    let distance = canvas.grid.measureDistances([{ ray }], { gridSpaces: true })[0];
+    let distance = canvas.grid.measureDistances([{ ray }], {gridSpaces: true})[0];
     distance = distance / grid_unit
     return range >= distance;
 }
