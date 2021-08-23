@@ -384,11 +384,29 @@ function calculate_gangUp(attacker, target) {
     let withinRangeOfToken;
     let alliedWithinRangeOfToken;
     let alliedWithinRangeOfTargetAndAttacker;
+    let tokensWithoutActor;
 
-    if (attacker.data.disposition === -1) { // NPC (hostile) is attacking PCs (friendly)
+    if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
+        // disposition -1 means NPC (hostile) is attacking PCs (friendly)
+        // disposition 1 PCs (friendly) is attacking NPC (hostile)
+        let attackerDisposition = attacker.data.disposition;
+        let defenderDisposition = attacker.data.disposition * -1;
+
+        tokensWithoutActor = canvas.tokens.placeables.filter(t =>
+            t.id !== attacker.id
+            && t.actor == null
+            && withinRange(target, t, itemRange)
+        );
+
+        if (!attacker || !target) {
+            console.log("BetterRolls 2: Unable to calculate gangUp because some tokens do not have an actor", tokensWithoutActor, attacker, target)
+            return 0;
+        }
+
         withinRangeOfToken = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id
-            && t.data.disposition === -1
+            && t.data.disposition === attackerDisposition
+            && t.actor != null
             && t.actor.data.data.status.isStunned === false
             && t.visible
             && withinRange(target, t, itemRange)
@@ -396,41 +414,22 @@ function calculate_gangUp(attacker, target) {
         );
         alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
-            && t.data.disposition === 1
+            && t.data.disposition === defenderDisposition
+            && t.actor != null
             && t.actor.data.data.status.isStunned === false
             && withinRange(target, t, itemRange)
             && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
-            t.data.disposition === 1
+            t.data.disposition === defenderDisposition
+            
+            && t.actor != null
             && t.actor.data.data.status.isStunned === false
             && withinRange(attacker, t, itemRange)
             && !t.combatant?.data.defeated
         );
-    } else if (attacker.data.disposition === 1) { // PCs (friendly) is attacking NPC (hostile)
-        withinRangeOfToken = canvas.tokens.placeables.filter(t =>
-            t.id !== attacker.id
-            && t.data.disposition === 1
-            && t.actor.data.data.status.isStunned === false
-            && t.visible
-            && withinRange(target, t, itemRange)
-            && !t.combatant?.data.defeated
-        );
-        alliedWithinRangeOfToken = canvas.tokens.placeables.filter(t =>
-            t.id !== target.id
-            && t.data.disposition === -1
-            && t.actor.data.data.status.isStunned === false
-            && withinRange(target, t, itemRange)
-            && !t.combatant?.data.defeated
-        );
-        //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
-        alliedWithinRangeOfTargetAndAttacker = alliedWithinRangeOfToken.filter(t =>
-            t.data.disposition === -1
-            && t.actor.data.data.status.isStunned === false
-            && withinRange(attacker, t, itemRange)
-            && !t.combatant?.data.defeated
-        );
+
     }
 
     enemies = withinRangeOfToken.length;
