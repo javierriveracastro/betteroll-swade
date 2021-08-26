@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.44 aka Bugs...
+* Bug: Item cards with null description don't break better rolls now (TheLaslo)
+* Bug: Gangup calculation is more resilient, it specifically doesn't crash when there is no actor.
+* Bug: Disable template functions for old version of swade system, so br can still work with 0.7.10
+
 ## Version 2.43 aka the importing and exporting.
 * Refactoring: Use new syntax for systems in module.json
 * Translations: Another batch of updated translations from the weblate team
