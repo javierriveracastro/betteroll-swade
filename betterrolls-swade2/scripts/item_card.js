@@ -20,7 +20,10 @@ import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
-import SwadeMeasuredTemplate from "/systems/swade/module/documents/SwadeMeasuredTemplate.js";
+let TEMPLATE_CLASS = undefined;
+import("/systems/swade/module/documents/SwadeMeasuredTemplate.js").then((result) => {
+    TEMPLATE_CLASS = result;
+}).catch(() => {TEMPLATE_CLASS = null})
 
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
@@ -306,7 +309,7 @@ export function activate_item_card_listeners(message, html) {
         half_damage(message, ev.currentTarget.dataset.index);
     })
     html.find('.brsw-template-button').on('click', ev => {
-                let templateData = {
+        let templateData = {
             user: game.user.id,
             distance: 0,
             direction: 0,
@@ -326,7 +329,8 @@ export function activate_item_card_listeners(message, html) {
         templateData.distance *= canvas.grid.grid.options.dimensions.distance
         const template_base = new CONFIG.MeasuredTemplate.documentClass(
             templateData, { parent: canvas.scene });
-        let template = new SwadeMeasuredTemplate(template_base)
+        console.log(TEMPLATE_CLASS)
+        let template = new TEMPLATE_CLASS.default(template_base)
         template.drawPreview(ev)
     })
 }
@@ -1380,13 +1384,13 @@ async function manual_pp(actor, item) {
  * @param {Item} item
  */
 function get_template_from_description(item){
+    if (!TEMPLATE_CLASS) {return };
     const TEMPLATE_KEYS = {
         cone: ['BRSW.Cone', 'cone'],
         sbt: ['BRSW.SmallTemplate', 'sbt', 'small blast'],
         mbt: ['BRSW.MediumTemplate', 'mbt', 'medium blast'],
         lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast']
     }
-    console.log(item)
     if (item.type !== 'weapon' && item.type !== "power") return;
     let templates_found = []
     for (let template_key in TEMPLATE_KEYS) {
