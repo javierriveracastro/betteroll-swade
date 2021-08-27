@@ -390,7 +390,7 @@ function calculate_gangUp(attacker, target) {
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id
             && t.data.disposition === attacker.data.disposition
-            && t?.actor.data.data.status.isStunned === false
+            && t?.actor?.data.data.status.isStunned === false
             && t.visible
             && withinRange(target, t, itemRange)
             && !t.combatant?.data.defeated
@@ -398,14 +398,14 @@ function calculate_gangUp(attacker, target) {
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
             && t.data.disposition === attacker.data.disposition * -1
-            && t?.actor.data.data.status.isStunned === false
+            && t?.actor?.data.data.status.isStunned === false
             && withinRange(target, t, itemRange)
             && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
             t.data.disposition === attacker.data.disposition * -1
-            && t?.actor.data.data.status.isStunned === false
+            && t?.actor?.data.data.status.isStunned === false
             && withinRange(attacker, t, itemRange)
             && !t.combatant?.data.defeated
         );
