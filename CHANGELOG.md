@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.45 aka More, and more, and more bugs... 
+* Bug: More fixes to gangup calculation for tokens without actor
+* Bug: sel_add_status accepted in custom actions.
+
 ## Version 2.44 aka Bugs...
 * Bug: Item cards with null description don't break better rolls now (TheLaslo)
 * Bug: Gangup calculation is more resilient, it specifically doesn't crash when there is no actor.
