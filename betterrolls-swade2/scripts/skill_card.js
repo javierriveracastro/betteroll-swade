@@ -377,14 +377,13 @@ function calculate_gangUp(attacker, target) {
         return 0;
     }
     if (attacker.data.disposition === target.data.disposition) return 0;
-    let itemRange = 1; // dist 1''
-    let enemies;
-    let allies;
-    let modifier = 0;
-    let allies_within_range_of_target;
-    let enemies_within_range_of_target;
-    let enemies_within_range_both_attacker_target;
+    let enemies = 0;
+    let allies = 0;
     if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
+        const ITEM_RANGE = 1; // dist 1''
+        let allies_within_range_of_target;
+        let enemies_within_range_of_target;
+        let enemies_within_range_both_attacker_target;
         // disposition -1 means NPC (hostile) is attacking PCs (friendly)
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
@@ -392,28 +391,27 @@ function calculate_gangUp(attacker, target) {
             && t.data.disposition === attacker.data.disposition
             && t?.actor?.data.data.status.isStunned === false
             && t.visible
-            && withinRange(target, t, itemRange)
+            && withinRange(target, t, ITEM_RANGE)
             && !t.combatant?.data.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id
             && t.data.disposition === attacker.data.disposition * -1
             && t?.actor?.data.data.status.isStunned === false
-            && withinRange(target, t, itemRange)
+            && withinRange(target, t, ITEM_RANGE)
             && !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
             t.data.disposition === attacker.data.disposition * -1
             && t?.actor?.data.data.status.isStunned === false
-            && withinRange(attacker, t, itemRange)
+            && withinRange(attacker, t, ITEM_RANGE)
             && !t.combatant?.data.defeated
         );
-
+        enemies = allies_within_range_of_target.length;
+        allies = enemies_within_range_both_attacker_target.length;
     }
-    enemies = allies_within_range_of_target.length;
-    allies = enemies_within_range_both_attacker_target.length;
-    modifier = Math.max(0, (enemies - allies));
+    let modifier = Math.max(0, (enemies - allies));
     return Math.min(4, modifier);
 }
 
