@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.46 aka yes, it did happen again
+* Bug: Incredible enough, even more fixes to gangup calculation.
+
 ## Version 2.45 aka More, and more, and more bugs... 
 * Bug: More fixes to gangup calculation for tokens without actor
 * Bug: sel_add_status accepted in custom actions.
