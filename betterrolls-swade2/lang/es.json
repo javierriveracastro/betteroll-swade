@@ -143,7 +143,7 @@
     "BRSW.Blinded": "Ceguera",
     "BRSW.Brain": "Daño cerebral",
     "BRSW.AmmountPP": "Nombre de punts de poder",
-    "BRSW.SoulDrain": "Soul Drain",
+    "BRSW.SoulDrain": "Drenaje de alma",
     "BRSW.OptionalRules": "Reglas opcionales",
     "BRSW.OR.GrittyDamage": "Daño descarnado",
     "BRSW.OptionalRulesLabel": "Elige reglas opcionales",
@@ -209,6 +209,8 @@
     "BRSW.EdgeName-Marksman": "Puntería",
     "BRSW.EdgeName-Alertness": "Alerta",
     "BRSW.EdgeName-MrFixIt": "Mr Arreglatodo",
-    "BRSW.SkillName-Repair": "Raparar",
-    "BRSW.SkillName-Notice": "Notar"
+    "BRSW.SkillName-Repair": "Reparar",
+    "BRSW.SkillName-Notice": "Notar",
+    "BRSW.RechargePPSoulDrainText": "{name} recuperas 5 puntos de poder usando Drenaje de alma y ahora tienes <b>${newPP}</b>.",
+    "BRSW.EdgeName-Frenzy": "Frenesí"
 }
