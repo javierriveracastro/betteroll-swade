@@ -831,7 +831,7 @@ export function get_item_from_message(message, actor) {
  * @param {SwadeActor} acting_actor
  * @param {Token} target
  */
-function get_tougness_targeted_selected(acting_actor, target=undefined) {
+ function get_tougness_targeted_selected(acting_actor, target=undefined) {
     let objetive = target ? target : get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -844,12 +844,21 @@ function get_tougness_targeted_selected(acting_actor, target=undefined) {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive) {
+        if (objetive.actor.data.type != "vehicle"){
         defense_values.toughness = parseInt(
               objetive.actor.data.data.stats.toughness.value);
         defense_values.armor = parseInt(
               objetive.actor.data.data.stats.toughness.armor);
         defense_values.name = objetive.name;
         defense_values.token_id = objetive.id;
+        } else {
+                   defense_values.toughness = parseInt(
+              objetive.actor.data.data.toughness.total);
+        defense_values.armor = parseInt(
+              objetive.actor.data.data.toughness.armor);
+        defense_values.name = objetive.name;
+        defense_values.token_id = objetive.id; 
+        }
     }
     return defense_values
 }

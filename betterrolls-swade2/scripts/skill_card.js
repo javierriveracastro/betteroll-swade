@@ -321,12 +321,37 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     // Size modifiers
     if (origin_token && target_token) {
         const origin_scale_mod = sizeToScale(origin_token.actor.data.data.stats.size);
-        const target_scale_mod = sizeToScale(target_token.actor.data.data.stats.size);
+        let target_scale_mod;
+        if (target_token.actor.data.type !== "vehicle"){
+            target_scale_mod = sizeToScale(target_token.actor.data.data.stats.size);
+        } else {
+            target_scale_mod = sizeToScale(target_token.actor.data.data.size);
+        }
         if (origin_scale_mod !== target_scale_mod) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
         }
     }
+    //
+
+
+     // Size modifiers2
+     console.log(target_token.actor.data.type);
+    if (origin_token && target_token) {
+        const origin_scale_mod = sizeToScale(origin_token.actor.data.data.stats.size);
+        let target_scale_mod;
+        if (target_token.actor.data.type !== "vehicle"){
+        target_scale_mod = sizeToScale(target_token.actor.data.data.stats.size);
+        } else {
+        target_scale_mod = sizeToScale(target_token.actor.data.data.size);
+        }
+        
+        if (origin_scale_mod !== target_scale_mod) {
+            tn.modifiers.push(create_modifier(
+                game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
+        }
+    }
+
     // noinspection JSUnresolvedVariable
     if (target_token.actor.data.data.status.isVulnerable ||
             target_token.actor.data.data.status.isStunned) {
