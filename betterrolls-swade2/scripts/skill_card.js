@@ -311,17 +311,37 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         }
     }
     if (use_parry_as_tn) {
-        tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
-        tn.value = parseInt(target_token.actor.data.data.stats.parry.value);
-        const parry_mod = parseInt(target_token.actor.data.data.stats.parry.modifier);
-        if (parry_mod) {
-            tn.value += parry_mod;
+        if (target_token.actor.data.type !== "vehicle") {
+            tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
+            tn.value = parseInt(target_token.actor.data.data.stats.parry.value);
+            const parry_mod = parseInt(target_token.actor.data.data.stats.parry.modifier);
+            if (parry_mod) {
+                tn.value += parry_mod;
+            }
+        }
+        else {
+            tn.reason = `Veh - ${target_token.name}`;
+            //lookup the vehicle operator and get their maneuveringSkill
+            let operator_skill;
+            let target_operator_id = target_token.actor.data.data.driver.id.slice(6);
+            let target_operator = game.actors.get(target_operator_id);
+            let operatorItems = target_operator.data.items;
+            const maneuveringSkill = target_token.actor.data.data.driver.skill;
+            operatorItems.forEach((value, keys) => {
+                if (value.data.name === maneuveringSkill) {
+                  operator_skill = value.data.data.die.sides;
+                }
+            });
+            if (operator_skill == null) {
+            operator_skill = 0;
+            }
+            tn.value = operator_skill / 2 + 2 + target_token.actor.data.data.handling;
         }
     }
     // Size modifiers
     if (origin_token && target_token) {
-        const origin_scale_mod = sizeToScale(origin_token.actor.data.data.stats.size);
-        const target_scale_mod = sizeToScale(target_token.actor.data.data.stats.size);
+        const origin_scale_mod = sizeToScale(origin_token?.actor?.data?.data?.stats?.size || 1);
+        const target_scale_mod = sizeToScale(target_token?.actor?.data?.data?.stats?.size || 1);
         if (origin_scale_mod !== target_scale_mod) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
