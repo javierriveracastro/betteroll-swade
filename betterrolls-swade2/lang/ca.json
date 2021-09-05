@@ -199,5 +199,19 @@
     "BRSW.EdgeName-Frenzy": "Frenesí",
     "BRSW.IlluminationDark": "Fosc",
     "BRSW.IlluminationDim": "Feble",
-    "BRSW.IlluminationPitch": "Foscor total"
+    "BRSW.IlluminationPitch": "Foscor total",
+    "BRSW.UnstablePlatform": "Plataforma inestable",
+    "BRSW.EdgeName-Marksman": "punteria",
+    "BRSW.EdgeName-Alertness": "Alerta",
+    "BRSW.SkillName-Repair": "Reparar",
+    "BRSW.SkillName-Notice": "Notar",
+    "BRSW.EdgeName-MrFixIt": "Senyor Manetes",
+    "BRSW.Import": "Importar",
+    "BRSW.SkillName-untrained": "Intent amb habilitat sense entrenar",
+    "BRSW.Cone": "plantilla de cone",
+    "BRSW.MediumTemplate": "plantilla d'àrea mitjana",
+    "BRSW.LargeTemplate": "plantilla d'àrea gran",
+    "BRSW.RechargePPSoulDrainText": "{name} recupera 5 punts de poder emprant Drenatge d'ànima i ara tens <b>${newPP}</b>.",
+    "BRSW.Export": "Exportar a json",
+    "BRSW.SmallTemplate": "plantilla d'àrea petita"
 }

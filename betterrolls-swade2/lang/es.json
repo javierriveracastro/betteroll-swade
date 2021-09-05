@@ -130,6 +130,7 @@
     "BRSW.TheDrop": "Superioridad",
     "BRSW.CalledHead": "Disparo apuntado: Cabeza",
     "BRSW.RechargePPBennyTextHitMax": "{name} obtiene 5 Puntos de Poder usando un Beni y ahora esta al máximo de <b>{ppm}</b>.",
+    "BRSW.RechargePPSoulDrainText": "{name} gana 5 Puntos de Poder usando Drenaje de Puntos de Poder, ahora tiene <b>${newPP}</b>.",
     "BRSW.RollInjury": "Tirar por herida",
     "BRSW.Unmentionables": "Inmencionables",
     "BRSW.Arm": "Brazo",
@@ -143,7 +144,7 @@
     "BRSW.Blinded": "Ceguera",
     "BRSW.Brain": "Daño cerebral",
     "BRSW.AmmountPP": "Nombre de punts de poder",
-    "BRSW.SoulDrain": "Soul Drain",
+    "BRSW.SoulDrain": "Drenaje de alma",
     "BRSW.OptionalRules": "Reglas opcionales",
     "BRSW.OR.GrittyDamage": "Daño descarnado",
     "BRSW.OptionalRulesLabel": "Elige reglas opcionales",
@@ -198,6 +199,7 @@
     "BRSW.IlluminationPitch": "Oscuridad total",
     "BRSW.Gangup": "Gangup",
     "BRSW.ApShort": "PA",
+    "BRSW.EdgeName-Frenzy": "Frenesí",
     "BRSW.Export": "Exportar JSON",
     "BRSW.Import": "Importar",
     "BRSW.SkillName-untrained": "sin entrenar",
@@ -209,6 +211,8 @@
     "BRSW.EdgeName-Marksman": "Puntería",
     "BRSW.EdgeName-Alertness": "Alerta",
     "BRSW.EdgeName-MrFixIt": "Mr Arreglatodo",
-    "BRSW.SkillName-Repair": "Raparar",
-    "BRSW.SkillName-Notice": "Notar"
+    "BRSW.SkillName-Repair": "Reparar",
+    "BRSW.SkillName-Notice": "Notar",
+    "BRSW.RechargePPSoulDrainText": "{name} recuperas 5 puntos de poder usando Drenaje de alma y ahora tienes <b>${newPP}</b>.",
+    "BRSW.EdgeName-Frenzy": "Frenesí"
 }
