@@ -341,7 +341,8 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     // Size modifiers
     if (origin_token && target_token) {
         const origin_scale_mod = sizeToScale(origin_token?.actor?.data?.data?.stats?.size || 1);
-        const target_scale_mod = sizeToScale(target_token?.actor?.data?.data?.stats?.size || 1);
+        const target_scale_mod = sizeToScale(target_token?.actor?.data?.data?.size || // Vehicles
+            target_token?.actor?.data?.data?.stats?.size || 1); // actor or default
         if (origin_scale_mod !== target_scale_mod) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
