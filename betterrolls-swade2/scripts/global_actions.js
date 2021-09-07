@@ -47,7 +47,13 @@ const SYSTEM_GLOBAL_ACTION = [
         {selector_type:"skill", selector_value:"BRSW.Notice"}], "defaultChecked":"on", "group": "BRSW.Edges"},
     {id:"MRFIXIT", name:"Mr Fix It", button_name:"BRSW.EdgeName-MrFixIt", skillMod: "+2", and_selector:[
         {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-MrFixIt"},
-        {selector_type:"skill", selector_value:"Repair"}], defaultChecked:"on", group: "BRSW.Edges"}
+        {selector_type:"skill", selector_value:"Repair"}], defaultChecked:"on", group: "BRSW.Edges"},
+    {id: "UNARMEDDEFENDER", name: "Unarmed Defender", button_name: "BRSW.UnarmedDefender", skillMod: "+2",
+        selector_type: "skill", selector_value: "Fighting", group: "BRSW.SituationalModifiers"},
+    {id: "TOUCHATTACK", name: "Touch Attack", button_name: "BRSW.TouchAttack", skillMod: "+2", dmgOverride: "0", 
+        selector_type: "skill", selector_value: "Fighting", group: "BRSW.SituationalModifiers"},
+    {id: "NONLETHALDAMAGE", name: "Nonlethal Damage", button_name: "BRSW.NonlethalDamage", skillMod: "-1", 
+        selector_type: "skill", selector_value: "Fighting", group: "BRSW.SituationalModifiers"},
 ]
 /**
  * Registers all the avaliable global actions

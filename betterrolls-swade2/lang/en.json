@@ -212,5 +212,8 @@
     "BRSW.EdgeName-Alertness": "Alertness",
     "BRSW.EdgeName-MrFixIt": "Mr Fix It",
     "BRSW.SkillName-Repair": "Repair",
-    "BRSW.SkillName-Notice": "Notice"
+    "BRSW.SkillName-Notice": "Notice",
+    "BRSW.UnarmedDefender": "Unarmed Defender",
+    "BRSW.TouchAttack": "Touch Attack",
+    "BRSW.NonlethalDamage": "Non lethal damage"
 }
