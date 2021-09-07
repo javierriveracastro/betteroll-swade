@@ -926,7 +926,7 @@ async function add_modifier(message, modifier) {
             if (message.data.whisper.length > 0) {
                 users = message.data.whisper;
             }
-            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users);
+            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users, message.data.blind);
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push(new_mod)

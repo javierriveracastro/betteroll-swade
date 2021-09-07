@@ -1041,10 +1041,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (message.data.whisper.length > 0) {
                 users = message.data.whisper;
             }
+            const blind = message.data.blind
             for (let modifier of damage_roll.brswroll.modifiers) {
                 if (modifier.dice) {
                     // noinspection ES6MissingAwait
-                    game.dice3d.showForRoll(modifier.dice, game.user, true, users);
+                    game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind);
                 }
             }
             let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
@@ -1054,7 +1055,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 });
             }
             // noinspection ES6MissingAwait
-            await game.dice3d.showForRoll(roll, game.user, true, users);
+            await game.dice3d.showForRoll(roll, game.user, true, users, blind);
         }
         current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
         render_data.damage_rolls.push(current_damage_roll);
