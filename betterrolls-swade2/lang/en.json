@@ -215,5 +215,6 @@
     "BRSW.SkillName-Notice": "Notice",
     "BRSW.UnarmedDefender": "Unarmed Defender",
     "BRSW.TouchAttack": "Touch Attack",
-    "BRSW.NonlethalDamage": "Non lethal damage"
+    "BRSW.NonlethalDamage": "Non lethal damage",
+    "BRSW.NotEnoughStrength": "Under Minimun Strength"
 }
