@@ -916,7 +916,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     if (item.data.data.minStr) {
         const splited_minStr = item.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-        const str_die_size = actor.data.data.attributes.strength.die.sides
+        const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
         if (min_str_die_size && ! is_shooting_skill(get_item_trait(item, actor))) {
             if (min_str_die_size > str_die_size) {
                 // Minimun strengh is not meete
