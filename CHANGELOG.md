@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.47 aka Does somebody use vehicles?
+
+* Translations: Another batch of updates from the Weblate team and Joe Lozano
+* Rolls: Support for rolling damage and attacks against vehicles (MarkPearce)
+* Bug: Hide dice animation in blind rolls with DiceSoNice
+* GlobalActions: Unarmed defender, touch attacks and non-lethal damage actions incorporated to module (Bruno Calado)
+* Rolls: Scale now works with vehicles.
+* Rolls: Melee and throwing weapon damage not respect minimum strength.
+
 ## Version 2.46 aka yes, it did happen again
 * Bug: Incredible enough, even more fixes to gangup calculation.
 
