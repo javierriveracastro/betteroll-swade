@@ -433,6 +433,16 @@ function calculate_gangUp(attacker, target) {
         allies = enemies_within_range_both_attacker_target.length;
     }
     let modifier = Math.max(0, (enemies - allies));
+    if (target.actor) {
+        const improved_block_name = game.i18n.localize(
+            "BRSW.EdgeName-ImprovedBlock").toLowerCase()
+        const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase()
+        if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(improved_block_name)})) {
+            modifier = Math.max(0, modifier - 2)
+        } else if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(block_name)})) {
+            modifier = Math.max(0, modifier - 1)
+        }
+    }
     return Math.min(4, modifier);
 }
 

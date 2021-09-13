@@ -216,5 +216,7 @@
     "BRSW.UnarmedDefender": "Defensor desarmado",
     "BRSW.TouchAttack": "Ataque de toque",
     "BRSW.NonlethalDamage": "Daño no letal",
-    "BRSW.NotEnoughStrength": "Menos fuerza que la minima"
+    "BRSW.NotEnoughStrength": "Menos fuerza que la minima",
+    "BRSW.EdgeName-ImprovedBlock": "Parada mejorada",
+    "BRSW.EdgeName-Block": "Parada"
 }
