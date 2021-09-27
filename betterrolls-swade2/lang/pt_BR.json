@@ -198,5 +198,19 @@
     "BRSW.Location": "Local",
     "BRSW.MinStr": "Força Mínima",
     "BRSW.Damage": "Dano",
-    "BRSW.RaiseDamage": "Dano Ampliado"
+    "BRSW.RaiseDamage": "Dano Ampliado",
+    "BRSW.UnstablePlatform": "Plataforma Instável",
+    "BRSW.EdgeName-Marksman": "Atirador",
+    "BRSW.EdgeName-Alertness": "Prontidão",
+    "BRSW.EdgeName-MrFixIt": "Senhor Conserta Tudo",
+    "BRSW.SkillName-Repair": "Consertar",
+    "BRSW.SkillName-Notice": "Perceber",
+    "BRSW.RechargePPSoulDrainText": "{name} recuperou 5 Pontos de Poder usando Drenar a Alma e agora tem <b>${newPP}</b>.",
+    "BRSW.Export": "Exportar para json",
+    "BRSW.Import": "Importar",
+    "BRSW.SkillName-untrained": "tentativa sem treino",
+    "BRSW.Cone": "modelo cone",
+    "BRSW.SmallTemplate": "modelo pequeno de explosão",
+    "BRSW.MediumTemplate": "modelo médio de explosão",
+    "BRSW.LargeTemplate": "modelo grande de explosão"
 }
