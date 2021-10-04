@@ -47,7 +47,7 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} item_id The id of the item that we want to show
  * @param {boolean} collapse_actions True if the action selector should start collapsed
- * @property {Object} item.data.data.actions.additional Aditional ations.
+ * @property {Object} item.data.data.actions.additional Additional actions.
  * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
  * @return A promise for the ChatMessage object
 */
@@ -678,15 +678,15 @@ export async function roll_item(message, html, expend_bennie,
             }
         });
     }
-    // Check for minimun strengh
-        // Minimun strenght
+    // Check for minimum strength
+        // Minimum strength
     if (item.data.data.minStr) {
         const splited_minStr = item.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
         if (min_str_die_size && is_shooting_skill(get_item_trait(item, actor))) {
             if (min_str_die_size > str_die_size) {
-                // Minimun strengh is not meet
+                // Minimum strength is not meet
                 const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"),
                     Math.trunc((min_str_die_size - str_die_size) / 2))
                 extra_data.modifiers.push(new_mod)
@@ -927,14 +927,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
         total_modifiers += 2;
     }
-    // Minimun strenght
+    // Minimum strength
     if (item.data.data.minStr) {
         const splited_minStr = item.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
         if (min_str_die_size && ! is_shooting_skill(get_item_trait(item, actor))) {
             if (min_str_die_size > str_die_size) {
-                // Minimun strengh is not meet
+                // Minimum strength is not meet
                 const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"), 0)
                 damage_roll.brswroll.modifiers.push(new_mod)
                 let new_roll_formula = ''
