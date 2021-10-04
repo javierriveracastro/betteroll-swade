@@ -679,7 +679,6 @@ export async function roll_item(message, html, expend_bennie,
         });
     }
     // Check for minimum strength
-        // Minimum strength
     if (item.data.data.minStr) {
         const splited_minStr = item.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
@@ -689,7 +688,7 @@ export async function roll_item(message, html, expend_bennie,
                 // Minimum strength is not meet
                 const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"),
                     Math.trunc((min_str_die_size - str_die_size) / 2))
-                extra_data.modifiers.push(new_mod)
+                extra_data.modifiers = [new_mod]
             }
         }
     }
