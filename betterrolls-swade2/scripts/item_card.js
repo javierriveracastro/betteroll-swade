@@ -796,6 +796,9 @@ function manual_ammo(weapon, actor) {
                     })
                     let ammo_quantity = 999999999;
                     if (ammo) {
+                        if (ammo.data.data.quantity <= 0) {
+                            return ui.notifications.error(`${game.i18n.localize("BRSW.NoAmmoLeft")}`);
+                        }
                         ammo_quantity = ammo.data.data.quantity;
                     }
                     let number = Number(html.find("#num")[0].value);

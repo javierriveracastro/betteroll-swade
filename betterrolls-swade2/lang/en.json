@@ -181,6 +181,7 @@
     "BRSW.Single_shot": "Single shot",
     "BRSW.Max_rate_of_fire": "Weapon ROF value",
     "BRSW.ExpendedAmmo": "<p>{ammo_spent} shot has been expended from {item_name}. There are {final_ammo} shots remaining</p>",
+    "BRSW.NoAmmoLeft": "You have no ammunition left to reload this weapon.",
     "BRSW.LightCover": "Light cover",
     "BRSW.Cover": "Cover",
     "BRSW.MediumCover": "Medium cover",
