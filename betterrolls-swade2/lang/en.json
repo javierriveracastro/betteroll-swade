@@ -217,7 +217,8 @@
     "BRSW.UnarmedDefender": "Unarmed Defender",
     "BRSW.TouchAttack": "Touch Attack",
     "BRSW.NonlethalDamage": "Non lethal damage",
-    "BRSW.NotEnoughStrength": "Under Minimun Strength",
+    "BRSW.NotEnoughStrength": "Under minimum Strength",
     "BRSW.EdgeName-ImprovedBlock": "Improved Block",
-    "BRSW.EdgeName-Block": "Block"
+    "BRSW.EdgeName-Block": "Block",
+    "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength"
 }

@@ -647,6 +647,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
                 game.i18n.localize('SWADE.Status'), statusPenalties))
             total_modifiers += statusPenalties;
         }
+        // Armor min str
+        const armor_penalty = get_actor_armor_minimum_strength(actor)
+        if (armor_penalty) {
+            modifiers.push(armor_penalty)
+        }
         // Target Mods
         if (extra_options.target_modifiers) {
             extra_options.target_modifiers.forEach(modifier => {
@@ -1138,4 +1143,28 @@ export function process_common_actions(action, extra_data, macros) {
         macros.push(action.runSkillMacro);
     }
     return updates
+}
+
+/**
+ * Gets the bigger minimun strenght
+ * @param actor
+ */
+function get_actor_armor_minimum_strength(actor) {
+    // This should affect only Agility related skills
+    const min_str_armors = actor.items.filter((item) =>
+        {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipped})
+    let penalty = 0
+    for (let armor of min_str_armors) {
+        console.log(armor)
+        const splited_minStr = armor.data.data.minStr.split('d')
+        const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
+        const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+        if (min_str_die_size > str_die_size)
+            penalty += Math.trunc((min_str_die_size - str_die_size) / 2)
+    }
+    if (penalty) {
+        return create_modifier(game.i18n.localize("BRSW.NotEnoughStrengthArmor"), - penalty)
+    } else {
+        return null
+    }
 }
