@@ -1,5 +1,5 @@
 // Common functions used in all cards
-// noinspection ES6MissingAwait
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, console, getProperty, duplicate */
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
@@ -45,8 +45,8 @@ async function store_render_flag(message, render_object) {
         }
     });
     // Get sure thar there is a diff so update socket gets fired.
-    if (message.data.flags?.['betterrolls-swade2']?.['render_data']) {
-        message.data.flags['betterrolls-swade2']['render_data'].update_uid = broofa();
+    if (message.data.flags?.['betterrolls-swade2']?.render_data) {
+        message.data.flags['betterrolls-swade2'].render_data.update_uid = broofa();
     }
     await message.setFlag('betterrolls-swade2', 'render_data',
         render_object);
@@ -218,7 +218,7 @@ export function get_actor_from_ids(token_id, actor_id) {
                     token =canvas.tokens.get(token_id);
                 }, 200);
             }
-            if (token) return token.actor
+            if (token) {return token.actor}
         }
     }
     // If we couldn't get the token, maybe because it was not defined actor.
@@ -1159,8 +1159,9 @@ function get_actor_armor_minimum_strength(actor) {
         const splited_minStr = armor.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-        if (min_str_die_size > str_die_size)
+        if (min_str_die_size > str_die_size) {
             penalty += Math.trunc((min_str_die_size - str_die_size) / 2)
+        }
     }
     if (penalty) {
         return create_modifier(game.i18n.localize("BRSW.NotEnoughStrengthArmor"), - penalty)
