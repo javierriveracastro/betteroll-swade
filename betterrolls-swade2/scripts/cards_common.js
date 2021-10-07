@@ -644,9 +644,11 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         total_modifiers += statusPenalties;
     }
     // Armor min str
-    const armor_penalty = get_actor_armor_minimum_strength(actor)
-    if (armor_penalty) {
-        modifiers.push(armor_penalty)
+    if (skill?.data.data.attribute === 'agility') {
+        const armor_penalty = get_actor_armor_minimum_strength(actor)
+        if (armor_penalty) {
+            modifiers.push(armor_penalty)
+        }
     }
     // Target Mods
     if (extra_options.target_modifiers) {
@@ -855,7 +857,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
         const blind = message.data.blind
         // Dice buried in modifiers.
-        console.log(message)
         for (let modifier of modifiers) {
             if (modifier.dice) {
                 // noinspection ES6MissingAwait
