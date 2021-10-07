@@ -689,6 +689,42 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
 }
 
 /**
+ * Get the options for a reroll
+ */
+function get_reroll_options(rof, actor, render_data, modifiers, total_modifiers, extra_data, options) {
+    // Reroll, keep old options
+    rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
+    modifiers = render_data.trait_roll.modifiers;
+    let reroll_mods_applied = false;
+    modifiers.forEach(mod => {
+        total_modifiers += mod.value
+        if (mod.name.includes('(reroll)')) {
+            reroll_mods_applied = true;
+        }
+    });
+    if (extra_data.reroll_modifier && !reroll_mods_applied) {
+        modifiers.push(create_modifier(
+            `${extra_data.reroll_modifier.name} (reroll)`,
+            extra_data.reroll_modifier.value))
+        total_modifiers += extra_data.reroll_modifier.value;
+    }
+    render_data.trait_roll.rolls.forEach(roll => {
+        if (roll.tn) {
+            // We hacky use tn = 0 to mark discarded dice,
+            // here we pay for it
+            options = {
+                tn: roll.tn,
+                tn_reason: roll.tn_reason
+            };
+        }
+    });
+    render_data.trait_roll.old_rolls.push(
+        render_data.trait_roll.rolls);
+    render_data.trait_roll.rolls = [];
+    return {rof, modifiers, total_modifiers, options};
+}
+
+/**
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
@@ -711,33 +747,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         rof = __ret.rof;
         total_modifiers = __ret.total_modifiers;
     } else {
-        // Reroll, keep old options
-        rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
-        modifiers = render_data.trait_roll.modifiers;
-        let reroll_mods_applied = false;
-        modifiers.forEach(mod => {
-            total_modifiers += mod.value
-            if (mod.name.includes('(reroll)')) {
-                reroll_mods_applied = true;
-            }
-        });
-        if (extra_data.reroll_modifier && !reroll_mods_applied) {
-            modifiers.push(create_modifier(
-                `${extra_data.reroll_modifier.name} (reroll)`,
-                extra_data.reroll_modifier.value))
-            total_modifiers += extra_data.reroll_modifier.value;
-        }
-        render_data.trait_roll.rolls.forEach(roll => {
-            if (roll.tn) {
-                // We hacky use tn = 0 to mark discarded dice,
-                // here we pay for it
-                options = {tn: roll.tn,
-                    tn_reason: roll.tn_reason};
-            }
-        });
-        render_data.trait_roll.old_rolls.push(
-            render_data.trait_roll.rolls);
-        render_data.trait_roll.rolls = [];
+        const __ret = get_reroll_options(rof, actor, render_data, modifiers, total_modifiers, extra_data, options);
+        rof = __ret.rof;
+        modifiers = __ret.modifiers;
+        total_modifiers = __ret.total_modifiers;
+        options = __ret.options;
     }
     let fumble_possible = 0;
     render_data.trait_roll.is_fumble = false;
