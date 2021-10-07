@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.48 aka More refactorings because life is boring when everything works 
+* Rolls: Gang-up calculation now knows block and improved block
+* Bug: Br doesn't break when there is a combat and no token for a combatant
+* Rolls: Shooting rolls check minimum strength
+* Rolls: Damage roll take minimum strength into account
+* Rolls: Armor minimum strength is used in agility skill checks
+* Bug: When subtracting ammo from an item and the quantity is 0 output a message (SalieriC)
+* General: A couple of refactorings to make code easier to work with (aka paying debt) (aka there are going to be bugs)
+* Translations: The usual batch of updates from the great Weblate Team
+
 ## Version 2.47 aka Does somebody use vehicles?
 
 * Translations: Another batch of updates from the Weblate team and Joe Lozano
