@@ -564,6 +564,130 @@ export function check_and_roll_conviction(actor) {
     return conviction_modifier
 }
 
+
+/**
+ * Get all the options needed for a new roll
+ * @param actor
+ * @param message
+ * @param extra_options
+ * @param extra_data
+ * @param options
+ * @param html
+ * @param rof
+ * @param trait_dice
+ * @param modifiers
+ * @param total_modifiers
+ */
+function get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, modifiers, total_modifiers) {
+    let objetive = get_targeted_token();
+    if (!objetive) {
+        canvas.tokens.controlled.forEach(token => {
+            // noinspection JSUnresolvedVariable
+            if (token.actor !== actor) {
+                objetive = token;
+            }
+        })
+    }
+    let skill = get_skill_from_message(message, actor);
+    if (objetive && skill) {
+        const token_id = message.getFlag('betterrolls-swade2', 'token')
+        const origin_token = token_id ? canvas.tokens.get(token_id) :
+            actor.getActiveTokens()[0]
+        const item = get_item_from_message(message, actor)
+        const target_data = get_tn_from_token(
+            skill, objetive, origin_token, item);
+        extra_options.tn = target_data.value;
+        extra_options.tn_reason = target_data.reason;
+        extra_options.target_modifiers = target_data.modifiers;
+    }
+    if (extra_data.hasOwnProperty('tn')) {
+        extra_options.tn = extra_data.tn;
+        extra_options.tn_reason = extra_data.tn_reason.slice(0, 20);
+    }
+    if (extra_data.hasOwnProperty('rof')) {
+        extra_options.rof = extra_data.rof;
+    }
+    options = get_roll_options(html, extra_options);
+    rof = options.rof || 1;
+    // Trait modifier
+    if (parseInt(trait_dice.die.modifier)) {
+        const mod_value = parseInt(trait_dice.die.modifier)
+        modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.TraitMod"), mod_value))
+        total_modifiers += mod_value;
+    }
+    // Betterrolls modifiers
+    options.additionalMods.forEach(mod => {
+        const mod_value = parseInt(mod);
+        modifiers.push(create_modifier('Better Rolls', mod_value))
+        total_modifiers += mod_value;
+    })
+    // Wounds
+    const woundPenalties = actor.calcWoundPenalties();
+    if (woundPenalties !== 0) {
+        modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Wounds'), woundPenalties))
+        total_modifiers += woundPenalties;
+    }
+    // Fatigue
+    const fatiguePenalties = actor.calcFatiguePenalties();
+    if (fatiguePenalties !== 0) {
+        modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
+        total_modifiers += fatiguePenalties;
+    }
+    // Own status
+    const statusPenalties = actor.calcStatusPenalties();
+    if (statusPenalties !== 0) {
+        modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Status'), statusPenalties))
+        total_modifiers += statusPenalties;
+    }
+    // Armor min str
+    const armor_penalty = get_actor_armor_minimum_strength(actor)
+    if (armor_penalty) {
+        modifiers.push(armor_penalty)
+    }
+    // Target Mods
+    if (extra_options.target_modifiers) {
+        extra_options.target_modifiers.forEach(modifier => {
+            total_modifiers += modifier.value;
+            modifiers.push(modifier);
+        })
+    }
+    // Action mods
+    if (message.getFlag('betterrolls-swade2', 'card_type') ===
+        BRSW_CONST.TYPE_ITEM_CARD) {
+        const item = get_item_from_message(message, actor)
+        // noinspection JSUnresolvedVariable
+        if (item.data.data.actions.skillMod) {
+            // noinspection JSUnresolvedVariable
+            let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), item.data.data.actions.skillMod)
+            modifiers.push(new_mod)
+            total_modifiers += new_mod.value
+        }
+    }
+    // Options set from card
+    if (extra_data.modifiers) {
+        extra_data.modifiers.forEach(modifier => {
+            modifiers.push(modifier);
+            total_modifiers += modifier.value;
+        })
+    }
+    //Conviction
+    const conviction_modifier = check_and_roll_conviction(actor);
+    if (conviction_modifier) {
+        modifiers.push(conviction_modifier);
+        total_modifiers += conviction_modifier.value
+    }
+    // Joker
+    if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
+        modifiers.push(create_modifier('Joker', 2))
+        total_modifiers += 2;
+    }
+    return {options, rof, total_modifiers};
+}
+
 /**
  * Makes a roll trait
  * @param message
@@ -582,113 +706,10 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let options = {};
     if (!render_data.trait_roll.rolls.length) {
         // Get target options
-        let objetive = get_targeted_token();
-        if (!objetive) {
-            canvas.tokens.controlled.forEach(token => {
-                // noinspection JSUnresolvedVariable
-                if (token.actor !== actor) {
-                    objetive = token;
-                }
-            })
-        }
-        let skill = get_skill_from_message(message, actor);
-        if (objetive && skill) {
-            const token_id = message.getFlag('betterrolls-swade2', 'token')
-            const origin_token = token_id ? canvas.tokens.get(token_id) :
-                actor.getActiveTokens()[0]
-            const item = get_item_from_message(message, actor)
-            const target_data = get_tn_from_token(
-                skill, objetive, origin_token, item);
-            extra_options.tn = target_data.value;
-            extra_options.tn_reason = target_data.reason;
-            extra_options.target_modifiers = target_data.modifiers;
-        }
-        if (extra_data.hasOwnProperty('tn')) {
-            extra_options.tn = extra_data.tn;
-            extra_options.tn_reason = extra_data.tn_reason.slice(0,20);
-        }
-        if (extra_data.hasOwnProperty('rof')) {
-            extra_options.rof = extra_data.rof;
-        }
-        options = get_roll_options(html, extra_options);
-        // New roll, we need top get all tje options
-        rof = options.rof || 1;
-        // Trait modifier
-        if (parseInt(trait_dice.die.modifier)){
-            const mod_value = parseInt(trait_dice.die.modifier)
-            modifiers.push(create_modifier(
-                game.i18n.localize("BRSW.TraitMod"), mod_value))
-            total_modifiers += mod_value;
-        }
-        // Betterrolls modifiers
-        options.additionalMods.forEach(mod => {
-            const mod_value = parseInt(mod);
-            modifiers.push(create_modifier('Better Rolls', mod_value))
-            total_modifiers += mod_value;
-        })
-        // Wounds
-        const woundPenalties = actor.calcWoundPenalties();
-        if (woundPenalties !== 0) {
-            modifiers.push(create_modifier(
-                game.i18n.localize('SWADE.Wounds'), woundPenalties))
-            total_modifiers += woundPenalties;
-        }
-        // Fatigue
-        const fatiguePenalties = actor.calcFatiguePenalties();
-        if (fatiguePenalties !== 0) {
-            modifiers.push(create_modifier(
-                game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
-            total_modifiers += fatiguePenalties;
-        }
-        // Own status
-        const statusPenalties = actor.calcStatusPenalties();
-        if (statusPenalties !== 0) {
-            modifiers.push(create_modifier(
-                game.i18n.localize('SWADE.Status'), statusPenalties))
-            total_modifiers += statusPenalties;
-        }
-        // Armor min str
-        const armor_penalty = get_actor_armor_minimum_strength(actor)
-        if (armor_penalty) {
-            modifiers.push(armor_penalty)
-        }
-        // Target Mods
-        if (extra_options.target_modifiers) {
-            extra_options.target_modifiers.forEach(modifier => {
-                total_modifiers += modifier.value;
-                modifiers.push(modifier);
-            })
-        }
-        // Action mods
-        if (message.getFlag('betterrolls-swade2', 'card_type') ===
-                BRSW_CONST.TYPE_ITEM_CARD) {
-            const item = get_item_from_message(message, actor)
-            // noinspection JSUnresolvedVariable
-            if (item.data.data.actions.skillMod) {
-                // noinspection JSUnresolvedVariable
-                let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), item.data.data.actions.skillMod)
-                modifiers.push(new_mod)
-                total_modifiers += new_mod.value
-            }
-        }
-        // Options set from card
-        if (extra_data.modifiers) {
-            extra_data.modifiers.forEach(modifier => {
-                modifiers.push(modifier);
-                total_modifiers += modifier.value;
-            })
-        }
-        //Conviction
-        const conviction_modifier = check_and_roll_conviction(actor);
-        if (conviction_modifier) {
-            modifiers.push(conviction_modifier);
-            total_modifiers += conviction_modifier.value
-        }
-        // Joker
-        if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
-            modifiers.push(create_modifier('Joker', 2))
-            total_modifiers += 2;
-        }
+        const __ret = get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, modifiers, total_modifiers);
+        options = __ret.options;
+        rof = __ret.rof;
+        total_modifiers = __ret.total_modifiers;
     } else {
         // Reroll, keep old options
         rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
