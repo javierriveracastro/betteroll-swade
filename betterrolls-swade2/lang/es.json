@@ -218,5 +218,6 @@
     "BRSW.NonlethalDamage": "Daño no letal",
     "BRSW.NotEnoughStrength": "Menos fuerza que la minima",
     "BRSW.EdgeName-ImprovedBlock": "Parada mejorada",
-    "BRSW.EdgeName-Block": "Parada"
+    "BRSW.EdgeName-Block": "Parada",
+    "BRSW.NotEnoughStrengthArmor": "Fuerza insuficiente para la armadura"
 }

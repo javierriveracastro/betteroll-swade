@@ -157,7 +157,7 @@
     "BRSW.AmmountPP": "Nombre de punts de poder",
     "BRSW.OptionalRules": "Normes opcionals",
     "BRSW.OR.GrittyDamage": "Dany cru",
-    "BRSW.SoulDrain": "Soul Drain",
+    "BRSW.SoulDrain": "Drenatge d'ànima",
     "BRSW.OptionalRulesLabel": "Selecciona regles opcionals",
     "BRSW.Actions": "Accions",
     "BRSW.DamageDiceTheme": "Tema pels daus de mal",
@@ -211,7 +211,7 @@
     "BRSW.Cone": "plantilla de cone",
     "BRSW.MediumTemplate": "plantilla d'àrea mitjana",
     "BRSW.LargeTemplate": "plantilla d'àrea gran",
-    "BRSW.RechargePPSoulDrainText": "{name} recupera 5 punts de poder emprant Drenatge d'ànima i ara tens <b>${newPP}</b>.",
+    "BRSW.RechargePPSoulDrainText": "{name} recupera 5 punts de poder emprant drenatge d'ànima i ara tens <b>${newPP}</b>.",
     "BRSW.Export": "Exportar a json",
     "BRSW.SmallTemplate": "plantilla d'àrea petita"
 }
