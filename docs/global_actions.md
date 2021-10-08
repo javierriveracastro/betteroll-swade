@@ -311,6 +311,21 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
+**Powerful Blow**
+```json
+{
+  "id":"POWERFUL_BLOW-WILD_ATTACK",
+  "name":"Wild Attack",
+  "button_name":"Wild Attack (Powerful Blow)",
+  "dmgMod": "+4",
+  "and_selector": [
+    {"selector_type": "actor_has_edge", "selector_value":"Powerful Blow"}, 
+    {"selector_type": "skill", "selector_value": "Fighting"}
+  ],
+  "group": "Savage Pathfinder"  
+}
+```
+
 ## Edges - Sprawlrunners
 **Passive Alarm**
 ```json
