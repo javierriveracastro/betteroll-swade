@@ -213,5 +213,13 @@
     "BRSW.Cone": "Kegelschablone",
     "BRSW.SmallTemplate": "kleine Flächenschablone",
     "BRSW.MediumTemplate": "MIttlere Flächenschablone",
-    "BRSW.LargeTemplate": "Große Flächenschablone"
+    "BRSW.LargeTemplate": "Große Flächenschablone",
+    "BRSW.NoAmmoLeft": "Keine Munition zum Nachladen verfügbar.",
+    "BRSW.UnarmedDefender": "Unbewaffneter Verteidiger",
+    "BRSW.TouchAttack": "Berührungsangriff",
+    "BRSW.NonlethalDamage": "Betäubungsschaden",
+    "BRSW.NotEnoughStrength": "Unter Mindeststärke",
+    "BRSW.EdgeName-ImprovedBlock": "Harter Block",
+    "BRSW.EdgeName-Block": "Block",
+    "BRSW.NotEnoughStrengthArmor": "Rüstung unter Minimalstärke"
 }
