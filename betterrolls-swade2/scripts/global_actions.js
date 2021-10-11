@@ -39,7 +39,7 @@ const SYSTEM_GLOBAL_ACTION = [
     {id: "UNSTABLEPLATFORM", name: "Unstable Platform", button_name: "BRSW.UnstablePlatform", "skillMod": "-2", "or_selector":[
         {"selector_type":"skill", "selector_value":"BRSW.Shooting"}, {"selector_type":"skill", "selector_value":"BRSW.ThrowingSkill"}],
         "group": "BRSW.SituationalModifiers"},
-    {id:"MARKSMAN", name:"Marksman", button_name: "BRSW.EdgeName-Marksman", "skillMod": "+1", "and_selector":[
+    {id:"MARKSMAN", name:"Marksman", button_name: "BRSW.EdgeName-Marksman", "skillMod": "+1", and_selector:[
         {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Marksman"},
         {selector_type:"skill", selector_value:"BRSW.Shooting"}], group: "BRSW.Edges"},
     {id:"ALERTNESS", name:"Alertness", button_name:"BRSW.EdgeName-Alertness", skillMod: "+2", and_selector:[
