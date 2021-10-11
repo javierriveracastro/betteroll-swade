@@ -44,7 +44,7 @@ const SYSTEM_GLOBAL_ACTION = [
         {selector_type:"skill", selector_value:"BRSW.Shooting"}], group: "BRSW.Edges"},
     {id:"ALERTNESS", name:"Alertness", button_name:"BRSW.EdgeName-Alertness", skillMod: "+2", and_selector:[
         {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Alertness"},
-        {selector_type:"skill", selector_value:"BRSW.Notice"}], "defaultChecked":"on", "group": "BRSW.Edges"},
+        {selector_type:"skill", selector_value:"Notice"}], "defaultChecked":"on", "group": "BRSW.Edges"},
     {id:"MRFIXIT", name:"Mr Fix It", button_name:"BRSW.EdgeName-MrFixIt", skillMod: "+2", and_selector:[
         {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-MrFixIt"},
         {selector_type:"skill", selector_value:"Repair"}], defaultChecked:"on", group: "BRSW.Edges"},
@@ -66,8 +66,42 @@ export function register_actions() {
     game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(world_actions);
 }
 
+ /**
+  * Processs and and selector.
+  * @param selected
+  * @param action
+  * @param item
+  * @param actor
+  * @return {boolean}
+  */
+ function process_and_selector(selected, action, item, actor) {
+     selected = true;
+     for (let selection_option of action.and_selector) {
+         selected &= check_selector(
+             selection_option.selector_type,
+             selection_option.selector_value, item, actor);
+         console.log(selected)
+         console.log(selection_option.selector_type, selection_option.selector_value)
+         console.log(check_selector(
+             selection_option.selector_type,
+             selection_option.selector_value, item, actor))
+     }
+     return selected;
+ }
 
-/**
+ function process_or_selector(selected, action, item, actor) {
+     selected = false;
+     for (let selection_option of action.or_selector) {
+         if (check_selector(selection_option.selector_type,
+             selection_option.selector_value, item, actor)) {
+             selected = true;
+             break;
+         }
+     }
+     return selected;
+ }
+
+ /**
  * Returns the global actions avaliable for an item
  * @param {Item} item
  * @param {SwadeActor} actor
@@ -84,21 +118,9 @@ export function get_actions(item, actor) {
             if (action.hasOwnProperty('selector_type')) {
                 selected = check_selector(action.selector_type, action.selector_value, item, actor);
             } else if (action.hasOwnProperty('and_selector')) {
-                selected = true;
-                for (let selection_option of action.and_selector) {
-                    selected &= check_selector(
-                        selection_option.selector_type,
-                        selection_option.selector_value, item, actor);
-                }
+                selected = process_and_selector(selected, action, item, actor);
             } else if (action.hasOwnProperty('or_selector')) {
-                selected = false;
-                for (let selection_option of action.or_selector) {
-                    if (check_selector(selection_option.selector_type,
-                                selection_option.selector_value,item, actor)) {
-                        selected = true;
-                        break;
-                    }
-                }
+                selected = process_or_selector(selected, action, item, actor);
             }
             if (selected) {
                 actions_avaliable.push(action);
