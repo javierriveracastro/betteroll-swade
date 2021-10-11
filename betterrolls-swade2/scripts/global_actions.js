@@ -1,4 +1,4 @@
-// noinspection JSUnfilteredForInLoop,JSCheckFunctionSignatures
+ /* globals game, FormApplication, console, Dialog, saveDataToFile, ui, readTextFromFile, renderTemplate */
 
 import {get_item_trait} from "./item_card.js";
 import {broofa} from "./utils.js";
@@ -390,7 +390,7 @@ async function import_global_actions() {
           label: "Import",
           callback: html => {
             const form = html.find("form")[0];
-            if ( !form.data.files.length ) return ui.notifications.error("You did not upload a data file!");
+            if ( !form.data.files.length ) {return ui.notifications.error("You did not upload a data file!");}
             readTextFromFile(form.data.files[0]).then((json) => {
                 game.settings.set('betterrolls-swade2', "world_global_actions", JSON.parse(json))
                 window.location.reload()
