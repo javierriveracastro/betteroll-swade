@@ -1,4 +1,5 @@
- /* globals game, FormApplication, console, Dialog, saveDataToFile, ui, readTextFromFile, renderTemplate */
+/* globals game, FormApplication, console, Dialog, saveDataToFile, ui, readTextFromFile, renderTemplate */
+/* jshint -W089 */
 
 import {get_item_trait} from "./item_card.js";
 import {broofa} from "./utils.js";
@@ -77,7 +78,7 @@ export function register_actions() {
  function process_and_selector(selected, action, item, actor) {
      selected = true;
      for (let selection_option of action.and_selector) {
-         selected &= check_selector(
+         selected = selected && check_selector(
              selection_option.selector_type,
              selection_option.selector_value, item, actor);
          console.log(selected)
