@@ -212,5 +212,13 @@
     "BRSW.Cone": "modelo cone",
     "BRSW.SmallTemplate": "modelo pequeno de explosão",
     "BRSW.MediumTemplate": "modelo médio de explosão",
-    "BRSW.LargeTemplate": "modelo grande de explosão"
+    "BRSW.LargeTemplate": "modelo grande de explosão",
+    "BRSW.NoAmmoLeft": "Você não tem munição para recarregar essa arma.",
+    "BRSW.TouchAttack": "Ataque de Toque",
+    "BRSW.NonlethalDamage": "Dano Não-letal",
+    "BRSW.NotEnoughStrength": "Força Mínima",
+    "BRSW.EdgeName-ImprovedBlock": "Bloquear Aprimorado",
+    "BRSW.EdgeName-Block": "Bloquear",
+    "BRSW.NotEnoughStrengthArmor": "Armadura com Força mínima",
+    "BRSW.UnarmedDefender": "Defensor Desarmado"
 }
