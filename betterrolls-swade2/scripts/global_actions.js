@@ -133,13 +133,13 @@ export function get_actions(item, actor) {
     if (disabled_actions && disabled_actions[0] instanceof Array) {
         disabled_actions = disabled_actions[0]
     }
-    game.brsw.GLOBAL_ACTIONS.forEach(action => {
+    for (let action of game.brsw.GLOBAL_ACTIONS) {
         if (!disabled_actions.includes(action.id)) {
             if (process_action(action, item, actor)) {
                 actions_avaliable.push(action);
             }
         }
-    });
+    }
     return actions_avaliable;
 }
 
