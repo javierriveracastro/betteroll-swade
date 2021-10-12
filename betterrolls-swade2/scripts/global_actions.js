@@ -38,7 +38,7 @@ const SYSTEM_GLOBAL_ACTION = [
     {id: "Dark", name: "Dark", button_name: "BRSW.IlluminationDark", skillMod: "-4", selector_type: "all", group: "BRSW.Illumination"},
     {id: "Pitch", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-6", selector_type: "all", group: "BRSW.Illumination"},
     {id: "UNSTABLEPLATFORM", name: "Unstable Platform", button_name: "BRSW.UnstablePlatform", "skillMod": "-2", "or_selector":[
-        {"selector_type":"skill", "selector_value":"BRSW.Shooting"}, {"selector_type":"skill", "selector_value":"BRSW.ThrowingSkill"}],
+        {"selector_type":"skill", "selector_value":"Shooting"}, {"selector_type":"skill", "selector_value":"athletics"}],
         "group": "BRSW.SituationalModifiers"},
     {id:"MARKSMAN", name:"Marksman", button_name: "BRSW.EdgeName-Marksman", "skillMod": "+1", and_selector:[
         {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Marksman"},
@@ -68,33 +68,34 @@ export function register_actions() {
 }
 
  /**
-  * Processs and and selector.
-  * @param selected
+  * Process and and selector.
   * @param action
   * @param item
   * @param actor
   * @return {boolean}
   */
- function process_and_selector(selected, action, item, actor) {
-     selected = true;
+ function process_and_selector(action, item, actor) {
+     let selected = true;
      for (let selection_option of action.and_selector) {
-         selected = selected && check_selector(
-             selection_option.selector_type,
-             selection_option.selector_value, item, actor);
-         console.log(selected)
-         console.log(selection_option.selector_type, selection_option.selector_value)
-         console.log(check_selector(
-             selection_option.selector_type,
-             selection_option.selector_value, item, actor))
+         if (! process_action(selection_option, item, actor)) {
+            selected = false;
+            break;
+         }
      }
      return selected;
  }
 
- function process_or_selector(selected, action, item, actor) {
-     selected = false;
+/**
+ * Checks if an or selector should be used
+ * @param action
+ * @param item
+ * @param actor
+ * @return {boolean}
+ */
+ function process_or_selector(action, item, actor) {
+     let selected = false;
      for (let selection_option of action.or_selector) {
-         if (check_selector(selection_option.selector_type,
-             selection_option.selector_value, item, actor)) {
+         if (process_action(selection_option, item, actor)) {
              selected = true;
              break;
          }
@@ -102,7 +103,26 @@ export function register_actions() {
      return selected;
  }
 
- /**
+/**
+ * Check if an action applies to a roll
+ * @param action
+ * @param item
+ * @param actor
+ * @return {boolean}
+ */
+function process_action(action, item, actor) {
+    let selected = false;
+    if (action.hasOwnProperty('selector_type')) {
+        selected = check_selector(action.selector_type, action.selector_value, item, actor);
+    } else if (action.hasOwnProperty('and_selector')) {
+        selected = process_and_selector(action, item, actor);
+    } else if (action.hasOwnProperty('or_selector')) {
+        selected = process_or_selector(action, item, actor);
+    }
+    return selected;
+}
+
+/**
  * Returns the global actions avaliable for an item
  * @param {Item} item
  * @param {SwadeActor} actor
@@ -115,15 +135,7 @@ export function get_actions(item, actor) {
     }
     game.brsw.GLOBAL_ACTIONS.forEach(action => {
         if (!disabled_actions.includes(action.id)) {
-            let selected = false;
-            if (action.hasOwnProperty('selector_type')) {
-                selected = check_selector(action.selector_type, action.selector_value, item, actor);
-            } else if (action.hasOwnProperty('and_selector')) {
-                selected = process_and_selector(selected, action, item, actor);
-            } else if (action.hasOwnProperty('or_selector')) {
-                selected = process_or_selector(selected, action, item, actor);
-            }
-            if (selected) {
+            if (process_action(action, item, actor)) {
                 actions_avaliable.push(action);
             }
         }
@@ -229,6 +241,7 @@ export class SystemGlobalConfiguration extends FormApplication {
 
     activateListeners(html) {
         html.find(".brsw-section-title").click((ev) => {
+            // noinspection JSCheckFunctionSignatures
             const checks = $(ev.currentTarget).parents('table').find('input[type=checkbox]')
             if (checks.length) {
                 const new_status = ! $(checks[0]).prop('checked')
