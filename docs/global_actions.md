@@ -66,7 +66,8 @@ This group of fields are used to select when the action is available, you will n
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
-* or_selector: Takes a list of sselectors and executes the action if at least one is true
+* or_selector: Takes a list of selectors and executes the action if at least one is true
+* not_selector: Takes a list of only on selector and executes the action if that selector conditions are NOT met. 
 
 ```  
 and_selector: [
