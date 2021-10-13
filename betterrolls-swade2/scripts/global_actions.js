@@ -182,11 +182,13 @@ function check_selector(type, value, item, actor){
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'actor_has_effect') {
+        // noinspection AnonymousFunctionJS
         const effect = actor.effects.find(
             effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
         selected = effect ? ! effect.data.disabled : false;
     } else if (type === 'actor_has_edge') {
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
+        // noinspection AnonymousFunctionJS
         const edge = actor.items.find(item => {
             return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
                 edge_name.toLowerCase());
@@ -195,6 +197,7 @@ function check_selector(type, value, item, actor){
     } else if (type === 'actor_has_hindrance') {
         const hindrance_name = value.includes("BRSW.HindranceName-") ?
             game.i18n.localize(value) : value;
+        // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
             return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
                 hindrance_name.toLowerCase());
