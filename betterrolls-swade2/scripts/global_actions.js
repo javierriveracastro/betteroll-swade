@@ -67,6 +67,13 @@ export function register_actions() {
     game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(world_actions);
 }
 
+/**
+ * Process the not selector
+ */
+function process_not_selector(action, item, actor) {
+    return ! process_action(action.not_selector[0], item, actor)
+}
+
  /**
   * Process and and selector.
   * @param action
@@ -118,6 +125,8 @@ function process_action(action, item, actor) {
         selected = process_and_selector(action, item, actor);
     } else if (action.hasOwnProperty('or_selector')) {
         selected = process_or_selector(action, item, actor);
+    } else if (action.hasOwnProperty('not_selector')) {
+        selected = process_not_selector(action, item, actor)
     }
     return selected;
 }
@@ -348,7 +357,7 @@ export class WorldGlobalActions extends FormApplication {
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
                 'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
-                'or_selector', 'rof', 'self_add_status']
+                'or_selector', 'rof', 'self_add_status', 'not_selector']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key
