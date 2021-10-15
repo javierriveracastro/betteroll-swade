@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-// noinspection JSCheckFunctionSignatures
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, CharMessage, ui, Hooks, Dialog */
 
 import {
     BRSW_CONST,
@@ -20,7 +20,7 @@ import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
-let TEMPLATE_CLASS = undefined;
+let TEMPLATE_CLASS;
 import("/systems/swade/module/documents/SwadeMeasuredTemplate.js").then((result) => {
     TEMPLATE_CLASS = result;
 }).catch(() => {TEMPLATE_CLASS = null})
@@ -168,7 +168,7 @@ export function item_card_hooks() {
  */
 async function item_click_listener(ev, target) {
     const action = get_action_from_click(ev);
-    if (action === 'system') return;
+    if (action === 'system') {return}
     ev.stopImmediatePropagation();
     ev.preventDefault();
     ev.stopPropagation();
@@ -405,7 +405,7 @@ export function make_item_footer(item) {
 export function get_item_trait(item, actor) {
     // Some types of items doesn't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
-            item.type.toLowerCase())) return;
+            item.type.toLowerCase())) {return}
     // First if the item has a skill in actions we use it
     if (item.data.data.actions && item.data.data.actions.skill) {
         return trait_from_string(actor, item.data.data.actions.skill);
@@ -450,8 +450,8 @@ export function get_item_trait(item, actor) {
 function trait_from_string(actor, trait_name) {
     let skill = actor.items.find(skill => {
         return skill.name.toLowerCase().replace('★ ', '') ===
-            trait_name.toLowerCase().replace('★ ', '')
-            && skill.type === 'skill';
+            trait_name.toLowerCase().replace('★ ', '') &&
+            skill.type === 'skill';
     });
     if (!skill) {
         // Time to check for an attribute
@@ -541,8 +541,8 @@ async function discount_pp(actor, item, rolls) {
         arcaneDevice = true;
     }
     // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)   
-    && actor.data.data.powerPoints[item.data.data.arcane].max) {
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
+             actor.data.data.powerPoints[item.data.data.arcane].max) {
         // Specific power points
         current_pp = actor.data.data.powerPoints[item.data.data.arcane].value;
     } else {
@@ -563,8 +563,8 @@ async function discount_pp(actor, item, rolls) {
           // Updating the Arcane Device:
           await actor.updateOwnedItem(updates);
     }
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)
-    && actor.data.data.powerPoints[item.data.data.arcane].max) {
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
+             actor.data.data.powerPoints[item.data.data.arcane].max) {
         data['data.powerPoints.' + item.data.data.arcane + '.value'] =
             final_pp;
     } else {
@@ -634,7 +634,7 @@ export async function roll_item(message, html, expend_bennie,
     let macros = [];
     let shots_override = -1;  // Override the number of shots used
     let extra_data = {skill: trait};
-    if (expend_bennie) await spend_bennie(actor);
+    if (expend_bennie) {await spend_bennie(actor)};
     extra_data.rof = item.data.data.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
