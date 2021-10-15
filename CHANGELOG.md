@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.49 aka Selectors Evolved
+* Refactoring: Lots of cleanups, naming of functions, making functions shorter and paying of debts, hoping to arrive someday to a more readable code.
+* GlobalActions: Added a not selector to allow for selectors like not having an edge.
+* GlobalActions: Support for nested or, and and not selectors.
+* Translations: Another batch of updates for Portuguses, German and Italian translations from the incredible Weblate team.
+
 ## Version 2.48 aka More refactorings because life is boring when everything works 
 * Rolls: Gang-up calculation now knows block and improved block
 * Bug: Br doesn't break when there is a combat and no token for a combatant
