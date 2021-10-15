@@ -726,6 +726,33 @@ function get_reroll_options(rof, actor, render_data, modifiers, total_modifiers,
     return {rof, modifiers, total_modifiers, options};
 }
 
+async function show_3d_dice(roll, message, modifiers) {
+    let wild_die_theme;
+    try {
+        // Swade 16
+        wild_die_theme = game.settings.get('swade', 'dsnWildDie');
+    } catch (_) {
+        // Swade 16.0.3
+        wild_die_theme = game.user.getFlag('swade', 'dsnWildDie') || "none";
+    }
+    if (wild_die_theme !== 'none') {
+        roll.dice[roll.dice.length - 1].options.colorset = wild_die_theme;
+    }
+    let users = null;
+    if (message.data.whisper.length > 0) {
+        users = message.data.whisper;
+    }
+    const blind = message.data.blind
+    // Dice buried in modifiers.
+    for (let modifier of modifiers) {
+        if (modifier.dice) {
+            // noinspection ES6MissingAwait
+            game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind)
+        }
+    }
+    await game.dice3d.showForRoll(roll, game.user, true, users, blind);
+}
+
 /**
  * Makes a roll trait
  * @param message
@@ -840,30 +867,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         render_data.trait_roll.is_fumble = dice[dice.length - 1].results[0] === 1;
     }
     if (game.dice3d) {
-        let wild_die_theme;
-        try {
-            // Swade 16
-            wild_die_theme = game.settings.get('swade', 'dsnWildDie');
-        } catch (_) {
-            // Swade 16.0.3
-            wild_die_theme = game.user.getFlag('swade', 'dsnWildDie') || "none";
-        }
-        if (wild_die_theme !== 'none') {
-            roll.dice[roll.dice.length - 1].options.colorset = wild_die_theme;
-        }
-        let users = null;
-        if (message.data.whisper.length > 0) {
-            users = message.data.whisper;
-        }
-        const blind = message.data.blind
-        // Dice buried in modifiers.
-        for (let modifier of modifiers) {
-            if (modifier.dice) {
-                // noinspection ES6MissingAwait
-                game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind)
-            }
-        }
-        await game.dice3d.showForRoll(roll, game.user, true, users, blind);
+        await show_3d_dice(roll, message, modifiers);
     }
     // Calculate results
     if (!render_data.trait_roll.is_fumble) {
