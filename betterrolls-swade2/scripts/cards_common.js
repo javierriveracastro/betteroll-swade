@@ -106,7 +106,7 @@ export function create_basic_chat_data(origin, type){
     let whisper_data = getWhisperData();
     // noinspection JSUnresolvedVariable
     let chatData = {
-        user: game.user._id,
+        user: game.user.id,
         content: '<p>Default content, likely an error in Better Rolls</p>',
         speaker: {
             actor: actor._idx,
@@ -120,7 +120,7 @@ export function create_basic_chat_data(origin, type){
         chatData.whisper = whisper_data.whisper
     }
     if (type === CONST.CHAT_MESSAGE_TYPES.ROLL) {
-        chatData.roll = new Roll("0").roll();
+        chatData.roll = new Roll("0").roll({async:false});
         chatData.rollMode = whisper_data.rollMode;
     }
     // noinspection JSValidateTypes
