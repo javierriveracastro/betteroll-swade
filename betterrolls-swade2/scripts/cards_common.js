@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, console, getProperty, duplicate */
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate */
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
@@ -813,7 +813,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         roll_string += wild_die_formula;
     }
     let roll = new Roll(roll_string);
-    roll.evaluate()
+    roll.evaluate({async:false})
     let min_value = 99999999;
     let min_position = 0;
     let index = 0
@@ -1142,7 +1142,7 @@ export function create_modifier(label, expression) {
         if (expression.indexOf('d')) {
             // This is a dice expression
             modifier.dice = new Roll(expression)
-            modifier.dice.evaluate()
+            modifier.dice.evaluate({async:false})
             modifier.value = parseInt(modifier.dice.result)
         } else {
             modifier.value = parseInt(expression)
@@ -1195,7 +1195,6 @@ function get_actor_armor_minimum_strength(actor) {
         {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipped})
     let penalty = 0
     for (let armor of min_str_armors) {
-        console.log(armor)
         const splited_minStr = armor.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides

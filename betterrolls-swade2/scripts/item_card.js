@@ -296,7 +296,7 @@ export function activate_item_card_listeners(message, html) {
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
            ev.currentTarget.dataset.damage,
-           `${actor.name} - ${item.name}`).error(console.error);
+           `${actor.name} - ${item.name}`).then();
    });
    html.find('.brsw-target-tough').click(ev => {
       edit_tougness(message, ev.currentTarget.dataset.index);
@@ -1023,7 +1023,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             shortcuts.str = "1d1[Strength]";
         }
         let roll = new Roll(raise ? formula + raise_formula : formula, shortcuts);
-        roll.evaluate();
+        roll.evaluate({async:false});
         const defense_values = get_tougness_targeted_selected(actor, target);
         current_damage_roll.brswroll.rolls.push(
             {result: roll.total + total_modifiers, tn: defense_values.toughness,
@@ -1128,7 +1128,7 @@ function add_damage_dice(message, index) {
     const actor = get_actor_from_message(message);
     let damage_rolls = render_data.damage_rolls[index].brswroll;
     let roll = new Roll("1d6x");
-    roll.evaluate();
+    roll.evaluate({async:false});
     damage_rolls.rolls[0].result += roll.total;
     roll.terms.forEach(term => {
         let new_die = {

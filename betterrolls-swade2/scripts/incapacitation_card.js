@@ -158,7 +158,7 @@ export async function create_injury_card(token_id) {
     }
     // First roll
     let first_roll = new Roll("2d6");
-    first_roll.evaluate();
+    first_roll.evaluate({async:false});
     if (game.dice3d) {
         // noinspection ES6MissingAwait
         await game.dice3d.showForRoll(first_roll, game.user, true);
@@ -170,7 +170,7 @@ export async function create_injury_card(token_id) {
     for (let table in SECOND_INJURY_TABLES) {
         if (SECOND_INJURY_TABLES.hasOwnProperty(table)) {
             if (first_result === table) {
-                second_roll.evaluate();
+                second_roll.evaluate({async:false});
                 if (game.dice3d) {
                     // noinspection ES6MissingAwait
                     await game.dice3d.showForRoll(second_roll, game.user, true);

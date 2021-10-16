@@ -150,10 +150,9 @@ async function apply_damage(token, wounds, soaked=0) {
         incapacitated = false;
         // Remove defeated mark in case it was marked as defeated before soak
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token._id === token.id) {
+            if (combatant.token.id === token.id) {
                 token.update({overlayEffect: ''});
-                game.combat.updateCombatant(
-                    {_id: combatant._id, defeated: false});
+                combatant.update({defeated: false})
             }
         });
     }
