@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate */
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate*/
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
@@ -38,12 +38,9 @@ export function BRWSRoll() {
  * @param render_object
  */
 async function store_render_flag(message, render_object) {
-    const properties_to_delete = ['actor', 'skill', 'bennie_avaliable'];
-    properties_to_delete.forEach(property => {
-        if (render_object.hasOwnProperty(property)) {
-            delete render_object[property];
-        }
-    });
+    for (let property of ['actor', 'skill', 'bennie_avaliable']) {
+        delete render_object[property];
+    }
     // Get sure thar there is a diff so update socket gets fired.
     if (message.data.flags?.['betterrolls-swade2']?.render_data) {
         message.data.flags['betterrolls-swade2'].render_data.update_uid = broofa();
@@ -565,6 +562,7 @@ export function check_and_roll_conviction(actor) {
 }
 
 
+// noinspection FunctionTooLongJS
 /**
  * Get all the options needed for a new roll
  * @param actor
@@ -782,7 +780,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         total_modifiers = __ret.total_modifiers;
         options = __ret.options;
     }
-    let fumble_possible = 0;
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
     let dice = [];
@@ -792,8 +789,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
 	    roll_string = `1d1`;
         for (let i = 0; i < (rof - 1); i++) {
           roll_string += `+1d${trait_dice.die.sides}`;
-        }    
-    } else { 
+        }
+    } else {
         for (let i = 0; i < (rof - 1); i++) {
             roll_string += `+1d${trait_dice.die.sides}x`
         }
@@ -817,6 +814,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let min_value = 99999999;
     let min_position = 0;
     let index = 0
+    let fumble_possible = 0;
     roll.terms.forEach((term) => {
         if (term.hasOwnProperty('faces')) {
             // Results
