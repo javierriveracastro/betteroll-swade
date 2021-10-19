@@ -53,7 +53,7 @@ async function store_render_flag(message, render_object) {
 /**
  * Creates a char card
  *
- * @param {Token, SwadeActor} origin The origin of this card
+ * @param {PlaceableObject, SwadeActor} origin The origin of this card
  * @param {object} render_data Data to pass to the render template
  * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card

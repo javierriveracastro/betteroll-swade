@@ -1,4 +1,5 @@
 // functions for the incapacitation card
+/* globals canvas, game, CONST, Roll */
 
 import {
     BRSW_CONST,
@@ -77,19 +78,26 @@ export async function create_incapacitation_card(token_id) {
 }
 
 /**
- * Activate the listeners of the incapacitation card card
- * @param message: Message date
- * @param html: Html produced
+ * Checks if a benny has been expended and rolls in the incapacitation table.
+ * @param ev
  */
-export function activate_incapacitation_card_listeners(message, html) {
-    html.find('.brsw-vigor-button, .brsw-roll-button').click((ev) =>{
+function roll_incapacitation_clicked(ev) {
         let spend_bennie = false
         if (ev.currentTarget.classList.contains('roll-bennie-button')) {
             spend_bennie=true
         }
         // noinspection JSIgnoredPromiseFromCall
-        roll_incapacitation(message, spend_bennie);
-    });
+        roll_incapacitation(ev.data.message, spend_bennie);
+}
+
+/**
+ * Activate the listeners of the incapacitation card card
+ * @param message: Message date
+ * @param html: Html produced
+ */
+export function activate_incapacitation_card_listeners(message, html) {
+    html.find('.brsw-vigor-button, .brsw-roll-button').bind(
+        'click', {message: message}, roll_incapacitation_clicked);
     html.find('.brsw-injury-button').click(() => {
         // noinspection JSIgnoredPromiseFromCall
         create_injury_card(message.getFlag('betterrolls-swade2', 'token'))
