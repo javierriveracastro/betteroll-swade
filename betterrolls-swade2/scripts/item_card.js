@@ -16,7 +16,7 @@ import {
     has_joker, create_modifier, process_common_actions
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
-import {get_targeted_token, makeExplotable, broofa} from "./utils.js";
+import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
@@ -308,6 +308,8 @@ export function activate_item_card_listeners(message, html) {
         // noinspection JSIgnoredPromiseFromCall
         half_damage(message, ev.currentTarget.dataset.index);
     })
+    html.find('.brsw-add-damage-number').bind(
+        'click', {message: message}, show_fixed_damage_dialog)
     html.find('.brsw-template-button').on('click', ev => {
         let templateData = {
             user: game.user.id,
@@ -1010,7 +1012,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     // Roll
     let formula = makeExplotable(roll_formula);
-    console.log(formula)
     let targets = [undefined];
     if (game.user.targets.size > 0) {
         targets = game.user.targets;
@@ -1162,6 +1163,36 @@ function add_damage_dice(message, index) {
     }
     // noinspection JSIgnoredPromiseFromCall
     update_message(message, actor, render_data)
+}
+
+
+async function show_fixed_damage_dialog(event) {
+    // noinspection AnonymousFunctionJS
+    simple_form(game.i18n.localize("BRSW.EditModifier"),
+        [{label: 'Label', default_value: 'Mod'},
+               {label:'Value', default_value: 0}],
+        (values) => {add_fixed_damage(event, values)})
+}
+
+
+/**
+ * Adds a fixed ammount of damage to a roll
+ * @param event
+ * @param form_results
+ */
+async function add_fixed_damage(event, form_results) {
+    const modifier = parseInt(form_results.Value)
+    if (! modifier) {return}
+    const index = event.currentTarget.dataset.index
+    const actor = get_actor_from_message(event.data.message);
+    let render_data = event.data.message.getFlag('betterrolls-swade2', 'render_data')
+    let damage_rolls = render_data.damage_rolls[index].brswroll
+    damage_rolls.modifiers.push(
+        {value: modifier, name: form_results.Label})
+    damage_rolls.rolls[0].result += modifier
+    render_data.damage_rolls[index].damage_result += calculate_results(
+        damage_rolls.rolls, true)
+    await update_message(event.data.message, actor, render_data)
 }
 
 

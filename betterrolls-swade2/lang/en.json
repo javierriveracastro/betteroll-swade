@@ -220,5 +220,6 @@
     "BRSW.NotEnoughStrength": "Under minimum Strength",
     "BRSW.EdgeName-ImprovedBlock": "Improved Block",
     "BRSW.EdgeName-Block": "Block",
-    "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength"
+    "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength",
+    "BRSW.AddDamage": "Add fixed damage"
 }

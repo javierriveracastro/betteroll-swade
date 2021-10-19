@@ -219,5 +219,6 @@
     "BRSW.NotEnoughStrength": "Menos fuerza que la minima",
     "BRSW.EdgeName-ImprovedBlock": "Parada mejorada",
     "BRSW.EdgeName-Block": "Parada",
-    "BRSW.NotEnoughStrengthArmor": "Fuerza insuficiente para la armadura"
+    "BRSW.NotEnoughStrengthArmor": "Fuerza insuficiente para la armadura",
+    "BRSW.AddDamage": "Añadir un daño fijo"
 }
