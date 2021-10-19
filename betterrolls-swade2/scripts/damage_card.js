@@ -37,7 +37,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         show_injury: show_injury, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/damage_card.html")
-    await message.update({user: user._id});
+    await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
     return message
@@ -140,10 +140,10 @@ async function apply_damage(token, wounds, soaked=0) {
         incapacitated = true;
         // Mark as defeated if the token is in a combat
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token._id === token.id) {
+            if (combatant.token.id === token.id) {
                 token.update({overlayEffect: 'icons/svg/skull.svg'});
                 game.combat.updateCombatant(
-                    {_id: combatant._id, defeated: true});
+                    {_id: combatant.id, defeated: true});
             }
         });
     } else {
@@ -178,10 +178,10 @@ async function undo_damage(message){
     const token = message.getFlag('betterrolls-swade2', 'token');
     if (token) {
         game.combat?.combatants.forEach(combatant => {
-            if (combatant.token._id === token) {
+            if (combatant.token.id === token) {
                 canvas.tokens.get(token).update({overlayEffect: ''});
                 game.combat.updateCombatant(
-                    {_id: combatant._id, defeated: false});
+                    {_id: combatant.id, defeated: false});
             }
         });
     }

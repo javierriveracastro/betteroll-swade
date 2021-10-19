@@ -70,7 +70,7 @@ export async function create_incapacitation_card(token_id) {
         footer: footer, trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
-    await message.update({user: user._id});
+    await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INC_CARD)
     return message
@@ -199,7 +199,7 @@ export async function create_injury_card(token_id) {
         second_location: game.i18n.localize(second_result),
         footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/injury_card.html")
-    await message.update({user: user._id});
+    await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INJ_CARD)
     return message
