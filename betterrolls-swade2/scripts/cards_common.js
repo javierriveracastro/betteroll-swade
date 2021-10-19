@@ -752,6 +752,28 @@ async function show_3d_dice(roll, message, modifiers) {
 }
 
 /**
+ * Creates a roll string from a trait an a number of dice
+ * @param trait_dice
+ * @param rof
+ * @return {string}
+ */
+function create_roll_string(trait_dice, rof) {
+    let roll_string = `1d${trait_dice.die.sides}x`
+    // @zk-sn: If roll is a 1d1x (example: Strength score of 1), change it to 1d1 to prevent exploding die recursion.  (Fix for #211)
+    if (roll_string === `1d1x`) {
+        roll_string = `1d1`;
+        for (let i = 0; i < (rof - 1); i++) {
+            roll_string += `+1d${trait_dice.die.sides}`;
+        }
+    } else {
+        for (let i = 0; i < (rof - 1); i++) {
+            roll_string += `+1d${trait_dice.die.sides}x`
+        }
+    }
+    return roll_string;
+}
+
+/**
  * Makes a roll trait
  * @param message
  * @param trait_dice An object representing a trait dice
@@ -783,24 +805,13 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
     let dice = [];
-    let roll_string = `1d${trait_dice.die.sides}x`
-    // @zk-sn: If roll is a 1d1x (example: Strength score of 1), change it to 1d1 to prevent exploding die recursion.  (Fix for #211)
-    if (roll_string === `1d1x`) {
-	    roll_string = `1d1`;
-        for (let i = 0; i < (rof - 1); i++) {
-          roll_string += `+1d${trait_dice.die.sides}`;
-        }
-    } else {
-        for (let i = 0; i < (rof - 1); i++) {
-            roll_string += `+1d${trait_dice.die.sides}x`
-        }
-    }
+    let roll_string = create_roll_string(trait_dice, rof);
     // Make penalties red
-    modifiers.forEach(mod => {
+    for (let mod of modifiers) {
         if (mod.value < 0) {
             mod.extra_class = ' brsw-red-text'
         }
-    })
+    }
     // Wild Die
     let wild_die_formula = `+1d${trait_dice['wild-die'].sides}x`;
     if (extra_data.hasOwnProperty('wildDieFormula')) {
