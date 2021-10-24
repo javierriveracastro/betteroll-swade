@@ -145,9 +145,6 @@ Hooks.on('dropCanvasData', (canvas, item) => {
 });
 
 Hooks.on('hotbarDrop', async (bar, data, slot) => {
-    console.log(bar)
-    console.log(data)
-    console.log(slot)
     if (data.type === 'Item') {
         const command = `
             let behaviour = game.brsw.get_action_from_click(event);
