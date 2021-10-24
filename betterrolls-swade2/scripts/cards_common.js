@@ -790,7 +790,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let extra_options = {};
     let options = {};
     if (!render_data.trait_roll.rolls.length) {
-        // Get target options
         const __ret = get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, modifiers, total_modifiers);
         options = __ret.options;
         rof = __ret.rof;

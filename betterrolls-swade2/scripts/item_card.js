@@ -689,7 +689,7 @@ export async function roll_item(message, html, expend_bennie,
             if (min_str_die_size > str_die_size) {
                 // Minimum strength is not meet
                 const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"),
-                    Math.trunc((min_str_die_size - str_die_size) / 2))
+                    - Math.trunc((min_str_die_size - str_die_size) / 2))
                 extra_data.modifiers = [new_mod]
             }
         }
