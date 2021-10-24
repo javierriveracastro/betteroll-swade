@@ -42,7 +42,6 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let trait_roll = new BRWSRoll();
     let action_groups = create_actions_array({}, skill, actor);
-    console.log(collapse_actions)
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
@@ -115,54 +114,6 @@ export function activate_skill_listeners(app, html) {
     const skill_labels = html.find('.skill-label a, .skill.item>a, .skill-name, .skill-die');
     skill_labels.bindFirst('click', async ev => {
         await skill_click_listener(ev, target);
-    });
-    // System drag listeners are on lis or spans, not as
-    let skill_li = html.find('li.item.skill, span.item.skill');
-    skill_li.bindFirst('dragstart',async ev => {
-        // First term for PC, second one for NPCs
-        const skill_id = ev.currentTarget.dataset.itemId;
-        const token_id = app.token ? app.token.id : '';
-        const actor_id = app.object ? app.object.id : '';
-        const actor = game.actors.get(actor_id);
-        const item = actor.items.get(skill_id);
-        let macro_data = {name: `${actor.name}: ${item.name}`, type: "script",
-            scope: "global", img: item.img};
-        macro_data.command = `/*######### USAGE #########
-
-When you click this macro or drag it on to a target, the card displayed and rolls made will be determined by whether you are holding down Ctrl, Alt, Shift, or none. Configured in Better Rolls 2 Module Settings.
-
-#########################*/
-        
-if (event) {
-    // If macro can detect the event (click or drag) that triggered it, get which modifier keys are held down during click or drag and apply roll behavior configured in module settings.
-    let macro_behavior;
-    if (event.ctrlKey===true) {
-        macro_behavior=game.settings.get('betterrolls-swade2', 'ctrl_click');
-    } else if (event.altKey===true) {
-        macro_behavior=game.settings.get('betterrolls-swade2', 'alt_click');
-    } else if (event.shiftKey===true) {
-        macro_behavior=game.settings.get('betterrolls-swade2', 'shift_click');
-    } else {
-        macro_behavior=game.settings.get('betterrolls-swade2', 'click');
-    }
-    if (macro_behavior==='trait'||macro_behavior==='trait_damage') {
-        // Display Better Rolls 2 card and roll trait
-        game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}').then(message => {
-            game.brsw.roll_skill(message, "", false);
-        });
-    } else if (macro_behavior === 'system') {
-        // Display default system card
-        game.swade.rollItemMacro('${item.name}');
-    } else { 
-        // Display Better Rolls 2 card
-        game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}');
-    }
-} else {
-    // Event not found, Display Better Rolls 2 card
-    game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${skill_id}');
-}`;
-        ev.originalEvent.dataTransfer.setData(
-            'text/plain', JSON.stringify({type:'Macro', data: macro_data}));
     });
 }
 
