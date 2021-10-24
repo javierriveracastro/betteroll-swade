@@ -85,7 +85,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
 /**
 * Creates the basic chat data common to most cards
 * @param {SwadeActor, Token} origin:  The actor origin of the message
-* @param {int} type: The type of message
+* @param {int, string} type: The type of message
 * @return An object suitable to create a ChatMessage
 */
 export function create_basic_chat_data(origin, type){
@@ -211,6 +211,7 @@ export function get_actor_from_ids(token_id, actor_id) {
                 token = canvas.tokens.get(token_id);
             } catch (_) {
                 // At boot the canvas can be still be drawn, we wait
+                // noinspection AnonymousFunctionJS
                 setTimeout(() => {
                     token =canvas.tokens.get(token_id);
                 }, 200);
@@ -248,7 +249,7 @@ export function activate_common_listeners(message, html) {
     let actor = get_actor_from_message(message);
     // Actor will be undefined if this is called before flags are set
     if (actor){
-        // noinspection JSUnresolvedFunction
+        // noinspection JSUnresolvedFunction,AnonymousFunctionJS
         html.find('.brws-actor-img').addClass('bound').click(async () => {
             await manage_sheet(actor)
         });
@@ -1194,7 +1195,7 @@ export function process_common_actions(action, extra_data, macros) {
 }
 
 /**
- * Gets the bigger minimun strenght
+ * Gets the bigger minimum strength
  * @param actor
  */
 function get_actor_armor_minimum_strength(actor) {
