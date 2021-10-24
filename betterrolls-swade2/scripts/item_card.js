@@ -635,7 +635,7 @@ export async function roll_item(message, html, expend_bennie,
     let trait = get_item_trait(item, actor);
     let macros = [];
     let shots_override = -1;  // Override the number of shots used
-    let extra_data = {skill: trait};
+    let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(actor)};
     extra_data.rof = item.data.data.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
@@ -690,7 +690,7 @@ export async function roll_item(message, html, expend_bennie,
                 // Minimum strength is not meet
                 const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"),
                     - Math.trunc((min_str_die_size - str_die_size) / 2))
-                extra_data.modifiers = [new_mod]
+                extra_data.modifiers.push(new_mod)
             }
         }
     }
