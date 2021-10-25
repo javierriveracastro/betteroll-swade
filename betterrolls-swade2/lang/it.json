@@ -220,5 +220,6 @@
     "BRSW.Cone": "Modello conico",
     "BRSW.SmallTemplate": "Modello di esplosione piccola",
     "BRSW.MediumTemplate": "Modello di esplosione media",
-    "BRSW.LargeTemplate": "Modello di esplosione grande"
+    "BRSW.LargeTemplate": "Modello di esplosione grande",
+    "BRSW.AddDamage": "Aggiungi un danno fisso"
 }
