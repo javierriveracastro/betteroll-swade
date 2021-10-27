@@ -1,4 +1,5 @@
 // Init scripts for version 2
+/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG */
 import {activate_common_listeners, manage_selectable_click, manage_collapsables,
     BRSW_CONST, get_action_from_click} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
@@ -22,8 +23,8 @@ Hooks.once("setup", async function () {
 
 // Base Hook
 Hooks.on(`ready`, () => {
-	console.log('Better Rolls 2 for SWADE | Ready');
-	// Create a base object to hook functions
+    console.log('Better Rolls 2 for SWADE | Ready');
+    // Create a base object to hook functions
     game.brsw = {};
     game.brsw.get_action_from_click = get_action_from_click;
     attribute_card_hooks();
@@ -135,13 +136,13 @@ Hooks.on('dropCanvasData', (canvas, item) => {
         });
         if (number_marked) {
             const command = create_macro_command(item)
-            eval('(async () => {' + command + '})()')
+            eval('(async () => {' + command + '})()') // jshint ignore:line
         }
     }
 });
 
 function create_macro_command(data) {
-    const command = `
+    return `
             let behaviour = game.brsw.get_action_from_click(event);
             if (behaviour === 'system') {
                 game.swade.rollItemMacro('${data.data.name}');
@@ -154,7 +155,6 @@ function create_macro_command(data) {
                 }
             }
         `
-    return command;
 }
 
 Hooks.on('hotbarDrop', async (bar, data, slot) => {
@@ -428,7 +428,7 @@ function register_dsn_settings(){
             }
         }
         let damage_theme_choice = Object.assign({}, theme_choice);
-        damage_theme_choice['None'] = 'None';
+        damage_theme_choice.None = 'None';
         game.settings.register('betterrolls-swade2', 'damageDieTheme', {
             name: game.i18n.localize("BRSW.DamageDiceTheme"),
             hint: game.i18n.localize("BRSW.DamageDiceThemeHint"),
@@ -438,5 +438,5 @@ function register_dsn_settings(){
             choices: damage_theme_choice,
             config: true
         });
-	}).catch(()=>{console.log('Dice So Nice not installed')});
+    }).catch(()=>{console.log('Dice So Nice not installed')});
 }
