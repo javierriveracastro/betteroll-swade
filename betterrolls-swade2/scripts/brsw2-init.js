@@ -124,7 +124,8 @@ Hooks.on('renderSidebarTab', (_, html) => {
 
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
-    if (item.type === 'Macro') {
+    if (item.type === 'Item') {
+        console.log("Yeah")
         let grid_size = canvas.scene.data.grid
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
@@ -133,20 +134,14 @@ Hooks.on('dropCanvasData', (canvas, item) => {
             width: grid_size
         });
         if (number_marked) {
-            // Change item type to avoid that Foundry processes it
-            item.type = 'Custom';
-            if (item.hasOwnProperty('id')) {
-                game.macros.get(item.id).execute();
-            } else {
-                eval(item.data.command);
-            }
+            const command = create_macro_command(item)
+            eval('(async () => {' + command + '})()')
         }
     }
 });
 
-Hooks.on('hotbarDrop', async (bar, data, slot) => {
-    if (data.type === 'Item') {
-        const command = `
+function create_macro_command(data) {
+    const command = `
             let behaviour = game.brsw.get_action_from_click(event);
             if (behaviour === 'system') {
                 game.swade.rollItemMacro('${data.data.name}');
@@ -155,11 +150,16 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
             let message = await game.brsw.create_skill_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
             if (event) {
                 if (behaviour.includes('trait')) {
-                    console.log(behaviour)
                     game.brsw.roll_skill(message, '', false)
                 }
             }
         `
+    return command;
+}
+
+Hooks.on('hotbarDrop', async (bar, data, slot) => {
+    if (data.type === 'Item') {
+        const command = create_macro_command(data);
         let macro = await Macro.create(({
             name: data.data?.name,
             type: 'script',
