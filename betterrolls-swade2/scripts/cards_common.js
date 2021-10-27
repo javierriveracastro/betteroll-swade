@@ -331,22 +331,22 @@ export function activate_common_listeners(message, html) {
  */
 export function manage_collapsables(html) {
     let collapse_buttons = html.find('.brsw-collapse-button');
-	collapse_buttons.click(e => {
-		e.preventDefault();
-		e.stopPropagation();
-		let clicked = $(e.currentTarget)
-		let collapsable_span = html.find('.' + clicked.attr('data-collapse'));
-		collapsable_span.toggleClass('brsw-collapsed');
-		if (collapsable_span.hasClass('brsw-collapsed')) {
-		    const button = clicked.find('.fas.fa-caret-down');
-			button.removeClass('fa-caret-down');
-			button.addClass('fa-caret-right');
-		} else {
-		    const button = clicked.find('.fas.fa-caret-right');
-			button.removeClass('fa-caret-right');
-			button.addClass('fa-caret-down');
-		}
-	});
+    collapse_buttons.click(e => {
+        e.preventDefault();
+        e.stopPropagation();
+        let clicked = $(e.currentTarget)
+        let collapsable_span = html.find('.' + clicked.attr('data-collapse'));
+        collapsable_span.toggleClass('brsw-collapsed');
+        if (collapsable_span.hasClass('brsw-collapsed')) {
+            const button = clicked.find('.fas.fa-caret-down');
+            button.removeClass('fa-caret-down');
+            button.addClass('fa-caret-right');
+        } else {
+            const button = clicked.find('.fas.fa-caret-right');
+            button.removeClass('fa-caret-right');
+            button.addClass('fa-caret-down');
+        }
+    });
 }
 
 /**
