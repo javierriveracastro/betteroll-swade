@@ -8,7 +8,7 @@
         {{{ skill.data.data.description }}}
     </div>
     {{# if ammo }}<div class="brws-attribute-buttons">
-        <div class="brws-common-modifiers">
+        <div class="brws-common-modifiers brsw-form">
             <span class="brws-selectable brsw-clickable brsw-ammo-toggle {{#if subtract_selected}}brws-selected{{/if}}">
                 {{ localize 'BRSW.SubtractAmmo' }}
             </span>
@@ -18,7 +18,7 @@
         </div>
     </div>{{/if}}
     {{# if powerpoints}}
-        <div class="brws-common-modifiers">
+        <div class="brws-common-modifiers brsw-form">
             <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
                 {{ localize 'BRSW.SubtractPP' }}
             </span>
