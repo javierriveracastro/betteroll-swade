@@ -148,10 +148,19 @@ function create_macro_command(data) {
                 game.swade.rollItemMacro('${data.data.name}');
                 return;
             }
-            let message = await game.brsw.create_skill_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
+            let message;
+            if (${data.data.type === 'skill'}) {
+                message = await game.brsw.create_skill_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
+            } else {
+                message = await game.brsw.create_item_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
+            }
             if (event) {
                 if (behaviour.includes('trait')) {
-                    game.brsw.roll_skill(message, '', false)
+                    if (${data.data.type === 'skill'}) {                  
+                        game.brsw.roll_skill(message, '', false)
+                    } else {
+                        game.brsw.roll_item(message, "", false, true)
+                    }
                 }
             }
         `
