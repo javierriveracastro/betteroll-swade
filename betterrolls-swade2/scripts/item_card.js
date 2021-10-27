@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, CharMessage, ui, Hooks, Dialog */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog */
 
 import {
     BRSW_CONST,
@@ -189,6 +189,21 @@ async function item_click_listener(ev, target) {
     }
 }
 
+/**
+ * Overrides the default dragstart handle to allow itemIds in another parts
+ * of the tag chain
+ * @param ev
+ */
+function drag_start_handle(ev) {
+    if (! ev.currentTarget.dataset.itemId) {
+        ev.currentTarget.dataset.itemId =
+            ev.currentTarget.parentElement.dataset.itemId ||
+            ev.currentTarget.parentElement.parentElement.dataset.itemId ||
+            ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId
+    }
+    console.log(ev)
+    ev.data.app._onDragStart(ev.originalEvent)
+}
 
 /**
  * Activates the listeners in the character sheet in items
@@ -202,8 +217,10 @@ export function activate_item_listeners(app, html) {
         await item_click_listener(ev, target);
     });
     // TODO: Make the icons in the quick-access dragable
-    // let item_li = html.find('.gear-card.item, .item.flexrow, .power.item, .weapon.item')
-    // item_li.attr('draggable', 'true');
+    let item_li = html.find('.gear-card.item, .item.flexrow, .power.item, .weapon.item')
+    item_li.attr('draggable', 'true');
+    item_li.off('dragstart')
+    item_li.bind('dragstart', {app: app}, drag_start_handle);
 }
 
 
@@ -538,7 +555,7 @@ async function discount_pp(actor, item, rolls) {
 export function run_macros(macros, actor_param, item_param, message_param) {
     if (macros) {
         for (let macro_name of macros) {
-            const real_macro = game.macros.find(macro => macro.data.name === macro_name);
+            const real_macro = game.macros.find(macro => macro.data.name === macro_name); // jshint ignore:line
             if (real_macro) {
                 const actor = actor_param;
                 const item = item_param;
@@ -549,7 +566,7 @@ export function run_macros(macros, actor_param, item_param, message_param) {
                 const message = message_param;
                 // Attempt script execution
                 const body = `(async () => {${real_macro.data.command}})()`;
-                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body);
+                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body); // jshint ignore:line
                 try {
                   fn.call(this, speaker, actor, token, character, item, message, targets);
                 } catch (err) {
@@ -582,7 +599,7 @@ export async function roll_item(message, html, expend_bennie,
     let macros = [];
     let shots_override = -1;  // Override the number of shots used
     let extra_data = {skill: trait, modifiers: []};
-    if (expend_bennie) {await spend_bennie(actor)};
+    if (expend_bennie) {await spend_bennie(actor)}
     extra_data.rof = item.data.data.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
