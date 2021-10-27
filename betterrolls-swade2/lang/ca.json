@@ -213,5 +213,14 @@
     "BRSW.LargeTemplate": "plantilla d'àrea gran",
     "BRSW.RechargePPSoulDrainText": "{name} recupera 5 punts de poder emprant drenatge d'ànima i ara tens <b>${newPP}</b>.",
     "BRSW.Export": "Exportar a json",
-    "BRSW.SmallTemplate": "plantilla d'àrea petita"
+    "BRSW.SmallTemplate": "plantilla d'àrea petita",
+    "BRSW.NoAmmoLeft": "No et queda munició per recarregar aquesta arma.",
+    "BRSW.UnarmedDefender": "Defensor desarmat",
+    "BRSW.TouchAttack": "Atac de toc",
+    "BRSW.NonlethalDamage": "Danys no letals",
+    "BRSW.NotEnoughStrength": "Sota la força mínima",
+    "BRSW.EdgeName-ImprovedBlock": "Parada millorada",
+    "BRSW.EdgeName-Block": "Parada",
+    "BRSW.NotEnoughStrengthArmor": "Força insuficient per l'armadura",
+    "BRSW.AddDamage": "Afegir un dany fix"
 }

@@ -196,7 +196,7 @@
     "BRSW.IlluminationDim": "Penumbra",
     "BRSW.IlluminationDark": "Oscuridad",
     "BRSW.IlluminationPitch": "Oscuridad total",
-    "BRSW.Gangup": "Gangup",
+    "BRSW.Gangup": "Múltiples oponentes",
     "BRSW.ApShort": "PA",
     "BRSW.Export": "Exportar JSON",
     "BRSW.Import": "Importar",
@@ -220,5 +220,6 @@
     "BRSW.EdgeName-ImprovedBlock": "Parada mejorada",
     "BRSW.EdgeName-Block": "Parada",
     "BRSW.NotEnoughStrengthArmor": "Fuerza insuficiente para la armadura",
-    "BRSW.AddDamage": "Añadir un daño fijo"
+    "BRSW.AddDamage": "Añadir un daño fijo",
+    "BRSW.NoAmmoLeft": "No te queda munición para recargar esta arma."
 }
