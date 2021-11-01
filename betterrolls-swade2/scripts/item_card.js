@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll */
 
 import {
     BRSW_CONST,
@@ -212,11 +212,10 @@ function drag_start_handle(ev) {
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
-    const item_images = html.find('.item-image, .item-img, .name.item-show, span.item>.item-control.item-edit, .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4, .power-header>.item-name, .card-button');
+    const item_images = html.find('.item-image, .item-img, .name.item-show, span.item>.item-control.item-edit, .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4, .power-header>.item-name, .card-button, .item-control.item-show, .power button.item-show, .weapon button.item-show');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
-    // TODO: Make the icons in the quick-access dragable
     let item_li = html.find('.gear-card.item, .item.flexrow, .power.item, .weapon.item')
     item_li.attr('draggable', 'true');
     item_li.off('dragstart')
@@ -863,7 +862,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item = actor.items.find((item) => item.id === item_id);
     let raise_formula = '+1d6x';
     let macros = [];
-    if (expend_bennie) await spend_bennie(actor);
+    if (expend_bennie) {await spend_bennie(actor)}
     let total_modifiers = 0;
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
@@ -994,7 +993,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
             target_id: defense_values.token_id || 0});
         let last_string_term = ''
-        roll.terms.forEach(term => {
+        for (let term of roll.terms) {
             if (term.hasOwnProperty('faces')) {
                 let new_die = {faces: term.faces, results: [],
                     extra_class: '',
@@ -1005,9 +1004,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                         current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
                     }
                 }
-                term.results.forEach(result => {
+                for (let result of term.results) {
                     new_die.results.push(result.result);
-                })
+                }
                 current_damage_roll.brswroll.dice.push(new_die);
             } else {
                 let integer_term;
@@ -1033,7 +1032,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                     last_string_term = term;
                 }
             }
-        })
+        }
         if (raise) {
             // Last die is raise die.
             current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
