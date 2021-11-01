@@ -221,5 +221,9 @@
     "BRSW.EdgeName-Block": "Parada",
     "BRSW.NotEnoughStrengthArmor": "Fuerza insuficiente para la armadura",
     "BRSW.AddDamage": "Añadir un daño fijo",
-    "BRSW.NoAmmoLeft": "No te queda munición para recargar esta arma."
+    "BRSW.NoAmmoLeft": "No te queda munición para recargar esta arma.",
+    "BRSW.Ran": "Ha corrido",
+    "BRSW.Multi-action": "Acciones multiples",
+    "BRSW.Three-actions": "Tres acciones",
+    "BRSW.Two-actions": "Dos acciones"
 }

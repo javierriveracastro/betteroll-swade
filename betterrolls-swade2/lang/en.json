@@ -221,5 +221,10 @@
     "BRSW.EdgeName-ImprovedBlock": "Improved Block",
     "BRSW.EdgeName-Block": "Block",
     "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength",
-    "BRSW.AddDamage": "Add fixed damage"
+    "BRSW.AddDamage": "Add fixed damage",
+    "BRSW.Ran": "Ran",
+    "BRSW.Multi-action": "Multi-action",
+    "BRSW.EdgeName-Steady-Hands": "Steady Hands",
+    "BRSW.Three-actions": "Three actions",
+    "BRSW.Two-actions": "Two actions"
 }

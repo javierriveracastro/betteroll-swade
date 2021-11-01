@@ -126,7 +126,6 @@ Hooks.on('renderSidebarTab', (_, html) => {
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
     if (item.type === 'Item') {
-        console.log("Yeah")
         let grid_size = canvas.scene.data.grid
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
