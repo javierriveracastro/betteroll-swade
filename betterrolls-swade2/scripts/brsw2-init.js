@@ -183,37 +183,6 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
 // Hooks for Dice So Nice
 Hooks.once('diceSoNiceReady', () => {
     register_dsn_settings();
-    const bennyLabelFront = game.settings.get('betterrolls-swade2',
-        'bennyFront');
-    let bennyLabelBack = game.settings.get('betterrolls-swade2',
-        'bennyBack');
-    if (bennyLabelFront){
-        if (! bennyLabelBack) {
-            bennyLabelBack = bennyLabelFront;
-        }
-        CONFIG.SWADE.bennies.textures.front = bennyLabelFront;
-        CONFIG.SWADE.bennies.textures.back = bennyLabelBack;
-        CONFIG.SWADE.bennies.sheetImage = bennyLabelFront;
-        // Hacky as hell, if system hook has been run we already had a db,
-        // so we replace it. If it doesn't the above config values should be
-        // enough to change the bennie.
-        let system_die_found = false;
-        for (let die of game.dice3d.DiceFactory.systems.standard.dice){
-            // Check if systems has already created its dice
-            if (die.type === 'db') {
-                die.type = 'dsb';  // rename it and add our own
-                system_die_found = true;
-            }
-        }
-        if (system_die_found) {
-            game.dice3d.addDicePreset({
-                type: 'db',
-                labels: [bennyLabelFront, bennyLabelBack],
-                system: 'standard',
-                colorset: 'black',
-            }, 'd2')
-        }
-    }
 });
 
 // Character sheet hooks
@@ -400,31 +369,6 @@ function register_settings_version2() {
 // Settings related to Dice So Nice.
 
 function register_dsn_settings(){
-    // Custom bennie settings
-    // noinspection JSUnresolvedVariable
-    game.settings.register('betterrolls-swade2', 'bennyFront', {
-        name: game.i18n.localize("BRSW.BennieFrontName"),
-        hint: game.i18n.localize("BRSW.BenniFrontHint"),
-        type: window.Azzu.SettingsTypes.FilePickerImage,
-        default: '',
-        scope: 'world',
-        config: true,
-        onChange: () => {
-            window.location.reload();
-        }
-    });
-    // noinspection JSUnresolvedVariable
-    game.settings.register('betterrolls-swade2', 'bennyBack', {
-        name: game.i18n.localize("BRSW.BackBennieName"),
-        hint: game.i18n.localize("BRSW.BackBennieHint"),
-        type: window.Azzu.SettingsTypes.FilePickerImage,
-        default: '',
-        scope: 'world',
-        config: true,
-        onChange: () => {
-            window.location.reload();
-        }
-    });
     // noinspection JSFileReferences
     import('../../dice-so-nice/DiceColors.js').then(dsn => {
         let theme_choice = {};

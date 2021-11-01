@@ -139,9 +139,8 @@ export function create_render_options(actor, render_data, template) {
     render_data.result_master_only =
         game.settings.get('betterrolls-swade2', 'result-card') === 'master';
         // Benny image
-    render_data.benny_image = game.settings.settings.has('betterrolls-swade2.bennyFront') ?
-        game.settings.get('betterrolls-swade2', 'bennyFront') || '/systems/swade/assets/benny/benny-chip-front.png' :
-        '/systems/swade/assets/benny/benny-chip-front.png';
+    render_data.benny_image = game.settings.get('swade', 'bennyImage3DFront') ||
+        '/systems/swade/assets/benny/benny-chip-front.png'
     render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
     render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
     render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
