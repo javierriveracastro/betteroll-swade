@@ -221,5 +221,6 @@
     "BRSW.NotEnoughStrength": "Unter Mindeststärke",
     "BRSW.EdgeName-ImprovedBlock": "Harter Block",
     "BRSW.EdgeName-Block": "Block",
-    "BRSW.NotEnoughStrengthArmor": "Rüstung unter Minimalstärke"
+    "BRSW.NotEnoughStrengthArmor": "Rüstung unter Minimalstärke",
+    "BRSW.AddDamage": "Füge fixen Schaden hinzu"
 }
