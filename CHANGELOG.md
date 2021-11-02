@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 2.50 aka I passed an orthographic corrector, but I'm sure there are still typos
+* Refactoring: Removing deprecated uses of the API in preparation for 0.9 compatibility
+* Refactoring: Reducing the use of anonymous functions
+* Refactoring: Lots of code simplifications
+* Rolls: Added the ability to add a fixed modifier to damage after rolling
+* Translations: Spanish, Catalan, French, German and Italian translation updates from the Weblate Team
+* Bug: Refactoring (more like a rewrite) of the drag and drop code so items dragging into the sidebar works.
+* Bug: Minimum strength is now correctly calculated
+* Bug: Shooting when under minimum strength no longer disables actions mods
+* Bug: Non-owner players can't now see the reload button on cards.
+* Refactoring: Built-in actions are now in its own file, making contributing to them easier
+* Character sheet: Now bubble icons show the better roll card, not system one,
+* Deprecation: Custom bennie functionality has benn removed, please use system
+* GlobalActions: Added multi-action modifiers and a couple of hindrances from the grendel1111 doc (gendel1111)
+
 ## Version 2.49 aka Selectors Evolved
 * Refactoring: Lots of cleanups, naming of functions, making functions shorter and paying of debts, hoping to arrive someday to a more readable code.
 * GlobalActions: Added a not selector to allow for selectors like not having an edge.
