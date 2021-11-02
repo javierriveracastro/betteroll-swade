@@ -226,5 +226,11 @@
     "BRSW.Multi-action": "Multi-action",
     "BRSW.EdgeName-Steady-Hands": "Steady Hands",
     "BRSW.Three-actions": "Three actions",
-    "BRSW.Two-actions": "Two actions"
+    "BRSW.Two-actions": "Two actions",
+    "BRSW.EdgeName-All-Thumbs": "All Thumbs",
+    "BRSW.Hindrances": "Hindrances",
+    "BRSW.EdgeName-Bad-Eyes": "Bad Eyes",
+    "BRSW.EdgeName-Bad-Eyes-Major": "Bad Eyes(Major)",
+    "BRSW.EdgeName-Blind": "Blind",
+    "BRSW.EdgeName-Cant-Swim": "Can't Swim"
 }

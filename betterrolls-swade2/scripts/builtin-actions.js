@@ -58,6 +58,22 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"2ACTIONS", name:"2 actions",button_name:"BRSW.Two-actions", skillMod:"-2",selector_type:"all",
         group:"BRSW.Multi-action"},
     {id:"3ACTIONS", name:"3 actions",button_name:"BRSW.Three-actions", skillMod:"-4",selector_type:"all",
-        group:"BRSW.Multi-action"}
-
+        group:"BRSW.Multi-action"},
+    {id:"ALLTHUMBS", name:"All Thumbs", button_name:"BRSW.EdgeName-All-Thumbs", skillMod:"-2",
+        selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-All-Thumbs", defaultChecked:"on",
+        group:"BRSW.Hindrances"},
+    {id:"BADEYES", name:"Bad Eyes", button_name:"BRSW.EdgeName-Bad-Eyes", skillMod:"-1",
+        and_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Bad-Eyes"},
+        {not_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Bad-Eyes-Major"}]}],
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"BADEYES+", name:"Bad Eyes+", button_name:"BRSW.EdgeName-Bad-Eyes-Major", skillMod:"-2", 
+        selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Bad-Eyes-Major",
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"BLIND", name:"Blind", button_name:"BRSW.EdgeName-Blind", skillMod:"-6",
+        selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Blind",
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"CANTSWIN", name:"Can't Swim", button_name:"BRSW.EdgeName-Cant-Swim", skillMod:"-2",
+        and_selector:[{selector_type:"actor_has_hindrance", selector_value:"Can't Swim"},
+            {selector_type:"skill", selector_value:"Athletics"}], defaultChecked:"on",
+        group:"BRSW.Hindrances"}
 ]
