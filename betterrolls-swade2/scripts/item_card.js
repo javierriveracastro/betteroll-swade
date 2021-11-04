@@ -1059,9 +1059,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
             let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
             if (damage_theme !== 'None') {
-                roll.dice.forEach(die => {
+                for (let die of roll.dice) {
                    die.options.colorset = damage_theme;
-                });
+                }
             }
             // noinspection ES6MissingAwait
             await game.dice3d.showForRoll(roll, game.user, true, users, blind);
@@ -1226,8 +1226,8 @@ async function manual_pp(actor, item) {
         ppv = item.data.data.additionalStats.devicePP.value;
         ppm = item.data.data.additionalStats.devicePP.max;
     }
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane)   
-    && actor.data.data.powerPoints[item.data.data.arcane].max) {
+    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
+             actor.data.data.powerPoints[item.data.data.arcane].max) {
         // Specific power points
         otherArcane = true;
         ppv = actor.data.data.powerPoints[item.data.data.arcane].value;
@@ -1440,7 +1440,7 @@ function get_template_from_description(item){
         mbt: ['BRSW.MediumTemplate', 'mbt', 'medium blast'],
         lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast']
     }
-    if (item.type !== 'weapon' && item.type !== "power") return;
+    if (item.type !== 'weapon' && item.type !== "power") {return}
     let templates_found = []
     for (let template_key in TEMPLATE_KEYS) {
         for (let key_text of TEMPLATE_KEYS[template_key]) {
