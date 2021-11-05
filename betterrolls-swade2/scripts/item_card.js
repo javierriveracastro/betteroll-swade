@@ -861,7 +861,29 @@ function get_tougness_targeted_selected(acting_actor, target=undefined) {
     return defense_values
 }
 
-
+/**
+ * Adjust a roll formula to a strength limit
+ * @param damage_roll
+ * @param roll_formula
+ * @param str_die_size
+ * @return {string}
+ */
+function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
+    // Minimum strength is not meet
+    const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"), 0)
+    damage_roll.brswroll.modifiers.push(new_mod)
+    let new_roll_formula = ''
+    for (let piece of roll_formula.split('d')) {
+        const piece_value = parseInt(piece)
+        let new_piece = piece
+        if (piece_value && (piece_value > str_die_size)) {
+            new_piece = new_piece.replace(piece_value.toString(),
+                str_die_size.toString())
+        }
+        new_roll_formula += new_piece + "d"
+    }
+    return new_roll_formula.slice(0, new_roll_formula.length - 1)
+}
 
 /**
  * Rolls damage dor an item
@@ -917,20 +939,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
         if (min_str_die_size && ! is_shooting_skill(get_item_trait(item, actor))) {
             if (min_str_die_size > str_die_size) {
-                // Minimum strength is not meet
-                const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"), 0)
-                damage_roll.brswroll.modifiers.push(new_mod)
-                let new_roll_formula = ''
-                for (let piece of roll_formula.split('d')) {
-                    const piece_value = parseInt(piece)
-                    let new_piece = piece
-                    if (piece_value && (piece_value > str_die_size)) {
-                        new_piece = new_piece.replace(piece_value.toString(),
-                            str_die_size.toString())
-                    }
-                    new_roll_formula += new_piece + "d"
-                }
-                roll_formula = new_roll_formula.slice(0, new_roll_formula.length - 1)
+                roll_formula = adjust_dmg_str(damage_roll, roll_formula, str_die_size);
             }
         }
     }
