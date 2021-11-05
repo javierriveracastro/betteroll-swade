@@ -1,5 +1,6 @@
 // Functions for cards representing all items but skills
 /* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll */
+// noinspection JSCheckFunctionSignatures
 
 import {
     BRSW_CONST,
@@ -94,7 +95,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             action_groups[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
-    let ammo = parseFloat(item.data.data.shots);
+    let ammo = parseInt(item.data.data.shots) || item.data.data.autoReload
     let power_points = parseFloat(item.data.data.pp);
     const subtract_select = ammo ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
@@ -201,7 +202,6 @@ function drag_start_handle(ev) {
             ev.currentTarget.parentElement.parentElement.dataset.itemId ||
             ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId
     }
-    console.log(ev)
     ev.data.app._onDragStart(ev.originalEvent)
 }
 
@@ -297,7 +297,6 @@ export function activate_item_card_listeners(message, html) {
         templateData.distance *= canvas.grid.grid.options.dimensions.distance
         const template_base = new CONFIG.MeasuredTemplate.documentClass(
             templateData, { parent: canvas.scene });
-        console.log(TEMPLATE_CLASS)
         let template = new TEMPLATE_CLASS.default(template_base)
         template.drawPreview(ev)
     })
@@ -475,7 +474,7 @@ async function discount_ammo(item, rof, shot_override) {
     // noinspection JSUnresolvedVariable
     let content = game.i18n.format("BRSW.ExpendedAmmo",
         {ammo_spent: ammo_spent, item_name: item.name, final_ammo: final_ammo});
-    if (ammo_spent > ammo) {
+    if (ammo_spent > ammo && !item.data.data.autoReload) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
     await item.update({'data.currentShots': final_ammo});
@@ -675,16 +674,21 @@ export async function roll_item(message, html, expend_bennie,
         }
     }
     // Ammo management
-    if (parseInt(item.data.data.shots)){
+    console.log(item.data.data.autoReload)
+    if (parseInt(item.data.data.shots) || item.data.data.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
+            console.log(item)
             let rof = trait_data.dice.length;
             if (actor.isWildcard) {
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
                 render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
+                if (item.data.data.autoReload) {
+                    reload_weapon(actor, item, rof || 1)
+                }
             } else {
                 render_data.used_shots = shots_override >= 0 ? shots_override : ROF_BULLETS[rof || 1];
             }
@@ -734,8 +738,10 @@ function reload_weapon(actor, weapon, number) {
         current_ammo + ammo_quantity);
     let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
     if (ammo) {
-        // noinspection JSCheckFunctionSignatures
-        updates.push({_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges + current_ammo});
+        const reload_quantity = weapon.data.data.autoReload ?
+            ammo.data.data.quantity - number :
+            ammo.data.data.quantity - newCharges + current_ammo
+        updates.push({_id: ammo.id, "data.quantity": reload_quantity});
     }
     // noinspection JSIgnoredPromiseFromCall
     actor.updateOwnedItem(updates);
