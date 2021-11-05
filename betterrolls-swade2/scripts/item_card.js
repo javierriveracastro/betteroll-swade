@@ -710,6 +710,46 @@ export async function roll_item(message, html, expend_bennie,
     }
 }
 
+/**
+ * Reloads a weapon
+ * @param actor: Actor owning the weapon
+ * @param weapon
+ * @param number: Number of shots reloaded
+ */
+function reload_weapon(actor, weapon, number) {
+    // If the quantity of ammo is less than the amount required, use whatever is left.
+    let item = actor.items.get(weapon.id);
+    let ammo = actor.items.find(possible_ammo => {
+        return possible_ammo.name === item.data.data.ammo
+    })
+    let ammo_quantity = 999999999;
+    if (ammo) {
+        if (ammo.data.data.quantity <= 0) {
+            return ui.notifications.error(`${game.i18n.localize("BRSW.NoAmmoLeft")}`);
+        }
+        ammo_quantity = ammo.data.data.quantity;
+    }
+    let max_ammo = parseInt(weapon.data.data.shots);
+    // noinspection JSUnresolvedVariable
+    let current_ammo = parseInt(weapon.data.data.currentShots);
+    let newCharges = Math.min(max_ammo, current_ammo + number,
+        current_ammo + ammo_quantity);
+    let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
+    if (ammo) {
+        // noinspection JSCheckFunctionSignatures
+        updates.push({_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges + current_ammo});
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    actor.updateOwnedItem(updates);
+    // noinspection JSIgnoredPromiseFromCall
+    ChatMessage.create({
+        speaker: {
+            alias: actor.name
+        },
+        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${game.i18n.format(
+            "BRSW.ReloadStatus", {actor_name: actor.name, weapon_name: weapon.name})}</p>`
+    })
+}
 
 function manual_ammo(weapon, actor) {
     // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
@@ -757,39 +797,8 @@ function manual_ammo(weapon, actor) {
             two: {
                 label: game.i18n.localize("BRSW.Reload"),
                 callback: (html) => {
-                    // If the quantity of ammo is less than the amount required, use whatever is left.
-                    let item = actor.items.get(weapon.id);
-                    let ammo = actor.items.find(possible_ammo => {
-                        return possible_ammo.name === item.data.data.ammo
-                    })
-                    let ammo_quantity = 999999999;
-                    if (ammo) {
-                        if (ammo.data.data.quantity <= 0) {
-                            return ui.notifications.error(`${game.i18n.localize("BRSW.NoAmmoLeft")}`);
-                        }
-                        ammo_quantity = ammo.data.data.quantity;
-                    }
                     let number = Number(html.find("#num")[0].value);
-                    let max_ammo = parseInt(weapon.data.data.shots);
-                    // noinspection JSUnresolvedVariable
-                    let current_ammo = parseInt(weapon.data.data.currentShots);
-                    let newCharges =  Math.min(max_ammo, current_ammo + number,
-                        current_ammo + ammo_quantity);
-                    let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
-                    if (ammo) {
-                        // noinspection JSCheckFunctionSignatures
-                        updates.push({_id: ammo.id, "data.quantity": ammo.data.data.quantity - newCharges + current_ammo});
-                    }
-                    // noinspection JSIgnoredPromiseFromCall
-                    actor.updateOwnedItem(updates);
-                    // noinspection JSIgnoredPromiseFromCall
-                    ChatMessage.create({
-                        speaker: {
-                            alias: actor.name
-                        },
-                        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${game.i18n.format(
-                            "BRSW.ReloadStatus", {actor_name: actor.name, weapon_name:weapon.name})}</p>`
-                    })
+                    return reload_weapon(actor, weapon, number);
                 }
             },
         }
@@ -1448,8 +1457,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) ||
-                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) {
+            if (item.data.data?.description.toLowerCase().includes(translated_key_text) ||
+                    item.data.data?.range.toLowerCase().includes(translated_key_text)) {
                 templates_found.push(template_key)
                 break
             }
