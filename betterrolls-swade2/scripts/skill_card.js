@@ -1,4 +1,5 @@
 // Functions for cards representing skills
+/* globals TokenDocument, Token, game, CONST, canvas, console, Ray */
 
 import {
     BRSW_CONST,
@@ -88,7 +89,7 @@ export function skill_card_hooks() {
  */
 async function skill_click_listener(ev, target) {
     const action = get_action_from_click(ev);
-    if (action === 'system') return;
+    if (action === 'system') {return}
     ev.stopImmediatePropagation();
     ev.preventDefault();
     ev.stopPropagation();
@@ -173,7 +174,7 @@ export async function roll_skill(message, html, expend_bennie){
                 pinned_actions.includes(action.name)
         }
     }
-    if (expend_bennie) await spend_bennie(actor);
+    if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
     run_macros(macros, actor, null, message);
@@ -283,7 +284,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
                   operator_skill = value.data.data.die.sides;
                 }
             });
-            if (operator_skill == null) {
+            if (operator_skill === null) {
             operator_skill = 0;
             }
             tn.value = operator_skill / 2 + 2 + target_token.actor.data.data.handling;
@@ -348,7 +349,7 @@ function calculate_gangUp(attacker, target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;
     }
-    if (attacker.data.disposition === target.data.disposition) return 0;
+    if (attacker.data.disposition === target.data.disposition) {return 0;}
     let enemies = 0;
     let allies = 0;
     if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
@@ -360,26 +361,26 @@ function calculate_gangUp(attacker, target) {
         // disposition -1 means NPC (hostile) is attacking PCs (friendly)
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
-            t.id !== attacker.id
-            && t.data.disposition === attacker.data.disposition
-            && t?.actor?.data.data.status.isStunned === false
-            && t.visible
-            && withinRange(target, t, ITEM_RANGE)
-            && !t.combatant?.data.defeated
+            t.id !== attacker.id &&
+                t.data.disposition === attacker.data.disposition &&
+                t?.actor?.data.data.status.isStunned === false &&
+                t.visible &&
+                withinRange(target, t, ITEM_RANGE) &&
+                !t.combatant?.data.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
-            t.id !== target.id
-            && t.data.disposition === attacker.data.disposition * -1
-            && t?.actor?.data.data.status.isStunned === false
-            && withinRange(target, t, ITEM_RANGE)
-            && !t.combatant?.data.defeated
+            t.id !== target.id &&
+                t.data.disposition === attacker.data.disposition * -1 &&
+                t?.actor?.data.data.status.isStunned === false &&
+                withinRange(target, t, ITEM_RANGE) &&
+                !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
-            t.data.disposition === attacker.data.disposition * -1
-            && t?.actor?.data.data.status.isStunned === false
-            && withinRange(attacker, t, ITEM_RANGE)
-            && !t.combatant?.data.defeated
+            t.data.disposition === attacker.data.disposition * -1 &&
+                t?.actor?.data.data.status.isStunned === false &&
+                withinRange(attacker, t, ITEM_RANGE) &&
+            !t.combatant?.data.defeated
         );
         const formation_fighter_name = game.i18n.localize("BRSW.EdgeName-FormationFighter").toLowerCase();
         allies_with_formation_fighter = allies_within_range_of_target.filter(t =>
