@@ -644,8 +644,9 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
     }
     // Armor min str
     if (skill?.data.data.attribute === 'agility') {
-        const armor_penalty = get_actor_armor_minimum_strength(actor)
+        let armor_penalty = get_actor_armor_minimum_strength(actor)
         if (armor_penalty) {
+            total_modifiers += armor_penalty.value
             modifiers.push(armor_penalty)
         }
     }
@@ -1206,7 +1207,10 @@ function get_actor_armor_minimum_strength(actor) {
     for (let armor of min_str_armors) {
         const splited_minStr = armor.data.data.minStr.split('d')
         const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-        const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+        let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+        if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
+            str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
+        }
         if (min_str_die_size > str_die_size) {
             penalty += Math.trunc((min_str_die_size - str_die_size) / 2)
         }
