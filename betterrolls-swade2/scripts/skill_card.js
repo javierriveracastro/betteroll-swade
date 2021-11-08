@@ -354,6 +354,7 @@ function calculate_gangUp(attacker, target) {
     if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
         const ITEM_RANGE = 1; // dist 1''
         let allies_within_range_of_target;
+        let allies_with_formation_fighter;
         let enemies_within_range_of_target;
         let enemies_within_range_both_attacker_target;
         // disposition -1 means NPC (hostile) is attacking PCs (friendly)
@@ -380,7 +381,14 @@ function calculate_gangUp(attacker, target) {
             && withinRange(attacker, t, ITEM_RANGE)
             && !t.combatant?.data.defeated
         );
-        enemies = allies_within_range_of_target.length;
+        const formation_fighter_name = game.i18n.localize("BRSW.EdgeName-FormationFighter").toLowerCase();
+        allies_with_formation_fighter = allies_within_range_of_target.filter(t =>
+            // no need to check for all the things that allies_within_range_of_target
+            // is already filtered for
+            t.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})
+        );
+        enemies = allies_within_range_of_target.length + allies_with_formation_fighter.length;
+        // allies with formation fighter are counted twice
         allies = enemies_within_range_both_attacker_target.length;
     }
     let modifier = Math.max(0, (enemies - allies));
