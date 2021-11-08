@@ -1,4 +1,5 @@
 // Functions for cards representing attributes
+/* global TokenDocument, Token, game, CONST */
 
 import {BRSW_CONST, get_action_from_click, get_actor_from_message,
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
@@ -84,7 +85,7 @@ export function attribute_card_hooks() {
  */
 async function attribute_click_listener(ev, target) {
     const action = get_action_from_click(ev);
-    if (action === 'system') return;
+    if (action === 'system') {return;}
     ev.stopImmediatePropagation();
     ev.preventDefault();
     ev.stopPropagation();
@@ -184,7 +185,7 @@ export async function roll_attribute(message, html,
                                      expend_bennie){
     let actor = get_actor_from_message(message);
     const attribute_id = message.getFlag('betterrolls-swade2', 'render_data').attribute_name;
-    if (expend_bennie) await spend_bennie(actor);
+    if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html, {});
 }
