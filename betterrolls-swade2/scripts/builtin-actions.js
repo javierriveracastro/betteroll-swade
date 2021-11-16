@@ -18,7 +18,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"FRENZY", name:"Frenzy", button_name:"BRSW.EdgeName-Frenzy",
         and_selector: [{selector_type: "skill", selector_value: "fighting"},
             {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Frenzy"}],
-        group: "BRSW.Edges", rof: "2"},
+        defaultChecked:"on", group: "BRSW.Edges", rof: "2"},
     {id: "LightCover", name: "Light Cover", button_name: "BRSW.LightCover", skillMod: "-2",
         selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
     {id: "MediumCover", name: "Medium Cover", button_name: "BRSW.MediumCover",
