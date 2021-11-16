@@ -190,7 +190,7 @@
     "BRSW.ItemActions": "Item actions",
     "BRSW.NoGroup": "No group",
     "BRSW.HideWeaponActions": "Hide weapon actions",
-    "BRSW.HideWeaponActionsHint": "Show only global actions in the card, hidding weapon specific ones",
+    "BRSW.HideWeaponActionsHint": "Show only global actions in the card, hiding weapon specific ones",
     "BRSW.Scale": "Scale",
     "BRSW.expand-rolls": "Expand roll result details",
     "BRSW.expand-rolls_hint": "Enable this options to make the roll result details expanded, by default they are collapsed",
@@ -233,5 +233,11 @@
     "BRSW.EdgeName-Bad-Eyes": "Bad Eyes",
     "BRSW.EdgeName-Bad-Eyes-Major": "Bad Eyes(Major)",
     "BRSW.EdgeName-Blind": "Blind",
-    "BRSW.EdgeName-Cant-Swim": "Can't Swim"
+    "BRSW.EdgeName-Cant-Swim": "Can't Swim",
+    "BRSW.EdgeName-Clueless": "Clueless",
+    "BRSW.SkillName-CommonKnowledge": "common knowledge",
+    "BRSW.EdgeName-Clumsy": "Clumsy",
+    "BRSW.SkillName-Athletics": "Athletics",
+    "BRSW.SkillName-Stealth": "Stealth",
+    "BRSW.EdgeName-HardOfHearing": "Hard of Hearing"
 }

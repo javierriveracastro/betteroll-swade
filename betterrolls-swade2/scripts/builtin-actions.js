@@ -75,5 +75,19 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"CANTSWIN", name:"Can't Swim", button_name:"BRSW.EdgeName-Cant-Swim", skillMod:"-2",
         and_selector:[{selector_type:"actor_has_hindrance", selector_value:"Can't Swim"},
             {selector_type:"skill", selector_value:"Athletics"}], defaultChecked:"on",
-        group:"BRSW.Hindrances"}
+        group:"BRSW.Hindrances"},
+    {id:"Clueless", name:"Clueless", button_name:"BRSW.EdgeName-Clueless", skillMod:"-1",
+        and_selector:[{"selector_type":"actor_has_hindrance", "selector_value":"BRSW.EdgeName-Clueless"},
+            {or_selector:[{selector_type:"skill", selector_value:"BRSW.SkillName-CommonKnowledge"},
+                    {selector_type:"skill", selector_value:"BRSW.SkillName-Notice"}]}],
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"Clumsy", name:"Clumsy", "button_name":"BRSW.EdgeName-Clumsy", skillMod:"-2",
+        and_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Clumsy"}, 
+            {or_selector:[{selector_type:"skill", selector_value:"BRSW.SkillName-Athletics" }, 
+                    {selector_type:"skill", selector_value:"BRSW.SkillName-Stealth" } ] } ],  
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"Hard of Hearing", name:"Hard of Hearing", button_name:"BRSW.EdgeName-HardOfHearing", skillMod:"-4", 
+        and_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-HardOfHearing"},
+            {selector_type:"skill", selector_value:"BRSW.SkillName-Notice"}],
+        defaultChecked:"on", group:"BRSW.Hindrances"}
 ]
