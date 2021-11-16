@@ -222,5 +222,16 @@
     "BRSW.EdgeName-ImprovedBlock": "Harter Block",
     "BRSW.EdgeName-Block": "Block",
     "BRSW.NotEnoughStrengthArmor": "Rüstung unter Minimalstärke",
-    "BRSW.AddDamage": "Füge fixen Schaden hinzu"
+    "BRSW.AddDamage": "Füge fixen Schaden hinzu",
+    "BRSW.Multi-action": "Mehrfachaktion",
+    "BRSW.EdgeName-Steady-Hands": "Ruhige Hände",
+    "BRSW.Three-actions": "Drei Aktionen",
+    "BRSW.Two-actions": "Zwei Aktionen",
+    "BRSW.Hindrances": "Handicaps",
+    "BRSW.EdgeName-Bad-Eyes": "Schlechte Augen",
+    "BRSW.EdgeName-Bad-Eyes-Major": "Schlechte Augen (schwer)",
+    "BRSW.EdgeName-Blind": "Blind",
+    "BRSW.EdgeName-Cant-Swim": "Nichtschwimmer",
+    "BRSW.Ran": "Gerannt",
+    "BRSW.EdgeName-All-Thumbs": "Zwei linke Hände"
 }
