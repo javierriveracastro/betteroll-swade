@@ -554,10 +554,10 @@ async function discount_pp(actor, item, rolls) {
  * @param item_param
  * @param message_param
  */
-export function run_macros(macros, actor_param, item_param, message_param) {
+export async function run_macros(macros, actor_param, item_param, message_param) {
     if (macros) {
         for (let macro_name of macros) {
-            const real_macro = game.macros.find(macro => macro.data.name === macro_name); // jshint ignore:line
+            const real_macro = await find_macro(macro_name)
             if (real_macro) {
                 const actor = actor_param;
                 const item = item_param;
@@ -573,13 +573,28 @@ export function run_macros(macros, actor_param, item_param, message_param) {
                   fn.call(this, speaker, actor, token, character, item, message, targets);
                 } catch (err) {
                   ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
-                  console.error(err);
                 }
             }
         }
     }
 }
 
+
+async function find_macro(macro_name) {
+    let macro = game.macros.getName(macro_name)
+    if (! macro) {
+        // Search compendiums
+        for (let compendium of game.packs.contents) {
+            if (compendium.documentClass.documentName === 'Macro') {
+                let possible_macro = compendium.index.getName(macro_name)
+                if (possible_macro) {
+                    macro = await compendium.getDocument(possible_macro._id)
+                }
+            }
+        }
+    }
+    return macro
+}
 
 /**
  * Roll the item damage
@@ -677,12 +692,10 @@ export async function roll_item(message, html, expend_bennie,
         }
     }
     // Ammo management
-    console.log(item.data.data.autoReload)
     if (parseInt(item.data.data.shots) || item.data.data.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
-            console.log(item)
             let rof = trait_data.dice.length;
             if (actor.isWildcard) {
                 rof -= 1;
