@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.51 No, still no support for arcane devices
+* Refactoring: The quest for easier and more readable code continues
+* Ammunition: Support for autoreload weapons
+* Gang-up: Support for Formation Figther (Mike Bloy)
+* Encumbrance: Use encumbrance steps to calculate minimum strength, so that Brawny and Soldier AE work
+* Macros: Now macros defined in global actions search compendiums in addition to macro dir.
+* Global actions: Added another couple of hindrances from grendel doc (grendel1111)
+* Translations: The incredible weblate team delivers even more translations updates
+* Global actions: Added "actor_has_ability" selector (Mike Bloy)
+* Documentation: Improvements to global action documentation (SalieriC)
+
 ## Version 2.50 aka I passed an orthographic corrector, but I'm sure there are still typos
 * Refactoring: Removing deprecated uses of the API in preparation for 0.9 compatibility
 * Refactoring: Reducing the use of anonymous functions
