@@ -68,7 +68,7 @@ This group of fields are used to select when the action is available, you will n
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
 * or_selector: Takes a list of selectors and executes the action if at least one is true
-* not_selector: Takes a list of only on selector and executes the action if that selector conditions are NOT met. 
+* not_selector: Takes a list of only on selector and executes the action if that selector conditions are NOT met.
 
 ```  
 and_selector: [
@@ -97,9 +97,24 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 * group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
 
 # Examples
-**USE CONTROL+F TO SEARCH**
+**USE CTRL+F TO SEARCH**
 
-## Basic Rules - Examples
+**Table of contents**
+1. SWADE  
+  1. Basic modifiers and actions  
+  2. Edges  
+  3. Special Abilities  
+2. Pathfinder for Savage Worlds  
+  1. Edges  
+3. Sprawlrunners  
+  1. Edges  
+
+## SWADE
+Below are examples for the core rules of SWADE and may be applicable to most settings.
+
+### Basic modifiers and actions
+These cover the most basic modifiers and combat actions in SWADE.
+
 **Called Shot**
 ```json
 {
@@ -208,7 +223,9 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 ```
 
 
-## Edges - SWADE Core
+### Edges
+This is a non-exhaustive list of modifiers enabled by Edges a character has learned in SWADE.
+
 **Marksman**
 ```json
 {
@@ -274,8 +291,45 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
-## Edges - Savage Pathfinder 
+### Special Abilities  
+Here are examples for Special Abilities (N)PCs might have in SWADE.
 
+**Rollover (Alligator/Crocodile ability)**
+```json
+{
+  "id":"ROLLOVER-BONUS_DAMAGE",
+  "name":"Raise!",
+  "button_name":"Raise Damage (Rollover)",
+  "dmgMod": "+d10",
+  "and_selector": [
+    {"selector_type": "actor_has_ability", "selector_value":"Rollover"}, 
+    {"selector_type": "skill", "selector_value": "Fighting"}
+  ],
+  "group": "Special Abilities"  
+}
+```
+
+**Pounce (Lion ability)**
+```json
+{
+  "id":"POUNCE-WILD_ATTACK",
+  "name":"Wild Attack",
+  "button_name":"Wild Attack (Pounce)",
+  "dmgMod": "+4",
+  "and_selector": [
+    {"selector_type": "actor_has_ability", "selector_value":"Pounce"}, 
+    {"selector_type": "skill", "selector_value": "Fighting"}
+  ],
+  "group": "Special Abilities"  
+}
+```
+  
+## Pathfinder for Savage Worlds  
+Below is a list of actions for the Savage Pathfinder setting. Some basic actions from SWADE (see above) are applicable as well.  
+  
+### Edges  
+These are examples enabled by learned Edges from Savage Pathfinder.  
+  
 **Monk Attack**
 ```json
 {
@@ -328,7 +382,12 @@ This tag let's you group the actions, it is not mandatory, but it will be used i
 }
 ```
 
-## Edges - Sprawlrunners
+## Sprawlrunners  
+These are examples common to the Sprawlrunners rules for Savage Worlds.  
+  
+### Edges  
+These are enabled by Edges a caharacter has learned in Sprawlrunners.  
+  
 **Passive Alarm**
 ```json
 {
