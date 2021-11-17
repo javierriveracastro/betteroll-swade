@@ -62,6 +62,7 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_effect: Another string selector, will select actors that have an enabled effect whose label contains the string.
 * actor_has_edge: The same, this time it will look for an edge that contains that string.
 * actor_has_hindrance: Like the last two, but for hindrances.
+* actor_has_ability: Like the last three, but for special abilities.
 * all: It will always show this action.
 
 **complex_selectors:**
