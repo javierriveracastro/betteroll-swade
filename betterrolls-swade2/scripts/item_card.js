@@ -470,7 +470,7 @@ function check_skill_in_actor(actor, possible_skills) {
 async function discount_ammo(item, rof, shot_override) {
     // noinspection JSUnresolvedVariable
     const ammo = parseInt(item.data.data.currentShots);
-    const ammo_spent = shot_override >= 0 ? shot_override : ROF_BULLETS[rof];
+    const ammo_spent = shot_override ? shot_override : ROF_BULLETS[rof];
     const final_ammo = Math.max(ammo - ammo_spent, 0)
     // noinspection JSUnresolvedVariable
     let content = game.i18n.format("BRSW.ExpendedAmmo",
@@ -490,15 +490,17 @@ async function discount_ammo(item, rof, shot_override) {
  * @param {function} actor.update
  * @param item
  * @param {Roll[]} rolls
+ * @param pp_override
  */
-async function discount_pp(actor, item, rolls) {
+async function discount_pp(actor, item, rolls, pp_override) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
             success = true
         }
     }
-    const pp = success ? parseInt(item.data.data.pp) : 1;
+    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.data.data.pp)
+    const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
     // If devicePP is found, it will be treated as an Arcane Device:
@@ -615,7 +617,7 @@ export async function roll_item(message, html, expend_bennie,
     const item = actor.items.find((item) => item.id === item_id);
     let trait = get_item_trait(item, actor);
     let macros = [];
-    let shots_override = -1;  // Override the number of shots used
+    let shots_override;  // Override the number of shots used
     let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(actor)}
     extra_data.rof = item.data.data.rof || 1;
@@ -707,7 +709,7 @@ export async function roll_item(message, html, expend_bennie,
                     reload_weapon(actor, item, rof || 1)
                 }
             } else {
-                render_data.used_shots = shots_override >= 0 ? shots_override : ROF_BULLETS[rof || 1];
+                render_data.used_shots = shots_override ? shots_override : ROF_BULLETS[rof || 1];
             }
         }
     }
@@ -715,7 +717,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls);
+        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override);
     }
     await update_message(message, actor, render_data);
     await run_macros(macros, actor, item, message);
