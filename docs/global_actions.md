@@ -64,6 +64,7 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_hindrance: Like the last two, but for hindrances.
 * actor_has_ability: Like the last three, but for special abilities.
 * all: It will always show this action.
+* actor_has_joker: The action will only be avaliable when the actor is in combat and has drawn a joker.
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.

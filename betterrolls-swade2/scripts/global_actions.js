@@ -162,6 +162,8 @@ function check_selector(type, value, item, actor){
                 hindrance_name.toLowerCase());
         });
         selected = !!hindrance;
+    } else if (type === 'actor_has_joker') {
+        selected = actor.hasJoker
     }
     return selected;
 }
