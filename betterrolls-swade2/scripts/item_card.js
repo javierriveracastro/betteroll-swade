@@ -295,6 +295,7 @@ export function activate_item_card_listeners(message, html) {
         }
         // Adjust to grid distance
         templateData.distance *= canvas.grid.grid.options.dimensions.distance
+        // noinspection JSPotentiallyInvalidConstructorUsage
         const template_base = new CONFIG.MeasuredTemplate.documentClass(
             templateData, { parent: canvas.scene });
         let template = new TEMPLATE_CLASS.default(template_base)
@@ -717,7 +718,7 @@ export async function roll_item(message, html, expend_bennie,
         render_data.used_pp = await discount_pp(actor, item, trait_data.rolls);
     }
     await update_message(message, actor, render_data);
-    run_macros(macros, actor, item, message);
+    await run_macros(macros, actor, item, message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", message, html);
     if (roll_damage) {
@@ -1118,7 +1119,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     await update_message(message, actor, render_data);
         // Run macros
-        run_macros(macros, actor, item, message);
+        await run_macros(macros, actor, item, message);
 }
 
 
