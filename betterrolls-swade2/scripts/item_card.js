@@ -6,15 +6,10 @@ import {
     BRSW_CONST,
     BRWSRoll,
     calculate_results,
-    check_and_roll_conviction,
-    create_common_card,
-    get_action_from_click,
-    get_actor_from_message,
-    get_roll_options,
-    roll_trait,
-    spend_bennie,
-    update_message,
-    has_joker, create_modifier, process_common_actions
+    check_and_roll_conviction, create_common_card, get_action_from_click,
+    get_actor_from_message, get_roll_options, roll_trait, spend_bennie,
+    update_message, has_joker, create_modifier, process_common_actions,
+    process_minimum_str_modifiers
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";
@@ -599,6 +594,7 @@ async function find_macro(macro_name) {
     return macro
 }
 
+
 /**
  * Roll the item damage
  *
@@ -664,20 +660,10 @@ export async function roll_item(message, html, expend_bennie,
         });
     }
     // Check for minimum strength
-    if (item.data.data.minStr) {
-        const splited_minStr = item.data.data.minStr.split('d')
-        const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-        let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-        if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
-            str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
-        }
-        if (min_str_die_size && is_shooting_skill(get_item_trait(item, actor))) {
-            if (min_str_die_size > str_die_size) {
-                // Minimum strength is not meet
-                const new_mod = create_modifier(game.i18n.localize("BRSW.NotEnoughStrength"),
-                    - Math.trunc((min_str_die_size - str_die_size) / 2))
-                extra_data.modifiers.push(new_mod)
-            }
+    if (item.data.data.minStr && is_shooting_skill(get_item_trait(item, actor))) {
+        const penalty = process_minimum_str_modifiers(item, actor, "BRSW.NotEnoughStrength");
+        if (penalty) {
+            extra_data.modifiers.push(penalty)
         }
     }
     // Check rof if avaliable

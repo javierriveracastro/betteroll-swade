@@ -4,7 +4,7 @@
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
-import {get_tn_from_token, roll_skill} from "./skill_card.js";
+import {get_tn_from_token, is_shooting_skill, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 
 export const BRSW_CONST = {
@@ -1203,21 +1203,32 @@ function get_actor_armor_minimum_strength(actor) {
     // This should affect only Agility related skills
     const min_str_armors = actor.items.filter((item) =>
         {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipped})
-    let penalty = 0
     for (let armor of min_str_armors) {
-        const splited_minStr = armor.data.data.minStr.split('d')
-        const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-        let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-        if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
-            str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
-        }
-        if (min_str_die_size > str_die_size) {
-            penalty += Math.trunc((min_str_die_size - str_die_size) / 2)
+        let penalty = process_minimum_str_modifiers(armor, actor, "BRSW.NotEnoughStrengthArmor")
+        if (penalty) {
+            return  penalty
         }
     }
-    if (penalty) {
-        return create_modifier(game.i18n.localize("BRSW.NotEnoughStrengthArmor"), - penalty)
-    } else {
-        return null
+}
+
+/**
+ * Calculates minimum str modifiers
+ * @param item
+ * @param actor
+ * @param name
+ */
+export function process_minimum_str_modifiers(item, actor, name) {
+    const splited_minStr = item.data.data.minStr.split('d')
+    const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
+    let new_mod
+    let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+    if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
+        str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
     }
+    if (min_str_die_size > str_die_size) {
+        // Minimum strength is not meet
+        new_mod = create_modifier(game.i18n.localize(name),
+            -Math.trunc((min_str_die_size - str_die_size) / 2))
+    }
+    return new_mod
 }
