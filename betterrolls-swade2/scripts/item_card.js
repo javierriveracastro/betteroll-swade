@@ -890,6 +890,99 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
     return new_roll_formula.slice(0, new_roll_formula.length - 1)
 }
 
+
+async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data) {
+    let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
+    // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
+    let shortcuts = actor.getRollShortcuts();
+    if (shortcuts.str === "1d1x[Strength]") {
+        shortcuts.str = "1d1[Strength]";
+    }
+    let roll = new Roll(raise ? formula + raise_formula : formula, shortcuts);
+    roll.evaluate({async: false});
+    const defense_values = get_tougness_targeted_selected(actor, target);
+    current_damage_roll.brswroll.rolls.push(
+        {
+            result: roll.total + total_modifiers, tn: defense_values.toughness,
+            armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
+            target_id: defense_values.token_id || 0
+        });
+    let last_string_term = ''
+    for (let term of roll.terms) {
+        if (term.hasOwnProperty('faces')) {
+            let new_die = {
+                faces: term.faces, results: [],
+                extra_class: '',
+                label: game.i18n.localize("SWADE.Dmg") + ` (d${term.faces})`
+            };
+            if (term.total > term.faces) {
+                new_die.extra_class = ' brsw-blue-text';
+                if (!current_damage_roll.brswroll.rolls[0].extra_class) {
+                    current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
+                }
+            }
+            for (let result of term.results) {
+                new_die.results.push(result.result);
+            }
+            current_damage_roll.brswroll.dice.push(new_die);
+        } else {
+            let integer_term;
+            if (term.hasOwnProperty('number')) {
+                // 0.7.x compatibility, remove someday
+                integer_term = term.number
+            } else {
+                integer_term = parseInt(term)
+            }
+            if (integer_term) {
+                let modifier_value = parseInt(last_string_term + integer_term);
+                if (modifier_value) {
+                    const new_mod = create_modifier(
+                        game.i18n.localize("SWADE.Dmg") + ` (${modifier_value})`,
+                        modifier_value)
+                    current_damage_roll.brswroll.modifiers.push(new_mod);
+                }
+            }
+            if (term.hasOwnProperty('operator')) {
+                // 0.7.x compatibility, remove someday
+                last_string_term = term.operator
+            } else {
+                last_string_term = term;
+            }
+        }
+    }
+    if (raise) {
+        // Last die is raise die.
+        current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
+            game.i18n.localize("BRSW.Raise");
+    }
+    current_damage_roll.label = defense_values.name;
+    // Dice so nice
+    if (game.dice3d) {
+        // Dice buried in modifiers.
+        let users = null;
+        if (message.data.whisper.length > 0) {
+            users = message.data.whisper;
+        }
+        const blind = message.data.blind
+        for (let modifier of damage_roll.brswroll.modifiers) {
+            if (modifier.dice) {
+                // noinspection ES6MissingAwait
+                game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind);
+            }
+        }
+        let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
+        if (damage_theme !== 'None') {
+            for (let die of roll.dice) {
+                die.options.colorset = damage_theme;
+            }
+        }
+        // noinspection ES6MissingAwait
+        await game.dice3d.showForRoll(roll, game.user, true, users, blind);
+    }
+    current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
+    render_data.damage_rolls.push(current_damage_roll);
+}
+
 /**
  * Rolls damage dor an item
  * @param message
@@ -1010,91 +1103,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         targets = game.user.targets;
     }
     for (let target of targets) {
-        let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
-        // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
-        let shortcuts = actor.getRollShortcuts();
-        if (shortcuts.str === "1d1x[Strength]") {
-            shortcuts.str = "1d1[Strength]";
-        }
-        let roll = new Roll(raise ? formula + raise_formula : formula, shortcuts);
-        roll.evaluate({async:false});
-        const defense_values = get_tougness_targeted_selected(actor, target);
-        current_damage_roll.brswroll.rolls.push(
-            {result: roll.total + total_modifiers, tn: defense_values.toughness,
-            armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
-            target_id: defense_values.token_id || 0});
-        let last_string_term = ''
-        for (let term of roll.terms) {
-            if (term.hasOwnProperty('faces')) {
-                let new_die = {faces: term.faces, results: [],
-                    extra_class: '',
-                    label: game.i18n.localize("SWADE.Dmg") + ` (d${term.faces})`};
-                if (term.total > term.faces) {
-                    new_die.extra_class = ' brsw-blue-text';
-                    if (!current_damage_roll.brswroll.rolls[0].extra_class) {
-                        current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
-                    }
-                }
-                for (let result of term.results) {
-                    new_die.results.push(result.result);
-                }
-                current_damage_roll.brswroll.dice.push(new_die);
-            } else {
-                let integer_term;
-                if (term.hasOwnProperty('number')) {
-                    // 0.7.x compatibility, remove someday
-                    integer_term = term.number
-                } else {
-                    integer_term = parseInt(term)
-                }
-                if (integer_term) {
-                    let modifier_value = parseInt(last_string_term + integer_term);
-                    if (modifier_value) {
-                        const new_mod = create_modifier(
-                            game.i18n.localize("SWADE.Dmg")+ ` (${modifier_value})`,
-                            modifier_value)
-                        current_damage_roll.brswroll.modifiers.push(new_mod);
-                    }
-                }
-                if (term.hasOwnProperty('operator')) {
-                    // 0.7.x compatibility, remove someday
-                    last_string_term = term.operator
-                } else {
-                    last_string_term = term;
-                }
-            }
-        }
-        if (raise) {
-            // Last die is raise die.
-            current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
-                game.i18n.localize("BRSW.Raise");
-        }
-        current_damage_roll.label = defense_values.name;
-        // Dice so nice
-        if (game.dice3d) {
-            // Dice buried in modifiers.
-            let users = null;
-            if (message.data.whisper.length > 0) {
-                users = message.data.whisper;
-            }
-            const blind = message.data.blind
-            for (let modifier of damage_roll.brswroll.modifiers) {
-                if (modifier.dice) {
-                    // noinspection ES6MissingAwait
-                    game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind);
-                }
-            }
-            let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
-            if (damage_theme !== 'None') {
-                for (let die of roll.dice) {
-                   die.options.colorset = damage_theme;
-                }
-            }
-            // noinspection ES6MissingAwait
-            await game.dice3d.showForRoll(roll, game.user, true, users, blind);
-        }
-        current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
-        render_data.damage_rolls.push(current_damage_roll);
+        await roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data);
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
