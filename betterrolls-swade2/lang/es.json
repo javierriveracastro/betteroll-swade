@@ -228,5 +228,6 @@
     "BRSW.Two-actions": "Dos acciones",
     "BRSW.Hindrances": "Defectos",
     "BRSW.collapse-modifiers": "Las acciones y modificadores se muestran colapsados",
-    "BRSW.collapse-modifiers_hint": "Muestra colapsados los modificadores de la carta, logrando una apariencia más compacta"
+    "BRSW.collapse-modifiers_hint": "Muestra colapsados los modificadores de la carta, logrando una apariencia más compacta",
+    "BRSW.Target": "Objetivo"
 }

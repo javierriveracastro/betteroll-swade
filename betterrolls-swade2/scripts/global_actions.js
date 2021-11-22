@@ -164,6 +164,25 @@ function check_selector(type, value, item, actor){
         selected = !!hindrance;
     } else if (type === 'actor_has_joker') {
         selected = actor.hasJoker
+    } else if (type === 'target_has_edge') {
+        const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
+        for (let targeted_token of game.user.targets) {
+            const edge = targeted_token.actor.items.find(item => {
+                return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+                    edge_name.toLowerCase());
+            });
+            selected = selected || (!!edge)
+        }
+    } else if (type === 'target_has_hindrance') {
+        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+            game.i18n.localize(value) : value;
+        for (let targeted_token of game.user.targets) {
+            const hindrance = targeted_token.actor.items.find(item => {
+                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                    hindrance_name.toLowerCase());
+            });
+            selected = selected || (!!hindrance)
+        }
     }
     return selected;
 }

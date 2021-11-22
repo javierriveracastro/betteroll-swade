@@ -241,5 +241,6 @@
     "BRSW.SkillName-Stealth": "Stealth",
     "BRSW.EdgeName-HardOfHearing": "Hard of Hearing",
     "BRSW.collapse-modifiers": "Always collapse modifier fields",
-    "BRSW.collapse-modifiers_hint": "Show the card with all the modifiers collapsed for more compact output"
+    "BRSW.collapse-modifiers_hint": "Show the card with all the modifiers collapsed for more compact output",
+    "BRSW.Target": "Target"
 }

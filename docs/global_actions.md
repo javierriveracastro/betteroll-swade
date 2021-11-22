@@ -65,6 +65,8 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_ability: Like the last three, but for special abilities.
 * all: It will always show this action.
 * actor_has_joker: The action will only be avaliable when the actor is in combat and has drawn a joker.
+* target_has_edge: This action will be avaliable if PRIOR TO CLICKING the icon, the user has selected a target that has some edge.
+* target_has_hindrance: This action is like actor_has_edge but fires for target hindrances
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
