@@ -172,7 +172,8 @@ async function item_click_listener(ev, target) {
     const item_id = ev.currentTarget.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.parentElement.dataset.itemId ||
         ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId
-    const collapse_actions = action.includes('trait') || action.includes('damage');
+    const collapse_actions = action.includes('trait') || action.includes('damage') ||
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers');
     // Show card
     let message = await create_item_card(target, item_id, collapse_actions);
     // Shortcut for rolling damage

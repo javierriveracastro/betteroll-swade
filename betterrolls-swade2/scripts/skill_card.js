@@ -38,6 +38,8 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     } else {
         actor = origin;
     }
+    collapse_actions = collapse_actions ||
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers')
     const skill = actor.items.find(item => {return item.id === skill_id});
     const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]

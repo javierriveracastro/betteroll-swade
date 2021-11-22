@@ -332,6 +332,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'collapse-modifiers', {
+        name: game.i18n.localize('BRSW.collapse-modifiers'),
+        hint: game.i18n.localize('BRSW.collapse-modifiers_hint'),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
     game.settings.register('betterrolls-swade2', 'default-ammo-management', {
         name: game.i18n.localize('BRSW.AmmoManagement'),
         hint: game.i18n.localize('BRSW.AmmoManagementHint'),
