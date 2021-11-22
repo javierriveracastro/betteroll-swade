@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.52 Did somebody say something about arcane devices.
+* Refactoring: Lots of small refactorings and code improvements
+* Actions: Now, the used_shots fields, both in global actions and item actions can be used to specify the number of power points that an actions takes (when it is on an power without shots)
+* Global actions: Added "actor_has_joker" selector
+* Global actions: New target based selectors, for now: "target_has_edge" and "target_has_hindrance"
+* Cards: There is now a new setting that forces a card to show all actions collapsed by default
+* Global actions: Added more of the grendel hindrances (grendel1111)
+
 ## Version 2.51 No, still no support for arcane devices
 * Refactoring: The quest for easier and more readable code continues
 * Ammunition: Support for autoreload weapons
