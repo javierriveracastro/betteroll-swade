@@ -89,5 +89,26 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"Hard of Hearing", name:"Hard of Hearing", button_name:"BRSW.EdgeName-HardOfHearing", skillMod:"-4", 
         and_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-HardOfHearing"},
             {selector_type:"skill", selector_value:"BRSW.SkillName-Notice"}],
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"Mean", name:"Mean", button_name:"BRSW.EdgeName-Mean", skillMod:"-1", and_selector:[
+        {selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Mean"},
+        {selector_type:"skill", selector_value:"BRSW.SkillName-Persuasion"}],
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"Mild Mannered", name:"Mild Mannered", button_name:"BRSW.EdgeName-MildMannered",
+        skillMod:"-2", and_selector:[
+            {selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-MildMannered"},
+            {selector_type:"skill", selector_value:"BRSW.SkillName-Intimidation"}], 
+        defaultChecked:"on", group:"BRSW.Hindrances"},
+    {id:"Outsider",name:"Outsider",button_name:"BRSW.EdgeName-Outsider", skillMod:"-2",
+        and_selector:[{selector_type:"actor_has_hindrance", selector_value:"BRSW.EdgeName-Outsider"},
+            {selector_type:"skill", selector_value:"BRSW.SkillName-Persuasion"},
+            {not_selector:[{selector_type:"actor_has_hindrance",selector_value:"Outsider+"}]}],
+        defaultChecked:"on",group:"BRSW.Hindrances"},
+    {id:"Tongue Tied", name:"Tongue Tied", button_name:"BRSW.EdgeName-TongueTied", skillMod:"-1",
+        and_selector:[{selector_type:"actor_has_hindrance",selector_value:"BRSW.EdgeName-TongueTied"},
+            { or_selector:[{selector_type:"skill",selector_value:"BRSW.SkillName-Performance"},
+                    {selector_type:"skill", selector_value:"BRSW.SkillName-Persuasion"},
+                    {selector_type:"skill", selector_value:"BRSW.SkillName-Taunt"},
+                    {selector_type:"skill", selector_value:"BRSW.SkillName-Intimidation"}]}],
         defaultChecked:"on", group:"BRSW.Hindrances"}
 ]

@@ -242,5 +242,13 @@
     "BRSW.EdgeName-HardOfHearing": "Hard of Hearing",
     "BRSW.collapse-modifiers": "Always collapse modifier fields",
     "BRSW.collapse-modifiers_hint": "Show the card with all the modifiers collapsed for more compact output",
-    "BRSW.Target": "Target"
+    "BRSW.Target": "Target",
+    "BRSW.EdgeName-Mean": "Mean",
+    "BRSW.SkillName-Persuasion": "Persuasion",
+    "BRSW.EdgeName-MildMannered": "Mild Mannered",
+    "BRSW.SkillName-Intimidation": "Intimidation",
+    "BRSW.EdgeName-Outsider": "Outsider",
+    "BRSW.EdgeName-TongueTied": "Tongue Tied",
+    "BRSW.SkillName-Performance": "Performance",
+    "BRSW.SkillName-Taunt": "Taunt"
 }
