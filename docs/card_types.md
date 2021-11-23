@@ -60,8 +60,14 @@ Power cards are very similar to ranged weapons (if they have damaging effects).
 Available global actions are "Subtract Power points" - can be activated in the settings as default and "Manual PP management". The automatic solution will always deduct the base amount defined in the power. With the second option you can manually either expend or recharge Power Points.  
 
 ![Power Point Management](img/power_point_management_v1-119.jpg)  
+
+### Modifiers altering power points to be spent  
+With the implementation of [#341](https://github.com/javierriveracastro/betteroll-swade/issues/341), power points can now directly edited by item actions. To do so just set up an action for the power, specifying the amount of power points as "Shots Used" as in the screenshot below. Selecting the action in the chat card will then result in power point usage equal to the amount specified in that action. This allows the user to set up power modifiers in advance, making sure the proper power point amount is spent without the need to manually edit them each roll.  
+
+![Power Point Modifiers](img/power_point_modifiers.png)  
   
 ### Arcane Devices (by SalieriC)  
+*With the introduction of Arcane Devices to the core system, this feature is about to be deprecated once BR2 supports the system Arcane Device system.*  
 The automated PP Management also supports Arcane Devices created with the Artificier Edge, this however requires you to set up an Additional Stat. Head to the System configuration and set up a new Additional Stat for items. The `Stat Key` *must* be exactly this: `devicePP`  
 The name doesn't matter, data type is `Number` and also check the checkbox "Has Max Value".  
 From now on you can make any power an Arcane Device by activating the Additional Stat you've just created on the power. If that Additional Stat is activated, the script will automatically detect it as an Arcane Device and use the Power Points stored on the Power itself, not the ones of the character.  
