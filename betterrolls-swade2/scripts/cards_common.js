@@ -1169,9 +1169,11 @@ export function create_modifier(label, expression) {
  */
 export function process_common_actions(action, extra_data, macros) {
     let updates = {}
+    let action_name = action.button_name || action.name
+    action_name = action_name.includes("BRSW.") ? game.i18n.localize(action_name) : action_name
     // noinspection JSUnresolvedVariable
     if (action.skillMod) {
-        let modifier = create_modifier(action.name, action.skillMod)
+        let modifier = create_modifier(action_name, action.skillMod)
         if (extra_data.modifiers) {
             extra_data.modifiers.push(modifier);
         } else {
@@ -1180,7 +1182,7 @@ export function process_common_actions(action, extra_data, macros) {
     }
     if (action.rerollSkillMod) {
         //Reroll
-        extra_data.reroll_modifier = create_modifier(action.name, action.rerollSkillMod)
+        extra_data.reroll_modifier = create_modifier(action_name, action.rerollSkillMod)
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
