@@ -109,7 +109,8 @@ async function apply_damage(token, wounds, soaked=0) {
         // Shaken twice
         if (token.actor.data.items.find(item => {
             return item.name.toLowerCase().includes(
-                game.i18n.localize("BRSW.HardyIdentifier")) && item.type === "edge";
+                game.i18n.localize("BRSW.HardyIdentifier")) &&
+                (item.type === "edge" || item.type === 'ability');
             })) {
             text += game.i18n.localize("BRSW.HardyActivated");
             damage_wounds = 0
