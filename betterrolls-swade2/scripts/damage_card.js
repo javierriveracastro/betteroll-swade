@@ -1,4 +1,5 @@
 // Functions for the damage card
+/* global game, canvas, CONST, Token */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
     roll_trait, spend_bennie, update_message
@@ -91,8 +92,8 @@ export function get_owner(actor) {
  * @param {int} soaked
  */
 async function apply_damage(token, wounds, soaked=0) {
-    if (wounds < 0) return;
-    let incapacitated = false;
+    if (wounds < 0) {return}
+    let incapacitated;
     if (!(token instanceof Token)) {
         // If this is not a token then it is a token id
         token = canvas.tokens.get(token);
