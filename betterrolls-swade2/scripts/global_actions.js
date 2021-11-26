@@ -183,10 +183,19 @@ function check_selector(type, value, item, actor){
             });
             selected = selected || (!!hindrance)
         }
+    } else if (type === 'target_has_ability') {
+        const ability_name = value.includes("BRSW.HindranceName-") ?
+            game.i18n.localize(value) : value;
+        for (let targeted_token of game.user.targets) {
+            const ability = targeted_token.actor.items.find(item => {
+                return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
+                    ability_name.toLowerCase());
+            });
+            selected = selected || (!!ability)
+        }
     }
     return selected;
 }
-
 
 /**
  * Returns a global action from a name
