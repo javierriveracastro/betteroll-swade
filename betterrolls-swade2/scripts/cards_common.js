@@ -4,7 +4,7 @@
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
-import {get_tn_from_token, is_shooting_skill, roll_skill} from "./skill_card.js";
+import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 
 export const BRSW_CONST = {
