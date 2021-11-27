@@ -3,8 +3,9 @@
 
 import {BRSW_CONST, get_action_from_click, get_actor_from_message,
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
-    BRWSRoll, roll_trait} from "./cards_common.js";
-import {create_actions_array} from "./global_actions.js";
+    BRWSRoll, roll_trait, process_common_actions} from "./cards_common.js";
+import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
+import { run_macros } from "./item_card.js";
 
 /**
 / Translation map for attributes
@@ -189,8 +190,34 @@ export function activate_attribute_card_listeners(message, html) {
 export async function roll_attribute(message, html,
                                      expend_bennie){
     let actor = get_actor_from_message(message);
-    const attribute_id = message.getFlag('betterrolls-swade2', 'render_data').attribute_name;
+    const render_data = message.getFlag('betterrolls-swade2', 'render_data')
+    const attribute_id = render_data.attribute_name;
+    let extra_data = {}
+    let pinned_actions = [];
+    let macros = [];
+    if (html) {
+        html.find('.brsw-action.brws-selected').each((_, element) => {
+            // noinspection JSUnresolvedVariable
+            let action;
+            action = get_global_action_from_name(element.dataset.action_id);
+            let updates = process_common_actions(action, extra_data, macros, pinned_actions);
+            if (updates) {
+                actor.update(updates);
+            }
+            if (element.classList.contains("brws-permanent-selected")) {
+                pinned_actions.push(action.name);
+            }
+        });
+    }
+    for (let group in render_data.action_groups) {
+        for (let action of render_data.action_groups[group].actions) {
+            // Global and local actions are different
+            action.pinned = pinned_actions.includes(action.code) ||
+                pinned_actions.includes(action.name)
+        }
+    }
     if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
-        "BRSW.AbilityDie"), html, {});
+        "BRSW.AbilityDie"), html, extra_data);
+    run_macros(macros, actor, null, message);
 }
