@@ -112,17 +112,23 @@ export function get_actions(item, actor) {
 function check_selector(type, value, item, actor){
     let selected = false;
     if (type === 'skill') {
-        const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
-        if (skill) {
-            if (value.slice(0, 4) === "BRSW.") {
-                selected = skill.name.toLowerCase().includes(
-                    game.i18n.localize(value).toLowerCase())
-            } else {
-                selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
-                    skill.name.toLowerCase().includes(
-                        game.i18n.localize("BRSW.SkillName-" + value));
+        if (item.type == 'attribute') {
+            selected = false;
+        } else {
+            const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
+            if (skill) {
+                if (value.slice(0, 4) === "BRSW.") {
+                    selected = skill.name.toLowerCase().includes(
+                        game.i18n.localize(value).toLowerCase())
+                } else {
+                    selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
+                        skill.name.toLowerCase().includes(
+                            game.i18n.localize("BRSW.SkillName-" + value));
+                }
             }
         }
+    } else if (type === "attribute") {
+        selected = item.type === 'attribute' && item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === "all") {
         selected = true;
     } else if (type === 'item_type') {
