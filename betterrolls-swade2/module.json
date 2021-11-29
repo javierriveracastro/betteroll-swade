@@ -46,9 +46,7 @@
   "esmodules": [
     "./scripts/brsw2-init.js"
   ],
-  "scripts": [
-    "./scripts/settings-extender.js"
-  ],
+  "scripts": [],
   "styles": [
     "./css/brsw-styles.css"
   ],
