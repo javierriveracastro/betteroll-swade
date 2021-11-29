@@ -56,6 +56,7 @@ This group of fields are used to select when the action is available, you will n
 
 **selector_type:**
 * skill: selector_value must be a string. The action will be available when the item uses a skill with that name
+* attribute: selector_value must be a string. The action will be available when the attribute named is rolled. (eg, strength, agility, spirit, smarts, vigor)
 * item_type: selector_value must be another string, a valid SWADE item type: weapon, power, edge, ...
 * actor_name: selector_value must be a string. The action will be avaliable to actor that include that string in their name.
 * item_name: selector value must be again a string that this time is compared with the item name.
