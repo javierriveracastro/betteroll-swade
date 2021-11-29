@@ -128,7 +128,7 @@ export function create_basic_chat_data(origin, type){
 
 /**
  * Creates de common render options for all the cards
- * @param {Actor} actor
+ * @param {SwadeActor} actor
  * @param {object} render_data: options for this card
  * @para item: An item object
  * @param {string} template:
@@ -167,7 +167,7 @@ export function create_render_options(actor, render_data, template) {
 
 /**
  * Returns true if an actor has bennies available or is master controlled.
- * @param {Actor} actor: The actor that we are checking
+ * @param {SwadeActor} actor: The actor that we are checking
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
