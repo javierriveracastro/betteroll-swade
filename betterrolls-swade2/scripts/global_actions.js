@@ -112,7 +112,7 @@ export function get_actions(item, actor) {
 function check_selector(type, value, item, actor){
     let selected = false;
     if (type === 'skill') {
-        if (item.type == 'attribute') {
+        if (item.type === 'attribute') {
             selected = false;
         } else {
             const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
