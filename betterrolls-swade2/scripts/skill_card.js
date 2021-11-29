@@ -1,5 +1,6 @@
 // Functions for cards representing skills
 /* globals TokenDocument, Token, game, CONST, canvas, console, Ray */
+// noinspection JSCheckFunctionSignatures
 
 import {
     BRSW_CONST,
@@ -281,7 +282,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             let target_operator = game.actors.get(target_operator_id);
             let operatorItems = target_operator.data.items;
             const maneuveringSkill = target_token.actor.data.data.driver.skill;
-            operatorItems.forEach((value, keys) => {
+            operatorItems.forEach((value) => {
                 if (value.data.name === maneuveringSkill) {
                   operator_skill = value.data.data.die.sides;
                 }

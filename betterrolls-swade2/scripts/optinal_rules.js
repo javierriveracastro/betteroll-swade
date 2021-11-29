@@ -1,3 +1,4 @@
+/* globals game, FormApplication */
 
 const OPTIONAL_RULES = ["GrittyDamage"]
 
@@ -33,6 +34,6 @@ export class OptionalRulesConfiguration extends FormApplication {
                 enabled.push(id);
             }
         }
-        game.settings.set('betterrolls-swade2', 'optional_rules_enabled', enabled);
+        await game.settings.set('betterrolls-swade2', 'optional_rules_enabled', enabled);
     }
 }
