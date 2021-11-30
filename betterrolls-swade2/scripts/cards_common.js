@@ -467,7 +467,7 @@ export function trait_to_string(trait) {
 /**
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
- * @param {boolean} damage Tru if this is a damage roll
+ * @param {boolean} damage True if this is a damage roll
  */
 export function calculate_results(rolls, damage) {
     let result = 0;
