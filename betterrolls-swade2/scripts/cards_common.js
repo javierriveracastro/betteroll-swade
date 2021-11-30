@@ -289,8 +289,8 @@ export function activate_common_listeners(message, html) {
                 {id: 'value', label: label_mod, default_value: default_value}],
             async values => {
                 await edit_modifier(message, parseInt(index),
-                    {name: values.Label, value: values['value'],
-                        extra_class: parseInt(values['value']) < 0 ? ' brsw-red-text' : ''});
+                    {name: values.Label, value: values.value,
+                        extra_class: parseInt(values.value) < 0 ? ' brsw-red-text' : ''});
             });
     })
     // Delete modifiers
@@ -469,10 +469,19 @@ export function trait_to_string(trait) {
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
  * @param {boolean} damage True if this is a damage roll
+ * @param {boolean} remove_die True to remove a result, that usually means a
+ *  trait roll made by a Wild Card
+ * @param {Array} dice: The dice array that contains individual dice in a result
  */
-export function calculate_results(rolls, damage) {
+export function calculate_results(rolls, damage, remove_die, dice) {
     let result = 0;
-    rolls.forEach(roll => {
+    let minimum_value = 10000000
+    let min_position = 0
+    for (const [index, roll] of rolls.entries()) {
+        if (roll.result <= minimum_value) {
+            min_position = index
+            minimum_value = roll.result
+        }
         result = roll.result - roll.tn;
         if (roll.ap) {
             // We have an AP value, add it to the result
@@ -492,7 +501,7 @@ export function calculate_results(rolls, damage) {
         } else if(result < 8) {
             if (damage) {
                 roll.result_text = game.i18n.localize('BRSW.Wound');
-                roll.result_icon = '<i class="brsw-red-text fas fa-tint"></i>'                 
+                roll.result_icon = '<i class="brsw-red-text fas fa-tint"></i>'
             } else {
                 roll.result_text = game.i18n.localize('BRSW.Raise');
                 roll.result_icon = '<i class="brsw-blue-text fas fa-check-double"></i>'
@@ -511,7 +520,13 @@ export function calculate_results(rolls, damage) {
                     '<i class="brsw-blue-text fas fa-check-double"></i>';
             }
         }
-    });
+    }
+    if (remove_die) {
+        rolls[min_position].extra_class += ' brsw-discarded-roll';
+        rolls[min_position].tn = 0;
+        dice[min_position].extra_class += ' brsw-discarded-roll';
+        dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
+    }
     if (result < 0) {
         return 0
     } else if (result === 0) {
@@ -824,8 +839,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     }
     let roll = new Roll(roll_string);
     roll.evaluate({async:false})
-    let min_value = 99999999;
-    let min_position = 0;
     let index = 0
     let fumble_possible = 0;
     roll.terms.forEach((term) => {
@@ -849,21 +862,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
                 new_die.results.push(result.result);
             })
             dice.push(new_die);
-            // Find minimum roll
-            if (term.total < min_value) {
-                min_value = term.total;
-                min_position = index;
-            }
             index += 1;
         }
     })
-    // Remove Wild die
-    if (actor.isWildcard) {
-        trait_rolls[min_position].extra_class += ' brsw-discarded-roll';
-        trait_rolls[min_position].tn = 0;
-        dice[min_position].extra_class += ' brsw-discarded-roll';
-        dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
-    }
     // Fumble detection
     if (!actor.isWildcard && fumble_possible < 1) {
         let test_fumble_roll = new Roll('1d6');
@@ -882,7 +883,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     }
     // Calculate results
     if (!render_data.trait_roll.is_fumble) {
-        calculate_results(trait_rolls, false);
+        calculate_results(trait_rolls, false, actor.isWildcard, dice);
     }
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
@@ -950,7 +951,7 @@ async function old_roll_clicked(event, message) {
 
 
 /**
- * Updates the total results of a old stored rolls in a value
+ * Updates the total results of an old stored rolls in a value
  * @param trait_roll
  * @param mod_value
  */
@@ -958,12 +959,12 @@ function update_roll_results(trait_roll, mod_value) {
         trait_roll.rolls.forEach(roll => {
             roll.result += mod_value;
         });
-        calculate_results(trait_roll.rolls, false);
+        calculate_results(trait_roll.rolls, false, false, []);
         trait_roll.old_rolls.forEach(old_roll => {
             old_roll.forEach(roll => {
                 roll.result += mod_value;
             });
-            calculate_results(old_roll, false);
+            calculate_results(old_roll, false, false, []);
         });
 }
 
