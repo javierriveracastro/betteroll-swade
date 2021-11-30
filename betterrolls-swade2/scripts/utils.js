@@ -1,17 +1,23 @@
 // Utility functions that can be used out of the module
+/* globals ChatMessage, game, Dialog */
 
 export function getWhisperData() {
     let rollMode, whisper, blind
     rollMode = game.settings.get("core", "rollMode");
-    if (["gmroll", "blindroll"].includes(rollMode)) whisper = ChatMessage.getWhisperRecipients("GM");
-    if (rollMode === "blindroll") blind = true;
-    else if (rollMode === "selfroll") whisper = [game.user._id];
-    let output = {
+    if (["gmroll", "blindroll"].includes(rollMode)) {
+        whisper = ChatMessage.getWhisperRecipients("GM");
+    }
+    if (rollMode === "blindroll") {
+        blind = true;
+    }
+    else if (rollMode === "selfroll") {
+        whisper = [game.user._id];
+    }
+    return  {
         rollMode: rollMode,
         whisper: whisper,
         blind: blind
     };
-    return output;
 }
 
 export function makeExplotable(expresion) {
@@ -48,7 +54,7 @@ export async function spendMastersBenny() {
 
 export function broofa() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        let r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        let r = Math.random()*16|0, v = (c === 'x') ? r : (r&0x3|0x8);
         return v.toString(16);
     });
 }
@@ -58,16 +64,17 @@ export function broofa() {
  * Show a simple form
  *
  * @param {string} title: The form title
- * @param {[object]} fields: Array of {label, default_value}
+ * @param {[object]} fields: Array of {id, label, default_value}, if there
+ *  is no id it will use label as an id, beware of spaces
  * @param {function} callback: A callback function that will called
  */
 export function simple_form(title, fields, callback) {
     let content = '<form>'
-    fields.forEach(field => {
-        // noinspection JSUnresolvedVariable
+    for (let field of fields) {
+        const field_id = field.id || field.label
         content += `<div class="form-group"><label>${field.label}</label>
-            <input id='input_${field.label}' value='${field.default_value}'></div>`
-    })
+            <input id='input_${field_id}' value='${field.default_value}'></div>`
+    }
     content += '</form>'
     new Dialog({
         title: title,
@@ -77,9 +84,10 @@ export function simple_form(title, fields, callback) {
                 label: "OK",
                 callback: (html) => {
                     let values = {};
-                    fields.forEach(field => {
-                        values[field.label] = html.find(`#input_${field.label}`).val();
-                    })
+                    for (let field of fields) {
+                        const field_id = field.id || field.label
+                        values[field_id] = html.find(`#input_${field_id}`).val();
+                    }
                     callback(values);
                 }
             },
@@ -101,6 +109,8 @@ export function get_targeted_token() {
      */
     let targets = game.user.targets;
     let objective;
-    if (targets.size) objective = Array.from(targets)[0];
+    if (targets.size) {
+        objective = Array.from(targets)[0];
+    }
     return objective;
 }

@@ -4,7 +4,7 @@
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
-import {get_tn_from_token, is_shooting_skill, roll_skill} from "./skill_card.js";
+import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 
 export const BRSW_CONST = {
@@ -128,7 +128,7 @@ export function create_basic_chat_data(origin, type){
 
 /**
  * Creates de common render options for all the cards
- * @param {Actor} actor
+ * @param {SwadeActor} actor
  * @param {object} render_data: options for this card
  * @para item: An item object
  * @param {string} template:
@@ -167,7 +167,7 @@ export function create_render_options(actor, render_data, template) {
 
 /**
  * Returns true if an actor has bennies available or is master controlled.
- * @param {Actor} actor: The actor that we are checking
+ * @param {SwadeActor} actor: The actor that we are checking
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
@@ -504,7 +504,7 @@ export function trait_to_string(trait) {
 /**
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
- * @param {boolean} damage Tru if this is a damage roll
+ * @param {boolean} damage True if this is a damage roll
  */
 export function calculate_results(rolls, damage) {
     let result = 0;
