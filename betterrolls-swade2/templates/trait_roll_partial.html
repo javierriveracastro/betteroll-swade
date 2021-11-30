@@ -16,9 +16,11 @@
     </span>
     <span>
         {{#each trait_roll.rolls}}
-            <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
-                {{ this.result }}
-            </span>
+            <a class="brsw-override-die" data-die-index="{{@index}}">
+                <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
+                    {{ this.result }}
+                </span>
+            </a>
         {{/each}}
         {{# if show_rerolls }}
             <button class="brsw-trait-reroll brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>

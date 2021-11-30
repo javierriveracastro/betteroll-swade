@@ -292,6 +292,43 @@ export function activate_common_listeners(message, html) {
                         extra_class: parseInt(values[label_mod]) < 0 ? ' brsw-red-text' : ''});
             });
     })
+    // Edit die results
+    // noinspection JSUnresolvedFunction
+    html.find('.brsw-override-die').click((ev) => {
+        // Collect roll data
+        let roll_data = null;
+        //TODO: Differentiate die source
+        let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+        roll_data = render_data.trait_roll;
+        // Assert roll data is present
+        if(null === roll_data)
+        {
+          console.warn('Unable to determine roll source.');
+          return;
+        }
+        // Retrieve additional data
+        const die_index = Number(ev.currentTarget.dataset.dieIndex);
+        if((die_index !== 0) && (!die_index))
+        {
+          console.warn('Unable to determine die index.');
+          return;
+        }
+        // Show modal
+        const label_new_result = game.i18n.localize("BRSW.NewDieResult");
+        simple_form(game.i18n.localize("BRSW.EditDieResult"), [
+          {label: label_new_result, default_value: 0}],
+          async values => {
+            const new_value = values[label_new_result];
+            if((new_value !== 0) && (!new_value))
+            {
+              console.warn('Unable to determine new die result.');
+              return;
+            }
+            // Actual roll manipulation
+            override_die_result(roll_data, die_index, new_value);
+            update_message(message, get_actor_from_message(message), render_data);
+        });
+    })
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
@@ -964,6 +1001,61 @@ function update_roll_results(trait_roll, mod_value) {
             });
             calculate_results(old_roll, false);
         });
+}
+
+
+/**
+ * Overrides the rolled result of a singular die in a given roll
+ * @param roll_data
+ * @param {int} die_index
+ * @param {int} new_value
+ * @param {boolean} [is_damage_roll=false]
+ */
+function override_die_result(roll_data, die_index, new_value, is_damage_roll = false) {
+    console.log('before', roll_data);
+    roll_data.rolls[die_index].result = new_value;
+    override_die_result_details(roll_data, die_index, new_value);
+    calculate_results(roll_data.rolls, is_damage_roll);
+    console.log('after', roll_data);
+}
+
+/**
+ * Overrides the roll results hidden in the foldout.
+ * @param roll_data
+ * @param {int} die_index
+ * @param {int} new_value
+ */
+function override_die_result_details(roll_data, die_index, new_value) {
+    const die_roll_array = roll_data.dice[die_index].results;
+    console.log('array starting');
+    log_array(die_roll_array);
+    die_roll_array.length = 0;
+    console.log('array empty');
+    log_array(die_roll_array);
+    const sides = roll_data.dice[die_index].faces;
+    console.log('sides', sides);
+    const times_exploded = Math.floor(new_value/sides);
+    console.log('times_exploded', times_exploded);
+    for(let i=0; i<times_exploded; ++i)
+    {
+      die_roll_array.push(sides);
+    }
+    console.log('array filled with explosions');
+    log_array(die_roll_array);
+    const remainder = new_value%sides;
+    if(0 !== remainder)
+    {
+        die_roll_array.push(remainder);
+    }
+    console.log('array final');
+    log_array(die_roll_array);
+}
+
+function log_array(array)
+{
+  let msg = "|";
+  array.forEach(el => msg += el.toString() + "|");
+  console.log(msg);
 }
 
 /**

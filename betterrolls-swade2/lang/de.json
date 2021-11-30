@@ -72,6 +72,8 @@
     "BRSW.SubtractPP": "Machtpunkte ausgeben",
     "BRSW.ManuallyAdded": "Manuell hinzugefügt",
     "BRSW.AddModifier": "Modifikator hinzufügen",
+    "BRSW.NewDieResult": "Wert",
+    "BRSW.EditDieResult": "Wurfergebnis anpassen",
     "BRSW.ManualPP": "Manuelle MP Verwaltung",
     "BRSW.InsufficientPP": "Du hast nicht genügend Machtpunkte.",
     "BRSW.ExpendPPText": "{name} gibt {number} Machtpunkte aus und hat noch <b>{newPP}</b> MP.",
