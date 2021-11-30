@@ -269,11 +269,12 @@ export function activate_common_listeners(message, html) {
     html.find('.brsw-add-modifier').click(() => {
         const label_mod = game.i18n.localize("BRSW.Modifier");
         simple_form(game.i18n.localize("BRSW.AddModifier"),
-            [{label: game.i18n.localize("BRSW.Label"), default_value: ''},
-                {label: label_mod,
-                default_value: 1}], async values => {
-                await add_modifier(message, {label: values.Label,
-                    value: values[label_mod]});
+            [{id:'label', label: game.i18n.localize("BRSW.Label"),
+                    default_value: ''},
+                {id: 'value', label: label_mod,
+                 default_value: 1}], async values => {
+                await add_modifier(message, {label: values.label,
+                    value: values.value});
             });
     })
     // Edit modifiers
@@ -285,11 +286,11 @@ export function activate_common_listeners(message, html) {
         const index = ev.currentTarget.dataset.index;
         simple_form(game.i18n.localize("BRSW.EditModifier"),
             [{label: 'Label', default_value: default_label},
-                {label: label_mod, default_value: default_value}],
+                {id: 'value', label: label_mod, default_value: default_value}],
             async values => {
                 await edit_modifier(message, parseInt(index),
-                    {name: values.Label, value: values[label_mod],
-                        extra_class: parseInt(values[label_mod]) < 0 ? ' brsw-red-text' : ''});
+                    {name: values.Label, value: values['value'],
+                        extra_class: parseInt(values['value']) < 0 ? ' brsw-red-text' : ''});
             });
     })
     // Delete modifiers
@@ -304,9 +305,9 @@ export function activate_common_listeners(message, html) {
         const index = parseInt(ev.currentTarget.dataset.index);
         const tn_trans = game.i18n.localize("BRSW.TN");
         simple_form(game.i18n.localize("BRSW.EditTN"), [
-            {label: tn_trans, default_value: old_tn}],
+            {id: 'tn', label: tn_trans, default_value: old_tn}],
             async values => {
-                await edit_tn(message, index, values[tn_trans], "");
+                await edit_tn(message, index, values.tn, "");
         });
     });
     // TNs from target
