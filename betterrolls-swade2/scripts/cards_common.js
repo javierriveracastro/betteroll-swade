@@ -465,6 +465,24 @@ export function trait_to_string(trait) {
 }
 
 
+async function detect_fumble(remove_die, fumble_possible, result, dice) {
+    if (!remove_die && (fumble_possible < 1)) {
+        let test_fumble_roll = new Roll('1d6');
+        test_fumble_roll.roll()
+        await test_fumble_roll.toMessage(
+            {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
+        if (test_fumble_roll.total === 1) {
+            return true  // Fumble mark
+        }
+    } else if (remove_die && (fumble_possible < 0)) {
+        // It is only a fumble if the Wild Die is 1
+        if (dice[dice.length - 1].results[0] === 1) {
+            return true // Fumble mark
+        }
+    }
+    return false;
+}
+
 /**
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
@@ -473,11 +491,13 @@ export function trait_to_string(trait) {
  *  trait roll made by a Wild Card
  * @param {Array} dice: The dice array that contains individual dice in a result
  */
-export function calculate_results(rolls, damage, remove_die, dice) {
+export async function calculate_results(rolls, damage, remove_die, dice) {
     let result = 0;
     let minimum_value = 10000000
     let min_position = 0
+    let fumble_possible = 0
     for (const [index, roll] of rolls.entries()) {
+        fumble_possible += roll.fumble_value
         if (roll.result <= minimum_value) {
             min_position = index
             minimum_value = roll.result
@@ -521,6 +541,7 @@ export function calculate_results(rolls, damage, remove_die, dice) {
             }
         }
     }
+    // Fumble detection
     if (remove_die) {
         rolls[min_position].extra_class += ' brsw-discarded-roll';
         rolls[min_position].tn = 0;
@@ -528,9 +549,12 @@ export function calculate_results(rolls, damage, remove_die, dice) {
         dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
     }
     if (result < 0) {
-        return 0
+        result = 0
     } else if (result === 0) {
-        return 0.01  // Ugly hack to differentiate from failure
+        result = 0.01  // Ugly hack to differentiate from failure
+    }
+    if (!damage) {
+        return await detect_fumble(remove_die, fumble_possible, result, dice);
     }
     return result
 }
@@ -840,19 +864,18 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let roll = new Roll(roll_string);
     roll.evaluate({async:false})
     let index = 0
-    let fumble_possible = 0;
     roll.terms.forEach((term) => {
         if (term.hasOwnProperty('faces')) {
             // Results
             let extra_class = '';
-            fumble_possible += 1;
+            let fumble_possible = 1;
             if (term.total === 1) {
                 extra_class = ' brsw-red-text';
                 fumble_possible -= 2;
             } else if (term.total > term.faces) {
                 extra_class = ' brsw-blue-text';
             }
-            trait_rolls.push({sides: term.faces,
+            trait_rolls.push({sides: term.faces, fumble_value: fumble_possible,
                 result: term.total + total_modifiers, extra_class: extra_class,
                 tn: options.tn, tn_reason: options.tn_reason});
             // Dies
@@ -865,26 +888,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             index += 1;
         }
     })
-    // Fumble detection
-    if (!actor.isWildcard && fumble_possible < 1) {
-        let test_fumble_roll = new Roll('1d6');
-        test_fumble_roll.roll()
-        await test_fumble_roll.toMessage(
-    {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
-        if (test_fumble_roll.total === 1) {
-            render_data.trait_roll.is_fumble = true;
-        }
-    } else if (actor.isWildcard && fumble_possible < 0) {
-        // It is only a fumble if the Wild Die is 1
-        render_data.trait_roll.is_fumble = dice[dice.length - 1].results[0] === 1;
-    }
     if (game.dice3d) {
         await show_3d_dice(roll, message, modifiers);
     }
-    // Calculate results
-    if (!render_data.trait_roll.is_fumble) {
-        calculate_results(trait_rolls, false, actor.isWildcard, dice);
-    }
+    render_data.trait_roll.is_fumble = await calculate_results(
+        trait_rolls, false, actor.isWildcard, dice)
     render_data.trait_roll.rolls = trait_rolls;
     render_data.trait_roll.modifiers = modifiers;
     render_data.trait_roll.dice = dice;
@@ -955,17 +963,19 @@ async function old_roll_clicked(event, message) {
  * @param trait_roll
  * @param mod_value
  */
-function update_roll_results(trait_roll, mod_value) {
+async function update_roll_results(trait_roll, mod_value) {
         trait_roll.rolls.forEach(roll => {
             roll.result += mod_value;
         });
-        calculate_results(trait_roll.rolls, false, false, []);
-        trait_roll.old_rolls.forEach(old_roll => {
-            old_roll.forEach(roll => {
+        trait_roll.is_fumble = await calculate_results(
+            trait_roll.rolls, false, false, [])
+        for (const old_roll of trait_roll.old_rolls) {
+            for (const roll of old_roll) {
                 roll.result += mod_value;
-            });
-            calculate_results(old_roll, false, false, []);
-        });
+            }
+            trait_roll.is_fumble = await calculate_results(
+                old_roll, false, false, [])
+        }
 }
 
 /**
@@ -987,7 +997,7 @@ async function add_modifier(message, modifier) {
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push(new_mod)
-        update_roll_results(render_data.trait_roll, new_mod.value);
+        await update_roll_results(render_data.trait_roll, new_mod.value);
         await update_message(message, get_actor_from_message(message), render_data);
     }
 }
@@ -1000,7 +1010,7 @@ async function add_modifier(message, modifier) {
 async function delete_modifier(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     let modifier = render_data.trait_roll.modifiers[index];
-    update_roll_results(render_data.trait_roll, - modifier.value);
+    await update_roll_results(render_data.trait_roll, - modifier.value);
     delete render_data.trait_roll.modifiers[index]
     await update_message(message, get_actor_from_message(message), render_data);
 }
@@ -1021,7 +1031,7 @@ async function edit_modifier(message, index, new_modifier) {
         const difference = mod_value - modifier.value;
         new_modifier.value = mod_value;
         render_data.trait_roll.modifiers[index] = new_modifier;
-        update_roll_results(render_data.trait_roll, difference);
+        await update_roll_results(render_data.trait_roll, difference);
         await update_message(message, get_actor_from_message(message), render_data);
     }
 }
@@ -1052,7 +1062,7 @@ async function edit_tn(message, index, new_tn, reason) {
             }
         });
     }
-    update_roll_results(render_data.trait_roll, 0);
+    await update_roll_results(render_data.trait_roll, 0);
     await update_message(message, get_actor_from_message(message), render_data)
 }
 
