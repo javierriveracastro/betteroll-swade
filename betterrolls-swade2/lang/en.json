@@ -235,7 +235,7 @@
     "BRSW.EdgeName-Blind": "Blind",
     "BRSW.EdgeName-Cant-Swim": "Can't Swim",
     "BRSW.EdgeName-Clueless": "Clueless",
-    "BRSW.SkillName-CommonKnowledge": "common knowledge",
+    "BRSW.SkillName-CommonKnowledge": "Common Knowledge",
     "BRSW.EdgeName-Clumsy": "Clumsy",
     "BRSW.SkillName-Athletics": "Athletics",
     "BRSW.SkillName-Stealth": "Stealth",
@@ -250,5 +250,10 @@
     "BRSW.EdgeName-Outsider": "Outsider",
     "BRSW.EdgeName-TongueTied": "Tongue Tied",
     "BRSW.SkillName-Performance": "Performance",
-    "BRSW.SkillName-Taunt": "Taunt"
+    "BRSW.SkillName-Taunt": "Taunt",
+    "BRSW-EdgeName-Aristocrat": "Aristocrat",
+    "BRSW-EdgeName-Attractive": "Attractive",
+    "BRSW-EdgeName-VeryAttractive": "Very Attractive",
+    "BRSW-EdgeName-Fame": "Fame",
+    "BRSW-EdgeName-Famous": "Famous"
 }
