@@ -1485,8 +1485,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data?.description.toLowerCase().includes(translated_key_text) ||
-                    item.data.data?.range.toLowerCase().includes(translated_key_text)) {
+            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) ||
+                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) {
                 templates_found.push(template_key)
                 break
             }
