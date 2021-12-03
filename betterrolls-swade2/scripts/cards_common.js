@@ -1024,51 +1024,22 @@ async function update_roll_results(trait_roll, mod_value) {
  * @param {boolean} [is_damage_roll=false]
  */
 function override_die_result(roll_data, die_index, new_value, is_damage_roll = false) {
-    console.log('before', roll_data);
-    roll_data.rolls[die_index].result = new_value;
-    override_die_result_details(roll_data, die_index, new_value);
-    calculate_results(roll_data.rolls, is_damage_roll);
-    console.log('after', roll_data);
+  let total_modifier = 0;
+  roll_data.modifiers.forEach(mod => {
+      total_modifier += mod.value;
+  })
+  roll_data.rolls[die_index].result = parseInt(new_value) + total_modifier
+  // Recreate die
+  roll_data.dice.forEach((die, index) => {
+      die.results = [];
+      let final_result = roll_data.rolls[index].result - total_modifier;
+      for (let number = final_result; number > 0; number -= die.faces) {
+          die.results.push(number > die.faces ? die.faces : number);
+      }
+  })
+  calculate_results(roll_data.rolls, is_damage_roll);
 }
 
-/**
- * Overrides the roll results hidden in the foldout.
- * @param roll_data
- * @param {int} die_index
- * @param {int} new_value
- */
-function override_die_result_details(roll_data, die_index, new_value) {
-    const die_roll_array = roll_data.dice[die_index].results;
-    console.log('array starting');
-    log_array(die_roll_array);
-    die_roll_array.length = 0;
-    console.log('array empty');
-    log_array(die_roll_array);
-    const sides = roll_data.dice[die_index].faces;
-    console.log('sides', sides);
-    const times_exploded = Math.floor(new_value/sides);
-    console.log('times_exploded', times_exploded);
-    for(let i=0; i<times_exploded; ++i)
-    {
-      die_roll_array.push(sides);
-    }
-    console.log('array filled with explosions');
-    log_array(die_roll_array);
-    const remainder = new_value%sides;
-    if(0 !== remainder)
-    {
-        die_roll_array.push(remainder);
-    }
-    console.log('array final');
-    log_array(die_roll_array);
-}
-
-function log_array(array)
-{
-  let msg = "|";
-  array.forEach(el => msg += el.toString() + "|");
-  console.log(msg);
-}
 
 /**
  * Add a modifier to a message
