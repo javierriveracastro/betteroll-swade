@@ -486,16 +486,20 @@ async function discount_ammo(item, rof, shot_override) {
  * @param {function} actor.update
  * @param item
  * @param {Roll[]} rolls
- * @param pp_override
+ * @param pp_added
  */
-async function discount_pp(actor, item, rolls, pp_override) {
+async function discount_pp(actor, item, rolls, pp_added) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
             success = true
         }
     }
-    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.data.data.pp)
+    //const base_pp_expended = pp_added ? parseInt(pp_added) : parseInt(item.data.data.pp)
+    let base_pp_expended = parseInt(item.data.data.pp)
+    if (pp_added) {
+        base_pp_expended = base_pp_expended + parseInt(pp_added);
+    }
     const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
@@ -614,7 +618,7 @@ export async function roll_item(message, html, expend_bennie,
     const item = actor.items.find((item) => item.id === item_id);
     let trait = get_item_trait(item, actor);
     let macros = [];
-    let shots_override;  // Override the number of shots used
+    let shots_used;  // Override the number of shots used or add pp if power.
     let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(actor)}
     extra_data.rof = item.data.data.rof || 1;
@@ -646,7 +650,7 @@ export async function roll_item(message, html, expend_bennie,
             }
             // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {
-                shots_override = parseInt(action.shotsUsed);
+                shots_used = parseInt(action.shotsUsed);
             }
             if (action.rof) {
                 extra_data.rof = action.rof;
@@ -691,12 +695,12 @@ export async function roll_item(message, html, expend_bennie,
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
+                render_data.used_shots = discount_ammo(item, rof || 1, shots_used);
                 if (item.data.data.autoReload) {
                     reload_weapon(actor, item, rof || 1)
                 }
             } else {
-                render_data.used_shots = shots_override ? shots_override : ROF_BULLETS[rof || 1];
+                render_data.used_shots = shots_used ? shots_used : ROF_BULLETS[rof || 1];
             }
         }
     }
@@ -704,7 +708,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override);
+        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_used);
     }
     await update_message(message, actor, render_data);
     await run_macros(macros, actor, item, message);
