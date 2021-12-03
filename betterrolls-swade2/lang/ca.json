@@ -222,5 +222,19 @@
     "BRSW.EdgeName-ImprovedBlock": "Parada millorada",
     "BRSW.EdgeName-Block": "Parada",
     "BRSW.NotEnoughStrengthArmor": "Força insuficient per l'armadura",
-    "BRSW.AddDamage": "Afegir un dany fix"
+    "BRSW.AddDamage": "Afegir un dany fix",
+    "BRSW.EdgeName-Blind": "Cec",
+    "BRSW.EdgeName-Cant-Swim": "Mal nedador",
+    "BRSW.Multi-action": "Varies accions",
+    "BRSW.EdgeName-Steady-Hands": "Mans fermes",
+    "BRSW.Three-actions": "3 accions",
+    "BRSW.Two-actions": "2 accions",
+    "BRSW.EdgeName-All-Thumbs": "Maldestre",
+    "BRSW.Hindrances": "Desavantatges",
+    "BRSW.EdgeName-Clueless": "despistat",
+    "BRSW.SkillName-CommonKnowledge": "Coneixements generals",
+    "BRSW.EdgeName-Clumsy": "Pocatraça",
+    "BRSW.SkillName-Athletics": "Atletisme",
+    "BRSW.SkillName-Stealth": "Sigil",
+    "BRSW.EdgeName-HardOfHearing": "Sord"
 }
