@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 2.53 Attributes as frist class citizens
+* Global actions: Attributes can now use actions (Mike Bloy)
+* Cards: Hardy is now recognised both as an ability and an edge.
+* Refactoring: Lots of code simplifications, better types docs and management
+* Global actions: Added a selector for "target_has_ability"
+* Global actions: Names of the actions in the result details are now translated
+* Translations: Support for translations in the modifier windows
+* Translations: The usual lot of translations from the Weblate team
+* General: Removed the included settings-extender. Now setting-extender is a hard dependency
+* Refactoring: Simple Form now supports ids and is more capable
+* Refactoring: Critical failure detection moved into calculate_results
+* Global actions: Added more of the grendel edges (grendel1111)
+
 ## Version 2.52 Did somebody say something about arcane devices.
 * Refactoring: Lots of small refactorings and code improvements
 * Actions: Now, the used_shots fields, both in global actions and item actions can be used to specify the number of power points that an actions takes (when it is on an power without shots)
