@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.54 That things didn't happen...
+* BUG: An error introduced in last updated totally broke applying damage.
+
 ## Version 2.53 Attributes as frist class citizens
 * Global actions: Attributes can now use actions (Mike Bloy)
 * Cards: Hardy is now recognised both as an ability and an edge.
