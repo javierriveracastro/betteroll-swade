@@ -980,7 +980,7 @@ async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula
         // noinspection ES6MissingAwait
         await game.dice3d.showForRoll(roll, game.user, true, users, blind);
     }
-    current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
+    current_damage_roll.damage_result = await calculate_results(current_damage_roll.brswroll.rolls, true);
     render_data.damage_rolls.push(current_damage_roll);
 }
 
@@ -1127,7 +1127,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
  * @param {function} message.getFlag
  * @param {int} index
  */
-function add_damage_dice(message, index) {
+async function add_damage_dice(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     let damage_rolls = render_data.damage_rolls[index].brswroll;
@@ -1148,7 +1148,7 @@ function add_damage_dice(message, index) {
         })
         damage_rolls.dice.push(new_die);
     });
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true);
     if (game.dice3d) {
         let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
@@ -1193,7 +1193,7 @@ async function add_fixed_damage(event, form_results) {
     damage_rolls.modifiers.push(
         {value: modifier, name: form_results.Label})
     damage_rolls.rolls[0].result += modifier
-    render_data.damage_rolls[index].damage_result += calculate_results(
+    render_data.damage_rolls[index].damage_result += await calculate_results(
         damage_rolls.rolls, true)
     await update_message(event.data.message, actor, render_data)
 }
@@ -1214,7 +1214,7 @@ async function half_damage(message, index){
         {'value': half_damage,
             'name': game.i18n.localize("BRSW.HalfDamage")});
     damage_rolls.rolls[0].result += half_damage;
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true);
     await update_message(message, actor, render_data);
 }
@@ -1227,7 +1227,7 @@ async function half_damage(message, index){
  * @param {function} message.getFlag
  * @param {int} index:
  */
-function edit_tougness(message, index) {
+async function edit_tougness(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     const defense_values = get_tougness_targeted_selected(actor);
@@ -1236,10 +1236,10 @@ function edit_tougness(message, index) {
     damage_rolls[0].armor = defense_values.armor;
     damage_rolls[0].target_id = defense_values.token_id || 0;
     render_data.damage_rolls[index].label = defense_values.name;
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls, true);
     // noinspection JSIgnoredPromiseFromCall
-    update_message(message, actor, render_data)
+    await update_message(message, actor, render_data)
 }
 
 
