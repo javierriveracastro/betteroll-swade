@@ -60,7 +60,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
 
 
 /**
-* Creates an skill card from a token or actor id, mainly for use in macros
+* Creates a skill card from a token or actor id, mainly for use in macros
 *
 * @param {string} token_id A token id, if it can be solved it will be used
 *  before actor
@@ -180,7 +180,7 @@ export async function roll_skill(message, html, expend_bennie){
     if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
-    run_macros(macros, actor, null, message);
+    await run_macros(macros, actor, null, message);
 }
 
 /***
