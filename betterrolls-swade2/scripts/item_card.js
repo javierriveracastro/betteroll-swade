@@ -651,9 +651,6 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
-            if (action.rof) {
-                extra_data.rof = action.rof;
-            }
             let updates = process_common_actions(action, extra_data, macros, pinned_actions)
             if (updates){
                 actor.update(updates)

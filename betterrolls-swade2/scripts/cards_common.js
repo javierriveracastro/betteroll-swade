@@ -1196,6 +1196,9 @@ export function process_common_actions(action, extra_data, macros) {
         //Reroll
         extra_data.reroll_modifier = create_modifier(action_name, action.rerollSkillMod)
     }
+    if (action.rof) {
+        extra_data.rof = action.rof;
+    }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
         updates[`data.status.is${action.self_add_status}`] = true
