@@ -19,7 +19,10 @@ export async function create_damage_card(token_id, damage, damage_text) {
     // noinspection JSUnresolvedVariable
     let undo_values = {wounds: actor.data.data.wounds.value,
         shaken: actor.data.data.status.isShaken};
-    const wounds = Math.floor(damage / 4)
+    let wounds = Math.floor(damage / 4)
+    if (game.settings.get('betterrolls-swade2', 'wound-cap')) {
+       wounds = Math.min(wounds, game.settings.get('betterrolls-swade2', 'wound-cap'))
+    }
     // noinspection JSUnresolvedVariable
     const can_soak = wounds || actor.data.data.status.isShaken;
     const damage_result = await apply_damage(token, wounds, 0);

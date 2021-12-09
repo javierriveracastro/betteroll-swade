@@ -372,6 +372,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'wound-cap', {
+        name: game.i18n.localize("BRSW.WoundCap"),
+        hint: game.i18n.localize("BRSW.WoundCapHint"),
+        default: 0,
+        scope: 'world',
+        type: Number,
+        config: false
+    });
 }
 
 // Settings related to Dice So Nice.

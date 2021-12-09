@@ -255,5 +255,7 @@
     "BRSW-EdgeName-Attractive": "Attractive",
     "BRSW-EdgeName-VeryAttractive": "Very Attractive",
     "BRSW-EdgeName-Fame": "Fame",
-    "BRSW-EdgeName-Famous": "Famous"
+    "BRSW-EdgeName-Famous": "Famous",
+    "BRSW.WoundCap": "Wound Cap",
+    "BRSW.WoundCapHint": "If you put a number here it will be activate the wound cap rule with that number as a cap, if it is either zero or blank it will use default rules"
 }
