@@ -892,14 +892,14 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 }
 
 
-async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data) {
+async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data) {
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollShortcuts();
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
-    let roll = new Roll(raise ? formula + raise_formula : formula, shortcuts);
+    let roll = new Roll(formula + raise_formula, shortcuts);
     roll.evaluate({async: false});
     const defense_values = get_tougness_targeted_selected(actor, target);
     current_damage_roll.brswroll.rolls.push(
@@ -951,7 +951,7 @@ async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula
             }
         }
     }
-    if (raise) {
+    if (raise_formula) {
         // Last die is raise die.
         current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
             game.i18n.localize("BRSW.Raise");
@@ -1103,8 +1103,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     if (game.user.targets.size > 0) {
         targets = game.user.targets;
     }
+    if (! raise) {raise_formula = ''}
     for (let target of targets) {
-        await roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data);
+        await roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data);
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
