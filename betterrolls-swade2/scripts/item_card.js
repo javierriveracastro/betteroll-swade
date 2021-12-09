@@ -90,9 +90,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
             action_groups[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
-    let ammo = parseInt(item.data.data.shots) || item.data.data.autoReload
+    let ammon_enabled = parseInt(item.data.data.shots) ||
+        (item.data.data.autoReload && item.data.data.ammo)
     let power_points = parseFloat(item.data.data.pp);
-    const subtract_select = ammo ? game.settings.get(
+    const subtract_select = ammon_enabled ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
@@ -104,7 +105,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
-            trait_id: trait ? (trait.id || trait) : false, ammo: ammo,
+            trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: action_groups, used_shots: 0,
@@ -261,9 +262,11 @@ export function activate_item_card_listeners(message, html) {
            `${actor.name} - ${item.name}`).then();
    });
    html.find('.brsw-target-tough').click(ev => {
-      edit_tougness(message, ev.currentTarget.dataset.index);
+      // noinspection JSIgnoredPromiseFromCall
+       edit_tougness(message, ev.currentTarget.dataset.index);
    });
    html.find('.brsw-add-damage-d6').click(ev => {
+       // noinspection JSIgnoredPromiseFromCall
        add_damage_dice(message, ev.currentTarget.dataset.index);
    })
     html.find('.brsw-half-damage').click(ev => {
@@ -367,7 +370,7 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-    // Some types of items doesn't have an associated skill
+    // Some types of items don't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
             item.type.toLowerCase())) {return}
     // First if the item has a skill in actions we use it
@@ -405,7 +408,7 @@ export function get_item_trait(item, actor) {
 
 
 /**
- * Get an skill or attribute from an actor and the skill name
+ * Get a skill or attribute from an actor and the skill name
  * @param {SwadeActor} actor Where search for the skill
  * @param {Object} actor.data
  * @param {Array} actor.items
@@ -458,7 +461,7 @@ function check_skill_in_actor(actor, possible_skills) {
 /**
  * Discount ammo from an item
  *
- * @param item Item that has ben shoot
+ * @param item Item that has been shot
  * @param rof Rof of the shot
  * @param {int} shot_override
  * @return {int} used shots
@@ -700,7 +703,7 @@ export async function roll_item(message, html, expend_bennie,
             }
         }
     }
-    // Power point management
+    // Power points management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
@@ -1165,7 +1168,7 @@ async function add_damage_dice(message, index) {
         game.dice3d.showForRoll(roll, game.user, true, users)
     }
     // noinspection JSIgnoredPromiseFromCall
-    update_message(message, actor, render_data)
+    await update_message(message, actor, render_data)
 }
 
 
@@ -1200,7 +1203,7 @@ async function add_fixed_damage(event, form_results) {
 
 
 /**
- * Change a damage to half
+ * Change damage to half
  * @param {ChatMessage} message
  * @param {function} message.getFlag
  * @param {number} index
@@ -1284,7 +1287,7 @@ async function manual_pp(actor, item) {
             one: {
                 label: game.i18n.localize("BRSW.ExpendPP"),
                 callback: (html) => {
-                    //Button 1: Spend Power Point(s) (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
+                    //Button 1: Spend Power Points (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
                     let number = Number(html.find("#num")[0].value);
                     let newPP = Math.max(ppv - number, 0);
                     if (ppv - number < 0) {
@@ -1466,7 +1469,7 @@ async function manual_pp(actor, item) {
 }
 
 /**
- * Get's a template name from an item description
+ * Gets a template name from an item description
  * @param {Item} item
  */
 function get_template_from_description(item){
@@ -1485,8 +1488,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) ||
-                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) {
+            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
+                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) { // jshint ignore:line
                 templates_found.push(template_key)
                 break
             }
