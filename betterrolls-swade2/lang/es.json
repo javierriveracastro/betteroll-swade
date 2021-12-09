@@ -241,5 +241,8 @@
     "BRSW.collapse-modifiers_hint": "Muestra colapsados los modificadores de la carta, logrando una apariencia más compacta",
     "BRSW.Target": "Objetivo",
     "BRSW.WoundCap": "Wound Cap",
-    "BRSW.WoundCapHint": "Si este campo tiene un número se activara la regla de limite de heridas, si es 0 o esta en blanco se desactivara"
+    "BRSW.WoundCapHint": "Si este campo tiene un número se activara la regla de limite de heridas, si es 0 o esta en blanco se desactivara",
+    "BRSW.DisableGangUp": "Deshabilita el calculo de multiples oponente",
+    "BRSW.DisableGangUpHint": "Deshabilita el calculo automatico de los bonuses por oponentes multiples"
+
 }

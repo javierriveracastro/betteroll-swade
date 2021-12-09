@@ -348,6 +348,7 @@ function sizeToScale(size) { //p179 swade core
  * - Each ally adjacent to the defender cancels out one point of Gang Up bonus from an attacker adjacent to both.
  */
 function calculate_gangUp(attacker, target) {
+    if (game.settings.get('betterrolls-swade2', 'disable-gang-up')) {return 0}
     if (!attacker || !target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;

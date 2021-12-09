@@ -380,6 +380,14 @@ function register_settings_version2() {
         type: Number,
         config: false
     });
+    game.settings.register('betterrolls-swade2', 'disable-gang-up', {
+        name: game.i18n.localize("BRSW.DisableGangUp"),
+        hint: game.i18n.localize("BRSW.DisableGangUpHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.
