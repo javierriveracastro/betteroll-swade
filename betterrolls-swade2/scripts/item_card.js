@@ -144,7 +144,8 @@ function create_item_card_from_id(token_id, actor_id, skill_id){
     if (!origin && actor_id) {
         origin = game.actors.get(actor_id);
     }
-    return create_item_card(origin, skill_id);
+    return create_item_card(origin, skill_id,
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers'));
 }
 
 

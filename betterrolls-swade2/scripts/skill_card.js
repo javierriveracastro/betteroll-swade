@@ -71,7 +71,8 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
 */
 function create_skill_card_from_id(token_id, actor_id, skill_id){
     const actor = get_actor_from_ids(token_id, actor_id);
-    return create_skill_card(actor, skill_id, false);
+    return create_skill_card(actor, skill_id,
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers'));
 }
 
 
