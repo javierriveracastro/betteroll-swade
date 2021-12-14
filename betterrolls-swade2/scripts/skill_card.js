@@ -397,7 +397,8 @@ function calculate_gangUp(attacker, target) {
         // allies with formation fighter are counted twice
         allies = enemies_within_range_both_attacker_target.length;
     }
-    let modifier = Math.max(0, (enemies - allies));
+    const reduction = gang_up_reduction(target.actor)
+    let modifier = Math.max(0, (enemies - allies - reduction));
     if (target.actor) {
         const improved_block_name = game.i18n.localize(
             "BRSW.EdgeName-ImprovedBlock").toLowerCase()
@@ -409,6 +410,24 @@ function calculate_gangUp(attacker, target) {
         }
     }
     return Math.min(4, modifier);
+}
+
+/**
+ * Gets the gangup reduction from an actor (using a custom AE
+ * @param {Actor} target
+ */
+function gang_up_reduction(target) {
+    let reduction = 0
+    for (let effect of target.effects) {
+        if (!effect.data.disabled) {
+            for (let change of effect.changes) {
+                if (change.key === 'brsw-ac.gangup-reduction') {
+                    reduction += parseInt(change.value) ? change.value : 0
+                }
+            }
+        }
+    }
+    return reduction
 }
 
 // function from Kekilla

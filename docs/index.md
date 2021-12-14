@@ -40,6 +40,7 @@ See [Card Types](card_types.md).
 - Drag and Drop
 - Macros and API
 - See [GLOBAL ACTIONS](global_actions.md) for more information on how to create global actions.
+- See [ACTIVE_EFFECTS](active_effects.md) for information of the new active effects added by the module.
 
 See [MORE FUNCTIONALITIES](more_functionalities.md).
 
