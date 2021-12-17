@@ -219,5 +219,6 @@ export async function roll_attribute(message, html,
     if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html, extra_data);
+    // noinspection ES6MissingAwait
     run_macros(macros, actor, null, message);
 }
