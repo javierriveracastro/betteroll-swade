@@ -294,7 +294,9 @@ export function activate_item_card_listeners(message, html) {
             templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
         }
         // Adjust to grid distance
-        templateData.distance *= canvas.grid.grid.options.dimensions.distance
+        if (canvas.grid.grid.options.dimensions.distance % 5 === 0) {
+            templateData.distance *= 5
+        }
         // noinspection JSPotentiallyInvalidConstructorUsage
         const template_base = new CONFIG.MeasuredTemplate.documentClass(
             templateData, { parent: canvas.scene });

@@ -245,7 +245,9 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             use_parry_as_tn = true;
         } else if (item) {
             const range = item.data.data.range.split('/')
-            distance = distance / grid_unit;
+            if (grid_unit % 5 === 0) {
+                distance = distance / 5;
+            }
             if (origin_token.data.elevation !== target_token.data.elevation) {
                 let h_diff = Math.abs(
                     origin_token.data.elevation - target_token.data.elevation)
