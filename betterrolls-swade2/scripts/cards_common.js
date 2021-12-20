@@ -301,33 +301,17 @@ export function activate_common_listeners(message, html) {
         //TODO: Differentiate die source
         let render_data = message.getFlag('betterrolls-swade2', 'render_data');
         roll_data = render_data.trait_roll;
-        // Assert roll data is present
-        if(null === roll_data)
-        {
-          console.warn('Unable to determine roll source.');
-          return;
-        }
         // Retrieve additional data
         const die_index = Number(ev.currentTarget.dataset.dieIndex);
-        if((die_index !== 0) && (!die_index))
-        {
-          console.warn('Unable to determine die index.');
-          return;
-        }
         // Show modal
         const label_new_result = game.i18n.localize("BRSW.NewDieResult");
         simple_form(game.i18n.localize("BRSW.EditDieResult"), [
-          {label: label_new_result, default_value: 0}],
+          {label: label_new_result, default_value: 0, id: 'new_result'}],
           async values => {
-            const new_value = values[label_new_result];
-            if((new_value !== 0) && (!new_value))
-            {
-              console.warn('Unable to determine new die result.');
-              return;
-            }
+            const new_value = values.new_result;
             // Actual roll manipulation
-            override_die_result(roll_data, die_index, new_value);
-            update_message(message, get_actor_from_message(message), render_data);
+            await override_die_result(roll_data, die_index, new_value);
+            await update_message(message, get_actor_from_message(message), render_data);
         });
     })
     // Delete modifiers
@@ -1023,7 +1007,7 @@ async function update_roll_results(trait_roll, mod_value) {
  * @param {int} new_value
  * @param {boolean} [is_damage_roll=false]
  */
-function override_die_result(roll_data, die_index, new_value, is_damage_roll = false) {
+async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false) {
   let total_modifier = 0;
   roll_data.modifiers.forEach(mod => {
       total_modifier += mod.value;
@@ -1037,7 +1021,7 @@ function override_die_result(roll_data, die_index, new_value, is_damage_roll = f
           die.results.push(number > die.faces ? die.faces : number);
       }
   })
-  calculate_results(roll_data.rolls, is_damage_roll);
+  await calculate_results(roll_data.rolls, is_damage_roll);
 }
 
 
