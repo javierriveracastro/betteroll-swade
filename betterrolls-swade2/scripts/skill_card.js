@@ -60,7 +60,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
 
 
 /**
-* Creates an skill card from a token or actor id, mainly for use in macros
+* Creates a skill card from a token or actor id, mainly for use in macros
 *
 * @param {string} token_id A token id, if it can be solved it will be used
 *  before actor
@@ -71,7 +71,8 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
 */
 function create_skill_card_from_id(token_id, actor_id, skill_id){
     const actor = get_actor_from_ids(token_id, actor_id);
-    return create_skill_card(actor, skill_id, false);
+    return create_skill_card(actor, skill_id,
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers'));
 }
 
 
@@ -180,7 +181,7 @@ export async function roll_skill(message, html, expend_bennie){
     if (expend_bennie) {await spend_bennie(actor);}
     await roll_trait(message, skill.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
-    run_macros(macros, actor, null, message);
+    await run_macros(macros, actor, null, message);
 }
 
 /***
@@ -244,7 +245,9 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             use_parry_as_tn = true;
         } else if (item) {
             const range = item.data.data.range.split('/')
-            distance = distance / grid_unit;
+            if (grid_unit % 5 === 0) {
+                distance = distance / 5;
+            }
             if (origin_token.data.elevation !== target_token.data.elevation) {
                 let h_diff = Math.abs(
                     origin_token.data.elevation - target_token.data.elevation)
@@ -348,6 +351,7 @@ function sizeToScale(size) { //p179 swade core
  * - Each ally adjacent to the defender cancels out one point of Gang Up bonus from an attacker adjacent to both.
  */
 function calculate_gangUp(attacker, target) {
+    if (game.settings.get('betterrolls-swade2', 'disable-gang-up')) {return 0}
     if (!attacker || !target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;
@@ -395,7 +399,8 @@ function calculate_gangUp(attacker, target) {
         // allies with formation fighter are counted twice
         allies = enemies_within_range_both_attacker_target.length;
     }
-    let modifier = Math.max(0, (enemies - allies));
+    const reduction = gang_up_reduction(target.actor)
+    let modifier = Math.max(0, (enemies - allies - reduction));
     if (target.actor) {
         const improved_block_name = game.i18n.localize(
             "BRSW.EdgeName-ImprovedBlock").toLowerCase()
@@ -407,6 +412,24 @@ function calculate_gangUp(attacker, target) {
         }
     }
     return Math.min(4, modifier);
+}
+
+/**
+ * Gets the gangup reduction from an actor (using a custom AE
+ * @param {Actor} target
+ */
+function gang_up_reduction(target) {
+    let reduction = 0
+    for (let effect of target.effects) {
+        if (!effect.data.disabled) {
+            for (let change of effect.changes) {
+                if (change.key === 'brsw-ac.gangup-reduction') {
+                    reduction += parseInt(change.value) ? change.value : 0
+                }
+            }
+        }
+    }
+    return reduction
 }
 
 // function from Kekilla

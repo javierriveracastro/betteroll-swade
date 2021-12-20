@@ -23,8 +23,9 @@ export class OptionalRulesConfiguration extends FormApplication {
                 name: game.i18n.localize("BRSW.OR." + rule),
                 enabled: enable_rules.indexOf(rule) > -1});
         }
+        let wound_cap = game.settings.get('betterrolls-swade2', 'wound-cap')
         // noinspection JSValidateTypes
-        return {rules: rules};
+        return {rules: rules, wound_cap: wound_cap};
     }
 
     async _updateObject(_, formData) {
@@ -35,5 +36,6 @@ export class OptionalRulesConfiguration extends FormApplication {
             }
         }
         await game.settings.set('betterrolls-swade2', 'optional_rules_enabled', enabled);
+        await game.settings.set('betterrolls-swade2', 'wound-cap', formData.wound_cap)
     }
 }

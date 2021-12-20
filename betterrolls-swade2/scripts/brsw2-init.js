@@ -88,7 +88,7 @@ Hooks.on('renderChatMessage', (message, html) => {
         } else if (card_type === BRSW_CONST.TYPE_INC_CARD) {
             activate_incapacitation_card_listeners(message, html);
         }
-        // Hide forms to non master, non owner
+        // Hide forms to non-master, non owner
         if (game.user.id !== message.data.user && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
@@ -367,6 +367,22 @@ function register_settings_version2() {
     game.settings.register('betterrolls-swade2', 'hide-weapon-actions', {
         name: game.i18n.localize("BRSW.HideWeaponActions"),
         hint: game.i18n.localize("BRSW.HideWeaponActionsHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
+    game.settings.register('betterrolls-swade2', 'wound-cap', {
+        name: game.i18n.localize("BRSW.WoundCap"),
+        hint: game.i18n.localize("BRSW.WoundCapHint"),
+        default: 0,
+        scope: 'world',
+        type: Number,
+        config: false
+    });
+    game.settings.register('betterrolls-swade2', 'disable-gang-up', {
+        name: game.i18n.localize("BRSW.DisableGangUp"),
+        hint: game.i18n.localize("BRSW.DisableGangUpHint"),
         default: false,
         scope: 'world',
         type: Boolean,

@@ -90,9 +90,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
             action_groups[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
-    let ammo = parseInt(item.data.data.shots) || item.data.data.autoReload
+    let ammon_enabled = parseInt(item.data.data.shots) ||
+        (item.data.data.autoReload && item.data.data.ammo)
     let power_points = parseFloat(item.data.data.pp);
-    const subtract_select = ammo ? game.settings.get(
+    const subtract_select = ammon_enabled ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
@@ -104,7 +105,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
-            trait_id: trait ? (trait.id || trait) : false, ammo: ammo,
+            trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: action_groups, used_shots: 0,
@@ -143,7 +144,8 @@ function create_item_card_from_id(token_id, actor_id, skill_id){
     if (!origin && actor_id) {
         origin = game.actors.get(actor_id);
     }
-    return create_item_card(origin, skill_id);
+    return create_item_card(origin, skill_id,
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers'));
 }
 
 
@@ -261,9 +263,11 @@ export function activate_item_card_listeners(message, html) {
            `${actor.name} - ${item.name}`).then();
    });
    html.find('.brsw-target-tough').click(ev => {
-      edit_tougness(message, ev.currentTarget.dataset.index);
+      // noinspection JSIgnoredPromiseFromCall
+       edit_tougness(message, ev.currentTarget.dataset.index);
    });
    html.find('.brsw-add-damage-d6').click(ev => {
+       // noinspection JSIgnoredPromiseFromCall
        add_damage_dice(message, ev.currentTarget.dataset.index);
    })
     html.find('.brsw-half-damage').click(ev => {
@@ -290,7 +294,9 @@ export function activate_item_card_listeners(message, html) {
             templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
         }
         // Adjust to grid distance
-        templateData.distance *= canvas.grid.grid.options.dimensions.distance
+        if (canvas.grid.grid.options.dimensions.distance % 5 === 0) {
+            templateData.distance *= 5
+        }
         // noinspection JSPotentiallyInvalidConstructorUsage
         const template_base = new CONFIG.MeasuredTemplate.documentClass(
             templateData, { parent: canvas.scene });
@@ -367,7 +373,7 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-    // Some types of items doesn't have an associated skill
+    // Some types of items don't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
             item.type.toLowerCase())) {return}
     // First if the item has a skill in actions we use it
@@ -405,7 +411,7 @@ export function get_item_trait(item, actor) {
 
 
 /**
- * Get an skill or attribute from an actor and the skill name
+ * Get a skill or attribute from an actor and the skill name
  * @param {SwadeActor} actor Where search for the skill
  * @param {Object} actor.data
  * @param {Array} actor.items
@@ -458,7 +464,7 @@ function check_skill_in_actor(actor, possible_skills) {
 /**
  * Discount ammo from an item
  *
- * @param item Item that has ben shoot
+ * @param item Item that has been shot
  * @param rof Rof of the shot
  * @param {int} shot_override
  * @return {int} used shots
@@ -486,20 +492,16 @@ async function discount_ammo(item, rof, shot_override) {
  * @param {function} actor.update
  * @param item
  * @param {Roll[]} rolls
- * @param pp_added
+ * @param pp_override
  */
-async function discount_pp(actor, item, rolls, pp_added) {
+async function discount_pp(actor, item, rolls, pp_override) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
             success = true
         }
     }
-    //const base_pp_expended = pp_added ? parseInt(pp_added) : parseInt(item.data.data.pp)
-    let base_pp_expended = parseInt(item.data.data.pp)
-    if (pp_added) {
-        base_pp_expended = base_pp_expended + parseInt(pp_added);
-    }
+    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.data.data.pp)
     const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
@@ -618,7 +620,7 @@ export async function roll_item(message, html, expend_bennie,
     const item = actor.items.find((item) => item.id === item_id);
     let trait = get_item_trait(item, actor);
     let macros = [];
-    let shots_used;  // Override the number of shots used or add pp if power.
+    let shots_override;  // Override the number of shots used
     let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(actor)}
     extra_data.rof = item.data.data.rof || 1;
@@ -650,10 +652,7 @@ export async function roll_item(message, html, expend_bennie,
             }
             // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {
-                shots_used = parseInt(action.shotsUsed);
-            }
-            if (action.rof) {
-                extra_data.rof = action.rof;
+                shots_override = parseInt(action.shotsUsed);
             }
             let updates = process_common_actions(action, extra_data, macros, pinned_actions)
             if (updates){
@@ -695,20 +694,20 @@ export async function roll_item(message, html, expend_bennie,
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = discount_ammo(item, rof || 1, shots_used);
+                render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
                 if (item.data.data.autoReload) {
                     reload_weapon(actor, item, rof || 1)
                 }
             } else {
-                render_data.used_shots = shots_used ? shots_used : ROF_BULLETS[rof || 1];
+                render_data.used_shots = shots_override ? shots_override : ROF_BULLETS[rof || 1];
             }
         }
     }
-    // Power point management
+    // Power points management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_used);
+        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override);
     }
     await update_message(message, actor, render_data);
     await run_macros(macros, actor, item, message);
@@ -896,14 +895,14 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 }
 
 
-async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data) {
+async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data) {
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollShortcuts();
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
-    let roll = new Roll(raise ? formula + raise_formula : formula, shortcuts);
+    let roll = new Roll(formula + raise_formula, shortcuts);
     roll.evaluate({async: false});
     const defense_values = get_tougness_targeted_selected(actor, target);
     current_damage_roll.brswroll.rolls.push(
@@ -955,7 +954,7 @@ async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula
             }
         }
     }
-    if (raise) {
+    if (raise_formula) {
         // Last die is raise die.
         current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
             game.i18n.localize("BRSW.Raise");
@@ -984,7 +983,7 @@ async function roll_dmg_target(damage_roll, actor, raise, formula, raise_formula
         // noinspection ES6MissingAwait
         await game.dice3d.showForRoll(roll, game.user, true, users, blind);
     }
-    current_damage_roll.damage_result = calculate_results(current_damage_roll.brswroll.rolls, true);
+    current_damage_roll.damage_result = await calculate_results(current_damage_roll.brswroll.rolls, true);
     render_data.damage_rolls.push(current_damage_roll);
 }
 
@@ -1107,8 +1106,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     if (game.user.targets.size > 0) {
         targets = game.user.targets;
     }
+    if (! raise) {raise_formula = ''}
     for (let target of targets) {
-        await roll_dmg_target(damage_roll, actor, raise, formula, raise_formula, target, total_modifiers, item, message, render_data);
+        await roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data);
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
@@ -1131,7 +1131,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
  * @param {function} message.getFlag
  * @param {int} index
  */
-function add_damage_dice(message, index) {
+async function add_damage_dice(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     let damage_rolls = render_data.damage_rolls[index].brswroll;
@@ -1152,7 +1152,7 @@ function add_damage_dice(message, index) {
         })
         damage_rolls.dice.push(new_die);
     });
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true);
     if (game.dice3d) {
         let damage_theme = game.settings.get('betterrolls-swade2', 'damageDieTheme');
@@ -1169,7 +1169,7 @@ function add_damage_dice(message, index) {
         game.dice3d.showForRoll(roll, game.user, true, users)
     }
     // noinspection JSIgnoredPromiseFromCall
-    update_message(message, actor, render_data)
+    await update_message(message, actor, render_data)
 }
 
 
@@ -1197,14 +1197,14 @@ async function add_fixed_damage(event, form_results) {
     damage_rolls.modifiers.push(
         {value: modifier, name: form_results.Label})
     damage_rolls.rolls[0].result += modifier
-    render_data.damage_rolls[index].damage_result += calculate_results(
+    render_data.damage_rolls[index].damage_result += await calculate_results(
         damage_rolls.rolls, true)
     await update_message(event.data.message, actor, render_data)
 }
 
 
 /**
- * Change a damage to half
+ * Change damage to half
  * @param {ChatMessage} message
  * @param {function} message.getFlag
  * @param {number} index
@@ -1218,7 +1218,7 @@ async function half_damage(message, index){
         {'value': half_damage,
             'name': game.i18n.localize("BRSW.HalfDamage")});
     damage_rolls.rolls[0].result += half_damage;
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true);
     await update_message(message, actor, render_data);
 }
@@ -1231,7 +1231,7 @@ async function half_damage(message, index){
  * @param {function} message.getFlag
  * @param {int} index:
  */
-function edit_tougness(message, index) {
+async function edit_tougness(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     const defense_values = get_tougness_targeted_selected(actor);
@@ -1240,10 +1240,10 @@ function edit_tougness(message, index) {
     damage_rolls[0].armor = defense_values.armor;
     damage_rolls[0].target_id = defense_values.token_id || 0;
     render_data.damage_rolls[index].label = defense_values.name;
-    render_data.damage_rolls[index].damage_result = calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls, true);
     // noinspection JSIgnoredPromiseFromCall
-    update_message(message, actor, render_data)
+    await update_message(message, actor, render_data)
 }
 
 
@@ -1288,7 +1288,7 @@ async function manual_pp(actor, item) {
             one: {
                 label: game.i18n.localize("BRSW.ExpendPP"),
                 callback: (html) => {
-                    //Button 1: Spend Power Point(s) (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
+                    //Button 1: Spend Power Points (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
                     let number = Number(html.find("#num")[0].value);
                     let newPP = Math.max(ppv - number, 0);
                     if (ppv - number < 0) {
@@ -1470,7 +1470,7 @@ async function manual_pp(actor, item) {
 }
 
 /**
- * Get's a template name from an item description
+ * Gets a template name from an item description
  * @param {Item} item
  */
 function get_template_from_description(item){
@@ -1489,8 +1489,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data?.description.toLowerCase().includes(translated_key_text) ||
-                    item.data.data?.range.toLowerCase().includes(translated_key_text)) {
+            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
+                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) { // jshint ignore:line
                 templates_found.push(template_key)
                 break
             }

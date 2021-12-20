@@ -235,5 +235,11 @@
     "BRSW.EdgeName-Blind": "Blind",
     "BRSW.EdgeName-Cant-Swim": "Nichtschwimmer",
     "BRSW.Ran": "Gerannt",
-    "BRSW.EdgeName-All-Thumbs": "Zwei linke Hände"
+    "BRSW.EdgeName-All-Thumbs": "Zwei linke Hände",
+    "BRSW.SkillName-Athletics": "Athletik",
+    "BRSW.EdgeName-Clueless": "Ahnungslos",
+    "BRSW.EdgeName-Clumsy": "Tollpatschig",
+    "BRSW.SkillName-CommonKnowledge": "Allgemeinwissen",
+    "BRSW.SkillName-Stealth": "Heimlichkeit",
+    "BRSW.EdgeName-HardOfHearing": "Schwerhörig"
 }

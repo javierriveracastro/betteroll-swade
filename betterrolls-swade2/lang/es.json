@@ -227,7 +227,22 @@
     "BRSW.Three-actions": "Tres acciones",
     "BRSW.Two-actions": "Dos acciones",
     "BRSW.Hindrances": "Defectos",
+    "BRSW.EdgeName-Steady-Hands": "Manos firmes",
+    "BRSW.EdgeName-All-Thumbs": "Manazas",
+    "BRSW.EdgeName-Blind": "Ciego",
+    "BRSW.EdgeName-Cant-Swim": "Mal Nadador",
+    "BRSW.EdgeName-Clueless": "Despistado",
+    "BRSW.SkillName-CommonKnowledge": "Conocimientos generales",
+    "BRSW.EdgeName-Clumsy": "Patoso",
+    "BRSW.SkillName-Athletics": "Atletismo",
+    "BRSW.SkillName-Stealth": "Sigilo",
+    "BRSW.EdgeName-HardOfHearing": "Sordo",
     "BRSW.collapse-modifiers": "Las acciones y modificadores se muestran colapsados",
     "BRSW.collapse-modifiers_hint": "Muestra colapsados los modificadores de la carta, logrando una apariencia más compacta",
-    "BRSW.Target": "Objetivo"
+    "BRSW.Target": "Objetivo",
+    "BRSW.WoundCap": "Wound Cap",
+    "BRSW.WoundCapHint": "Si este campo tiene un número se activara la regla de limite de heridas, si es 0 o esta en blanco se desactivara",
+    "BRSW.DisableGangUp": "Deshabilita el calculo de multiples oponente",
+    "BRSW.DisableGangUpHint": "Deshabilita el calculo automatico de los bonuses por oponentes multiples"
+
 }

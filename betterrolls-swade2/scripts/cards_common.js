@@ -426,7 +426,7 @@ async function manage_sheet(actor) {
 
 
 /**
- * Gets the expected action, whenever to show the card, do a system roll, etc,
+ * Gets the expected action, whenever to show the card, do a system roll, etc.,
  * from a click event and the settings
  * @param {event} event
  */
@@ -831,7 +831,7 @@ async function show_3d_dice(roll, message, modifiers) {
 }
 
 /**
- * Creates a roll string from a trait an a number of dice
+ * Creates a roll string from a trait a number of dice
  * @param trait_dice
  * @param rof
  * @return {string}
@@ -1219,13 +1219,13 @@ async function duplicate_message(message, event) {
 /**
  * Creates a modifier object to add to a list
  * @param {String} label: Label of the modifier
- * @param {String, Number} expression: A number or dice expression.
+ * @param {String, Number} expression: A number or a die expression.
  */
 export function create_modifier(label, expression) {
     let modifier = {name: label, value: 0, extra_class: '', dice: null}
     if (isNaN(expression)) {
         if (expression.indexOf('d')) {
-            // This is a dice expression
+            // This is a die expression
             modifier.dice = new Roll(expression)
             modifier.dice.evaluate({async:false})
             modifier.value = parseInt(modifier.dice.result)
@@ -1258,6 +1258,9 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.rerollSkillMod) {
         //Reroll
         extra_data.reroll_modifier = create_modifier(action_name, action.rerollSkillMod)
+    }
+    if (action.rof) {
+        extra_data.rof = action.rof;
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
