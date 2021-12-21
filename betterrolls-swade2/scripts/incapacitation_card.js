@@ -197,7 +197,7 @@ export async function create_injury_card(token_id) {
             new_data.label = game.i18n.localize(first_result);
         }
         new_data.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        await actor.createEmbeddedEntity('ActiveEffect', new_data);
+        await actor.createEmbeddedDocuments('ActiveEffect', [new_data]);
     }
     let message = await create_common_card(token,
     {header: {type: '',
