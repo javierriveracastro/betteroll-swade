@@ -25,7 +25,7 @@ function process_not_selector(action, item, actor) {
 }
 
  /**
-  * Process and and selector.
+  * Process and selector.
   * @param action
   * @param item
   * @param actor
