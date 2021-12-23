@@ -1199,6 +1199,10 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.rof) {
         extra_data.rof = action.rof;
     }
+    if (action.tnOverride) {
+        extra_data.tn = action.tnOverride
+        extra_data.tn_reason = action.button_name
+    }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
         updates[`data.status.is${action.self_add_status}`] = true
