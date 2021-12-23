@@ -373,15 +373,14 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-    // Some types of items don't have an associated skill
-    if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
-            item.type.toLowerCase())) {return}
     // First if the item has a skill in actions we use it
     if (item.data.data.actions && item.data.data.actions.skill) {
         return trait_from_string(actor, item.data.data.actions.skill);
     }
+    // Some types of items don't have an associated skill
+    if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
+            item.type.toLowerCase())) {return}
     // Now check if there is something in the Arcane field
-    // noinspection JSUnresolvedVariable
     if (item.data.data.arcane) {
         return trait_from_string(actor, item.data.data.arcane);
     }
