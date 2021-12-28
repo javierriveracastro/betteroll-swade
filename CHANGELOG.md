@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 2.56 aka Mainly bugfixes
+* Global actions: Added tnOverride to options.
+* Cards: Attribute cards now support started with actions collapsed
+* Global: Now, any item that has a trait defined in the action tab will roll for it instead of just showing info
+* Bug: Applying damage when in combat was broken
+* Bug: Tokens with size more than 20 were unable to roll
+* Cards: Added a setting to control if the ammunition and power points expended card is shown to everybody, just the master or if it is not show at all.
+
 ## Version 2.55 Aka welcome to version 9 light apocalypse (and incidentally card support)
 * Global actions: Added 'target_has_effect' selector
 * Refactoring: Ammo management code refactoring, damage card simplification, lots of minor improvements
