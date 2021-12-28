@@ -395,7 +395,7 @@ function register_settings_version2() {
         scope: "world",
         type: String,
         choices: {
-            nono: game.i18n.localize('BRSW.None'),
+            none: game.i18n.localize('BRSW.None'),
             master_only: game.i18n.localize('BRSW.MasterOnly'),
             everybody: game.i18n.localize("BRSW.Everybody")
         },
