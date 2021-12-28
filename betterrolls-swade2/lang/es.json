@@ -244,5 +244,9 @@
     "BRSW.WoundCapHint": "Si este campo tiene un número se activara la regla de limite de heridas, si es 0 o esta en blanco se desactivara",
     "BRSW.DisableGangUp": "Deshabilita el calculo de multiples oponente",
     "BRSW.DisableGangUpHint": "Deshabilita el calculo automatico de los bonuses por oponentes multiples",
-    "BRSW.ApplyFreeRunner": "Trepando o en persecución a pié"
+    "BRSW.ApplyFreeRunner": "Trepando o en persecución a pié",
+    "BRSW.None" : "Nadie",
+    "BRSW.MasterOnly": "Solo el master",
+    "BRSW.RemainingBehaviour": "¿Quien puede ver la carta de munición y PP gastados?",
+    "BRSW.RemainingBehaviour_hint": "Selecciona quien puede ver la carta que aparece tras gastar puntos de poder o disparos informando de cuantos se han gastaod y cuantos quedan"
 }

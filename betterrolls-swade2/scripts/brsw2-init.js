@@ -388,6 +388,19 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'remaining_card_behaviour', {
+        name: game.i18n.localize('BRSW.RemainingBehaviour'),
+        hint: game.i18n.localize('BRSW.RemainingBehaviour_hint'),
+        default: "everybody",
+        scope: "world",
+        type: String,
+        choices: {
+            nono: game.i18n.localize('BRSW.None'),
+            master_only: game.i18n.localize('BRSW.MasterOnly'),
+            everybody: game.i18n.localize("BRSW.Everybody")
+        },
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.

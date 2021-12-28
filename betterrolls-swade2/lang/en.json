@@ -264,5 +264,9 @@
     "BRSW.EdgeName-FreeRunner": "Free Runner",
     "BRSW.EdgeName-GiantKiller": "Giant Killer",
     "BRSW.EdgeName-MartialArtist": "Martial Artist",
-    "BRSW.EdgeName-MartialWarrior": "Martial Warrior"
+    "BRSW.EdgeName-MartialWarrior": "Martial Warrior",
+    "BRSW.None" : "No one",
+    "BRSW.MasterOnly": "Master only",
+    "BRSW.RemainingBehaviour": "Who can see the PP and ammo remaining card",
+    "BRSW.RemainingBehaviour_hint": "Select who (if anybody) can see the card informing of the used and remaining shots and PP"
 }
