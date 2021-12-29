@@ -397,6 +397,7 @@ function register_settings_version2() {
         choices: {
             none: game.i18n.localize('BRSW.None'),
             master_only: game.i18n.localize('BRSW.MasterOnly'),
+            master_and_gm: game.i18n.localize('BRSW.MasterAndGM'),
             everybody: game.i18n.localize("BRSW.Everybody")
         },
         config: true
