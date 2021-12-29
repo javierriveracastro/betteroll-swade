@@ -146,9 +146,9 @@ async function apply_damage(token, wounds, soaked=0) {
         // Mark as defeated if the token is in a combat
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token.id) {
-                token.update({overlayEffect: 'icons/svg/skull.svg'});
-                game.combat.updateCombatant(
-                    {_id: combatant.id, defeated: true});
+                token.document.update({overlayEffect: 'icons/svg/skull.svg'});
+                game.combat.updateEmbeddedDocuments('Combatant',
+                    [{_id: combatant.id, defeated: true}]);
             }
         });
     } else {
@@ -184,9 +184,9 @@ async function undo_damage(message){
     if (token) {
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token) {
-                canvas.tokens.get(token).update({overlayEffect: ''});
-                game.combat.updateCombatant(
-                    {_id: combatant.id, defeated: false});
+                canvas.tokens.get(token).document.update({overlayEffect: ''});
+                game.combat.updateEmbeddedDocuments('Combatant',
+                    [{_id: combatant.id, defeated: false}]);
             }
         });
     }
