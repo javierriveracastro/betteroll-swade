@@ -150,7 +150,7 @@ async function apply_damage(token, wounds, soaked=0) {
                 game.combat.updateCombatant(
                     {_id: combatant.id, defeated: true});
             }
-        });s
+        });
     } else {
         incapacitated = false;
         // Remove defeated mark in case it was marked as defeated before soak
