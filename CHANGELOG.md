@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.57 aka Bugs..
+* Bug: A typo was making damage applying not working (SalieriC, Wiggins)
+* Bug: Incapacitation was also not applying correctly.
+
 ## Version 2.56 aka Mainly bugfixes
 * Global actions: Added tnOverride to options.
 * Cards: Attribute cards now support started with actions collapsed
