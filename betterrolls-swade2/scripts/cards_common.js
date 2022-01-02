@@ -191,7 +191,7 @@ export async function spend_bennie(actor){
     } else {
         await spendMastersBenny();
         if (game.dice3d) {
-            const benny = new Roll('1dB').roll();
+            const benny = new Roll('1dB').roll({async:false});
             // noinspection JSIgnoredPromiseFromCall,ES6MissingAwait
             game.dice3d.showForRoll(benny, game.user, true, null, false);
         }
