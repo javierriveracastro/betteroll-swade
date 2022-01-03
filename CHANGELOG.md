@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.58 aka More bugs, can I blame v9?
+* Bug: Lots of Bugfixes by Wiggins, specially related to ammo management (Wiggins)
+* Combat: Incapacitation is now treated as an AE to keep it in sincro with the token HUD.
+
+Special thanks to SalieriC for doing all the test that make possible to get this release out this morning. 
+
 ## Version 2.57 aka Bugs..
 * Bug: A typo was making damage applying not working (SalieriC, Wiggins)
 * Bug: Incapacitation was also not applying correctly.
