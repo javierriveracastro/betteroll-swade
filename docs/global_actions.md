@@ -49,6 +49,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * rerollDamageMod: A number used as a modifier for damage reroll
 * shotsUsed: A number that makes the action use that number of shots. If the item is a power, it will make it use that number of PPs instead.
 * rof: Numer of trait dice rolled.
+* tnOverride: A number that is set as the tn of the roll. Note that this takes precedence from other ways of setting the target number like targeting.
 
 **Selector fields:**
 

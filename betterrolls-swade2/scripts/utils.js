@@ -54,7 +54,7 @@ export async function spendMastersBenny() {
 
 export function broofa() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        let r = Math.random()*16|0, v = (c === 'x') ? r : (r&0x3|0x8);
+        let r = Math.random()*16|0, v = (c === 'x') ? r : (r&0x3|0x8); // jshint ignore:line
         return v.toString(16);
     });
 }
@@ -66,7 +66,7 @@ export function broofa() {
  * @param {string} title: The form title
  * @param {[object]} fields: Array of {id, label, default_value}, if there
  *  is no id it will use label as an id, beware of spaces
- * @param {function} callback: A callback function that will called
+ * @param {function} callback: A callback function to pass the data
  */
 export function simple_form(title, fields, callback) {
     let content = '<form>'

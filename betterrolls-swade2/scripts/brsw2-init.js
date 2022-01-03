@@ -63,10 +63,6 @@ Hooks.on(`ready`, () => {
             handlers.splice(0, 0, handler);
         });
     };
-    // Tricks for 0.7 and 0.8 compatibility, remove some day
-    if (!("TokenDocument" in window)) {
-        window.TokenDocument = Token;
-    }
 })
 
 
@@ -386,6 +382,20 @@ function register_settings_version2() {
         default: false,
         scope: 'world',
         type: Boolean,
+        config: true
+    });
+    game.settings.register('betterrolls-swade2', 'remaining_card_behaviour', {
+        name: game.i18n.localize('BRSW.RemainingBehaviour'),
+        hint: game.i18n.localize('BRSW.RemainingBehaviour_hint'),
+        default: "everybody",
+        scope: "world",
+        type: String,
+        choices: {
+            none: game.i18n.localize('BRSW.None'),
+            master_only: game.i18n.localize('BRSW.MasterOnly'),
+            master_and_gm: game.i18n.localize('BRSW.MasterAndGM'),
+            everybody: game.i18n.localize("BRSW.Everybody")
+        },
         config: true
     });
 }

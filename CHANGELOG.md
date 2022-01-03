@@ -1,5 +1,36 @@
 # Changelog
 
+## Version 2.58 aka More bugs, can I blame v9?
+* Bug: Lots of Bugfixes by Wiggins, specially related to ammo management (Wiggins)
+* Combat: Incapacitation is now treated as an AE to keep it in sincro with the token HUD.
+
+Special thanks to SalieriC for doing all the test that make possible to get this release out this morning. 
+
+## Version 2.57 aka Bugs..
+* Bug: A typo was making damage applying not working (SalieriC, Wiggins)
+* Bug: Incapacitation was also not applying correctly.
+
+## Version 2.56 aka Mainly bugfixes
+* Global actions: Added tnOverride to options.
+* Cards: Attribute cards now support started with actions collapsed
+* Global: Now, any item that has a trait defined in the action tab will roll for it instead of just showing info
+* Bug: Applying damage when in combat was broken
+* Bug: Tokens with size more than 20 were unable to roll
+* Cards: Added a setting to control if the ammunition and power points expended card is shown to everybody, just the master or if it is not show at all.
+
+## Version 2.55 Aka welcome to version 9 light apocalypse (and incidentally card support)
+* Global actions: Added 'target_has_effect' selector
+* Refactoring: Ammo management code refactoring, damage card simplification, lots of minor improvements
+* Cards: Skills now use rof modifiers from actions
+* Optional rules: Support for Wound Cap
+* Options: Make gangup calculations optional.
+* Cards: Setting to start cards collapsed is now respected by macros
+* Active Effects: A new active effect to support gang-up reduction
+* Range calculation: New heuristics for range calculation
+* Glocal actions: Added more edges from Grendel Document (grendel1111)
+* Compatibility: Added suport for Foundry v9.
+
+
 ## Version 2.54 That things didn't happen...
 * BUG: An error introduced in last updated totally broke applying damage.
 

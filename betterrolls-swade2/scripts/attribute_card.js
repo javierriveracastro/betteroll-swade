@@ -20,15 +20,18 @@ export const ATTRIBUTES_TRANSLATION_KEYS = {'agility': 'SWADE.AttrAgi',
 *
 * @param {Token, SwadeActor} origin  The actor or token owning the attribute
 * @param {string} name The name of the attribute like 'vigor'
+* @param {boolean} collapse_actions
 * @return A promise for the ChatMessage object
 */
-async function create_attribute_card(origin, name){
+async function create_attribute_card(origin, name, collapse_actions){
     let actor;
     if (origin instanceof TokenDocument || origin instanceof Token) {
         actor = origin.actor;
     } else {
         actor = origin;
     }
+    collapse_actions = collapse_actions ||
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers')
     const translated_name = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[name]);
     let title = translated_name + " " + trait_to_string(
         actor.data.data.attributes[name.toLowerCase()]);
@@ -48,7 +51,8 @@ async function create_attribute_card(origin, name){
     let message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll, action_groups: action_groups, attribute_name: name},
+            trait_roll: trait_roll, action_groups: action_groups, attribute_name: name,
+            actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     // We always set the actor (as a fallback, and the token if possible)
@@ -70,7 +74,8 @@ async function create_attribute_card(origin, name){
  */
 function create_attribute_card_from_id(token_id, actor_id, name){
     const actor = get_actor_from_ids(token_id, actor_id);
-    return create_attribute_card(actor, name);
+    return create_attribute_card(actor, name,
+        game.settings.get('betterrolls-swade2', 'collapse-modifiers'));
 }
 
 
@@ -99,7 +104,7 @@ async function attribute_click_listener(ev, target) {
     const attribute_id = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
         ev.currentTarget.parentElement.dataset.attribute
     // Show card
-    const message = await create_attribute_card(target, attribute_id);
+    const message = await create_attribute_card(target, attribute_id, action.includes('trait'));
     if (action.includes('trait')) {
         await roll_attribute(message, '', false)
     }

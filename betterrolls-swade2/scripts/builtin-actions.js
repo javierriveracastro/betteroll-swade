@@ -111,30 +111,45 @@ export const SYSTEM_GLOBAL_ACTION = [
                     {selector_type:"skill", selector_value:"BRSW.SkillName-Taunt"},
                     {selector_type:"skill", selector_value:"BRSW.SkillName-Intimidation"}]}],
         defaultChecked:"on", group:"BRSW.Hindrances"},
-    {id:"Aristocrat", name:"Aristocrat", button_name:"BRSW-EdgeName-Aristocrat", skillMod:"+2", and_selector:[
-        {selector_type:"actor_has_edge", selector_value:"BRSW-EdgeName-Aristocrat"},
+    {id:"Aristocrat", name:"Aristocrat", button_name:"BRSW.EdgeName-Aristocrat", skillMod:"+2", and_selector:[
+        {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Aristocrat"},
             {"or_selector":[{selector_type:"skill", "selector_value": "BRSW.SkillName-Performance"},
                     {selector_type:"skill", selector_value: "BRSW.SkillName-CommonKnowledge"}]}],
         "group":"BRSW.Edges"},
-    {id:"Attractive", name:"Attractive", button_name: "BRSW-EdgeName-Attractive", skillMod:"+1",
-        and_selector:[{selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-Attractive"}, {"or_selector":[
+    {id:"Attractive", name:"Attractive", button_name: "BRSW.EdgeName-Attractive", skillMod:"+1",
+        and_selector:[{selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Attractive"}, {"or_selector":[
             {selector_type:"skill", selector_value: "BRSW.SkillName-Performance"},
             {selector_type:"skill", selector_value: "BRSW.SkillName-Persuasion"}]},
-            {"not_selector":[{selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-VeryAttractive"}]}],
+            {"not_selector":[{selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-VeryAttractive"}]}],
         "group":"BRSW.Edges"},
-    {id:"Very Attractive", name:"Very Attractive", button_name: "BRSW-EdgeName-VeryAttractive", skillMod:"+2", and_selector:[
-        {selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-VeryAttractive"}, {or_selector:[
+    {id:"Very Attractive", name:"Very Attractive", button_name: "BRSW.EdgeName-VeryAttractive", skillMod:"+2", and_selector:[
+        {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-VeryAttractive"}, {or_selector:[
             {selector_type:"skill", selector_value: "BRSW.SkillName-Performance"}, 
             {selector_type:"skill", selector_value: "BRSW.SkillName-Persuasion"}]}],
         "group":"BRSW.Edges"},
-    {id:"Fame", name:"Fame", button_name: "BRSW-EdgeName-Fame", skillMod:"+1", and_selector:[
-        {selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-Fame"}, 
+    {id:"Fame", name:"Fame", button_name: "BRSW.EdgeName-Fame", skillMod:"+1", and_selector:[
+        {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Fame"},
         {selector_type:"skill", selector_value: "BRSW.SkillName-Persuasion"}, 
         {not_selector:[
-            {selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-Famous"}]}],
+            {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Famous"}]}],
         "group":"BRSW.Edges"},
-    {id:"Famous", name:"Famous", button_name: "BRSW-EdgeName-Famous", skillMod:"+2", and_selector:[
-        {selector_type:"actor_has_edge", selector_value: "BRSW-EdgeName-Famous"}, 
+    {id:"Famous", name:"Famous", button_name: "BRSW.EdgeName-Famous", skillMod:"+2", and_selector:[
+        {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Famous"},
         {selector_type:"skill", selector_value: "BRSW.SkillName-Persuasion"}],
-        "group":"BRSW.Edges"}
+        "group":"BRSW.Edges"},
+    {id:"Free runner", name:"Free runner", button_name:"BRSW.ApplyFreeRunner", skillMod:"+2", and_selector:[
+            {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-FreeRunner"},
+            {selector_type:"skill", selector_value:"BRSW.SkillName-Athletics"}], "group":"BRSW.Edges"},
+    {id:"Giant Killer", name:"Giant Killer", button_name:"BRSW.EdgeName-GiantKiller", dmgMod:"+1d6x",
+        and_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-GiantKiller"},
+            {or_selector:[{selector_type:"item_type", selector_value:"weapon"},
+                    {selector_type:"item_type", selector_value:"power"}]}], group:"BRSW.Edges"},
+    {id:"Martial Artist", name:"MartialArtist", button_name:"BRSW.EdgeName-MartialArtist", skillMod:"+1", 
+        dmgMod:"+1d4x", and_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-MartialArtist"},
+            {selector_type:"item_name", selector_value:"unarmed"}, {not_selector:[
+                {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-MartialWarrior"}]}],
+        defaultChecked:"on", group:"BRSW.Edges"},
+    {id:"Martial Warrior", name:"MartialWarrior", button_name:"BRSW.EdgeName-MartialWarrior", skillMod:"+2", 
+        dmgMod:"+1d6x", and_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-MartialWarrior"},
+            {selector_type:"item_name", selector_value:"unarmed"}], defaultChecked:"on", group:"BRSW.Edges"}
 ]

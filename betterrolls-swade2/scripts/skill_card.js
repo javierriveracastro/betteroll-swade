@@ -334,7 +334,7 @@ function sizeToScale(size) { //p179 swade core
         return 2;
     } else if (size >= 8 && size <= 11) {
         return 4;
-    } else if (size >= 12 && size <= 20) {
+    } else if (size >= 12) {
         return 6;
     }
 }

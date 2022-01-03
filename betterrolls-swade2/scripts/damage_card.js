@@ -143,20 +143,27 @@ async function apply_damage(token, wounds, soaked=0) {
     let final_wounds = initial_wounds + damage_wounds;
     if (final_wounds > token.actor.data.data.wounds.max) {
         incapacitated = true;
+        const inc_effect = {
+            label: game.i18n.localize("SWADE.Incap"),
+            icon: 'icons/svg/skull.svg',
+            flags: {core: {statusId: 'incapacitated', overlay: true}}}
+        token.actor.createEmbeddedDocuments('ActiveEffect', [inc_effect])
         // Mark as defeated if the token is in a combat
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token.id) {
-                token.update({overlayEffect: 'icons/svg/skull.svg'});
-                game.combat.updateCombatant(
-                    {_id: combatant.id, defeated: true});
+                game.combat.updateEmbeddedDocuments('Combatant',
+                    [{_id: combatant.id, defeated: true}]);
             }
         });
     } else {
         incapacitated = false;
+        let inc_effects = token.actor.effects.filter(
+                e => e.data.flags?.core?.statusId === 'incapacitated').map(
+                    effect => {return effect.id})
+        await token.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
         // Remove defeated mark in case it was marked as defeated before soak
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token.id) {
-                token.update({overlayEffect: ''});
                 combatant.update({defeated: false})
             }
         });
@@ -182,11 +189,16 @@ async function undo_damage(message){
         "data.status.isShaken": render_data.undo_values.shaken});
     const token = message.getFlag('betterrolls-swade2', 'token');
     if (token) {
+        // Remove incapacitation
+        let token_object = canvas.tokens.get(token).document
+        let inc_effects = token_object.actor.effects.filter(
+                e => e.data.flags?.core?.statusId === 'incapacitated').map(
+                    effect => {return effect.id})
+        await token_object.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token) {
-                canvas.tokens.get(token).update({overlayEffect: ''});
-                game.combat.updateCombatant(
-                    {_id: combatant.id, defeated: false});
+                game.combat.updateEmbeddedDocuments('Combatant',
+                    [{_id: combatant.id, defeated: false}]);
             }
         });
     }

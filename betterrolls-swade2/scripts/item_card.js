@@ -373,15 +373,14 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-    // Some types of items don't have an associated skill
-    if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
-            item.type.toLowerCase())) {return}
     // First if the item has a skill in actions we use it
     if (item.data.data.actions && item.data.data.actions.skill) {
         return trait_from_string(actor, item.data.data.actions.skill);
     }
+    // Some types of items don't have an associated skill
+    if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
+            item.type.toLowerCase())) {return}
     // Now check if there is something in the Arcane field
-    // noinspection JSUnresolvedVariable
     if (item.data.data.arcane) {
         return trait_from_string(actor, item.data.data.arcane);
     }
@@ -481,8 +480,22 @@ async function discount_ammo(item, rof, shot_override) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
     await item.update({'data.currentShots': final_ammo});
-    await ChatMessage.create({content: content});
+    displayRemainingCard(content);
     return ammo_spent;
+}
+
+async function displayRemainingCard(content) {
+  const show_card = game.settings.get('betterrolls-swade2', 'remaining_card_behaviour');
+  if (show_card !== 'none') {
+    let chat_data = { content: content };
+    if (show_card == 'master_and_gm') {
+      chat_data["whisper"] = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
+    }
+    if (show_card == 'master_only') {
+      chat_data["whisper"] = [''];
+    }
+    await ChatMessage.create(chat_data);
+  }
 }
 
 /**
@@ -533,7 +546,7 @@ async function discount_pp(actor, item, rolls, pp_override) {
             { _id: item.id, "data.additionalStats.devicePP.value": `${final_pp}` },
           ];
           // Updating the Arcane Device:
-          await actor.updateOwnedItem(updates);
+          actor.updateEmbeddedDocuments("Item", updates);
     }
     else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
              actor.data.data.powerPoints[item.data.data.arcane].max) {
@@ -545,9 +558,7 @@ async function discount_pp(actor, item, rolls, pp_override) {
     if (arcaneDevice === false) {
         await actor.update(data);
     }
-    await ChatMessage.create({
-        content: content
-    });
+    displayRemainingCard(content);
     return pp
 }
 
@@ -752,9 +763,7 @@ function reload_weapon(actor, weapon, number) {
             ammo.data.data.quantity - newCharges + current_ammo
         updates.push({_id: ammo.id, "data.quantity": reload_quantity});
     }
-    // noinspection JSIgnoredPromiseFromCall
-    actor.updateOwnedItem(updates);
-    // noinspection JSIgnoredPromiseFromCall
+    actor.updateEmbeddedDocuments("Item", updates);
     ChatMessage.create({
         speaker: {
             alias: actor.name
@@ -791,11 +800,7 @@ function manual_ammo(weapon, actor) {
                         ui.notifications.notify(game.i18n.localize("BRSW.NoAmmunition"))
                     }
                     else {
-                        // noinspection JSIgnoredPromiseFromCall
-                        actor.updateOwnedItem(updates);
-                        // noinspection JSIgnoredPromiseFromCall
-                        actor.updateOwnedItem(updates);
-                        // noinspection JSIgnoredPromiseFromCall
+                        actor.updateEmbeddedDocuments("Item", updates);
                         ChatMessage.create({
                             speaker: {
                                 alias: actor.name
@@ -838,7 +843,7 @@ export function get_item_from_message(message, actor) {
  * @param {SwadeActor} acting_actor
  * @param {Token} target
  */
-function get_tougness_targeted_selected(acting_actor, target=undefined) {
+function get_toughness_targeted_selected(acting_actor, target=undefined) {
     let objetive = target ? target : get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -904,7 +909,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
     }
     let roll = new Roll(formula + raise_formula, shortcuts);
     roll.evaluate({async: false});
-    const defense_values = get_tougness_targeted_selected(actor, target);
+    const defense_values = get_toughness_targeted_selected(actor, target);
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
@@ -930,13 +935,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
             }
             current_damage_roll.brswroll.dice.push(new_die);
         } else {
-            let integer_term;
-            if (term.hasOwnProperty('number')) {
-                // 0.7.x compatibility, remove someday
-                integer_term = term.number
-            } else {
-                integer_term = parseInt(term)
-            }
+            let integer_term = parseInt(term)
             if (integer_term) {
                 let modifier_value = parseInt(last_string_term + integer_term);
                 if (modifier_value) {
@@ -946,12 +945,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
                     current_damage_roll.brswroll.modifiers.push(new_mod);
                 }
             }
-            if (term.hasOwnProperty('operator')) {
-                // 0.7.x compatibility, remove someday
-                last_string_term = term.operator
-            } else {
-                last_string_term = term;
-            }
+            last_string_term = term;
         }
     }
     if (raise_formula) {
@@ -1234,7 +1228,7 @@ async function half_damage(message, index){
 async function edit_tougness(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
-    const defense_values = get_tougness_targeted_selected(actor);
+    const defense_values = get_toughness_targeted_selected(actor);
     let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
     damage_rolls[0].tn = defense_values.toughness;
     damage_rolls[0].armor = defense_values.armor;
@@ -1299,7 +1293,7 @@ async function manual_pp(actor, item) {
                             { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
                           ];
                           // Updating the Arcane Device:
-                          actor.updateOwnedItem(updates); 
+                          actor.updateEmbeddedDocuments("Item", updates); 
                     }
                     else {
                         // noinspection JSIgnoredPromiseFromCall
@@ -1336,7 +1330,7 @@ async function manual_pp(actor, item) {
                                 { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
                               ];
                               // Updating the Arcane Device:
-                              actor.updateOwnedItem(updates); 
+                              actor.updateEmbeddedDocuments("Item", updates); 
                         }
                         else {
                             if (otherArcane === true) {
@@ -1364,7 +1358,7 @@ async function manual_pp(actor, item) {
                                 { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
                               ];
                               // Updating the Arcane Device:
-                              actor.updateOwnedItem(updates); 
+                              actor.updateEmbeddedDocuments("Item", updates); 
                         }
                         else {
                             if (otherArcane === true) {
@@ -1400,7 +1394,7 @@ async function manual_pp(actor, item) {
                                 { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
                               ];
                               // Updating the Arcane Device:
-                              actor.updateOwnedItem(updates); 
+                              actor.updateEmbeddedDocuments("Item", updates); 
                         }
                         else {
                             if (otherArcane === true) {

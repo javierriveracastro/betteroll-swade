@@ -44,7 +44,7 @@ const INJURY_ACTIVE_EFFECT = {
 }
 
 /**
- * Shows a incapacitation card an
+ * Shows an incapacitation card an
  * @param {string} token_id As it comes from damage its target is always a token
  */
 export async function create_incapacitation_card(token_id) {
@@ -91,7 +91,7 @@ function roll_incapacitation_clicked(ev) {
 }
 
 /**
- * Activate the listeners of the incapacitation card card
+ * Activate the listeners of the incapacitation card
  * @param message: Message date
  * @param html: Html produced
  */
@@ -197,7 +197,7 @@ export async function create_injury_card(token_id) {
             new_data.label = game.i18n.localize(first_result);
         }
         new_data.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        await actor.createEmbeddedEntity('ActiveEffect', new_data);
+        await actor.createEmbeddedDocuments('ActiveEffect', [new_data]);
     }
     let message = await create_common_card(token,
     {header: {type: '',
