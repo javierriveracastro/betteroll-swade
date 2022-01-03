@@ -480,7 +480,7 @@ async function discount_ammo(item, rof, shot_override) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
     await item.update({'data.currentShots': final_ammo});
-    displayRemainingCard(content);
+    await displayRemainingCard(content);
     return ammo_spent;
 }
 
@@ -488,11 +488,11 @@ async function displayRemainingCard(content) {
   const show_card = game.settings.get('betterrolls-swade2', 'remaining_card_behaviour');
   if (show_card !== 'none') {
     let chat_data = { content: content };
-    if (show_card == 'master_and_gm') {
-      chat_data["whisper"] = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
+    if (show_card === 'master_and_gm') {
+      chat_data.whisper = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
     }
-    if (show_card == 'master_only') {
-      chat_data["whisper"] = [''];
+    if (show_card === 'master_only') {
+      chat_data.whisper = [''];
     }
     await ChatMessage.create(chat_data);
   }
@@ -558,7 +558,7 @@ async function discount_pp(actor, item, rolls, pp_override) {
     if (arcaneDevice === false) {
         await actor.update(data);
     }
-    displayRemainingCard(content);
+    await displayRemainingCard(content);
     return pp
 }
 
