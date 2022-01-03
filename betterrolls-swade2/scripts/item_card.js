@@ -935,13 +935,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
             }
             current_damage_roll.brswroll.dice.push(new_die);
         } else {
-            let integer_term;
-            if (term.hasOwnProperty('number')) {
-                // 0.7.x compatibility, remove someday
-                integer_term = term.number
-            } else {
-                integer_term = parseInt(term)
-            }
+            let integer_term = parseInt(term)
             if (integer_term) {
                 let modifier_value = parseInt(last_string_term + integer_term);
                 if (modifier_value) {
@@ -951,12 +945,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
                     current_damage_roll.brswroll.modifiers.push(new_mod);
                 }
             }
-            if (term.hasOwnProperty('operator')) {
-                // 0.7.x compatibility, remove someday
-                last_string_term = term.operator
-            } else {
-                last_string_term = term;
-            }
+            last_string_term = term;
         }
     }
     if (raise_formula) {
