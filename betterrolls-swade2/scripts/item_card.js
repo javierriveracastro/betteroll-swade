@@ -685,9 +685,6 @@ export async function roll_item(message, html, expend_bennie,
     const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
-    // noinspection JSUnresolvedVariable
-    // Pinned actions
-    // noinspection JSUnresolvedVariable
     for (let group in render_data.action_groups) {
         for (let action of render_data.action_groups[group].actions) {
             // Global and local actions are different
