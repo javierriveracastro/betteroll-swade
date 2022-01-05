@@ -163,8 +163,8 @@ export function create_render_options(actor, render_data, template) {
     }
     render_data.warning =
         (actor.data.data.status.isStunned || actor.data.data.status.isShaken) ?
-        game.i18n.localize("BRSW.CharacterIsShaken") : ''
-    render_data.extra_text = ''
+        game.i18n.localize("BRSW.CharacterIsShaken") :
+        ''
     return render_data;
 }
 
