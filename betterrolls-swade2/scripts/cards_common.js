@@ -161,6 +161,10 @@ export function create_render_options(actor, render_data, template) {
         render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
+    render_data.warning =
+        (actor.data.data.status.isStunned || actor.data.data.status.isShaken) ?
+        game.i18n.localize("BRSW.CharacterIsShaken") : ''
+    render_data.extra_text = ''
     return render_data;
 }
 
