@@ -106,7 +106,7 @@ async function attribute_click_listener(ev, target) {
     // Show card
     const message = await create_attribute_card(target, attribute_id, action.includes('trait'));
     if (action.includes('trait')) {
-        await roll_attribute(message, '', false)
+        await roll_attribute(message, $(message.data.content), false)
     }
 }
 
