@@ -362,7 +362,8 @@ export class WorldGlobalActions extends FormApplication {
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
                 'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
-                'or_selector', 'rof', 'self_add_status', 'not_selector', 'tnOverride']
+                'or_selector', 'rof', 'self_add_status', 'not_selector', 'tnOverride',
+                'extra_text']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key
@@ -389,7 +390,8 @@ export class WorldGlobalActions extends FormApplication {
  * @param actor
  */
 export function create_actions_array(action_groups,item, actor) {
-    get_actions(item, actor).forEach(global_action => {
+    let extra_text = ''
+    for (const global_action of get_actions(item, actor)) {
         const has_skill_mod = !!global_action.skillMod;
         const has_dmg_mod = !!global_action.dmgMod;
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
@@ -397,6 +399,9 @@ export function create_actions_array(action_groups,item, actor) {
         const pinned = global_action.hasOwnProperty('defaultChecked')
         let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
         let group_name_id = group_name.split('.').join('')
+        if (global_action.hasOwnProperty('extra_text')) {
+            extra_text += global_action.extra_text
+        }
         if (!action_groups.hasOwnProperty(group_name_id)) {
             const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
                 game.i18n.localize(group_name) : group_name
@@ -410,8 +415,8 @@ export function create_actions_array(action_groups,item, actor) {
                 code: global_action.name, name: button_name, pinned: pinned,
                 damage_icon: has_dmg_mod, skill_icon: has_skill_mod
             });
-    });
-    return action_groups
+    }
+    return [action_groups, extra_text]
 }
 
 /**

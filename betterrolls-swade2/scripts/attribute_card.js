@@ -47,12 +47,12 @@ async function create_attribute_card(origin, name, collapse_actions){
         name: name,
         type: "attribute"
     }
-    let action_groups = create_actions_array({}, attribute_item, actor);
+    let actions = create_actions_array({}, attribute_item, actor);
     let message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll, action_groups: action_groups, attribute_name: name,
-            actions_collapsed: collapse_actions},
+            trait_roll: trait_roll, action_groups: actions[0], attribute_name: name,
+            actions_collapsed: collapse_actions, extra_text: actions[1]},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     // We always set the actor (as a fallback, and the token if possible)
@@ -106,7 +106,7 @@ async function attribute_click_listener(ev, target) {
     // Show card
     const message = await create_attribute_card(target, attribute_id, action.includes('trait'));
     if (action.includes('trait')) {
-        await roll_attribute(message, '', false)
+        await roll_attribute(message, $(message.data.content), false)
     }
 }
 

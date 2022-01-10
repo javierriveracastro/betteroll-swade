@@ -101,14 +101,15 @@ async function create_item_card(origin, item_id, collapse_actions) {
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
     }
-    action_groups = create_actions_array(action_groups, item, actor);
+    let actions = create_actions_array(action_groups, item, actor);
     let message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
             trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, action_groups: action_groups, used_shots: 0,
+            powerpoints: power_points, action_groups: actions[0],
+            extra_text: actions[1], used_shots: 0,
             actions_collapsed: collapse_actions,
             swade_templates: get_template_from_description(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -480,7 +481,7 @@ async function discount_ammo(item, rof, shot_override) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
     await item.update({'data.currentShots': final_ammo});
-    displayRemainingCard(content);
+    await displayRemainingCard(content);
     return ammo_spent;
 }
 
@@ -488,11 +489,11 @@ async function displayRemainingCard(content) {
   const show_card = game.settings.get('betterrolls-swade2', 'remaining_card_behaviour');
   if (show_card !== 'none') {
     let chat_data = { content: content };
-    if (show_card == 'master_and_gm') {
-      chat_data["whisper"] = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
+    if (show_card === 'master_and_gm') {
+      chat_data.whisper = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
     }
-    if (show_card == 'master_only') {
-      chat_data["whisper"] = [''];
+    if (show_card === 'master_only') {
+      chat_data.whisper = [''];
     }
     await ChatMessage.create(chat_data);
   }
@@ -558,7 +559,7 @@ async function discount_pp(actor, item, rolls, pp_override) {
     if (arcaneDevice === false) {
         await actor.update(data);
     }
-    displayRemainingCard(content);
+    await displayRemainingCard(content);
     return pp
 }
 
@@ -685,9 +686,6 @@ export async function roll_item(message, html, expend_bennie,
     const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
-    // noinspection JSUnresolvedVariable
-    // Pinned actions
-    // noinspection JSUnresolvedVariable
     for (let group in render_data.action_groups) {
         for (let action of render_data.action_groups[group].actions) {
             // Global and local actions are different

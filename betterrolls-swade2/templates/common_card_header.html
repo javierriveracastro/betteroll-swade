@@ -1,4 +1,9 @@
 <div class="brsw-header">
+    {{# if warning }}
+        <div class="brsw-warning">
+            {{warning}}
+        </div>
+    {{/if}}
     <img class="brws-actor-img brsw-clickable" src="{{{actor.img}}}">
     <span class="brsw-header-type-text">
         {{header.type}}
@@ -12,4 +17,9 @@
             <i class="brsw-repeat-card fas fa-redo brsw-clickable"></i>
         </span>
     </div>
+    {{# if extra_text }}
+        <div class="brsw-extra-text">
+            {{{extra_text}}}
+        </div>
+    {{/if}}
 </div>

@@ -63,6 +63,22 @@
     font-size: 70%;
 }
 
+.brsw-warning {
+    font-size: large;
+    text-align: center;
+    font-weight: bold;
+    background: red;
+    color: white;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.brsw-extra-text {
+    color: gray;
+    margin: 3px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
 /* Styles for the card body */
 
 .brsw-false-button {

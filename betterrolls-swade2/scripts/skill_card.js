@@ -45,12 +45,13 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
     let trait_roll = new BRWSRoll();
-    let action_groups = create_actions_array({}, skill, actor);
+    let actions = create_actions_array({}, skill, actor);
     let message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
             footer: footer, trait_roll: trait_roll, trait_id: skill.id,
-            action_groups: action_groups, actions_collapsed: collapse_actions},
+            action_groups: actions[0], extra_text: actions[1],
+            actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
     await message.setFlag('betterrolls-swade2', 'card_type',
@@ -104,7 +105,7 @@ async function skill_click_listener(ev, target) {
     let message = await create_skill_card(
         target, skill_id, action.includes('trait'));
     if (action.includes('trait')) {
-        await roll_skill(message, '', false)
+        await roll_skill(message, $(message.data.content), false)
     }
 }
 
