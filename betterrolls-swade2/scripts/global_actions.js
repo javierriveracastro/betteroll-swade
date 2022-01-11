@@ -159,13 +159,22 @@ function check_selector(type, value, item, actor){
                 ability_name.toLowerCase());
         });
         selected = !!ability;
-    } else if (type === 'actor_has_hindrance') {
+    } else if (type === 'actor_has_hindrance' ) {
         const hindrance_name = value.includes("BRSW.HindranceName-") ?
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
             return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
                 hindrance_name.toLowerCase());
+        });
+        selected = !!hindrance;
+    } else if (type === 'actor_has_major_hindrance') {
+        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+            game.i18n.localize(value) : value;
+        // noinspection AnonymousFunctionJS
+        const hindrance = actor.items.find(item => {
+            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                hindrance_name.toLowerCase()) && item.data.data?.major;
         });
         selected = !!hindrance;
     } else if (type === 'actor_has_joker') {
@@ -186,6 +195,17 @@ function check_selector(type, value, item, actor){
             const hindrance = targeted_token.actor.items.find(item => {
                 return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
                     hindrance_name.toLowerCase());
+            });
+            selected = selected || (!!hindrance)
+        }
+    } else if (type === 'target_has_major_hindrance') {
+        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+            game.i18n.localize(value) : value;
+        // noinspection AnonymousFunctionJS
+        for (let targeted_token of game.user.targets) {
+            const hindrance = targeted_token.actor.items.find(item => {
+                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                    hindrance_name.toLowerCase()) && item.data.data?.major;
             });
             selected = selected || (!!hindrance)
         }
