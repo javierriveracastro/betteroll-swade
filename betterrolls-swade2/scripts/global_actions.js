@@ -123,7 +123,7 @@ function check_selector(type, value, item, actor){
                 } else {
                     selected = skill.name.toLowerCase().includes(value.toLowerCase()) ||
                         skill.name.toLowerCase().includes(
-                            game.i18n.localize("BRSW.SkillName-" + value));
+                            game.i18n.localize("BRSW.SkillName-" + value).toLowerCase());
                 }
             }
         }
