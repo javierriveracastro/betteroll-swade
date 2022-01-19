@@ -152,9 +152,9 @@ function create_macro_command(data) {
             if (event) {
                 if (behaviour.includes('trait')) {
                     if (${data.data.type === 'skill'}) {                  
-                        game.brsw.roll_skill(message, '', false)
+                        game.brsw.roll_skill(message, $(message.data.content), false)
                     } else {
-                        game.brsw.roll_item(message, "", false, behaviour.includes('damage'))
+                        game.brsw.roll_item(message, $(message.data.content), false, behaviour.includes('damage'))
                     }
                 }
             }
