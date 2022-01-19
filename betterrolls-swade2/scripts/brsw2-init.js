@@ -154,7 +154,7 @@ function create_macro_command(data) {
                     if (${data.data.type === 'skill'}) {                  
                         game.brsw.roll_skill(message, '', false)
                     } else {
-                        game.brsw.roll_item(message, "", false, true)
+                        game.brsw.roll_item(message, "", false, behaviour.includes('damage'))
                     }
                 }
             }
