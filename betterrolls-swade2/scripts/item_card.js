@@ -1096,7 +1096,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let formula = makeExplotable(roll_formula);
     let targets = [undefined];
     if (game.user.targets.size > 0) {
-        targets = game.user.targets;
+        targets = await game.user.targets;
     }
     if (! raise) {raise_formula = ''}
     for (let target of targets) {

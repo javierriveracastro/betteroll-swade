@@ -224,7 +224,9 @@ function check_selector(type, value, item, actor){
         for (const targeted_token of game.user.targets) {
             const effect = targeted_token.actor.effects.find(
                 ef => ef.data.label.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
-            selected = selected || effect ? ! effect.data.disabled : false;
+            if (effect) {
+                selected = selected || effect ? (! effect.data.disabled) : false;
+            }
         }
     }
     return selected;
