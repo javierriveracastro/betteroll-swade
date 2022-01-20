@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.59 aka v9 was sneakier than expected
+* Refactoring: Remove some hacks used for 0.7 compatibility
+* Bug: Direct rolls now respects defaultChecked on, that solves lots of issues.
+* Cards: Add a warning when a shaken character shows a card
+* Global actions: Added extra_text to global actions
+* Card: Dice results are now editable (tommycore)
+* Global actions: Added a selector for major hindrances
+* Bug: SKills in global actions were case-sensitive
+* Cards: Drag and drop now rolls damage when default action is "show card, roll trair and roll damage"
+* Macro support: Macros now pass html to roll_item, that means than token action HUD should now support default checked on global actions
+* Bug: Added an await to avoid a race condition that could make damage rolls not happen wome times. 
+
 ## Version 2.58 aka More bugs, can I blame v9?
 * Bug: Lots of Bugfixes by Wiggins, specially related to ammo management (Wiggins)
 * Combat: Incapacitation is now treated as an AE to keep it in sincro with the token HUD.
