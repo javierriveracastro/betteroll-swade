@@ -853,7 +853,7 @@ function get_toughness_targeted_selected(acting_actor, target=undefined) {
     }
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
-    if (objetive) {
+    if (objetive && objetive.actor) {
         if (objetive.actor.data.type !== "vehicle") {
             defense_values.toughness = parseInt(
                 objetive.actor.data.data.stats.toughness.value);
