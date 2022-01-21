@@ -249,5 +249,6 @@
     "BRSW.MasterOnly": "Solo el master",
     "BRSW.RemainingBehaviour": "¿Quien puede ver la carta de munición y PP gastados?",
     "BRSW.RemainingBehaviour_hint": "Selecciona quien puede ver la carta que aparece tras gastar puntos de poder o disparos informando de cuantos se han gastaod y cuantos quedan",
-    "BRSW.CharacterIsShaken": "El personaje esta aturdido"
+    "BRSW.CharacterIsShaken": "El personaje esta aturdido",
+    "BRSW.TargetHasDodge": "El objetivo tiene esquiva"
 }

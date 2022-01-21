@@ -151,5 +151,14 @@ export const SYSTEM_GLOBAL_ACTION = [
         defaultChecked:"on", group:"BRSW.Edges"},
     {id:"Martial Warrior", name:"MartialWarrior", button_name:"BRSW.EdgeName-MartialWarrior", skillMod:"+2", 
         dmgMod:"+1d6x", and_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-MartialWarrior"},
-            {selector_type:"item_name", selector_value:"unarmed"}], defaultChecked:"on", group:"BRSW.Edges"}
+            {selector_type:"item_name", selector_value:"unarmed"}], defaultChecked:"on", group:"BRSW.Edges"},
+    {id:"Target has dodge", name:"The target has dodge", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
+        and_selector:[{selector_type:"item_type", selector_value:"weapon"},
+            {selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
+                {or_selector:[{selector_type:"skill", selector_value:"Shooting"},
+                        {selector_type:"skill", selector_value:"Athletics"}]}], defaultChecked:"on",
+        group:"BRSW.Target"},
+    {id:"Target has dodge 2", name:"The target has dodge", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
+        and_selector:[{selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
+            {selector_type:"item_type", selector_value:"power"}], defaultChecked:"on", group:"BRSW.Target"}
 ]

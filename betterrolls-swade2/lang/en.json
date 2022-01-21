@@ -272,5 +272,7 @@
     "BRSW.MasterAndGM": "Master and GM",
     "BRSW.RemainingBehaviour": "Who can see the PP and ammo remaining card",
     "BRSW.RemainingBehaviour_hint": "Select who (if anybody) can see the card informing of the used and remaining shots and PP",
-    "BRSW.CharacterIsShaken": "The character is shaken"
+    "BRSW.CharacterIsShaken": "The character is shaken",
+    "BRSW.TargetHasDodge": "Target has dodge",
+    "BRSW.EdgeName-Dodge": "dodge"
 }
