@@ -160,7 +160,7 @@ function check_selector(type, value, item, actor){
         });
         selected = !!ability;
     } else if (type === 'actor_has_hindrance' ) {
-        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+        const hindrance_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
@@ -169,7 +169,7 @@ function check_selector(type, value, item, actor){
         });
         selected = !!hindrance;
     } else if (type === 'actor_has_major_hindrance') {
-        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+        const hindrance_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
@@ -189,7 +189,7 @@ function check_selector(type, value, item, actor){
             selected = selected || (!!edge)
         }
     } else if (type === 'target_has_hindrance') {
-        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+        const hindrance_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const hindrance = targeted_token.actor.items.find(item => {
@@ -199,7 +199,7 @@ function check_selector(type, value, item, actor){
             selected = selected || (!!hindrance)
         }
     } else if (type === 'target_has_major_hindrance') {
-        const hindrance_name = value.includes("BRSW.HindranceName-") ?
+        const hindrance_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         for (let targeted_token of game.user.targets) {
@@ -210,7 +210,7 @@ function check_selector(type, value, item, actor){
             selected = selected || (!!hindrance)
         }
     } else if (type === 'target_has_ability') {
-        const ability_name = value.includes("BRSW.HindranceName-") ?
+        const ability_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const ability = targeted_token.actor.items.find(item => {
