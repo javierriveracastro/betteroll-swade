@@ -117,7 +117,7 @@ function check_selector(type, value, item, actor){
         } else {
             const skill = item.type === 'skill' ? item : get_item_trait(item, actor);
             if (skill) {
-                if (value.slice(0, 4) === "BRSW.") {
+                if (value.slice(0, 5) === "BRSW.") {
                     selected = skill.name.toLowerCase().includes(
                         game.i18n.localize(value).toLowerCase())
                 } else {
