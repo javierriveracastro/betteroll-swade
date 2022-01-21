@@ -99,6 +99,9 @@ export function get_actions(item, actor) {
             }
         }
     }
+    actions_avaliable.sort((a, b) => {
+        return a.id < b.id ? -1 : 1
+    })
     return actions_avaliable;
 }
 
@@ -319,8 +322,12 @@ export class WorldGlobalActions extends FormApplication {
         let formatted_actions = []
         for (let action of actions) {
             formatted_actions.push({name: action.name,
+                id: action.id,
                 json: JSON.stringify(action)});
         }
+        formatted_actions.sort((a, b) => {
+            return a.id <= b.id ? -1 : 1
+        })
         // noinspection JSValidateTypes
         return {actions: formatted_actions};
     }
