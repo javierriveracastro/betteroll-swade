@@ -1112,8 +1112,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         }
     }
     await update_message(message, actor, render_data);
-        // Run macros
-        await run_macros(macros, actor, item, message);
+    // Run macros
+    await run_macros(macros, actor, item, message);
 }
 
 
