@@ -185,7 +185,7 @@ function check_selector(type, value, item, actor){
     } else if (type === 'target_has_edge') {
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
-            const edge = targeted_token.actor.items.find(item => {
+            const edge = targeted_token.actor?.items.find(item => {
                 return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
                     edge_name.toLowerCase());
             });
@@ -195,7 +195,7 @@ function check_selector(type, value, item, actor){
         const hindrance_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
-            const hindrance = targeted_token.actor.items.find(item => {
+            const hindrance = targeted_token.actor?.items.find(item => {
                 return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
                     hindrance_name.toLowerCase());
             });
@@ -206,7 +206,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         for (let targeted_token of game.user.targets) {
-            const hindrance = targeted_token.actor.items.find(item => {
+            const hindrance = targeted_token.actor?.items.find(item => {
                 return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
                     hindrance_name.toLowerCase()) && item.data.data?.major;
             });
@@ -216,7 +216,7 @@ function check_selector(type, value, item, actor){
         const ability_name = value.includes("BRSW.EdgeName-") ?
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
-            const ability = targeted_token.actor.items.find(item => {
+            const ability = targeted_token.actor?.items.find(item => {
                 return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
                     ability_name.toLowerCase());
             });
@@ -225,7 +225,7 @@ function check_selector(type, value, item, actor){
     } else if (type === 'target_has_effect') {
         selected = false
         for (const targeted_token of game.user.targets) {
-            const effect = targeted_token.actor.effects.find(
+            const effect = targeted_token.actor?.effects.find(
                 ef => ef.data.label.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
             if (effect) {
                 selected = selected || effect ? (! effect.data.disabled) : false;
