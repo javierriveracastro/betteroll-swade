@@ -274,5 +274,7 @@
     "BRSW.TargetHasDodge": "Target has dodge",
     "BRSW.EdgeName-Dodge": "dodge",
     "BRSW.NewDieResult": "New result",
-    "BRSW.EditDieResult": "Edit die result"
+    "BRSW.EditDieResult": "Edit die result",
+    "BRSW.EdgeName-Assassin": "assassin",
+    "BRSW.SkillName-Research": "research"
 }
