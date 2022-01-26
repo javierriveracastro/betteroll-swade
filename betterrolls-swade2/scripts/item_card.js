@@ -1097,6 +1097,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let targets = [undefined];
     if (game.user.targets.size > 0) {
         targets = await game.user.targets;
+        targets = Array.from(targets).filter((token) => token.actor)
     }
     if (! raise) {raise_formula = ''}
     for (let target of targets) {
