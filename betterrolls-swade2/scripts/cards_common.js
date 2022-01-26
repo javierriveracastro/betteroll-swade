@@ -1218,12 +1218,12 @@ async function duplicate_message(message, event) {
         // noinspection JSUnresolvedVariable
         const card_type = data.flags['betterrolls-swade2'].card_type;
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-            await roll_attribute(new_message, '', false);
+            await roll_attribute(new_message, $(message.data.content), false);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
-            await roll_skill(new_message, '', false);
+            await roll_skill(new_message, $(message.data.content), false);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             const roll_damage = action.includes('damage')
-            await roll_item(new_message, '', false,
+            await roll_item(new_message, $(message.data.content), false,
                 roll_damage);
         }
     }
