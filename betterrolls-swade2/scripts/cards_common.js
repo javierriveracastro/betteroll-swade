@@ -214,11 +214,11 @@ export function get_actor_from_ids(token_id, actor_id) {
             try {
                 token = canvas.tokens.get(token_id);
             } catch (_) {
-                // At boot the canvas can be still be drawn, we wait
+                // At boot the canvas can be still not drawn, we wait
                 // noinspection AnonymousFunctionJS
                 setTimeout(() => {
                     token =canvas.tokens.get(token_id);
-                }, 200);
+                }, 500);
             }
             if (token) {return token.actor}
         }
