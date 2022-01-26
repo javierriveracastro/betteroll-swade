@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.60 aka 
+* Bug: Ignore tokens with no action when dealing damage, this should fix compatibility problems with modules that duplicate tokens
+* Global actions: Added bulti-in actions for Dodge
+* Bug: A couple of bugfixes that should resolve a lot of problems with built-in actions and translations
+* Global actions: Global actions are now ordered, both in settings and chat by id.
+* Global actions: Added the extra_text global action option
+* Bug: Duplicating messages now pass the html data, and this fixes some strange behaviours
+* Translations: Another couple of weblate translations from the great weblate team.
+* Built-in actions: Added actions for Assasin and Investigator edges from grendel1111 doc.
+
 ## Version 2.59 aka v9 was sneakier than expected
 * Refactoring: Remove some hacks used for 0.7 compatibility
 * Bug: Direct rolls now respects defaultChecked on, that solves lots of issues.
