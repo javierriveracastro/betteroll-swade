@@ -72,8 +72,6 @@
     "BRSW.SubtractPP": "Subtract Power points",
     "BRSW.ManuallyAdded": "Manually added",
     "BRSW.AddModifier": "Add modifier",
-    "BRSW.NewDieResult": "New result",
-    "BRSW.EditDieResult": "Edit die result",
     "BRSW.ManualPP": "Manual PP management",
     "BRSW.InsufficientPP": "You have insufficient Power Points.",
     "BRSW.ExpendPPText": "{name} spends {number} Power Point(s) and has <b>{newPP}</b> left.",
@@ -266,13 +264,5 @@
     "BRSW.EdgeName-FreeRunner": "Free Runner",
     "BRSW.EdgeName-GiantKiller": "Giant Killer",
     "BRSW.EdgeName-MartialArtist": "Martial Artist",
-    "BRSW.EdgeName-MartialWarrior": "Martial Warrior",
-    "BRSW.None" : "No one",
-    "BRSW.MasterOnly": "Master only",
-    "BRSW.MasterAndGM": "Master and GM",
-    "BRSW.RemainingBehaviour": "Who can see the PP and ammo remaining card",
-    "BRSW.RemainingBehaviour_hint": "Select who (if anybody) can see the card informing of the used and remaining shots and PP",
-    "BRSW.CharacterIsShaken": "The character is shaken",
-    "BRSW.TargetHasDodge": "Target has dodge",
-    "BRSW.EdgeName-Dodge": "dodge"
+    "BRSW.EdgeName-MartialWarrior": "Martial Warrior"
 }
