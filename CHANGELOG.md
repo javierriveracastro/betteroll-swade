@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 2.61 aka Small Fixes.
+* Translations: More updates from the weblate team
+* Cards: Wait a little more after start before trying to find tokens in the canvas
+* Global actions: Don't break with actor-less tokens when evaluating global actions
+* Cards: Ignore actor-less tokens when rolling damage
+* Bug: Conviction was broken by async rolls
+
 ## Version 2.60 aka 
 * Bug: Ignore tokens with no action when dealing damage, this should fix compatibility problems with modules that duplicate tokens
 * Global actions: Added bulti-in actions for Dodge
