@@ -265,5 +265,17 @@
     "BRSW.EdgeName-MartialArtist": "Kampfkünstler",
     "BRSW.EdgeName-MartialWarrior": "Kampfkunstmeister",
     "BRSW.EdgeName-FormationFighter": "Formationskämpfer",
-    "BRSW.WoundCapHint": "Die hier eingetragene Nummer wird als Wundobergrenze angenommen. Bei einem leeren Feld gelten die Standardregeln"
+    "BRSW.WoundCapHint": "Die hier eingetragene Nummer wird als Wundobergrenze angenommen. Bei einem leeren Feld gelten die Standardregeln",
+    "BRSW.None": "Niemand",
+    "BRSW.MasterOnly": "Nur Besitzer",
+    "BRSW.MasterAndGM": "Besitzer und Spielleiter",
+    "BRSW.RemainingBehaviour": "Sichtberechtigung MP und Munitionsinformationskarte",
+    "BRSW.RemainingBehaviour_hint": "Legt fest, wer die Informationskarte zu verbleibenden MP und Munition sehen kann",
+    "BRSW.CharacterIsShaken": "Der Charakter ist Angeschlagen",
+    "BRSW.TargetHasDodge": "Das Ziel hat Ausweichen",
+    "BRSW.EdgeName-Dodge": "Ausweichen",
+    "BRSW.NewDieResult": "Neues Ergebnis",
+    "BRSW.EditDieResult": "Wurfergebnis bearbeiten",
+    "BRSW.EdgeName-Assassin": "Assassine",
+    "BRSW.SkillName-Research": "Recherche"
 }
