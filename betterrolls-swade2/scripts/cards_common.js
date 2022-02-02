@@ -641,7 +641,7 @@ export function check_and_roll_conviction(actor) {
         game.settings.get('swade', 'enableConviction') &&
             getProperty(actor.data, 'data.details.conviction.active')) {
         let conviction_roll = new Roll('1d6x');
-        conviction_roll.roll();
+        conviction_roll.roll({async: false});
         // noinspection JSIgnoredPromiseFromCall
         conviction_roll.toMessage(
             {flavor: game.i18n.localize('BRSW.ConvictionRoll')});
