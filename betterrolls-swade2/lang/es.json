@@ -262,5 +262,17 @@
     "BRSW.EdgeName-MartialArtist": "Artista marcial",
     "BRSW.EdgeName-MartialWarrior": "Artista marcial mejorado",
     "BRSW.EdgeName-Bad-Eyes": "Corto de vista",
-    "BRSW.EdgeName-Bad-Eyes-Major": "Corto de vista (Mayor)"
+    "BRSW.EdgeName-Bad-Eyes-Major": "Corto de vista (Mayor)",
+    "BRSW.None": "Nadie",
+    "BRSW.MasterOnly": "Solo GM",
+    "BRSW.MasterAndGM": "Master y Asistente",
+    "BRSW.RemainingBehaviour": "Quién puede ver la carta de PP y munición restante",
+    "BRSW.RemainingBehaviour_hint": "Selecciona quién (si alguien) puede ver la tarjeta informando de los disparos utilizados y restantes y PP",
+    "BRSW.CharacterIsShaken": "El personaje esta aturdido",
+    "BRSW.TargetHasDodge": "El objetivo tiene esquivar",
+    "BRSW.EdgeName-Dodge": "Esquivar",
+    "BRSW.NewDieResult": "Nuevo resultado",
+    "BRSW.EditDieResult": "Editar resultado del dado",
+    "BRSW.EdgeName-Assassin": "Asesino",
+    "BRSW.SkillName-Research": "Investigar"
 }
