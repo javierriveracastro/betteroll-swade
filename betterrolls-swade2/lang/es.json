@@ -274,5 +274,6 @@
     "BRSW.NewDieResult": "Nuevo resultado",
     "BRSW.EditDieResult": "Editar resultado del dado",
     "BRSW.EdgeName-Assassin": "Asesino",
-    "BRSW.SkillName-Research": "Investigar"
+    "BRSW.SkillName-Research": "Investigar",
+    "BRSW.SkillName-Performance": "Interpretar"
 }
