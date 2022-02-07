@@ -263,5 +263,18 @@
     "BRSW.EdgeName-MartialWarrior": "Artista marcial millorat",
     "BRSW.EdgeName-GiantKiller": "Matagegants",
     "BRSW.EdgeName-Bad-Eyes": "Curt de vista",
-    "BRSW.WoundCap": "Límit de ferides"
+    "BRSW.WoundCap": "Límit de ferides",
+    "BRSW.None": "Cap",
+    "BRSW.MasterOnly": "Només DJ",
+    "BRSW.MasterAndGM": "DJ i assistent",
+    "BRSW.RemainingBehaviour": "Qui pot veure els PP i la munició restant de la targeta",
+    "BRSW.RemainingBehaviour_hint": "Selecciona qui (si algú) pot veure la targeta informant dels trets utilitzats i restants i PP",
+    "BRSW.CharacterIsShaken": "El personatge està atordit",
+    "BRSW.TargetHasDodge": "L'objectiu té esquivar",
+    "BRSW.EdgeName-Dodge": "Esquivar",
+    "BRSW.NewDieResult": "Nou resultat",
+    "BRSW.EditDieResult": "Edita el resultat del dau",
+    "BRSW.EdgeName-Assassin": "Assassí",
+    "BRSW.SkillName-Research": "Investigar",
+    "BRSW.SkillName-Performance": "Interpretar"
 }
