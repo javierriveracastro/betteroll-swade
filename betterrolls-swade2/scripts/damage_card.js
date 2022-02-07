@@ -1,5 +1,5 @@
 // Functions for the damage card
-/* global game, canvas, CONST, Token */
+/* global game, canvas, CONST, Token, CONFIG */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
     roll_trait, spend_bennie, update_message
@@ -171,8 +171,9 @@ async function apply_damage(token, wounds, soaked=0) {
     // We cap damage on actor number of wounds
     final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
     // Finally, we update actor and mark defeated
-    token.actor.update({'data.wounds.value': final_wounds,
-        'data.status.isShaken': final_shaken})
+    await token.actor.update({'data.wounds.value': final_wounds})
+    await token.document.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
+        {overlay: false, active: final_shaken})
     return {text: text, incapacitated: incapacitated};
 }
 
@@ -185,12 +186,13 @@ async function undo_damage(message){
     const actor = get_actor_from_message(message);
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
-    await actor.update({"data.wounds.value": render_data.undo_values.wounds,
-        "data.status.isShaken": render_data.undo_values.shaken});
     const token = message.getFlag('betterrolls-swade2', 'token');
+    await actor.update({"data.wounds.value": render_data.undo_values.wounds})
     if (token) {
-        // Remove incapacitation
+        // Remove incapacitation and shaken
         let token_object = canvas.tokens.get(token).document
+        await token_object.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
+        {overlay: false, active: render_data.undo_values.shaken})
         let inc_effects = token_object.actor.effects.filter(
                 e => e.data.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
