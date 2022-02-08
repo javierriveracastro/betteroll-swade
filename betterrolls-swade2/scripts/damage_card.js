@@ -192,7 +192,7 @@ async function undo_damage(message){
         // Remove incapacitation and shaken
         let token_object = canvas.tokens.get(token).document
         await token_object.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
-        {overlay: false, active: render_data.undo_values.shaken})
+            {overlay: false, active: render_data.undo_values.shaken})
         let inc_effects = token_object.actor.effects.filter(
                 e => e.data.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
@@ -270,8 +270,9 @@ async function roll_soak(message, use_bennie) {
     })
     if (result >= 4) {
         render_data.soaked = Math.floor(result / 4);
-        await actor.update({"data.wounds.value": render_data.undo_values.wounds,
-            "data.status.isShaken": render_data.undo_values.shaken});
+        await actor.update({"data.wounds.value": render_data.undo_values.wounds})
+        await actor.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
+            {overlay: false, active: render_data.undo_values.shaken})
         const damage_result = (await apply_damage(message.getFlag(
             'betterrolls-swade2', 'token'), render_data.wounds,
             render_data.soaked));

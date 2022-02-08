@@ -13,6 +13,7 @@ import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from ".
 import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
+import {patch_actor} from './SWADE_actor_patch.js';
 
 // Startup scripts
 
@@ -63,6 +64,8 @@ Hooks.on(`ready`, () => {
             handlers.splice(0, 0, handler);
         });
     };
+    // Patch the SWADE actor
+    patch_actor()
 })
 
 
