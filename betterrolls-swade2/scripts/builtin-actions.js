@@ -2,7 +2,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id: "WTK", name: "Wild Attack", button_name: "BRSW.WildAttack",
         skillMod: 2, dmgMod: 2, dmgOverride: "",
         selector_type: "skill", selector_value: "fighting",
-        self_add_status: "Vulnerable", group: "BRSW.AttackOption"},
+        self_add_status: "vulnerable", group: "BRSW.AttackOption"},
     {id: "DROP", name:"The Drop", button_name: "BRSW.TheDrop", skillMod: 4,
         dmgMod: 4, dmgOverride: "", selector_type: "item_type",
         selector_value: "weapon", group: "BRSW.SituationalModifiers"},

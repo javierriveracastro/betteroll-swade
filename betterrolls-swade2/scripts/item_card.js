@@ -666,9 +666,11 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
-            let updates = process_common_actions(action, extra_data, macros, pinned_actions)
-            if (updates){
-                actor.update(updates)
+            let effects = process_common_actions(action, extra_data, macros, pinned_actions)
+            if (effects) {
+                for (let effect of effects) {
+                    actor.toggleActiveEffect(effect, {active: true})
+                }
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
@@ -1061,9 +1063,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 roll_formula = action.dmgOverride;
             }
             if (action.self_add_status) {
-                let new_state = {};
-                new_state[`data.status.is${action.self_add_status}`] = true
-                actor.update(new_state)
+                actor.toggleActiveEffect(
+                    CONFIG.statusEffects.find(effect => effect.id === action.self_add_status),
+                    {active: true})
             }
             if (action.runDamageMacro) {
                 macros.push(action.runDamageMacro);

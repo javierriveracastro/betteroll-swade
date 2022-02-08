@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate*/
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG*/
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
@@ -1036,7 +1036,7 @@ async function update_roll_results(trait_roll, mod_value) {
  * @param {boolean} [is_damage_roll=false]
  * @param {boolean} is_wildcard
  */
-async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false, is_wildcard) {
+async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false, is_wildcard = false) {
     let total_modifier = 0
     roll_data.modifiers.forEach(mod => {
         total_modifier += mod.value;
@@ -1257,7 +1257,7 @@ export function create_modifier(label, expression) {
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros) {
-    let updates = {}
+    let effects = []
     let action_name = action.button_name || action.name
     action_name = action_name.includes("BRSW.") ? game.i18n.localize(action_name) : action_name
     // noinspection JSUnresolvedVariable
@@ -1282,7 +1282,7 @@ export function process_common_actions(action, extra_data, macros) {
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
-        updates[`data.status.is${action.self_add_status}`] = true
+        effects.push(CONFIG.statusEffects.find(effect => effect.id === action.self_add_status))
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
@@ -1290,7 +1290,7 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
     }
-    return updates
+    return effects
 }
 
 /**

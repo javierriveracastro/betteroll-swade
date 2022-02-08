@@ -205,9 +205,11 @@ export async function roll_attribute(message, html,
             // noinspection JSUnresolvedVariable
             let action;
             action = get_global_action_from_name(element.dataset.action_id);
-            let updates = process_common_actions(action, extra_data, macros, pinned_actions);
-            if (updates) {
-                actor.update(updates);
+            const effects = process_common_actions(action, extra_data, macros, pinned_actions);
+            if (effects) {
+                for (let effect of effects) {
+                    actor.toggleActiveEffect(effect, {active: true})
+                }
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
