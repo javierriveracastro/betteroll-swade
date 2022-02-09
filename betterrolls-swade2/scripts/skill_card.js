@@ -12,7 +12,7 @@ import {
     roll_trait,
     spend_bennie,
     trait_to_string,
-    create_modifier, process_common_actions
+    create_modifier, process_common_actions, apply_status
 } from "./cards_common.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {run_macros} from "./item_card.js";
@@ -166,7 +166,7 @@ export async function roll_skill(message, html, expend_bennie){
             let effects = process_common_actions(action, extra_data, macros, pinned_actions)
             if (effects) {
                 for (let effect of effects) {
-                    actor.toggleActiveEffect(effect, {active: true})
+                    apply_status(actor, effect)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {

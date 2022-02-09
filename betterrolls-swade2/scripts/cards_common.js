@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG*/
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass*/
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
@@ -1257,7 +1257,7 @@ export function create_modifier(label, expression) {
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros) {
-    let effects = []
+    let status = []
     let action_name = action.button_name || action.name
     action_name = action_name.includes("BRSW.") ? game.i18n.localize(action_name) : action_name
     // noinspection JSUnresolvedVariable
@@ -1282,7 +1282,7 @@ export function process_common_actions(action, extra_data, macros) {
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
-        effects.push(CONFIG.statusEffects.find(effect => effect.id === action.self_add_status))
+        status.push(action.self_add_status)
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
@@ -1290,7 +1290,7 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
     }
-    return effects
+    return status
 }
 
 /**
@@ -1329,4 +1329,32 @@ export function process_minimum_str_modifiers(item, actor, name) {
             -Math.trunc((min_str_die_size - str_die_size) / 2))
     }
     return new_mod
+}
+
+/**
+ * Applies an active effect based status to either an actor or a token
+ * @param {SwadeActor, Token, abstract.Document} target: Who to apply the status
+ * @param {string} status_name: Name of the status
+ * @param {boolean} final_state: True if we want the status applied fal
+ */
+export async function apply_status(target, status_name, final_state=true){
+    // We are going to apply the effect always to the actor
+    if (target.actor) {
+        // noinspection JSValidateTypes
+        target = target.actor
+    }
+    const effect = CONFIG.statusEffects.find(effect => effect.id === status_name)
+    const applied_effects = target.effects.find(eff => eff.getFlag('core', 'statusId') === status_name)
+    if (applied_effects && !final_state) {
+        // The actor has the effect but we want it off
+        applied_effects.delete()
+    } else if (!applied_effects && final_state) {
+        // We want the effect but the acto doesn't have it
+        const new_effect = foundry.utils.deepClone(effect)
+        new_effect.label = game.i18n.localize(new_effect.label)
+        setProperty(new_effect, 'flags.core.statusId', effect.id)
+        new_effect.id = undefined
+        const doc_class = getDocumentClass('ActiveEffect')
+        await doc_class.create(new_effect, {parent: target})
+    }
 }

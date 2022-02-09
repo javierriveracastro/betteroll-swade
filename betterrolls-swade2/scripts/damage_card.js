@@ -2,7 +2,7 @@
 /* global game, canvas, CONST, Token, CONFIG */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
-    roll_trait, spend_bennie, update_message
+    roll_trait, spend_bennie, update_message, apply_status
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
@@ -172,8 +172,7 @@ async function apply_damage(token, wounds, soaked=0) {
     final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
-    await token.document.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
-        {overlay: false, active: final_shaken})
+    await apply_status(token, 'shaken', final_shaken)
     return {text: text, incapacitated: incapacitated};
 }
 
@@ -191,8 +190,7 @@ async function undo_damage(message){
     if (token) {
         // Remove incapacitation and shaken
         let token_object = canvas.tokens.get(token).document
-        await token_object.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
-            {overlay: false, active: render_data.undo_values.shaken})
+        await apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
                 e => e.data.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
@@ -271,8 +269,7 @@ async function roll_soak(message, use_bennie) {
     if (result >= 4) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds})
-        await actor.toggleActiveEffect(CONFIG.statusEffects.find(effect => effect.id === 'shaken'),
-            {overlay: false, active: render_data.undo_values.shaken})
+        await apply_status(actor, 'shaken', render_data.undo_values.shaken)
         const damage_result = (await apply_damage(message.getFlag(
             'betterrolls-swade2', 'token'), render_data.wounds,
             render_data.soaked));
