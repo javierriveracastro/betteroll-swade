@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.62 aka SWADE 1.0
+* Translations: Updates from the weblate team and brasilian updates from Bruno Calado
+* Compatibility: Update status code to use the new AEs.
+
 ## Version 2.61 aka Small Fixes.
 * Translations: More updates from the weblate team
 * Cards: Wait a little more after start before trying to find tokens in the canvas
