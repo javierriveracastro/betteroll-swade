@@ -141,33 +141,15 @@ async function apply_damage(token, wounds, soaked=0) {
     }
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
-    if (final_wounds > token.actor.data.data.wounds.max) {
-        incapacitated = true;
-        const inc_effect = {
-            label: game.i18n.localize("SWADE.Incap"),
-            icon: 'icons/svg/skull.svg',
-            flags: {core: {statusId: 'incapacitated', overlay: true}}}
-        token.actor.createEmbeddedDocuments('ActiveEffect', [inc_effect])
-        // Mark as defeated if the token is in a combat
-        game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token.id) {
-                game.combat.updateEmbeddedDocuments('Combatant',
-                    [{_id: combatant.id, defeated: true}]);
-            }
-        });
-    } else {
-        incapacitated = false;
-        let inc_effects = token.actor.effects.filter(
-                e => e.data.flags?.core?.statusId === 'incapacitated').map(
-                    effect => {return effect.id})
-        await token.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
-        // Remove defeated mark in case it was marked as defeated before soak
-        game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token.id) {
-                combatant.update({defeated: false})
-            }
-        });
-    }
+    incapacitated = final_wounds > token.actor.data.data.wounds.max
+    await apply_status(token, 'incapacitated', incapacitated)
+    // Mark as defeated if the token is in a combat
+    game.combat?.combatants.forEach(combatant => {
+        if (combatant.token.id === token.id) {
+            game.combat.updateEmbeddedDocuments('Combatant',
+                [{_id: combatant.id, defeated: incapacitated}]);
+        }
+    });
     // We cap damage on actor number of wounds
     final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
     // Finally, we update actor and mark defeated
