@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.63 aka Small fix
+* States: Use system incapacitated status.
+
 ## Version 2.62 aka SWADE 1.0
 * Translations: Updates from the weblate team and brasilian updates from Bruno Calado
 * Compatibility: Update status code to use the new AEs.
