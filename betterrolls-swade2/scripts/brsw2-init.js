@@ -223,12 +223,14 @@ function register_settings_version2() {
         name: "System_Actions_disabled",
         default: [],
         type: Array,
+        scope: "world",
         config: false
     });
     game.settings.register('betterrolls-swade2', 'optional_rules_enabled', {
         name: "Optional rules enabled",
         default: [],
         type: Array,
+        scope: "world",
         config: false
     });
     game.settings.register('betterrolls-swade2', 'world_global_actions', {
