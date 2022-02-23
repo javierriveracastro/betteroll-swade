@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.64 aka more fixes
+* Bug: Use a somewhat better import system to avoid conflicts with DsN on the Forge
+* Cards: Soak rolls now support Iron Jaw.
+
 ## Version 2.63 aka Small fix
 * States: Use system incapacitated status.
 
