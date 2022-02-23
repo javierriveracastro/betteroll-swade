@@ -234,11 +234,17 @@ async function roll_soak(message, use_bennie) {
     if (ignored_wounds) {
         undo_wound_modifier = Math.max(0, undo_wound_modifier -ignored_wounds)
     }
+    let soak_modifiers = [{name: game.i18n.localize("BRSW.RemoveWounds"),
+        value: undo_wound_modifier}]
+    if (actor.items.find(item => {
+        return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+                game.i18n.localize("BRSW.EdgeName-IronJaw").toLowerCase())})) {
+        soak_modifiers.push({name: game.i18n.localize("BRSW.EdgeName-IronJaw"),
+            value: 2})
+    }
     const roll = await roll_trait(message,
         actor.data.data.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
-        '', {modifiers:[
-            {name: game.i18n.localize("BRSW.RemoveWounds"),
-                value: undo_wound_modifier}]});
+        '', {modifiers: soak_modifiers});
     let result = 0;
     roll.rolls.forEach(roll => {
         result = Math.max(roll.result, result);
