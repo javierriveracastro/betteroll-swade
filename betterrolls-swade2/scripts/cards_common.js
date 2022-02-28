@@ -469,6 +469,7 @@ export function get_roll_options(html, old_options){
         let tray_modifier = parseInt($("input.dice-tray__input").val());
         if (tray_modifier) {
             modifiers.push(tray_modifier);
+            $("input.dice-tray__input").val("0")
         }
     }
     return {additionalMods: modifiers, dmgMods: dmg_modifiers, tn: tn, rof: rof,
