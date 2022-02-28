@@ -892,6 +892,19 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         total_modifiers = __ret.total_modifiers;
         options = __ret.options;
     }
+    // Encumbrance
+    if (actor.isEncumbered) {
+        if (render_data.attribute_name === 'agility') {
+            modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+                value: -2})
+        } else {
+            const skill = actor.items.get(render_data.trait_id)
+            if (skill.data.data.attribute === 'agility') {
+                modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+                    value: -2})
+            }
+        }
+    }
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
     let dice = [];
@@ -1333,7 +1346,7 @@ export function process_minimum_str_modifiers(item, actor, name) {
 
 /**
  * Applies an active effect based status to either an actor or a token
- * @param {SwadeActor, Token, abstract.Document} target: Who to apply the status
+ * @param {SwadeActor, Token, Document} target: Who to apply the status
  * @param {string} status_name: Name of the status
  * @param {boolean} final_state: True if we want the status applied fal
  */
