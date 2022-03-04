@@ -140,6 +140,10 @@ function check_selector(type, value, item, actor){
         selected = actor.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
+    } else if (type === 'item_description_includes') {
+        console.log(item)
+        console.log(item?.data?.data?.description)
+        selected = item?.data?.data?.description.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'actor_has_effect') {
         // noinspection AnonymousFunctionJS
         const effect = actor.effects.find(
