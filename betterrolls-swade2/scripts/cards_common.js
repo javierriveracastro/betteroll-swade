@@ -134,8 +134,6 @@ export function create_basic_chat_data(origin, type){
  * @param {string} template:
  */
 export function create_render_options(actor, render_data, template, message) {
-    const item_id = message?.getFlag('betterrolls-swade2', 'item_id');
-    const item = actor.items.find((item) => item.id === item_id);
     render_data.bennie_avaliable = are_bennies_available(actor);
     render_data.actor = actor;
     render_data.result_master_only =
@@ -163,6 +161,7 @@ export function create_render_options(actor, render_data, template, message) {
         render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
+    const item = get_item_from_message(message, actor)
     if (actor.data.data.status.isStunned) {
         render_data.warning = game.i18n.localize("BRSW.CharacterIsStunned")
     } else if (actor.data.data.status.isShaken) {
@@ -172,12 +171,6 @@ export function create_render_options(actor, render_data, template, message) {
     } else {
         render_data.warning = ''
     }
-    /*
-    render_data.warning =
-        (actor.data.data.status.isStunned || actor.data.data.status.isShaken) ?
-        game.i18n.localize("BRSW.CharacterIsShaken") :
-        ''
-    */
     return render_data;
 }
 
