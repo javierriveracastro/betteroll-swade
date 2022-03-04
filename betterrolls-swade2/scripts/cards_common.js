@@ -67,7 +67,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
         actor = origin
     }
     let render_object = create_render_options(
-        actor, render_data, template)
+        actor, render_data, template, undefined)
     let chatData = create_basic_chat_data(origin, chat_type);
     chatData.content = await renderTemplate(template, render_object);
     let message = await ChatMessage.create(chatData);
@@ -132,8 +132,9 @@ export function create_basic_chat_data(origin, type){
  * @param {object} render_data: options for this card
  * @para item: An item object
  * @param {string} template:
+ * @param {ChatMessage} message
  */
-export function create_render_options(actor, render_data, template) {
+export function create_render_options(actor, render_data, template, message) {
     render_data.bennie_avaliable = are_bennies_available(actor);
     render_data.actor = actor;
     render_data.result_master_only =
@@ -161,7 +162,8 @@ export function create_render_options(actor, render_data, template) {
         render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
-    const item = actor.items.getName(render_data.header.title)
+    const item = message ? get_item_from_message(message, actor) :
+        actor.items.getName(render_data.header.title)
     if (actor.data.data.status.isStunned) {
         render_data.warning = game.i18n.localize("BRSW.CharacterIsStunned")
     } else if (actor.data.data.status.isShaken) {
@@ -472,10 +474,11 @@ export function get_roll_options(html, old_options){
                 element.classList.remove('brws-selected');
             }
         });
-        let tray_modifier = parseInt($("input.dice-tray__input").val());
+        const dice_tray_input = $("input.dice-tray__input")
+        let tray_modifier = parseInt(dice_tray_input.val());
         if (tray_modifier) {
             modifiers.push(tray_modifier);
-            $("input.dice-tray__input").val("0")
+            dice_tray_input.val("0")
         }
     }
     return {additionalMods: modifiers, dmgMods: dmg_modifiers, tn: tn, rof: rof,
@@ -628,7 +631,7 @@ export async function update_message(message, actor, render_data) {
         const item = get_item_from_message(message, actor);
         render_data.skill = get_item_trait(item, actor);
     }
-    create_render_options(actor, render_data, undefined);
+    create_render_options(actor, render_data, undefined, message);
     let new_content = await renderTemplate(render_data.template, render_data);
     // noinspection JSCheckFunctionSignatures
     new_content = TextEditor.enrichHTML(new_content, {});
