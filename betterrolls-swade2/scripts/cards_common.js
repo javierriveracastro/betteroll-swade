@@ -133,7 +133,8 @@ export function create_basic_chat_data(origin, type){
  * @para item: An item object
  * @param {string} template:
  */
-export function create_render_options(actor, render_data, template, message) {
+export function create_render_options(actor, render_data, template) {
+    console.log(actor, render_data, template)
     render_data.bennie_avaliable = are_bennies_available(actor);
     render_data.actor = actor;
     render_data.result_master_only =
@@ -161,7 +162,7 @@ export function create_render_options(actor, render_data, template, message) {
         render_data.skill_title = trait ? trait.name + ' ' +
             trait_to_string(trait.data.data) : '';
     }
-    const item = get_item_from_message(message, actor)
+    const item = actor.items.getName(render_data.header.title)
     if (actor.data.data.status.isStunned) {
         render_data.warning = game.i18n.localize("BRSW.CharacterIsStunned")
     } else if (actor.data.data.status.isShaken) {
@@ -628,7 +629,7 @@ export async function update_message(message, actor, render_data) {
         const item = get_item_from_message(message, actor);
         render_data.skill = get_item_trait(item, actor);
     }
-    create_render_options(actor, render_data, undefined, message);
+    create_render_options(actor, render_data, undefined);
     let new_content = await renderTemplate(render_data.template, render_data);
     // noinspection JSCheckFunctionSignatures
     new_content = TextEditor.enrichHTML(new_content, {});
