@@ -134,7 +134,6 @@ export function create_basic_chat_data(origin, type){
  * @param {string} template:
  */
 export function create_render_options(actor, render_data, template) {
-    console.log(actor, render_data, template)
     render_data.bennie_avaliable = are_bennies_available(actor);
     render_data.actor = actor;
     render_data.result_master_only =
@@ -907,7 +906,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
                 value: -2})
         } else {
             const skill = actor.items.get(render_data.trait_id)
-            if (skill.data.data.attribute === 'agility') {
+            if (skill && skill.data.data.attribute === 'agility') {
                 modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
             }
