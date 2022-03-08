@@ -55,14 +55,7 @@ export async function create_incapacitation_card(token_id) {
     const text = game.i18n.format("BRSW.IncapacitatedText",
         {token_name: token.name});
     const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor")
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
-    for (let status in actor.data.data.status) {
-        // noinspection JSUnfilteredForInLoop
-        if (actor.data.data.status[status]) {
-            // noinspection JSUnfilteredForInLoop
-            footer.push(status.slice(2));
-        }
-    }
+    let footer = status_footer(actor)
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
     {header: {type: '',
@@ -75,6 +68,21 @@ export async function create_incapacitation_card(token_id) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INC_CARD)
     return message
+}
+
+/**
+ * Creates a footer based in status that will be shared by various cards
+ */
+export function status_footer(actor) {
+    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
+    for (let status in actor.data.data.status) {
+        // noinspection JSUnfilteredForInLoop
+        if (actor.data.data.status[status]) {
+            // noinspection JSUnfilteredForInLoop
+            footer.push(status.slice(2));
+        }
+    }
+    return footer
 }
 
 /**

@@ -6,6 +6,7 @@ import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broo
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
+import {create_unshaken_card} from "./unshake_card.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -14,6 +15,7 @@ export const BRSW_CONST = {
     TYPE_DMG_CARD: 10,
     TYPE_INC_CARD: 11,
     TYPE_INJ_CARD: 12,
+    TYPE_UNSHAKE_CARD: 13,
     TYPE_RESULT_CARD: 100,
 };
 
@@ -167,7 +169,7 @@ export function create_render_options(actor, render_data, template, message) {
     if (actor.data.data.status.isStunned) {
         render_data.warning = game.i18n.localize("BRSW.CharacterIsStunned")
     } else if (actor.data.data.status.isShaken) {
-        render_data.warning = game.i18n.localize("BRSW.CharacterIsShaken")
+        render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
     } else if (item?.data.data.quantity <= 0) {
         render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
     } else {
@@ -265,6 +267,8 @@ export function activate_common_listeners(message, html) {
         html.find('.brws-actor-img').addClass('bound').click(async () => {
             await manage_sheet(actor)
         });
+        //
+        html.find('.br2-unshake-card').on('click', ()=>{create_unshaken_card(actor)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction

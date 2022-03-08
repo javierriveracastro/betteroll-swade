@@ -280,5 +280,8 @@
     "BRSW.EdgeName-Assassin": "assassin",
     "BRSW.SkillName-Research": "research",
     "BRSW.EdgeName-IronJaw": "Iron Jaw",
-    "BRSW.EdgeName-Investigator": "Investigator"
+    "BRSW.EdgeName-Investigator": "Investigator",
+    "BRSW.UnshakenText": "Pass a Spirit roll or expend a bennie to unshake",
+    "BRSW.Unshake": "Unshake",
+    "BRSW.SpiritRoll": "Roll spirit"
 }

@@ -1,0 +1,17 @@
+{{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
+<hr>
+<div>
+    {{{ text }}}
+</div>
+{{# if trait_roll.rolls }}
+    {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
+    {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
+{{ else }}
+    <hr>
+    <div class="brsw-button-row brsw-form">
+        <button class="brsw-vigor-button">
+            {{ localize 'BRSW.SpiritRoll' }}
+        </button>
+    </div>
+{{/if}}
+{{>"modules/betterrolls-swade2/templates/common_card_footer.html"}}
