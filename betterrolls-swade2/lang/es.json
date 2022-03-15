@@ -276,5 +276,8 @@
     "BRSW.EdgeName-Assassin": "Asesino",
     "BRSW.SkillName-Research": "Investigar",
     "BRSW.SkillName-Performance": "Interpretar",
-    "BRSW.EdgeName-IronJaw": "Mandíbula de hierro"
+    "BRSW.EdgeName-IronJaw": "Mandíbula de hierro",
+    "BRSW.UnshakeBennie": "Eliminado el aturdimiento al gastar un beni",
+    "BRSW.UnshakeSuccessfulRoll": "El aturdimiento se ha eliminado al tener éxito en la tirada de espiritu",
+    "BRSW.UnshakeFailure": "Se ha fallado la tirada de espiritu para eliminar el aturdimiento"
 }

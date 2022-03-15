@@ -283,5 +283,8 @@
     "BRSW.EdgeName-Investigator": "Investigator",
     "BRSW.UnshakenText": "Pass a Spirit roll or expend a bennie to unshake",
     "BRSW.Unshake": "Unshake",
-    "BRSW.SpiritRoll": "Roll spirit"
+    "BRSW.SpiritRoll": "Roll spirit",
+    "BRSW.UnshakeBennie": "Shaken removed after expending a bennie",
+    "BRSW.UnshakeSuccessfulRoll": "Shaken removed after passing a Spirit roll",
+    "BRSW.UnshakeFailure": "Failed to remove shaken rolling Spirit"
 }

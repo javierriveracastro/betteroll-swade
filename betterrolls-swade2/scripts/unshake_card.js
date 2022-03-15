@@ -2,12 +2,13 @@
 /* globals canvas, game, CONST */
 
 import {get_owner} from "./damage_card.js";
-import {BRSW_CONST, BRWSRoll, create_common_card} from "./cards_common.js";
-import {create_incapacitation_card, create_injury_card, status_footer} from "./incapacitation_card.js";
+import {apply_status, BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
+    roll_trait, spend_bennie, update_message} from "./cards_common.js";
+import {status_footer} from "./incapacitation_card.js";
 
 /**
  * Shows the unshaken card
- * @param {Actor} actor
+ * @param {SwadeActor} actor
  */
 export async function create_unshaken_card(actor) {
     if (! actor.data.data.status.isShaken) {return}
@@ -30,12 +31,12 @@ export async function create_unshaken_card(actor) {
 }
 
 /**
- * Activate the listeners of the unshke card
+ * Activate the listeners of the unshake card
  * @param message: Message data
  * @param html: Html produced
  */
 export function activate_unshake_card_listeners(message, html) {
-    html.find('.brsw-spirit-button').click((ev) =>{
+    html.find('.brsw-spirit-button, .brsw-roll-button').click((ev) =>{
         let spend_bennie = false
         if (ev.currentTarget.classList.contains('roll-bennie-button') ||
                 ev.currentTarget.classList.contains('brsw-soak-button')) {
@@ -50,14 +51,32 @@ export function activate_unshake_card_listeners(message, html) {
 /**
  * Checks if a benny has been expended and rolls to remove shaken
  * @param {ChatMessage} message
- * @param {Boolean} spend_bennie
+ * @param {Boolean} use_bennie
  */
-function roll_unshaken(message, spend_bennie) {
-    if (spend_bennie) {
+async function roll_unshaken(message, use_bennie) {
+    const render_data = message.getFlag('betterrolls-swade2',
+        'render_data');
+    const actor = get_actor_from_message(message);
+    if (use_bennie) {
         // remove shaken
-        console.log("Bennie expended")
+        await spend_bennie(actor)
+        render_data.text = game.i18n.localize("BRSW.UnshakeBennie")
+        await apply_status(actor, 'shaken', false)
     } else {
         // Make the roll
-        console.log("Rolled")
+        const roll = await roll_trait(message,
+            actor.data.data.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
+            '', {});
+        let result = 0;
+        roll.rolls.forEach(roll => {
+            result = Math.max(roll.result, result);
+        })
+        if (result >= 4) {
+            render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
+            await apply_status(actor, 'shaken', false)
+        } else {
+            render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+        }
     }
+    await update_message(message, actor, render_data);
 }
