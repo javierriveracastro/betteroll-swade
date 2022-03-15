@@ -13,6 +13,7 @@ import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from ".
 import {activate_incapacitation_card_listeners} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
+import {activate_unshake_card_listeners} from "./unshake_card.js";
 
 // Startup scripts
 
@@ -83,6 +84,8 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_damage_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_INC_CARD) {
             activate_incapacitation_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_UNSHAKE_CARD) {
+            activate_unshake_card_listeners(message, html);
         }
         // Hide forms to non-master, non owner
         if (game.user.id !== message.data.user && !game.user.isGM) {
