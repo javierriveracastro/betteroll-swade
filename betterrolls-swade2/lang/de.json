@@ -279,5 +279,7 @@
     "BRSW.EdgeName-Assassin": "Assassine",
     "BRSW.SkillName-Research": "Recherche",
     "BRSW.EdgeName-IronJaw": "Eisenkiefer",
-    "BRSW.EdgeName-Investigator": "Ermittler"
+    "BRSW.EdgeName-Investigator": "Ermittler",
+    "BRSW.QuantityIsZero": "Die Anzahl des Gegenstands ist Null",
+    "BRSW.CharacterIsStunned": "Der Charakter ist betäubt"
 }
