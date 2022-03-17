@@ -281,5 +281,10 @@
     "BRSW.EdgeName-IronJaw": "Eisenkiefer",
     "BRSW.EdgeName-Investigator": "Ermittler",
     "BRSW.QuantityIsZero": "Die Anzahl des Gegenstands ist Null",
-    "BRSW.CharacterIsStunned": "Der Charakter ist betäubt"
+    "BRSW.CharacterIsStunned": "Der Charakter ist betäubt",
+    "BRSW.Unshake": "Nicht mehr angeschlagen",
+    "BRSW.SpiritRoll": "Willenskraftprobe",
+    "BRSW.UnshakeBennie": "Angeschlagen durch Ausgabe eines Bennys entfernt",
+    "BRSW.UnshakeSuccessfulRoll": "Erfolgreiche Willenskraftprobe: Der Charakter ist nicht mehr Angeschlagen.",
+    "BRSW.UnshakenText": "Bestehe eine Willenskraftprobe oder gib einen Benny aus, um nicht mehr Angeschlagen zu sein."
 }
