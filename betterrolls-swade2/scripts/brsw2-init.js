@@ -403,6 +403,14 @@ function register_settings_version2() {
         },
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'swd-unshake', {
+        name: game.i18n.localize("BRSW.SWD-Unshake"),
+        hint: game.i18n.localize("BRSW.SWD-UnshakeHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.

@@ -63,20 +63,109 @@ async function roll_unshaken(message, use_bennie) {
         render_data.text = game.i18n.localize("BRSW.UnshakeBennie")
         await apply_status(actor, 'shaken', false)
     } else {
+        // Check for Edges & Abilities
+        const modifiers = await check_abilities(actor)
         // Make the roll
         const roll = await roll_trait(message,
             actor.data.data.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
-            '', {});
+            '', {modifiers: modifiers});
         let result = 0;
         roll.rolls.forEach(roll => {
             result = Math.max(roll.result, result);
         })
-        if (result >= 4) {
-            render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
-            await apply_status(actor, 'shaken', false)
+        if (game.settings.get('betterrolls-swade2', 'swd-unshake') === true) {
+            if (result >= 4 && result < 8) {
+                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRollSWD")
+                await apply_status(actor, 'shaken', false)
+            } else if (result >= 8) {
+                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
+                await apply_status(actor, 'shaken', false)
+            } else {
+                render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+            }
         } else {
-            render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+            if (result >= 4) {
+                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
+                await apply_status(actor, 'shaken', false)
+            } else {
+                render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+            }
         }
     }
     await update_message(message, actor, render_data);
+    Hooks.call("BRSW-Unshake", message, actor)
+}
+
+async function check_abilities(actor) {
+    let edgeAndAbilityNames = [
+        game.i18n.localize("BRSW.EdgeName-CombatReflexes"), // index #0
+        game.i18n.localize("BRSW.AbilityName-Demon_Hellfrost"), // index #1
+        game.i18n.localize("BRSW.AbilityName-Construct"), // index #2
+        game.i18n.localize("BRSW.AbilityName-Undead"), // index #3
+        game.i18n.localize("BRSW.AbilityName-Amorphous_theAfter") // index #4
+    ]
+    // Making all lower case:
+    edgeAndAbilityNames = edgeAndAbilityNames.map(name => name.toLowerCase())
+    // Check if these have an AE (using .entries() to now loose the index):
+    for (let [index, value] of edgeAndAbilityNames.entries()) {
+        let effect = actor.effects.find(ae => ae.data.label.toLowerCase() === value)
+        // Only splice if the AE affects the generic bonus:
+        let affectsUnshake = false
+        if (effect) {
+            for (let change of effect.data.changes) {
+                if (change.key === "data.attributes.spirit.unShakeBonus") { affectsUnshake = true }
+            }
+        }
+        // Remove from list if ae is present and affects the generic bonus:
+        if (effect && affectsUnshake === true) {
+            edgeAndAbilityNames.splice(index, 1)
+        }
+    }
+    // Adding AE bonuses
+    let effectName = [];
+    let effectValue = [];
+    for (let effect of actor.data.effects) {
+        if (effect.data.disabled === false) { // only apply changes if effect is enabled
+            for (let change of effect.data.changes) {
+                if (change.key === "data.attributes.spirit.unShakeBonus") {
+                    //Building array of effect names and icons that affect the unShakeBonus
+                    effectName.push(effect.data.label);
+                    effectValue.push(change.value);
+                }
+            }
+        }
+    }
+    // Get generic modifier
+    let genericMod = actor.data.data.attributes.spirit.unShakeBonus
+    if (effectValue.length > 0 && genericMod != 0) {
+        for (let each of effectValue) {
+            genericMod = genericMod - each
+        }
+    }
+    // Checking if the actor has the Edges and Abilities:
+    const edgesAndAbilities = actor.data.items.filter(function (item) {
+        return edgeAndAbilityNames.includes(item.name.toLowerCase()) && (item.type === "edge" || item.type === "ability");
+    })
+
+    // Building the final array of modifiers ready to be passed:
+    let modifiers = []
+    for (let each of edgesAndAbilities) {
+        modifiers.push({
+            name: each.name,
+            value: 2
+        })
+    } for (let i = 0; i < effectName.length; i++) {
+        modifiers.push({
+            name: effectName[i],
+            value: parseFloat(effectValue[i])
+        })
+    } if (genericMod != 0) {
+        modifiers.push({
+            name: "Generic Modifier",
+            value: genericMod
+        })
+    }
+
+    // Returning the modifiers array:
+    return modifiers
 }
