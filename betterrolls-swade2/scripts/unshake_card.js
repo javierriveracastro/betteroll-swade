@@ -1,5 +1,5 @@
 // functions for the unshake and maybe un-stun card //
-/* globals canvas, game, CONST */
+/* globals canvas, game, CONST, Hooks */
 
 import {get_owner} from "./damage_card.js";
 import {apply_status, BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
@@ -73,23 +73,15 @@ async function roll_unshaken(message, use_bennie) {
         roll.rolls.forEach(roll => {
             result = Math.max(roll.result, result);
         })
-        if (game.settings.get('betterrolls-swade2', 'swd-unshake') === true) {
-            if (result >= 4 && result < 8) {
+        if (result >= 4) {
+            if (game.settings.get('betterrolls-swade2', 'swd-unshake') === true && result < 8) {
                 render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRollSWD")
-                await apply_status(actor, 'shaken', false)
-            } else if (result >= 8) {
-                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
-                await apply_status(actor, 'shaken', false)
             } else {
-                render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
             }
+            await apply_status(actor, 'shaken', false)
         } else {
-            if (result >= 4) {
-                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
-                await apply_status(actor, 'shaken', false)
-            } else {
-                render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
-            }
+            render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
         }
     }
     await update_message(message, actor, render_data);
@@ -106,7 +98,7 @@ async function check_abilities(actor) {
     ]
     // Making all lower case:
     edgeAndAbilityNames = edgeAndAbilityNames.map(name => name.toLowerCase())
-    // Check if these have an AE (using .entries() to now loose the index):
+    // Check if these have an AE (using .entries() to not loose the index):
     for (let [index, value] of edgeAndAbilityNames.entries()) {
         let effect = actor.effects.find(ae => ae.data.label.toLowerCase() === value)
         // Only splice if the AE affects the generic bonus:
@@ -137,7 +129,7 @@ async function check_abilities(actor) {
     }
     // Get generic modifier
     let genericMod = actor.data.data.attributes.spirit.unShakeBonus
-    if (effectValue.length > 0 && genericMod != 0) {
+    if (effectValue.length > 0 && genericMod !== 0) {
         for (let each of effectValue) {
             genericMod = genericMod - each
         }
@@ -147,25 +139,24 @@ async function check_abilities(actor) {
         return edgeAndAbilityNames.includes(item.name.toLowerCase()) && (item.type === "edge" || item.type === "ability");
     })
 
-    // Building the final array of modifiers ready to be passed:
+    // Building the final array of modifiers to be passed:
     let modifiers = []
     for (let each of edgesAndAbilities) {
         modifiers.push({
             name: each.name,
             value: 2
-        })
-    } for (let i = 0; i < effectName.length; i++) {
+        })}
+    for (let i = 0; i < effectName.length; i++) {
         modifiers.push({
             name: effectName[i],
             value: parseFloat(effectValue[i])
-        })
-    } if (genericMod != 0) {
+        })}
+    if (genericMod !== 0) {
         modifiers.push({
             name: "Generic Modifier",
             value: genericMod
         })
     }
-
     // Returning the modifiers array:
     return modifiers
 }
