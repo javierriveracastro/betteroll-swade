@@ -131,6 +131,7 @@ export function activate_attribute_listeners(app, html) {
         const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
             ev.currentTarget.parentElement.dataset.attribute
         let macro_data = {name: attribute_name, type: "script", scope: "global"}
+        const bt = "`"
         macro_data.command = `/*######### USAGE #########
 
 When you click this macro or drag it on to a target, the card displayed and rolls made will be determined by whether you are holding down Ctrl, Alt, Shift, or none. Configured in Better Rolls 2 Module Settings.
@@ -151,7 +152,7 @@ if (event) {
     }
     if (macro_behavior === 'trait' || macro_behavior === 'trait_damage') {
         // Display Better Rolls 2 card and roll trait
-        game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}').then(
+        game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', ${bt}${attribute_name}${bt}).then(
             message => {
                 game.brsw.roll_attribute(message, "");
             }
@@ -159,14 +160,14 @@ if (event) {
     } else if (macro_behavior === 'system') {
         // Display default system card
         let actor = game.actors.get('${actor_id}');
-        actor.rollAttribute('${attribute_name}');
+        actor.rollAttribute(${bt}${attribute_name}${bt});
     } else {
         // Display Better Rolls 2 card
-        game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}');
+        game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', ${bt}${attribute_name}${bt});
     }
 } else {
     // Event not found, Display Better Rolls 2 card
-    game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', '${attribute_name}');
+    game.brsw.create_attribute_card_from_id('${token_id}', '${actor_id}', ${bt}${attribute_name}${bt});
 }`;
         ev.originalEvent.dataTransfer.setData(
             'text/plain', JSON.stringify({type:'Macro', data: macro_data}));

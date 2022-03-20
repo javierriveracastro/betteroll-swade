@@ -140,10 +140,11 @@ Hooks.on('dropCanvasData', (canvas, item) => {
 });
 
 function create_macro_command(data) {
+    const bt = "`"
     return `
             let behaviour = game.brsw.get_action_from_click(event);
             if (behaviour === 'system') {
-                game.swade.rollItemMacro('${data.data.name}');
+                game.swade.rollItemMacro(${bt}${data.data.name}${bt});
                 return;
             }
             let message;
