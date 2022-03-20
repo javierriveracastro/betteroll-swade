@@ -60,7 +60,7 @@ async function roll_unshaken(message, use_bennie) {
     if (use_bennie) {
         // remove shaken
         await spend_bennie(actor)
-        render_data.text = game.i18n.localize("BRSW.UnshakeBennie")
+        render_data.text = game.i18n.format("BRSW.UnshakeBennie", {name: actor.name})
         await apply_status(actor, 'shaken', false)
     } else {
         // Check for Edges & Abilities
@@ -75,13 +75,13 @@ async function roll_unshaken(message, use_bennie) {
         })
         if (result >= 4) {
             if (game.settings.get('betterrolls-swade2', 'swd-unshake') === true && result < 8) {
-                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRollSWD")
+                render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRollSWD", {name: actor.name})
             } else {
-                render_data.text = game.i18n.localize("BRSW.UnshakeSuccessfulRoll")
+                render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRoll", {name: actor.name})
             }
             await apply_status(actor, 'shaken', false)
         } else {
-            render_data.text = game.i18n.localize("BRSW.UnshakeFailure")
+            render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: actor.name})
         }
     }
     await update_message(message, actor, render_data);
