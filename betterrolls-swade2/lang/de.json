@@ -284,8 +284,15 @@
     "BRSW.CharacterIsStunned": "Der Charakter ist betäubt",
     "BRSW.Unshake": "Erholung vom Angeschlagen-Sein",
     "BRSW.SpiritRoll": "Willenskraftprobe",
-    "BRSW.UnshakeBennie": "Benny ausgegeben: Der Charakter ist nicht mehr Angeschlagen.",
-    "BRSW.UnshakeSuccessfulRoll": "Erfolgreiche Willenskraftprobe: Der Charakter ist nicht mehr Angeschlagen.",
+    "BRSW.UnshakeBennie": "{name} gibt einen Benny aus und ist nicht mehr Angeschlagen.",
+    "BRSW.UnshakeSuccessfulRoll": "{name} legt eine erfolgreiche Willenskraftprobe ab und ist nicht mehr Angeschlagen.",
     "BRSW.UnshakenText": "Bestehe eine Willenskraftprobe oder gib einen Benny aus, um nicht mehr Angeschlagen zu sein.",
-    "BRSW.UnshakeFailure": "Nach einer fehlgeschlagenen Willenskraftprobe bleibt der Charakter Angeschlagen."
+    "BRSW.UnshakeFailure": "{name} bleibt nach einer fehlgeschlagenen Willenskraftprobe Angeschlagen.",
+    "BRSW.UnshakeSuccessfulRollSWD": "{name} legt eine erfolgreiche Willenskraftprobe ab und entfernt Angeschlagen, kann aber bis zum nächsten Zug nicht agieren.",
+    "BRSW.SWD-Unshake": "Nutze Gentlemans Edition Regeln zur Erholung von Angeschlagen",
+    "BRSW.EdgeName-CombatReflexes": "Kampfreflexe",
+    "BRSW.AbilityName-Undead": "Untot",
+    "BRSW.AbilityName-Construct": "Konstrukt",
+    "BRSW.AbilityName-Demon_Hellfrost": "Dämon",
+    "BRSW.SWD-UnshakeHint": "Nutze die Gentlemans Edition Regeln für die Erholung von Angeschlagen (es ist eine Erhöhung nötig, um direkt agieren zu können)."
 }
