@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.66 aka that feature no one ask for
+* Cards: New card to roll to remove shaken, accesible from the saken message on nay card
+* Translations: More updates from the incredible weblate team
+* Bug: Trait modifiers where applied but not shown on the messsage in recent Foundry versions
+* Macros: Macros now support quotes on item names
+
 ## Version 2.65 aka when its heavy it hurts
 * Bug: Optional rules and actions are now correctly scoped to world, not client
 * Translations: Updates from the weblate team
