@@ -287,7 +287,7 @@
     "BRSW.UnshakeBennie": "{name} removed shaken after expending a bennie",
     "BRSW.UnshakeSuccessfulRoll": "{name} passed a Spirit roll, removing shaken",
     "BRSW.UnshakeFailure": "{name} failed its spirit roll to remove shaken",
-    "BRSW.UnshakeSuccessfulRollSWD": "{name} removed after passing a Spirit roll but is unable to act until next turn",
+    "BRSW.UnshakeSuccessfulRollSWD": "{name} removed shaken after passing a Spirit roll but is unable to act until next turn",
     "BRSW.SWD-Unshake": "Use SWD rules to unshake",
     "BRSW.SWD-UnshakeHint": "Use the Savage Wordls Deluxe rules to unshake (raise needed to act immediately)",
     "BRSW.EdgeName-CombatReflexes": "Combat Reflexes",
