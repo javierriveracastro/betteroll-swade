@@ -994,7 +994,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const actor = get_actor_from_message(message)
     const item_id = message.getFlag('betterrolls-swade2', 'item_id');
     const item = actor.items.find((item) => item.id === item_id);
-    let raise_formula = '+1d6x';
+    const raise_die_size = item.data.data.bonusDamageDie || 6
+    let raise_formula = `+1d${raise_die_size}x`;
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     let total_modifiers = 0;
