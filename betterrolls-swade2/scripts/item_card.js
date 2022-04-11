@@ -899,7 +899,7 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
     return new_roll_formula.slice(0, new_roll_formula.length - 1)
 }
 
-
+// TODO: Refactor damage rolls. Pass less paramethers, let actions affect ap.
 async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data) {
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
@@ -1007,15 +1007,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         // Bet that this is shotgun
         roll_formula = '3d6'
     }
-    // Betterrolls modifiers
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
+    // Betterrolls modifiers
     options.dmgMods.forEach(mod => {
         const new_mod = create_modifier('Better Rolls', mod)
         damage_roll.brswroll.modifiers.push(new_mod);
         total_modifiers += new_mod.value;
     })
     // Action mods
-    // noinspection JSUnresolvedVariable
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
         const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
