@@ -51,6 +51,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * rof: Numer of trait dice rolled.
 * tnOverride: A number that is set as the tn of the roll. Note that this takes precedence from other ways of setting the target number like targeting.
 * extra_text: Extra text to be shown in the card, it accepts HTML.
+* overrideAp: Override the Armor Penetration value of the item.
 
 **Selector fields:**
 

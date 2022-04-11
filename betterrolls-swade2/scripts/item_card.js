@@ -900,7 +900,7 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 }
 
 // TODO: Refactor damage rolls. Pass less paramethers, let actions affect ap.
-async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data) {
+async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data, ap) {
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollShortcuts();
@@ -913,7 +913,7 @@ async function roll_dmg_target(damage_roll, actor, formula, raise_formula, targe
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
-            armor: defense_values.armor, ap: parseInt(item.data.data.ap) || 0,
+            armor: defense_values.armor, ap: ap || 0,
             target_id: defense_values.token_id || 0
         });
     let last_string_term = ''
@@ -1002,6 +1002,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
     let roll_formula = item.data.data.damage;
+    let ap = parseInt(item.data.data.ap)
     // Shotgun
     if (roll_formula === '1-3d6' && item.type === 'weapon') {
         // Bet that this is shotgun
@@ -1070,6 +1071,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (action.raiseDamageFormula) {
                 raise_formula = action.raiseDamageFormula;
             }
+            if (action.overrideAp) {
+                ap = action.overrideAp;
+            }
             if (action.rerollDamageMod && expend_bennie) {
                 const reroll_mod = create_modifier(
                     action.name, action.rerollDamageMod)
@@ -1100,7 +1104,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     if (! raise) {raise_formula = ''}
     for (let target of targets) {
-        await roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data);
+        await roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data, ap);
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
