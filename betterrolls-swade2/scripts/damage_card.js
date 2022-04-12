@@ -73,18 +73,21 @@ function damage_card_footer(actor){
  * @param {SwadeActor} actor
  */
 export function get_owner(actor) {
+    let owner;
     let player;
     let gm;
     game.users.forEach(user => {
         if (user.isGM) {
             gm = user
         } else {
-            if (user.character && user.character.id === actor.id) {
+            if (user.character?.id === actor.id) {
+                owner = user
+            } else if (actor.getUserLevel(user) > 2) {
                 player = user
             }
         }
     })
-    return player || gm;
+    return owner || player || gm;
 }
 
 
