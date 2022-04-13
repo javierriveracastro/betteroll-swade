@@ -225,7 +225,6 @@ export function is_throwing_skill(skill) {
  * Calculates de distance between tokens
  * @param origin_token
  * @param target_token
- * @param use_parry_as_tn
  * @param item
  * @param tn
  * @return {boolean} True if parry should be used as the tn (tokens are adjacent)
@@ -234,7 +233,7 @@ function calculate_distance(origin_token, target_token, item, tn) {
     const grid_unit = canvas.grid.grid.options.dimensions.distance
     let use_parry_as_tn = false
     let distance = canvas.grid.measureDistance(
-        origin_token, target_token);
+        origin_token.center, target_token.center);
     if (distance < grid_unit * 2) {
         use_parry_as_tn = true;
     } else if (item) {
