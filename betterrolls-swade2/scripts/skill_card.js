@@ -222,6 +222,49 @@ export function is_throwing_skill(skill) {
 }
 
 /**
+ * Calculates de distance between tokens
+ * @param origin_token
+ * @param target_token
+ * @param use_parry_as_tn
+ * @param item
+ * @param tn
+ * @return {boolean} True if parry should be used as the tn (tokens are adjacent)
+ */
+function calculate_distance(origin_token, target_token, item, tn) {
+    const grid_unit = canvas.grid.grid.options.dimensions.distance
+    let use_parry_as_tn = false
+    let distance = canvas.grid.measureDistance(
+        origin_token, target_token);
+    if (distance < grid_unit * 2) {
+        use_parry_as_tn = true;
+    } else if (item) {
+        const range = item.data.data.range.split('/')
+        if (grid_unit % 5 === 0) {
+            distance = distance / 5;
+        }
+        if (origin_token.data.elevation !== target_token.data.elevation) {
+            let h_diff = Math.abs(
+                origin_token.data.elevation - target_token.data.elevation)
+            distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
+        }
+        let distance_penalty = 0;
+        for (let i = 0; i < 3 && i < range.length; i++) {
+            let range_int = parseInt(range[i])
+            if (range_int && range_int < distance) {
+                distance_penalty = i < 2 ? (i + 1) * 2 : 8;
+            }
+        }
+        if (distance_penalty) {
+            tn.modifiers.push(create_modifier(
+                game.i18n.localize("BRSW.Range") + " " +
+                distance.toFixed(2),
+                -distance_penalty))
+        }
+    }
+    return use_parry_as_tn;
+}
+
+/**
  * Get a target number and modifiers from a token appropriated to a skill
  *
  * @param {Item} skill
@@ -232,44 +275,15 @@ export function is_throwing_skill(skill) {
 export function get_tn_from_token(skill, target_token, origin_token, item) {
     let tn = {reason: game.i18n.localize("BRSW.Default"), value: 4,
         modifiers:[]};
-    let use_parry_as_tn = false;
+    let use_parry_as_tn = true;
     if (is_skill_fighting(skill)) {
-        use_parry_as_tn = true;
         const gangup_bonus = calculate_gangUp(origin_token, target_token)
         if (gangup_bonus) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Gangup"), gangup_bonus));
         }
     } else if (is_shooting_skill(skill) || is_throwing_skill(skill)) {
-        const grid_unit = canvas.grid.grid.options.dimensions.distance
-        let distance = canvas.grid.measureDistance(
-            origin_token, target_token);
-        if (distance < grid_unit * 2) {
-            use_parry_as_tn = true;
-        } else if (item) {
-            const range = item.data.data.range.split('/')
-            if (grid_unit % 5 === 0) {
-                distance = distance / 5;
-            }
-            if (origin_token.data.elevation !== target_token.data.elevation) {
-                let h_diff = Math.abs(
-                    origin_token.data.elevation - target_token.data.elevation)
-                distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
-            }
-            let distance_penalty = 0;
-            for (let i=0; i<3 && i<range.length; i++) {
-                let range_int = parseInt(range[i])
-                if (range_int && range_int < distance) {
-                    distance_penalty = i < 2 ? (i + 1) * 2 : 8;
-                }
-            }
-            if (distance_penalty) {
-                tn.modifiers.push(create_modifier(
-                    game.i18n.localize("BRSW.Range") + " " +
-                            distance.toFixed(2),
-                     - distance_penalty))
-            }
-        }
+        use_parry_as_tn = calculate_distance(origin_token, target_token, item, tn);
     }
     if (use_parry_as_tn) {
         if (target_token.actor.data.type !== "vehicle") {
