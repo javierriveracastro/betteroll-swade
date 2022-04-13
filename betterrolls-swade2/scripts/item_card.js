@@ -290,6 +290,9 @@ export function activate_item_card_listeners(message, html) {
         if (type === 'cone') {
             templateData.t = 'cone'
             templateData.distance = 9
+        } else if (type === 'stream')  {
+            templateData.t = 'ray'
+            templateData.distance = 12
         } else {
             templateData.t = 'circle'
             templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
@@ -1475,7 +1478,8 @@ function get_template_from_description(item){
         cone: ['BRSW.Cone', 'cone'],
         sbt: ['BRSW.SmallTemplate', 'sbt', 'small blast'],
         mbt: ['BRSW.MediumTemplate', 'mbt', 'medium blast'],
-        lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast']
+        lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast'],
+        stream: ['BRSW.StreamTemplate', 'stream']
     }
     if (item.type !== 'weapon' && item.type !== "power") {return}
     let templates_found = []
