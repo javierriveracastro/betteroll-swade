@@ -268,7 +268,7 @@ export function activate_common_listeners(message, html) {
             await manage_sheet(actor)
         });
         //
-        html.find('.br2-unshake-card').on('click', ()=>{create_unshaken_card(actor)})
+        html.find('.br2-unshake-card').on('click', ()=>{create_unshaken_card(message)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
