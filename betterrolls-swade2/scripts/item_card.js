@@ -1027,7 +1027,14 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += new_mod.value
     }
     // Joker
-    if (has_joker(message.getFlag('betterrolls-swade2', 'token'))) {
+    let token_id = message.getFlag('betterrolls-swade2', 'token')
+    if (! token_id) {
+        const possible_tokens = actor.getActiveTokens()
+        if (possible_tokens.length) {
+            token_id = possible_tokens[0].id
+        }
+    }
+    if (has_joker(token_id)) {
         damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
         total_modifiers += 2;
     }
