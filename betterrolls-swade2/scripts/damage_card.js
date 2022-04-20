@@ -1,5 +1,5 @@
 // Functions for the damage card
-/* global game, canvas, CONST, Token, CONFIG */
+/* global game, canvas, CONST, Token, CONFIG, Hooks */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
     roll_trait, spend_bennie, update_message, apply_status
@@ -44,6 +44,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_DMG_CARD)
+    Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, message);
     return message
 }
 
@@ -158,6 +159,8 @@ async function apply_damage(token, wounds, soaked=0) {
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
     await apply_status(token, 'shaken', final_shaken)
+    Hooks.call("BRSW-AfterApplyDamage", token, final_wounds, final_shaken,
+        incapacitated, initial_wounds, initial_shaken, soaked);
     return {text: text, incapacitated: incapacitated};
 }
 
