@@ -263,7 +263,6 @@ async function roll_soak(message, use_bennie) {
     if (result >= 4) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds})
-        await apply_status(actor, 'shaken', render_data.undo_values.shaken)
         const damage_result = (await apply_damage(message.getFlag(
             'betterrolls-swade2', 'token'), render_data.wounds,
             render_data.soaked));
