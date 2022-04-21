@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.67 aka lots of thins
+* Actions: Use the bonus damage die size from the actions tab in items
+* Goblal actions: can now override AP.
+* Cards: Now users can roll incapacitation, unshake and injuries for an owned actor different from his character
+* Cards: Stream templates (pathfinder) are now supported in cards
+* Refactor: Extract distance calculations to its own method
+* Cards: Distance are now measured from token centers, making big tokens measurements consistent
+* Bug: Synthetic actors (i.e. unlinked tokens) now apply the correct modifiers to unshake rolls
+* Bug: Now actors in combat opened from the sidebar apply joker bonus correctly
+* Hooks: Added some hooks to the damage cards to let other modules easier interact
+* Bugs: When soaking shaken is not longer removed and applied when it should remain.
+* Translations: The usual batch of translations updates from the weblate team
+* Translations: Updata to the italian translation (Idlebrant)
+
 ## Version 2.66 aka that feature no one ask for
 * Cards: New card to roll to remove shaken, accesible from the saken message on nay card (most work done by SalieriC)
 * Translations: More updates from the incredible weblate team
