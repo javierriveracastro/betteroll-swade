@@ -675,11 +675,10 @@ export function check_and_roll_conviction(actor) {
  * @param extra_data
  * @param options
  * @param html
- * @param rof
  * @param trait_dice
  * @param roll_options: An object with the current roll_options
  */
-function get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, roll_options) {
+function get_new_roll_options(actor, message, extra_options, extra_data, options, html, trait_dice, roll_options) {
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -709,7 +708,7 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         extra_options.rof = extra_data.rof;
     }
     options = get_roll_options(html, extra_options);
-    rof = options.rof || 1;
+    roll_options.rof = options.rof || 1;
     // Trait modifier
     if (parseInt(trait_dice.die.modifier)) {
         const mod_value = parseInt(trait_dice.die.modifier)
@@ -796,15 +795,15 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
     }
-    return {options, rof};
+    return options;
 }
 
 /**
  * Get the options for a reroll
  */
-function get_reroll_options(rof, actor, render_data, roll_options, extra_data, options) {
+function get_reroll_options(actor, render_data, roll_options, extra_data, options) {
     // Reroll, keep old options
-    rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
+    roll_options.rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
     roll_options.modifiers = render_data.trait_roll.modifiers;
     let reroll_mods_applied = false;
     roll_options.modifiers.forEach(mod => {
@@ -832,7 +831,7 @@ function get_reroll_options(rof, actor, render_data, roll_options, extra_data, o
     render_data.trait_roll.old_rolls.push(
         render_data.trait_roll.rolls);
     render_data.trait_roll.rolls = [];
-    return {rof, options};
+    return options;
 }
 
 async function show_3d_dice(roll, message, modifiers) {
@@ -895,18 +894,13 @@ function create_roll_string(trait_dice, rof) {
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
-    let roll_options = {total_modifiers: 0, modifiers: []}
-    let rof;
+    let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let extra_options = {};
     let options = {};
     if (!render_data.trait_roll.rolls.length) {
-        const __ret = get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, roll_options);
-        options = __ret.options;
-        rof = __ret.rof;
+        options = get_new_roll_options(actor, message, extra_options, extra_data, options, html, trait_dice, roll_options);
     } else {
-        const __ret = get_reroll_options(rof, actor, render_data, roll_options, extra_data, options);
-        rof = __ret.rof;
-        options = __ret.options;
+        options = get_reroll_options(actor, render_data, roll_options, extra_data, options);
     }
     // Encumbrance
     if (actor.isEncumbered) {
@@ -926,7 +920,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
     let dice = [];
-    let roll_string = create_roll_string(trait_dice, rof);
+    let roll_string = create_roll_string(trait_dice, roll_options.rof);
     // Make penalties red
     for (let mod of roll_options.modifiers) {
         if (mod.value < 0) {
