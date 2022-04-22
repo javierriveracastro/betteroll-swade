@@ -283,7 +283,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         }
     } else  {
         use_parry_as_tn =
-            calculate_distance(origin_token, target_token, item, tn) <  2;
+            calculate_distance(origin_token, target_token, item, tn);
     }
     if (use_parry_as_tn) {
         if (target_token.actor.data.type !== "vehicle") {
