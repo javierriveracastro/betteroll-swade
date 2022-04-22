@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2.68 aka KISS for the win
+## Version 2.68 aka remote controlling Sal to release a hotfix
 * Bug: Powers no longer use the targets Parry as Target Number on range.
 
 ## Version 2.67 aka lots of thins
