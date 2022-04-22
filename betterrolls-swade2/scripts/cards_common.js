@@ -677,10 +677,9 @@ export function check_and_roll_conviction(actor) {
  * @param html
  * @param rof
  * @param trait_dice
- * @param modifiers
  * @param roll_options: An object with the current roll_options
  */
-function get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, modifiers, roll_options) {
+function get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, roll_options) {
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -714,34 +713,34 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
     // Trait modifier
     if (parseInt(trait_dice.die.modifier)) {
         const mod_value = parseInt(trait_dice.die.modifier)
-        modifiers.push(create_modifier(
+        roll_options.modifiers.push(create_modifier(
             game.i18n.localize("BRSW.TraitMod"), mod_value))
         roll_options.total_modifiers += mod_value;
     }
     // Betterrolls modifiers
     options.additionalMods.forEach(mod => {
         const mod_value = parseInt(mod);
-        modifiers.push(create_modifier('Better Rolls', mod_value))
+        roll_options.modifiers.push(create_modifier('Better Rolls', mod_value))
         roll_options.total_modifiers += mod_value;
     })
     // Wounds
     const woundPenalties = actor.calcWoundPenalties();
     if (woundPenalties !== 0) {
-        modifiers.push(create_modifier(
+        roll_options.modifiers.push(create_modifier(
             game.i18n.localize('SWADE.Wounds'), woundPenalties))
         roll_options.total_modifiers += woundPenalties;
     }
     // Fatigue
     const fatiguePenalties = actor.calcFatiguePenalties();
     if (fatiguePenalties !== 0) {
-        modifiers.push(create_modifier(
+        roll_options.modifiers.push(create_modifier(
             game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
         roll_options.total_modifiers += fatiguePenalties;
     }
     // Own status
     const statusPenalties = actor.calcStatusPenalties();
     if (statusPenalties !== 0) {
-        modifiers.push(create_modifier(
+        roll_options.modifiers.push(create_modifier(
             game.i18n.localize('SWADE.Status'), statusPenalties))
         roll_options.total_modifiers += statusPenalties;
     }
@@ -750,14 +749,14 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         let armor_penalty = get_actor_armor_minimum_strength(actor)
         if (armor_penalty) {
             roll_options.total_modifiers += armor_penalty.value
-            modifiers.push(armor_penalty)
+            roll_options.modifiers.push(armor_penalty)
         }
     }
     // Target Mods
     if (extra_options.target_modifiers) {
         extra_options.target_modifiers.forEach(modifier => {
             roll_options.total_modifiers += modifier.value;
-            modifiers.push(modifier);
+            roll_options.modifiers.push(modifier);
         })
     }
     // Action mods
@@ -768,21 +767,21 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         if (item.data.data.actions.skillMod) {
             // noinspection JSUnresolvedVariable
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), item.data.data.actions.skillMod)
-            modifiers.push(new_mod)
+            roll_options.modifiers.push(new_mod)
             roll_options.total_modifiers += new_mod.value
         }
     }
     // Options set from card
     if (extra_data.modifiers) {
         extra_data.modifiers.forEach(modifier => {
-            modifiers.push(modifier);
+            roll_options.modifiers.push(modifier);
             roll_options.total_modifiers += modifier.value;
         })
     }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
     if (conviction_modifier) {
-        modifiers.push(conviction_modifier);
+        roll_options.modifiers.push(conviction_modifier);
         roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
@@ -794,7 +793,7 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
         }
     }
     if (has_joker(token_id)) {
-        modifiers.push(create_modifier('Joker', 2))
+        roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
     }
     return {options, rof};
@@ -803,19 +802,19 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
 /**
  * Get the options for a reroll
  */
-function get_reroll_options(rof, actor, render_data, modifiers, roll_options, extra_data, options) {
+function get_reroll_options(rof, actor, render_data, roll_options, extra_data, options) {
     // Reroll, keep old options
     rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
-    modifiers = render_data.trait_roll.modifiers;
+    roll_options.modifiers = render_data.trait_roll.modifiers;
     let reroll_mods_applied = false;
-    modifiers.forEach(mod => {
+    roll_options.modifiers.forEach(mod => {
         roll_options.total_modifiers += mod.value
         if (mod.name.includes('(reroll)')) {
             reroll_mods_applied = true;
         }
     });
     if (extra_data.reroll_modifier && !reroll_mods_applied) {
-        modifiers.push(create_modifier(
+        roll_options.modifiers.push(create_modifier(
             `${extra_data.reroll_modifier.name} (reroll)`,
             extra_data.reroll_modifier.value))
         roll_options.total_modifiers += extra_data.reroll_modifier.value;
@@ -833,7 +832,7 @@ function get_reroll_options(rof, actor, render_data, modifiers, roll_options, ex
     render_data.trait_roll.old_rolls.push(
         render_data.trait_roll.rolls);
     render_data.trait_roll.rolls = [];
-    return {rof, modifiers, options};
+    return {rof, options};
 }
 
 async function show_3d_dice(roll, message, modifiers) {
@@ -896,31 +895,31 @@ function create_roll_string(trait_dice, rof) {
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
-    let roll_options = {total_modifiers: 0}
-    let modifiers = [];
+    let roll_options = {total_modifiers: 0, modifiers: []}
     let rof;
     let extra_options = {};
     let options = {};
     if (!render_data.trait_roll.rolls.length) {
-        const __ret = get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, modifiers, roll_options);
+        const __ret = get_new_roll_options(actor, message, extra_options, extra_data, options, html, rof, trait_dice, roll_options);
         options = __ret.options;
         rof = __ret.rof;
     } else {
-        const __ret = get_reroll_options(rof, actor, render_data, modifiers, roll_options, extra_data, options);
+        const __ret = get_reroll_options(rof, actor, render_data, roll_options, extra_data, options);
         rof = __ret.rof;
-        modifiers = __ret.modifiers;
         options = __ret.options;
     }
     // Encumbrance
     if (actor.isEncumbered) {
         if (render_data.attribute_name === 'agility') {
-            modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+            roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                 value: -2})
+            roll_options.total_modifiers -= 2
         } else {
             const skill = actor.items.get(render_data.trait_id)
             if (skill && skill.data.data.attribute === 'agility') {
-                modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+                roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
+                roll_options.total_modifiers -= 2
             }
         }
     }
@@ -929,7 +928,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let dice = [];
     let roll_string = create_roll_string(trait_dice, rof);
     // Make penalties red
-    for (let mod of modifiers) {
+    for (let mod of roll_options.modifiers) {
         if (mod.value < 0) {
             mod.extra_class = ' brsw-red-text'
         }
@@ -970,12 +969,12 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     })
     if (game.dice3d) {
-        await show_3d_dice(roll, message, modifiers);
+        await show_3d_dice(roll, message, roll_options.modifiers);
     }
     render_data.trait_roll.is_fumble = await calculate_results(
         trait_rolls, false, actor.isWildcard, dice)
     render_data.trait_roll.rolls = trait_rolls;
-    render_data.trait_roll.modifiers = modifiers;
+    render_data.trait_roll.modifiers = roll_options.modifiers;
     render_data.trait_roll.dice = dice;
     for (let key in extra_data) {
         if (extra_data.hasOwnProperty(key)) {
