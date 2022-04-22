@@ -1,5 +1,5 @@
 // functions for the incapacitation card
-/* globals canvas, game, CONST, Roll */
+/* globals canvas, game, CONST, Roll, Hooks */
 
 import {
     BRSW_CONST,
@@ -197,15 +197,16 @@ export async function create_injury_card(token_id) {
         }
     }
     const active_effect_index = `${first_result}+${second_result}`;
+    let new_effect
     if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
-        let new_data = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
+        new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
         if (second_result) {
-            new_data.label = game.i18n.localize(second_result);
+            new_effect.label = game.i18n.localize(second_result);
         } else {
-            new_data.label = game.i18n.localize(first_result);
+            new_effect.label = game.i18n.localize(first_result);
         }
-        new_data.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        await actor.createEmbeddedDocuments('ActiveEffect', [new_data]);
+        new_effect.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
+        await actor.createEmbeddedDocuments('ActiveEffect', [new_effect]);
     }
     let message = await create_common_card(token,
     {header: {type: '',
@@ -218,6 +219,7 @@ export async function create_injury_card(token_id) {
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INJ_CARD)
+    Hooks.call('BRSW-InjuryAEApplied', message, new_effect)
     return message
 }
 
