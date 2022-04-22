@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 2.68 aka remote controlling Sal to release a hotfix
+* Bug: Powers no longer use the targets Parry as Target Number on range.
+
 ## Version 2.67 aka lots of thins
 * Actions: Use the bonus damage die size from the actions tab in items
 * Goblal actions: can now override AP.
