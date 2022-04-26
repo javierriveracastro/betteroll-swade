@@ -510,8 +510,9 @@ async function displayRemainingCard(content) {
  * @param item
  * @param {Roll[]} rolls
  * @param pp_override
+ * @param old_pp: PPs expended in the current selected roll of this option
  */
-async function discount_pp(actor, item, rolls, pp_override) {
+async function discount_pp(actor, item, rolls, pp_override, old_pp) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
@@ -538,7 +539,7 @@ async function discount_pp(actor, item, rolls, pp_override) {
         // General pool
         current_pp = actor.data.data.powerPoints.value;
     }
-    const final_pp = Math.max(current_pp - pp, 0);
+    const final_pp = Math.max(current_pp - pp + old_pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
         {name: actor.name, final_pp: final_pp, pp: pp});
     if (current_pp < pp) {
@@ -562,7 +563,9 @@ async function discount_pp(actor, item, rolls, pp_override) {
     if (arcaneDevice === false) {
         await actor.update(data);
     }
-    await displayRemainingCard(content);
+    if (pp !== old_pp) {
+        await displayRemainingCard(content);
+    }
     return pp
 }
 
@@ -720,8 +723,9 @@ export async function roll_item(message, html, expend_bennie,
     // Power points management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
-    if (parseInt(item.data.data.pp) && pp_selected && !trait_data.old_rolls.length) {
-        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override);
+    let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
+    if (parseInt(item.data.data.pp) && pp_selected) {
+        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override, previous_pp);
     }
     await update_message(message, actor, render_data);
     await run_macros(macros, actor, item, message);
