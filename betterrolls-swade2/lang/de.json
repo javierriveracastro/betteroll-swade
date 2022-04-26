@@ -295,5 +295,6 @@
     "BRSW.AbilityName-Construct": "Konstrukt",
     "BRSW.AbilityName-Demon_Hellfrost": "Dämon",
     "BRSW.SWD-UnshakeHint": "Nutze die Gentlemans Edition Regeln für die Erholung von Angeschlagen (es ist eine Erhöhung nötig, um direkt agieren zu können).",
-    "BRSW.AbilityName-Amorphous_theAfter": "Formlos"
+    "BRSW.AbilityName-Amorphous_theAfter": "Formlos",
+    "BRSW.StreamTemplate": "Schwallschablone"
 }
