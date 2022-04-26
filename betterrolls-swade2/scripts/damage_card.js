@@ -149,7 +149,7 @@ async function apply_damage(token, wounds, soaked=0) {
     await apply_status(token, 'incapacitated', incapacitated)
     // Mark as defeated if the token is in a combat
     game.combat?.combatants.forEach(combatant => {
-        if (combatant.token.id === token.id) {
+        if (combatant.token?.id === token.id) {
             game.combat.updateEmbeddedDocuments('Combatant',
                 [{_id: combatant.id, defeated: incapacitated}]);
         }
