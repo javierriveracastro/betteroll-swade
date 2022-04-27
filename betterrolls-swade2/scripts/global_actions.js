@@ -424,7 +424,7 @@ export function create_actions_array(action_groups,item, actor) {
     let extra_text = ''
     for (const global_action of get_actions(item, actor)) {
         const has_skill_mod = !!global_action.skillMod;
-        const has_dmg_mod = !!global_action.dmgMod;
+        const has_dmg_mod = (!!global_action.dmgMod) || (!!global_action.dmgOverride);
         const button_name = global_action.button_name.slice(0, 5) === "BRSW." ?
             game.i18n.localize(global_action.button_name) : global_action.button_name;
         const pinned = global_action.hasOwnProperty('defaultChecked')

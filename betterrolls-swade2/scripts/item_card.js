@@ -71,7 +71,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
                     !!(item.data.data.actions.additional[action].skillMod ||
                         item.data.data.actions.additional[action].skillOverride);
                 const has_dmg_mod =
-                    !!item.data.data.actions.additional[action].dmgMod;
+                    !!item.data.data.actions.additional[action].dmgMod ||
+                        !!item.data.data.actions.additional[action].dmgOverride;
                 item_actions.push(
                     {'code': action, 'name': item.data.data.actions.additional[action].name,
                         pinned: false, damage_icon: has_dmg_mod,
