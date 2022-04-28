@@ -226,6 +226,41 @@ export function activate_item_listeners(app, html) {
     item_li.bind('dragstart', {app: app}, drag_start_handle);
 }
 
+/**
+ * Creates a template preview
+ * @param ev: javascript click event
+ */
+function preview_template(ev) {
+    let templateData = {
+        user: game.user.id,
+        distance: 0,
+        direction: 0,
+        x: 0,
+        y: 0,
+        fillColor: game.user.data.color,
+    };
+    const type = ev.currentTarget.dataset.size
+    if (type === 'cone') {
+        templateData.t = 'cone'
+        templateData.distance = 9
+    } else if (type === 'stream') {
+        templateData.t = 'ray'
+        templateData.distance = 12
+    } else {
+        templateData.t = 'circle'
+        templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
+    }
+    // Adjust to grid distance
+    if (canvas.grid.grid.options.dimensions.distance % 5 === 0) {
+        templateData.distance *= 5
+    }
+    // noinspection JSPotentiallyInvalidConstructorUsage
+    const template_base = new CONFIG.MeasuredTemplate.documentClass(
+        templateData, {parent: canvas.scene});
+    let template = new TEMPLATE_CLASS.default(template_base)
+    Hooks.call("BRSW-BeforePreviewingTemplate", template, ev)
+    template.drawPreview(ev)
+}
 
 /**
  * Activate the listeners in the item card
@@ -278,36 +313,7 @@ export function activate_item_card_listeners(message, html) {
     })
     html.find('.brsw-add-damage-number').bind(
         'click', {message: message}, show_fixed_damage_dialog)
-    html.find('.brsw-template-button').on('click', ev => {
-        let templateData = {
-            user: game.user.id,
-            distance: 0,
-            direction: 0,
-            x: 0,
-            y: 0,
-            fillColor: game.user.data.color,
-        };
-        const type = ev.currentTarget.dataset.size
-        if (type === 'cone') {
-            templateData.t = 'cone'
-            templateData.distance = 9
-        } else if (type === 'stream')  {
-            templateData.t = 'ray'
-            templateData.distance = 12
-        } else {
-            templateData.t = 'circle'
-            templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
-        }
-        // Adjust to grid distance
-        if (canvas.grid.grid.options.dimensions.distance % 5 === 0) {
-            templateData.distance *= 5
-        }
-        // noinspection JSPotentiallyInvalidConstructorUsage
-        const template_base = new CONFIG.MeasuredTemplate.documentClass(
-            templateData, { parent: canvas.scene });
-        let template = new TEMPLATE_CLASS.default(template_base)
-        template.drawPreview(ev)
-    })
+    html.find('.brsw-template-button').on('click', preview_template)
 }
 
 
