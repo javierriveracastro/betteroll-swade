@@ -230,7 +230,7 @@ export function activate_item_listeners(app, html) {
  * Creates a template preview
  * @param ev: javascript click event
  */
-function preview_template(ev) {
+function preview_template(ev, message) {
     let templateData = {
         user: game.user.id,
         distance: 0,
@@ -258,7 +258,7 @@ function preview_template(ev) {
     const template_base = new CONFIG.MeasuredTemplate.documentClass(
         templateData, {parent: canvas.scene});
     let template = new TEMPLATE_CLASS.default(template_base)
-    Hooks.call("BRSW-BeforePreviewingTemplate", template, ev)
+    Hooks.call("BRSW-BeforePreviewingTemplate", template, message, ev)
     template.drawPreview(ev)
 }
 
@@ -313,7 +313,7 @@ export function activate_item_card_listeners(message, html) {
     })
     html.find('.brsw-add-damage-number').bind(
         'click', {message: message}, show_fixed_damage_dialog)
-    html.find('.brsw-template-button').on('click', preview_template)
+    html.find('.brsw-template-button').on('click', (ev) => {preview_template(ev, message)})
 }
 
 
