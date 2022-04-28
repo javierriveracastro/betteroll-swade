@@ -74,7 +74,7 @@ export async function create_incapacitation_card(token_id) {
  * Hooks the public functions to a global object
  */
 export function incapacitation_card_hooks() {
-    game.brsw.create_incapacitation_card = create_incapacitation_card()
+    game.brsw.create_incapacitation_card = create_incapacitation_card
 }
 
 /**
