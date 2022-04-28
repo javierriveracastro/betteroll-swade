@@ -229,6 +229,7 @@ export function activate_item_listeners(app, html) {
 /**
  * Creates a template preview
  * @param ev: javascript click event
+ * @param {ChatMessage} message
  */
 function preview_template(ev, message) {
     let templateData = {
