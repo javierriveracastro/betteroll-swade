@@ -670,15 +670,15 @@ export function check_and_roll_conviction(actor) {
 // noinspection FunctionTooLongJS
 /**
  * Get all the options needed for a new roll
- * @param actor
- * @param message
+ * @param {ChatMessage} message
  * @param extra_data
  * @param html
  * @param trait_dice
  * @param roll_options: An object with the current roll_options
  */
-function get_new_roll_options(actor, message,extra_data,html, trait_dice, roll_options) {
+function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
+    const actor = get_actor_from_message(message);
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -898,7 +898,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
     if (!render_data.trait_roll.rolls.length) {
-        options = get_new_roll_options(actor, message, extra_data,html, trait_dice, roll_options);
+        options = get_new_roll_options(message, extra_data, html, trait_dice, roll_options);
     } else {
         options = get_reroll_options(actor, render_data, roll_options, extra_data);
     }
