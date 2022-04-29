@@ -268,7 +268,8 @@ export function activate_common_listeners(message, html) {
             await manage_sheet(actor)
         });
         //
-        html.find('.br2-unshake-card').on('click', ()=>{create_unshaken_card(message)})
+        html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
+            create_unshaken_card(message)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
@@ -671,14 +672,13 @@ export function check_and_roll_conviction(actor) {
  * Get all the options needed for a new roll
  * @param actor
  * @param message
- * @param extra_options
  * @param extra_data
- * @param options
  * @param html
  * @param trait_dice
  * @param roll_options: An object with the current roll_options
  */
-function get_new_roll_options(actor, message, extra_options, extra_data, options, html, trait_dice, roll_options) {
+function get_new_roll_options(actor, message,extra_data,html, trait_dice, roll_options) {
+    let extra_options = {}
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -707,7 +707,7 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
     if (extra_data.hasOwnProperty('rof')) {
         extra_options.rof = extra_data.rof;
     }
-    options = get_roll_options(html, extra_options);
+    let options = get_roll_options(html, extra_options);
     roll_options.rof = options.rof || 1;
     // Trait modifier
     if (parseInt(trait_dice.die.modifier)) {
@@ -801,7 +801,7 @@ function get_new_roll_options(actor, message, extra_options, extra_data, options
 /**
  * Get the options for a reroll
  */
-function get_reroll_options(actor, render_data, roll_options, extra_data, options) {
+function get_reroll_options(actor, render_data, roll_options, extra_data,) {
     // Reroll, keep old options
     roll_options.rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
     roll_options.modifiers = render_data.trait_roll.modifiers;
@@ -818,6 +818,7 @@ function get_reroll_options(actor, render_data, roll_options, extra_data, option
             extra_data.reroll_modifier.value))
         roll_options.total_modifiers += extra_data.reroll_modifier.value;
     }
+    let options = {}
     render_data.trait_roll.rolls.forEach(roll => {
         if (roll.tn) {
             // We hacky use tn = 0 to mark discarded dice,
@@ -895,12 +896,11 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
-    let extra_options = {};
-    let options = {};
+    let options;
     if (!render_data.trait_roll.rolls.length) {
-        options = get_new_roll_options(actor, message, extra_options, extra_data, options, html, trait_dice, roll_options);
+        options = get_new_roll_options(actor, message, extra_data,html, trait_dice, roll_options);
     } else {
-        options = get_reroll_options(actor, render_data, roll_options, extra_data, options);
+        options = get_reroll_options(actor, render_data, roll_options, extra_data);
     }
     // Encumbrance
     if (actor.isEncumbered) {
