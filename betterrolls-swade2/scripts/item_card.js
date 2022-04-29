@@ -302,7 +302,7 @@ export function activate_item_card_listeners(message, html) {
    });
    html.find('.brsw-target-tough').click(ev => {
       // noinspection JSIgnoredPromiseFromCall
-       edit_tougness(message, ev.currentTarget.dataset.index);
+       edit_toughness(message, ev.currentTarget.dataset.index);
    });
    html.find('.brsw-add-damage-d6').click(ev => {
        // noinspection JSIgnoredPromiseFromCall
@@ -854,7 +854,7 @@ export function get_item_from_message(message, actor) {
 
 
 /**
- * Gets the tougness value for the targeted token
+ * Gets the toughness value for the targeted token
  * @param {SwadeActor} acting_actor
  * @param {Token} target
  */
@@ -914,7 +914,6 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
     return new_roll_formula.slice(0, new_roll_formula.length - 1)
 }
 
-// TODO: Refactor damage rolls. Pass less paramethers, let actions affect ap.
 async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data, ap) {
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
@@ -1201,7 +1200,7 @@ async function show_fixed_damage_dialog(event) {
 
 
 /**
- * Adds a fixed ammount of damage to a roll
+ * Adds a fixed amount of damage to a roll
  * @param event
  * @param form_results
  */
@@ -1249,7 +1248,7 @@ async function half_damage(message, index){
  * @param {function} message.getFlag
  * @param {int} index:
  */
-async function edit_tougness(message, index) {
+async function edit_toughness(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message);
     const defense_values = get_toughness_targeted_selected(actor);
@@ -1294,11 +1293,11 @@ async function manual_pp(actor, item) {
     }
     const fv = actor.data.data.fatigue.value;
     const fm = actor.data.data.fatigue.max;
-    const ammout_pp = game.i18n.localize("BRSW.AmmountPP");
+    const amount_pp = game.i18n.localize("BRSW.AmmountPP");
     new Dialog({
         title: game.i18n.localize("BRSW.PPManagement"),
         content: `<form> <div class="form-group"> 
-            <label for="num">${ammout_pp}: </label>
+            <label for="num">${amount_pp}: </label>
              <input id="num" name="num" type="number" min="0" value="5">
               </div> </form>`,
         default: 'one',
