@@ -54,7 +54,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
  * @param {{SwadeActor}} actor
  * @return {[string]}
  */
-function damage_card_footer(actor){
+export function damage_card_footer(actor){
     // noinspection JSUnresolvedVariable
     let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
     // noinspection JSUnresolvedVariable

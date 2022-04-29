@@ -9,7 +9,7 @@ import {
     roll_trait,
     spend_bennie, update_message
 } from "./cards_common.js";
-import {get_owner} from "./damage_card.js";
+import {get_owner, damage_card_footer} from "./damage_card.js";
 
 const INJURY_BASE = {
     2: "BRSW.Unmentionables",
@@ -81,15 +81,7 @@ export function incapacitation_card_hooks() {
  * Creates a footer based in status that will be shared by various cards
  */
 export function status_footer(actor) {
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
-    for (let status in actor.data.data.status) {
-        // noinspection JSUnfilteredForInLoop
-        if (actor.data.data.status[status]) {
-            // noinspection JSUnfilteredForInLoop
-            footer.push(status.slice(2));
-        }
-    }
-    return footer
+    return damage_card_footer(actor)
 }
 
 /**
