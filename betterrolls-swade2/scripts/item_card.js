@@ -914,7 +914,8 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
     return new_roll_formula.slice(0, new_roll_formula.length - 1)
 }
 
-async function roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data, ap) {
+async function roll_dmg_target(damage_roll, formula, raise_formula, target, total_modifiers, item, message, render_data, ap) {
+    const actor = get_actor_from_message(message)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollShortcuts();
@@ -1125,7 +1126,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     if (! raise) {raise_formula = ''}
     for (let target of targets) {
-        await roll_dmg_target(damage_roll, actor, formula, raise_formula, target, total_modifiers, item, message, render_data, ap);
+        await roll_dmg_target(damage_roll, formula, raise_formula, target, total_modifiers, item, message, render_data, ap);
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
