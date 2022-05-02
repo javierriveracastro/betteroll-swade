@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 2.69 aka a boring one, mostly bugfixes and code cleanup
+* Refactoring: Lots of changes to make code more readable and easy to modify. Hopefully they will not break nothing (yeah, I know...)
+* Cards: Added hooks for injury cards
+* Bug: Don't break when there are combatants without tokens.
+* Bug: Power point management now works when re-rolling.
+* Macros: Incapacitation cards can now be created by macros.
+* World actions: Loading world actions from json works again.
+* Bug: Damage icons are now correctly shown for item actions that change damage dice.
+* Translations: The usual couple of updates from the weblate team.
+
 ## Version 2.68 aka remote controlling Sal to release a hotfix
 * Bug: Powers no longer use the targets Parry as Target Number on range.
 
