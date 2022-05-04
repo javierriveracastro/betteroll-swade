@@ -2,7 +2,7 @@
     <h4 class="brsw-collapse-button brsw-clickable" data-collapse="brws-common-modifiers">
         <i class="fas fa-caret-down"></i> {{ localize "BRSW.ChatFormTittle" }}:
     </h4>
-    {{# if isGM }}<div class="brws-common-modifiers">
+    {{# if isGM }}<div class="brws-common-modifiers brsw-gm-modifiers">
         {{{ localize 'BRSW.MasterModifiers' }}}
         <span class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="-4">-4</span>
         <span class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="-2">-2</span>
@@ -11,7 +11,7 @@
         <span class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="2">+2</span>
         <span class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="4">+4</span>
     </div>{{/if}}
-    <div class="brws-common-modifiers">
+    <div class="brws-common-modifiers brsw-player-modifiers">
         {{{ localize 'BRSW.TraitModifier' }}}:
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="-8">-8</span>
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="-4">-4</span>
@@ -21,7 +21,7 @@
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="+2">+2</span>
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="+4">+4</span>
     </div>
-    <div class="brws-common-modifiers">
+    <div class="brws-common-modifiers brsw-player-modifiers">
         {{{ localize 'BRSW.Number_trait_dice' }}}:
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="1"
             >1</span>
@@ -31,7 +31,7 @@
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="5">5</span>
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="6">6</span>
     </div>
-    <div class="brws-common-modifiers">
+    <div class="brws-common-modifiers brsw-player-modifiers">
         {{{ localize 'BRSW.DmgModifier' }}}:
         <span class="brws-selectable brsw-clickable" data-type="dmg_modifier" data-value="-2">-2</span>
         <span class="brws-selectable brsw-clickable" data-type="dmg_modifier" data-value="-1">-1</span>

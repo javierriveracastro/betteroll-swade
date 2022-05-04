@@ -14,6 +14,7 @@ import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from 
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
 import {activate_unshake_card_listeners} from "./unshake_card.js";
+import {manage_selectable_gm, register_gm_modifiers_settings} from "./gm_modifiers.js";
 
 // Startup scripts
 
@@ -33,6 +34,7 @@ Hooks.on(`ready`, () => {
     item_card_hooks();
     incapacitation_card_hooks();
     register_settings_version2();
+    register_gm_modifiers_settings();
     register_actions();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
@@ -117,7 +119,8 @@ Hooks.on('renderSidebarTab', (_, html) => {
         content => {
             content = $(content);
             // Activate selectable control.
-            content.find('.brws-selectable').click(manage_selectable_click);
+            content.find('.brsw-player-modifiers>.brws-selectable').click(manage_selectable_click);
+            content.find('.brsw-gm-modifiers>.brws-selectable').click(manage_selectable_gm)
             place.before(content);
             manage_collapsables(content);
         }
