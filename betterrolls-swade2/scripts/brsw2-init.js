@@ -112,7 +112,8 @@ Hooks.on('renderChatMessage', (message, html) => {
 Hooks.on('renderSidebarTab', (_, html) => {
     const place = html.find('#chat-controls');
     // noinspection JSIgnoredPromiseFromCall
-    renderTemplate('modules/betterrolls-swade2/templates/options_form.html', {}).then(
+    renderTemplate('modules/betterrolls-swade2/templates/options_form.html',
+            { 'isGM':game.user.isGM }).then(
         content => {
             content = $(content);
             // Activate selectable control.
