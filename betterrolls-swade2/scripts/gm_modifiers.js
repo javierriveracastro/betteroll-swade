@@ -32,3 +32,19 @@ export function register_gm_modifiers_settings() {
         config: false
     });
 }
+
+export function recover_html_from_gm_modifiers() {
+    const gm_modifiers_array = game.settings.get('betterrolls-swade2', 
+        'gm_modifiers')
+    for (let modifier of [-4, -2, -1, 1, 2, 4]) {
+        let class_str = "brsw-clickable brws-selectable"
+        if (gm_modifiers_array.includes(modifier)) {
+            class_str += ' brws-selected brws-permanent-selected'
+        }
+        document.getElementById(`brsw-gm-mod-${modifier}`).className = class_str
+    }
+}
+
+// TODO: Get the value of the modifiers
+// TODO: Usa that modifiers in trait rolls.
+// TODO: Use that modifiers in damage rolls.

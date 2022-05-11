@@ -14,7 +14,7 @@ import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from 
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
 import {activate_unshake_card_listeners} from "./unshake_card.js";
-import {manage_selectable_gm, register_gm_modifiers_settings} from "./gm_modifiers.js";
+import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
 
 // Startup scripts
 
@@ -51,6 +51,8 @@ Hooks.on(`ready`, () => {
         $('.brws-common-modifiers').addClass('brsw-collapsed');
         $('.brsw-chat-form i').removeClass('fa-caret-down').addClass('fa-caret-right');
     }
+    // Set GM modifiers
+    recover_html_from_gm_modifiers()
     // Add some jquery magic to allow binding our functions prior to system
     $.fn.bindFirst = function(name, fn) {
         // bind as you normally would
