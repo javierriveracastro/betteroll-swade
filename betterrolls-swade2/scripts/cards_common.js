@@ -7,6 +7,7 @@ import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card} from "./unshake_card.js";
+import {get_gm_modifiers} from './gm_modifiers.js';
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -722,6 +723,13 @@ function get_new_roll_options(message, extra_data, html, trait_dice, roll_option
         roll_options.modifiers.push(create_modifier('Better Rolls', mod_value))
         roll_options.total_modifiers += mod_value;
     })
+    // Master Modifiers
+    const master_modifiers = get_gm_modifiers()
+    if (master_modifiers) {
+        roll_options.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.GMModifier"), master_modifiers))
+        roll_options.total_modifiers += master_modifiers
+    }
     // Wounds
     const woundPenalties = actor.calcWoundPenalties();
     if (woundPenalties !== 0) {

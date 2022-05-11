@@ -296,5 +296,6 @@
     "BRSW.AbilityName-Demon_Hellfrost": "Demon",
     "BRSW.AbilityName-Amorphous_theAfter": "Amorphous",
     "BRSW.StreamTemplate": "Stream Template",
-    "BRSW.MasterModifiers": "Master mods."
+    "BRSW.MasterModifiers": "Master mods.",
+    "BRSW.GMModifier": "GM modifier"
 }

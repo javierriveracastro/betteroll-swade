@@ -281,5 +281,6 @@
     "BRSW.UnshakeSuccessfulRoll": "{name} pasa una tirada de espritu, recuperandose del aturdimiento",
     "BRSW.UnshakeFailure": "{name} ha fallado su tirada de espiritu y continua aturdido",
     "BRSW.UnshakeSuccessfulRollSWD": "{name} se ha recuperado del aturdimiento tras pasar la tirada de espiritu pero no puede actuar hasta el próximo turno",
-    "BRSW.CharacterIsStunned": "El personaje esta conmocionado"
+    "BRSW.CharacterIsStunned": "El personaje esta conmocionado",
+    "BRSW.GMModifier": "Modificador del master"
 }
