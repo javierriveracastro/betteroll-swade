@@ -55,5 +55,3 @@ export function get_gm_modifiers() {
     }
     return total_modifier
 }
-
-// TODO: Document GM Modifers
