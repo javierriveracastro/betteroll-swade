@@ -56,4 +56,4 @@ export function get_gm_modifiers() {
     return total_modifier
 }
 
-// TODO: Use that modifiers in damage rolls.
+// TODO: Document GM Modifers

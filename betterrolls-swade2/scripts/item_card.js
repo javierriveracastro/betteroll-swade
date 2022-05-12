@@ -16,6 +16,8 @@ import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.j
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
+import {get_gm_modifiers} from "./gm_modifiers.js";
+
 let TEMPLATE_CLASS;
 import("/systems/swade/module/documents/SwadeMeasuredTemplate.js").then((result) => {
     TEMPLATE_CLASS = result;
@@ -1030,6 +1032,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(new_mod);
         total_modifiers += new_mod.value;
     })
+    // GM Modifiers
+    const gm_modifier = get_gm_modifiers()
+    if (gm_modifier) {
+        damage_roll.brswroll.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.GMModifier"), gm_modifier))
+        total_modifiers += gm_modifier
+    }
     // Action mods
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
