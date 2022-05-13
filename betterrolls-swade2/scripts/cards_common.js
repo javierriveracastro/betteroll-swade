@@ -668,6 +668,46 @@ export function check_and_roll_conviction(actor) {
 }
 
 
+function get_below_chat_modifiers(options, roll_options) {
+    // Betterrolls modifiers
+    options.additionalMods.forEach(mod => {
+        const mod_value = parseInt(mod);
+        roll_options.modifiers.push(create_modifier('Better Rolls', mod_value))
+        roll_options.total_modifiers += mod_value;
+    })
+    // Master Modifiers
+    const master_modifiers = get_gm_modifiers()
+    if (master_modifiers) {
+        roll_options.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.GMModifier"), master_modifiers))
+        roll_options.total_modifiers += master_modifiers
+    }
+}
+
+function get_actor_own_modifiers(actor, roll_options) {
+    // Wounds
+    const woundPenalties = actor.calcWoundPenalties();
+    if (woundPenalties !== 0) {
+        roll_options.modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Wounds'), woundPenalties))
+        roll_options.total_modifiers += woundPenalties;
+    }
+    // Fatigue
+    const fatiguePenalties = actor.calcFatiguePenalties();
+    if (fatiguePenalties !== 0) {
+        roll_options.modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
+        roll_options.total_modifiers += fatiguePenalties;
+    }
+    // Own status
+    const statusPenalties = actor.calcStatusPenalties();
+    if (statusPenalties !== 0) {
+        roll_options.modifiers.push(create_modifier(
+            game.i18n.localize('SWADE.Status'), statusPenalties))
+        roll_options.total_modifiers += statusPenalties;
+    }
+}
+
 // noinspection FunctionTooLongJS
 /**
  * Get all the options needed for a new roll
@@ -717,40 +757,8 @@ function get_new_roll_options(message, extra_data, html, trait_dice, roll_option
             game.i18n.localize("BRSW.TraitMod"), mod_value))
         roll_options.total_modifiers += mod_value;
     }
-    // Betterrolls modifiers
-    options.additionalMods.forEach(mod => {
-        const mod_value = parseInt(mod);
-        roll_options.modifiers.push(create_modifier('Better Rolls', mod_value))
-        roll_options.total_modifiers += mod_value;
-    })
-    // Master Modifiers
-    const master_modifiers = get_gm_modifiers()
-    if (master_modifiers) {
-        roll_options.modifiers.push(create_modifier(
-            game.i18n.localize("BRSW.GMModifier"), master_modifiers))
-        roll_options.total_modifiers += master_modifiers
-    }
-    // Wounds
-    const woundPenalties = actor.calcWoundPenalties();
-    if (woundPenalties !== 0) {
-        roll_options.modifiers.push(create_modifier(
-            game.i18n.localize('SWADE.Wounds'), woundPenalties))
-        roll_options.total_modifiers += woundPenalties;
-    }
-    // Fatigue
-    const fatiguePenalties = actor.calcFatiguePenalties();
-    if (fatiguePenalties !== 0) {
-        roll_options.modifiers.push(create_modifier(
-            game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
-        roll_options.total_modifiers += fatiguePenalties;
-    }
-    // Own status
-    const statusPenalties = actor.calcStatusPenalties();
-    if (statusPenalties !== 0) {
-        roll_options.modifiers.push(create_modifier(
-            game.i18n.localize('SWADE.Status'), statusPenalties))
-        roll_options.total_modifiers += statusPenalties;
-    }
+    get_below_chat_modifiers(options, roll_options);
+    get_actor_own_modifiers(actor, roll_options);
     // Armor min str
     if (skill?.data.data.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(actor)
