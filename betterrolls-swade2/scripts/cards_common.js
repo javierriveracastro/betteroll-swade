@@ -1371,6 +1371,7 @@ export function process_minimum_str_modifiers(item, actor, name) {
  * @param {boolean} final_state: True if we want the status applied fal
  */
 export async function apply_status(target, status_name, final_state=true){
+    console.log("apply_status")
     // We are going to apply the effect always to the actor
     if (target.actor) {
         // noinspection JSValidateTypes
@@ -1381,6 +1382,9 @@ export async function apply_status(target, status_name, final_state=true){
     if (applied_effects && !final_state) {
         // The actor has the effect but we want it off
         applied_effects.delete()
+    } else if (applied_effects && final_state) {
+        // We need to update starting round for correct expiration management
+        applied_effects.update({'duration.startRound': game.combat.round})
     } else if (!applied_effects && final_state) {
         // We want the effect but the acto doesn't have it
         const new_effect = foundry.utils.deepClone(effect)
