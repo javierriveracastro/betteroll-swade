@@ -1371,7 +1371,6 @@ export function process_minimum_str_modifiers(item, actor, name) {
  * @param {boolean} final_state: True if we want the status applied fal
  */
 export async function apply_status(target, status_name, final_state=true){
-    console.log("apply_status")
     // We are going to apply the effect always to the actor
     if (target.actor) {
         // noinspection JSValidateTypes
