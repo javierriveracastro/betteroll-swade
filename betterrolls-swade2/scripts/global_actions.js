@@ -182,6 +182,12 @@ function check_selector(type, value, item, actor){
                 hindrance_name.toLowerCase()) && item.data.data?.major;
         });
         selected = !!hindrance;
+    } else if (type.indexOf('actor_additional_stat_') === 0) {
+        const additional_stat = type.slice(22)
+        if (actor.data.data.additionalStats.hasOwnProperty(additional_stat)) {
+            // noinspection EqualityComparisonWithCoercionJS
+            selected = actor.data.data.additionalStats[additional_stat].value == value
+        }
     } else if (type === 'actor_has_joker') {
         selected = actor.hasJoker
     } else if (type === 'target_has_edge') {
@@ -404,7 +410,6 @@ export class WorldGlobalActions extends FormApplication {
         const action_title = $(text_area.parentElement).find('h3');
         if (error) {
             // Inputs without name are not passed to updateObject
-            console.log(action_title)
             action_title[0].innerHTML = error;
             text_area.removeAttribute('name')
         } else {
