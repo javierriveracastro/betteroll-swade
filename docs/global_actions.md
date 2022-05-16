@@ -38,13 +38,13 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 **Optional fields:**
 
 * skillMod: A number to be used as a modifier to the related skill roll.
-* dmgMod: A number that will be used as a modifier for a damage roll
+* dmgMod: A number that will be used as a modifier for damage roll
 * dmgOverride: A foundry die expression that will be rolled for damage instead of the weapon default.
-* defaultChecked: If this key exist the action button will start pinned (marked in red)
+* defaultChecked: If this key exists the action button will start pinned (marked in red)
 * runSkillMacro: This key will run a macro named like its value after skill roll.
 * runDamageMacro: This key will run a macro named like its value after damage roll.
-* raiseDamageFormula: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substition should done in a similar way, i.e. "+1d10x" to add a normal exploding d10.
-* wildDieFormula: Another string dice formula, this time used for the Wild Die. Remeber to specify the exploding. You can use an empty string for no wild die.
+* raiseDamageFormula: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substitution should be done in a similar way, i.e. "+1d10x" to add a normal exploding d10.
+* wildDieFormula: Another string dice formula, this time used for the Wild Die. Remember to specify the exploding. You can use an empty string for no wild die.
 * rerollSkillMod: A number used as a modifier for skill reroll
 * rerollDamageMod: A number used as a modifier for damage reroll
 * shotsUsed: A number that makes the action use that number of shots. If the item is a power, it will make it use that number of PPs instead.
@@ -74,6 +74,7 @@ This group of fields are used to select when the action is available, you will n
 * target_has_hindrance: This action is like actor_has_edge but fires for target hindrances
 * target_has_major_hindrance: This other action only fires when the target has a major hindrance that includes the text in the value
 * item_description_includes: This action will be shown if the item description includes the value.
+* actor_additional_stat_xxx: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
@@ -102,7 +103,7 @@ const message = message_param; // The full message objetc
 
 # Grouping
 
-This tag let's you group the actions, it is not mandatory, but it will be used in the card in some next update.
+This tag lets you group the actions, it is not mandatory, but it will be used in the card in some next update.
 
 * group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
 
@@ -396,7 +397,7 @@ These are examples enabled by learned Edges from Savage Pathfinder.
 These are examples common to the Sprawlrunners rules for Savage Worlds.  
   
 ### Edges  
-These are enabled by Edges a caharacter has learned in Sprawlrunners.  
+These are enabled by Edges a character has learned in Sprawlrunners.  
   
 **Passive Alarm**
 ```json
