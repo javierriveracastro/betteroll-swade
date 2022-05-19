@@ -6,6 +6,7 @@
 * Refactor: Lots of function extractions and refactoring aiming at reduce code complexity
 * Combat: Use the system provided way to know if an actor has a joker instead of rolling our own. I hope it has less (or none) cases when it fails. This
 * World actions: Added actor_has_additional_stat_xxxx and item_has_additional_stat_xxxx selectors.
+* Built-in actios: Add modifier to action names (ABrandau)
 
 ## Version 2.69 aka a boring one, mostly bugfixes and code cleanup
 * Refactoring: Lots of changes to make code more readable and easy to modify. Hopefully they will not break nothing (yeah, I know...)
