@@ -75,6 +75,7 @@ This group of fields are used to select when the action is available, you will n
 * target_has_major_hindrance: This other action only fires when the target has a major hindrance that includes the text in the value
 * item_description_includes: This action will be shown if the item description includes the value.
 * actor_additional_stat_xxx: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
+* item_additional_stat_xxx: This works like actor_additional_stat_xxx but applies to items.
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.

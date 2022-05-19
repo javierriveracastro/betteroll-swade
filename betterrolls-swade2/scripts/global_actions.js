@@ -188,6 +188,12 @@ function check_selector(type, value, item, actor){
             // noinspection EqualityComparisonWithCoercionJS
             selected = actor.data.data.additionalStats[additional_stat].value == value
         }
+    } else if (type.indexOf('item_additional_stat_') === 0) {
+        const additional_stat = type.slice(21)
+        if (item.data.data.additionalStats.hasOwnProperty(additional_stat)) {
+            // noinspection EqualityComparisonWithCoercionJS
+            selected = item.data.data.additionalStats[additional_stat].value == value
+        }
     } else if (type === 'actor_has_joker') {
         selected = actor.hasJoker
     } else if (type === 'target_has_edge') {
