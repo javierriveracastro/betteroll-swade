@@ -644,8 +644,7 @@ export async function roll_item(message, html, expend_bennie,
                                 roll_damage){
     let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
-    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
-    const item = actor.items.find((item) => item.id === item_id);
+    const item = get_item_from_message(message, actor)
     let trait = get_item_trait(item, actor);
     let macros = [];
     let shots_override;  // Override the number of shots used
@@ -1009,8 +1008,7 @@ async function roll_dmg_target(damage_roll, formula, raise_formula, target, tota
 export async function roll_dmg(message, html, expend_bennie, default_options, raise){
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
-    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
-    const item = actor.items.find((item) => item.id === item_id);
+    const item = get_item_from_message(message, actor)
     const raise_die_size = item.data.data.bonusDamageDie || 6
     let raise_formula = `+1d${raise_die_size}x`;
     let macros = [];
