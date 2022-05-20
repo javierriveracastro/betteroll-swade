@@ -105,6 +105,7 @@ export function get_actions(item, actor) {
     return actions_avaliable;
 }
 
+// noinspection OverlyComplexFunctionJS,FunctionTooLongJS
 /**
  * Check if a selector matches
  * @param type: Type of the selector

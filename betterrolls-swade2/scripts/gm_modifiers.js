@@ -17,6 +17,7 @@ export function manage_selectable_gm(ev) {
     } else if (indice === -1 && initial_status) {
         value_list.push(value)
     }
+    // noinspection JSIgnoredPromiseFromCall
     game.settings.set('betterrolls-swade2', 'gm_modifiers', value_list)
 }
 
