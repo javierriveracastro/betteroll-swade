@@ -103,7 +103,7 @@ async function check_abilities(actor) {
     edgeAndAbilityNames = edgeAndAbilityNames.map(name => name.toLowerCase())
     // Check if these have an AE (using .entries() to not loose the index):
     for (let [index, value] of edgeAndAbilityNames.entries()) {
-        let effect = actor.effects.find(ae => ae.data.label.toLowerCase() === value)
+        let effect = actor.effects.find(active_e => active_e.data.label.toLowerCase() === value) // jshint ignore:line
         // Only splice if the AE affects the generic bonus:
         let affectsUnshake = false
         if (effect) {
