@@ -18,12 +18,6 @@ import {create_actions_array, get_global_action_from_name} from "./global_action
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
 import {get_gm_modifiers} from "./gm_modifiers.js";
 
-let TEMPLATE_CLASS;
-import("/systems/swade/module/documents/SwadeMeasuredTemplate.js").then((result) => {
-    TEMPLATE_CLASS = result;
-}).catch(() => {TEMPLATE_CLASS = null})
-
-
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'zaubern', 'druidism', 'elementalism', 'glamour', 'heahwisardry',
     'hrimwisardry', 'solar magic', 'song magic', 'soul binding', 'artificer',
@@ -260,7 +254,8 @@ function preview_template(ev, message) {
     // noinspection JSPotentiallyInvalidConstructorUsage
     const template_base = new CONFIG.MeasuredTemplate.documentClass(
         templateData, {parent: canvas.scene});
-    let template = new TEMPLATE_CLASS.default(template_base)
+    // noinspection JSPotentiallyInvalidConstructorUsage
+    let template = new CONFIG.MeasuredTemplate.objectClass(template_base)
     Hooks.call("BRSW-BeforePreviewingTemplate", template, message, ev)
     template.drawPreview(ev)
 }
@@ -917,7 +912,6 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 
 async function roll_dmg_target(damage_roll, formula, raise_formula, target, total_modifiers, message, ap) {
     const actor = get_actor_from_message(message)
-    const item = get_item_from_message(message, actor)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollShortcuts();
@@ -1500,7 +1494,6 @@ async function manual_pp(actor, item) {
  * @param {Item} item
  */
 function get_template_from_description(item){
-    if (!TEMPLATE_CLASS) {return }
     const TEMPLATE_KEYS = {
         cone: ['BRSW.Cone', 'cone'],
         sbt: ['BRSW.SmallTemplate', 'sbt', 'small blast'],
