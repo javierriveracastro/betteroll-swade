@@ -1,6 +1,8 @@
 /**
 / Created by @rwanoux and the incredible Torg system team.
  **/
+/* global canvas, Token, PIXI */
+
 export function modifyTokenBars() {
 
     Token.prototype._drawBar = function (number, bar, data) {
@@ -8,7 +10,9 @@ export function modifyTokenBars() {
         // noinspection JSUnresolvedFunction
         const pct = Math.clamped(val, 0, data.max) / data.max;
         let h = Math.max((canvas.dimensions.size / 12), 8);
-        if (this.data.height >= 2) h *= 1.6;  // Enlarge the bar for large tokens
+        if (this.data.height >= 2) {
+            h *= 1.6  // Enlarge the bar for large tokens
+        }
         // Draw the bar
         let color = [pct, 0.8 * (1 - pct), 0]
         bar.clear()
