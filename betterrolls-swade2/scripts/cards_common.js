@@ -1388,7 +1388,7 @@ export async function apply_status(target, status_name, final_state=true){
         applied_effects.delete()
     } else if (applied_effects && final_state) {
         // We need to update starting round for correct expiration management
-        applied_effects.update({'duration.startRound': game.combat.round})
+        applied_effects.update({'duration.startRound': game.combat?.round || 0})
     } else if (!applied_effects && final_state) {
         // We want the effect but the acto doesn't have it
         const new_effect = foundry.utils.deepClone(effect)
