@@ -20,23 +20,23 @@ export function getWhisperData() {
     };
 }
 
-export function makeExplotable(expresion) {
+export function makeExplotable(expression) {
     // Make all dice of a roll able to explode
     // Code from the SWADE system
     const reg_exp = /\d*d\d+[^kdrxc]/g;
-    expresion = expresion + ' '; // Just because of my poor reg_exp foo
-    let dice_strings = expresion.match(reg_exp);
+    expression = expression + ' '; // Just because of my poor reg_exp foo
+    let dice_strings = expression.match(reg_exp);
     let used = [];
     if (dice_strings) {
         dice_strings.forEach((match) => {
             if (used.indexOf(match) === -1) {
-                expresion = expresion.replace(new RegExp(match.slice(0, -1), 'g'),
+                expression = expression.replace(new RegExp(match.slice(0, -1), 'g'),
                                               match.slice(0, -1) + "x");
                 used.push(match);
             }
         })
     }
-    return expresion;
+    return expression;
 }
 
 export async function spendMastersBenny() {
