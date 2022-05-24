@@ -76,7 +76,8 @@ Hooks.on(`ready`, () => {
         // Disable system management
         for (let status of CONFIG.SWADE.statusEffects) {
             if (status.id === 'shaken') {
-                delete status.flags
+                //delete status.flags
+                status.flags.swade.expiration = null //Only disable the dialogue, not the loose turn stuff
             }
         }
     }
