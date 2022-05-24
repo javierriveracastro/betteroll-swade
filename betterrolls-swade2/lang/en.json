@@ -297,5 +297,7 @@
     "BRSW.AbilityName-Amorphous_theAfter": "Amorphous",
     "BRSW.StreamTemplate": "Stream Template",
     "BRSW.MasterModifiers": "Master mods.",
-    "BRSW.GMModifier": "GM modifier"
+    "BRSW.GMModifier": "GM modifier",
+    "BRSW.Auto-status-cards": "Show status removal cards",
+    "BRSW.Auto-status-cardsHint": "Show the cards to remove status (currently only shaken) at the start of the combat"
 }

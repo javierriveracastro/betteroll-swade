@@ -15,6 +15,7 @@ import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
 import {activate_unshake_card_listeners} from "./unshake_card.js";
 import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
+import {round_start} from "./combat.js";
 
 // Startup scripts
 
@@ -69,6 +70,16 @@ Hooks.on(`ready`, () => {
             handlers.splice(0, 0, handler);
         });
     };
+    // Add a hook to control combat flow.
+    if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
+        Hooks.on('updateCombat', round_start)
+        // Disable system management
+        for (let status of CONFIG.SWADE.statusEffects) {
+            if (status.id === 'shaken') {
+                delete status.flags
+            }
+        }
+    }
 })
 
 
@@ -419,6 +430,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'auto-status-cards', {
+        name: game.i18n.localize("BRSW.Auto-status-cards"),
+        hint: game.i18n.localize("BRSW.Auto-status-cardsHint"),
+        default: true,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    })
 }
 
 // Settings related to Dice So Nice.

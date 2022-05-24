@@ -9,9 +9,16 @@ import {status_footer} from "./incapacitation_card.js";
 /**
  * Shows the unshaken card
  * @param {ChatMessage} original_message
+ * @param {Number} token_id
  */
-export async function create_unshaken_card(original_message) {
-    let actor = get_actor_from_message(original_message)
+export async function create_unshaken_card(original_message, token_id) {
+    let actor
+    if (original_message) {
+        actor = get_actor_from_message(original_message)
+        token_id = original_message.getFlag('betterrolls-swade2', 'token')
+    } else if (token_id) {
+        actor = canvas.tokens.get(token_id).actor
+    }
     if (! actor.data.data.status.isShaken) {return}
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
@@ -26,8 +33,7 @@ export async function create_unshaken_card(original_message) {
         show_roll_injury: false, attribute_name: 'vigor'}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/unshaken_card.html")
     await message.update({user: user.id});
-    await message.setFlag('betterrolls-swade2', 'token',
-        original_message.getFlag('betterrolls-swade2', 'token'))
+    await message.setFlag('betterrolls-swade2', 'token', token_id)
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_UNSHAKE_CARD)
     return message
