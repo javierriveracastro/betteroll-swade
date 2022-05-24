@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.71 aka swade 1.1 compatibility fixes, because of yes.
+* Refactoring: More changes to simplify and make code more readable.
+* Translations: A bunch of updates (mainly French) from the weblate team.
+* Bugfix: Templates were not working after update de 1.1 (thanks to FloRad).
+* Bugfix: Some effects were break when they were applied outside of combat.
+
 ## Version 2.70 aka Master modifiers will they be used?
 * New feature: Added a row of modifiers that are shown just to the GM and affect every roll (made by players or GMs)
 * Bug: When a condition should be reapplied update its start round so that duration management work.
