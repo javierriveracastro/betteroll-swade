@@ -116,7 +116,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ITEM_CARD)
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
-    if ((item.data.data.actions.skill === "" && item.type === "gear") || item.data.data.actions.skill.toLowerCase() === "none") {
+    if ((item.data.data.actions.skill === "" && item.type === "gear") || item.data.data.actions.skill.toLowerCase() === "none" || item.hasOwnProperty("data.data.actions" === false)) {
         Hooks.call("BRSW-CreateItemCardNoRoll", message);
     }
     return message;
