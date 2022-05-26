@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* Added a new hook that is thrown if there is no roll to be expected. For now, this hook is rather niche. (SalieriC)  
+
 ## Version 2.71 aka swade 1.1 compatibility fixes, because of yes.
 * Refactoring: More changes to simplify and make code more readable.
 * Translations: A bunch of updates (mainly French) from the weblate team.
