@@ -941,7 +941,7 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
     return new_roll_formula.slice(0, new_roll_formula.length - 1)
 }
 
-async function roll_dmg_target(damage_roll, formula, raise_formula, target, total_modifiers, message, ap) {
+async function roll_dmg_target(damage_roll, damage_formulas, target, total_modifiers, message) {
     const actor = get_actor_from_message(message)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
@@ -949,13 +949,13 @@ async function roll_dmg_target(damage_roll, formula, raise_formula, target, tota
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
-    let roll = new Roll(formula + raise_formula, shortcuts);
+    let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
     const defense_values = get_toughness_targeted_selected(actor, target);
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
-            armor: defense_values.armor, ap: ap || 0,
+            armor: defense_values.armor, ap: damage_formulas.ap || 0,
             target_id: defense_values.token_id || 0
         });
     let last_string_term = ''
@@ -989,7 +989,7 @@ async function roll_dmg_target(damage_roll, formula, raise_formula, target, tota
             last_string_term = term.operator;
         }
     }
-    if (raise_formula) {
+    if (damage_formulas.raise) {
         // Last die is raise die.
         current_damage_roll.brswroll.dice[current_damage_roll.brswroll.dice.length - 1].label =
             game.i18n.localize("BRSW.Raise");
@@ -1036,18 +1036,17 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const actor = get_actor_from_message(message)
     const item = get_item_from_message(message, actor)
     const raise_die_size = item.data.data.bonusDamageDie || 6
-    let raise_formula = `+1d${raise_die_size}x`;
+    let damage_formulas = {damage: item.data.data.damage, raise: `+1d${raise_die_size}x`,
+        ap: parseInt(item.data.data.ap)}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     let total_modifiers = 0;
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
-    let roll_formula = item.data.data.damage;
-    let ap = parseInt(item.data.data.ap)
     // Shotgun
-    if (roll_formula === '1-3d6' && item.type === 'weapon') {
+    if (damage_formulas.damage === '1-3d6' && item.type === 'weapon') {
         // Bet that this is shotgun
-        roll_formula = '3d6'
+        damage_formulas.damage = '3d6'
     }
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     // Betterrolls modifiers
@@ -1090,7 +1089,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
         if (min_str_die_size && ! is_shooting_skill(get_item_trait(item, actor))) {
             if (min_str_die_size > str_die_size) {
-                roll_formula = adjust_dmg_str(damage_roll, roll_formula, str_die_size);
+                damage_formulas.damage = adjust_dmg_str(
+                    damage_roll, damage_formulas.damage, str_die_size);
             }
         }
     }
@@ -1115,7 +1115,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 total_modifiers += new_mod.value
             }
             if (action.dmgOverride) {
-                roll_formula = action.dmgOverride;
+                damage_formulas.damage = action.dmgOverride;
             }
             if (action.self_add_status) {
                 apply_status(actor, action.self_add_status)
@@ -1124,10 +1124,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 macros.push(action.runDamageMacro);
             }
             if (action.raiseDamageFormula) {
-                raise_formula = action.raiseDamageFormula;
+                damage_formulas.raise = action.raiseDamageFormula;
             }
             if (action.overrideAp) {
-                ap = action.overrideAp;
+                damage_formulas.ap = action.overrideAp;
             }
             if (action.rerollDamageMod && expend_bennie) {
                 const reroll_mod = create_modifier(
@@ -1140,9 +1140,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
         });
     }
-    if (!roll_formula) {
+    if (!damage_formulas.damage) {
         // Damage is empty and damage action has not been selected...
-        roll_formula = "3d6" // Bet for a shotgun.
+        damage_formulas.damage = "3d6" // Bet for a shotgun.
     }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
@@ -1151,15 +1151,16 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         total_modifiers += conviction_modifier.value;
     }
     // Roll
-    let formula = makeExplotable(roll_formula);
+    damage_formulas.damage = makeExplotable(damage_formulas.damage);
     let targets = [undefined];
     if (game.user.targets.size > 0) {
         targets = await game.user.targets;
         targets = Array.from(targets).filter((token) => token.actor)
     }
-    if (! raise) {raise_formula = ''}
+    if (! raise) {damage_formulas.raise = ''}
     for (let target of targets) {
-        render_data.damage_rolls.push(await roll_dmg_target(damage_roll, formula, raise_formula, target, total_modifiers, message, ap));
+        render_data.damage_rolls.push(await roll_dmg_target(
+            damage_roll, damage_formulas, target, total_modifiers, message));
     }
     // Pinned actions
     // noinspection JSUnresolvedVariable
