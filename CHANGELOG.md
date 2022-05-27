@@ -1,7 +1,12 @@
 # Changelog
 
-## Unreleased
-* Added a new hook that is thrown if there is no roll to be expected. For now, this hook is rather niche. (SalieriC)  
+## Version 2.72 aka we are on 1.4 and I still resolving bugs from 1.1
+* Hooks: Added a new hook that is thrown if there is no roll to be expected. For now, this hook is rather niche. (SalieriC)
+* Combat flow: When a shaken combatant starts its turn, the unshake card is automatically shown. This can be disabled by setting
+* Translations: Another bunch of updates from the weblate team.
+* Bug: Make clicks on effects in the quick access work like in core (show origin if they had, show the effect card if they don't')
+* Character Sheet: Rigth clicking on an affect show the effect card.
+* Bug: Attribute rolls no longer break when 'item_has_additional_stat_xxxx' was involved.
 
 ## Version 2.71 aka swade 1.1 compatibility fixes, because of yes.
 * Refactoring: More changes to simplify and make code more readable.

@@ -33,3 +33,10 @@ If you set the size, this will be trigger the bonus/penalty.
  You can learn about Size/Scale at p106 from SWADE Core.
 
 ![Size/Scale Example](img/combatautomation05.jpg)
+
+
+# Shaken automation
+
+When you are in a combat and a turn starts for a shaken character, a card to roll spirit automatically appears on chat.
+
+This behaviour can be removed by a setting.
