@@ -210,17 +210,6 @@ export function is_shooting_skill(skill) {
     return shooting_names.includes(skill.name.toLowerCase());
 }
 
-/***
- * Checks if a skill is throwing
- * @param skill
- * @return {boolean}
- */
-export function is_throwing_skill(skill) {
-    let shooting_names = THROWING_SKILLS;
-    shooting_names.push(game.i18n.localize("BRSW.ThrowingSkill"));
-    return shooting_names.includes(skill.name.toLowerCase());
-}
-
 /**
  * Calculates de distance between tokens
  * @param origin_token
