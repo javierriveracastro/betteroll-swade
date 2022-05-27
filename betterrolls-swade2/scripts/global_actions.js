@@ -191,7 +191,7 @@ function check_selector(type, value, item, actor){
         }
     } else if (type.indexOf('item_additional_stat_') === 0) {
         const additional_stat = type.slice(21)
-        if (item.data.data.additionalStats.hasOwnProperty(additional_stat)) {
+        if (item?.data?.data?.additionalStats.hasOwnProperty(additional_stat)) {
             // noinspection EqualityComparisonWithCoercionJS
             selected = item.data.data.additionalStats[additional_stat].value == value
         }
