@@ -277,5 +277,7 @@
     "BRSW.EdgeName-Assassin": "Assassí",
     "BRSW.SkillName-Research": "Investigar",
     "BRSW.SkillName-Performance": "Interpretar",
-    "BRSW.EdgeName-IronJaw": "Mandíbula de ferro"
+    "BRSW.EdgeName-IronJaw": "Mandíbula de ferro",
+    "BRSW.RangeCalcUseGrid":"Calcula el rang amb quadrícula",
+	"BRSW.RangeCalcUseGridHint":"Utilitzeu la mesura de quadrícula en lloc de la mesura real per a les penalitzacions de rang"
 }

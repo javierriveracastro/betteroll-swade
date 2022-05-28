@@ -300,4 +300,7 @@
     "BRSW.GMModifier": "GM modifier",
     "BRSW.Auto-status-cards": "Show status removal cards",
     "BRSW.Auto-status-cardsHint": "Show the cards to remove status (currently only shaken) at the start of the combat"
+    "BRSW.RangeCalcUseGrid":"Calculate range with grid",
+	"BRSW.RangeCalcUseGridHint":"Use grid measurement instead of actual measurement for range penalties"
+
 }

@@ -282,5 +282,8 @@
     "BRSW.UnshakeFailure": "{name} ha fallado su tirada de espiritu y continua aturdido",
     "BRSW.UnshakeSuccessfulRollSWD": "{name} se ha recuperado del aturdimiento tras pasar la tirada de espiritu pero no puede actuar hasta el próximo turno",
     "BRSW.CharacterIsStunned": "El personaje esta conmocionado",
-    "BRSW.GMModifier": "Modificador del master"
+    "BRSW.GMModifier": "Modificador del master",
+    "BRSW.RangeCalcUseGrid":"Calcular rango con grilla",
+	"BRSW.RangeCalcUseGridHint":"Use la medición de cuadrícula en lugar de la medición real para las penalizaciones de rango"
+
 }

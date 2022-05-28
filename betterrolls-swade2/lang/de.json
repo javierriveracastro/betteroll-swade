@@ -299,4 +299,6 @@
     "BRSW.StreamTemplate": "Schwallschablone",
     "BRSW.MasterModifiers": "SL Mod.",
     "BRSW.GMModifier": "SL Modifikator"
+    "BRSW.RangeCalcUseGrid":"Reichweite mit Raster berechnen",
+	"BRSW.RangeCalcUseGridHint":"Verwenden Sie die Rastermessung anstelle der tatsächlichen Messung für Reichweiteneinbußen"
 }

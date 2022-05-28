@@ -444,6 +444,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     })
+    game.settings.register('betterrolls-swade2', 'range_calc_grid', {
+        name: game.i18n.localize("BRSW.RangeCalcUseGrid"),
+        hint: game.i18n.localize("BRSW.RangeCalcUseGridHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.

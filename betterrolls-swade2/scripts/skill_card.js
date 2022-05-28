@@ -221,8 +221,10 @@ export function is_shooting_skill(skill) {
 function calculate_distance(origin_token, target_token, item, tn) {
     const grid_unit = canvas.grid.grid.options.dimensions.distance
     let use_parry_as_tn = false
+    let use_grid_calc = game.settings.get('betterrolls-swade2', 'range_calc_grid');
     let distance = canvas.grid.measureDistance(
-        origin_token.center, target_token.center);
+        origin_token.center, target_token.center, {"gridSpaces":use_grid_calc});
+    
     if (distance < grid_unit * 2) {
         use_parry_as_tn = true;
     } else if (item) {
