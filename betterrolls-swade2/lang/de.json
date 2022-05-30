@@ -271,7 +271,7 @@
     "BRSW.MasterAndGM": "Besitzer und Spielleiter",
     "BRSW.RemainingBehaviour": "Sichtberechtigung MP und Munitionsinformationskarte",
     "BRSW.RemainingBehaviour_hint": "Legt fest, wer die Informationskarte zu verbleibenden MP und Munition sehen kann.",
-    "BRSW.CharacterIsShaken": "Der Charakter ist Angeschlagen",
+    "BRSW.CharacterIsShaken": "Der Charakter ist angeschlagen",
     "BRSW.TargetHasDodge": "Das Ziel hat Ausweichen (-2)",
     "BRSW.EdgeName-Dodge": "Ausweichen",
     "BRSW.NewDieResult": "Neues Ergebnis",
@@ -282,7 +282,7 @@
     "BRSW.EdgeName-Investigator": "Ermittler",
     "BRSW.QuantityIsZero": "Die Anzahl des Gegenstands ist Null",
     "BRSW.CharacterIsStunned": "Der Charakter ist betäubt",
-    "BRSW.Unshake": "Erholung vom Angeschlagen-Sein",
+    "BRSW.Unshake": "Erholungsprobe",
     "BRSW.SpiritRoll": "Willenskraftprobe",
     "BRSW.UnshakeBennie": "{name} gibt einen Benny aus und ist nicht mehr Angeschlagen.",
     "BRSW.UnshakeSuccessfulRoll": "{name} legt eine erfolgreiche Willenskraftprobe ab und ist nicht mehr Angeschlagen.",
@@ -297,6 +297,8 @@
     "BRSW.SWD-UnshakeHint": "Nutze die Gentlemans Edition Regeln für die Erholung von Angeschlagen (es ist eine Erhöhung nötig, um direkt agieren zu können).",
     "BRSW.AbilityName-Amorphous_theAfter": "Formlos",
     "BRSW.StreamTemplate": "Schwallschablone",
-    "BRSW.MasterModifiers": "SL Mod.",
-    "BRSW.GMModifier": "SL Modifikator"
+    "BRSW.MasterModifiers": "SL Modifikator",
+    "BRSW.GMModifier": "SL Modifikator",
+    "BRSW.Auto-status-cards": "Zeige Status entfernt Karten",
+    "BRSW.Auto-status-cardsHint": "Zeigt Karten, um Status (momentan nur Angeschlagen) zu Beginn des Kampfes zu entfernen"
 }
