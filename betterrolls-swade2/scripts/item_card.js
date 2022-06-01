@@ -116,7 +116,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ITEM_CARD)
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
-    if ((item.data.data.actions.skill === "" && item.type === "gear") || item.data.data.actions.skill.toLowerCase() === "none" || (item.data.data.hasOwnProperty("actions") === false && item.type != "skill")) {
+    if ((item.data.data.actions.skill === "" && item.type === "gear") ||
+            item.data.data.actions.skill.toLowerCase() === "none" ||
+            (item.data.data.hasOwnProperty("actions") === false &&
+                item.type !== "skill")) {
         Hooks.call("BRSW-CreateItemCardNoRoll", message);
     }
     return message;
@@ -1022,6 +1025,23 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     return current_damage_roll;
 }
 
+function get_chat_dmg_modifiers(options, damage_roll, total_modifiers) {
+    // Betterrolls modifiers
+    options.dmgMods.forEach(mod => {
+        const new_mod = create_modifier('Better Rolls', mod)
+        damage_roll.brswroll.modifiers.push(new_mod);
+        total_modifiers += new_mod.value;
+    })
+    // GM Modifiers
+    const gm_modifier = get_gm_modifiers()
+    if (gm_modifier) {
+        damage_roll.brswroll.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.GMModifier"), gm_modifier))
+        total_modifiers += gm_modifier
+    }
+    return total_modifiers;
+}
+
 /**
  * Rolls damage dor an item
  * @param message
@@ -1049,19 +1069,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_formulas.damage = '3d6'
     }
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
-    // Betterrolls modifiers
-    options.dmgMods.forEach(mod => {
-        const new_mod = create_modifier('Better Rolls', mod)
-        damage_roll.brswroll.modifiers.push(new_mod);
-        total_modifiers += new_mod.value;
-    })
-    // GM Modifiers
-    const gm_modifier = get_gm_modifiers()
-    if (gm_modifier) {
-        damage_roll.brswroll.modifiers.push(create_modifier(
-            game.i18n.localize("BRSW.GMModifier"), gm_modifier))
-        total_modifiers += gm_modifier
-    }
+    total_modifiers = get_chat_dmg_modifiers(options, damage_roll, total_modifiers);
     // Action mods
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
