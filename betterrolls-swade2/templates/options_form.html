@@ -3,7 +3,7 @@
         <i class="fas fa-caret-down"></i> {{ localize "BRSW.ChatFormTittle" }}:
     </h4>
     {{# if isGM }}<div class="brws-common-modifiers brsw-gm-modifiers">
-        {{{ localize 'BRSW.MasterModifiers' }}}
+        <span id="brsw-mods-GM-label">{{{ localize 'BRSW.MasterModifiers' }}}:</span>
         <span id="brsw-gm-mod--4" class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="-4">-4</span>
         <span id="brsw-gm-mod--2" class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="-2">-2</span>
         <span id="brsw-gm-mod--1" class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="-1">-1</span>
@@ -12,7 +12,7 @@
         <span id="brsw-gm-mod-4" class="brsw-clickable brws-selectable" data-type="master-modifier" data-value="4">+4</span>
     </div>{{/if}}
     <div class="brws-common-modifiers brsw-player-modifiers">
-        {{{ localize 'BRSW.TraitModifier' }}}:
+        <span id="brsw-mods-Trait-label">{{{ localize 'BRSW.TraitModifier' }}}:</span>
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="-8">-8</span>
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="-4">-4</span>
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="-2">-2</span>
@@ -22,7 +22,7 @@
         <span class="brws-selectable brsw-clickable" data-type="modifier" data-value="+4">+4</span>
     </div>
     <div class="brws-common-modifiers brsw-player-modifiers">
-        {{{ localize 'BRSW.Number_trait_dice' }}}:
+        <span id="brsw-mods-ROF-label">{{{ localize 'BRSW.Number_trait_dice' }}}:</span>
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="1"
             >1</span>
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="2">2</span>
@@ -32,7 +32,7 @@
         <span class="brws-selectable brsw-clickable" data-type="rof" data-value="6">6</span>
     </div>
     <div class="brws-common-modifiers brsw-player-modifiers">
-        {{{ localize 'BRSW.DmgModifier' }}}:
+        <span id="brsw-mods-Damage-label">{{{ localize 'BRSW.DmgModifier' }}}:</span>
         <span class="brws-selectable brsw-clickable" data-type="dmg_modifier" data-value="-2">-2</span>
         <span class="brws-selectable brsw-clickable" data-type="dmg_modifier" data-value="-1">-1</span>
         <span class="brws-selectable brsw-clickable" data-type="dmg_modifier" data-value="+1">+1</span>

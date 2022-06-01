@@ -16,6 +16,7 @@ import {modifyTokenBars} from "./tokenbars.js";
 import {activate_unshake_card_listeners} from "./unshake_card.js";
 import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
 import {round_start} from "./combat.js";
+import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";
 
 // Startup scripts
 
@@ -81,6 +82,7 @@ Hooks.on(`ready`, () => {
             }
         }
     }
+    changeNames() // Change the names of the modifiers
 })
 
 
@@ -129,7 +131,7 @@ Hooks.on('renderSidebarTab', (_, html) => {
     const place = html.find('#chat-controls');
     // noinspection JSIgnoredPromiseFromCall
     renderTemplate('modules/betterrolls-swade2/templates/options_form.html',
-            { 'isGM':game.user.isGM }).then(
+            { 'isGM':game.user.isGM}).then(
         content => {
             content = $(content);
             // Activate selectable control.
@@ -246,6 +248,12 @@ function register_settings_version2() {
         label: "BRSW.OptionalRulesLabel",
         hint: "BRSW.OptionalRulesHint",
         type: OptionalRulesConfiguration
+    });
+    game.settings.registerMenu('betterrolls-swade2', 'chat_modifiers_menu', {
+        name: "BRSW.ChatModifiersMenu",
+        label: "BRSW.ChatModifiersMenu",
+        hint: "BRSW.ChatModifiersMenuHint",
+        type: ModifierSettingsConfiguration
     });
     game.settings.register('betterrolls-swade2', 'system_action_disabled', {
         name: "System_Actions_disabled",
@@ -451,6 +459,14 @@ function register_settings_version2() {
         scope: 'world',
         type: Boolean,
         config: true
+    });
+    game.settings.register('betterrolls-swade2', 'chat_modifiers_names', {
+        name: "Chat Modifiers Names",
+        hint: "",
+        default: {GM: '', Trait: '', Damage: '', ROF: ''},
+        scope: 'world',
+        type: Object,
+        config: false
     });
 }
 
