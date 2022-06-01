@@ -226,7 +226,7 @@ function calculate_distance(origin_token, target_token, item, tn) {
         origin_token.center, target_token.center, {"gridSpaces":use_grid_calc});
     
     if (distance < grid_unit * 2) {
-        use_parry_as_tn = true;
+        use_parry_as_tn = (item.type !== 'power')
     } else if (item) {
         const range = item.data.data.range.split('/')
         if (grid_unit % 5 === 0) {
