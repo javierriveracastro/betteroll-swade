@@ -145,7 +145,7 @@ Hooks.on('renderSidebarTab', (_, html) => {
 
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
-    if (item.type === 'Item') {
+    if (item.type === 'Item' || item.type === 'target_click') {
         let grid_size = canvas.scene.data.grid
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
@@ -154,8 +154,13 @@ Hooks.on('dropCanvasData', (canvas, item) => {
             width: grid_size
         });
         if (number_marked) {
-            const command = create_macro_command(item)
-            eval('(async () => {' + command + '})()') // jshint ignore:line
+            if (item.type === 'Item') {
+                const command = create_macro_command(item)
+                eval('(async () => {' + command + '})()') // jshint ignore:line
+            } else if (item.type === 'target_click') {
+                const selector = `[data-message-id="${item.message_id}"] #${item.tag_id}`
+                document.querySelector(selector).click()
+            }
         }
     }
 });

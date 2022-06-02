@@ -346,6 +346,14 @@ export function activate_item_card_listeners(message, html) {
     html.find('.brsw-add-damage-number').bind(
         'click', {message: message}, show_fixed_damage_dialog)
     html.find('.brsw-template-button').on('click', (ev) => {preview_template(ev, message)})
+    html.find('#roll-damage').on('dragstart', (ev) => {
+      ev.originalEvent.dataTransfer.setData('text/plain',
+          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-damage', 'message_id': message.id}));
+    })
+    html.find('#roll-raise-damage').on('dragstart', (ev) => {
+      ev.originalEvent.dataTransfer.setData('text/plain',
+          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-raise-damage', 'message_id': message.id}));
+    })
 }
 
 
