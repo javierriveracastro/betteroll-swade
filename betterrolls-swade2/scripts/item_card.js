@@ -1025,21 +1025,49 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     return current_damage_roll;
 }
 
-function get_chat_dmg_modifiers(options, damage_roll, total_modifiers) {
+function get_chat_dmg_modifiers(options, damage_roll) {
     // Betterrolls modifiers
     options.dmgMods.forEach(mod => {
         const new_mod = create_modifier('Better Rolls', mod)
         damage_roll.brswroll.modifiers.push(new_mod);
-        total_modifiers += new_mod.value;
     })
     // GM Modifiers
     const gm_modifier = get_gm_modifiers()
     if (gm_modifier) {
         damage_roll.brswroll.modifiers.push(create_modifier(
             game.i18n.localize("BRSW.GMModifier"), gm_modifier))
-        total_modifiers += gm_modifier
     }
-    return total_modifiers;
+}
+
+function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
+    const splited_minStr = item.data.data.minStr.split('d')
+    const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
+    const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+    if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor))) {
+        if (min_str_die_size > str_die_size) {
+            damage_formulas.damage = adjust_dmg_str(
+                damage_roll, damage_formulas.damage, str_die_size);
+        }
+    }
+}
+
+/**
+ * Calculates the modifier from jokers to the damage roll.
+ * @param {ChatMessage} message
+ * @param {SwadeActor} actor
+ * @param damage_roll
+ */
+function joker_modifiers(message, actor, damage_roll) {
+    let token_id = message.getFlag('betterrolls-swade2', 'token')
+    if (!token_id) {
+        const possible_tokens = actor.getActiveTokens()
+        if (possible_tokens.length) {
+            token_id = possible_tokens[0].id
+        }
+    }
+    if (has_joker(token_id)) {
+        damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
+    }
 }
 
 /**
@@ -1060,7 +1088,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         ap: parseInt(item.data.data.ap)}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
-    let total_modifiers = 0;
     // Calculate modifiers
     let options = get_roll_options(html, default_options);
     // Shotgun
@@ -1069,38 +1096,18 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_formulas.damage = '3d6'
     }
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
-    total_modifiers = get_chat_dmg_modifiers(options, damage_roll, total_modifiers);
+    get_chat_dmg_modifiers(options, damage_roll);
     // Action mods
     if (item.data.data.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
         const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
             item.data.data.actions.dmgMod)
         damage_roll.brswroll.modifiers.push(new_mod);
-        total_modifiers += new_mod.value
     }
-    // Joker
-    let token_id = message.getFlag('betterrolls-swade2', 'token')
-    if (! token_id) {
-        const possible_tokens = actor.getActiveTokens()
-        if (possible_tokens.length) {
-            token_id = possible_tokens[0].id
-        }
-    }
-    if (has_joker(token_id)) {
-        damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
-        total_modifiers += 2;
-    }
+    joker_modifiers(message, actor, damage_roll);
     // Minimum strength
     if (item.data.data.minStr) {
-        const splited_minStr = item.data.data.minStr.split('d')
-        const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-        const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-        if (min_str_die_size && ! is_shooting_skill(get_item_trait(item, actor))) {
-            if (min_str_die_size > str_die_size) {
-                damage_formulas.damage = adjust_dmg_str(
-                    damage_roll, damage_formulas.damage, str_die_size);
-            }
-        }
+        calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
     }
     // Actions
     let pinned_actions = [];
@@ -1120,7 +1127,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (action.dmgMod) {
                 const new_mod = create_modifier(action.name, action.dmgMod)
                 damage_roll.brswroll.modifiers.push(new_mod)
-                total_modifiers += new_mod.value
             }
             if (action.dmgOverride) {
                 damage_formulas.damage = action.dmgOverride;
@@ -1141,7 +1147,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 const reroll_mod = create_modifier(
                     action.name, action.rerollDamageMod)
                 damage_roll.brswroll.modifiers.push(reroll_mod);
-                total_modifiers += reroll_mod.value;
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
@@ -1156,7 +1161,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const conviction_modifier = check_and_roll_conviction(actor);
     if (conviction_modifier) {
         damage_roll.brswroll.modifiers.push(conviction_modifier);
-        total_modifiers += conviction_modifier.value;
     }
     // Roll
     damage_formulas.damage = makeExplotable(damage_formulas.damage);
@@ -1166,6 +1170,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         targets = Array.from(targets).filter((token) => token.actor)
     }
     if (! raise) {damage_formulas.raise = ''}
+    let total_modifiers = 0
+    for (let modifier of damage_roll.brswroll.modifiers) {
+        total_modifiers += modifier.value
+    }
     for (let target of targets) {
         render_data.damage_rolls.push(await roll_dmg_target(
             damage_roll, damage_formulas, target, total_modifiers, message));
