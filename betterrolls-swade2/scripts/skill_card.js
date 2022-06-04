@@ -224,8 +224,7 @@ function calculate_distance(origin_token, target_token, item, tn) {
     let use_grid_calc = game.settings.get('betterrolls-swade2', 'range_calc_grid');
     let distance = canvas.grid.measureDistance(
         origin_token.center, target_token.center, {"gridSpaces":use_grid_calc});
-    
-    if (distance < grid_unit * 2) {
+    if (distance < grid_unit * 2 && item){
         use_parry_as_tn = (item.type !== 'power')
     } else if (item) {
         const range = item.data.data.range.split('/')
