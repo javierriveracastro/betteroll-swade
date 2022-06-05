@@ -734,12 +734,14 @@ function get_new_roll_options(message, extra_data, html, trait_dice, roll_option
         const token_id = message.getFlag('betterrolls-swade2', 'token')
         const origin_token = token_id ? canvas.tokens.get(token_id) :
             actor.getActiveTokens()[0]
-        const item = get_item_from_message(message, actor)
-        const target_data = get_tn_from_token(
-            skill, objetive, origin_token, item);
-        extra_options.tn = target_data.value;
-        extra_options.tn_reason = target_data.reason;
-        extra_options.target_modifiers = target_data.modifiers;
+        if (origin_token) {
+            const item = get_item_from_message(message, actor)
+            const target_data = get_tn_from_token(
+                skill, objetive, origin_token, item);
+            extra_options.tn = target_data.value;
+            extra_options.tn_reason = target_data.reason;
+            extra_options.target_modifiers = target_data.modifiers;
+        }
     }
     if (extra_data.hasOwnProperty('tn')) {
         extra_options.tn = extra_data.tn;
@@ -1210,12 +1212,14 @@ function get_tn_from_target(message, index, selected) {
         const item = get_item_from_message(message, actor)
         const origin_token = token_id ? canvas.tokens.get(token_id) :
                 actor.getActiveTokens()[0]
-        const skill = get_skill_from_message(message, get_actor_from_message(message));
-        const target = get_tn_from_token(skill, objetive, origin_token, item);
-        if (target.value) {
-            // Don't update if we didn't get a value
-            // noinspection JSIgnoredPromiseFromCall
-            edit_tn(message, index, target.value, target.reason)
+        if (origin_token) {
+            const skill = get_skill_from_message(message, get_actor_from_message(message));
+            const target = get_tn_from_token(skill, objetive, origin_token, item);
+            if (target.value) {
+                // Don't update if we didn't get a value
+                // noinspection JSIgnoredPromiseFromCall
+                edit_tn(message, index, target.value, target.reason)
+            }
         }
     }
 }
