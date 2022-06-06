@@ -2,8 +2,6 @@
 /* globals canvas, game */
 
 import {create_unshaken_card} from "./unshake_card.js";
-import {get_owner} from "./damage_card.js";
-
 
 export async function round_start(combat){
     const token_id = combat.current.tokenId
