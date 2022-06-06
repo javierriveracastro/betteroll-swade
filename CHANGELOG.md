@@ -1,5 +1,17 @@
 # Changelog
 
+## Version 2.73: You should not import other code directly
+* Translations: More great work from the weblate team
+* Refactor: Lot's of old code was removed and some functions were simplified
+* Range: Use grid units to measure distance, this should be enabled on settings (TheLaslo)
+* Chat modifiers: Names of the modifiers can now be configured in settings
+* Automation: After Clint's clarification, the system now doesn't use parry as difficulty when casting a power on an adjacent token
+* Drag and drop: Damage can now be rolled (and auto-targeted) by dragging the damage (or raise damage) button to a token
+* Bug: The program now doesn't break trying to calculate distance where it can't identify a source token
+* Automation: Add the attacker own bonus to formation figther (after another Clint clarification) (Mike Bloy)
+* Bug: Now only one unshake card is created on the chat (Mike Bloy)
+* Bug: DSN should be working again after using proper exports instead of importing code directly
+
 ## Version 2.72 aka we are on 1.4 and I still resolving bugs from 1.1
 * Hooks: Added a new hook that is thrown if there is no roll to be expected. For now, this hook is rather niche. (SalieriC)
 * Combat flow: When a shaken combatant starts its turn, the unshake card is automatically shown. This can be disabled by setting
