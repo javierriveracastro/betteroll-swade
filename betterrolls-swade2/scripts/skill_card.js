@@ -403,6 +403,9 @@ function calculate_gangUp(attacker, target) {
             t.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})
         );
         enemies = allies_within_range_of_target.length + allies_with_formation_fighter.length;
+        if (enemies > 0 && attacker.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})) {
+            enemies = enemies + 1;
+        }
         // allies with formation fighter are counted twice
         allies = enemies_within_range_both_attacker_target.length;
     }
