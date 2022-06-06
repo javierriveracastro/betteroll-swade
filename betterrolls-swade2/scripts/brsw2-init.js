@@ -478,26 +478,22 @@ function register_settings_version2() {
 // Settings related to Dice So Nice.
 
 function register_dsn_settings(){
-    // noinspection JSFileReferences
-    import(foundry.utils.getRoute('/modules/dice-so-nice/DiceColors.js')).then(dsn => {
-        let theme_choice = {};
-        // noinspection JSUnresolvedVariable
-        for (let theme in dsn.COLORSETS) {
-            // noinspection JSUnresolvedVariable
-            if (dsn.COLORSETS.hasOwnProperty(theme)) {
-                theme_choice[theme] = theme;
-            }
+    let theme_choice = {};
+    // noinspection JSUnresolvedVariable
+    for (let theme in game.dice3d.exports.COLORSETS) {
+        if (game.dice3d.exports.COLORSETS.hasOwnProperty(theme)) {
+            theme_choice[theme] = theme;
         }
-        let damage_theme_choice = Object.assign({}, theme_choice);
-        damage_theme_choice.None = 'None';
-        game.settings.register('betterrolls-swade2', 'damageDieTheme', {
-            name: game.i18n.localize("BRSW.DamageDiceTheme"),
-            hint: game.i18n.localize("BRSW.DamageDiceThemeHint"),
-            default: "None",
-            scope: "client",
-            type: String,
-            choices: damage_theme_choice,
-            config: true
-        });
-    }).catch(()=>{console.log('Dice So Nice not installed')});
+    }
+    let damage_theme_choice = Object.assign({}, theme_choice);
+    damage_theme_choice.None = 'None';
+    game.settings.register('betterrolls-swade2', 'damageDieTheme', {
+        name: game.i18n.localize("BRSW.DamageDiceTheme"),
+        hint: game.i18n.localize("BRSW.DamageDiceThemeHint"),
+        default: "None",
+        scope: "client",
+        type: String,
+        choices: damage_theme_choice,
+        config: true
+    });
 }
