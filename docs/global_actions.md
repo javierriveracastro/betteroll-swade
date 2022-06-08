@@ -72,7 +72,8 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_joker: The action will only be avaliable when the actor is in combat and has drawn a joker.
 * target_has_edge: This action will be avaliable if PRIOR TO CLICKING the icon, the user has selected a target that has some edge.
 * target_has_hindrance: This action is like actor_has_edge but fires for target hindrances
-* target_has_major_hindrance: This other action only fires when the target has a major hindrance that includes the text in the value
+* target_has_major_hindrance: This other action only fires when the target has a major hindrance that includes the text in the value.
+* target_has_effect: String selector; works similar to `actor_has_effect` but checks for active effects on the target instead.
 * item_description_includes: This action will be shown if the item description includes the value.
 * actor_additional_stat_xxx: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
 * item_additional_stat_xxx: This works like actor_additional_stat_xxx but applies to items.
