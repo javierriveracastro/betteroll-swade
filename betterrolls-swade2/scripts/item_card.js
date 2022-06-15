@@ -363,7 +363,7 @@ export function activate_item_card_listeners(message, html) {
 export function make_item_footer(item) {
     let footer = [];
     if (item.type === "weapon"){
-        footer.push(game.i18n.localize("SWADE.Rng") + ": " +  
+        footer.push(game.i18n.localize("SWADE.Range._name") + ": " +
             item.data.data.range);
         // noinspection JSUnresolvedVariable
         footer.push(game.i18n.localize("SWADE.RoF") +
@@ -381,7 +381,7 @@ export function make_item_footer(item) {
     } else if (item.type === "power"){
         // noinspection JSUnresolvedVariable
         footer.push(game.i18n.localize("SWADE.PP") + ": " + item.data.data.pp);
-        footer.push(game.i18n.localize("SWADE.Rng") + ": " + 
+        footer.push(game.i18n.localize("SWADE.Range._name") + ": " +
             item.data.data.range);
         footer.push(game.i18n.localize("SWADE.Dur") + ": " +
             item.data.data.duration);
@@ -408,7 +408,7 @@ export function make_item_footer(item) {
     } else if (item.type === "shield") {
         footer.push(game.i18n.localize("SWADE.Parry") + ": " + item.data.data.parry);
         // noinspection JSUnresolvedVariable
-        footer.push(game.i18n.localize("SWADE.Cover") + ": " + item.data.data.cover);
+        footer.push(game.i18n.localize("SWADE.Cover._name") + ": " + item.data.data.cover);
     }
     return footer
 }
