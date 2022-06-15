@@ -30,7 +30,7 @@ export async function create_unshaken_card(original_message, token_id) {
     {header: {type: '',
         title: game.i18n.localize("BRSW.Unshake"),
         notes: actor.name}, text: text, footer: footer, trait_roll: trait_roll,
-        show_roll_injury: false, attribute_name: 'vigor'}, CONST.CHAT_MESSAGE_TYPES.IC,
+        show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/unshaken_card.html")
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'token', token_id)
