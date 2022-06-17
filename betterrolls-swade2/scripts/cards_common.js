@@ -6,7 +6,7 @@ import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broo
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
-import {create_unshaken_card} from "./remove_status_cards.js";
+import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
 import {get_gm_modifiers} from './gm_modifiers.js';
 
 export const BRSW_CONST = {
@@ -169,7 +169,7 @@ export function create_render_options(actor, render_data, template, message) {
     const item = message ? get_item_from_message(message, actor) :
         actor.items.getName(render_data.header.title)
     if (actor.data.data.status.isStunned) {
-        render_data.warning = game.i18n.localize("BRSW.CharacterIsStunned")
+        render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
     } else if (actor.data.data.status.isShaken) {
         render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
     } else if (item?.data.data.quantity <= 0) {
@@ -272,6 +272,8 @@ export function activate_common_listeners(message, html) {
         //
         html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
             create_unshaken_card(message)})
+        html.find('.br2-unstun-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
+            create_unstun_card(message)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
