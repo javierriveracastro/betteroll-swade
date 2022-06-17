@@ -1,7 +1,7 @@
 // Functions to control combat flow
 /* globals canvas, game */
 
-import {create_unshaken_card} from "./unshake_card.js";
+import {create_unshaken_card} from "./remove_status_cards.js";
 
 export async function round_start(combat){
     const token_id = combat.current.tokenId

@@ -13,7 +13,7 @@ import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from ".
 import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
-import {activate_unshake_card_listeners} from "./unshake_card.js";
+import {activate_unshake_card_listeners} from "./remove_status_cards.js";
 import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
 import {round_start} from "./combat.js";
 import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";

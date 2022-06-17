@@ -6,7 +6,7 @@ import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broo
 import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
-import {create_unshaken_card} from "./unshake_card.js";
+import {create_unshaken_card} from "./remove_status_cards.js";
 import {get_gm_modifiers} from './gm_modifiers.js';
 
 export const BRSW_CONST = {
