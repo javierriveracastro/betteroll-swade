@@ -20,7 +20,7 @@ async function create_remove_status_card(original_message, token_id, type) {
     } else if (token_id) {
         actor = canvas.tokens.get(token_id).actor
     }
-    if (! actor.data.data.status.isShaken) {return}
+    if (! actor.data.data.status.isShaken && !actor.data.data.status.isStunned) {return}
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
     const text = (type === BRSW_CONST.TYPE_UNSHAKE_CARD) ?
@@ -51,7 +51,7 @@ export async function create_unshaken_card(original_message, token_id) {
  * @param {Number} token_id
  */
 export async function create_unstun_card(original_message, token_id) {
-
+    await create_remove_status_card(original_message, token_id, BRSW_CONST.TYPE_UNSTUN_CARD)
 }
 
 

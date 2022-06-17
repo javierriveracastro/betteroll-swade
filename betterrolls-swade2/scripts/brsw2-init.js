@@ -76,7 +76,7 @@ Hooks.on(`ready`, () => {
         Hooks.on('updateCombat', round_start)
         // Disable system management
         for (let status of CONFIG.SWADE.statusEffects) {
-            if (status.id === 'shaken') {
+            if (status.id === 'shaken' || status.id === 'stunned') {
                 //delete status.flags
                 status.flags.swade.expiration = null //Only disable the dialogue, not the loose turn stuff
             }
