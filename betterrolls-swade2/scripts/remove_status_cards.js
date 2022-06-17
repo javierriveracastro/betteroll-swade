@@ -10,8 +10,9 @@ import {status_footer} from "./incapacitation_card.js";
  * Shows the unshaken card
  * @param {ChatMessage} original_message
  * @param {Number} token_id
+ * @param {Number} type
  */
-export async function create_unshaken_card(original_message, token_id) {
+async function create_remove_status_card(original_message, token_id, type) {
     let actor
     if (original_message) {
         actor = get_actor_from_message(original_message)
@@ -22,22 +23,37 @@ export async function create_unshaken_card(original_message, token_id) {
     if (! actor.data.data.status.isShaken) {return}
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
-    const text = game.i18n.format("BRSW.UnshakenText",
-        {token_name: actor.name});
+    const text = (type === BRSW_CONST.TYPE_UNSHAKE_CARD) ?
+        game.i18n.format("BRSW.UnshakenText", {token_name: actor.name}):
+        game.i18n.format("BRSW.UnstunText", {token_name: actor.name})
     let footer = status_footer(actor)
     let trait_roll = new BRWSRoll();
+    let title_name = type === BRSW_CONST.TYPE_UNSHAKE_CARD ? "BRSW.Unshake" : "BRSW.Unstun";
     let message = await create_common_card(actor,
     {header: {type: '',
-        title: game.i18n.localize("BRSW.Unshake"),
+        title: game.i18n.localize(title_name),
         notes: actor.name}, text: text, footer: footer, trait_roll: trait_roll,
         show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
-    "modules/betterrolls-swade2/templates/unshaken_card.html")
+    "modules/betterrolls-swade2/templates/remove_status_card.html")
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'token', token_id)
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_UNSHAKE_CARD)
+    await message.setFlag('betterrolls-swade2', 'card_type', type)
     return message
 }
+
+export async function create_unshaken_card(original_message, token_id) {
+    await create_remove_status_card(original_message, token_id, BRSW_CONST.TYPE_UNSHAKE_CARD)
+}
+
+/**
+ * Shows the unstun card
+ * @param {ChatMessage} original_message
+ * @param {Number} token_id
+ */
+export async function create_unstun_card(original_message, token_id) {
+
+}
+
 
 /**
  * Activate the listeners of the unshake card

@@ -303,5 +303,7 @@
   "BRSW.RangeCalcUseGrid": "Calculate range with grid",
   "BRSW.RangeCalcUseGridHint": "Use grid measurement instead of actual measurement for range penalties",
   "BRSW.ChatModifiersMenu": "Chat modifiers name",
-  "BRSW.ChatModifiersMenuHint": "Change the chat modifiers names"
+  "BRSW.ChatModifiersMenuHint": "Change the chat modifiers names",
+  "BRSW.UnstunText" : "Pass a Bigot roll to recover.",
+  "BRSW.Unstun": "Remove stunned"
 }
