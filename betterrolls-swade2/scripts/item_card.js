@@ -796,7 +796,7 @@ export async function roll_item(message, html, expend_bennie,
 function reload_weapon(actor, weapon, number) {
     // If the quantity of ammo is less than the amount required, use whatever is left.
     let item = actor.items.get(weapon.id);
-    let ammo = actor.items.getName(item.data.data.ammo)
+    let ammo = actor.items.getName(item.data.data.ammo.trim())
     let ammo_quantity = 999999999;
     if (ammo) {
         if (ammo.data.data.quantity <= 0) {
