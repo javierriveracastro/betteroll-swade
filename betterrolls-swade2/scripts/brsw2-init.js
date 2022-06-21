@@ -53,8 +53,6 @@ Hooks.on(`ready`, () => {
         $('.brws-common-modifiers').addClass('brsw-collapsed');
         $('.brsw-chat-form i').removeClass('fa-caret-down').addClass('fa-caret-right');
     }
-    // Set GM modifiers
-    recover_html_from_gm_modifiers()
     // Add some jquery magic to allow binding our functions prior to system
     $.fn.bindFirst = function(name, fn) {
         // bind as you normally would
@@ -71,6 +69,8 @@ Hooks.on(`ready`, () => {
             handlers.splice(0, 0, handler);
         });
     };
+    // Set GM modifiers
+    recover_html_from_gm_modifiers()
     // Add a hook to control combat flow.
     if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
         Hooks.on('updateCombat', round_start)

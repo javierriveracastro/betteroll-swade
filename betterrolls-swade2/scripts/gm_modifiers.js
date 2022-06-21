@@ -43,7 +43,8 @@ export function recover_html_from_gm_modifiers() {
             if (gm_modifiers_array.includes(modifier)) {
                 class_str += ' brws-selected brws-permanent-selected'
             }
-            document.getElementById(`brsw-gm-mod-${modifier}`).className = class_str
+            const element = document.getElementById(`brsw-gm-mod-${modifier}`)
+            if (element) {element.className = class_str}
         }
     }
 }
