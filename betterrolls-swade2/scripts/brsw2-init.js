@@ -13,7 +13,7 @@ import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from ".
 import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
-import {activate_unshake_card_listeners} from "./remove_status_cards.js";
+import {activate_remove_status_card_listeners} from "./remove_status_cards.js";
 import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
 import {round_start} from "./combat.js";
 import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";
@@ -103,8 +103,9 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_damage_card_listeners(message, html);
         } else if (card_type === BRSW_CONST.TYPE_INC_CARD) {
             activate_incapacitation_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_UNSHAKE_CARD) {
-            activate_unshake_card_listeners(message, html);
+        } else if (card_type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
+                card_type === BRSW_CONST.TYPE_UNSTUN_CARD) {
+            activate_remove_status_card_listeners(message, html, card_type);
         }
         // Hide forms to non-master, non owner
         if (game.user.id !== message.data.user && !game.user.isGM) {

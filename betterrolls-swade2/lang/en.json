@@ -304,6 +304,9 @@
   "BRSW.RangeCalcUseGridHint": "Use grid measurement instead of actual measurement for range penalties",
   "BRSW.ChatModifiersMenu": "Chat modifiers name",
   "BRSW.ChatModifiersMenuHint": "Change the chat modifiers names",
-  "BRSW.UnstunText" : "Pass a Bigot roll to recover.",
-  "BRSW.Unstun": "Remove stunned"
+  "BRSW.UnstunText" : "Pass a Vigor roll to recover.",
+  "BRSW.Unstun": "Remove stunned",
+  "BRSW.VigorRoll": "Roll vigor",
+  "BRSW.UnstunSuccessfulRoll": "{name} passed a Vigor roll, removing stunned.",
+  "BRSW.UnstunFailure": "{name} failed its vigor roll to remove stunned."
 }

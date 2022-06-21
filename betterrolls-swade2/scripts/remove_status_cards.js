@@ -29,11 +29,14 @@ async function create_remove_status_card(original_message, token_id, type) {
     let footer = status_footer(actor)
     let trait_roll = new BRWSRoll();
     let title_name = type === BRSW_CONST.TYPE_UNSHAKE_CARD ? "BRSW.Unshake" : "BRSW.Unstun";
+    const roll_title = type === BRSW_CONST.TYPE_UNSHAKE_CARD ?
+        game.i18n.localize('BRSW.SpiritRoll') :
+        game.i18n.localize('BRSW.VigorRoll');
     let message = await create_common_card(actor,
     {header: {type: '',
         title: game.i18n.localize(title_name),
-        notes: actor.name}, text: text, footer: footer, trait_roll: trait_roll,
-        show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
+        notes: actor.name}, roll_title: roll_title, text: text, footer: footer,
+        trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/remove_status_card.html")
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'token', token_id)
@@ -59,8 +62,11 @@ export async function create_unstun_card(original_message, token_id) {
  * Activate the listeners of the unshake card
  * @param message: Message data
  * @param html: Html produced
+ * @param card_type: Type of card
  */
-export function activate_unshake_card_listeners(message, html) {
+export function activate_remove_status_card_listeners(message, html, card_type) {
+    const roll_function = card_type === BRSW_CONST.TYPE_UNSHAKE_CARD ?
+        roll_unshaken : roll_unstun
     html.find('.brsw-spirit-button, .brsw-roll-button').click((ev) =>{
         let spend_bennie = false
         if (ev.currentTarget.classList.contains('roll-bennie-button') ||
@@ -68,7 +74,7 @@ export function activate_unshake_card_listeners(message, html) {
             spend_bennie=true
         }
         // noinspection JSIgnoredPromiseFromCall
-        roll_unshaken(message, spend_bennie);
+        roll_function(message, spend_bennie);
     });
 }
 
@@ -184,4 +190,30 @@ async function check_abilities(actor) {
     }
     // Returning the modifiers array:
     return modifiers
+}
+
+
+/**
+ * Roll to remove stunned
+ * @param {ChatMessage} message
+ */
+async function roll_unstun(message) {
+    const render_data = message.getFlag('betterrolls-swade2',
+        'render_data');
+    const actor = get_actor_from_message(message);
+    const roll = await roll_trait(message,
+    actor.data.data.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
+    '', {});
+    let result = 0;
+    roll.rolls.forEach(roll => {
+        result = Math.max(roll.result, result);
+    })
+    if (result >= 4) {
+        render_data.text = game.i18n.format("BRSW.UnstunSuccessfulRoll", {name: actor.name})
+        await apply_status(actor, 'stunned', false)
+    } else {
+        render_data.text = game.i18n.format("BRSW.UnstunFailure", {name: actor.name})
+    }
+    await update_message(message, actor, render_data);
+    Hooks.call("BRSW-Unstun", message, actor)
 }
