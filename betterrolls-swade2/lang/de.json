@@ -300,5 +300,9 @@
     "BRSW.MasterModifiers": "SL Modifikator",
     "BRSW.GMModifier": "SL Modifikator",
     "BRSW.Auto-status-cards": "Zeige Status entfernt Karten",
-    "BRSW.Auto-status-cardsHint": "Zeigt Karten, um Status (momentan nur Angeschlagen) zu Beginn des Kampfes zu entfernen"
+    "BRSW.Auto-status-cardsHint": "Zeigt Karten, um Status (momentan nur Angeschlagen) zu Beginn des Kampfes zu entfernen",
+    "BRSW.ChatModifiersMenu": "Anzeigename Better Rolls Modifikatoren",
+    "BRSW.ChatModifiersMenuHint": "Verändert die Anzeigenamen der Modifikatoren oberhalb des Chatfensters",
+    "BRSW.RangeCalcUseGrid": "Reichweite mit Gitter berechnen",
+    "BRSW.RangeCalcUseGridHint": "Verwendet das Gittermaß anstatt der tatsächlichen Reichweite, um die Abzüge für Reichweite zu ermitteln"
 }
