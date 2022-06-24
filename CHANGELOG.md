@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 2.74: Stun cards are a thing?
+* Refactors: Better importing, making unshake card code more generic
+* Bug: Assure than a combatant has an actor before checking for shaken
+* BR Modifiers: Support HTML in modifiers name and make then configurale
+* Documentation: Better docs from SalieriC (SalieriC)
+* Translations: New translations from the weblate team.
+* Stun card: New remove stunned card that works as unshake card
+* Bug: Don't break in new worlds when DM modifiers had not been set
+* Bug: Ammo name now is trimmed before checking
+* Bug: Clicking and right-clicking on NPCs sheets now work like PC sheets.
+
 ## Version 2.73: You should not import other code directly
 * Translations: More great work from the weblate team
 * Refactor: Lot's of old code was removed and some functions were simplified
