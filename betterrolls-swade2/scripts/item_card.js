@@ -246,7 +246,7 @@ export function activate_item_listeners(app, html) {
         '.item-image, .item-img, .name.item-show, span.item>.item-control.item-edit,' +
         ' .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4,' +
         ' .power-header>.item-name, .card-button, .item-control.item-show,' +
-        ' .power button.item-show, .weapon button.item-show');
+        ' .power button.item-show, .weapon button.item-show, .edge-hindrance>.item-control');
     item_images.bindFirst('click', async ev => {
         await item_click_listener(ev, target);
     });
