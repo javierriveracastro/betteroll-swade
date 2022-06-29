@@ -1322,6 +1322,67 @@ async function edit_toughness(message, index) {
     await update_message(message, actor, render_data)
 }
 
+/**
+ * Expends power points, called when the first button in the dialog is clicked.
+ * @param {Number} number: Number ot power points to remove
+ * @param {string} mode: 'reload' to recharge pp
+ * @param {SwadeActor} actor: The actor that casts the power
+ * @param {Item} item: The power itself
+ */
+function modify_power_points(number, mode, actor, item) {
+    const arcaneDevice = item.data.data.additionalStats.devicePP
+    let ppv = arcaneDevice ? item.data.data.additionalStats.devicePP.value :
+        actor.data.data.powerPoints.value
+    let ppm = arcaneDevice ? item.data.data.additionalStats.devicePP.max :
+        actor.data.data.powerPoints.max
+    let otherArcane = false;
+    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
+             actor.data.data.powerPoints[item.data.data.arcane].max) {
+        // Specific power points
+        otherArcane = true;
+        ppv = actor.data.data.powerPoints[item.data.data.arcane].value;
+        ppm = actor.data.data.powerPoints[item.data.data.arcane].max;
+    }
+    if (ppv - number < 0) {
+        ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
+        return
+    }
+    let newPP = Math.max(ppv - number, 0);
+    if (newPP > ppm) {
+        const rechargedPP = - number - (newPP - ppm);
+        newPP = ppm
+        ChatMessage.create({
+            speaker: {alias: name},
+            content: game.i18n.format("BRSW.RechargePPTextHitMax", {name: actor.name, rechargedPP: rechargedPP, ppm: ppm})
+        })
+    }
+    newPP = Math.min(newPP, ppm)
+    if (arcaneDevice === true) {
+        const updates = [
+            { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+          ];
+          // Updating the Arcane Device:
+          actor.updateEmbeddedDocuments("Item", updates);
+    } else {
+        const data_key = otherArcane ?
+            `data.powerPoints${item.data.data.arcane}.value` : "data.powerPoints.value";
+        let data = {}
+        data[data_key] = newPP;
+        actor.update(data);
+    }
+    const text = {
+        'reload': game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: -number, newPP: newPP}),
+        'spend': game.i18n.format('BRSW.ExpendPPText', {name: actor.name, number: number, newPP: newPP}),
+        'benny_reload': game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP}),
+        'soul_drain': game.i18n.format("BRSW.RechargePPSoulDrainText", {name: actor.name, newPP: newPP})
+    }
+    ChatMessage.create({
+        speaker: {alias: actor.name},
+        content: text[mode]
+    })
+    Hooks.call("BRSW-ManualPPManagement", actor, item);
+}
+
 
 /**
  * Function to manually manage power points (c) SalieriC
@@ -1330,137 +1391,22 @@ async function edit_toughness(message, index) {
  * @param {Item} item
  */
 async function manual_pp(actor, item) {
-    // noinspection JSUnresolvedVariable
-    let ppv = actor.data.data.powerPoints.value;
-    // noinspection JSUnresolvedVariable
-    let ppm = actor.data.data.powerPoints.max;
-    // Activator and resources for Arcane Devices:
-    let arcaneDevice = false;
-    let otherArcane = false;
-    let data = {}
-    if (item.data.data.additionalStats.devicePP){
-        arcaneDevice = true;
-        ppv = item.data.data.additionalStats.devicePP.value;
-        ppm = item.data.data.additionalStats.devicePP.max;
-    }
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
-             actor.data.data.powerPoints[item.data.data.arcane].max) {
-        // Specific power points
-        otherArcane = true;
-        ppv = actor.data.data.powerPoints[item.data.data.arcane].value;
-        ppm = actor.data.data.powerPoints[item.data.data.arcane].max;
-    }
-    const fv = actor.data.data.fatigue.value;
-    const fm = actor.data.data.fatigue.max;
     const amount_pp = game.i18n.localize("BRSW.AmmountPP");
     new Dialog({
         title: game.i18n.localize("BRSW.PPManagement"),
         content: `<form> <div class="form-group"> 
             <label for="num">${amount_pp}: </label>
-             <input id="num" name="num" type="number" min="0" value="5">
-              </div> </form>`,
+             <input id="brsw2-num" name="num" type="number" min="0" value="5">
+              </div> </form><script>$("#brsw2-num").focus()</script>`,
         default: 'one',
         buttons: {
             one: {
                 label: game.i18n.localize("BRSW.ExpendPP"),
-                callback: (html) => {
-                    //Button 1: Spend Power Points (uses a number given that reduces data.powerPoints.value (number field)) but can't be lower than 0.
-                    let number = Number(html.find("#num")[0].value);
-                    let newPP = Math.max(ppv - number, 0);
-                    if (ppv - number < 0) {
-                        ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
-                    }
-                    else if (arcaneDevice === true) {
-                        const updates = [
-                            { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
-                          ];
-                          // Updating the Arcane Device:
-                          actor.updateEmbeddedDocuments("Item", updates); 
-                    }
-                    else {
-                        // noinspection JSIgnoredPromiseFromCall
-                        if (otherArcane === true) {
-                            // Specific power points
-                            data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
-                        }
-                        else {
-                            data['data.powerPoints.value'] = newPP;
-                        }
-                        actor.update(data);
-                    }
-                    // noinspection JSIgnoredPromiseFromCall
-                    ChatMessage.create({
-                        speaker: {
-                            alias: actor.name
-                        },
-                        content: game.i18n.format('BRSW.ExpendPPText', {name: actor.name, number: number, newPP: newPP})
-                    })
-                    //Hooks.call("BRSW-ManualPPManagement", actor, item);
-                }
+                callback: (html) => modify_power_points(Number(html.find("#brsw2-num")[0].value), 'spend', actor, item)
             },
             two: {
                 label: game.i18n.localize("BRSW.RechargePP"),
-                callback: (html) => {
-                    //Button 2: Recharge Power Points (uses a number given that increases the data.powerPoints.value a like amount but does not increase it above the number given in data.powerPoints.max (number field))
-                    let number = Number(html.find("#num")[0].value);
-                    let newPP = ppv + number
-                    if (newPP > ppm) {
-                        newPP = ppm;
-                        // noinspection JSIgnoredPromiseFromCall
-                        if (arcaneDevice === true) {
-                            const updates = [
-                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
-                              ];
-                              // Updating the Arcane Device:
-                              actor.updateEmbeddedDocuments("Item", updates); 
-                        }
-                        else {
-                            if (otherArcane === true) {
-                                // Specific power points
-                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
-                            }
-                            else {
-                                data['data.powerPoints.value'] = newPP;
-                            }
-                            actor.update(data);
-                        }
-                        // Declaring variables to reflect hitting the maximum
-                        let rechargedPP = ppm - ppv;
-                        ChatMessage.create({
-                            speaker: {
-                                alias: name
-                            },
-                            content: game.i18n.format("BRSW.RechargePPTextHitMax", {name: actor.name, rechargedPP: rechargedPP, ppm: ppm})
-                        })
-                        Hooks.call("BRSW-ManualPPManagement", actor, item);
-                    }
-                    else {
-                        if (arcaneDevice === true) {
-                            const updates = [
-                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
-                              ];
-                              // Updating the Arcane Device:
-                              actor.updateEmbeddedDocuments("Item", updates); 
-                        }
-                        else {
-                            if (otherArcane === true) {
-                                // Specific power points
-                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
-                            }
-                            else {
-                                data['data.powerPoints.value'] = newPP;
-                            }
-                            actor.update(data);
-                        }
-                        ChatMessage.create({
-                            speaker: {
-                                alias: name
-                            },
-                            content: game.i18n.format("BRSW.RechargePPText", {name: actor.name, number: number, newPP: newPP})
-                        })
-                        Hooks.call("BRSW-ManualPPManagement", actor, item);
-                    }
-                }
+                callback: (html) => modify_power_points(- Number(html.find("#brsw2-num")[0].value), 'reload', actor, item)
             },
             three: {
                 label: game.i18n.localize("BRSW.PPBeniRecharge"),
@@ -1468,78 +1414,30 @@ async function manual_pp(actor, item) {
                     //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
                     if (actor.data.data.bennies.value < 1) {
                         ui.notifications.notify(game.i18n.localize("BRSW.NoBennies"));
+                        return
                     }
-                    else {
-                        let newPP = Math.min(ppv + 5, ppm);
-                        if (arcaneDevice === true) {
-                            const updates = [
-                                { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
-                              ];
-                              // Updating the Arcane Device:
-                              actor.updateEmbeddedDocuments("Item", updates); 
-                        }
-                        else {
-                            if (otherArcane === true) {
-                                // Specific power points
-                                data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
-                            }
-                            else {
-                                data['data.powerPoints.value'] = newPP;
-                            }
-                            actor.update(data);
-                        }
-                        actor.spendBenny();
-                        if (newPP === ppm) {
-                            ChatMessage.create({
-                                speaker: {
-                                    alias: name
-                                },
-                                content: game.i18n.format("BRSW.RechargePPBennyTextHitMax", {name: actor.name, ppm: ppm})
-                            })
-                        }
-                        else {
-                            ChatMessage.create({
-                                speaker: {
-                                    alias: name
-                                },
-                                content: game.i18n.format("BRSW.RechargePPBennyText", {name: actor.name, newPP: newPP})
-                            })
-                        }
-                        Hooks.call("BRSW-ManualPPManagement", actor, item);
-                    }
+                    modify_power_points(-5, 'benny_reload', actor, item)
+                    actor.spendBenny();
                 }
             },
             four: {
                 label: game.i18n.localize("BRSW.SoulDrain"),
                 callback: () => {
                     //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
+                    const fv = actor.data.data.fatigue.value;
+                    const fm = actor.data.data.fatigue.max;
                     let newFV = fv + 1
-                    if (arcaneDevice === true) {
+                    if (item.data.data.additionalStats?.devicePP) {
                         ui.notifications.notify("You cannot use Soul Drain to recharge Arcane Devices.")
+                        return
                     }
-                    else if (newFV > fm) {
+                    if (newFV > fm) {
                         ui.notifications.notify("You cannot exceed your maximum Fatigue using Soul Drain.")
+                        return
                     }
-                    else {
-                        let newPP = ppv + 5
-                        if (otherArcane === true) {
-                            // Specific power points
-                            data['data.powerPoints.' + item.data.data.arcane + '.value'] = newPP;
-                        }
-                        else {
-                            data['data.powerPoints.value'] = newPP;
-                        }
-                        actor.update(data)
-                        actor.update({"data.fatigue.value": fv + 1})
-                        ChatMessage.create({
-                            speaker: {
-                                alias: name
-                            },
-                            content: game.i18n.format("BRSW.RechargePPSoulDrainText", {name: actor.name, newPP: newPP})
-                        })
-                        Hooks.call("BRSW-ManualPPManagement", actor, item);
-                    }
-                },
+                    actor.update({"data.fatigue.value": fv + 1})
+                    modify_power_points(-5, 'soul_drain', actor, item)
+                }
             }
         }
     }).render(true)
