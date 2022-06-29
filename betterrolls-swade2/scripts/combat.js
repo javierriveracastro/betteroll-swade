@@ -9,7 +9,6 @@ export async function round_start(combat){
     if (actor && (actor.data.data.status.isShaken || actor.data.data.status.isStunned)) {
         const first_gm = game.users.filter(u => u.isGM)[0]
         if (game.user.id === first_gm.id) {
-            console.log(actor.data.data.status)
             if (actor.data.data.status.isStunned) {
                 await create_unstun_card(undefined, token_id);
             } else {
