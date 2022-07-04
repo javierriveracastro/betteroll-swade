@@ -246,6 +246,19 @@ function check_selector(type, value, item, actor){
                 selected = selected || effect ? (! effect.data.disabled) : false;
             }
         }
+    } else if (type === 'faction') {
+        const tokens = actor.getActiveTokens()
+        if (game.user.targets.size > 0 && tokens.length > 0) {
+            const actor_disposition = tokens[0].data.disposition
+            const target_disposition = game.user.targets.first().data?.disposition;
+            if (value === 'same') {
+                selected = actor_disposition === target_disposition;
+            } else {
+                selected = actor_disposition !== target_disposition;
+            }
+        } else {
+            selected = false;
+        }
     }
     return selected;
 }

@@ -77,6 +77,7 @@ This group of fields are used to select when the action is available, you will n
 * item_description_includes: This action will be shown if the item description includes the value.
 * actor_additional_stat_xxx: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
 * item_additional_stat_xxx: This works like actor_additional_stat_xxx but applies to items.
+* faction: If `selector_value` is 'same' this will make the action appear when token from the same disposition is targeted. When the value is another it will make the action appear when the targeted token disposition is different from acting.
 
 **complex_selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
