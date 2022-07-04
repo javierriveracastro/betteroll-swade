@@ -79,16 +79,28 @@ This group of fields are used to select when the action is available, you will n
 * item_additional_stat_xxx: This works like actor_additional_stat_xxx but applies to items.
 * faction: If `selector_value` is 'same' this will make the action appear when token from the same disposition is targeted. When the value is another it will make the action appear when the targeted token disposition is different from acting.
 
-**complex_selectors:**
+**Complex Selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.
 * or_selector: Takes a list of selectors and executes the action if at least one is true
 * not_selector: Takes a list of only on selector and executes the action if that selector conditions are NOT met.
 
-```  
-and_selector: [
-{'selector_type': 'skill', 'selector_value':'figthing}, 
-{'selector_type':'actor', 'selector_value': 'Jhon'}
-]
+**Example: Basic Selector**
+```json  
+  "and_selector": [
+    {"selector_type": "skill", "selector_value": "figthing"}, 
+    {"selector_type": "actor", "selector_value": "Jhon"}
+  ]
+```
+
+**Example: Nested Selectors**
+```json
+  "and_selector": [{
+    "selector_type": "target_has_edge", "selector_value":"Dodge", 
+    "or_selector": [
+      {"selector_type": "power", "selector_value":"Bolt"}, 
+      {"selector_type": "skill", "selector_value": "Shooting"}
+    ]}
+  ],
 ```
 
 # Macros:
@@ -239,6 +251,25 @@ These cover the most basic modifiers and combat actions in SWADE.
 
 ### Edges
 This is a non-exhaustive list of modifiers enabled by Edges a character has learned in SWADE.
+
+**Dodge**
+```json
+{
+  "id":"DODGE",
+  "name":"Dodge",
+  "button_name":"Dodge",
+  "skillMod": "-2",
+  "and_selector": [
+    {"selector_type": "target_has_edge", "selector_value":"Dodge", 
+    "or_selector": [
+      {"selector_type": "power", "selector_value":"Bolt"}, 
+      {"selector_type": "skill", "selector_value": "Shooting"}
+    ]}
+  ],
+  "group": "Edges",
+  "defaultChecked": "on"  
+}
+```
 
 **Marksman**
 ```json
@@ -434,6 +465,21 @@ These are examples enabled by learned Edges from Savage Pathfinder.
     }
   ],  
   "group": "Savage Pathfinder"
+}
+```
+
+**Wild Attack (Pounce)**
+```json
+{
+  "id":"POUNCE-WILD_ATTACK",
+  "name":"Wild Attack (Pounce)",
+  "button_name":"Wild Attack (Pounce)",
+  "dmgMod": "+4",
+  "and_selector": [
+    {"selector_type": "actor_has_ability", "selector_value":"Pounce"}, 
+    {"selector_type": "skill", "selector_value": "Fighting"}
+  ],
+  "group": "Savage Pathfinder"  
 }
 ```
 
