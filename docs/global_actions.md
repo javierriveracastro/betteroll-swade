@@ -396,6 +396,47 @@ These are examples enabled by learned Edges from Savage Pathfinder.
 }
 ```
 
+**Environmental Resistance/Weakness**
+```json
+{
+  "id": "ENVIRONMENTALRESISTANCE",
+  "name": "Environmental Resistance",
+  "button_name": "Environmental Resistance",
+  "dmgMod": "-4",
+  "or_selector":[
+    {
+      "selector_type": "item_type", 
+      "selector_value": "weapon"
+    },
+    {
+      "selector_type": "item_type", 
+      "selector_value": "power"
+    }
+  ],  
+  "group": "Savage Pathfinder"
+}
+```
+
+```json
+{
+  "id": "ENVIRONMENTALWEAKNESS",
+  "name": "Environmental Weakness",
+  "button_name": "Environmental Weakness",
+  "dmgMod": "+4",
+  "or_selector":[
+    {
+      "selector_type": "item_type", 
+      "selector_value": "weapon"
+    },
+    {
+      "selector_type": "item_type", 
+      "selector_value": "power"
+    }
+  ],  
+  "group": "Savage Pathfinder"
+}
+```
+
 ## Sprawlrunners  
 These are examples common to the Sprawlrunners rules for Savage Worlds.  
   
