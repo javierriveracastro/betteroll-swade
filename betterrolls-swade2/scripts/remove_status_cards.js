@@ -2,7 +2,7 @@
 /* globals canvas, game, CONST, Hooks */
 
 import {get_owner} from "./damage_card.js";
-import {apply_status, BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
+import {/*apply_status, */BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
     roll_trait, spend_bennie, update_message} from "./cards_common.js";
 import {status_footer} from "./incapacitation_card.js";
 
@@ -92,7 +92,7 @@ async function roll_unshaken(message, use_bennie) {
         // remove shaken
         await spend_bennie(actor)
         render_data.text = game.i18n.format("BRSW.UnshakeBennie", {name: actor.name})
-        await apply_status(actor, 'shaken', false)
+        await succ.apply_status(actor, 'shaken', false)
     } else {
         // Check for Edges & Abilities
         const modifiers = await check_abilities(actor)
@@ -110,7 +110,7 @@ async function roll_unshaken(message, use_bennie) {
             } else {
                 render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRoll", {name: actor.name})
             }
-            await apply_status(actor, 'shaken', false)
+            await succ.apply_status(actor, 'shaken', false)
         } else {
             render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: actor.name})
         }
@@ -210,7 +210,7 @@ async function roll_unstun(message) {
     })
     if (result >= 4) {
         render_data.text = game.i18n.format("BRSW.UnstunSuccessfulRoll", {name: actor.name})
-        await apply_status(actor, 'stunned', false)
+        await succ.apply_status(actor, 'stunned', false)
     } else {
         render_data.text = game.i18n.format("BRSW.UnstunFailure", {name: actor.name})
     }
