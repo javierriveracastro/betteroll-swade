@@ -365,3 +365,22 @@
 .brsw-check-cell {
     width: 10%;
 }
+
+/* Chat tabs */
+.brsw-chat-tab {
+    margin-right: 6px;
+    padding: 2px 2px 0 2px;
+}
+
+.brsw-tab-active {
+    border: 1px solid #ff0000;
+    border-radius: 5px 5px 0 0;
+}
+
+.brws-chat-tab-row {
+    border-bottom: 1px solid #ff0000;
+}
+
+.brsw-tab-content{
+    height: 8em;
+}

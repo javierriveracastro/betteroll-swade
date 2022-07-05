@@ -14,7 +14,12 @@ import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from 
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
 import {activate_remove_status_card_listeners} from "./remove_status_cards.js";
-import {manage_selectable_gm, register_gm_modifiers_settings, recover_html_from_gm_modifiers} from "./gm_modifiers.js";
+import {
+    manage_selectable_gm,
+    register_gm_modifiers_settings,
+    recover_html_from_gm_modifiers,
+    manage_gm_tabs
+} from "./gm_modifiers.js";
 import {round_start} from "./combat.js";
 import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";
 
@@ -48,9 +53,9 @@ Hooks.on(`ready`, () => {
     loadTemplates(templatePaths).then(() => {
         console.log("Better Rolls templates preloaded")
     });
-    // Collapse the char window if needed
+    // Collapse the chat window if needed
     if (game.settings.get('betterrolls-swade2', 'collapse-chat-window')) {
-        $('.brws-common-modifiers').addClass('brsw-collapsed');
+        $('.brsw-chat-modifiers-window').addClass('brsw-collapsed');
         $('.brsw-chat-form i').removeClass('fa-caret-down').addClass('fa-caret-right');
     }
     // Add some jquery magic to allow binding our functions prior to system
@@ -71,6 +76,7 @@ Hooks.on(`ready`, () => {
     };
     // Set GM modifiers
     recover_html_from_gm_modifiers()
+    manage_gm_tabs()
     // Add a hook to control combat flow.
     if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
         Hooks.on('updateCombat', round_start)
