@@ -54,6 +54,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
     const notes = item.data.data.notes || "";
+    const description = item.data.data.description;
+    console.log(description);
     let trait_roll = new BRWSRoll();
     let action_groups = {};
     let possible_default_dmg_action;
@@ -107,7 +109,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             trait_roll: trait_roll, damage_rolls: [],
             powerpoints: power_points, action_groups: actions[0],
             extra_text: actions[1], used_shots: 0,
-            actions_collapsed: collapse_actions,
+            actions_collapsed: collapse_actions, description: description,
             swade_templates: get_template_from_description(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
