@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 2.75: Strange UI changes
+* Documentation: Brunocalado improved lots of documentation
+* Actions: A new selector, `faction` has been added.
+* BR Modifiers: Master and character modifiers are now in different tabs.
+* Item cards: Added a collapsed description field to the item cards.
+
 ## Version 2.74: Stun cards are a thing?
 * Refactors: Better importing, making unshake card code more generic
 * Bug: Assure than a combatant has an actor before checking for shaken
