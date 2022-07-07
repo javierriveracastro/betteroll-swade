@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+* Added SUCC (SWADE Ultimate Condition Changer) as a dependency.
+* Completely removed the `apply_status` function from BR2.
+* Replaced the `apply_status` function calls with `succ.apply_status` to handle status management in SUCC.
+* Combatant updates (marking combatant as defeated) also commented out as SUCC does this on its own.
+* Changed Incapacitation status to be an overlay (aka "big icon").
+
 ## Version 2.74: Stun cards are a thing?
 * Refactors: Better importing, making unshake card code more generic
 * Bug: Assure than a combatant has an actor before checking for shaken

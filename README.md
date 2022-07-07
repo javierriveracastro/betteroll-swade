@@ -28,6 +28,9 @@ You can access the docs in those links:
 
 HTML version: https://javierriveracastro.github.io/betteroll-swade/
 
+### Dependencies
+
+* **SWADE Ultimage Condition Changer (SUCC):** This module allows you to change the SWADE status icons along with some other things. It also provides a strong API that Better Rolls now makes use of. You will need SUCC in order to use Better Rolls.
 
 ### Integrations
 
