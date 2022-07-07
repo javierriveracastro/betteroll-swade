@@ -211,7 +211,7 @@ export async function roll_attribute(message, html,
             const effects = process_common_actions(action, extra_data, macros, pinned_actions);
             if (effects) {
                 for (let effect of effects) {
-                    await succ.apply_status(actor, effect, true)
+                    succ.apply_status(actor, effect, true)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {

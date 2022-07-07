@@ -721,7 +721,7 @@ export async function roll_item(message, html, expend_bennie,
             let effects = process_common_actions(action, extra_data, macros, pinned_actions)
             if (effects) {
                 for (let effect of effects) {
-                    await succ.apply_status(actor, effect)
+                    succ.apply_status(actor, effect)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {
@@ -1140,7 +1140,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 damage_formulas.damage = action.dmgOverride;
             }
             if (action.self_add_status) {
-                await succ.apply_status(actor, action.self_add_status)
+                succ.apply_status(actor, action.self_add_status)
             }
             if (action.runDamageMacro) {
                 macros.push(action.runDamageMacro);

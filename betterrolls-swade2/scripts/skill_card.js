@@ -166,7 +166,7 @@ export async function roll_skill(message, html, expend_bennie){
             let effects = process_common_actions(action, extra_data, macros, pinned_actions)
             if (effects) {
                 for (let effect of effects) {
-                    await succ.apply_status(actor, effect)
+                    succ.apply_status(actor, effect)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {
