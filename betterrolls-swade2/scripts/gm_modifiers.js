@@ -57,3 +57,18 @@ export function get_gm_modifiers() {
     }
     return total_modifier
 }
+
+export function manage_gm_tabs() {
+    $('.brsw-chat-tab').on('click', function() {
+        $('.brsw-chat-tab').removeClass('brsw-tab-active')
+        this.classList.add('brsw-tab-active')
+        const tab_id = this.dataset.tab
+        $('.brsw-tab-content').each(function() {
+            if (this.id === tab_id) {
+                this.classList.remove('brsw-collapsed')
+            } else {
+                this.classList.add('brsw-collapsed')
+            }
+        })
+    })
+}
