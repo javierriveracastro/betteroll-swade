@@ -1,8 +1,8 @@
 // Functions for the damage card
-/* global game, canvas, CONST, Token, CONFIG, Hooks */
+/* global game, canvas, CONST, Token, CONFIG, Hooks, succ */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
-    roll_trait, spend_bennie, update_message/*, apply_status*/
+    roll_trait, spend_bennie, update_message
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
@@ -146,15 +146,7 @@ async function apply_damage(token, wounds, soaked=0) {
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
     incapacitated = final_wounds > token.actor.data.data.wounds.max
-    await succ.apply_status(token, 'incapacitated', incapacitated, true/*Make it an overlay*/)
-    // Mark as defeated if the token is in a combat
-    /* Should be covered by SUCC
-    game.combat?.combatants.forEach(combatant => {
-        if (combatant.token?.id === token.id) {
-            game.combat.updateEmbeddedDocuments('Combatant',
-                [{_id: combatant.id, defeated: incapacitated}]);
-        }
-    });*/
+    await succ.apply_status(token, 'incapacitated', incapacitated, true)
     // We cap damage on actor number of wounds
     final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
     // Finally, we update actor and mark defeated
@@ -184,13 +176,6 @@ async function undo_damage(message){
                 e => e.data.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
         await token_object.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
-        /* Should be covered by SUCC.
-        game.combat?.combatants.forEach(combatant => {
-            if (combatant.token.id === token) {
-                game.combat.updateEmbeddedDocuments('Combatant',
-                    [{_id: combatant.id, defeated: false}]);
-            }
-        });*/
     }
     await message.delete();
 }

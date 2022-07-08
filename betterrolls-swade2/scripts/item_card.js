@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -9,7 +9,7 @@ import {
     check_and_roll_conviction, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie,
     update_message, has_joker, create_modifier, process_common_actions,
-    process_minimum_str_modifiers/*, apply_status*/
+    process_minimum_str_modifiers
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";

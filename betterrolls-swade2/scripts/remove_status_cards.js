@@ -1,8 +1,8 @@
 // functions for the unshake and maybe un-stun card //
-/* globals canvas, game, CONST, Hooks */
+/* globals canvas, game, CONST, Hooks, succ */
 
 import {get_owner} from "./damage_card.js";
-import {/*apply_status, */BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
+import {BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
     roll_trait, spend_bennie, update_message} from "./cards_common.js";
 import {status_footer} from "./incapacitation_card.js";
 

@@ -31,6 +31,7 @@ HTML version: https://javierriveracastro.github.io/betteroll-swade/
 ### Dependencies
 
 * **SWADE Ultimage Condition Changer (SUCC):** This module allows you to change the SWADE status icons along with some other things. It also provides a strong API that Better Rolls now makes use of. You will need SUCC in order to use Better Rolls.
+* **Settings Extender**: A library that makes easier working with settings.
 
 ### Integrations
 
@@ -46,7 +47,7 @@ HTML version: https://javierriveracastro.github.io/betteroll-swade/
 ## Authors
 
 - JuanV, base of drag and drop support, custom bennies, translation infrastructure.
-- SalieriC, manual ammunition management, power point management, typo hunting, hardy.
+- SalieriC, too many things to list.
 - Kandashi, manual ammunition management.
 - Sergut, documentation corrections.
 - Razortide, documentation, the best parts of this doc are his.

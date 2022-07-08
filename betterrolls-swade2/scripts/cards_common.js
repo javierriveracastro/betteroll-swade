@@ -1375,35 +1375,3 @@ export function process_minimum_str_modifiers(item, actor, name) {
     }
     return new_mod
 }
-
-/**
- * ---Outsourced to SUCC---
- * Applies an active effect based status to either an actor or a token
- * @param {SwadeActor, Token, Document} target: Who to apply the status
- * @param {string} status_name: Name of the status
- * @param {boolean} final_state: True if we want the status applied fal
- */
-/*export async function apply_status(target, status_name, final_state=true){
-    // We are going to apply the effect always to the actor
-    if (target.actor) {
-        // noinspection JSValidateTypes
-        target = target.actor
-    }
-    const effect = CONFIG.statusEffects.find(effect => effect.id === status_name)
-    const applied_effects = target.effects.find(eff => eff.getFlag('core', 'statusId') === status_name)
-    if (applied_effects && !final_state) {
-        // The actor has the effect but we want it off
-        applied_effects.delete()
-    } else if (applied_effects && final_state) {
-        // We need to update starting round for correct expiration management
-        applied_effects.update({'duration.startRound': game.combat?.round || 0})
-    } else if (!applied_effects && final_state) {
-        // We want the effect but the acto doesn't have it
-        const new_effect = foundry.utils.deepClone(effect)
-        new_effect.label = game.i18n.localize(new_effect.label)
-        setProperty(new_effect, 'flags.core.statusId', effect.id)
-        new_effect.id = undefined
-        const doc_class = getDocumentClass('ActiveEffect')
-        await doc_class.create(new_effect, {parent: target})
-    }
-}*/
