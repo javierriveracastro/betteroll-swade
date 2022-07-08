@@ -75,6 +75,11 @@
     {
       "name": "swade",
       "type": "system"
-    }
+    },
+		{
+			"type": "module",
+			"name": "succ",
+			"manifest": "https://raw.githubusercontent.com/SalieriC/SUCC/main/succ/module.json"
+		}
   ]
 }

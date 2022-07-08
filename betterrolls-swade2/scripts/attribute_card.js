@@ -4,7 +4,7 @@
 import {
     BRSW_CONST, get_action_from_click, get_actor_from_message,
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
-    BRWSRoll, roll_trait, process_common_actions, apply_status
+    BRWSRoll, roll_trait, process_common_actions/*, apply_status*/
 } from "./cards_common.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import { run_macros } from "./item_card.js";
@@ -211,7 +211,7 @@ export async function roll_attribute(message, html,
             const effects = process_common_actions(action, extra_data, macros, pinned_actions);
             if (effects) {
                 for (let effect of effects) {
-                    apply_status(actor, effect, true)
+                    succ.apply_status(actor, effect, true)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {

@@ -2,7 +2,7 @@
 /* global game, canvas, CONST, Token, CONFIG, Hooks */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
-    roll_trait, spend_bennie, update_message, apply_status
+    roll_trait, spend_bennie, update_message/*, apply_status*/
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
@@ -146,19 +146,20 @@ async function apply_damage(token, wounds, soaked=0) {
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
     incapacitated = final_wounds > token.actor.data.data.wounds.max
-    await apply_status(token, 'incapacitated', incapacitated)
+    await succ.apply_status(token, 'incapacitated', incapacitated, true/*Make it an overlay*/)
     // Mark as defeated if the token is in a combat
+    /* Should be covered by SUCC
     game.combat?.combatants.forEach(combatant => {
         if (combatant.token?.id === token.id) {
             game.combat.updateEmbeddedDocuments('Combatant',
                 [{_id: combatant.id, defeated: incapacitated}]);
         }
-    });
+    });*/
     // We cap damage on actor number of wounds
     final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
-    await apply_status(token, 'shaken', final_shaken)
+    await succ.apply_status(token, 'shaken', final_shaken)
     Hooks.call("BRSW-AfterApplyDamage", token, final_wounds, final_shaken,
         incapacitated, initial_wounds, initial_shaken, soaked);
     return {text: text, incapacitated: incapacitated};
@@ -178,17 +179,18 @@ async function undo_damage(message){
     if (token) {
         // Remove incapacitation and shaken
         let token_object = canvas.tokens.get(token).document
-        await apply_status(token_object, 'shaken', render_data.undo_values.shaken)
+        succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
                 e => e.data.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
         await token_object.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
+        /* Should be covered by SUCC.
         game.combat?.combatants.forEach(combatant => {
             if (combatant.token.id === token) {
                 game.combat.updateEmbeddedDocuments('Combatant',
                     [{_id: combatant.id, defeated: false}]);
             }
-        });
+        });*/
     }
     await message.delete();
 }

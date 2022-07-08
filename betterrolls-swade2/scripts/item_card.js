@@ -9,7 +9,7 @@ import {
     check_and_roll_conviction, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie,
     update_message, has_joker, create_modifier, process_common_actions,
-    process_minimum_str_modifiers, apply_status
+    process_minimum_str_modifiers/*, apply_status*/
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";
@@ -723,7 +723,7 @@ export async function roll_item(message, html, expend_bennie,
             let effects = process_common_actions(action, extra_data, macros, pinned_actions)
             if (effects) {
                 for (let effect of effects) {
-                    apply_status(actor, effect)
+                    succ.apply_status(actor, effect)
                 }
             }
             if (element.classList.contains("brws-permanent-selected")) {
@@ -1142,7 +1142,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 damage_formulas.damage = action.dmgOverride;
             }
             if (action.self_add_status) {
-                apply_status(actor, action.self_add_status)
+                succ.apply_status(actor, action.self_add_status)
             }
             if (action.runDamageMacro) {
                 macros.push(action.runDamageMacro);
