@@ -964,6 +964,14 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     }
     let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
+    // Multiply modifiers must be last
+    if (damage_formulas.multiplier !== 1) {
+        const final_value = (roll.total + total_modifiers) * 2
+        const multiply_mod = create_modifier(`x ${damage_formulas.multiplier}`,
+            final_value - total_modifiers - roll.total)
+        current_damage_roll.brswroll.modifiers.push(multiply_mod)
+        total_modifiers = final_value - roll.total
+    }
     const defense_values = get_toughness_targeted_selected(actor, target);
     current_damage_roll.brswroll.rolls.push(
         {
@@ -1095,7 +1103,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item = get_item_from_message(message, actor)
     const raise_die_size = item.data.data.bonusDamageDie || 6
     let damage_formulas = {damage: item.data.data.damage, raise: `+1d${raise_die_size}x`,
-        ap: parseInt(item.data.data.ap)}
+        ap: parseInt(item.data.data.ap), multiplier: 1}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1130,10 +1138,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 action = item.data.data.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
-                // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
-            // noinspection JSUnresolvedVariable
             if (action.dmgMod) {
                 const new_mod = create_modifier(action.name, action.dmgMod)
                 damage_roll.brswroll.modifiers.push(new_mod)
@@ -1160,6 +1166,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             }
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
+            }
+            if (action.multiplyDmgMod) {
+                damage_formulas.multiplier = action.multiplyDmgMod
             }
         });
     }
