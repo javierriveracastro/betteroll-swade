@@ -304,5 +304,10 @@
     "BRSW.ChatModifiersMenu": "Anzeigename Better Rolls Modifikatoren",
     "BRSW.ChatModifiersMenuHint": "Verändert die Anzeigenamen der Modifikatoren oberhalb des Chatfensters",
     "BRSW.RangeCalcUseGrid": "Reichweite mit Gitter berechnen",
-    "BRSW.RangeCalcUseGridHint": "Verwendet das Gittermaß anstatt der tatsächlichen Reichweite, um die Abzüge für Reichweite zu ermitteln"
+    "BRSW.RangeCalcUseGridHint": "Verwendet das Gittermaß anstatt der tatsächlichen Reichweite, um die Abzüge für Reichweite zu ermitteln",
+    "BRSW.UnstunText": "Erfolgreiche Erholungsprobe benötigt.",
+    "BRSW.Unstun": "Entferne Betäubt",
+    "BRSW.VigorRoll": "Konstitutionsprobe",
+    "BRSW.UnstunSuccessfulRoll": "{name}s Konstitutionsprobe war erfolgreich, entferne Betäubt.",
+    "BRSW.UnstunFailure": "{name}s Konstitionsprobe schlug fehl, Betäubt bleibt aktiv."
 }
