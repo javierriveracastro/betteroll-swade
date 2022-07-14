@@ -283,7 +283,7 @@
     "BRSW.UnshakeSuccessfulRollSWD": "{name} se ha recuperado del aturdimiento tras pasar la tirada de espíritu pero no puede actuar hasta el próximo turno.",
     "BRSW.CharacterIsStunned": "El personaje esta conmocionado",
     "BRSW.GMModifier": "Modificador del master",
-    "BRSW.AbilityName-Undead": "Muerto viviente",
+    "BRSW.AbilityName-Undead": "No muerto",
     "BRSW.AbilityName-Construct": "Constructo",
     "BRSW.AbilityName-Demon_Hellfrost": "Demonio",
     "BRSW.EdgeName-Investigator": "Investigador",
@@ -296,6 +296,17 @@
     "BRSW.SpiritRoll": "Lanza espiritu",
     "BRSW.SWD-UnshakeHint": "Use las reglas de Savage Worlds Deluxe para salir del aturdimiento (se necesita un aumento para actuar inmediatamente).",
     "BRSW.EdgeName-CombatReflexes": "Reflejos de combate",
-    "BRSW.Auto-status-cards": "Mostrar las cartas para recuperarse de un estado",
-    "BRSW.Auto-status-cardsHint": "Mostrar las cartas para recuperarse de un estado (actualmente solo aturdido) al comienzo de cada turno de combate."
+    "BRSW.Auto-status-cards": "Mostrar tarjetas de eliminación de estado",
+    "BRSW.Auto-status-cardsHint": "Mostrar las cartas para recuperarse de un estado (actualmente solo aturdido) al comienzo de cada turno de combate.",
+    "BRSW.AbilityName-Amorphous_theAfter": "Amorfo",
+    "BRSW.EdgeName-FormationFighter": "Combate en formación",
+    "BRSW.UnstunText": "Supera una tirada de Vigor para recuperarte.",
+    "BRSW.Unstun": "Eliminar el conmocionado",
+    "BRSW.VigorRoll": "Tirada de Vigor",
+    "BRSW.UnstunSuccessfulRoll": "{name} ha superado la tirada de vigor, eliminamos el conmocionado.",
+    "BRSW.UnstunFailure": "{name} ha fallado su tirada de vigor para quitar el conmocionado.",
+    "BRSW.ChatModifiersMenu": "Nombre modificadores chat",
+    "BRSW.ChatModifiersMenuHint": "Cambiar los nombres de los modificadores del chat",
+    "BRSW.MasterModifiers": "Modificadores GM",
+    "BRSW.StreamTemplate": "Plantilla de emanación"
 }
