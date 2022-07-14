@@ -1376,7 +1376,7 @@ function modify_power_points(number, mode, actor, item) {
           actor.updateEmbeddedDocuments("Item", updates);
     } else {
         const data_key = otherArcane ?
-            `data.powerPoints${item.data.data.arcane}.value` : "data.powerPoints.value";
+            `data.powerPoints.${item.data.data.arcane}.value` : "data.powerPoints.value";
         let data = {}
         data[data_key] = newPP;
         actor.update(data);
