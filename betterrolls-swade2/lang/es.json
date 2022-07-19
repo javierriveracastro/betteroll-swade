@@ -308,5 +308,8 @@
     "BRSW.ChatModifiersMenu": "Nombre modificadores chat",
     "BRSW.ChatModifiersMenuHint": "Cambiar los nombres de los modificadores del chat",
     "BRSW.MasterModifiers": "Modificadores GM",
-    "BRSW.StreamTemplate": "Plantilla de emanación"
+    "BRSW.StreamTemplate": "Plantilla de emanación",
+    "BRSW.CharacterTab": "Personaje",
+    "BRSW.GlobalTab": "Global"
+
 }
