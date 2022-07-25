@@ -720,7 +720,7 @@ function get_actor_own_modifiers(actor, roll_options) {
  * @param trait_dice
  * @param roll_options: An object with the current roll_options
  */
-function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
+async function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
     const actor = get_actor_from_message(message);
     let objetive = get_targeted_token();
@@ -783,10 +783,15 @@ function get_new_roll_options(message, extra_data, html, trait_dice, roll_option
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
         BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor)
-        // noinspection JSUnresolvedVariable
         if (item.data.data.actions.skillMod) {
-            // noinspection JSUnresolvedVariable
-            let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), item.data.data.actions.skillMod)
+            let modifier_value = 0
+            if (isNaN(item.data.data.actions.skillMod)) {
+                const temp_roll = new Roll(item.data.data.actions.skillMod)
+                modifier_value = (await temp_roll.evaluate()).total
+            } else {
+                modifier_value = parseInt(item.data.data.actions.skillMod)
+            }
+            let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
             roll_options.total_modifiers += new_mod.value
         }
@@ -919,7 +924,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
     if (!render_data.trait_roll.rolls.length) {
-        options = get_new_roll_options(message, extra_data, html, trait_dice, roll_options);
+        options = await get_new_roll_options(message, extra_data, html, trait_dice, roll_options);
     } else {
         options = get_reroll_options(actor, render_data, roll_options, extra_data);
     }

@@ -701,22 +701,17 @@ export async function roll_item(message, html, expend_bennie,
     // Actions
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
-            // noinspection JSUnresolvedVariable
             let action;
-            // noinspection JSUnresolvedVariable
             if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
-                // noinspection JSUnresolvedVariable
                 action = item.data.data.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
-                // noinspection JSUnresolvedVariable
                 action = get_global_action_from_name(element.dataset.action_id);
             }
             if (action.skillOverride) {
                 trait = trait_from_string(actor, action.skillOverride);
                 render_data.trait_id = trait.id;
             }
-            // noinspection JSUnresolvedVariable
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
@@ -738,7 +733,6 @@ export async function roll_item(message, html, expend_bennie,
             extra_data.modifiers.push(penalty)
         }
     }
-    // Check rof if avaliable
     const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
