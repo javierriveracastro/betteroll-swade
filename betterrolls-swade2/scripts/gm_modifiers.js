@@ -65,8 +65,10 @@ export function manage_gm_tabs() {
         const tab_id = this.dataset.tab
         $('.brsw-tab-content').each(function() {
             if (this.id === tab_id) {
+                // noinspection JSPotentiallyInvalidUsageOfThis
                 this.classList.remove('brsw-collapsed')
             } else {
+                // noinspection JSPotentiallyInvalidUsageOfThis
                 this.classList.add('brsw-collapsed')
             }
         })
