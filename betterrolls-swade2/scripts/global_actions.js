@@ -541,3 +541,29 @@ export function register_gm_actions_settings() {
         config: false
     });
 }
+
+/**
+ * Get the date needed to render the gm_actions
+ */
+export function render_gm_actions() {
+    let actions_ordered = {}
+    let content = ''
+    for (let action of game.settings.get('betterrolls-swade2', 'gm_actions')) {
+        if (!actions_ordered.hasOwnProperty(action.group)) {
+            actions_ordered[action.group] = []
+        }
+        actions_ordered[action.group].push(action.button_name)
+    }
+    for (let group in actions_ordered) {
+        const name = group.slice(0, 4) === 'BRSW' ?
+            game.i18n.localize(group) : group
+        content += `<div>${name}</div>`
+        for (let action_name of actions_ordered[group]) {
+            const name = action_name.slice(0, 4) === 'BRSW' ?
+                game.i18n.localize(action_name) : action_name
+            content += `<div class="brws-selectable brsw-clickable brsw-action">${name}</div>`
+        }
+        content += '</div>'
+    }
+    $('#brsw-gm-actions').append(content)
+}

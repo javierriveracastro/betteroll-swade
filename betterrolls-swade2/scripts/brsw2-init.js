@@ -13,7 +13,8 @@ import {
     register_actions,
     register_gm_actions_settings,
     SystemGlobalConfiguration,
-    WorldGlobalActions
+    WorldGlobalActions,
+    render_gm_actions
 } from "./global_actions.js";
 import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
@@ -82,6 +83,7 @@ Hooks.on(`ready`, () => {
     };
     // Set GM modifiers
     recover_html_from_gm_modifiers()
+    render_gm_actions()
     manage_gm_tabs()
     // Add a hook to control combat flow.
     if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
