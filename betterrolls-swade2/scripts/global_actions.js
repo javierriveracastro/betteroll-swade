@@ -525,6 +525,7 @@ function get_gm_actions() {
     let gm_actions = []
     for (let action of game.brsw.GLOBAL_ACTIONS) {
         if (action.selector_type === "gm_action") {
+            action.enable = false
             gm_actions.push(action)
         }
     }
