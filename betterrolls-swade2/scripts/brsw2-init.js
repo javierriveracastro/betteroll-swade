@@ -9,7 +9,12 @@ import {skill_card_hooks, activate_skill_listeners,
 import {activate_item_listeners, item_card_hooks,
     activate_item_card_listeners} from "./item_card.js";
 import {activate_damage_card_listeners} from "./damage_card.js";
-import {register_actions, SystemGlobalConfiguration, WorldGlobalActions} from "./global_actions.js";
+import {
+    register_actions,
+    register_gm_actions_settings,
+    SystemGlobalConfiguration,
+    WorldGlobalActions
+} from "./global_actions.js";
 import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
 import {modifyTokenBars} from "./tokenbars.js";
@@ -41,8 +46,9 @@ Hooks.on(`ready`, () => {
     item_card_hooks();
     incapacitation_card_hooks();
     register_settings_version2();
-    register_gm_modifiers_settings();
     register_actions();
+    register_gm_modifiers_settings();
+    register_gm_actions_settings();
     // Load partials.
     const templatePaths = ['modules/betterrolls-swade2/templates/common_card_header.html',
         'modules/betterrolls-swade2/templates/common_card_footer.html',

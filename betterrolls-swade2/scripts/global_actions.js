@@ -517,3 +517,26 @@ async function import_global_actions() {
       width: 400
     }).render(true);
 }
+
+/**
+ * Get the global actions with the gm selector.
+ */
+function get_gm_actions() {
+    let gm_actions = []
+    for (let action of game.brsw.GLOBAL_ACTIONS) {
+        if (action.selector_type === "gm_action") {
+            gm_actions.push(action)
+        }
+    }
+    return gm_actions
+}
+
+export function register_gm_actions_settings() {
+    game.settings.register('betterrolls-swade2', 'gm_actions', {
+        name: "GM Actions",
+        default: get_gm_actions(),
+        type: Array,
+        scope: "world",
+        config: false
+    });
+}
