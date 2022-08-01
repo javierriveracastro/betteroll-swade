@@ -450,3 +450,51 @@ function withinRange(origin, target, range) {
     distance = distance / grid_unit
     return range >= distance;
 }
+
+/**
+ * Calculates appropriate illumination penalties
+ * @param actor
+ * @param lighting: The selected lighting level
+ * @param distance: The distance between token and target
+ */
+ export async function find_illumination_penalty(actor, lighting, distance) {
+    let lowLiVision = "Low Light Vision" //Ignore dim and dark
+    let darkvision = "Darkvision" //Ignore all up to 10"
+    let blindsense = "Blindsense" //Ignore all
+    let nightvision = "Nightvision" //Ignore all
+    let infravision = "Infravision" //Halves penalties against warm targets
+    let undead = "Undead" //Ignore all up to 10" (SWPF only)
+    let abilityNames = [lowLiVision, darkvision, blindsense, nightvision, infravision]
+    if (game.settings.get('betterrolls-swade2', 'undeadIgnoresIllumination')) { abilityNames.push(undead) }
+    let ownedAbilities = []
+    for (let abilityName of abilityNames) {
+        if (actor.items.find(i => i.name.toLowerCase() === abilityName.toLowerCase())) {
+            ownedAbilities = ownedAbilities.push(abilityName)
+        }
+    }
+
+    let effects = actor.effects
+    let genericModifier = 0 //Generic modifier to ignore penalties
+    for (let effect of effects) {
+        for (let change of effect.data.changes) {
+            if (change.key === "BRSW.illuminationModifier") {
+                if (change.mode === 2) { genericModifier = genericModifier + Number(change.value) }
+                else { console.warn('Better Rolls 2 does only support the "Add" mode for illumination penalties on Active Effects.') }
+            }
+        }
+    }
+    
+    let illuminationPenalty = 0
+    if (lighting.toLowerCase() === "dim") { illuminationPenalty = -2 }
+    else if (lighting.toLowerCase() === "dark") { illuminationPenalty = -4 }
+    else if (lighting.toLowerCase() === "pitch darkness") { illuminationPenalty = -6 }
+    if (ownedAbilities.includes(lowLiVision) && (lighting.toLowerCase() === "dim" || lighting.toLowerCase() === "dark")) { illuminationPenalty = 0 }
+    illuminationPenalty = illuminationPenalty + genericModifier
+    if (illuminationPenalty > 0) { illuminationPenalty = 0 } //We don't want to apply a bonus from ignoring illumnination penalties
+    if (illuminationPenalty < 0) {
+        if (ownedAbilities.includes(infravision)) { illuminationPenalty = illuminationPenalty / 2 }
+        if ((ownedAbilities.includes(undead) || ownedAbilities.includes(darkvision)) && distance <= 10) { illuminationPenalty = 0 }
+        if (ownedAbilities.includes(blindsense) || ownedAbilities.includes(nightvision)) { illuminationPenalty = 0 }
+    }
+    return illuminationPenalty
+ }
