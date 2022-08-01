@@ -410,7 +410,8 @@ function calculate_gangUp(attacker, target) {
         allies = enemies_within_range_both_attacker_target.length;
     }
     const reduction = gang_up_reduction(target.actor)
-    let modifier = Math.max(0, (enemies - allies - reduction));
+    const addition = gang_up_addition(attacker.actor)
+    let modifier = Math.max(0, (enemies - allies - reduction + addition));
     if (target.actor) {
         const improved_block_name = game.i18n.localize(
             "BRSW.EdgeName-ImprovedBlock").toLowerCase()
@@ -440,6 +441,24 @@ function gang_up_reduction(target) {
         }
     }
     return reduction
+}
+
+/**
+ * Gets the gangup addition from an actor (using a custom AE)
+ * @param {Actor} attacker
+ */
+ function gang_up_addition(attacker) {
+    let addition = 0
+    for (let effect of attacker.effects) {
+        if (!effect.data.disabled) {
+            for (let change of effect.changes) {
+                if (change.key === 'brsw-ac.gangup-addition') {
+                    addition += parseInt(change.value) ? change.value : 0
+                }
+            }
+        }
+    }
+    return addition
 }
 
 // function from Kekilla
