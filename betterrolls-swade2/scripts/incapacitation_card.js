@@ -197,6 +197,7 @@ export async function create_injury_card(token_id) {
     }
     const active_effect_index = `${first_result}+${second_result}`;
     let new_effect
+    let injury_effect
     if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
         new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
         if (second_result) {
@@ -205,7 +206,7 @@ export async function create_injury_card(token_id) {
             new_effect.label = game.i18n.localize(first_result);
         }
         new_effect.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        await actor.createEmbeddedDocuments('ActiveEffect', [new_effect]);
+        new_effect = await actor.createEmbeddedDocuments('ActiveEffect', [new_effect]);
     }
     let message = await create_common_card(token,
     {header: {type: '',
@@ -218,7 +219,7 @@ export async function create_injury_card(token_id) {
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_INJ_CARD)
-    Hooks.call('BRSW-InjuryAEApplied', message, new_effect)
+        Hooks.call('BRSW-InjuryAEApplied', message, injury_effect)
     return message
 }
 

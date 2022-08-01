@@ -7,6 +7,7 @@
 * Combatant updates (marking combatant as defeated) also commented out as SUCC does this on its own.
 * Changed Incapacitation status to be an overlay (aka "big icon").
 * Actions: Added the `multiplyDmgMod` action to multiply the final damage.
+* [BREAKING] The injuryAEApplied hook now passes the AE created, not just the data used to apply the AE.
 
 ## Version 2.75: Strange UI changes
 * Documentation: Brunocalado improved lots of documentation
