@@ -136,7 +136,7 @@ async function check_abilities(actor) {
         let affectsUnshake = false
         if (effect) {
             for (let change of effect.data.changes) {
-                if (change.key === "data.attributes.spirit.unShakeBonus") { affectsUnshake = true }
+                if (change.key === "data.attributes.spirit.unShakeBonus" || change.key === "system.attributes.spirit.unShakeBonus") { affectsUnshake = true }
             }
         }
         // Remove from list if ae is present and affects the generic bonus:
@@ -150,7 +150,7 @@ async function check_abilities(actor) {
     for (let effect of actor.data.effects) {
         if (effect.data.disabled === false) { // only apply changes if effect is enabled
             for (let change of effect.data.changes) {
-                if (change.key === "data.attributes.spirit.unShakeBonus") {
+                if (change.key === "data.attributes.spirit.unShakeBonus" || change.key === "system.attributes.spirit.unShakeBonus") {
                     //Building array of effect names and icons that affect the unShakeBonus
                     effectName.push(effect.data.label);
                     effectValue.push(change.value);

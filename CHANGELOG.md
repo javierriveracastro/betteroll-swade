@@ -8,6 +8,7 @@
 * Changed Incapacitation status to be an overlay (aka "big icon").
 * Actions: Added the `multiplyDmgMod` action to multiply the final damage.
 * [BREAKING] The injuryAEApplied hook now passes the AE created, not just the data used to apply the AE.
+* Added a check for the FVTT v10 property path structure in the Unshake algorithm that checks for v9 and v10 Active Effects. It is reasonable to keep both as v10 will have a backwards compatibility on active effects. This change will make sure it is working as intended, no matter how the AE is set up.
 
 ## Version 2.75: Strange UI changes
 * Documentation: Brunocalado improved lots of documentation
