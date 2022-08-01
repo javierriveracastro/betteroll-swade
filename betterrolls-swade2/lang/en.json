@@ -310,5 +310,7 @@
   "BRSW.UnstunSuccessfulRoll": "{name} passed a Vigor roll, removing stunned.",
   "BRSW.UnstunFailure": "{name} failed its vigor roll to remove stunned.",
   "BRSW.CharacterTab": "Character",
-  "BRSW.GlobalTab": "Global"
+  "BRSW.GlobalTab": "Global",
+  "BRSW.none": "none",
+  "BRSW.NoRollRequired": "No skill roll required!"
 }
