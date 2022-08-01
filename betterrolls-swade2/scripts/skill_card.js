@@ -477,7 +477,7 @@ function withinRange(origin, target, range) {
     let genericModifier = 0 //Generic modifier to ignore penalties
     for (let effect of effects) {
         for (let change of effect.data.changes) {
-            if (change.key === "BRSW.illuminationModifier") {
+            if (change.key === "BRSW.illuminationModifier" && !effect.data.disabled) {
                 if (change.mode === 2) { genericModifier = genericModifier + Number(change.value) }
                 else { console.warn('Better Rolls 2 does only support the "Add" mode for illumination penalties on Active Effects.') }
             }
