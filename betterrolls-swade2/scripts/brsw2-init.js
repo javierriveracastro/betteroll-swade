@@ -488,6 +488,14 @@ function register_settings_version2() {
         type: Object,
         config: false
     });
+    game.settings.register('betterrolls-swade2', 'undeadIgnoresIllumination', {
+        name: game.i18n.localize("BRSW.undeadIgnoresIllumination"),
+        hint: game.i18n.localize("BRSW.undeadIgnoresIlluminationHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.
