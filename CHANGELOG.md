@@ -7,11 +7,11 @@
 * Combatant updates (marking combatant as defeated) also commented out as SUCC does this on its own.
 * Changed Incapacitation status to be an overlay (aka "big icon").
 * Actions: Added the `multiplyDmgMod` action to multiply the final damage.
-* [BREAKING] The injuryAEApplied hook now passes the AE created, not just the data used to apply the AE.
-* Added a check for the FVTT v10 property path structure in the Unshake algorithm that checks for v9 and v10 Active Effects. It is reasonable to keep both as v10 will have a backwards compatibility on active effects. This change will make sure it is working as intended, no matter how the AE is set up.
-* Added a warning message if an items skill is set to "none".
-* Added a new custom ae to *add* a value to gang up. The bonus caps at +4 as usual.
-* Added a failsafe for gang up calculation: If an effect is present on the actor that reduces the gang up bonus (using "brsw-ac.gangup-reduction") and which is labeled "Block" or "Improved Block" (in the respective language), BRSW will not add any other gang up reduction from these edges.
+* [BREAKING] The injuryAEApplied hook now passes the AE created, not just the data used to apply the AE. (SalieriC)
+* Added a check for the FVTT v10 property path structure in the Unshake algorithm that checks for v9 and v10 Active Effects. It is reasonable to keep both as v10 will have a backwards compatibility on active effects. This change will make sure it is working as intended, no matter how the AE is set up. (SalieriC)
+* Added a warning message if an items skill is set to "none". (SalieriC)
+* Added a new custom ae to *add* a value to gang up. The bonus caps at +4 as usual. (SalieriC)
+* Added a failsafe for gang up calculation: If an effect is present on the actor that reduces the gang up bonus (using "brsw-ac.gangup-reduction") and which is labeled "Block" or "Improved Block" (in the respective language), BRSW will not add any other gang up reduction from these edges. (SalieriC)
 
 ## Version 2.75: Strange UI changes
 * Documentation: Brunocalado improved lots of documentation
