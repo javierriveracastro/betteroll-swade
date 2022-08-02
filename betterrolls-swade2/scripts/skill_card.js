@@ -412,10 +412,17 @@ function calculate_gangUp(attacker, target) {
     const reduction = gang_up_reduction(target.actor)
     const addition = gang_up_addition(attacker.actor)
     let modifier = Math.max(0, (enemies - allies - reduction + addition));
-    if (target.actor) {
-        const improved_block_name = game.i18n.localize(
-            "BRSW.EdgeName-ImprovedBlock").toLowerCase()
-        const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase()
+    const improved_block_name = game.i18n.localize(
+        "BRSW.EdgeName-ImprovedBlock").toLowerCase()
+    const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase()
+    let findBlock = true
+    let blockEffects = target.actor.effects.filter(e => e.data.label.toLowerCase().includes(block_name))
+    for (let effect of blockEffects) {
+        for (let change of effect.data.changes) {
+            if (change.key === "brsw-ac.gangup-reduction") { findBlock = false }
+        }
+    }
+    if (target.actor && findBlock) {
         if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(improved_block_name)})) {
             modifier = Math.max(0, modifier - 2)
         } else if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(block_name)})) {
