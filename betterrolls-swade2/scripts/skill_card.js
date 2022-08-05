@@ -494,7 +494,7 @@ function withinRange(origin, target, range) {
     if (game.settings.get('betterrolls-swade2', 'undeadIgnoresIllumination')) { abilityNames.push(undead) }
     let ownedAbilities = []
     for (let abilityName of abilityNames) {
-        if (actor.items.find(i => i.name.toLowerCase() === abilityName.toLowerCase())) {
+        if (actor.items.getName(abilityName)) {
             ownedAbilities = ownedAbilities.push(abilityName)
         }
     }
@@ -516,7 +516,7 @@ function withinRange(origin, target, range) {
     else if (lighting.toLowerCase() === "pitch darkness") { illuminationPenalty = -6 }
     if (ownedAbilities.includes(lowLiVision) && (lighting.toLowerCase() === "dim" || lighting.toLowerCase() === "dark")) { illuminationPenalty = 0 }
     illuminationPenalty = illuminationPenalty + genericModifier
-    if (illuminationPenalty > 0) { illuminationPenalty = 0 } //We don't want to apply a bonus from ignoring illumnination penalties
+    if (illuminationPenalty > 0) { illuminationPenalty = 0 } //We don't want to apply a bonus from ignoring illumination penalties
     if (illuminationPenalty < 0) {
         if (ownedAbilities.includes(infravision)) { illuminationPenalty = illuminationPenalty / 2 }
         if ((ownedAbilities.includes(undead) || ownedAbilities.includes(darkvision)) && distance <= 10) { illuminationPenalty = 0 }
