@@ -483,7 +483,7 @@ function withinRange(origin, target, range) {
  * @param lighting: The selected lighting level
  * @param distance: The distance between token and target
  */
- export async function find_illumination_penalty(actor, lighting, distance) {
+ export async function find_illumination_penalty(actorToken, targetToken, lighting, distance) {
     let lowLiVision = "Low Light Vision" //Ignore dim and dark
     let darkvision = "Darkvision" //Ignore all up to 10"
     let blindsense = "Blindsense" //Ignore all
