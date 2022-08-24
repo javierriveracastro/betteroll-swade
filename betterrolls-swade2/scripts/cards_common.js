@@ -959,6 +959,9 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
     let wild_die_formula = `+1d${trait_dice['wild-die'].sides}x`;
     if (extra_data.hasOwnProperty('wildDieFormula')) {
         wild_die_formula = extra_data.wildDieFormula;
+        if (wild_die_formula.charAt(0) !== '+') {
+            wild_die_formula = `+${wild_die_formula}`;
+        }
     }
     if (actor.isWildcard && wild_die_formula) {
         roll_string += wild_die_formula;
@@ -1338,6 +1341,9 @@ export function process_common_actions(action, extra_data, macros) {
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
+        if (extra_data.wildDieFormula.charAt(0) !== '+') {
+            extra_data.wildDieFormula = '+' + extra_data.wildDieFormula
+        }
     }
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
