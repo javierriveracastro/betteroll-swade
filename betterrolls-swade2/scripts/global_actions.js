@@ -4,6 +4,7 @@
 import {get_item_trait} from "./item_card.js";
 import {broofa} from "./utils.js";
 import {SYSTEM_GLOBAL_ACTION} from "./builtin-actions.js"
+import {manage_selectable_gm} from "./gm_modifiers.js";
 
 // DMG override is still not implemented.
 /**
@@ -565,9 +566,12 @@ export function render_gm_actions() {
         for (let action_name of actions_ordered[group]) {
             const name = action_name.slice(0, 4) === 'BRSW' ?
                 game.i18n.localize(action_name) : action_name
-            content += `<div class="brws-selectable brsw-clickable brsw-action">${name}</div>`
+            content += `<div class="brws-selectable brsw-clickable brsw-action brsw-added">${name}</div>`
         }
         content += '</div>'
     }
     $('#brsw-gm-actions').append(content)
+    const new_tags = $('#brsw-gm-actions .brsw-added')
+    new_tags.click(manage_selectable_gm)
+    new_tags.removeClass('brsw-added')
 }
