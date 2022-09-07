@@ -19,6 +19,7 @@ export function manage_selectable_gm(ev) {
     }
     // noinspection JSIgnoredPromiseFromCall
     game.settings.set('betterrolls-swade2', 'gm_modifiers', value_list)
+    //TODO: Update the value of the settings with the master actions. Pass once over the selected tags and other over the array
 }
 
 /**

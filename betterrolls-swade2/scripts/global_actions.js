@@ -566,7 +566,7 @@ export function render_gm_actions() {
         for (let action_name of actions_ordered[group]) {
             const name = action_name.slice(0, 4) === 'BRSW' ?
                 game.i18n.localize(action_name) : action_name
-            content += `<div class="brws-selectable brsw-clickable brsw-action brsw-added">${name}</div>`
+            content += `<div data-action-name="${action_name}" class="brws-selectable brsw-clickable brsw-action brsw-added">${name}</div>`
         }
         content += '</div>'
     }
