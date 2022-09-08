@@ -553,20 +553,22 @@ export function register_gm_actions_settings() {
 export function render_gm_actions() {
     let actions_ordered = {}
     let content = ''
+    // TODO: Merge the possible new actions (created or disabled) with the current state of actins
     for (let action of game.settings.get('betterrolls-swade2', 'gm_actions')) {
         if (!actions_ordered.hasOwnProperty(action.group)) {
             actions_ordered[action.group] = []
         }
-        actions_ordered[action.group].push(action.button_name)
+        actions_ordered[action.group].push(action)
     }
     for (let group in actions_ordered) {
         const name = group.slice(0, 4) === 'BRSW' ?
             game.i18n.localize(group) : group
         content += `<div>${name}</div>`
-        for (let action_name of actions_ordered[group]) {
-            const name = action_name.slice(0, 4) === 'BRSW' ?
-                game.i18n.localize(action_name) : action_name
-            content += `<div data-action-name="${action_name}" class="brws-selectable brsw-clickable brsw-action brsw-added">${name}</div>`
+        for (let action of actions_ordered[group]) {
+            const name = action.button_name.slice(0, 4) === 'BRSW' ?
+                game.i18n.localize(action.button_name) : action.button_name
+            const marked_selected = action.enable ? "brws-selected brws-permanent-selected" : ""
+            content += `<div data-action-name="${action.name}" class="brws-selectable brsw-clickable brsw-action brsw-added ${marked_selected}">${name}</div>`
         }
         content += '</div>'
     }

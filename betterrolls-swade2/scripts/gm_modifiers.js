@@ -19,7 +19,16 @@ export function manage_selectable_gm(ev) {
     }
     // noinspection JSIgnoredPromiseFromCall
     game.settings.set('betterrolls-swade2', 'gm_modifiers', value_list)
-    //TODO: Update the value of the settings with the master actions. Pass once over the selected tags and other over the array
+    let gm_actions = game.settings.get('betterrolls-swade2', 'gm_actions')
+    let selected_actions = []
+    for (let element of document.querySelectorAll('#brsw-gm-actions .brws-permanent-selected')) {
+        selected_actions.push(element.dataset.actionName)
+    }
+    for (let gm_action of gm_actions) {
+        gm_action.enable = selected_actions.includes(gm_action.name)
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    game.settings.set('betterrolls-swade2', 'gm_actions', gm_actions)
 }
 
 /**
