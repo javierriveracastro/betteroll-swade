@@ -1358,6 +1358,12 @@ export function process_common_actions(action, extra_data, macros) {
 function get_actor_armor_minimum_strength(actor) {
     // This should affect only Agility related skills
     const min_str_armors = actor.items.filter((item) =>
+        /** equipStatus codes:
+         * Weapons:
+         * Stored = 0; Carried = 1; Off-Hand = 2; Main Hand = 4; Two Hands = 5
+         * All other:
+         * Stored = 0; Carried = 1; Equipped = 3
+         */
         {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipStatus >= 2})
     for (let armor of min_str_armors) {
         let penalty = process_minimum_str_modifiers(armor, actor, "BRSW.NotEnoughStrengthArmor")
