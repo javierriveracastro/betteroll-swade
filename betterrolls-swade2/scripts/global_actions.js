@@ -553,8 +553,20 @@ export function register_gm_actions_settings() {
 export function render_gm_actions() {
     let actions_ordered = {}
     let content = ''
-    // TODO: Merge the possible new actions (created or disabled) with the current state of actins
-    for (let action of game.settings.get('betterrolls-swade2', 'gm_actions')) {
+    const old_actions = game.settings.get('betterrolls-swade2', 'gm_actions')
+    console.log(old_actions)
+    let new_actions = []
+    for (let new_action of get_gm_actions()) {
+        const old_action = old_actions.find(action => action.id === new_action.id)
+        console.log(old_action)
+        if (old_action && old_action.enable) {
+            new_action.enable = true
+        }
+        new_actions.push(new_action)
+    }
+    // noinspection JSIgnoredPromiseFromCall
+    game.settings.set('betterrolls-swade2', 'gm_actions', new_actions)
+    for (let action of new_actions) {
         if (!actions_ordered.hasOwnProperty(action.group)) {
             actions_ordered[action.group] = []
         }
