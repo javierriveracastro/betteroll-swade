@@ -1,5 +1,5 @@
 // Functions for cards representing attributes
-/* global TokenDocument, Token, game, CONST, succ */
+/* global TokenDocument, Token, game, CONST */
 
 import {
     BRSW_CONST, get_action_from_click, get_actor_from_message,
@@ -208,12 +208,7 @@ export async function roll_attribute(message, html,
             // noinspection JSUnresolvedVariable
             let action;
             action = get_global_action_from_name(element.dataset.action_id);
-            const effects = process_common_actions(action, extra_data, macros, pinned_actions);
-            if (effects) {
-                for (let effect of effects) {
-                    succ.apply_status(actor, effect, true)
-                }
-            }
+            process_common_actions(action, extra_data, macros, actor);
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }

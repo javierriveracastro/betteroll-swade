@@ -163,12 +163,7 @@ export async function roll_skill(message, html, expend_bennie){
             // noinspection JSUnresolvedVariable
             let action;
             action = get_global_action_from_name(element.dataset.action_id);
-            let effects = process_common_actions(action, extra_data, macros, pinned_actions)
-            if (effects) {
-                for (let effect of effects) {
-                    succ.apply_status(actor, effect)
-                }
-            }
+            process_common_actions(action, extra_data, macros, actor);
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
@@ -479,7 +474,8 @@ function withinRange(origin, target, range) {
 
 /**
  * Calculates appropriate illumination penalties
- * @param actor
+ * @param actorToken
+ * @param targetToken
  * @param lighting: The selected lighting level
  * @param distance: The distance between token and target
  */

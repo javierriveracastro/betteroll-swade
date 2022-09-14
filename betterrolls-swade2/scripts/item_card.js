@@ -714,12 +714,7 @@ export async function roll_item(message, html, expend_bennie,
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
             }
-            let effects = process_common_actions(action, extra_data, macros, pinned_actions)
-            if (effects) {
-                for (let effect of effects) {
-                    succ.apply_status(actor, effect)
-                }
-            }
+            process_common_actions(action, extra_data, macros, actor)
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }

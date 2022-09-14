@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass*/
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ */
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
@@ -1311,8 +1311,7 @@ export function create_modifier(label, expression) {
 /**
  * Processes actions common to skill and item cards
  */
-export function process_common_actions(action, extra_data, macros) {
-    let status = []
+export function process_common_actions(action, extra_data, macros, actor) {
     let action_name = action.button_name || action.name
     action_name = action_name.includes("BRSW.") ? game.i18n.localize(action_name) : action_name
     // noinspection JSUnresolvedVariable
@@ -1337,7 +1336,7 @@ export function process_common_actions(action, extra_data, macros) {
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
-        status.push(action.self_add_status)
+        succ.apply_status(actor, action.self_add_status, true)
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
@@ -1348,7 +1347,6 @@ export function process_common_actions(action, extra_data, macros) {
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
     }
-    return status
 }
 
 /**
