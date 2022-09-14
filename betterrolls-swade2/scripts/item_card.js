@@ -55,7 +55,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const trait = get_item_trait(item, actor);
     const notes = item.data.data.notes || "";
     const description = item.data.data.description;
-    console.log(description);
     let trait_roll = new BRWSRoll();
     let action_groups = {};
     let possible_default_dmg_action;
