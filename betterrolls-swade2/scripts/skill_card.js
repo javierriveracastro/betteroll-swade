@@ -16,6 +16,7 @@ import {
 } from "./cards_common.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {run_macros} from "./item_card.js";
+import {get_gm_actions} from "./gm_modifiers.js";
 
 export const FIGHTING_SKILLS = ["fighting", "kämpfen", "pelear", "combat",
     "lutar", "combattere"];
@@ -168,6 +169,9 @@ export async function roll_skill(message, html, expend_bennie){
                 pinned_actions.push(action.name);
             }
         });
+    }
+    for (let action of get_gm_actions()) {
+        process_common_actions(action, extra_data, macros, actor)
     }
     for (let group in render_data.action_groups) {
         for (let action of render_data.action_groups[group].actions) {
