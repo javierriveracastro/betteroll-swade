@@ -403,12 +403,12 @@ export function manage_selectable_click(ev){
     ev.preventDefault();
     ev.stopPropagation();
     if (ev.currentTarget.classList.contains('brws-permanent-selected')) {
-        ev.currentTarget.classList.remove('brws-selected');
         ev.currentTarget.classList.remove('brws-permanent-selected')
     } else {
         if (ev.currentTarget.classList.contains('brws-selected')) {
-            ev.currentTarget.classList.add('brws-permanent-selected');
+            ev.currentTarget.classList.remove('brws-selected');
         } else {
+            ev.currentTarget.classList.add('brws-permanent-selected');
             ev.currentTarget.classList.add('brws-selected');
         }
     }
