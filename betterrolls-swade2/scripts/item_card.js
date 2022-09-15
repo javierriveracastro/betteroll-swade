@@ -16,7 +16,7 @@ import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.j
 import {create_damage_card} from "./damage_card.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
-import {get_gm_actions, get_gm_modifiers} from "./gm_modifiers.js";
+import {get_enabled_gm_actions, get_gm_modifiers} from "./gm_modifiers.js";
 
 const ARCANE_SKILLS = ['faith', 'focus', 'spellcasting', `glaube`, 'fokus',
     'zaubern', 'druidism', 'elementalism', 'glamour', 'heahwisardry',
@@ -720,7 +720,7 @@ export async function roll_item(message, html, expend_bennie,
             }
         });
     }
-    for (let action of get_gm_actions()) {
+    for (let action of get_enabled_gm_actions()) {
         process_common_actions(action, extra_data, macros, actor)
     }
     // Check for minimum strength

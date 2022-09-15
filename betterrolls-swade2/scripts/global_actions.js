@@ -528,8 +528,10 @@ async function import_global_actions() {
  */
 function get_gm_actions() {
     let gm_actions = []
+    const disabled_actions = game.settings.get('betterrolls-swade2',
+        'system_action_disabled')
     for (let action of game.brsw.GLOBAL_ACTIONS) {
-        if (action.selector_type === "gm_action") {
+        if (action.selector_type === "gm_action" && ! disabled_actions.includes(action.id)) {
             action.enable = false
             gm_actions.push(action)
         }
@@ -554,7 +556,6 @@ export function render_gm_actions() {
     let actions_ordered = {}
     let content = ''
     const old_actions = game.settings.get('betterrolls-swade2', 'gm_actions')
-    console.log(old_actions)
     let new_actions = []
     for (let new_action of get_gm_actions()) {
         const old_action = old_actions.find(action => action.id === new_action.id)

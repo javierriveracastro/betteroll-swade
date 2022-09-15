@@ -85,7 +85,7 @@ export function manage_gm_tabs() {
     })
 }
 
-export function get_gm_actions() {
+export function get_enabled_gm_actions() {
     return  game.settings.get(
         'betterrolls-swade2', 'gm_actions').filter(action => action.enable)
 }
