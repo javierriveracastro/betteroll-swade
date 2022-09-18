@@ -296,5 +296,6 @@
     "BRSW.UnshakeSuccessfulRoll": "{name} annule Secoué grâce à un jet d'Âme réussi.",
     "BRSW.WoundCapHint": "Seuil pour la Limite de Blessures, et s'il est zéro ou vide, utilise le seuil standard de quatre.",
     "BRSW.UnshakeFailure": "{name} échoue son jet d'Âme et reste Secoué.",
-    "BRSW.SWD-UnshakeHint": "Utiliser les règles Savage Worlds Deluxe pour annuler l'état Secoué (nécessite une Prouesse pour agir immédiatement)."
+    "BRSW.SWD-UnshakeHint": "Utiliser les règles Savage Worlds Deluxe pour annuler l'état Secoué (nécessite une Prouesse pour agir immédiatement).",
+    "BRSW.VigorRoll": "Jet de vigeur"
 }
