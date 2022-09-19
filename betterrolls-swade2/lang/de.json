@@ -204,7 +204,7 @@
     "BRSW.EdgeName-Alertness": "Aufmerksamkeit",
     "BRSW.EdgeName-MrFixIt": "Reparaturgenie",
     "BRSW.SkillName-Repair": "Reparieren",
-    "BRSW.RechargePPSoulDrainText": "{name} setzt Seelenentzug ein, um 5 Machtpunkte zu regenerieren und hat nun <b>${newPP}</b> MP.",
+    "BRSW.RechargePPSoulDrainText": "{name} setzt Seelenentzug ein, um 5 Machtpunkte zu regenerieren und hat nun <b>{newPP}</b> MP.",
     "BRSW.SkillName-untrained": "Ungeübt",
     "BRSW.EdgeName-Marksman": "Meisterschütze",
     "BRSW.SkillName-Notice": "Wahrnehmung",
@@ -309,5 +309,7 @@
     "BRSW.Unstun": "Entferne Betäubt",
     "BRSW.VigorRoll": "Konstitutionsprobe",
     "BRSW.UnstunSuccessfulRoll": "{name}s Konstitutionsprobe war erfolgreich, entferne Betäubt.",
-    "BRSW.UnstunFailure": "{name}s Konstitionsprobe schlug fehl, Betäubt bleibt aktiv."
+    "BRSW.UnstunFailure": "{name}s Konstitionsprobe schlug fehl, Betäubt bleibt aktiv.",
+    "BRSW.CharacterTab": "Charakter",
+    "BRSW.GlobalTab": "Global"
 }
