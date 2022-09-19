@@ -321,7 +321,6 @@ export function activate_common_listeners(message, html) {
     html.find('.brsw-override-die').click((ev) => {
         // Collect roll data
         let roll_data = null;
-        //TODO: Differentiate die source
         let render_data = message.getFlag('betterrolls-swade2', 'render_data');
         roll_data = render_data.trait_roll;
         // Retrieve additional data

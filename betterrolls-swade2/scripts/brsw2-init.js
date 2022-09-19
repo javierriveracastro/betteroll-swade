@@ -89,10 +89,9 @@ Hooks.on(`ready`, () => {
     if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
         Hooks.on('updateCombat', round_start)
         // Disable system management
-        for (let status of CONFIG.statusEffects) { //CONFIG.SWADE.statusEffects is the fallback and shouldn't be changed, CONFIG.statusEffects should be used instead.
+        for (let status of CONFIG.statusEffects) {
             if (status.id === 'shaken' || status.id === 'stunned') {
-                //delete status.flags
-                status.flags.swade.expiration = null //Only disable the dialogue, not the loose turn stuff
+                status.flags.swade.expiration = null
             }
         }
     }
