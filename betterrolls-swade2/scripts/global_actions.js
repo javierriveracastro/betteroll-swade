@@ -559,7 +559,6 @@ export function render_gm_actions() {
     let new_actions = []
     for (let new_action of get_gm_actions()) {
         const old_action = old_actions.find(action => action.id === new_action.id)
-        console.log(old_action)
         if (old_action && old_action.enable) {
             new_action.enable = true
         }
