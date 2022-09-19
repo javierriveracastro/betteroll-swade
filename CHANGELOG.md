@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## Version 2.76: Welcome SUCC, most work by SalieriC
 * Added SUCC (SWADE Ultimate Condition Changer) as a dependency.
 * Completely removed the `apply_status` function from BR2.
 * Replaced the `apply_status` function calls with `succ.apply_status` to handle status management in SUCC.
@@ -12,6 +12,13 @@
 * Added a warning message if an items skill is set to "none". (SalieriC)
 * Added a new custom ae to *add* a value to gang up. The bonus caps at +4 as usual. (SalieriC)
 * Added a failsafe for gang up calculation: If an effect is present on the actor that reduces the gang up bonus (using "brsw-ac.gangup-reduction") and which is labeled "Block" or "Improved Block" (in the respective language), BRSW will not add any other gang up reduction from these edges. (SalieriC)
+* Added an action to multiply damage
+* Lots (really lots) of translations updates from the weblate team.
+* Remove an extra $ in souldrain chat card.
+* Bugfix: Manual management of power points should work with multiple arcana backgrounds
+* GMActions: New framework to add actions that will be shown on the GM tab below the chat. Those actions will affect every roll.
+* Bugfix: Wild die formulas don't need a "+" before them.
+* Changed the order in which actions circle, red is now the first option instead of white
 
 ## Version 2.75: Strange UI changes
 * Documentation: Brunocalado improved lots of documentation
