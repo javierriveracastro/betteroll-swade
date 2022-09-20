@@ -311,5 +311,9 @@
     "BRSW.Auto-status-cardsHint": "Mostra la carta per eliminar l'estat (actualment només atordit) a l'inici del combat",
     "BRSW.UnshakeFailure": "{name} ha fallat la tirada d'esperit per eliminar l'atordit.",
     "BRSW.GlobalTab": "Global",
-    "BRSW.CharacterTab": "Personatge"
+    "BRSW.CharacterTab": "Personatge",
+    "BRSW.NoRollRequired": "No cal fer cap tirada d'habilitat!",
+    "BRSW.IlluminationGM": "Il·luminació (DJ)",
+    "BRSW.none": "Cap",
+    "BRSW.undeadIgnoresIlluminationHint": "Si està marcada, l'habilitat especial de no-morts també ignorarà les penalitzacions d'il·luminació de fins a 10 polzades. S'utilitza a Pathfinder per a Savage Worlds."
 }
