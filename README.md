@@ -55,7 +55,7 @@ HTML version: https://javierriveracastro.github.io/betteroll-swade/
 - zn-sk, too many contributions to remember all
 
 ## Translations
-- Translations are now managed in [Weblate](https://trans.etranslator.eu/projects/better-rolls-swade-2/), please feel free to help.
+- Translations are now managed in [Weblate](https://weblate.foundryvtt-hub.com/projects/betterrolls-swade2/main/), please feel free to help.
 
 ## Acknowledgements
 - All the people reporting bugs and opening issues. Without them this module would be far worse.
