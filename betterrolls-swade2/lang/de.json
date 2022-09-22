@@ -311,5 +311,10 @@
     "BRSW.UnstunSuccessfulRoll": "{name}s Konstitutionsprobe war erfolgreich, entferne Betäubt.",
     "BRSW.UnstunFailure": "{name}s Konstitionsprobe schlug fehl, Betäubt bleibt aktiv.",
     "BRSW.CharacterTab": "Charakter",
-    "BRSW.GlobalTab": "Global"
+    "BRSW.GlobalTab": "Global",
+    "BRSW.undeadIgnoresIllumination": "Untote ignorieren Abzüge durch schlechte Beleuchtung",
+    "BRSW.IlluminationGM": "Beleuchtung (SL)",
+    "BRSW.none": "Keine",
+    "BRSW.NoRollRequired": "Keine Fertigkeitsprobe erforderlich!",
+    "BRSW.undeadIgnoresIlluminationHint": "Wenn aktiviert, wird die Spezialfähigkeit Untot auch Abzüge für schlechte Beleuchtung bis zu 10\" auf der Szene ignorieren. Wird in Pathfinder für Savage Worlds verwendet."
 }
