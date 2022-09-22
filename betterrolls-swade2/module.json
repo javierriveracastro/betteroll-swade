@@ -1,11 +1,20 @@
 {
-  "name": "betterrolls-swade2",
+  "id": "betterrolls-swade2",
   "title": "Better Rolls 2 for Savage Worlds",
   "description": "A module to make rolling in SWADE easier for experienced players.",
+  "compatibility" : {
+    "minimum": 10,
+    "maximum": 10,
+    "verified": "10.285"
+  },
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "version": "2.76",
-  "author": "Javier Rivera",
+  "authors": [{
+    "name": "Javier Rivera",
+    "email": "javierriveracastro@gmail.com",
+    "discord": "javierrivera#4813"
+  }],
   "languages": [
     {
       "lang": "en",
@@ -63,23 +72,26 @@
   ],
   "conflicts": [
     {
-      "name": "swade-tools",
+      "id": "swade-tools",
       "type": "module"
     }
   ],
-  "dependencies": [
-    {
-      "name": "settings-extender",
-      "type": "module"
-    },
-    {
-      "name": "swade",
-      "type": "system"
-    },
-		{
-			"type": "module",
-			"name": "succ",
-			"manifest": "https://raw.githubusercontent.com/SalieriC/SUCC/main/succ/module.json"
-		}
-  ]
+  "relationships": {
+    "systems": [
+      {
+        "id": "swade",
+        "type": "system"
+      }
+    ],
+    "requires": [
+      {
+        "id": "settings-extender",
+        "type": "module"
+      },
+      {
+        "id": "succ",
+        "type": "module"
+      }
+    ]
+  }
 }
