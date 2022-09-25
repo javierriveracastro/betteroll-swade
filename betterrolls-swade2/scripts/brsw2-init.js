@@ -121,7 +121,7 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_remove_status_card_listeners(message, html, card_type);
         }
         // Hide forms to non-master, non owner
-        if (game.user.id !== message.data.user && !game.user.isGM) {
+        if (game.user.id !== message.user && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
         // Hide master only sections
@@ -160,7 +160,7 @@ Hooks.on('renderSidebarTab', (_, html) => {
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
     if (item.type === 'Item' || item.type === 'target_click') {
-        let grid_size = canvas.scene.data.grid
+        let grid_size = canvas.scene.grid
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
             y: item.y-grid_size/2,
