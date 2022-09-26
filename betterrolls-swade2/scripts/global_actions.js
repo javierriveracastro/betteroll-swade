@@ -143,8 +143,8 @@ function check_selector(type, value, item, actor){
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_description_includes') {
-        if (item?.data?.data?.description) {
-            selected = item?.data?.data?.description.toLowerCase().includes(value.toLowerCase());
+        if (item?.system?.description) {
+            selected = item?.system?.description.toLowerCase().includes(value.toLowerCase());
         } else {
             selected = false
         }
@@ -196,7 +196,7 @@ function check_selector(type, value, item, actor){
         }
     } else if (type.indexOf('item_additional_stat_') === 0) {
         const additional_stat = type.slice(21)
-        if (item?.data?.data?.additionalStats.hasOwnProperty(additional_stat)) {
+        if (item?.system?.additionalStats.hasOwnProperty(additional_stat)) {
             // noinspection EqualityComparisonWithCoercionJS
             selected = item.data.data.additionalStats[additional_stat].value == value
         }

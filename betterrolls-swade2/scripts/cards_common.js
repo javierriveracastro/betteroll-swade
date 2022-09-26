@@ -164,7 +164,7 @@ export function create_render_options(actor, render_data, template, message) {
         }
         render_data.skill = trait
         render_data.skill_title = trait ? trait.name + ' ' +
-            trait_to_string(trait.data.data) : '';
+            trait_to_string(trait.system) : '';
     }
     const item = message ? get_item_from_message(message, actor) :
         actor.items.getName(render_data.header.title)
