@@ -20,7 +20,7 @@ async function create_remove_status_card(original_message, token_id, type) {
     } else if (token_id) {
         actor = canvas.tokens.get(token_id).actor
     }
-    if (! actor.data.data.status.isShaken && !actor.data.data.status.isStunned) {return}
+    if (! actor.system.status.isShaken && !actor.system.status.isStunned) {return}
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
     const text = (type === BRSW_CONST.TYPE_UNSHAKE_CARD) ?
@@ -98,7 +98,7 @@ async function roll_unshaken(message, use_bennie) {
         const modifiers = await check_abilities(actor)
         // Make the roll
         const roll = await roll_trait(message,
-            actor.data.data.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
+            actor.system.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
             '', {modifiers: modifiers});
         let result = 0;
         roll.rolls.forEach(roll => {
@@ -131,11 +131,11 @@ async function check_abilities(actor) {
     edgeAndAbilityNames = edgeAndAbilityNames.map(name => name.toLowerCase())
     // Check if these have an AE (using .entries() to not loose the index):
     for (let [index, value] of edgeAndAbilityNames.entries()) {
-        let effect = actor.effects.find(active_e => active_e.data.label.toLowerCase() === value) // jshint ignore:line
+        let effect = actor.effects.find(active_e => active_e.label.toLowerCase() === value) // jshint ignore:line
         // Only splice if the AE affects the generic bonus:
         let affectsUnshake = false
         if (effect) {
-            for (let change of effect.data.changes) {
+            for (let change of effect.changes) {
                 if (change.key === "data.attributes.spirit.unShakeBonus" || change.key === "system.attributes.spirit.unShakeBonus") { affectsUnshake = true }
             }
         }
@@ -147,26 +147,26 @@ async function check_abilities(actor) {
     // Adding AE bonuses
     let effectName = [];
     let effectValue = [];
-    for (let effect of actor.data.effects) {
-        if (effect.data.disabled === false) { // only apply changes if effect is enabled
-            for (let change of effect.data.changes) {
+    for (let effect of actor.effects) {
+        if (effect.disabled === false) { // only apply changes if effect is enabled
+            for (let change of effect.changes) {
                 if (change.key === "data.attributes.spirit.unShakeBonus" || change.key === "system.attributes.spirit.unShakeBonus") {
                     //Building array of effect names and icons that affect the unShakeBonus
-                    effectName.push(effect.data.label);
+                    effectName.push(effect.label);
                     effectValue.push(change.value);
                 }
             }
         }
     }
     // Get generic modifier
-    let genericMod = actor.data.data.attributes.spirit.unShakeBonus
+    let genericMod = actor.system.attributes.spirit.unShakeBonus
     if (effectValue.length > 0 && genericMod !== 0) {
         for (let each of effectValue) {
             genericMod = genericMod - each
         }
     }
     // Checking if the actor has the Edges and Abilities:
-    const edgesAndAbilities = actor.data.items.filter(function (item) {
+    const edgesAndAbilities = actor.items.filter(function (item) {
         return edgeAndAbilityNames.includes(item.name.toLowerCase()) && (item.type === "edge" || item.type === "ability");
     })
 
@@ -202,7 +202,7 @@ async function roll_unstun(message) {
         'render_data');
     const actor = get_actor_from_message(message);
     const roll = await roll_trait(message,
-    actor.data.data.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
+    actor.system.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
     '', {});
     let result = 0;
     roll.rolls.forEach(roll => {
