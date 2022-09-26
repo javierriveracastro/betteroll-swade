@@ -766,7 +766,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     get_below_chat_modifiers(options, roll_options);
     get_actor_own_modifiers(actor, roll_options);
     // Armor min str
-    if (skill?.data.data.attribute === 'agility') {
+    if (skill?.system.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(actor)
         if (armor_penalty) {
             roll_options.total_modifiers += armor_penalty.value
@@ -786,11 +786,11 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         const item = get_item_from_message(message, actor)
         if (item.data.data.actions.skillMod) {
             let modifier_value = 0
-            if (isNaN(item.data.data.actions.skillMod)) {
-                const temp_roll = new Roll(item.data.data.actions.skillMod)
+            if (isNaN(item.system.actions.skillMod)) {
+                const temp_roll = new Roll(item.system.actions.skillMod)
                 modifier_value = (await temp_roll.evaluate()).total
             } else {
-                modifier_value = parseInt(item.data.data.actions.skillMod)
+                modifier_value = parseInt(item.system.actions.skillMod)
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)

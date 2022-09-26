@@ -181,7 +181,7 @@ export async function roll_skill(message, html, expend_bennie){
         }
     }
     if (expend_bennie) {await spend_bennie(actor);}
-    await roll_trait(message, skill.data.data , game.i18n.localize(
+    await roll_trait(message, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
     await run_macros(macros, actor, null, message);
 }
