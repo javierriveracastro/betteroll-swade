@@ -37,12 +37,12 @@ async function create_attribute_card(origin, name, collapse_actions){
         game.settings.get('betterrolls-swade2', 'collapse-modifiers')
     const translated_name = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[name]);
     let title = translated_name + " " + trait_to_string(
-        actor.data.data.attributes[name.toLowerCase()]);
+        actor.system.attributes[name.toLowerCase()]);
     let footer = [];
-    for (let attribute in actor.data.data.attributes) {
-        if (actor.data.data.attributes.hasOwnProperty(attribute)) {
+    for (let attribute in actor.system.attributes) {
+        if (actor.system.attributes.hasOwnProperty(attribute)) {
             footer.push(`${attribute} ${trait_to_string(
-                actor.data.data.attributes[attribute])}`)
+                actor.system.attributes[attribute])}`)
         }
     }
     let trait_roll = new BRWSRoll();
@@ -226,7 +226,7 @@ export async function roll_attribute(message, html,
         }
     }
     if (expend_bennie) {await spend_bennie(actor);}
-    await roll_trait(message, actor.data.data.attributes[attribute_id], game.i18n.localize(
+    await roll_trait(message, actor.system.attributes[attribute_id], game.i18n.localize(
         "BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
     run_macros(macros, actor, null, message);
