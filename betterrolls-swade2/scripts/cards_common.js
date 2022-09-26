@@ -47,8 +47,8 @@ async function store_render_flag(message, render_object) {
         delete render_object[property];
     }
     // Get sure thar there is a diff so update socket gets fired.
-    if (message.data.flags?.['betterrolls-swade2']?.render_data) {
-        message.data.flags['betterrolls-swade2'].render_data.update_uid = broofa();
+    if (message.flags?.['betterrolls-swade2']?.render_data) {
+        message.flags['betterrolls-swade2'].render_data.update_uid = broofa();
     }
     await message.setFlag('betterrolls-swade2', 'render_data',
         render_object);
@@ -168,13 +168,13 @@ export function create_render_options(actor, render_data, template, message) {
     }
     const item = message ? get_item_from_message(message, actor) :
         actor.items.getName(render_data.header.title)
-    if (actor.data.data.status.isStunned) {
+    if (actor.system.status.isStunned) {
         render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
-    } else if (actor.data.data.status.isShaken) {
+    } else if (actor.system.status.isShaken) {
         render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-    } else if (item?.data.data.actions.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+    } else if (item?.system.actions.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
         render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
-    } else if (item?.data.data.quantity <= 0) {
+    } else if (item?.system.quantity <= 0) {
         render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
     } else {
         render_data.warning = ''
@@ -189,8 +189,8 @@ export function create_render_options(actor, render_data, template, message) {
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
-        return (actor.data.data.bennies.value > 0);
-    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        return (actor.system.bennies.value > 0);
+    } else if (actor.system.wildcard && actor.system.bennies.value > 0) {
         return true;
     }
     return game.user.getFlag('swade', 'bennies') > 0;
@@ -204,7 +204,7 @@ export async function spend_bennie(actor){
     // Dice so Nice animation
     if (actor.hasPlayerOwner) {
         await actor.spendBenny();
-    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+    } else if (actor.system.wildcard && actor.system.bennies.value > 0) {
         await actor.spendBenny();
     } else {
         await spendMastersBenny();
