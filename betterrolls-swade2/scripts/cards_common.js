@@ -644,7 +644,7 @@ export async function update_message(message, actor, render_data) {
     create_render_options(actor, render_data, undefined, message);
     let new_content = await renderTemplate(render_data.template, render_data);
     // noinspection JSCheckFunctionSignatures
-    new_content = TextEditor.enrichHTML(new_content, {});
+    new_content = TextEditor.enrichHTML(new_content, {async: false});
     await message.update({content: new_content});
     await store_render_flag(message, render_data);
 }
