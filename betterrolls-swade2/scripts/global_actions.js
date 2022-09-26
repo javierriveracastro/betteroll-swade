@@ -157,7 +157,7 @@ function check_selector(type, value, item, actor){
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const edge = actor.items.find(item => {
-            return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+            return item.type === 'edge' && item.name.toLowerCase().includes(
                 edge_name.toLowerCase());
         });
         selected = !!edge;
@@ -166,7 +166,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const ability = actor.items.find(item => {
-            return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
+            return item.type === 'ability' && item.name.toLowerCase().includes(
                 ability_name.toLowerCase());
         });
         selected = !!ability;
@@ -175,7 +175,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
-            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+            return item.type === 'hindrance' && item.name.toLowerCase().includes(
                 hindrance_name.toLowerCase());
         });
         selected = !!hindrance;
@@ -184,7 +184,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
-            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+            return item.type === 'hindrance' && item.name.toLowerCase().includes(
                 hindrance_name.toLowerCase()) && item.data.data?.major;
         });
         selected = !!hindrance;
@@ -206,7 +206,7 @@ function check_selector(type, value, item, actor){
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const edge = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+                return item.type === 'edge' && item.name.toLowerCase().includes(
                     edge_name.toLowerCase());
             });
             selected = selected || (!!edge)
@@ -216,7 +216,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const hindrance = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                return item.type === 'hindrance' && item.name.toLowerCase().includes(
                     hindrance_name.toLowerCase());
             });
             selected = selected || (!!hindrance)
@@ -227,7 +227,7 @@ function check_selector(type, value, item, actor){
         // noinspection AnonymousFunctionJS
         for (let targeted_token of game.user.targets) {
             const hindrance = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                return item.type === 'hindrance' && item.name.toLowerCase().includes(
                     hindrance_name.toLowerCase()) && item.data.data?.major;
             });
             selected = selected || (!!hindrance)
@@ -237,7 +237,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const ability = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
+                return item.type === 'ability' && item.name.toLowerCase().includes(
                     ability_name.toLowerCase());
             });
             selected = selected || (!!ability)
