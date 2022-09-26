@@ -1258,7 +1258,7 @@ export function has_joker(token_id) {
  * @param event: javascript event for click
  */
 async function duplicate_message(message, event) {
-    let data = duplicate(message.data);
+    let data = duplicate(message);
     // Remove rolls
     data.timestamp = new Date().getTime();
     data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
