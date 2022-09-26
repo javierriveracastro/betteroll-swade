@@ -514,7 +514,7 @@ export function trait_to_string(trait) {
 async function detect_fumble(remove_die, fumble_possible, result, dice) {
     if (!remove_die && (fumble_possible < 1)) {
         let test_fumble_roll = new Roll('1d6');
-        test_fumble_roll.roll()
+        await test_fumble_roll.roll({async: true});
         await test_fumble_roll.toMessage(
             {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
         if (test_fumble_roll.total === 1) {
