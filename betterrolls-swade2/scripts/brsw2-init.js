@@ -121,7 +121,7 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_remove_status_card_listeners(message, html, card_type);
         }
         // Hide forms to non-master, non owner
-        if (game.user.id !== message.user && !game.user.isGM) {
+        if (game.user.id !== message.user.id && !game.user.isGM) {
             html.find('.brsw-form').addClass('brsw-collapsed');
         }
         // Hide master only sections
