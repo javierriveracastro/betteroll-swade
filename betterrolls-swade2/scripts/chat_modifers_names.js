@@ -26,7 +26,10 @@ export function changeNames(){
     const new_names =  game.settings.get('betterrolls-swade2', 'chat_modifiers_names');
     for (let prefix of ['GM', 'Trait', 'Damage', 'ROF']) {
         if (new_names[prefix]) {
-            document.getElementById(`brsw-mods-${prefix}-label`).innerHTML = new_names[prefix];
+            const element = document.getElementById(`brsw-mods-${prefix}-label`)
+            if (element) {
+                element.innerHTML = new_names[prefix];
+            }
         }
     }
 }
