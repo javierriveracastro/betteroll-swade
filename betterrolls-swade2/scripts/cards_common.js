@@ -172,7 +172,7 @@ export function create_render_options(actor, render_data, template, message) {
         render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
     } else if (actor.system.status.isShaken) {
         render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-    } else if (item?.system.actions.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+    } else if (item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
         render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
     } else if (item?.system.quantity <= 0) {
         render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
