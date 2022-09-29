@@ -226,13 +226,13 @@ function calculate_distance(origin_token, target_token, item, tn) {
     if (distance < grid_unit * 2 && item){
         use_parry_as_tn = (item.type !== 'power')
     } else if (item) {
-        const range = item.data.data.range.split('/')
+        const range = item.system.range.split('/')
         if (grid_unit % 5 === 0) {
             distance = distance / 5;
         }
-        if (origin_token.data.elevation !== target_token.data.elevation) {
+        if (origin_token.elevation !== target_token.elevation) {
             let h_diff = Math.abs(
-                origin_token.data.elevation - target_token.data.elevation)
+                origin_token.elevation - target_token.elevation)
             distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
         }
         let distance_penalty = 0;
@@ -277,8 +277,8 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
     if (use_parry_as_tn) {
         if (target_token.actor.data.type !== "vehicle") {
             tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
-            tn.value = parseInt(target_token.actor.data.data.stats.parry.value);
-            const parry_mod = parseInt(target_token.actor.data.data.stats.parry.modifier);
+            tn.value = parseInt(target_token.actor.system.stats.parry.value);
+            const parry_mod = parseInt(target_token.actor.system.stats.parry.modifier);
             if (parry_mod) {
                 tn.value += parry_mod;
             }
@@ -287,10 +287,10 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             tn.reason = `Veh - ${target_token.name}`;
             //lookup the vehicle operator and get their maneuveringSkill
             let operator_skill;
-            let target_operator_id = target_token.actor.data.data.driver.id.slice(6);
+            let target_operator_id = target_token.actor.system.driver.id.slice(6);
             let target_operator = game.actors.get(target_operator_id);
             let operatorItems = target_operator.data.items;
-            const maneuveringSkill = target_token.actor.data.data.driver.skill;
+            const maneuveringSkill = target_token.actor.system.driver.skill;
             operatorItems.forEach((value) => {
                 if (value.data.name === maneuveringSkill) {
                   operator_skill = value.data.data.die.sides;
@@ -299,22 +299,22 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             if (operator_skill === null) {
             operator_skill = 0;
             }
-            tn.value = operator_skill / 2 + 2 + target_token.actor.data.data.handling;
+            tn.value = operator_skill / 2 + 2 + target_token.actor.system.handling;
         }
     }
     // Size modifiers
     if (origin_token && target_token) {
-        const origin_scale_mod = sizeToScale(origin_token?.actor?.data?.data?.stats?.size || 1);
-        const target_scale_mod = sizeToScale(target_token?.actor?.data?.data?.size || // Vehicles
-            target_token?.actor?.data?.data?.stats?.size || 1); // actor or default
+        const origin_scale_mod = sizeToScale(origin_token?.actor?.system?.stats?.size || 1);
+        const target_scale_mod = sizeToScale(target_token?.actor?.system?.size || // Vehicles
+            target_token?.actor?.system?.stats?.size || 1); // actor or default
         if (origin_scale_mod !== target_scale_mod) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
         }
     }
     // noinspection JSUnresolvedVariable
-    if (target_token.actor.data.data.status.isVulnerable ||
-            target_token.actor.data.data.status.isStunned) {
+    if (target_token.actor.system.status.isVulnerable ||
+            target_token.actor.system.status.isStunned) {
         tn.modifiers.push(create_modifier(
             `${target_token.name}: ${game.i18n.localize('SWADE.Vuln')}`,2));
     }

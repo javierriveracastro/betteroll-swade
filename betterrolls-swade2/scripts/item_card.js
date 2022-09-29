@@ -531,7 +531,7 @@ async function discount_ammo(item, rof, shot_override) {
     if (ammo_spent > ammo && !item.system.autoReload) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
-    await item.update({'data.currentShots': final_ammo});
+    await item.update({'system.currentShots': final_ammo});
     await displayRemainingCard(content);
     return ammo_spent;
 }
@@ -730,7 +730,7 @@ export async function roll_item(message, html, expend_bennie,
             extra_data.modifiers.push(penalty)
         }
     }
-    const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
+    const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
     for (let group in render_data.action_groups) {
@@ -797,17 +797,17 @@ function reload_weapon(actor, weapon, number) {
         }
         ammo_quantity = ammo.data.data.quantity;
     }
-    let max_ammo = parseInt(weapon.data.data.shots);
+    let max_ammo = parseInt(weapon.system.shots);
     // noinspection JSUnresolvedVariable
-    let current_ammo = parseInt(weapon.data.data.currentShots);
+    let current_ammo = parseInt(weapon.system.currentShots);
     let newCharges = Math.min(max_ammo, current_ammo + number,
         current_ammo + ammo_quantity);
-    let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
+    let updates = [{_id: weapon.id, "systen.currentShots": `${newCharges}`}];
     if (ammo) {
-        const reload_quantity = weapon.data.data.autoReload ?
+        const reload_quantity = weapon.system.autoReload ?
             ammo.data.data.quantity - number :
             ammo.data.data.quantity - newCharges + current_ammo
-        updates.push({_id: ammo.id, "data.quantity": reload_quantity});
+        updates.push({_id: ammo.id, "system.quantity": reload_quantity});
     }
     actor.updateEmbeddedDocuments("Item", updates);
     ChatMessage.create({
@@ -823,7 +823,7 @@ function manual_ammo(weapon, actor) {
     // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
     // sound playback: Freeze#2689; chat message: Spacemandev#6256 (edited by SalieriC). Thank you all so much. =)}
     // noinspection JSUnresolvedVariable
-    const currentCharges = parseInt(weapon.data.data.currentShots);
+    const currentCharges = parseInt(weapon.system.currentShots);
     new Dialog({
         title: 'Ammo Management',
         content: `<form>
@@ -949,7 +949,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     const actor = get_actor_from_message(message)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
-    let shortcuts = actor.getRollShortcuts();
+    let shortcuts = actor.getRollData();
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }

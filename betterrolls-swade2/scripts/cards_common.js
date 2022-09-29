@@ -784,7 +784,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
         BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor)
-        if (item.data.data.actions.skillMod) {
+        if (item.system.actions.skillMod) {
             let modifier_value = 0
             if (isNaN(item.system.actions.skillMod)) {
                 const temp_roll = new Roll(item.system.actions.skillMod)
@@ -1361,7 +1361,7 @@ function get_actor_armor_minimum_strength(actor) {
          * All other:
          * Stored = 0; Carried = 1; Equipped = 3
          */
-        {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipStatus >= 2})
+        {return item.type === 'armor' && item.system.minStr && item.system.equipStatus >= 2})
     for (let armor of min_str_armors) {
         let penalty = process_minimum_str_modifiers(armor, actor, "BRSW.NotEnoughStrengthArmor")
         if (penalty) {
@@ -1377,12 +1377,12 @@ function get_actor_armor_minimum_strength(actor) {
  * @param name
  */
 export function process_minimum_str_modifiers(item, actor, name) {
-    const splited_minStr = item.data.data.minStr.split('d')
+    const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
     let new_mod
-    let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-    if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
-        str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
+    let str_die_size = actor?.system?.attributes?.strength?.die?.sides
+    if (actor?.system?.attributes?.strength.encumbranceSteps) {
+        str_die_size += Math.max(actor?.system?.attributes?.strength.encumbranceSteps * 2, 0)
     }
     if (min_str_die_size > str_die_size) {
         // Minimum strength is not meet
