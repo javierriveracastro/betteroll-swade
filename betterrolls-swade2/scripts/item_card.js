@@ -480,7 +480,7 @@ function trait_from_string(actor, trait_name) {
         for (let attribute of ATTRIBUTES) {
             const translation = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[attribute])
             if (trait_name.toLowerCase() === translation.toLowerCase())  {
-                return {data: {data: actor.data.data.attributes[attribute.toLowerCase()]},
+                return {data: {data: actor.system.attributes[attribute.toLowerCase()]},
                         name: translation}
             }
         }
@@ -579,13 +579,13 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
         arcaneDevice = true;
     }
     // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.system.arcane) &&
-             actor.data.data.powerPoints[item.system.arcane].max) {
+    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
         // Specific power points
-        current_pp = actor.data.data.powerPoints[item.system.arcane].value;
+        current_pp = actor.system.powerPoints[item.system.arcane].value;
     } else {
         // General pool
-        current_pp = actor.data.data.powerPoints.value;
+        current_pp = actor.system.powerPoints.value;
     }
     const final_pp = Math.max(current_pp - pp + old_pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
@@ -601,8 +601,8 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
           // Updating the Arcane Device:
           actor.updateEmbeddedDocuments("Item", updates);
     }
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.system.arcane) &&
-             actor.data.data.powerPoints[item.system.arcane].max) {
+    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
         data['data.powerPoints.' + item.system.arcane + '.value'] =
             final_pp;
     } else {
@@ -902,18 +902,18 @@ function get_toughness_targeted_selected(acting_actor, target=undefined) {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
-        if (objetive.actor.data.type !== "vehicle") {
+        if (objetive.actor.type !== "vehicle") {
             defense_values.toughness = parseInt(
-                objetive.actor.data.data.stats.toughness.value);
+                objetive.actor.system.stats.toughness.value);
             defense_values.armor = parseInt(
-                objetive.actor.data.data.stats.toughness.armor);
+                objetive.actor.system.stats.toughness.armor);
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {
             defense_values.toughness = parseInt(
-                objetive.actor.data.data.toughness.total);
+                objetive.actor.system.toughness.total);
             defense_values.armor = parseInt(
-                  objetive.actor.data.data.toughness.armor);
+                  objetive.actor.system.toughness.armor);
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         }
@@ -1051,7 +1051,7 @@ function get_chat_dmg_modifiers(options, damage_roll) {
 function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
     const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-    const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+    const str_die_size = actor?.system?.attributes?.strength?.die?.sides
     if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor))) {
         if (min_str_die_size > str_die_size) {
             damage_formulas.damage = adjust_dmg_str(
@@ -1334,16 +1334,16 @@ async function edit_toughness(message, index) {
 function modify_power_points(number, mode, actor, item) {
     const arcaneDevice = item.system.additionalStats.devicePP
     let ppv = arcaneDevice ? item.system.additionalStats.devicePP.value :
-        actor.data.data.powerPoints.value
+        actor.system.powerPoints.value
     let ppm = arcaneDevice ? item.system.additionalStats.devicePP.max :
-        actor.data.data.powerPoints.max
+        actor.system.powerPoints.max
     let otherArcane = false;
-    if (actor.data.data.powerPoints.hasOwnProperty(item.system.arcane) &&
-             actor.data.data.powerPoints[item.system.arcane].max) {
+    if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
         // Specific power points
         otherArcane = true;
-        ppv = actor.data.data.powerPoints[item.system.arcane].value;
-        ppm = actor.data.data.powerPoints[item.system.arcane].max;
+        ppv = actor.system.powerPoints[item.system.arcane].value;
+        ppm = actor.system.powerPoints[item.system.arcane].max;
     }
     if (ppv - number < 0) {
         ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
@@ -1414,7 +1414,7 @@ async function manual_pp(actor, item) {
                 label: game.i18n.localize("BRSW.PPBeniRecharge"),
                 callback: () => {
                     //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
-                    if (actor.data.data.bennies.value < 1) {
+                    if (actor.system.bennies.value < 1) {
                         ui.notifications.notify(game.i18n.localize("BRSW.NoBennies"));
                         return
                     }
@@ -1426,8 +1426,8 @@ async function manual_pp(actor, item) {
                 label: game.i18n.localize("BRSW.SoulDrain"),
                 callback: () => {
                     //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
-                    const fv = actor.data.data.fatigue.value;
-                    const fm = actor.data.data.fatigue.max;
+                    const fv = actor.system.fatigue.value;
+                    const fm = actor.system.fatigue.max;
                     let newFV = fv + 1
                     if (item.system.additionalStats?.devicePP) {
                         ui.notifications.notify("You cannot use Soul Drain to recharge Arcane Devices.")
