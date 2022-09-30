@@ -173,7 +173,7 @@ async function undo_damage(message){
         let token_object = canvas.tokens.get(token).document
         succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
-                e => e.data.flags?.core?.statusId === 'incapacitated').map(
+                e => e.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
         await token_object.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
     }
@@ -230,7 +230,7 @@ async function roll_soak(message, use_bennie) {
     let soak_modifiers = [{name: game.i18n.localize("BRSW.RemoveWounds"),
         value: undo_wound_modifier}]
     if (actor.items.find(item => {
-        return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+        return item.type === 'edge' && item.name.toLowerCase().includes(
                 game.i18n.localize("BRSW.EdgeName-IronJaw").toLowerCase())})) {
         soak_modifiers.push({name: game.i18n.localize("BRSW.EdgeName-IronJaw"),
             value: 2})

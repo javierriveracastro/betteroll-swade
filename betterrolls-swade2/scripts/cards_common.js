@@ -659,7 +659,7 @@ export function check_and_roll_conviction(actor) {
     let conviction_modifier;
     if (actor.isWildcard &&
         game.settings.get('swade', 'enableConviction') &&
-            getProperty(actor.data, 'data.details.conviction.active')) {
+            getProperty(actor.system, 'details.conviction.active')) {
         let conviction_roll = new Roll('1d6x');
         conviction_roll.roll({async: false});
         // noinspection JSIgnoredPromiseFromCall

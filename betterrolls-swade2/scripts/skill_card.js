@@ -275,7 +275,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             calculate_distance(origin_token, target_token, item, tn);
     }
     if (use_parry_as_tn) {
-        if (target_token.actor.data.type !== "vehicle") {
+        if (target_token.actor.type !== "vehicle") {
             tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
             tn.value = parseInt(target_token.actor.system.stats.parry.value);
             const parry_mod = parseInt(target_token.actor.system.stats.parry.modifier);
@@ -362,10 +362,10 @@ function calculate_gangUp(attacker, target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;
     }
-    if (attacker.data.disposition === target.data.disposition) {return 0;}
+    if (attacker.disposition === target.disposition) {return 0;}
     let enemies = 0;
     let allies = 0;
-    if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
+    if(attacker.disposition === 1 || attacker.disposition === -1) {
         const ITEM_RANGE = 1; // dist 1''
         let allies_within_range_of_target;
         let allies_with_formation_fighter;
@@ -375,23 +375,23 @@ function calculate_gangUp(attacker, target) {
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id &&
-                t.data.disposition === attacker.data.disposition &&
-                t?.actor?.data.data.status.isStunned === false &&
+                t.disposition === attacker.disposition &&
+                t?.actor?.system.status.isStunned === false &&
                 t.visible &&
                 withinRange(target, t, ITEM_RANGE) &&
                 !t.combatant?.data.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id &&
-                t.data.disposition === attacker.data.disposition * -1 &&
-                t?.actor?.data.data.status.isStunned === false &&
+                t.disposition === attacker.disposition * -1 &&
+                t?.actor?.system.status.isStunned === false &&
                 withinRange(target, t, ITEM_RANGE) &&
                 !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
-            t.data.disposition === attacker.data.disposition * -1 &&
-                t?.actor?.data.data.status.isStunned === false &&
+            t.disposition === attacker.disposition * -1 &&
+                t?.actor?.system.status.isStunned === false &&
                 withinRange(attacker, t, ITEM_RANGE) &&
             !t.combatant?.data.defeated
         );
@@ -399,10 +399,10 @@ function calculate_gangUp(attacker, target) {
         allies_with_formation_fighter = allies_within_range_of_target.filter(t =>
             // no need to check for all the things that allies_within_range_of_target
             // is already filtered for
-            t.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})
+            t.actor?.items.find(item => {return item.name.toLowerCase().includes(formation_fighter_name)})
         );
         enemies = allies_within_range_of_target.length + allies_with_formation_fighter.length;
-        if (enemies > 0 && attacker.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})) {
+        if (enemies > 0 && attacker.actor?.items.find(item => {return item.name.toLowerCase().includes(formation_fighter_name)})) {
             enemies = enemies + 1;
         }
         // allies with formation fighter are counted twice
@@ -422,9 +422,9 @@ function calculate_gangUp(attacker, target) {
         }
     }
     if (target.actor && findBlock) {
-        if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(improved_block_name)})) {
+        if (target.actor.items.find(item => {return item.name.toLowerCase().includes(improved_block_name)})) {
             modifier = Math.max(0, modifier - 2)
-        } else if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(block_name)})) {
+        } else if (target.actor.items.find(item => {return item.name.toLowerCase().includes(block_name)})) {
             modifier = Math.max(0, modifier - 1)
         }
     }
@@ -456,7 +456,7 @@ function gang_up_reduction(target) {
  function gang_up_addition(attacker) {
     let addition = 0
     for (let effect of attacker.effects) {
-        if (!effect.data.disabled) {
+        if (!effect.disabled) {
             for (let change of effect.changes) {
                 if (change.key === 'brsw-ac.gangup-addition') {
                     addition += parseInt(change.value) ? change.value : 0

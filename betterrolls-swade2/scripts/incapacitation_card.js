@@ -127,7 +127,7 @@ async function roll_incapacitation(message, spend_benny) {
     }
     const token = message.getFlag('betterrolls-swade2', 'token');
     const roll = await roll_trait(message,
-        actor.data.data.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
+        actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
     let result = 0;
     roll.rolls.forEach(roll => {
         result = Math.max(roll.result, result);
@@ -163,10 +163,10 @@ export async function create_injury_card(token_id) {
     let actor = token.actor;
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
-    for (let status in actor.data.data.status) {
+    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.system.wounds.value}/${actor.system.wounds.max}`]
+    for (let status in actor.system.status) {
         // noinspection JSUnfilteredForInLoop
-        if (actor.data.data.status[status]) {
+        if (actor.system.status[status]) {
             // noinspection JSUnfilteredForInLoop
             footer.push(status.slice(2));
         }
