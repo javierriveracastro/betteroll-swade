@@ -937,7 +937,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             roll_options.total_modifiers -= 2
         } else {
             const skill = actor.items.get(render_data.trait_id)
-            if (skill && skill.data.data.attribute === 'agility') {
+            if (skill && skill.system.attribute === 'agility') {
                 roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
                 roll_options.total_modifiers -= 2
