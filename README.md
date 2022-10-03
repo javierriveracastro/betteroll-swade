@@ -24,7 +24,6 @@ Criticism, feature requests, and UI changes are all welcome but, if you want me 
 
 In the [Wiki for this repository](https://github.com/javierriveracastro/betteroll-swade/wiki) you will find a detailed documentation concerning the critical elements and functionality of Better Rolls fo SWADE. If you find outdated or missing information please feel free to create an issue to inform me about it.
 
-HTML version: https://javierriveracastro.github.io/betteroll-swade/
 
 ### Dependencies
 
