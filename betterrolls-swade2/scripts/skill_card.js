@@ -362,10 +362,10 @@ function calculate_gangUp(attacker, target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;
     }
-    if (attacker.disposition === target.disposition) {return 0;}
+    if (attacker.document.disposition === target.document.disposition) {return 0;}
     let enemies = 0;
     let allies = 0;
-    if(attacker.disposition === 1 || attacker.disposition === -1) {
+    if(attacker.document.disposition === 1 || attacker.document.disposition === -1) {
         const ITEM_RANGE = 1; // dist 1''
         let allies_within_range_of_target;
         let allies_with_formation_fighter;
@@ -375,25 +375,25 @@ function calculate_gangUp(attacker, target) {
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id &&
-                t.disposition === attacker.disposition &&
+                t.document.disposition === attacker.document.disposition &&
                 t?.actor?.system.status.isStunned === false &&
                 t.visible &&
                 withinRange(target, t, ITEM_RANGE) &&
-                !t.combatant?.data.defeated
+                !t.combatant?.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id &&
-                t.disposition === attacker.disposition * -1 &&
+                t.document.disposition === attacker.document.disposition * -1 &&
                 t?.actor?.system.status.isStunned === false &&
                 withinRange(target, t, ITEM_RANGE) &&
-                !t.combatant?.data.defeated
+                !t.combatant?.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
-            t.disposition === attacker.disposition * -1 &&
+            t.document.disposition === attacker.document.disposition * -1 &&
                 t?.actor?.system.status.isStunned === false &&
                 withinRange(attacker, t, ITEM_RANGE) &&
-            !t.combatant?.data.defeated
+            !t.combatant?.defeated
         );
         const formation_fighter_name = game.i18n.localize("BRSW.EdgeName-FormationFighter").toLowerCase();
         allies_with_formation_fighter = allies_within_range_of_target.filter(t =>
@@ -415,9 +415,9 @@ function calculate_gangUp(attacker, target) {
         "BRSW.EdgeName-ImprovedBlock").toLowerCase()
     const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase()
     let findBlock = true
-    let blockEffects = target.actor.effects.filter(e => e.data.label.toLowerCase().includes(block_name))
+    let blockEffects = target.actor.effects.filter(e => e.label.toLowerCase().includes(block_name))
     for (let effect of blockEffects) {
-        for (let change of effect.data.changes) {
+        for (let change of effect.changes) {
             if (change.key === "brsw-ac.gangup-reduction") { findBlock = false }
         }
     }
@@ -438,7 +438,7 @@ function calculate_gangUp(attacker, target) {
 function gang_up_reduction(target) {
     let reduction = 0
     for (let effect of target.effects) {
-        if (!effect.data.disabled) {
+        if (!effect.disabled) {
             for (let change of effect.changes) {
                 if (change.key === 'brsw-ac.gangup-reduction') {
                     reduction += parseInt(change.value) ? change.value : 0
