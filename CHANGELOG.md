@@ -2,7 +2,7 @@
 
 ## Version 3.2 aka Here is the apocalypse version 10.
 * Module should now be compatible with Foundry v10.
-* Translations: Lots of translations added
+* Translations: Lots of translations added by the Weblate team.
 * That's all.
 
 ## Version 2.76: Welcome SUCC, most work by SalieriC
