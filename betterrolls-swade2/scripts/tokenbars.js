@@ -10,7 +10,7 @@ export function modifyTokenBars() {
         // noinspection JSUnresolvedFunction
         const pct = Math.clamped(val, 0, data.max) / data.max;
         let h = Math.max((canvas.dimensions.size / 12), 8);
-        if (this.data.height >= 2) {
+        if (this.height >= 2) {
             h *= 1.6  // Enlarge the bar for large tokens
         }
         // Draw the bar

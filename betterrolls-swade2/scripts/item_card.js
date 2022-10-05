@@ -39,7 +39,7 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} item_id The id of the item that we want to show
  * @param {boolean} collapse_actions True if the action selector should start collapsed
- * @property {Object} item.data.data.actions.additional Additional actions.
+ * @property {Object} item.system.actions.additional Additional actions.
  * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
  * @return A promise for the ChatMessage object
 */
@@ -53,33 +53,33 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
-    const notes = item.data.data.notes || "";
-    const description = item.data.data.description;
+    const notes = item.system.notes || "";
+    const description = item.system.description;
     let trait_roll = new BRWSRoll();
     let action_groups = {};
     let possible_default_dmg_action;
     if (!game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
         let item_actions = []
-        for (let action in item.data.data?.actions?.additional) {
+        for (let action in item.system?.actions?.additional) {
             // noinspection JSUnresolvedVariable
-            if (item.data.data.actions.additional.hasOwnProperty(action)) {
+            if (item.system.actions.additional.hasOwnProperty(action)) {
                 // noinspection JSUnresolvedVariable
                 const has_skill_mod =
-                    !!(item.data.data.actions.additional[action].skillMod ||
-                        item.data.data.actions.additional[action].skillOverride);
+                    !!(item.system.actions.additional[action].skillMod ||
+                        item.system.actions.additional[action].skillOverride);
                 const has_dmg_mod =
-                    !!item.data.data.actions.additional[action].dmgMod ||
-                        !!item.data.data.actions.additional[action].dmgOverride;
+                    !!item.system.actions.additional[action].dmgMod ||
+                        !!item.system.actions.additional[action].dmgOverride;
                 item_actions.push(
-                    {'code': action, 'name': item.data.data.actions.additional[action].name,
+                    {'code': action, 'name': item.system.actions.additional[action].name,
                         pinned: false, damage_icon: has_dmg_mod,
                         skill_icon: has_skill_mod});
                 // noinspection JSUnresolvedVariable
                 if (!possible_default_dmg_action &&
-                        item.data.data.actions.additional[action].dmgOverride) {
+                        item.system.actions.additional[action].dmgOverride) {
                     // noinspection JSUnresolvedVariable
                     possible_default_dmg_action =
-                        item.data.data.actions.additional[action].dmgOverride;
+                        item.system.actions.additional[action].dmgOverride;
                 }
             }
         }
@@ -88,14 +88,14 @@ async function create_item_card(origin, item_id, collapse_actions) {
             action_groups[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
-    let ammon_enabled = parseInt(item.data.data.shots) ||
-        (item.data.data.autoReload && item.data.data.ammo)
-    let power_points = parseFloat(item.data.data.pp);
+    let ammon_enabled = parseInt(item.system.shots) ||
+        (item.system.autoReload && item.system.ammo)
+    let power_points = parseFloat(item.system.pp);
     const subtract_select = ammon_enabled ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
-    let damage = item.data.data.damage;
+    let damage = item.system.damage;
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
     }
@@ -117,9 +117,9 @@ async function create_item_card(origin, item_id, collapse_actions) {
     await message.setFlag('betterrolls-swade2', 'card_type',
         BRSW_CONST.TYPE_ITEM_CARD)
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
-    if ((item.data.data.actions.skill === "" && item.type === "gear") ||
-            item.data.data.actions.skill.toLowerCase() === "none" ||
-            (item.data.data.hasOwnProperty("actions") === false &&
+    if ((item.type === "gear" && item.system.actions.skill === "") ||
+            item.system.actions?.skill.toLowerCase() === "none" ||
+            (item.system.hasOwnProperty("actions") === false &&
                 item.type !== "skill")) {
         Hooks.call("BRSW-CreateItemCardNoRoll", message);
     }
@@ -365,41 +365,41 @@ export function make_item_footer(item) {
     let footer = [];
     if (item.type === "weapon"){
         footer.push(game.i18n.localize("SWADE.Range._name") + ": " +
-            item.data.data.range);
+            item.system.range);
         // noinspection JSUnresolvedVariable
         footer.push(game.i18n.localize("SWADE.RoF") +
-            ": "+ item.data.data.rof);
+            ": "+ item.system.rof);
         // noinspection JSUnresolvedVariable
         footer.push(game.i18n.localize("BRSW.Dmg") + ": " + 
-            item.data.data.damage);
+            item.system.damage);
         footer.push(game.i18n.localize("SWADE.Ap") + ": " + 
-            item.data.data.ap);
-        if (parseInt(item.data.data.shots)) {
+            item.system.ap);
+        if (parseInt(item.system.shots)) {
             // noinspection JSUnresolvedVariable
             footer.push(game.i18n.localize("SWADE.Mag") + ": " +
-                item.data.data.currentShots + "/" + item.data.data.shots)
+                item.system.currentShots + "/" + item.system.shots)
         }
     } else if (item.type === "power"){
         // noinspection JSUnresolvedVariable
-        footer.push(game.i18n.localize("SWADE.PP") + ": " + item.data.data.pp);
+        footer.push(game.i18n.localize("SWADE.PP") + ": " + item.system.pp);
         footer.push(game.i18n.localize("SWADE.Range._name") + ": " +
-            item.data.data.range);
+            item.system.range);
         footer.push(game.i18n.localize("SWADE.Dur") + ": " +
-            item.data.data.duration);
+            item.system.duration);
         // noinspection JSUnresolvedVariable
-        if (item.data.data.damage) {
+        if (item.system.damage) {
             // noinspection JSUnresolvedVariable
             footer.push(game.i18n.localize("BRSW.Dmg") + ": " +
-                item.data.data.damage);
+                item.system.damage);
         }
     } else if (item.type === "armor") {
-        footer.push(game.i18n.localize("SWADE.Armor") + ": " + item.data.data.armor);
+        footer.push(game.i18n.localize("SWADE.Armor") + ": " + item.system.armor);
         // noinspection JSUnresolvedVariable
-        footer.push(game.i18n.localize("BRSW.MinStr") + ": " + item.data.data.minStr);
+        footer.push(game.i18n.localize("BRSW.MinStr") + ": " + item.system.minStr);
         let locations = game.i18n.localize("BRSW.Location") + ": "
-        for (let armor_location in item.data.data.locations) {
-            if (item.data.data.locations.hasOwnProperty(armor_location) &&
-                    item.data.data.locations[armor_location]) {
+        for (let armor_location in item.system.locations) {
+            if (item.system.locations.hasOwnProperty(armor_location) &&
+                    item.system.locations[armor_location]) {
                 const location_formatted = armor_location.charAt(0).toUpperCase() +
                     armor_location.slice(1)
                 locations += game.i18n.localize(`SWADE.${location_formatted}`) + " ";
@@ -407,9 +407,9 @@ export function make_item_footer(item) {
         }
         footer.push(locations)
     } else if (item.type === "shield") {
-        footer.push(game.i18n.localize("SWADE.Parry") + ": " + item.data.data.parry);
+        footer.push(game.i18n.localize("SWADE.Parry") + ": " + item.system.parry);
         // noinspection JSUnresolvedVariable
-        footer.push(game.i18n.localize("SWADE.Cover._name") + ": " + item.data.data.cover);
+        footer.push(game.i18n.localize("SWADE.Cover._name") + ": " + item.system.cover);
     }
     return footer
 }
@@ -418,32 +418,32 @@ export function make_item_footer(item) {
 /**
  * Guess the skill/attribute that should be rolled for an item
  * @param {Item} item The item.
- * @param {string} item.data.data.arcane
+ * @param {string} item.system.arcane
  * @param {Object} item.data
- * @param {Object} item.data.data.actions
- * @param {string} item.data.data.range
+ * @param {Object} item.system.actions
+ * @param {string} item.system.range
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
     // First if the item has a skill in actions we use it
-    if (item.data.data.actions && item.data.data.actions.skill) {
-        return trait_from_string(actor, item.data.data.actions.skill);
+    if (item.system.actions && item.system.actions.skill) {
+        return trait_from_string(actor, item.system.actions.skill);
     }
     // Some types of items don't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
             item.type.toLowerCase())) {return}
     // Now check if there is something in the Arcane field
-    if (item.data.data.arcane) {
-        return trait_from_string(actor, item.data.data.arcane);
+    if (item.system.arcane) {
+        return trait_from_string(actor, item.system.arcane);
     }
     // If there is no skill anyway we are left to guessing
     let skill;
     if (item.type === "power") {
         skill = check_skill_in_actor(actor, ARCANE_SKILLS);
     } else if (item.type === "weapon") {
-        if (parseInt(item.data.data.range) > 0) {
+        if (parseInt(item.system.range) > 0) {
             // noinspection JSUnresolvedVariable
-            if (item.data.data.damage.includes('str')) {
+            if (item.system.damage.includes('str')) {
                 skill = check_skill_in_actor(actor, THROWING_SKILLS);
             } else {
                 skill = check_skill_in_actor(actor, SHOOTING_SKILLS);
@@ -480,7 +480,7 @@ function trait_from_string(actor, trait_name) {
         for (let attribute of ATTRIBUTES) {
             const translation = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[attribute])
             if (trait_name.toLowerCase() === translation.toLowerCase())  {
-                return {data: {data: actor.data.data.attributes[attribute.toLowerCase()]},
+                return {data: {data: actor.system.attributes[attribute.toLowerCase()]},
                         name: translation}
             }
         }
@@ -522,16 +522,16 @@ function check_skill_in_actor(actor, possible_skills) {
  */
 async function discount_ammo(item, rof, shot_override) {
     // noinspection JSUnresolvedVariable
-    const ammo = parseInt(item.data.data.currentShots);
+    const ammo = parseInt(item.system.currentShots);
     const ammo_spent = shot_override ? shot_override : ROF_BULLETS[rof];
     const final_ammo = Math.max(ammo - ammo_spent, 0)
     // noinspection JSUnresolvedVariable
     let content = game.i18n.format("BRSW.ExpendedAmmo",
         {ammo_spent: ammo_spent, item_name: item.name, final_ammo: final_ammo});
-    if (ammo_spent > ammo && !item.data.data.autoReload) {
+    if (ammo_spent > ammo && !item.system.autoReload) {
         content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
     }
-    await item.update({'data.currentShots': final_ammo});
+    await item.update({'system.currentShots': final_ammo});
     await displayRemainingCard(content);
     return ammo_spent;
 }
@@ -567,25 +567,25 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
             success = true
         }
     }
-    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.data.data.pp)
+    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.system.pp)
     const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
     // If devicePP is found, it will be treated as an Arcane Device:
     let arcaneDevice = false;
-    if (item.data.data.additionalStats.devicePP) {
+    if (item.system.additionalStats.devicePP) {
         // Get the devices PP:
-        current_pp = item.data.data.additionalStats.devicePP.value;
+        current_pp = item.system.additionalStats.devicePP.value;
         arcaneDevice = true;
     }
     // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
-             actor.data.data.powerPoints[item.data.data.arcane].max) {
+    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
         // Specific power points
-        current_pp = actor.data.data.powerPoints[item.data.data.arcane].value;
+        current_pp = actor.system.powerPoints[item.system.arcane].value;
     } else {
         // General pool
-        current_pp = actor.data.data.powerPoints.value;
+        current_pp = actor.system.powerPoints.value;
     }
     const final_pp = Math.max(current_pp - pp + old_pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
@@ -601,9 +601,9 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
           // Updating the Arcane Device:
           actor.updateEmbeddedDocuments("Item", updates);
     }
-    else if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
-             actor.data.data.powerPoints[item.data.data.arcane].max) {
-        data['data.powerPoints.' + item.data.data.arcane + '.value'] =
+    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
+        data['data.powerPoints.' + item.system.arcane + '.value'] =
             final_pp;
     } else {
         data['data.powerPoints.value'] = final_pp;
@@ -688,7 +688,7 @@ export async function roll_item(message, html, expend_bennie,
     let shots_override;  // Override the number of shots used
     let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(actor)}
-    extra_data.rof = item.data.data.rof || 1;
+    extra_data.rof = item.system.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
     }
@@ -701,8 +701,8 @@ export async function roll_item(message, html, expend_bennie,
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
-            if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
-                action = item.data.data.actions.additional[element.dataset.action_id];
+            if (item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+                action = item.system.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
                 action = get_global_action_from_name(element.dataset.action_id);
@@ -724,13 +724,13 @@ export async function roll_item(message, html, expend_bennie,
         process_common_actions(action, extra_data, macros, actor)
     }
     // Check for minimum strength
-    if (item.data.data.minStr && is_shooting_skill(get_item_trait(item, actor))) {
+    if (item.system.minStr && is_shooting_skill(get_item_trait(item, actor))) {
         const penalty = process_minimum_str_modifiers(item, actor, "BRSW.NotEnoughStrength");
         if (penalty) {
             extra_data.modifiers.push(penalty)
         }
     }
-    const trait_data = await roll_trait(message, trait.data.data , game.i18n.localize(
+    const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Pinned actions
     for (let group in render_data.action_groups) {
@@ -741,7 +741,7 @@ export async function roll_item(message, html, expend_bennie,
         }
     }
     // Ammo management
-    if (parseInt(item.data.data.shots) || item.data.data.autoReload){
+    if (parseInt(item.system.shots) || item.system.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
@@ -751,7 +751,7 @@ export async function roll_item(message, html, expend_bennie,
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
                 render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
-                if (item.data.data.autoReload) {
+                if (item.system.autoReload) {
                     reload_weapon(actor, item, rof || 1)
                 }
             } else {
@@ -763,7 +763,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
-    if (parseInt(item.data.data.pp) && pp_selected) {
+    if (parseInt(item.system.pp) && pp_selected) {
         render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override, previous_pp);
     }
     await update_message(message, actor, render_data);
@@ -789,7 +789,7 @@ export async function roll_item(message, html, expend_bennie,
 function reload_weapon(actor, weapon, number) {
     // If the quantity of ammo is less than the amount required, use whatever is left.
     let item = actor.items.get(weapon.id);
-    let ammo = actor.items.getName(item.data.data.ammo.trim())
+    let ammo = actor.items.getName(item.system.ammo.trim())
     let ammo_quantity = 999999999;
     if (ammo) {
         if (ammo.data.data.quantity <= 0) {
@@ -797,17 +797,17 @@ function reload_weapon(actor, weapon, number) {
         }
         ammo_quantity = ammo.data.data.quantity;
     }
-    let max_ammo = parseInt(weapon.data.data.shots);
+    let max_ammo = parseInt(weapon.system.shots);
     // noinspection JSUnresolvedVariable
-    let current_ammo = parseInt(weapon.data.data.currentShots);
+    let current_ammo = parseInt(weapon.system.currentShots);
     let newCharges = Math.min(max_ammo, current_ammo + number,
         current_ammo + ammo_quantity);
-    let updates = [{_id: weapon.id, "data.currentShots": `${newCharges}`}];
+    let updates = [{_id: weapon.id, "systen.currentShots": `${newCharges}`}];
     if (ammo) {
-        const reload_quantity = weapon.data.data.autoReload ?
+        const reload_quantity = weapon.system.autoReload ?
             ammo.data.data.quantity - number :
             ammo.data.data.quantity - newCharges + current_ammo
-        updates.push({_id: ammo.id, "data.quantity": reload_quantity});
+        updates.push({_id: ammo.id, "system.quantity": reload_quantity});
     }
     actor.updateEmbeddedDocuments("Item", updates);
     ChatMessage.create({
@@ -823,7 +823,7 @@ function manual_ammo(weapon, actor) {
     // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
     // sound playback: Freeze#2689; chat message: Spacemandev#6256 (edited by SalieriC). Thank you all so much. =)}
     // noinspection JSUnresolvedVariable
-    const currentCharges = parseInt(weapon.data.data.currentShots);
+    const currentCharges = parseInt(weapon.system.currentShots);
     new Dialog({
         title: 'Ammo Management',
         content: `<form>
@@ -902,18 +902,18 @@ function get_toughness_targeted_selected(acting_actor, target=undefined) {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
-        if (objetive.actor.data.type !== "vehicle") {
+        if (objetive.actor.type !== "vehicle") {
             defense_values.toughness = parseInt(
-                objetive.actor.data.data.stats.toughness.value);
+                objetive.actor.system.stats.toughness.value);
             defense_values.armor = parseInt(
-                objetive.actor.data.data.stats.toughness.armor);
+                objetive.actor.system.stats.toughness.armor);
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {
             defense_values.toughness = parseInt(
-                objetive.actor.data.data.toughness.total);
+                objetive.actor.system.toughness.total);
             defense_values.armor = parseInt(
-                  objetive.actor.data.data.toughness.armor);
+                  objetive.actor.system.toughness.armor);
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         }
@@ -949,7 +949,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     const actor = get_actor_from_message(message)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
-    let shortcuts = actor.getRollShortcuts();
+    let shortcuts = actor.getRollData();
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
@@ -1049,9 +1049,9 @@ function get_chat_dmg_modifiers(options, damage_roll) {
 }
 
 function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
-    const splited_minStr = item.data.data.minStr.split('d')
+    const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-    const str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
+    const str_die_size = actor?.system?.attributes?.strength?.die?.sides
     if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor))) {
         if (min_str_die_size > str_die_size) {
             damage_formulas.damage = adjust_dmg_str(
@@ -1092,9 +1092,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
     const item = get_item_from_message(message, actor)
-    const raise_die_size = item.data.data.bonusDamageDie || 6
-    let damage_formulas = {damage: item.data.data.damage, raise: `+1d${raise_die_size}x`,
-        ap: parseInt(item.data.data.ap), multiplier: 1}
+    const raise_die_size = item.system.bonusDamageDie || 6
+    let damage_formulas = {damage: item.system.damage, raise: `+1d${raise_die_size}x`,
+        ap: parseInt(item.system.ap), multiplier: 1}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1107,15 +1107,15 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     get_chat_dmg_modifiers(options, damage_roll);
     // Action mods
-    if (item.data.data.actions.dmgMod) {
+    if (item.system.actions.dmgMod) {
         // noinspection JSUnresolvedVariable
         const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
-            item.data.data.actions.dmgMod)
+            item.system.actions.dmgMod)
         damage_roll.brswroll.modifiers.push(new_mod);
     }
     joker_modifiers(message, actor, damage_roll);
     // Minimum strength
-    if (item.data.data.minStr) {
+    if (item.system.minStr) {
         calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
     }
     // Actions
@@ -1124,9 +1124,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
             // noinspection JSUnresolvedVariable
-            if (item.data.data.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+            if (item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
                 // noinspection JSUnresolvedVariable
-                action = item.data.data.actions.additional[element.dataset.action_id];
+                action = item.system.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
                 action = get_global_action_from_name(element.dataset.action_id);
@@ -1332,18 +1332,18 @@ async function edit_toughness(message, index) {
  * @param {Item} item: The power itself
  */
 function modify_power_points(number, mode, actor, item) {
-    const arcaneDevice = item.data.data.additionalStats.devicePP
-    let ppv = arcaneDevice ? item.data.data.additionalStats.devicePP.value :
-        actor.data.data.powerPoints.value
-    let ppm = arcaneDevice ? item.data.data.additionalStats.devicePP.max :
-        actor.data.data.powerPoints.max
+    const arcaneDevice = item.system.additionalStats.devicePP
+    let ppv = arcaneDevice ? item.system.additionalStats.devicePP.value :
+        actor.system.powerPoints.value
+    let ppm = arcaneDevice ? item.system.additionalStats.devicePP.max :
+        actor.system.powerPoints.max
     let otherArcane = false;
-    if (actor.data.data.powerPoints.hasOwnProperty(item.data.data.arcane) &&
-             actor.data.data.powerPoints[item.data.data.arcane].max) {
+    if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
+             actor.system.powerPoints[item.system.arcane].max) {
         // Specific power points
         otherArcane = true;
-        ppv = actor.data.data.powerPoints[item.data.data.arcane].value;
-        ppm = actor.data.data.powerPoints[item.data.data.arcane].max;
+        ppv = actor.system.powerPoints[item.system.arcane].value;
+        ppm = actor.system.powerPoints[item.system.arcane].max;
     }
     if (ppv - number < 0) {
         ui.notifications.notify(game.i18n.localize("BRSW.InsufficientPP"))
@@ -1367,7 +1367,7 @@ function modify_power_points(number, mode, actor, item) {
           actor.updateEmbeddedDocuments("Item", updates);
     } else {
         const data_key = otherArcane ?
-            `data.powerPoints.${item.data.data.arcane}.value` : "data.powerPoints.value";
+            `data.powerPoints.${item.system.arcane}.value` : "data.powerPoints.value";
         let data = {}
         data[data_key] = newPP;
         actor.update(data);
@@ -1414,7 +1414,7 @@ async function manual_pp(actor, item) {
                 label: game.i18n.localize("BRSW.PPBeniRecharge"),
                 callback: () => {
                     //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
-                    if (actor.data.data.bennies.value < 1) {
+                    if (actor.system.bennies.value < 1) {
                         ui.notifications.notify(game.i18n.localize("BRSW.NoBennies"));
                         return
                     }
@@ -1426,10 +1426,10 @@ async function manual_pp(actor, item) {
                 label: game.i18n.localize("BRSW.SoulDrain"),
                 callback: () => {
                     //Button 4: Soul Drain (increases data.fatigue.value by 1 and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
-                    const fv = actor.data.data.fatigue.value;
-                    const fm = actor.data.data.fatigue.max;
+                    const fv = actor.system.fatigue.value;
+                    const fm = actor.system.fatigue.max;
                     let newFV = fv + 1
-                    if (item.data.data.additionalStats?.devicePP) {
+                    if (item.system.additionalStats?.devicePP) {
                         ui.notifications.notify("You cannot use Soul Drain to recharge Arcane Devices.")
                         return
                     }
@@ -1465,8 +1465,8 @@ function get_template_from_description(item){
             if (key_text.slice(0,4) === 'BRSW') {
                 translated_key_text = game.i18n.localize(key_text)
             }
-            if (item.data.data?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
-                    item.data.data?.range?.toLowerCase().includes(translated_key_text)) { // jshint ignore:line
+            if (item.system?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
+                    item.system?.range?.toLowerCase().includes(translated_key_text)) { // jshint ignore:line
                 templates_found.push(template_key)
                 break
             }

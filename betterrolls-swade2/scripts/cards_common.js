@@ -47,8 +47,8 @@ async function store_render_flag(message, render_object) {
         delete render_object[property];
     }
     // Get sure thar there is a diff so update socket gets fired.
-    if (message.data.flags?.['betterrolls-swade2']?.render_data) {
-        message.data.flags['betterrolls-swade2'].render_data.update_uid = broofa();
+    if (message.flags?.['betterrolls-swade2']?.render_data) {
+        message.flags['betterrolls-swade2'].render_data.update_uid = broofa();
     }
     await message.setFlag('betterrolls-swade2', 'render_data',
         render_object);
@@ -164,17 +164,17 @@ export function create_render_options(actor, render_data, template, message) {
         }
         render_data.skill = trait
         render_data.skill_title = trait ? trait.name + ' ' +
-            trait_to_string(trait.data.data) : '';
+            trait_to_string(trait.system) : '';
     }
     const item = message ? get_item_from_message(message, actor) :
         actor.items.getName(render_data.header.title)
-    if (actor.data.data.status.isStunned) {
+    if (actor.system.status.isStunned) {
         render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
-    } else if (actor.data.data.status.isShaken) {
+    } else if (actor.system.status.isShaken) {
         render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-    } else if (item?.data.data.actions.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+    } else if (item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
         render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
-    } else if (item?.data.data.quantity <= 0) {
+    } else if (item?.system.quantity <= 0) {
         render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
     } else {
         render_data.warning = ''
@@ -189,8 +189,8 @@ export function create_render_options(actor, render_data, template, message) {
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
-        return (actor.data.data.bennies.value > 0);
-    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+        return (actor.system.bennies.value > 0);
+    } else if (actor.system.wildcard && actor.system.bennies.value > 0) {
         return true;
     }
     return game.user.getFlag('swade', 'bennies') > 0;
@@ -204,7 +204,7 @@ export async function spend_bennie(actor){
     // Dice so Nice animation
     if (actor.hasPlayerOwner) {
         await actor.spendBenny();
-    } else if (actor.data.data.wildcard && actor.data.data.bennies.value > 0) {
+    } else if (actor.system.wildcard && actor.system.bennies.value > 0) {
         await actor.spendBenny();
     } else {
         await spendMastersBenny();
@@ -514,7 +514,7 @@ export function trait_to_string(trait) {
 async function detect_fumble(remove_die, fumble_possible, result, dice) {
     if (!remove_die && (fumble_possible < 1)) {
         let test_fumble_roll = new Roll('1d6');
-        test_fumble_roll.roll()
+        await test_fumble_roll.roll({async: true});
         await test_fumble_roll.toMessage(
             {flavor: game.i18n.localize('BRWS.Testing_fumbles')});
         if (test_fumble_roll.total === 1) {
@@ -644,7 +644,7 @@ export async function update_message(message, actor, render_data) {
     create_render_options(actor, render_data, undefined, message);
     let new_content = await renderTemplate(render_data.template, render_data);
     // noinspection JSCheckFunctionSignatures
-    new_content = TextEditor.enrichHTML(new_content, {});
+    new_content = TextEditor.enrichHTML(new_content, {async: false});
     await message.update({content: new_content});
     await store_render_flag(message, render_data);
 }
@@ -659,7 +659,7 @@ export function check_and_roll_conviction(actor) {
     let conviction_modifier;
     if (actor.isWildcard &&
         game.settings.get('swade', 'enableConviction') &&
-            getProperty(actor.data, 'data.details.conviction.active')) {
+            getProperty(actor.system, 'details.conviction.active')) {
         let conviction_roll = new Roll('1d6x');
         conviction_roll.roll({async: false});
         // noinspection JSIgnoredPromiseFromCall
@@ -766,7 +766,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     get_below_chat_modifiers(options, roll_options);
     get_actor_own_modifiers(actor, roll_options);
     // Armor min str
-    if (skill?.data.data.attribute === 'agility') {
+    if (skill?.system.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(actor)
         if (armor_penalty) {
             roll_options.total_modifiers += armor_penalty.value
@@ -784,13 +784,13 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     if (message.getFlag('betterrolls-swade2', 'card_type') ===
         BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor)
-        if (item.data.data.actions.skillMod) {
+        if (item.system.actions.skillMod) {
             let modifier_value = 0
-            if (isNaN(item.data.data.actions.skillMod)) {
-                const temp_roll = new Roll(item.data.data.actions.skillMod)
+            if (isNaN(item.system.actions.skillMod)) {
+                const temp_roll = new Roll(item.system.actions.skillMod)
                 modifier_value = (await temp_roll.evaluate()).total
             } else {
-                modifier_value = parseInt(item.data.data.actions.skillMod)
+                modifier_value = parseInt(item.system.actions.skillMod)
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
@@ -937,7 +937,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             roll_options.total_modifiers -= 2
         } else {
             const skill = actor.items.get(render_data.trait_id)
-            if (skill && skill.data.data.attribute === 'agility') {
+            if (skill && skill.system.attribute === 'agility') {
                 roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
                 roll_options.total_modifiers -= 2
@@ -1258,7 +1258,7 @@ export function has_joker(token_id) {
  * @param event: javascript event for click
  */
 async function duplicate_message(message, event) {
-    let data = duplicate(message.data);
+    let data = duplicate(message);
     // Remove rolls
     data.timestamp = new Date().getTime();
     data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
@@ -1361,7 +1361,7 @@ function get_actor_armor_minimum_strength(actor) {
          * All other:
          * Stored = 0; Carried = 1; Equipped = 3
          */
-        {return item.type === 'armor' && item.data.data.minStr && item.data.data.equipStatus >= 2})
+        {return item.type === 'armor' && item.system.minStr && item.system.equipStatus >= 2})
     for (let armor of min_str_armors) {
         let penalty = process_minimum_str_modifiers(armor, actor, "BRSW.NotEnoughStrengthArmor")
         if (penalty) {
@@ -1377,12 +1377,12 @@ function get_actor_armor_minimum_strength(actor) {
  * @param name
  */
 export function process_minimum_str_modifiers(item, actor, name) {
-    const splited_minStr = item.data.data.minStr.split('d')
+    const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
     let new_mod
-    let str_die_size = actor?.data?.data?.attributes?.strength?.die?.sides
-    if (actor?.data?.data?.attributes?.strength.encumbranceSteps) {
-        str_die_size += Math.max(actor?.data?.data?.attributes?.strength.encumbranceSteps * 2, 0)
+    let str_die_size = actor?.system?.attributes?.strength?.die?.sides
+    if (actor?.system?.attributes?.strength.encumbranceSteps) {
+        str_die_size += Math.max(actor?.system?.attributes?.strength.encumbranceSteps * 2, 0)
     }
     if (min_str_die_size > str_die_size) {
         // Minimum strength is not meet

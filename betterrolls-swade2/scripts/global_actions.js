@@ -143,21 +143,21 @@ function check_selector(type, value, item, actor){
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_description_includes') {
-        if (item?.data?.data?.description) {
-            selected = item?.data?.data?.description.toLowerCase().includes(value.toLowerCase());
+        if (item?.system?.description) {
+            selected = item?.system?.description.toLowerCase().includes(value.toLowerCase());
         } else {
             selected = false
         }
     } else if (type === 'actor_has_effect') {
         // noinspection AnonymousFunctionJS
         const effect = actor.effects.find(
-            effect => effect.data.label.toLowerCase().includes(value.toLowerCase()));
-        selected = effect ? ! effect.data.disabled : false;
+            effect => effect.label.toLowerCase().includes(value.toLowerCase()));
+        selected = effect ? ! effect.disabled : false;
     } else if (type === 'actor_has_edge') {
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const edge = actor.items.find(item => {
-            return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+            return item.type === 'edge' && item.name.toLowerCase().includes(
                 edge_name.toLowerCase());
         });
         selected = !!edge;
@@ -166,7 +166,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const ability = actor.items.find(item => {
-            return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
+            return item.type === 'ability' && item.name.toLowerCase().includes(
                 ability_name.toLowerCase());
         });
         selected = !!ability;
@@ -175,7 +175,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
-            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+            return item.type === 'hindrance' && item.name.toLowerCase().includes(
                 hindrance_name.toLowerCase());
         });
         selected = !!hindrance;
@@ -184,21 +184,21 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find(item => {
-            return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
-                hindrance_name.toLowerCase()) && item.data.data?.major;
+            return item.type === 'hindrance' && item.name.toLowerCase().includes(
+                hindrance_name.toLowerCase()) && item.system?.major;
         });
         selected = !!hindrance;
     } else if (type.indexOf('actor_additional_stat_') === 0) {
         const additional_stat = type.slice(22)
-        if (actor.data.data.additionalStats.hasOwnProperty(additional_stat)) {
+        if (actor.system.additionalStats.hasOwnProperty(additional_stat)) {
             // noinspection EqualityComparisonWithCoercionJS
-            selected = actor.data.data.additionalStats[additional_stat].value == value
+            selected = actor.system.additionalStats[additional_stat].value == value
         }
     } else if (type.indexOf('item_additional_stat_') === 0) {
         const additional_stat = type.slice(21)
-        if (item?.data?.data?.additionalStats.hasOwnProperty(additional_stat)) {
+        if (item?.system?.additionalStats.hasOwnProperty(additional_stat)) {
             // noinspection EqualityComparisonWithCoercionJS
-            selected = item.data.data.additionalStats[additional_stat].value == value
+            selected = item.system.additionalStats[additional_stat].value == value
         }
     } else if (type === 'actor_has_joker') {
         selected = actor.hasJoker
@@ -206,7 +206,7 @@ function check_selector(type, value, item, actor){
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const edge = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+                return item.type === 'edge' && item.name.toLowerCase().includes(
                     edge_name.toLowerCase());
             });
             selected = selected || (!!edge)
@@ -216,7 +216,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const hindrance = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
+                return item.type === 'hindrance' && item.name.toLowerCase().includes(
                     hindrance_name.toLowerCase());
             });
             selected = selected || (!!hindrance)
@@ -227,8 +227,8 @@ function check_selector(type, value, item, actor){
         // noinspection AnonymousFunctionJS
         for (let targeted_token of game.user.targets) {
             const hindrance = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'hindrance' && item.data.name.toLowerCase().includes(
-                    hindrance_name.toLowerCase()) && item.data.data?.major;
+                return item.type === 'hindrance' && item.name.toLowerCase().includes(
+                    hindrance_name.toLowerCase()) && item.system?.major;
             });
             selected = selected || (!!hindrance)
         }
@@ -237,7 +237,7 @@ function check_selector(type, value, item, actor){
             game.i18n.localize(value) : value;
         for (let targeted_token of game.user.targets) {
             const ability = targeted_token.actor?.items.find(item => {
-                return item.data.type === 'ability' && item.data.name.toLowerCase().includes(
+                return item.type === 'ability' && item.name.toLowerCase().includes(
                     ability_name.toLowerCase());
             });
             selected = selected || (!!ability)
@@ -246,16 +246,16 @@ function check_selector(type, value, item, actor){
         selected = false
         for (const targeted_token of game.user.targets) {
             const effect = targeted_token.actor?.effects.find(
-                ef => ef.data.label.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
+                ef => ef.label.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
             if (effect) {
-                selected = selected || effect ? (! effect.data.disabled) : false;
+                selected = selected || effect ? (! effect.disabled) : false;
             }
         }
     } else if (type === 'faction') {
         const tokens = actor.getActiveTokens()
         if (game.user.targets.size > 0 && tokens.length > 0) {
-            const actor_disposition = tokens[0].data.disposition
-            const target_disposition = game.user.targets.first().data?.disposition;
+            const actor_disposition = tokens[0].disposition
+            const target_disposition = game.user.targets.first().disposition;
             if (value === 'same') {
                 selected = actor_disposition === target_disposition;
             } else {
@@ -506,8 +506,8 @@ async function import_global_actions() {
           label: "Import",
           callback: html => {
             const form = html.find("form")[0];
-            if ( !form.data.files.length ) {return ui.notifications.error("You did not upload a data file!");}
-            readTextFromFile(form.data.files[0]).then((json) => {
+            if ( !form.files.length ) {return ui.notifications.error("You did not upload a data file!");}
+            readTextFromFile(form.files[0]).then((json) => {
                 game.settings.set('betterrolls-swade2', "world_global_actions", JSON.parse(json))
             });
           }

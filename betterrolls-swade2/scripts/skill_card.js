@@ -43,8 +43,8 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     collapse_actions = collapse_actions ||
         game.settings.get('betterrolls-swade2', 'collapse-modifiers')
     const skill = actor.items.find(item => {return item.id === skill_id});
-    const extra_name = skill.name + ' ' + trait_to_string(skill.data.data)
-    const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.data.data.attribute]
+    const extra_name = skill.name + ' ' + trait_to_string(skill.system)
+    const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.system.attribute]
     let trait_roll = new BRWSRoll();
     let actions = create_actions_array({}, skill, actor);
     let message = await create_common_card(origin, {header:
@@ -181,7 +181,7 @@ export async function roll_skill(message, html, expend_bennie){
         }
     }
     if (expend_bennie) {await spend_bennie(actor);}
-    await roll_trait(message, skill.data.data , game.i18n.localize(
+    await roll_trait(message, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
     await run_macros(macros, actor, null, message);
 }
@@ -226,13 +226,13 @@ function calculate_distance(origin_token, target_token, item, tn) {
     if (distance < grid_unit * 2 && item){
         use_parry_as_tn = (item.type !== 'power')
     } else if (item) {
-        const range = item.data.data.range.split('/')
+        const range = item.system.range.split('/')
         if (grid_unit % 5 === 0) {
             distance = distance / 5;
         }
-        if (origin_token.data.elevation !== target_token.data.elevation) {
+        if (origin_token.elevation !== target_token.elevation) {
             let h_diff = Math.abs(
-                origin_token.data.elevation - target_token.data.elevation)
+                origin_token.elevation - target_token.elevation)
             distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
         }
         let distance_penalty = 0;
@@ -275,10 +275,10 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             calculate_distance(origin_token, target_token, item, tn);
     }
     if (use_parry_as_tn) {
-        if (target_token.actor.data.type !== "vehicle") {
+        if (target_token.actor.type !== "vehicle") {
             tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
-            tn.value = parseInt(target_token.actor.data.data.stats.parry.value);
-            const parry_mod = parseInt(target_token.actor.data.data.stats.parry.modifier);
+            tn.value = parseInt(target_token.actor.system.stats.parry.value);
+            const parry_mod = parseInt(target_token.actor.system.stats.parry.modifier);
             if (parry_mod) {
                 tn.value += parry_mod;
             }
@@ -287,10 +287,10 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             tn.reason = `Veh - ${target_token.name}`;
             //lookup the vehicle operator and get their maneuveringSkill
             let operator_skill;
-            let target_operator_id = target_token.actor.data.data.driver.id.slice(6);
+            let target_operator_id = target_token.actor.system.driver.id.slice(6);
             let target_operator = game.actors.get(target_operator_id);
             let operatorItems = target_operator.data.items;
-            const maneuveringSkill = target_token.actor.data.data.driver.skill;
+            const maneuveringSkill = target_token.actor.system.driver.skill;
             operatorItems.forEach((value) => {
                 if (value.data.name === maneuveringSkill) {
                   operator_skill = value.data.data.die.sides;
@@ -299,22 +299,22 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
             if (operator_skill === null) {
             operator_skill = 0;
             }
-            tn.value = operator_skill / 2 + 2 + target_token.actor.data.data.handling;
+            tn.value = operator_skill / 2 + 2 + target_token.actor.system.handling;
         }
     }
     // Size modifiers
     if (origin_token && target_token) {
-        const origin_scale_mod = sizeToScale(origin_token?.actor?.data?.data?.stats?.size || 1);
-        const target_scale_mod = sizeToScale(target_token?.actor?.data?.data?.size || // Vehicles
-            target_token?.actor?.data?.data?.stats?.size || 1); // actor or default
+        const origin_scale_mod = sizeToScale(origin_token?.actor?.system?.stats?.size || 1);
+        const target_scale_mod = sizeToScale(target_token?.actor?.system?.size || // Vehicles
+            target_token?.actor?.system?.stats?.size || 1); // actor or default
         if (origin_scale_mod !== target_scale_mod) {
             tn.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Scale"), target_scale_mod - origin_scale_mod))
         }
     }
     // noinspection JSUnresolvedVariable
-    if (target_token.actor.data.data.status.isVulnerable ||
-            target_token.actor.data.data.status.isStunned) {
+    if (target_token.actor.system.status.isVulnerable ||
+            target_token.actor.system.status.isStunned) {
         tn.modifiers.push(create_modifier(
             `${target_token.name}: ${game.i18n.localize('SWADE.Vuln')}`,2));
     }
@@ -362,10 +362,10 @@ function calculate_gangUp(attacker, target) {
         console.log("BetterRolls 2: Trying to calculate gangup with no token", attacker, target)
         return 0;
     }
-    if (attacker.data.disposition === target.data.disposition) {return 0;}
+    if (attacker.disposition === target.disposition) {return 0;}
     let enemies = 0;
     let allies = 0;
-    if(attacker.data.disposition === 1 || attacker.data.disposition === -1) {
+    if(attacker.disposition === 1 || attacker.disposition === -1) {
         const ITEM_RANGE = 1; // dist 1''
         let allies_within_range_of_target;
         let allies_with_formation_fighter;
@@ -375,23 +375,23 @@ function calculate_gangUp(attacker, target) {
         // disposition 1 PCs (friendly) is attacking NPC (hostile)
         allies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== attacker.id &&
-                t.data.disposition === attacker.data.disposition &&
-                t?.actor?.data.data.status.isStunned === false &&
+                t.disposition === attacker.disposition &&
+                t?.actor?.system.status.isStunned === false &&
                 t.visible &&
                 withinRange(target, t, ITEM_RANGE) &&
                 !t.combatant?.data.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id &&
-                t.data.disposition === attacker.data.disposition * -1 &&
-                t?.actor?.data.data.status.isStunned === false &&
+                t.disposition === attacker.disposition * -1 &&
+                t?.actor?.system.status.isStunned === false &&
                 withinRange(target, t, ITEM_RANGE) &&
                 !t.combatant?.data.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
-            t.data.disposition === attacker.data.disposition * -1 &&
-                t?.actor?.data.data.status.isStunned === false &&
+            t.disposition === attacker.disposition * -1 &&
+                t?.actor?.system.status.isStunned === false &&
                 withinRange(attacker, t, ITEM_RANGE) &&
             !t.combatant?.data.defeated
         );
@@ -399,10 +399,10 @@ function calculate_gangUp(attacker, target) {
         allies_with_formation_fighter = allies_within_range_of_target.filter(t =>
             // no need to check for all the things that allies_within_range_of_target
             // is already filtered for
-            t.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})
+            t.actor?.items.find(item => {return item.name.toLowerCase().includes(formation_fighter_name)})
         );
         enemies = allies_within_range_of_target.length + allies_with_formation_fighter.length;
-        if (enemies > 0 && attacker.actor?.items.find(item => {return item.data.name.toLowerCase().includes(formation_fighter_name)})) {
+        if (enemies > 0 && attacker.actor?.items.find(item => {return item.name.toLowerCase().includes(formation_fighter_name)})) {
             enemies = enemies + 1;
         }
         // allies with formation fighter are counted twice
@@ -422,9 +422,9 @@ function calculate_gangUp(attacker, target) {
         }
     }
     if (target.actor && findBlock) {
-        if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(improved_block_name)})) {
+        if (target.actor.items.find(item => {return item.name.toLowerCase().includes(improved_block_name)})) {
             modifier = Math.max(0, modifier - 2)
-        } else if (target.actor.items.find(item => {return item.data.name.toLowerCase().includes(block_name)})) {
+        } else if (target.actor.items.find(item => {return item.name.toLowerCase().includes(block_name)})) {
             modifier = Math.max(0, modifier - 1)
         }
     }
@@ -456,7 +456,7 @@ function gang_up_reduction(target) {
  function gang_up_addition(attacker) {
     let addition = 0
     for (let effect of attacker.effects) {
-        if (!effect.data.disabled) {
+        if (!effect.disabled) {
             for (let change of effect.changes) {
                 if (change.key === 'brsw-ac.gangup-addition') {
                     addition += parseInt(change.value) ? change.value : 0

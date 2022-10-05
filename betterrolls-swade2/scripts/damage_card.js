@@ -17,19 +17,19 @@ export async function create_damage_card(token_id, damage, damage_text) {
     let actor = token.actor;
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
-    let undo_values = {wounds: actor.data.data.wounds.value,
-        shaken: actor.data.data.status.isShaken};
+    let undo_values = {wounds: actor.system.wounds.value,
+        shaken: actor.system.status.isShaken};
     let wounds = Math.floor(damage / 4)
     if (game.settings.get('betterrolls-swade2', 'wound-cap')) {
        wounds = Math.min(wounds, game.settings.get('betterrolls-swade2', 'wound-cap'))
     }
     // noinspection JSUnresolvedVariable
-    const can_soak = wounds || actor.data.data.status.isShaken;
+    const can_soak = wounds || actor.system.status.isShaken;
     const damage_result = await apply_damage(token, wounds, 0);
     const footer = damage_card_footer(actor);
     const show_injury = (game.settings.get(
         'betterrolls-swade2', 'optional_rules_enabled').indexOf(
-            "GrittyDamage") > -1) && can_soak && (actor.data.data.wounds.max > 1);
+            "GrittyDamage") > -1) && can_soak && (actor.system.wounds.max > 1);
     let trait_roll = new BRWSRoll();
     let message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
@@ -56,11 +56,11 @@ export async function create_damage_card(token_id, damage, damage_text) {
  */
 export function damage_card_footer(actor){
     // noinspection JSUnresolvedVariable
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.data.data.wounds.value}/${actor.data.data.wounds.max}`]
+    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.system.wounds.value}/${actor.system.wounds.max}`]
     // noinspection JSUnresolvedVariable
-    for (let status in actor.data.data.status) {
+    for (let status in actor.system.status) {
         // noinspection JSUnfilteredForInLoop,JSUnresolvedVariable
-        if (actor.data.data.status[status]) {
+        if (actor.system.status[status]) {
             // noinspection JSUnfilteredForInLoop
             footer.push(status.slice(2));
         }
@@ -106,16 +106,16 @@ async function apply_damage(token, wounds, soaked=0) {
         token = canvas.tokens.get(token);
     }
     // We take the starting situation
-    let initial_wounds = token.actor.data.data.wounds.value;
+    let initial_wounds = token.actor.system.wounds.value;
     // noinspection JSUnresolvedVariable
-    let initial_shaken = token.actor.data.data.status.isShaken;
+    let initial_shaken = token.actor.system.status.isShaken;
     // We test for double shaken
     let damage_wounds = wounds;
     let final_shaken = true; // Any damage also shakes the token
     let text = ''
     if (wounds < 1 && initial_shaken) {
         // Shaken twice
-        if (token.actor.data.items.find(item => {
+        if (token.actor.items.find(item => {
             return item.name.toLowerCase().includes(
                 game.i18n.localize("BRSW.HardyIdentifier")) &&
                 (item.type === "edge" || item.type === 'ability');
@@ -145,10 +145,10 @@ async function apply_damage(token, wounds, soaked=0) {
     }
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
-    incapacitated = final_wounds > token.actor.data.data.wounds.max
+    incapacitated = final_wounds > token.actor.system.wounds.max
     await succ.apply_status(token, 'incapacitated', incapacitated, true)
     // We cap damage on actor number of wounds
-    final_wounds = Math.min(final_wounds, token.actor.data.data.wounds.max)
+    final_wounds = Math.min(final_wounds, token.actor.system.wounds.max)
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
     await succ.apply_status(token, 'shaken', final_shaken)
@@ -173,7 +173,7 @@ async function undo_damage(message){
         let token_object = canvas.tokens.get(token).document
         succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
-                e => e.data.flags?.core?.statusId === 'incapacitated').map(
+                e => e.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
         await token_object.actor.deleteEmbeddedDocuments('ActiveEffect', inc_effects)
     }
@@ -221,22 +221,22 @@ async function roll_soak(message, use_bennie) {
     if (use_bennie) {
         await spend_bennie(actor);
     }
-    let undo_wound_modifier = Math.min(actor.data.data.wounds.value, 3) -
+    let undo_wound_modifier = Math.min(actor.system.wounds.value, 3) -
         render_data.undo_values.wounds;
-    const ignored_wounds = parseInt(actor.data.data.wounds.ignored);
+    const ignored_wounds = parseInt(actor.system.wounds.ignored);
     if (ignored_wounds) {
         undo_wound_modifier = Math.max(0, undo_wound_modifier -ignored_wounds)
     }
     let soak_modifiers = [{name: game.i18n.localize("BRSW.RemoveWounds"),
         value: undo_wound_modifier}]
     if (actor.items.find(item => {
-        return item.data.type === 'edge' && item.data.name.toLowerCase().includes(
+        return item.type === 'edge' && item.name.toLowerCase().includes(
                 game.i18n.localize("BRSW.EdgeName-IronJaw").toLowerCase())})) {
         soak_modifiers.push({name: game.i18n.localize("BRSW.EdgeName-IronJaw"),
             value: 2})
     }
     const roll = await roll_trait(message,
-        actor.data.data.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
+        actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers: soak_modifiers});
     let result = 0;
     roll.rolls.forEach(roll => {
