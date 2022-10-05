@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 3.2 aka Here is the apocalypse version 10.
+* Module should now be compatible with Foundry v10.
+* Translations: Lots of translations added
+* That's all.
+
 ## Version 2.76: Welcome SUCC, most work by SalieriC
 * Added SUCC (SWADE Ultimate Condition Changer) as a dependency.
 * Completely removed the `apply_status` function from BR2.
