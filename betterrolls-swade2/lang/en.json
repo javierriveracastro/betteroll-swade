@@ -315,5 +315,6 @@
   "BRSW.NoRollRequired": "No skill roll required!",
   "BRSW.undeadIgnoresIllumination": "Undead ignores illumination penalties",
   "BRSW.undeadIgnoresIlluminationHint": "If checked, the undead special ability will also ignore illumination penalties for up to 10'' on the tabletop. This is used in Pathfinder for Savage Worlds.",
-  "BRSW.IlluminationGM": "Illumination(GM)"
+  "BRSW.IlluminationGM": "Illumination(GM)",
+  "BRSW.TrademarkWeapon": "Trademark Weapon"
 }

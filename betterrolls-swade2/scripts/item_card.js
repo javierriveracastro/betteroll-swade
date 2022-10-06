@@ -201,7 +201,7 @@ async function item_click_listener(ev, target) {
 }
 
 /**
- * Shows a card with an effect or irs origin
+ * Shows a card with an effect or its origin
  * @param {actor, SwadeActor} target: actor or token owning the effect
  * @param effect_id: id of the effect
  * @param show_origin: True to show the origin card instead of the effect card
@@ -729,6 +729,10 @@ export async function roll_item(message, html, expend_bennie,
         if (penalty) {
             extra_data.modifiers.push(penalty)
         }
+    }
+    if (item.system.trademark) {
+        extra_data.modifiers.push(create_modifier(
+            game.i18n.localize("BRSW.TrademarkWeapon"), item.system.trademark))
     }
     const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
