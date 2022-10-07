@@ -158,7 +158,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"Target has dodge", name:"The target has dodge (weapon)", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
         and_selector:[{selector_type:"item_type", selector_value:"weapon"},
             {selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
-                {or_selector:[{selector_type:"skill", selector_value:"Shooting"},
+                {or_selector:[{selector_type:"skill", selector_value:"BRSW.Shooting"},
                         {selector_type:"skill", selector_value:"Athletics"}]}], defaultChecked:"on",
         group:"BRSW.Target"},
     {id:"Assassin", name:"Assassin", button_name:"BRSW.EdgeName-Assassin", dmgMod:"+2",
