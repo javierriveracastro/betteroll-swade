@@ -155,7 +155,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"Martial Warrior", name:"MartialWarrior", button_name:"BRSW.EdgeName-MartialWarrior", skillMod:"+2", 
         dmgMod:"+1d6x", and_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-MartialWarrior"},
             {selector_type:"item_name", selector_value:"unarmed"}], defaultChecked:"on", group:"BRSW.Edges"},
-    {id:"Target has dodge", name:"The target has dodge", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
+    {id:"Target has dodge", name:"The target has dodge (weapon)", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
         and_selector:[{selector_type:"item_type", selector_value:"weapon"},
             {selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
                 {or_selector:[{selector_type:"skill", selector_value:"Shooting"},
@@ -170,7 +170,7 @@ export const SYSTEM_GLOBAL_ACTION = [
             {or_selector:[{selector_type:"skill", selector_value:"BRSW.SkillName-Notice"},
                     {selector_type:"skill", selector_value:"BRSW.SkillName-Research"}]}],
         group:"BRSW.Edges"},
-    {id:"Target has dodge 2", name:"The target has dodge", button_name:"BRSW.TargetHasDodge", skillMod:"-2",
+    {id:"Target has dodge 2", name:"The target has dodge (power)", button_name:"BRSW.TargetHasDodgePower", skillMod:"-2",
         and_selector:[{selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
             {selector_type:"item_type", selector_value:"power"}], defaultChecked:"on", group:"BRSW.Target"}
 ]
