@@ -96,6 +96,7 @@ Hooks.on(`ready`, () => {
         }
     }
     changeNames() // Change the names of the modifiers
+    compatibility_warnings()
 })
 
 
@@ -518,4 +519,22 @@ function register_dsn_settings(){
         choices: damage_theme_choice,
         config: true
     });
+}
+
+//Compatibility warnings:
+function compatibility_warnings() {
+    if (game.modules.get("swade-tools")?.active) {
+        new Dialog({
+            title: game.i18n.localize("BRSW.CompatibilityHeadline"),
+            content: `<p>${game.i18n.localize("BRSW.SwadeToolsCompatibilityWarning")}</p>`,
+            buttons: {
+                one: {
+                    label: '<i class="fas fa-check"></i>',
+                    callback: (_) => {
+                        new ModuleManagement().render(true)
+                    }
+                }
+            },
+        }).render(true);
+    }
 }

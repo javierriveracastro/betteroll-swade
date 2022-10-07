@@ -316,5 +316,7 @@
   "BRSW.undeadIgnoresIllumination": "Undead ignores illumination penalties",
   "BRSW.undeadIgnoresIlluminationHint": "If checked, the undead special ability will also ignore illumination penalties for up to 10'' on the tabletop. This is used in Pathfinder for Savage Worlds.",
   "BRSW.IlluminationGM": "Illumination(GM)",
-  "BRSW.TrademarkWeapon": "Trademark Weapon"
+  "BRSW.TrademarkWeapon": "Trademark Weapon",
+  "BRSW.CompatibilityHeadline": "Better Rolls Compatibility Warning",
+  "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls detected that you also have SWADE Tools activated. Please not that SWADE Tools and Better Rolls for Savage Worlds are incompatible and should not be activated in the same world. Please disable either SWADE Tools or Better Rolls for Savage Worlds."
 }
