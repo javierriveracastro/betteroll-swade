@@ -316,5 +316,7 @@
     "BRSW.NoRollRequired": "¡No se necesita una tirada de habilidad!",
     "BRSW.undeadIgnoresIllumination": "Los no muertos ignoran las penalizaciones por iluminación",
     "BRSW.undeadIgnoresIlluminationHint": "Si se comprueba, la habilidad especial de los muertos vivientes también ignorará las penalizaciones por iluminación durante un máximo de 10''. Esto se utiliza en Pathfinder para Savage Worlds.",
-    "BRSW.TrademarkWeapon": "Arma Marca Registrada"
+    "BRSW.TrademarkWeapon": "Arma Marca Registrada",
+    "BRSW.CompatibilityHeadline": "Aviso de compatibilidad de Better Rolls",
+    "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls ha detectado que también tiene activadas SWADE tools. Tenga en cuenta que lSWADE tools y Better Rolls for Savage Worlds son incompatibles y no deben activarse en el mismo mundo. Por favor, desactive SWADE tools o Better Rolls for Savage Worlds."
 }
