@@ -1,5 +1,5 @@
 // Init scripts for version 2
-/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry */
+/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item */
 import {activate_common_listeners, manage_selectable_click, manage_collapsables,
     BRSW_CONST, get_action_from_click} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
@@ -180,43 +180,55 @@ Hooks.on('dropCanvasData', (canvas, item) => {
     }
 });
 
-function create_macro_command(data) {
+function create_macro_command(data, actor_id, token_id) {
     const bt = "`"
     return `
             let behaviour = game.brsw.get_action_from_click(event);
             if (behaviour === 'system') {
-                game.swade.rollItemMacro(${bt}${data.data.name}${bt});
+                game.swade.rollItemMacro(${bt}${data.name}${bt});
                 return;
             }
             let message;
-            if (${data.data.type === 'skill'}) {
-                message = await game.brsw.create_skill_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
+            if (${data.type === 'skill'}) {
+                message = await game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${data._id}');
             } else {
-                message = await game.brsw.create_item_card_from_id('${data.tokenId}', '${data.actorId}', '${data.data._id}');
+                message = await game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${data._id}');
             }
             if (event) {
                 if (behaviour.includes('trait')) {
-                    if (${data.data.type === 'skill'}) {                  
-                        game.brsw.roll_skill(message, $(message.data.content), false)
+                    if (${data.type === 'skill'}) {                  
+                        game.brsw.roll_skill(message, $(message.content), false)
                     } else {
-                        game.brsw.roll_item(message, $(message.data.content), false, behaviour.includes('damage'))
+                        game.brsw.roll_item(message, $(message.content), false, behaviour.includes('damage'))
                     }
                 }
             }
         `
 }
 
-Hooks.on('hotbarDrop', async (bar, data, slot) => {
+Hooks.on('hotbarDrop', (bar, data, slot) => {
     if (data.type === 'Item') {
-        const command = create_macro_command(data);
-        let macro = await Macro.create(({
-            name: data.data?.name,
-            type: 'script',
-            img: data.data?.img,
-            command: command,
-            scope: 'global'
-        }))
-        await game.user.assignHotbarMacro(macro, slot)
+        Item.implementation.fromDropData(data).then((data) => {
+            let token_id
+            let actor_id
+            console.log(data)
+            if (data.parent.parent) {
+                token_id= data.parent.parent.id
+                actor_id = data.parent.parent.actorId
+            } else {
+                actor_id = data.parent.id
+            }
+            const command = create_macro_command(data, actor_id, token_id);
+            Macro.create(({
+                name: data?.name,
+                type: 'script',
+                img: data?.img,
+                command: command,
+                scope: 'global'
+            })).then((macro) => {
+                game.user.assignHotbarMacro(macro, slot);
+            })
+        })
         return false
     }
 });
