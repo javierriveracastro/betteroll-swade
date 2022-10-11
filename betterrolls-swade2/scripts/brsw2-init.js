@@ -161,17 +161,31 @@ Hooks.on('renderSidebarTab', (_, html) => {
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
     if (item.type === 'Item' || item.type === 'target_click') {
-        let grid_size = canvas.scene.grid
+        console.log(item)
+        let grid_size = canvas.scene.grid.size
+        console.log(grid_size)
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
             y: item.y-grid_size/2,
             height: grid_size,
             width: grid_size
         });
+        console.log(number_marked)
         if (number_marked) {
             if (item.type === 'Item') {
-                const command = create_macro_command(item)
-                eval('(async () => {' + command + '})()') // jshint ignore:line
+                Item.implementation.fromDropData(item).then(item => {
+                    let token_id
+                    let actor_id
+                    if (item.parent.parent) {
+                        token_id= item.parent.parent.id
+                        actor_id = item.parent.parent.actorId
+                    } else {
+                        actor_id = item.parent.id
+                    }
+                    const command = create_macro_command(item, actor_id, token_id)
+                    console.log(command)
+                    eval('(async () => {' + command + '})()')
+                })
             } else if (item.type === 'target_click') {
                 const selector = `[data-message-id="${item.message_id}"] #${item.tag_id}`
                 document.querySelector(selector).click()
@@ -211,7 +225,6 @@ Hooks.on('hotbarDrop', (bar, data, slot) => {
         Item.implementation.fromDropData(data).then((data) => {
             let token_id
             let actor_id
-            console.log(data)
             if (data.parent.parent) {
                 token_id= data.parent.parent.id
                 actor_id = data.parent.parent.actorId
