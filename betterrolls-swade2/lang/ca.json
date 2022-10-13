@@ -315,5 +315,8 @@
     "BRSW.NoRollRequired": "No cal fer cap tirada d'habilitat!",
     "BRSW.IlluminationGM": "Il·luminació (DJ)",
     "BRSW.none": "Cap",
-    "BRSW.undeadIgnoresIlluminationHint": "Si està marcada, l'habilitat especial de no-morts també ignorarà les penalitzacions d'il·luminació de fins a 10 polzades. S'utilitza a Pathfinder per a Savage Worlds."
+    "BRSW.undeadIgnoresIlluminationHint": "Si està marcada, l'habilitat especial de no-morts també ignorarà les penalitzacions d'il·luminació de fins a 10 polzades. S'utilitza a Pathfinder per a Savage Worlds.",
+    "BRSW.undeadIgnoresIllumination": "els no-morts ignoren les penalitzacions per il·luminació",
+    "BRSW.CompatibilityHeadline": "Avís de compatibilitat amb Better Rolls",
+    "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls ha detectat que també teniu activades SWADE tools. Si us plau, tingueu en compte que SWADE  tools i Better Rolls per Savage Worlds són incompatibles i no s'han d'activar al mateix món. Si us plau, desactiveu SWADE tools  o Better Rolls."
 }
