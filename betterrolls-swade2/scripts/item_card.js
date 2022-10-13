@@ -796,21 +796,21 @@ function reload_weapon(actor, weapon, number) {
     let ammo = actor.items.getName(item.system.ammo.trim())
     let ammo_quantity = 999999999;
     if (ammo) {
-        if (ammo.data.data.quantity <= 0) {
+        if (ammo.system.quantity <= 0) {
             return ui.notifications.error(`${game.i18n.localize("BRSW.NoAmmoLeft")}`);
         }
-        ammo_quantity = ammo.data.data.quantity;
+        ammo_quantity = ammo.system.quantity;
     }
     let max_ammo = parseInt(weapon.system.shots);
     // noinspection JSUnresolvedVariable
     let current_ammo = parseInt(weapon.system.currentShots);
     let newCharges = Math.min(max_ammo, current_ammo + number,
         current_ammo + ammo_quantity);
-    let updates = [{_id: weapon.id, "systen.currentShots": `${newCharges}`}];
+    let updates = [{_id: weapon.id, "system.currentShots": `${newCharges}`}];
     if (ammo) {
         const reload_quantity = weapon.system.autoReload ?
-            ammo.data.data.quantity - number :
-            ammo.data.data.quantity - newCharges + current_ammo
+            ammo.system.quantity - number :
+            ammo.system.quantity - newCharges + current_ammo
         updates.push({_id: ammo.id, "system.quantity": reload_quantity});
     }
     actor.updateEmbeddedDocuments("Item", updates);
