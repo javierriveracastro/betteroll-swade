@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 3.3, aka bugfixes for v10, I mean the firsts bugfixes for v10.
+* Feature: Added support for Trademark weapon
+* Feature: Show a compatibility warning when Swade Tools is active (SalieriC)
+* Bugfix: Dodge now works when a non-english translation is active
+* Bugfix: Drag and drop is working again
+* Translations: The great weblate team added another couple of translations
+* Bugfix: Reload is working again
+* WARNING: There is still a bug that makes Vulnerable not renew when wild attacking two consecutive turns.
+
 ## Version 3.2 aka Here is the apocalypse version 10.
 * Module should now be compatible with Foundry v10.
 * Translations: Lots of translations added by the Weblate team.
