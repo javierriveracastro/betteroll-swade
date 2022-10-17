@@ -171,7 +171,7 @@ async function undo_damage(message){
     if (token) {
         // Remove incapacitation and shaken
         let token_object = canvas.tokens.get(token).document
-        succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
+        await succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
                 e => e.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})
