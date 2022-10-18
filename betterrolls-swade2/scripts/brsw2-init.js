@@ -6,7 +6,7 @@ import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
 import {skill_card_hooks, activate_skill_listeners,
     activate_skill_card_listeners} from './skill_card.js';
-import {activate_item_listeners, item_card_hooks,
+import {activate_item_listeners, expose_item_functions,
     activate_item_card_listeners} from "./item_card.js";
 import {activate_damage_card_listeners} from "./damage_card.js";
 import {
@@ -44,7 +44,7 @@ Hooks.on(`ready`, () => {
     game.brsw.get_action_from_click = get_action_from_click;
     attribute_card_hooks();
     skill_card_hooks();
-    item_card_hooks();
+    expose_item_functions();
     incapacitation_card_hooks();
     register_settings_version2();
     register_actions();
@@ -161,16 +161,13 @@ Hooks.on('renderSidebarTab', (_, html) => {
 // Addon by JuanV, make attacks target by drag and drop
 Hooks.on('dropCanvasData', (canvas, item) => {
     if (item.type === 'Item' || item.type === 'target_click') {
-        console.log(item)
         let grid_size = canvas.scene.grid.size
-        console.log(grid_size)
         const number_marked = canvas.tokens.targetObjects({
             x: item.x-grid_size/2,
             y: item.y-grid_size/2,
             height: grid_size,
             width: grid_size
         });
-        console.log(number_marked)
         if (number_marked) {
             if (item.type === 'Item') {
                 Item.implementation.fromDropData(item).then(item => {
@@ -183,7 +180,6 @@ Hooks.on('dropCanvasData', (canvas, item) => {
                         actor_id = item.parent.id
                     }
                     const command = create_macro_command(item, actor_id, token_id)
-                    console.log(command)
                     eval('(async () => {' + command + '})()')
                 })
             } else if (item.type === 'target_click') {

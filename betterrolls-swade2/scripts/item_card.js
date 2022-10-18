@@ -158,7 +158,7 @@ function create_item_card_from_id(token_id, actor_id, skill_id){
 /**
  * Hooks the public functions to a global object
  */
-export function item_card_hooks() {
+export function expose_item_functions() {
     game.brsw.create_item_card = create_item_card;
     game.brsw.create_item_card_from_id = create_item_card_from_id;
     game.brsw.roll_item = roll_item;
@@ -480,8 +480,8 @@ function trait_from_string(actor, trait_name) {
         for (let attribute of ATTRIBUTES) {
             const translation = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[attribute])
             if (trait_name.toLowerCase() === translation.toLowerCase())  {
-                return {data: {data: actor.system.attributes[attribute.toLowerCase()]},
-                        name: translation}
+                skill = {system: structuredClone(actor.system.attributes[attribute])};
+                skill.name = translation;
             }
         }
     }
