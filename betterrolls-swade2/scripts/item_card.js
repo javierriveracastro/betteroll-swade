@@ -730,9 +730,18 @@ export async function roll_item(message, html, expend_bennie,
             extra_data.modifiers.push(penalty)
         }
     }
+    // Trademark weapon
     if (item.system.trademark) {
         extra_data.modifiers.push(create_modifier(
             game.i18n.localize("BRSW.TrademarkWeapon"), item.system.trademark))
+    }
+    // Offhand
+    if (item.system.equipStatus === 2) {
+        if (! actor.items.find(item => item.type === "edge" &&
+                item.name.toLowerCase() === game.i18n.localize("BRSW.Ambidextrous").toLowerCase())) {
+            extra_data.modifiers.push(create_modifier(
+                game.i18n.localize("BRSW.Offhand"), -2))
+        }
     }
     const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
