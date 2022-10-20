@@ -558,7 +558,8 @@ export function render_gm_actions() {
     const old_actions = game.settings.get('betterrolls-swade2', 'gm_actions')
     let new_actions = []
     for (let new_action of get_gm_actions()) {
-        const old_action = old_actions.find(action => action.id === new_action.id)
+        const new_action_id = new_action.id
+        const old_action = old_actions.find(action => action.id === new_action_id)
         if (old_action && old_action.enable) {
             new_action.enable = true
         }
