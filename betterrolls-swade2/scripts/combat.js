@@ -17,3 +17,12 @@ export async function round_start(combat){
         }
     }
 }
+
+export async function create_unstun_wrapper(effect) {
+    await create_unstun_card(undefined, effect.parent)
+}
+
+export async function create_unshaken_wrapper(effect) {
+    console.log(effect)
+    await create_unshaken_card(undefined, effect.parent)
+}

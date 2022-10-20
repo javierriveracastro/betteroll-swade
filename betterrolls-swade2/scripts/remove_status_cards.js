@@ -9,16 +9,16 @@ import {status_footer} from "./incapacitation_card.js";
 /**
  * Shows the unshaken card
  * @param {ChatMessage} original_message
- * @param {Number} token_id
+ * @param {SwadeActor} actor
  * @param {Number} type
  */
-async function create_remove_status_card(original_message, token_id, type) {
-    let actor
+async function create_remove_status_card(original_message, actor, type) {
+    let token_id;
     if (original_message) {
         actor = get_actor_from_message(original_message)
         token_id = original_message.getFlag('betterrolls-swade2', 'token')
-    } else if (token_id) {
-        actor = canvas.tokens.get(token_id).actor
+    } else if (actor) {
+        token_id = actor.token.id
     }
     if (! actor.system.status.isShaken && !actor.system.status.isStunned) {return}
     let user = get_owner(actor);

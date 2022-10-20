@@ -1,5 +1,5 @@
 // Init scripts for version 2
-/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item */
+/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog, ModuleManagement */
 import {activate_common_listeners, manage_selectable_click, manage_collapsables,
     BRSW_CONST, get_action_from_click} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
@@ -26,7 +26,7 @@ import {
     recover_html_from_gm_modifiers,
     manage_gm_tabs
 } from "./gm_modifiers.js";
-import {round_start} from "./combat.js";
+import {create_unshaken_wrapper, create_unstun_wrapper} from "./combat.js";
 import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";
 
 // Startup scripts
@@ -87,13 +87,8 @@ Hooks.on(`ready`, () => {
     manage_gm_tabs()
     // Add a hook to control combat flow.
     if (game.settings.get('betterrolls-swade2', 'auto-status-cards')) {
-        Hooks.on('updateCombat', round_start)
-        // Disable system management
-        for (let status of CONFIG.statusEffects) {
-            if (status.id === 'shaken' || status.id === 'stunned') {
-                status.flags.swade.expiration = null
-            }
-        }
+        game.swade.effectCallbacks.set('shaken', create_unshaken_wrapper);
+        game.swade.effectCallbacks.set('stunned', create_unstun_wrapper)
     }
     changeNames() // Change the names of the modifiers
     compatibility_warnings()
@@ -180,7 +175,7 @@ Hooks.on('dropCanvasData', (canvas, item) => {
                         actor_id = item.parent.id
                     }
                     const command = create_macro_command(item, actor_id, token_id)
-                    eval('(async () => {' + command + '})()')
+                    eval('(async () => {' + command + '})()') // jshint ignore:line
                 })
             } else if (item.type === 'target_click') {
                 const selector = `[data-message-id="${item.message_id}"] #${item.tag_id}`
