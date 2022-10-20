@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.4, aka Surprise!! there were more bugs related to v10 migration.
+* Bugfix: Await for SUCC when undoing effects.
+* Bugfix: Items can now roll again an attribute instead of only skills
+* Refactor: Use the new system exposed way to show un-shake and un-stun cards (this should also disable system dialog again)
+* Modifiers: Secondary hand is now supported
+* Refactor: Another couple of refactor hoping to make the code simpler.
+
 ## Version 3.3, aka bugfixes for v10, I mean the firsts bugfixes for v10.
 * Feature: Added support for Trademark weapon
 * Feature: Show a compatibility warning when Swade Tools is active (SalieriC)
