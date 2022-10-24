@@ -321,5 +321,7 @@
   "BRSW.CompatibilityHeadline": "Better Rolls Compatibility Warning",
   "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls detected that you also have SWADE Tools activated. Please not that SWADE Tools and Better Rolls for Savage Worlds are incompatible and should not be activated in the same world. Please disable either SWADE Tools or Better Rolls for Savage Worlds.",
   "BRSW.EdgeName-Ambidextrous": "Ambidextrous",
-  "BRSW.Offhand": "Offhand"
+  "BRSW.Offhand": "Offhand",
+  "BRSW.MeleeDistance": "Melee distance",
+  "BRSW.MeleeDistanceHint": "The distance at which the character is considered to be in melee. Either in inches or grid units."
 }

@@ -366,7 +366,7 @@ function calculate_gangUp(attacker, target) {
     let enemies = 0;
     let allies = 0;
     if(attacker.document.disposition === 1 || attacker.document.disposition === -1) {
-        const ITEM_RANGE = 1; // dist 1''
+        const ITEM_RANGE = game.settings.get('betterrolls-swade2', 'meleeDistance');
         let allies_within_range_of_target;
         let allies_with_formation_fighter;
         let enemies_within_range_of_target;

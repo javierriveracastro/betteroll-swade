@@ -320,5 +320,8 @@
     "BRSW.CompatibilityHeadline": "Aviso de compatibilidad de Better Rolls",
     "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls ha detectado que también tiene activadas SWADE tools. Tenga en cuenta que lSWADE tools y Better Rolls for Savage Worlds son incompatibles y no deben activarse en el mismo mundo. Por favor, desactive SWADE tools o Better Rolls for Savage Worlds.",
     "BRSW.EdgeName-Ambidextrous": "Ambidiestro",
-    "BRSW.Offhand": "Mano secundaria"
+    "BRSW.Offhand": "Mano secundaria",
+    "BRSW.MeleeDistance": "Distancia de ataque cuerpo a cuerpo",
+    "BRSW.MeleeDistanceHint": "La distancia a la que dos personajes se consideran en combate cuerpo a cuerpo, puede ser pulgadas o unidades de grid"
+
 }

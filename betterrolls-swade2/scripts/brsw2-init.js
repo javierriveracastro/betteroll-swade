@@ -512,6 +512,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'meleeDistance', {
+        name: game.i18n.localize("BRSW.MeleeDistance"),
+        hint: game.i18n.localize("BRSW.MeleeDistanceHint"),
+        default: 1,
+        scope: 'world',
+        type: Number,
+        config: true
+    });
 }
 
 // Settings related to Dice So Nice.
