@@ -1024,10 +1024,10 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     if (game.dice3d) {
         // Dice buried in modifiers.
         let users = null;
-        if (message.data.whisper.length > 0) {
-            users = message.data.whisper;
+        if (message.whisper.length > 0) {
+            users = message.whisper;
         }
-        const blind = message.data.blind
+        const blind = message.blind
         for (let modifier of damage_roll.brswroll.modifiers) {
             if (modifier.dice) {
                 // noinspection ES6MissingAwait
@@ -1253,8 +1253,8 @@ async function add_damage_dice(message, index) {
             });
         }
         let users = null;
-        if (message.data.whisper.length > 0) {
-            users = message.data.whisper;
+        if (message.whisper.length > 0) {
+            users = message.whisper;
         }
         // noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
         game.dice3d.showForRoll(roll, game.user, true, users)

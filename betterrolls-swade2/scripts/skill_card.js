@@ -106,7 +106,7 @@ async function skill_click_listener(ev, target) {
     let message = await create_skill_card(
         target, skill_id, action.includes('trait'));
     if (action.includes('trait')) {
-        await roll_skill(message, $(message.data.content), false)
+        await roll_skill(message, $(message.content), false)
     }
 }
 

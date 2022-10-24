@@ -875,10 +875,10 @@ async function show_3d_dice(roll, message, modifiers) {
         roll.dice[roll.dice.length - 1].options.colorset = wild_die_theme;
     }
     let users = null;
-    if (message.data.whisper.length > 0) {
-        users = message.data.whisper;
+    if (message.whisper.length > 0) {
+        users = message.whisper;
     }
-    const blind = message.data.blind
+    const blind = message.blind
     // Dice buried in modifiers.
     for (let modifier of modifiers) {
         if (modifier.dice) {
@@ -1122,10 +1122,10 @@ async function add_modifier(message, modifier) {
         let new_mod = create_modifier(name, modifier.value)
         if (game.dice3d && new_mod.dice) {
             let users = null;
-            if (message.data.whisper.length > 0) {
-                users = message.data.whisper;
+            if (message.whisper.length > 0) {
+                users = message.whisper;
             }
-            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users, message.data.blind);
+            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users, message.blind);
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push(new_mod)
@@ -1272,12 +1272,12 @@ async function duplicate_message(message, event) {
         // noinspection JSUnresolvedVariable
         const card_type = data.flags['betterrolls-swade2'].card_type;
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-            await roll_attribute(new_message, $(message.data.content), false);
+            await roll_attribute(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
-            await roll_skill(new_message, $(message.data.content), false);
+            await roll_skill(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             const roll_damage = action.includes('damage')
-            await roll_item(new_message, $(message.data.content), false,
+            await roll_item(new_message, $(message.content), false,
                 roll_damage);
         }
     }
