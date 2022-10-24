@@ -319,5 +319,7 @@
     "BRSW.undeadIgnoresIlluminationHint": "Si elle est cochée, la capacité spéciale du mort-vivant ignore également les pénalités d'illumination jusqu'à 10'' sur le plateau de jeu. Ceci est utilisé dans Pathfinder for Savage Worlds.",
     "BRSW.TrademarkWeapon": "Marque de l'arme",
     "BRSW.CompatibilityHeadline": "Avertissement sur la compatibilité de Better Rolls",
-    "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls a détecté que vous avez également activé SWADE Tools. Veuillez noter que SWADE Tools et Better Rolls for Savage Worlds sont incompatibles et ne doivent pas être activés dans le même monde. Veuillez désactiver soit SWADE Tools soit Better Rolls for Savage Worlds."
+    "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls a détecté que vous avez également activé SWADE Tools. Veuillez noter que SWADE Tools et Better Rolls for Savage Worlds sont incompatibles et ne doivent pas être activés dans le même monde. Veuillez désactiver soit SWADE Tools soit Better Rolls for Savage Worlds.",
+    "BRSW.EdgeName-Ambidextrous": "Ambidextre",
+    "BRSW.Offhand": "Désinvolte"
 }
