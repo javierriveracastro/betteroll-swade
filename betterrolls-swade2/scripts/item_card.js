@@ -738,7 +738,7 @@ export async function roll_item(message, html, expend_bennie,
     // Offhand
     if (item.system.equipStatus === 2) {
         if (! actor.items.find(item => item.type === "edge" &&
-                item.name.toLowerCase() === game.i18n.localize("BRSW.Ambidextrous").toLowerCase())) {
+                item.name.toLowerCase() === game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase())) {
             extra_data.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Offhand"), -2))
         }
