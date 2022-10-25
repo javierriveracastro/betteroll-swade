@@ -272,7 +272,7 @@
     "BRSW.RemainingBehaviour": "Sichtberechtigung MP und Munitionsinformationskarte",
     "BRSW.RemainingBehaviour_hint": "Legt fest, wer die Informationskarte zu verbleibenden MP und Munition sehen kann.",
     "BRSW.CharacterIsShaken": "Der Charakter ist angeschlagen",
-    "BRSW.TargetHasDodge": "Das Ziel hat Ausweichen (-2)",
+    "BRSW.TargetHasDodge": "Das Ziel hat Ausweichen (-2), Waffen",
     "BRSW.EdgeName-Dodge": "Ausweichen",
     "BRSW.NewDieResult": "Neues Ergebnis",
     "BRSW.EditDieResult": "Wurfergebnis bearbeiten",
@@ -316,5 +316,13 @@
     "BRSW.IlluminationGM": "Beleuchtung (SL)",
     "BRSW.none": "Keine",
     "BRSW.NoRollRequired": "Keine Fertigkeitsprobe erforderlich!",
-    "BRSW.undeadIgnoresIlluminationHint": "Wenn aktiviert, wird die Spezialfähigkeit Untot auch Abzüge für schlechte Beleuchtung bis zu 10\" auf der Szene ignorieren. Wird in Pathfinder für Savage Worlds verwendet."
+    "BRSW.undeadIgnoresIlluminationHint": "Wenn aktiviert, wird die Spezialfähigkeit Untot auch Abzüge für schlechte Beleuchtung bis zu 10\" auf der Szene ignorieren. Wird in Pathfinder für Savage Worlds verwendet.",
+    "BRSW.MeleeDistance": "Nahkampfdistanz",
+    "BRSW.TargetHasDodgePower": "Das Ziel hat Ausweichen (-2), Mächte",
+    "BRSW.MeleeDistanceHint": "Die Entfernung, ab der ein Charakter als im Nahkampf befindlich angesehen wird. Entweder in Zoll oder Rastereinheiten.",
+    "BRSW.TrademarkWeapon": "Lieblingswaffe",
+    "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls hat festgestellt, dass du auch SWADE Tools aktiviert hast. SWADE Tools und Better Rolls for Savage Worlds sind inkompatibel und sollten nicht zur selben Zeit in der selben Welt aktiv sein. Bitte deaktiviere entweder SWADE Tools oder Better Rolls for Savage Worlds.",
+    "BRSW.CompatibilityHeadline": "Better Rolls Kompatibilitätswarnung",
+    "BRSW.EdgeName-Ambidextrous": "Beidhändig",
+    "BRSW.Offhand": "Nebenhand"
 }
