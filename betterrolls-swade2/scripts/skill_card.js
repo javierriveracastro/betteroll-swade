@@ -366,7 +366,7 @@ function calculate_gangUp(attacker, target) {
     let enemies = 0;
     let allies = 0;
     if(attacker.document.disposition === 1 || attacker.document.disposition === -1) {
-        const ITEM_RANGE = game.settings.get('betterrolls-swade2', 'meleeDistance');
+        let item_range = game.settings.get('betterrolls-swade2', 'meleeDistance');
         let allies_within_range_of_target;
         let allies_with_formation_fighter;
         let enemies_within_range_of_target;
@@ -378,21 +378,21 @@ function calculate_gangUp(attacker, target) {
                 t.document.disposition === attacker.document.disposition &&
                 t?.actor?.system.status.isStunned === false &&
                 t.visible &&
-                withinRange(target, t, ITEM_RANGE) &&
+                withinRange(target, t, item_range) &&
                 !t.combatant?.defeated
         );
         enemies_within_range_of_target = canvas.tokens.placeables.filter(t =>
             t.id !== target.id &&
                 t.document.disposition === attacker.document.disposition * -1 &&
                 t?.actor?.system.status.isStunned === false &&
-                withinRange(target, t, ITEM_RANGE) &&
+                withinRange(target, t, item_range) &&
                 !t.combatant?.defeated
         );
         //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
         enemies_within_range_both_attacker_target = enemies_within_range_of_target.filter(t =>
             t.document.disposition === attacker.document.disposition * -1 &&
                 t?.actor?.system.status.isStunned === false &&
-                withinRange(attacker, t, ITEM_RANGE) &&
+                withinRange(attacker, t, item_range) &&
             !t.combatant?.defeated
         );
         const formation_fighter_name = game.i18n.localize("BRSW.EdgeName-FormationFighter").toLowerCase();
@@ -469,6 +469,9 @@ function gang_up_reduction(target) {
 
 // function from Kekilla
 function withinRange(origin, target, range) {
+    const size_mod_origin = (origin.document.width + origin.document.height)/2;
+    const size_mod_target = (target.document.width + target.document.height)/2;
+    range = range + size_mod_origin + size_mod_target - 2;
     const ray = new Ray(origin, target);
     const grid_unit = canvas.grid.grid.options.dimensions.distance
     let distance = canvas.grid.measureDistances([{ ray }], {gridSpaces: true})[0];
