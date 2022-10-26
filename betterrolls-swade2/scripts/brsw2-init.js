@@ -14,7 +14,8 @@ import {
     register_gm_actions_settings,
     SystemGlobalConfiguration,
     WorldGlobalActions,
-    render_gm_actions
+    render_gm_actions,
+    expose_global_actions_functions
 } from "./global_actions.js";
 import {activate_incapacitation_card_listeners, incapacitation_card_hooks} from "./incapacitation_card.js";
 import {OptionalRulesConfiguration} from "./optinal_rules.js";
@@ -45,6 +46,7 @@ Hooks.on(`ready`, () => {
     attribute_card_hooks();
     skill_card_hooks();
     expose_item_functions();
+    expose_global_actions_functions();
     incapacitation_card_hooks();
     register_settings_version2();
     register_actions();

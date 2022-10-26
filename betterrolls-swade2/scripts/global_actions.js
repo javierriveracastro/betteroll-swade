@@ -19,10 +19,25 @@ export function register_actions() {
 }
 
 /**
+ * Let add actions to the current ones programmatically.
+ * @param {Array} actions
+ */
+function add_actions(actions) {
+    game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.concat(actions)
+}
+
+/**
  * Process the not selector
  */
 function process_not_selector(action, item, actor) {
     return ! process_action(action.not_selector[0], item, actor)
+}
+
+/**
+ * Expose some functions to be used in macros.
+ */
+export function expose_global_actions_functions() {
+    game.brsw.add_actions = add_actions;
 }
 
  /**
