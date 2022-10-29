@@ -471,10 +471,10 @@ function gang_up_reduction(target) {
 function withinRange(origin, target, range) {
     const size_mod_origin = (origin.document.width + origin.document.height)/2;
     const size_mod_target = (target.document.width + target.document.height)/2;
-    range = range + size_mod_origin + size_mod_target - 2;
+    range = range - 0.5 + Math.max(size_mod_origin, size_mod_target)
     const ray = new Ray(origin, target);
     const grid_unit = canvas.grid.grid.options.dimensions.distance
-    let distance = canvas.grid.measureDistances([{ ray }], {gridSpaces: true})[0];
+    let distance = canvas.grid.measureDistances([{ ray }], {gridSpaces: false})[0];
     distance = distance / grid_unit
     return range >= distance;
 }
