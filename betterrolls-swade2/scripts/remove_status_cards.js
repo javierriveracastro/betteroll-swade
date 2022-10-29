@@ -13,12 +13,13 @@ import {status_footer} from "./incapacitation_card.js";
  * @param {Number} type
  */
 async function create_remove_status_card(original_message, actor, type) {
+    console.log(actor)
     let token_id;
     if (original_message) {
         actor = get_actor_from_message(original_message)
         token_id = original_message.getFlag('betterrolls-swade2', 'token')
     } else if (actor) {
-        token_id = actor.token.id
+        token_id = actor.token ? actor.token.id : actor.getActiveTokens()[0].id
     }
     if (! actor.system.status.isShaken && !actor.system.status.isStunned) {return}
     let user = get_owner(actor);
