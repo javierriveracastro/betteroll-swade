@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 3.5, aka a small API and more bugfixes.
+* Bugfix, translations: Move the pt_BR.json file to pt_br.json
+* Bugfix: Ambidextrous was not being detected because of a localization error.
+* Bugifx: Some data access that were causing warnings corrected.
+* Feature: Reworked gangup calculation. Hope that it works better with big tokens. Now melee distance can be configured on settings as it could be useful in gridless maps.
+* Translations: The usual bunch of updates from the great weblate team.
+* Api: Added an API to allow scripts and modules to add global actions.
+* Bugfix: Linked actors automatically show the remove shaken card again at the start of the round.
+
 ## Version 3.4, aka Surprise!! there were more bugs related to v10 migration.
 * Bugfix: Await for SUCC when undoing effects.
 * Bugfix: Items can now roll again an attribute instead of only skills
