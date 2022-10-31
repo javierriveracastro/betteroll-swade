@@ -29,10 +29,10 @@ export function makeExplotable(expression) {
     let used = [];
     if (dice_strings) {
         dice_strings.forEach((match) => {
-            if (used.indexOf(match) === -1) {
+            if (used.indexOf(match.slice(0, -1)) === -1) {
                 expression = expression.replace(new RegExp(match.slice(0, -1), 'g'),
                                               match.slice(0, -1) + "x");
-                used.push(match);
+                used.push(match.slice(0, -1));
             }
         })
     }
