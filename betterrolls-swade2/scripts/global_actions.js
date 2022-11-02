@@ -605,3 +605,9 @@ export function render_gm_actions() {
     new_tags.click(manage_selectable_gm)
     new_tags.removeClass('brsw-added')
 }
+
+
+// TODO: Global action to ignore scale
+// TODO: Store selected actions in the message
+// TODO: Make a selector for sizes with two values 'eual' and 'different'
+// TODO: Make an action to ignore scale modifiers

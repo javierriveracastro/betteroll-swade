@@ -24,4 +24,4 @@ The module exposes an API in game.brsw.
 
 * game.brsw.add_actions(actions): Can be used to add an array of actions to the available ones. The array should be in the same format as builtin-actions.js. The array is cleared when reloading and should be set again
 
-You can learn more about this at: [GLOBAL ACTIONS API]([https://github.com/javierriveracastro/betteroll-swade/wiki/Global-Actions](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/Global-Actions.md)).
+You can learn more about this at: [GLOBAL ACTIONS API](https://github.com/javierriveracastro/betteroll-swade/wiki/Global-Actions).
