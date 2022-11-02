@@ -127,6 +127,70 @@ This tag lets you group the actions, it is not mandatory, but it will be used in
 
 * group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
 
+# API
+You can define global actions within a module. This let the user activate de module and have all Global Actions you defined turned on.
+
+You need to load an script in your module. It's recommened to use "Hooks ready".
+
+The format of the global action must be like an array if objects. Look at the example.
+
+```js
+Hooks.once('ready', () => {
+  const groupName = "Savage Pathfinder";
+  
+  const BETTER_ROLLS_GLOBAL_ACTIONS = [{
+        id: "DESPERATE_ATTACK-2",
+        name: "Desperate Attack +2",
+        button_name: "Desperate Attack +2",
+        skillMod: 2,
+        dmgMod: -2,
+        dmgOverride: "",
+        and_selector: [{
+            selector_type: "skill",
+            selector_value: "Fighting"
+          },
+          {
+            selector_type: "item_type",
+            selector_value: "weapon"
+          }
+        ],
+        group: groupName
+      },
+      {
+        id: "SNEAKATTACK",
+        name: "Sneak Attack",
+        button_name: "Sneak Attack",
+        dmgMod: "+1d6x",
+        and_selector: [
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "Rogue"
+          },
+          {
+            selector_type: "skill",
+            selector_value: "Fighting"
+          }
+        ],
+        group: "Savage Pathfinder"
+      }
+  ];
+
+  game.brsw.add_actions(BETTER_ROLLS_GLOBAL_ACTIONS);  
+}
+```
+
+It's recommended to add a conditional check to `game.brsw.add_actions` to prevent an error if Better Rolls is not activated. 
+
+```js
+if (game.modules.get("betterrolls-swade2")?.active) { 
+  game.brsw.add_actions(BETTER_ROLLS_GLOBAL_ACTIONS);  
+  ui.notifications.error("Please, activate better rolls module!");
+}
+```
+
+Module for Example: https://github.com/brunocalado/savage-pathfinder-enhanced
+
+
 # Examples
 **USE CTRL+F TO SEARCH**
 
