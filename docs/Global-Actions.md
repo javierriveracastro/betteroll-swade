@@ -128,11 +128,11 @@ This tag lets you group the actions, it is not mandatory, but it will be used in
 * group: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
 
 # API
-You can define global actions within a module. This let the user activate de module and have all Global Actions you defined turned on.
+You can define global actions within a module. This let the user activate your module and have all **Global Actions** you defined turned on.
 
-You need to load an script in your module. It's recommened to use "Hooks ready".
+You need to load an script in your module. It's recommened to use "Hooks once ready".
 
-The format of the global action must be like an array if objects. Look at the example.
+The format of the global action must be like an array of objects. Look at the example.
 
 ```js
 Hooks.once('ready', () => {
@@ -180,11 +180,17 @@ Hooks.once('ready', () => {
 ```
 
 It's recommended to add a conditional check to `game.brsw.add_actions` to prevent an error if Better Rolls is not activated. 
-
 ```js
 if (game.modules.get("betterrolls-swade2")?.active) { 
   game.brsw.add_actions(BETTER_ROLLS_GLOBAL_ACTIONS);  
   ui.notifications.error("Please, activate better rolls module!");
+}
+```
+
+It's also recommended to add to your module settings an option to let the user turn on this feature. Maybe the user wants to use his own global actions.
+```js
+if (game.settings.get("yourModuleID", "TurnOnOrOffMyModuleGlobalActions")) { 
+  game.brsw.add_actions(BETTER_ROLLS_GLOBAL_ACTIONS);  
 }
 ```
 
