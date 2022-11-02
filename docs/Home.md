@@ -1,0 +1,10 @@
+This module adds a complete different rolls cards to the SWADE system that supports both more complex rolls and more automation.
+
+* This is more complex than system default rolls. It's quite likely that you don't need it. Please try SWADE without it first and only check it out if you feel rolls could be improved.
+* You need to be familiar with the rules of Savage Worlds to use it. You need to know e.g. which dice are discarded and how damage is affected by raises; generally speaking, this is not a good module for beginners. It could be confusing. So, again, please use the base system and get familiar with it before using this module.
+
+Please leave your feedback on the official Foundry discord. Feel free to ping me if you want.
+
+Criticism, feature requests, and UI changes are all welcome but, if you want me to do something about it, please be as detailed as you can. Please, at the very least, tell me what you expect and why do you believe your approach is better.
+
+The following pages detail the modules features. If there are issues or shortcomings please let me know.
