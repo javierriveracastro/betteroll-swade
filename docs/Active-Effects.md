@@ -6,3 +6,6 @@ Better Rolls supports some additional active effects:
 
 # Illumination Active Effects
 - `brsw.illumination-modifier`: This key is used to increase or decrease the illumination penalty. Positive values decrease the penalty, while negative values increase the penalty. An actor can never get a bonus from illumination using this key.
+
+# General active effects:
+- `brsw.thrown-range-modifier`: This key will add the modifier for the range of the thrown weapons
