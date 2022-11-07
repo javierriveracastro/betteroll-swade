@@ -215,9 +215,10 @@ export function is_shooting_skill(skill) {
  * @param target_token
  * @param item
  * @param tn
+ * @param {SwadeItem} skill
  * @return {boolean} True if parry should be used as the tn (tokens are adjacent)
  */
-function calculate_distance(origin_token, target_token, item, tn) {
+function calculate_distance(origin_token, target_token, item, tn, skill) {
     const grid_unit = canvas.grid.grid.options.dimensions.distance
     let use_parry_as_tn = false
     let use_grid_calc = game.settings.get('betterrolls-swade2', 'range_calc_grid');
@@ -236,8 +237,22 @@ function calculate_distance(origin_token, target_token, item, tn) {
             distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
         }
         let distance_penalty = 0;
+        let rangeEffects;
+        if (!is_shooting_skill(skill)) {
+            // Throwing skill them
+            rangeEffects = origin_token.actor.effects.find(
+                e => e.changes.find(ch => ch.key === 'brsw.thrown-range-modifier'))
+            if (rangeEffects.disabled) {
+                rangeEffects = null;
+            } else {
+                rangeEffects= rangeEffects.changes.find(ch => ch.key === 'brsw.thrown-range-modifier').value
+            }
+        }
         for (let i = 0; i < 3 && i < range.length; i++) {
             let range_int = parseInt(range[i])
+            if (rangeEffects) {
+                range_int = range_int + rangeEffects * (i + 1)
+            }
             if (range_int && range_int < distance) {
                 distance_penalty = i < 2 ? (i + 1) * 2 : 8;
             }
@@ -272,7 +287,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         }
     } else  {
         use_parry_as_tn =
-            calculate_distance(origin_token, target_token, item, tn);
+            calculate_distance(origin_token, target_token, item, tn, skill);
     }
     if (use_parry_as_tn) {
         if (target_token.actor.type !== "vehicle") {
