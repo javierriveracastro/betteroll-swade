@@ -321,5 +321,7 @@
     "BRSW.CompatibilityHeadline": "Avertissement sur la compatibilité de Better Rolls",
     "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls a détecté que vous avez également activé SWADE Tools. Veuillez noter que SWADE Tools et Better Rolls for Savage Worlds sont incompatibles et ne doivent pas être activés dans le même monde. Veuillez désactiver soit SWADE Tools soit Better Rolls for Savage Worlds.",
     "BRSW.EdgeName-Ambidextrous": "Ambidextre",
-    "BRSW.Offhand": "Désinvolte"
+    "BRSW.Offhand": "Désinvolte",
+    "BRSW.MeleeDistance": "Distance de mêlée",
+    "BRSW.MeleeDistanceHint": "La distance à laquelle le personnage est considéré comme étant en mêlée. Elle peut être exprimée en pouces ou en unités de grille."
 }
