@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 3.6 aka new attributes
+* BugFix: Attribute cards work with last SWADE version (2.1.1)
+* Bugfix: Solve a bug that make some dice expressions explode multiple times
+* Documentation: Add a way to edit the wiki from the repo, allowing easier (and I hope more) documentation contributions.
+* Documentation: Update docs for global actions and macro API (Bruno Calado)
+* ActiveEffects: Add an active effect to change range (Brute Edge)
+* Translations: The usual couple of updates from the weblate team
+* Messages: Message cards are now popable (right click over a message)
+
 ## Version 3.5, aka a small API and more bugfixes.
 * Bugfix, translations: Move the pt_BR.json file to pt_br.json
 * Bugfix: Ambidextrous was not being detected because of a localization error.
