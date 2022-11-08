@@ -116,7 +116,8 @@ export function create_basic_chat_data(origin, type){
             alias: origin.name
         },
         type: type,
-        blind: whisper_data.blind
+        blind: whisper_data.blind,
+        flags: {core: {canPopout: true}}
     }
     if (whisper_data.whisper) {
         chatData.whisper = whisper_data.whisper
@@ -1335,6 +1336,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
     }
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
+        // noinspection JSIgnoredPromiseFromCall
         succ.apply_status(actor, action.self_add_status, true)
     }
     if (action.hasOwnProperty('wildDieFormula')) {
