@@ -104,8 +104,7 @@ async function attribute_click_listener(ev, target) {
     ev.preventDefault();
     ev.stopPropagation();
     // The attribute id placement is sheet dependent.
-    const attribute_id = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
-        ev.currentTarget.parentElement.dataset.attribute
+    const attribute_id = ev.currentTarget.dataset.attribute
     // Show card
     const message = await create_attribute_card(target, attribute_id, action.includes('trait'));
     if (action.includes('trait')) {
@@ -121,7 +120,7 @@ async function attribute_click_listener(ev, target) {
 export function activate_attribute_listeners(app, html) {
     let target = app.token?app.token:app.object;
     // We need a closure to hold data
-    const attribute_labels = html.find('.attribute-label a, button.attribute-label');
+    const attribute_labels = html.find('.attribute-value');
     attribute_labels.bindFirst('click', async ev => {
         await attribute_click_listener(ev, target);
     });
