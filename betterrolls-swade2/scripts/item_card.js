@@ -109,7 +109,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             powerpoints: power_points, action_groups: actions[0],
             extra_text: actions[1], used_shots: 0,
             actions_collapsed: collapse_actions, description: description,
-            swade_templates: get_template_from_description(item)},
+            swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
@@ -1459,10 +1459,10 @@ async function manual_pp(actor, item) {
 }
 
 /**
- * Gets a template name from an item description
+ * Gets a template name from an item description or an item value
  * @param {Item} item
  */
-function get_template_from_description(item){
+function get_template_from_item(item){
     const TEMPLATE_KEYS = {
         cone: ['BRSW.Cone', 'cone'],
         sbt: ['BRSW.SmallTemplate', 'sbt', 'small blast'],
@@ -1470,8 +1470,17 @@ function get_template_from_description(item){
         lbt: ['BRSW.LargeTemplate', 'lbt', 'large blast'],
         stream: ['BRSW.StreamTemplate', 'stream']
     }
+    const SYSTEM_KEYS = {
+        cone: 'cone', large: 'lbt', medium: 'mbt', small: 'sbt',
+        stream: 'stream'
+    }
     if (item.type !== 'weapon' && item.type !== "power") {return}
     let templates_found = []
+    for (let tamplate_key in item.system.templates) {
+        if (item.system.templates[tamplate_key] === true) {
+            templates_found.push(SYSTEM_KEYS[tamplate_key])
+        }
+    }
     for (let template_key in TEMPLATE_KEYS) {
         for (let key_text of TEMPLATE_KEYS[template_key]) {
             let translated_key_text = key_text
@@ -1480,8 +1489,10 @@ function get_template_from_description(item){
             }
             if (item.system?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
                     item.system?.range?.toLowerCase().includes(translated_key_text)) { // jshint ignore:line
-                templates_found.push(template_key)
-                break
+                if (!templates_found.includes(template_key)) {
+                    templates_found.push(template_key)
+                    break
+                }
             }
         }
     }
