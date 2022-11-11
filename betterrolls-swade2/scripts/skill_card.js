@@ -242,10 +242,12 @@ function calculate_distance(origin_token, target_token, item, tn, skill) {
             // Throwing skill them
             rangeEffects = origin_token.actor.effects.find(
                 e => e.changes.find(ch => ch.key === 'brsw.thrown-range-modifier'))
-            if (rangeEffects.disabled) {
-                rangeEffects = null;
-            } else {
-                rangeEffects= rangeEffects.changes.find(ch => ch.key === 'brsw.thrown-range-modifier').value
+            if (rangeEffects) {
+                if (rangeEffects.disabled) {
+                    rangeEffects = null;
+                } else {
+                    rangeEffects = rangeEffects.changes.find(ch => ch.key === 'brsw.thrown-range-modifier').value
+                }
             }
         }
         for (let i = 0; i < 3 && i < range.length; i++) {
