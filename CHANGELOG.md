@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.7 aka too many bugs for a Friday
+* Items: Use the new template checkboxes in item cards when available
+* Settings: Show the scope of the settings in their description
+* Bug: Don't break when a power was rolled with a targetted token
+* Bug: Don't duplicate encumbrance modifiers on rerolls.
+* Translations: BR updates from the Weblate Team
+
 ## Version 3.6 aka new attributes
 * BugFix: Attribute cards work with last SWADE version (2.1.1)
 * Bugfix: Solve a bug that make some dice expressions explode multiple times
