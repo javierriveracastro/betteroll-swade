@@ -823,6 +823,22 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
     }
+    // Encumbrance
+    const render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    if (actor.isEncumbered) {
+        if (render_data.attribute_name === 'agility') {
+            roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+                value: -2})
+            roll_options.total_modifiers -= 2
+        } else {
+            const skill = actor.items.get(render_data.trait_id)
+            if (skill && skill.system.attribute === 'agility') {
+                roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
+                    value: -2})
+                roll_options.total_modifiers -= 2
+            }
+        }
+    }
     return options;
 }
 
@@ -929,21 +945,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         options = await get_new_roll_options(message, extra_data, html, trait_dice, roll_options);
     } else {
         options = get_reroll_options(actor, render_data, roll_options, extra_data);
-    }
-    // Encumbrance
-    if (actor.isEncumbered) {
-        if (render_data.attribute_name === 'agility') {
-            roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
-                value: -2})
-            roll_options.total_modifiers -= 2
-        } else {
-            const skill = actor.items.get(render_data.trait_id)
-            if (skill && skill.system.attribute === 'agility') {
-                roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
-                    value: -2})
-                roll_options.total_modifiers -= 2
-            }
-        }
     }
     render_data.trait_roll.is_fumble = false;
     let trait_rolls = [];
