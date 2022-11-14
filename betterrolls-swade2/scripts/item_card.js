@@ -585,7 +585,7 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
         current_pp = actor.system.powerPoints[item.system.arcane].value;
     } else {
         // General pool
-        current_pp = actor.system.powerPoints.value;
+        current_pp = actor.system.powerPoints.general.value;
     }
     const final_pp = Math.max(current_pp - pp + old_pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
@@ -606,7 +606,7 @@ async function discount_pp(actor, item, rolls, pp_override, old_pp) {
         data['data.powerPoints.' + item.system.arcane + '.value'] =
             final_pp;
     } else {
-        data['data.powerPoints.value'] = final_pp;
+        data['data.powerPoints.general.value'] = final_pp;
     }
     if (arcaneDevice === false) {
         await actor.update(data);
@@ -1347,9 +1347,9 @@ async function edit_toughness(message, index) {
 function modify_power_points(number, mode, actor, item) {
     const arcaneDevice = item.system.additionalStats.devicePP
     let ppv = arcaneDevice ? item.system.additionalStats.devicePP.value :
-        actor.system.powerPoints.value
+        actor.system.powerPoints.general.value
     let ppm = arcaneDevice ? item.system.additionalStats.devicePP.max :
-        actor.system.powerPoints.max
+        actor.system.powerPoints.general.max
     let otherArcane = false;
     if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
              actor.system.powerPoints[item.system.arcane].max) {
@@ -1380,7 +1380,7 @@ function modify_power_points(number, mode, actor, item) {
           actor.updateEmbeddedDocuments("Item", updates);
     } else {
         const data_key = otherArcane ?
-            `data.powerPoints.${item.system.arcane}.value` : "data.powerPoints.value";
+            `data.powerPoints.${item.system.arcane}.value` : "data.powerPoints.general.value";
         let data = {}
         data[data_key] = newPP;
         actor.update(data);
