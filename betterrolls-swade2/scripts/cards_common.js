@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ */
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ, console */
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
@@ -54,6 +54,34 @@ async function store_render_flag(message, render_object) {
         render_object);
 }
 
+
+
+export class BrCommonCard {
+    constructor(message) {
+        this.message = message
+        this.type = undefined
+        const data = this.message.getFlag('betterrolls-swade2', 'br_data')
+        if (data) {
+            this.load(data)
+        }
+    }
+
+    async save() {
+        if (! this.message) {
+            console.error('No message to save')
+            return
+        }
+        this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
+    }
+
+    get_data() {
+        return {type: this.type}
+    }
+
+    load(data){
+        this.type = data.type
+    }
+}
 
 /**
  * Creates a char card
@@ -637,7 +665,8 @@ function remove_discarded_die_mark(dice, rolls) {
  * @param render_data
  */
 export async function update_message(message, actor, render_data) {
-    if (message.getFlag('betterrolls-swade2', 'card_type') ===
+    const br_message = new BrCommonCard(message)
+    if (br_message.type ===
             BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor);
         render_data.skill = get_item_trait(item, actor);
@@ -782,7 +811,8 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         })
     }
     // Action mods
-    if (message.getFlag('betterrolls-swade2', 'card_type') ===
+    const br_message = new BrCommonCard(message)
+    if (br_message.type ===
         BRSW_CONST.TYPE_ITEM_CARD) {
         const item = get_item_from_message(message, actor)
         if (item.system.actions.skillMod) {
@@ -1018,7 +1048,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
  * @param {SwadeActor} actor
  */
 function get_skill_from_message(message, actor) {
-    const type = message.getFlag('betterrolls-swade2', 'card_type');
+    const type = new BrCommonCard(message).type;
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     let skill;
     if (render_data.hasOwnProperty('trait_id')) {
@@ -1272,7 +1302,7 @@ async function duplicate_message(message, event) {
     const action = get_action_from_click(event);
     if (action.includes('trait')) {
         // noinspection JSUnresolvedVariable
-        const card_type = data.flags['betterrolls-swade2'].card_type;
+        const card_type = new BrCommonCard(message).type
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             await roll_attribute(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {

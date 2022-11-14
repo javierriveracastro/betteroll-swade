@@ -2,6 +2,7 @@
 /* globals canvas, game, CONST, Roll, Hooks */
 
 import {
+    BrCommonCard,
     BRSW_CONST,
     BRWSRoll,
     create_common_card,
@@ -65,8 +66,9 @@ export async function create_incapacitation_card(token_id) {
         CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
     await message.update({user: user.id});
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_INC_CARD)
+    let br_message = new BrCommonCard(message);
+    br_message.type = BRSW_CONST.TYPE_INC_CARD
+    await br_message.save()
     return message
 }
 
@@ -217,9 +219,10 @@ export async function create_injury_card(token_id) {
         footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/injury_card.html")
     await message.update({user: user.id});
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_INJ_CARD)
-        Hooks.call('BRSW-InjuryAEApplied', message, injury_effect)
+    let br_message = new BrCommonCard(message);
+    br_message.type = BRSW_CONST.TYPE_INJ_CARD
+    await br_message.save()
+    Hooks.call('BRSW-InjuryAEApplied', message, injury_effect)
     return message
 }
 

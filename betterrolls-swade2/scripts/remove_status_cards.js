@@ -2,8 +2,10 @@
 /* globals canvas, game, CONST, Hooks, succ, console */
 
 import {get_owner} from "./damage_card.js";
-import {BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
-    roll_trait, spend_bennie, update_message} from "./cards_common.js";
+import {
+    BrCommonCard, BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
+    roll_trait, spend_bennie, update_message
+} from "./cards_common.js";
 import {status_footer} from "./incapacitation_card.js";
 
 /**
@@ -41,7 +43,9 @@ async function create_remove_status_card(original_message, actor, type) {
     "modules/betterrolls-swade2/templates/remove_status_card.html")
     await message.update({user: user.id});
     await message.setFlag('betterrolls-swade2', 'token', token_id)
-    await message.setFlag('betterrolls-swade2', 'card_type', type)
+    let br_message = new BrCommonCard(message)
+    br_message.type = type
+    await br_message.save()
     return message
 }
 

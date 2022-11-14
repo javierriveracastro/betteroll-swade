@@ -1,7 +1,7 @@
 // Init scripts for version 2
 /* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog, ModuleManagement */
 import {activate_common_listeners, manage_selectable_click, manage_collapsables,
-    BRSW_CONST, get_action_from_click} from './cards_common.js';
+    BRSW_CONST, get_action_from_click, BrCommonCard} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
 import {skill_card_hooks, activate_skill_listeners,
@@ -100,23 +100,24 @@ Hooks.on(`ready`, () => {
 // Hooks on render
 
 Hooks.on('renderChatMessage', (message, html) => {
-    let card_type = message.getFlag('betterrolls-swade2', 'card_type')
-    if (card_type) {
+    let br_card = message.getFlag('betterrolls-swade2', 'br_data')
+    if (br_card) {
+        const card = new BrCommonCard(message)
         // This chat card is one of ours
-        activate_common_listeners(message, html);
-        if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+        activate_common_listeners(card.message, html);
+        if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             activate_attribute_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
+        } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
             activate_skill_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
+        } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
             activate_item_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_DMG_CARD) {
+        } else if (card.type === BRSW_CONST.TYPE_DMG_CARD) {
             activate_damage_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_INC_CARD) {
+        } else if (card.type === BRSW_CONST.TYPE_INC_CARD) {
             activate_incapacitation_card_listeners(message, html);
-        } else if (card_type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
-                card_type === BRSW_CONST.TYPE_UNSTUN_CARD) {
-            activate_remove_status_card_listeners(message, html, card_type);
+        } else if (card.type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
+                card.type === BRSW_CONST.TYPE_UNSTUN_CARD) {
+            activate_remove_status_card_listeners(message, html, card.type);
         }
         // Hide forms to non-master, non owner
         if (game.user.id !== message.user.id && !game.user.isGM) {
@@ -232,6 +233,7 @@ Hooks.on('hotbarDrop', (bar, data, slot) => {
                 command: command,
                 scope: 'global'
             })).then((macro) => {
+                // noinspection JSIgnoredPromiseFromCall
                 game.user.assignHotbarMacro(macro, slot);
             })
         })

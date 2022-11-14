@@ -9,7 +9,7 @@ import {
     check_and_roll_conviction, create_common_card, get_action_from_click,
     get_actor_from_message, get_roll_options, roll_trait, spend_bennie,
     update_message, has_joker, create_modifier, process_common_actions,
-    process_minimum_str_modifiers
+    process_minimum_str_modifiers, BrCommonCard
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";
@@ -114,8 +114,9 @@ async function create_item_card(origin, item_id, collapse_actions) {
         "modules/betterrolls-swade2/templates/item_card.html")
     await message.setFlag('betterrolls-swade2', 'item_id',
         item_id)
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_ITEM_CARD)
+    let br_message = new BrCommonCard(message);
+    br_message.type = BRSW_CONST.TYPE_ITEM_CARD
+    await br_message.save()
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
     if ((item.type === "gear" && item.system.actions.skill === "") ||
             item.system.actions?.skill.toLowerCase() === "none" ||
@@ -638,7 +639,7 @@ export async function run_macros(macros, actor_param, item_param, message_param)
                 const targets = game.user.targets;
                 const message = message_param;
                 // Attempt script execution
-                const body = `(async () => {${real_macro.data.command}})()`;
+                const body = `(async () => {${real_macro.command}})()`;
                 const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body); // jshint ignore:line
                 try {
                   fn.call(this, speaker, actor, token, character, item, message, targets);
@@ -1476,9 +1477,9 @@ function get_template_from_item(item){
     }
     if (item.type !== 'weapon' && item.type !== "power") {return}
     let templates_found = []
-    for (let tamplate_key in item.system.templates) {
-        if (item.system.templates[tamplate_key] === true) {
-            templates_found.push(SYSTEM_KEYS[tamplate_key])
+    for (let template_key in item.system.templates) {
+        if (item.system.templates[template_key] === true) {
+            templates_found.push(SYSTEM_KEYS[template_key])
         }
     }
     for (let template_key in TEMPLATE_KEYS) {

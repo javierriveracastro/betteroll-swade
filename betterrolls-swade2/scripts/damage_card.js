@@ -2,7 +2,7 @@
 /* global game, canvas, CONST, Token, CONFIG, Hooks, succ */
 import {
     BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
-    roll_trait, spend_bennie, update_message
+    roll_trait, spend_bennie, update_message, BrCommonCard
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
@@ -42,8 +42,9 @@ export async function create_damage_card(token_id, damage, damage_text) {
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user.id});
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_DMG_CARD)
+    let br_message = new BrCommonCard(message);
+    br_message.type = BRSW_CONST.DAMAGE_CARD;
+    await br_message.save();
     Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, message);
     return message
 }

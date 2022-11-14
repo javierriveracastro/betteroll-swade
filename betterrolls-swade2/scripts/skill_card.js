@@ -12,7 +12,7 @@ import {
     roll_trait,
     spend_bennie,
     trait_to_string,
-    create_modifier, process_common_actions
+    create_modifier, process_common_actions, BrCommonCard
 } from "./cards_common.js";
 import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
 import {run_macros} from "./item_card.js";
@@ -55,8 +55,9 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
             actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
-    await message.setFlag('betterrolls-swade2', 'card_type',
-        BRSW_CONST.TYPE_SKILL_CARD)
+    let br_message = new BrCommonCard(message)
+    br_message.type = BRSW_CONST.TYPE_SKILL_CARD
+    br_message.save()
     return message;
 }
 
