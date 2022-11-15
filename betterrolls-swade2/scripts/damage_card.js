@@ -43,7 +43,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     "modules/betterrolls-swade2/templates/damage_card.html")
     await message.update({user: user.id});
     let br_message = new BrCommonCard(message);
-    br_message.type = BRSW_CONST.DAMAGE_CARD;
+    br_message.type = BRSW_CONST.TYPE_DMG_CARD;
     await br_message.save();
     Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, message);
     return message

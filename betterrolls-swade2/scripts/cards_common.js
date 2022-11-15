@@ -57,9 +57,12 @@ async function store_render_flag(message, render_object) {
 
 
 export class BrCommonCard {
+
     constructor(message) {
         this.message = message
         this.type = undefined
+        this._token = undefined
+        this.token_id = undefined
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -75,11 +78,20 @@ export class BrCommonCard {
     }
 
     get_data() {
-        return {type: this.type}
+        return {type: this.type, token_id: this.token_id}
     }
 
     load(data){
         this.type = data.type
+        this.token_id = data.token_id
+    }
+
+    get token() {
+        if (this._token) {return this._token}
+        if (canvas.token && this.token_id) {
+            return canvas.tokens.get(this.token_id);
+        }
+        return undefined
     }
 }
 
