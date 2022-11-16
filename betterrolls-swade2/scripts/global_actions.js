@@ -279,6 +279,12 @@ function check_selector(type, value, item, actor){
         } else {
             selected = false;
         }
+    } else if (type === 'is_wildcard') {
+        selected = actor.system.wildcard
+        console.log(actor, selected)
+        if (value === 'false') {
+            selected = !selected
+        }
     }
     return selected;
 }
@@ -605,9 +611,3 @@ export function render_gm_actions() {
     new_tags.click(manage_selectable_gm)
     new_tags.removeClass('brsw-added')
 }
-
-
-// TODO: Global action to ignore scale
-// TODO: Store selected actions in the message
-// TODO: Make a selector for sizes with two values 'eual' and 'different'
-// TODO: Make an action to ignore scale modifiers
