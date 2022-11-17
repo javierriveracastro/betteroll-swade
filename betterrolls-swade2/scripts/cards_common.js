@@ -121,6 +121,9 @@ export async function create_common_card(origin, render_data, chat_type, templat
             actor.id)
     if (actor !== origin) {
         // noinspection JSUnresolvedVariable
+        let br_message = new BrCommonCard(message)
+        br_message.token_id = origin.id
+        await br_message.save()
         await message.setFlag('betterrolls-swade2', 'token',
             origin.id)
     }

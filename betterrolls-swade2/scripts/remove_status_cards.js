@@ -45,6 +45,7 @@ async function create_remove_status_card(original_message, actor, type) {
     await message.setFlag('betterrolls-swade2', 'token', token_id)
     let br_message = new BrCommonCard(message)
     br_message.type = type
+    br_message.token_id = token_id
     await br_message.save()
     return message
 }
