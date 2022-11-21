@@ -236,6 +236,14 @@ async function roll_soak(message, use_bennie) {
         soak_modifiers.push({name: game.i18n.localize("BRSW.EdgeName-IronJaw"),
             value: 2})
     }
+    // Active effects
+    let soak_active_effects = actor.effects.filter(
+        e => e.changes.find(ch => ch.key === 'brsw.soak-modifier'))
+    for (let effect of soak_active_effects) {
+        let modifier = effect.changes.find(ch => ch.key ===
+            'brsw.soak-modifier').value
+        soak_modifiers.push({name: effect.label, value: parseInt(modifier)})
+    }
     const roll = await roll_trait(message,
         actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers: soak_modifiers});
