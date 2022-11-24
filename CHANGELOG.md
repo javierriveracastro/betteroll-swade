@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.8 aka I know I promised lightning, but...
+* Bugfix: General Power Point management fixed.(EntreriCansinos)
+* Translations: The usual couple of updates from the Weblate team
+* Refactoring: First steps of the big and likely to bring bugs data storage refactoring
+* Actions: 'is_wildcar' selector added
+* Active Effects: Added a new active effect for soak rolls
+
 ## Version 3.7 aka too many bugs for a Friday
 * Items: Use the new template checkboxes in item cards when available
 * Settings: Show the scope of the settings in their description
