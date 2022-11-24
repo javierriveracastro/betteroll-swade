@@ -323,5 +323,6 @@
     "BRSW.Offhand": "Mano secundaria",
     "BRSW.MeleeDistance": "Distancia de ataque cuerpo a cuerpo",
     "BRSW.MeleeDistanceHint": "La distancia a la que dos personajes se consideran en combate cuerpo a cuerpo, puede ser pulgadas o unidades de grid.",
-    "BRSW.TargetHasDodgePower": "El objetivo tiene esquivar (-2), poderes"
+    "BRSW.TargetHasDodgePower": "El objetivo tiene esquivar (-2), poderes",
+    "BRSW.GroupRoll": "Tirada de grupo"
 }
