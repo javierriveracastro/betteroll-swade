@@ -105,11 +105,12 @@ function roll_incapacitation_clicked(ev) {
  * @param html: Html produced
  */
 export function activate_incapacitation_card_listeners(message, html) {
+    const br_card = new BrCommonCard(message);
     html.find('.brsw-vigor-button, .brsw-roll-button').bind(
         'click', {message: message}, roll_incapacitation_clicked);
     html.find('.brsw-injury-button').click(() => {
         // noinspection JSIgnoredPromiseFromCall
-        create_injury_card(message.getFlag('betterrolls-swade2', 'token'))
+        create_injury_card(br_card.token_id)
     })
 }
 
@@ -121,13 +122,13 @@ export function activate_incapacitation_card_listeners(message, html) {
  * @param {boolean} spend_benny
  */
 async function roll_incapacitation(message, spend_benny) {
+    const br_card = new BrCommonCard(message);
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
     const actor = get_actor_from_message(message)
     if (spend_benny) {
         await spend_bennie(actor);
     }
-    const token = message.getFlag('betterrolls-swade2', 'token');
     const roll = await roll_trait(message,
         actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
     let result = 0;
@@ -143,7 +144,7 @@ async function roll_incapacitation(message, spend_benny) {
     })
     render_data.show_roll_injury = true;
     if (roll.is_fumble) {
-        render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
+        render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
         render_data.show_roll_injury = false;  // For what...
     } else if (result < 4) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")

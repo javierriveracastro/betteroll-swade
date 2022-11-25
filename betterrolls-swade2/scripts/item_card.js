@@ -1081,7 +1081,8 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
  * @param damage_roll
  */
 function joker_modifiers(message, actor, damage_roll) {
-    let token_id = message.getFlag('betterrolls-swade2', 'token')
+    const br_card = new BrCommonCard(message)
+    const token_id = br_card.token_id
     if (!token_id) {
         const possible_tokens = actor.getActiveTokens()
         if (possible_tokens.length) {

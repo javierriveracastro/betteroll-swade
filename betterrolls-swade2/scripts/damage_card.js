@@ -164,14 +164,14 @@ async function apply_damage(token, wounds, soaked=0) {
  * @param {ChatMessage} message
  */
 async function undo_damage(message){
+    const br_card = new BrCommonCard(message);
     const actor = get_actor_from_message(message);
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
-    const token = message.getFlag('betterrolls-swade2', 'token');
     await actor.update({"data.wounds.value": render_data.undo_values.wounds})
-    if (token) {
+    if (br_card.token) {
         // Remove incapacitation and shaken
-        let token_object = canvas.tokens.get(token).document
+        let token_object = br_card.token.document
         await succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
         let inc_effects = token_object.actor.effects.filter(
                 e => e.flags?.core?.statusId === 'incapacitated').map(
@@ -188,6 +188,7 @@ async function undo_damage(message){
  * @param html: Html produced
  */
 export function activate_damage_card_listeners(message, html) {
+    const br_card = new BrCommonCard(message);
     html.find('.brsw-undo-damage').click(async () =>{
         await undo_damage(message);
     });
@@ -202,11 +203,11 @@ export function activate_damage_card_listeners(message, html) {
     });
     html.find('.brsw-show-incapacitation').click(() => {
         // noinspection JSIgnoredPromiseFromCall
-        create_incapacitation_card(message.getFlag('betterrolls-swade2', 'token'))
+        create_incapacitation_card(br_card.token_id)
     });
     html.find('.brsw-injury-button').click(() => {
         // noinspection JSIgnoredPromiseFromCall
-        create_injury_card(message.getFlag('betterrolls-swade2', 'token'))
+        create_injury_card(br_card.token_id)
     })
 }
 
