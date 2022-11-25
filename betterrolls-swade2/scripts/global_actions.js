@@ -271,7 +271,6 @@ function check_selector(type, value, item, actor){
         if (game.user.targets.size > 0 && tokens.length > 0) {
             const actor_disposition = tokens[0].document.disposition
             const target_disposition = game.user.targets.first().document.disposition;
-            console.log(actor_disposition, target_disposition)
             if (value === 'same') {
                 selected = actor_disposition === target_disposition;
             } else {
