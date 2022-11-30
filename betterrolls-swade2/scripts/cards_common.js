@@ -88,9 +88,10 @@ export class BrCommonCard {
 
     get token() {
         if (this._token) {return this._token}
-        if (canvas.token && this.token_id) {
+        if (canvas.tokens && this.token_id) {
             return canvas.tokens.get(this.token_id);
         }
+        // TODO: Get token from actor when actor is part of this class
         return undefined
     }
 }
@@ -293,8 +294,9 @@ export function get_actor_from_ids(token_id, actor_id) {
  * @returns {actor|null|*}
  */
 export function get_actor_from_message(message){
+    let br_card = new BrCommonCard(message);
     return get_actor_from_ids(
-        message.getFlag('betterrolls-swade2', 'token'),
+        br_card.token_id,
         message.getFlag('betterrolls-swade2', 'actor')
     );
 }
@@ -768,6 +770,7 @@ function get_actor_own_modifiers(actor, roll_options) {
  */
 async function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
+    let br_card = new BrCommonCard(message)
     const actor = get_actor_from_message(message);
     let objetive = get_targeted_token();
     if (!objetive) {
@@ -780,9 +783,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     }
     let skill = get_skill_from_message(message, actor);
     if (objetive && skill) {
-        const token_id = message.getFlag('betterrolls-swade2', 'token')
-        const origin_token = token_id ? canvas.tokens.get(token_id) :
-            actor.getActiveTokens()[0]
+        const origin_token = br_card.token || actor.getActiveTokens()[0]
         if (origin_token) {
             const item = get_item_from_message(message, actor)
             const target_data = get_tn_from_token(
@@ -857,14 +858,8 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
-    let token_id = message.getFlag('betterrolls-swade2', 'token')
-    if (! token_id) {
-        const possible_tokens = actor.getActiveTokens()
-        if (possible_tokens.length) {
-            token_id = possible_tokens[0].id
-        }
-    }
-    if (has_joker(token_id)) {
+    console.log(br_card.token, br_card.token_id, has_joker(br_card.token_id))
+    if (br_card.token && has_joker(br_card.token_id)) {
         roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
     }
@@ -1267,10 +1262,9 @@ function get_tn_from_target(message, index, selected) {
         objetive = get_targeted_token();
     }
     if (objetive) {
-        const token_id = message.getFlag('betterrolls-swade2', 'token')
+        const br_card = new BrCommonCard(message)
         const item = get_item_from_message(message, actor)
-        const origin_token = token_id ? canvas.tokens.get(token_id) :
-                actor.getActiveTokens()[0]
+        const origin_token = br_card.token || actor.getActiveTokens()[0]
         if (origin_token) {
             const skill = get_skill_from_message(message, get_actor_from_message(message));
             const target = get_tn_from_token(skill, objetive, origin_token, item);
