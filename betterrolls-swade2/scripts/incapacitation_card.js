@@ -148,6 +148,7 @@ async function roll_incapacitation(message, spend_benny) {
         render_data.show_roll_injury = false;  // For what...
     } else if (result < 4) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
+        succ.apply_status(br_card.token_id, "bleeding-out")
     } else if (result < 8) {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury")
     } else {
