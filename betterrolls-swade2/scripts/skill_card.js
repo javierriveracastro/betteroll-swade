@@ -232,9 +232,9 @@ function calculate_distance(origin_token, target_token, item, tn, skill) {
         if (grid_unit % 5 === 0) {
             distance = distance / 5;
         }
-        if (origin_token.elevation !== target_token.elevation) {
+        if (origin_token.document.elevation !== target_token.document.elevation) {
             let h_diff = Math.abs(
-                origin_token.elevation - target_token.elevation)
+                origin_token.document.elevation - target_token.document.elevation)
             distance = Math.sqrt(Math.pow(h_diff, 2) + Math.pow(distance, 2));
         }
         let distance_penalty = 0;
