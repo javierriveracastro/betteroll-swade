@@ -63,6 +63,7 @@ export class BrCommonCard {
         this.type = undefined
         this._token = undefined
         this.token_id = undefined
+        this.environment = {light: 'bright'}
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -78,7 +79,8 @@ export class BrCommonCard {
     }
 
     get_data() {
-        return {type: this.type, token_id: this.token_id}
+        return {type: this.type, token_id: this.token_id,
+            environment: this.environment}
     }
 
     load(data){
