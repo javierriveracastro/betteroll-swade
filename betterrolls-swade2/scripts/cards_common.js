@@ -464,7 +464,7 @@ export function manage_selectable_click(ev){
 
 /**
  * Controls the sheet status when the portrait in the header is clicked
- * @param {Actor} actor: The actor instance that created the chat card
+ * @param {SwadeActor} actor: The actor instance that created the chat card
  */
 async function manage_sheet(actor) {
     if (actor.sheet.rendered) {
@@ -860,7 +860,6 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
-    console.log(br_card.token, br_card.token_id, has_joker(br_card.token_id))
     if (br_card.token && has_joker(br_card.token_id)) {
         roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
@@ -1006,7 +1005,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             wild_die_formula = `+${wild_die_formula}`;
         }
     }
-    if (actor.isWildcard && wild_die_formula) {
+    console.log(extra_data, roll_options)
+    if ((actor.isWildcard || extra_data.add_wild_die) && wild_die_formula) {
         roll_string += wild_die_formula;
     }
     let roll = new Roll(roll_string);
@@ -1389,6 +1389,11 @@ export function process_common_actions(action, extra_data, macros, actor) {
     }
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
+    }
+    console.log(action)
+    if (action.add_wild_die) {
+        extra_data.add_wild_die = true;
+        console.log(extra_data)
     }
 }
 
