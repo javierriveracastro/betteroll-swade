@@ -281,7 +281,6 @@ function check_selector(type, value, item, actor){
         }
     } else if (type === 'is_wildcard') {
         selected = actor.system.wildcard
-        console.log(actor, selected)
         if (value === 'false') {
             selected = !selected
         }
