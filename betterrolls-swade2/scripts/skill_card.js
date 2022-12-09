@@ -487,6 +487,9 @@ function gang_up_reduction(target) {
 
 // function from Kekilla
 function withinRange(origin, target, range) {
+    if (Math.abs(origin.document.elevation - target.document.elevation) >= 1) {
+        return false;
+    }
     const size_mod_origin = (origin.document.width + origin.document.height)/2;
     const size_mod_target = (target.document.width + target.document.height)/2;
     range = range - 0.5 + Math.max(size_mod_origin, size_mod_target)
