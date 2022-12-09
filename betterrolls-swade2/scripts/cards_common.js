@@ -1005,7 +1005,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
             wild_die_formula = `+${wild_die_formula}`;
         }
     }
-    console.log(extra_data, roll_options)
     if ((actor.isWildcard || extra_data.add_wild_die) && wild_die_formula) {
         roll_string += wild_die_formula;
     }
