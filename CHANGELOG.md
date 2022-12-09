@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 3.9 aka Extras Rights!!
+* Actions: New group roll action for extras
+* Bugfix: faction selector is working again
+* Refactoring: Changing storage for tokens
+* States: Use the SUCC bleeding out state
+* Bugfix: Range is calculated again using elevation
+* Refactoring: Add environment data (currently not used) to cards
+* Actios: Added `add_wild_die` action (used for group rolls)
+
 ## Version 3.8 aka I know I promised lightning, but...
 * Bugfix: General Power Point management fixed.(EntreriCansinos)
 * Translations: The usual couple of updates from the Weblate team
