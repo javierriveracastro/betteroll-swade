@@ -324,5 +324,6 @@
   "BRSW.Offhand": "Offhand",
   "BRSW.MeleeDistance": "Melee distance",
   "BRSW.MeleeDistanceHint": "The distance at which the character is considered to be in melee. Either in inches or grid units.",
-  "BRSW.GroupRoll": "Group roll"
+  "BRSW.GroupRoll": "Group roll",
+  "BRSW.HeavyArmor": "Heavy/Mega armor"
 }

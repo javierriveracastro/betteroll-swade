@@ -215,7 +215,6 @@ function show_effect_card(target, effect_id, show_origin = false) {
         const item_id_position = effect.data.origin.indexOf('Item.') + 5;
         const item_id = effect.data.origin.slice(item_id_position)
         const origin_item = actor.items.get(item_id);
-        console.log(item_id, origin_item);
         if (origin_item) {origin_item.sheet.render(true)}
     } else {
         effect.sheet.render(true);
@@ -961,6 +960,7 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 
 async function roll_dmg_target(damage_roll, damage_formulas, target, total_modifiers, message) {
     const actor = get_actor_from_message(message)
+    const item = get_item_from_message(message, actor)
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollData();
@@ -969,6 +969,12 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     }
     let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
+    // Heavy armor
+    if (!item.system.isHeavyWeapon && has_heavy_armor(target)) {
+        const no_danage_mod = create_modifier(game.i18n.localize("BRSW.HeavyArmor"), -999999)
+        current_damage_roll.brswroll.modifiers.push(no_danage_mod)
+        total_modifiers += -999999
+    }
     // Multiply modifiers must be last
     if (damage_formulas.multiplier !== 1) {
         const final_value = (roll.total + total_modifiers) * 2
@@ -1082,7 +1088,7 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
  */
 function joker_modifiers(message, actor, damage_roll) {
     const br_card = new BrCommonCard(message)
-    const token_id = br_card.token_id
+    let token_id = br_card.token_id
     if (!token_id) {
         const possible_tokens = actor.getActiveTokens()
         if (possible_tokens.length) {
@@ -1501,3 +1507,15 @@ function get_template_from_item(item){
     return templates_found
 }
 
+/**
+ * Returns true if the target wears a Heavy Armor
+ * @param {PlaceableObject} target
+ */
+function has_heavy_armor(target) {
+    // Eqquiped is equipStatus 3
+    const heavy_armor = target.document.actor.items.filter(
+        item => item.type === 'armor' && item.system.isHeavyArmor &&
+            item.system.locations.torso && item.system.equipStatus === 3)
+    console.log(heavy_armor)
+    return heavy_armor.length > 0
+}
