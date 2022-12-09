@@ -1389,10 +1389,8 @@ export function process_common_actions(action, extra_data, macros, actor) {
     if (action.runSkillMacro) {
         macros.push(action.runSkillMacro);
     }
-    console.log(action)
     if (action.add_wild_die) {
         extra_data.add_wild_die = true;
-        console.log(extra_data)
     }
 }
 
