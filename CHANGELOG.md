@@ -1,5 +1,10 @@
 # Changelog
 
+## Versiob 3.10 aka Big Bug
+* Bugfix: Damage rolling was broken
+* Gangup: Don't count actors when elevation difference is 1 or more.
+* Feature: Support for Heavy Armor
+
 ## Version 3.9 aka Extras Rights!!
 * Actions: New group roll action for extras
 * Bugfix: faction selector is working again
