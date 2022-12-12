@@ -42,7 +42,6 @@ async function create_remove_status_card(original_message, actor, type) {
         trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
     "modules/betterrolls-swade2/templates/remove_status_card.html")
     await message.update({user: user.id});
-    await message.setFlag('betterrolls-swade2', 'token', token_id)
     let br_message = new BrCommonCard(message)
     br_message.type = type
     br_message.token_id = token_id
