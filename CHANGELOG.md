@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.11 aka I can do ever bigger bugs
+* Bugfix: Damage works again when no token is targeted
+
 ## Versiob 3.10 aka Big Bug
 * Bugfix: Damage rolling was broken
 * Gangup: Don't count actors when elevation difference is 1 or more.
