@@ -970,9 +970,9 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
     // Heavy armor
-    if (!item.system.isHeavyWeapon && has_heavy_armor(target)) {
-        const no_danage_mod = create_modifier(game.i18n.localize("BRSW.HeavyArmor"), -999999)
-        current_damage_roll.brswroll.modifiers.push(no_danage_mod)
+    if (target && !item.system.isHeavyWeapon && has_heavy_armor(target)) {
+        const no_damage_mod = create_modifier(game.i18n.localize("BRSW.HeavyArmor"), -999999)
+        current_damage_roll.brswroll.modifiers.push(no_damage_mod)
         total_modifiers += -999999
     }
     // Multiply modifiers must be last
