@@ -63,6 +63,8 @@ export class BrCommonCard {
         this.type = undefined
         this._token = undefined
         this.token_id = undefined
+        this._actor = undefined
+        this.actor_id = undefined
         this.environment = {light: 'bright'}
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
@@ -80,20 +82,37 @@ export class BrCommonCard {
 
     get_data() {
         return {type: this.type, token_id: this.token_id,
-            environment: this.environment}
+            environment: this.environment, actor_id: this.actor_id}
     }
 
     load(data){
         this.type = data.type
         this.token_id = data.token_id
+        this.actor_id = data.actor_id
     }
 
     get token() {
         if (this._token) {return this._token}
-        if (canvas.tokens && this.token_id) {
-            return canvas.tokens.get(this.token_id);
+        if (canvas.tokens) {
+            if (this.token_id) {
+                return canvas.tokens.get(this.token_id);
+            }
+            if (this.actor) {
+                return this.actor.getActiveTokens()[0];
+            }
         }
-        // TODO: Get token from actor when actor is part of this class
+        return undefined
+    }
+
+    get actor() {
+        if (this._actor) {return this._actor}
+        // We always prefer the token actor if available
+        if (this.token) {
+            return this.token.actor
+        }
+        if (this.actor_id) {
+            return game.actors.get(this.actor_id);
+        }
         return undefined
     }
 }
