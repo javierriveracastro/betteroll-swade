@@ -39,7 +39,7 @@ async function create_remove_status_card(original_message, actor, type) {
     {header: {type: '',
         title: game.i18n.localize(title_name),
         notes: actor.name}, roll_title: roll_title, text: text, footer: footer,
-        trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.IC,
+        trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/remove_status_card.html")
     await message.update({user: user.id});
     let br_message = new BrCommonCard(message)
