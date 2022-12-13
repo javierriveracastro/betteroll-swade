@@ -1,7 +1,9 @@
 // Init scripts for version 2
 /* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog, ModuleManagement */
-import {activate_common_listeners, manage_selectable_click, manage_collapsables,
-    BRSW_CONST, get_action_from_click, BrCommonCard} from './cards_common.js';
+import {
+    activate_common_listeners, manage_selectable_click, manage_collapsables,
+    BRSW_CONST, get_action_from_click, BrCommonCard, expose_card_class
+} from './cards_common.js';
 import {attribute_card_hooks, activate_attribute_listeners,
     activate_attribute_card_listeners} from './attribute_card.js';
 import {skill_card_hooks, activate_skill_listeners,
@@ -41,12 +43,14 @@ Hooks.once("setup", async function () {
 Hooks.on(`ready`, () => {
     console.log('Better Rolls 2 for SWADE | Ready');
     // Create a base object to hook functions
+    // noinspection JSUndefinedPropertyAssignment
     game.brsw = {};
     game.brsw.get_action_from_click = get_action_from_click;
     attribute_card_hooks();
     skill_card_hooks();
     expose_item_functions();
     expose_global_actions_functions();
+    expose_card_class();
     incapacitation_card_hooks();
     register_settings_version2();
     register_actions();

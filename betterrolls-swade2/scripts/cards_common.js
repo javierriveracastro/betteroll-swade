@@ -117,6 +117,13 @@ export class BrCommonCard {
         return undefined
     }
 }
+/**
+ * Makes the br_card class accesible
+ *
+ */
+export function expose_card_class() {
+    game.brsw.BrCommonCard = BrCommonCard
+}
 
 /**
  * Creates a char card
