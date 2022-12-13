@@ -97,7 +97,7 @@ export class BrCommonCard {
             if (this.token_id) {
                 return canvas.tokens.get(this.token_id);
             }
-            if (this.actor) {
+            if (this.actor_id) {
                 return this.actor.getActiveTokens()[0];
             }
         }
@@ -106,6 +106,7 @@ export class BrCommonCard {
 
     get actor() {
         if (this._actor) {return this._actor}
+        print(this.actor_id)
         // We always prefer the token actor if available
         if (this.token) {
             return this.token.actor
