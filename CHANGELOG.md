@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.12 aka more Bugfixes
+* Rebugfix: More problems when there are no tokens solved.
+
 ## Version 3.11 aka I can do ever bigger bugs
 * Bugfix: Damage works again when no token is targeted
 
