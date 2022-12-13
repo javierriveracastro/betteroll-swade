@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.13 aka Really!!
+* Bugfix: Get soak working again
+
 ## Version 3.12 aka more Bugfixes
 * Rebugfix: More problems when there are no tokens solved.
 
