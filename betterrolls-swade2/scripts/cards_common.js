@@ -83,13 +83,15 @@ export class BrCommonCard {
 
     get_data() {
         return {type: this.type, token_id: this.token_id,
-            environment: this.environment, actor_id: this.actor_id}
+            environment: this.environment, actor_id: this.actor_id,
+            actions: this.actions}
     }
 
     load(data){
         this.type = data.type
         this.token_id = data.token_id
         this.actor_id = data.actor_id
+        this.actions = data.actions
     }
 
     get token() {
