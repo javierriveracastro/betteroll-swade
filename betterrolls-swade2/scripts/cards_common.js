@@ -66,6 +66,7 @@ export class BrCommonCard {
         this._actor = undefined
         this.actor_id = undefined
         this.environment = {light: 'bright'}
+        this.actions = []
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
