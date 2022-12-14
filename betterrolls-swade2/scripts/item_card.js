@@ -713,7 +713,10 @@ export async function roll_item(message, html, expend_bennie,
             }
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
-                const first_char = action.shotsUsed.charAt(0);
+                let first_char = '';
+                try {
+                    first_char = action.shotsUsed.charAt(0);
+                } catch {}
                 if (first_char === '+' || first_char === '-') {
                     // If we are using PP and the modifier starts with + or -
                     // we use it as a relative number.
