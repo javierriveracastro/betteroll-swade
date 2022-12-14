@@ -713,6 +713,14 @@ export async function roll_item(message, html, expend_bennie,
             }
             if (action.shotsUsed) {
                 shots_override = parseInt(action.shotsUsed);
+                const first_char = action.shotsUsed.charAt(0);
+                if (first_char === '+' || first_char === '-') {
+                    // If we are using PP and the modifier starts with + or -
+                    // we use it as a relative number.
+                    if (parseInt(item.system.pp)) {
+                        shots_override = parseInt(item.system.pp) + shots_override;
+                    }
+                }
             }
             process_common_actions(action, extra_data, macros, actor)
             if (element.classList.contains("brws-permanent-selected")) {
