@@ -110,7 +110,7 @@ export class BrCommonCard {
     get actor() {
         if (this._actor) {return this._actor}
         // We always prefer the token actor if available
-        if (this.token) {
+        if (this.token_id) {
             return this.token.actor
         }
         if (this.actor_id) {
