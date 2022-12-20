@@ -149,8 +149,6 @@ export async function create_common_card(origin, render_data, chat_type, templat
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
     await store_render_flag(message, render_object);
-    await message.setFlag('betterrolls-swade2', 'actor',
-            actor.id)
     let br_message = new BrCommonCard(message)
     br_message.actor_id = actor.id
     if (actor !== origin) {
