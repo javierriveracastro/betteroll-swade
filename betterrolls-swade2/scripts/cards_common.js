@@ -109,7 +109,6 @@ export class BrCommonCard {
 
     get actor() {
         if (this._actor) {return this._actor}
-        print(this.actor_id)
         // We always prefer the token actor if available
         if (this.token) {
             return this.token.actor
@@ -152,12 +151,12 @@ export async function create_common_card(origin, render_data, chat_type, templat
     await store_render_flag(message, render_object);
     await message.setFlag('betterrolls-swade2', 'actor',
             actor.id)
+    let br_message = new BrCommonCard(message)
+    br_message.actor_id = actor.id
     if (actor !== origin) {
-        // noinspection JSUnresolvedVariable
-        let br_message = new BrCommonCard(message)
         br_message.token_id = origin.id
-        await br_message.save()
     }
+    await br_message.save()
     return message
 }
 
@@ -325,10 +324,7 @@ export function get_actor_from_ids(token_id, actor_id) {
  */
 export function get_actor_from_message(message){
     let br_card = new BrCommonCard(message);
-    return get_actor_from_ids(
-        br_card.token_id,
-        message.getFlag('betterrolls-swade2', 'actor')
-    );
+    return br_card.actor
 }
 
 
@@ -813,7 +809,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     }
     let skill = get_skill_from_message(message, actor);
     if (objetive && skill) {
-        const origin_token = br_card.token || actor.getActiveTokens()[0]
+        const origin_token = br_card.token
         if (origin_token) {
             const item = get_item_from_message(message, actor)
             const target_data = get_tn_from_token(
@@ -1293,7 +1289,7 @@ function get_tn_from_target(message, index, selected) {
     if (objetive) {
         const br_card = new BrCommonCard(message)
         const item = get_item_from_message(message, actor)
-        const origin_token = br_card.token || actor.getActiveTokens()[0]
+        const origin_token = br_card.token
         if (origin_token) {
             const skill = get_skill_from_message(message, get_actor_from_message(message));
             const target = get_tn_from_token(skill, objetive, origin_token, item);

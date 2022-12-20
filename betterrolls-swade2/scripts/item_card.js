@@ -1099,13 +1099,7 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
  */
 function joker_modifiers(message, actor, damage_roll) {
     const br_card = new BrCommonCard(message)
-    let token_id = br_card.token_id
-    if (!token_id) {
-        const possible_tokens = actor.getActiveTokens()
-        if (possible_tokens.length) {
-            token_id = possible_tokens[0].id
-        }
-    }
+    let token_id = br_card.token.id
     if (has_joker(token_id)) {
         damage_roll.brswroll.modifiers.push(create_modifier('Joker', 2));
     }
