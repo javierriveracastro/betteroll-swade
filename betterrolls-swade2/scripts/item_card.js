@@ -1493,7 +1493,7 @@ function get_template_from_item(item){
         cone: 'cone', large: 'lbt', medium: 'mbt', small: 'sbt',
         stream: 'stream'
     }
-    if (item.type !== 'weapon' && item.type !== "power") {return}
+    if (['weapon', 'power', 'action'].indexOf(item.type) < 0) {return}
     let templates_found = []
     for (let template_key in item.system.templates) {
         if (item.system.templates[template_key] === true) {
