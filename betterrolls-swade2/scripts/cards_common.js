@@ -118,7 +118,14 @@ export class BrCommonCard {
         }
         return undefined
     }
+
+    get item() {
+        // Temporal solution to get a complete api
+        const item_id = this.message.getFlag('betterrolls-swade2', 'item_id');
+        return this.actor.items.find((item) => item.id === item_id);
+    }
 }
+
 /**
  * Makes the br_card class accesible
  *
