@@ -122,7 +122,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             item.system.actions?.skill.toLowerCase() === "none" ||
             (item.system.hasOwnProperty("actions") === false &&
                 item.type !== "skill")) {
-        Hooks.call("BRSW-CreateItemCardNoRoll", message);
+        Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
     }
     return message;
 }
@@ -291,7 +291,7 @@ function preview_template(ev, message) {
         templateData, {parent: canvas.scene});
     // noinspection JSPotentiallyInvalidConstructorUsage
     let template = new CONFIG.MeasuredTemplate.objectClass(template_base)
-    Hooks.call("BRSW-BeforePreviewingTemplate", template, message, ev)
+    Hooks.call("BRSW-BeforePreviewingTemplate", template, new BrCommonCard(message), ev)
     template.drawPreview(ev)
 }
 
@@ -681,14 +681,13 @@ async function find_macro(macro_name) {
 export async function roll_item(message, html, expend_bennie,
                                 roll_damage){
     let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
-    const actor = get_actor_from_message(message)
-    const item = get_item_from_message(message, actor)
-    let trait = get_item_trait(item, actor);
+    let br_message = new BrCommonCard(message)
+    let trait = get_item_trait(br_message.item, br_message.actor);
     let macros = [];
     let shots_override;  // Override the number of shots used
     let extra_data = {skill: trait, modifiers: []};
-    if (expend_bennie) {await spend_bennie(actor)}
-    extra_data.rof = item.system.rof || 1;
+    if (expend_bennie) {await spend_bennie(br_message.actor)}
+    extra_data.rof = br_message.item.system.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
     }
@@ -701,14 +700,14 @@ export async function roll_item(message, html, expend_bennie,
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let action;
-            if (item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
-                action = item.system.actions.additional[element.dataset.action_id];
+            if (br_message.item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
+                action = br_message.item.system.actions.additional[element.dataset.action_id];
             } else {
                 // GLOBAL ACTION
                 action = get_global_action_from_name(element.dataset.action_id);
             }
             if (action.skillOverride) {
-                trait = trait_from_string(actor, action.skillOverride);
+                trait = trait_from_string(br_message.actor, action.skillOverride);
                 render_data.trait_id = trait.id;
             }
             if (action.shotsUsed) {
@@ -720,35 +719,37 @@ export async function roll_item(message, html, expend_bennie,
                 if (first_char === '+' || first_char === '-') {
                     // If we are using PP and the modifier starts with + or -
                     // we use it as a relative number.
-                    if (parseInt(item.system.pp)) {
-                        shots_override = parseInt(item.system.pp) + shots_override;
+                    if (parseInt(br_message.item.system.pp)) {
+                        shots_override = parseInt(br_message.item.system.pp) + shots_override;
                     }
                 }
             }
-            process_common_actions(action, extra_data, macros, actor)
+            process_common_actions(action, extra_data, macros, br_message.actor)
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
         });
     }
     for (let action of get_enabled_gm_actions()) {
-        process_common_actions(action, extra_data, macros, actor)
+        process_common_actions(action, extra_data, macros, br_message.actor)
     }
     // Check for minimum strength
-    if (item.system.minStr && is_shooting_skill(get_item_trait(item, actor))) {
-        const penalty = process_minimum_str_modifiers(item, actor, "BRSW.NotEnoughStrength");
+    if (br_message.item.system.minStr &&
+            is_shooting_skill(get_item_trait(br_message.item, br_message.actor))) {
+        const penalty = process_minimum_str_modifiers(
+            br_message.item, br_message.actor, "BRSW.NotEnoughStrength");
         if (penalty) {
             extra_data.modifiers.push(penalty)
         }
     }
     // Trademark weapon
-    if (item.system.trademark) {
+    if (br_message.item.system.trademark) {
         extra_data.modifiers.push(create_modifier(
-            game.i18n.localize("BRSW.TrademarkWeapon"), item.system.trademark))
+            game.i18n.localize("BRSW.TrademarkWeapon"), br_message.item.system.trademark))
     }
     // Offhand
-    if (item.system.equipStatus === 2) {
-        if (! actor.items.find(item => item.type === "edge" &&
+    if (br_message.item.system.equipStatus === 2) {
+        if (! br_message.actor.items.find(item => item.type === "edge" &&
                 item.name.toLowerCase() === game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase())) {
             extra_data.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Offhand"), -2))
@@ -765,18 +766,18 @@ export async function roll_item(message, html, expend_bennie,
         }
     }
     // Ammo management
-    if (parseInt(item.system.shots) || item.system.autoReload){
+    if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
             let rof = trait_data.dice.length;
-            if (actor.isWildcard) {
+            if (br_message.actor.isWildcard) {
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = discount_ammo(item, rof || 1, shots_override);
-                if (item.system.autoReload) {
-                    reload_weapon(actor, item, rof || 1)
+                render_data.used_shots = discount_ammo(br_message.item, rof || 1, shots_override);
+                if (br_message.item.system.autoReload) {
+                    reload_weapon(br_message.actor, br_message.item, rof || 1)
                 }
             } else {
                 render_data.used_shots = shots_override ? shots_override : ROF_BULLETS[rof || 1];
@@ -787,13 +788,13 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
-    if (parseInt(item.system.pp) && pp_selected) {
-        render_data.used_pp = await discount_pp(actor, item, trait_data.rolls, shots_override, previous_pp);
+    if (parseInt(br_message.item.system.pp) && pp_selected) {
+        render_data.used_pp = await discount_pp(br_message.actor, br_message.item, trait_data.rolls, shots_override, previous_pp);
     }
-    await update_message(message, actor, render_data);
-    await run_macros(macros, actor, item, message);
+    await update_message(message, br_message.actor, render_data);
+    await run_macros(macros, br_message.actor, br_message.item, message);
     //Call a hook after roll for other modules
-    Hooks.call("BRSW-RollItem", message, html);
+    Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {

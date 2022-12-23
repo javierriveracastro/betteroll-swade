@@ -1,5 +1,5 @@
 // functions for the incapacitation card
-/* globals canvas, game, CONST, Roll, Hooks */
+/* globals canvas, game, CONST, Roll, Hooks, succ */
 
 import {
     BrCommonCard,
@@ -224,7 +224,7 @@ export async function create_injury_card(token_id) {
     let br_message = new BrCommonCard(message);
     br_message.type = BRSW_CONST.TYPE_INJ_CARD
     await br_message.save()
-    Hooks.call('BRSW-InjuryAEApplied', message, injury_effect)
+    Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect)
     return message
 }
 

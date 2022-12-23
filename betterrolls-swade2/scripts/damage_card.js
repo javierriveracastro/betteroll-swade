@@ -45,7 +45,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
     let br_message = new BrCommonCard(message);
     br_message.type = BRSW_CONST.TYPE_DMG_CARD;
     await br_message.save();
-    Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, message);
+    Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, br_message);
     return message
 }
 
