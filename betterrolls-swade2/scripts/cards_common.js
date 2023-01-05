@@ -61,9 +61,7 @@ export class BrCommonCard {
     constructor(message) {
         this.message = message
         this.type = undefined
-        this._token = undefined
         this.token_id = undefined
-        this._actor = undefined
         this.actor_id = undefined
         this.environment = {light: 'bright'}
         this.actions = []
@@ -95,7 +93,6 @@ export class BrCommonCard {
     }
 
     get token() {
-        if (this._token) {return this._token}
         if (canvas.tokens) {
             if (this.token_id) {
                 return canvas.tokens.get(this.token_id);
@@ -108,7 +105,6 @@ export class BrCommonCard {
     }
 
     get actor() {
-        if (this._actor) {return this._actor}
         // We always prefer the token actor if available
         if (this.token_id) {
             return this.token.actor
