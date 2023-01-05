@@ -107,7 +107,12 @@ export class BrCommonCard {
     get actor() {
         // We always prefer the token actor if available
         if (this.token_id) {
-            return this.token.actor
+            const token  = this.token
+            if (token) {
+                // Token can be undefined even with and id the scene is note
+                // ready or the token has been removed.
+                return token.actor
+            }
         }
         if (this.actor_id) {
             return game.actors.get(this.actor_id);
