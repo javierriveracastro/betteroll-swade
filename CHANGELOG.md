@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3.15 aka I knew.
+* Bugfix: Tokenless actors where broken.
+
 ## Version 3.14 aka Introducing new bugs (likely)
 * Global actions: System now support relative PP change.
 * Bugfix: Shots used is working again
