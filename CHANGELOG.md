@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.14 aka Introducing new bugs (likely)
+* Global actions: System now support relative PP change.
+* Bugfix: Shots used is working again
+* Actions: Now action cards can create templates like powers.
+* Refactoring: More internal refactoring that is going probably to cause bugs, but let's hope this is all for better in the long run
+* API (breaking): All hooks now pass an instance of the BrCard class instead of the raw message.
+
 ## Version 3.13 aka Really!!
 * Bugfix: Get soak working again
 
