@@ -1089,14 +1089,13 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
  * @param {SwadeActor} actor
  */
 function get_skill_from_message(message, actor) {
-    const type = new BrCommonCard(message).type;
+    const br_card = new BrCommonCard(message);
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     let skill;
     if (render_data.hasOwnProperty('trait_id')) {
         skill = actor.items.get(render_data.trait_id);
-    } else if (type === BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = actor.items.get(message.getFlag(
-            'betterrolls-swade2', 'item_id'));
+    } else if (br_card.type === BRSW_CONST.TYPE_ITEM_CARD) {
+        const item = br_card.item;
         skill = get_item_trait(item, actor);
     }
     return skill
