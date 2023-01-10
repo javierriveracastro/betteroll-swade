@@ -900,8 +900,7 @@ function manual_ammo(weapon, actor) {
  * @param actor
  */
 export function get_item_from_message(message, actor) {
-    const item_id = message.getFlag('betterrolls-swade2', 'item_id');
-    return actor.items.find((item) => item.id === item_id);
+    return new BrCommonCard(message).item
 }
 
 
