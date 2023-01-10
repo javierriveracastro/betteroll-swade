@@ -297,25 +297,24 @@ function preview_template(ev, message) {
 
 /**
  * Activate the listeners in the item card
- * @param message: Message date
+ * @param {BrCommonCard} br_card
  * @param html: Html produced
  */
-export function activate_item_card_listeners(message, html) {
-    const actor = get_actor_from_message(message);
-    const item = actor.items.get(message.getFlag(
-        'betterrolls-swade2', 'item_id'));
+export function activate_item_card_listeners(br_card, html) {
+    const actor = br_card.actor
+    const item = br_card.item
     const ammo_button = html.find('.brws-selected.brsw-ammo-toggle');
     const pp_button = html.find('.brws-selected.brsw-pp-toggle')
     html.find('.brsw-header-img').click(_ => {
         item.sheet.render(true);
     });
     html.find('.brsw-roll-button').click(async ev =>{
-        await roll_item(message, html, ev.currentTarget.classList.contains(
+        await roll_item(br_card.message, html, ev.currentTarget.classList.contains(
             'roll-bennie-button'));
     });
     html.find('.brsw-damage-button, .brsw-damage-bennie-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
-        roll_dmg(message, html, ev.currentTarget.classList.contains('brsw-damage-bennie-button'),
+        roll_dmg(br_card.message, html, ev.currentTarget.classList.contains('brsw-damage-bennie-button'),
             {}, ev.currentTarget.id.includes('raise'));
     });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
@@ -334,26 +333,26 @@ export function activate_item_card_listeners(message, html) {
    });
    html.find('.brsw-target-tough').click(ev => {
       // noinspection JSIgnoredPromiseFromCall
-       edit_toughness(message, ev.currentTarget.dataset.index);
+       edit_toughness(br_card.message, ev.currentTarget.dataset.index);
    });
    html.find('.brsw-add-damage-d6').click(ev => {
        // noinspection JSIgnoredPromiseFromCall
-       add_damage_dice(message, ev.currentTarget.dataset.index);
+       add_damage_dice(br_card.message, ev.currentTarget.dataset.index);
    })
     html.find('.brsw-half-damage').click(ev => {
         // noinspection JSIgnoredPromiseFromCall
-        half_damage(message, ev.currentTarget.dataset.index);
+        half_damage(br_card.message, ev.currentTarget.dataset.index);
     })
     html.find('.brsw-add-damage-number').bind(
-        'click', {message: message}, show_fixed_damage_dialog)
-    html.find('.brsw-template-button').on('click', (ev) => {preview_template(ev, message)})
+        'click', {message: br_card.message}, show_fixed_damage_dialog)
+    html.find('.brsw-template-button').on('click', (ev) => {preview_template(ev, br_card.message)})
     html.find('#roll-damage').on('dragstart', (ev) => {
       ev.originalEvent.dataTransfer.setData('text/plain',
-          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-damage', 'message_id': message.id}));
+          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-damage', 'message_id': br_card.message.id}));
     })
     html.find('#roll-raise-damage').on('dragstart', (ev) => {
       ev.originalEvent.dataTransfer.setData('text/plain',
-          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-raise-damage', 'message_id': message.id}));
+          JSON.stringify({'type': 'target_click', 'tag_id': 'roll-raise-damage', 'message_id': br_card.message.id}));
     })
 }
 
@@ -1518,7 +1517,7 @@ function get_template_from_item(item){
  * @param {PlaceableObject} target
  */
 function has_heavy_armor(target) {
-    // Eqquiped is equipStatus 3
+    // Equipped is equipStatus 3
     const heavy_armor = target.document.actor.items.filter(
         item => item.type === 'armor' && item.system.isHeavyArmor &&
             item.system.locations.torso && item.system.equipStatus === 3)

@@ -114,7 +114,7 @@ Hooks.on('renderChatMessage', (message, html) => {
         } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
             activate_skill_card_listeners(message, html);
         } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
-            activate_item_card_listeners(message, html);
+            activate_item_card_listeners(card, html);
         } else if (card.type === BRSW_CONST.TYPE_DMG_CARD) {
             activate_damage_card_listeners(message, html);
         } else if (card.type === BRSW_CONST.TYPE_INC_CARD) {
