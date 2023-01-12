@@ -125,6 +125,22 @@ export class BrCommonCard {
         const item_id = this.message.getFlag('betterrolls-swade2', 'item_id');
         return this.actor.items.find((item) => item.id === item_id);
     }
+
+    populate_actions() {
+        this.actions = []
+        this.populate_world_actions()
+        if (this.item) {
+            this.populate_item_actions()
+        }
+    }
+
+    populate_world_actions() {
+
+    }
+
+    populate_item_actions() {
+
+    }
 }
 
 /**
