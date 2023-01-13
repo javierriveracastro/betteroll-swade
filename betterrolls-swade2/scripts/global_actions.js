@@ -445,7 +445,8 @@ export class WorldGlobalActions extends FormApplication {
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
                 'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
                 'or_selector', 'rof', 'self_add_status', 'not_selector', 'tnOverride',
-                'extra_text', 'overrideAp', 'multiplyDmgMod', 'add_wild_die']
+                'extra_text', 'overrideAp', 'multiplyDmgMod', 'add_wild_die',
+                'avoid_exploding_damage']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key
