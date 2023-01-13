@@ -9,7 +9,7 @@ import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
 import {get_gm_modifiers} from './gm_modifiers.js';
 import {brAction} from "./actions.js";
-import {get_actions} from "./global_actions";
+import {get_actions} from "./global_actions.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
