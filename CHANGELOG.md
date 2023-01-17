@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.16 aka Bugs galore
+* Refactor: Foundation work to move action data to the card object.
+* Bugfix: Now direct rolling for attributes and skills is working again
+
 ## Version 3.15 aka I knew.
 * Bugfix: Tokenless actors where broken.
 
