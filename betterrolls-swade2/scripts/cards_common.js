@@ -8,6 +8,8 @@ import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
 import {get_gm_modifiers} from './gm_modifiers.js';
+import {brAction} from "./actions.js";
+import {get_actions} from "./global_actions.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -64,7 +66,7 @@ export class BrCommonCard {
         this.token_id = undefined
         this.actor_id = undefined
         this.environment = {light: 'bright'}
-        this.actions = []
+        this.actions = {}
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -76,7 +78,7 @@ export class BrCommonCard {
             console.error('No message to save')
             return
         }
-        this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
+        await this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
     }
 
     get_data() {
@@ -124,6 +126,49 @@ export class BrCommonCard {
         // Temporal solution to get a complete api
         const item_id = this.message.getFlag('betterrolls-swade2', 'item_id');
         return this.actor.items.find((item) => item.id === item_id);
+    }
+
+    populate_actions() {
+        this.actions = []
+        this.populate_world_actions()
+        if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
+            this.populate_item_actions()
+        }
+    }
+
+    populate_world_actions() {
+        for (const global_action of get_actions(this.item, this.actor)) {
+            const name = global_action.button_name.slice(0, 5) === "BRSW." ?
+                game.i18n.localize(global_action.button_name) : global_action.button_name;
+            let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
+            let group_name_id = group_name.split('.').join('')
+            if (!this.actions.hasOwnProperty(group_name_id)) {
+                const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
+                    game.i18n.localize(group_name) : group_name
+                this.actions[group_name_id] = {
+                    name: translated_group, actions: [], id: broofa()
+                }
+            }
+            let new_action = new brAction(name, global_action)
+            if (global_action.hasOwnProperty('defaultChecked')) {
+                new_action.selected = true
+            }
+            this.actions[group_name_id].actions.push(new_action);
+        }
+    }
+
+    populate_item_actions() {
+        let item_actions = []
+        for (let action in this.item.system?.actions?.additional) {
+            if (this.item.system.actions.additional.hasOwnProperty(action)) {
+                action = new brAction(action.name, action)
+                item_actions.push(action)
+            }
+        }
+        if (item_actions.length) {
+            const name = game.i18n.localize("BRSW.ItemActions")
+            this.actions[name] = {name: name, actions: item_actions, id: broofa()}
+        }
     }
 }
 

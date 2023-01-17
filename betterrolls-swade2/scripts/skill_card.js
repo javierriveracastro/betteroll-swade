@@ -57,7 +57,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
         "modules/betterrolls-swade2/templates/skill_card.html")
     let br_message = new BrCommonCard(message)
     br_message.type = BRSW_CONST.TYPE_SKILL_CARD
-    br_message.save()
+    await br_message.save()
     return message;
 }
 
@@ -154,8 +154,8 @@ export function activate_skill_card_listeners(message, html) {
 */
 export async function roll_skill(message, html, expend_bennie){
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
-    const actor = get_actor_from_message(message)
-    const skill = actor.items.find((item) => item.id === render_data.trait_id);
+    let br_card = new BrCommonCard(message)
+    const skill = br_card.actor.items.find((item) => item.id === render_data.trait_id);
     let extra_data = {}
     let pinned_actions = []
     let macros = [];
@@ -165,14 +165,14 @@ export async function roll_skill(message, html, expend_bennie){
             // noinspection JSUnresolvedVariable
             let action;
             action = get_global_action_from_name(element.dataset.action_id);
-            process_common_actions(action, extra_data, macros, actor);
+            process_common_actions(action, extra_data, macros, br_card.actor);
             if (element.classList.contains("brws-permanent-selected")) {
                 pinned_actions.push(action.name);
             }
         });
     }
     for (let action of get_enabled_gm_actions()) {
-        process_common_actions(action, extra_data, macros, actor)
+        process_common_actions(action, extra_data, macros, br_card.actor)
     }
     for (let group in render_data.action_groups) {
         for (let action of render_data.action_groups[group].actions) {
@@ -181,10 +181,10 @@ export async function roll_skill(message, html, expend_bennie){
                 pinned_actions.includes(action.name)
         }
     }
-    if (expend_bennie) {await spend_bennie(actor);}
+    if (expend_bennie) {await spend_bennie(br_card.actor);}
     await roll_trait(message, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
-    await run_macros(macros, actor, null, message);
+    await run_macros(macros, br_card.actor, null, message);
 }
 
 /***
