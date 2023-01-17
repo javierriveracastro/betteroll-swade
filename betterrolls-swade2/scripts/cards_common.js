@@ -78,7 +78,7 @@ export class BrCommonCard {
             console.error('No message to save')
             return
         }
-        this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
+        await this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
     }
 
     get_data() {
