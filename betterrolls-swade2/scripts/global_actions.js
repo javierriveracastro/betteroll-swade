@@ -158,11 +158,8 @@ function check_selector(type, value, item, actor){
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_description_includes') {
-        if (item?.system?.description) {
-            selected = item?.system?.description.toLowerCase().includes(value.toLowerCase());
-        } else {
-            selected = false
-        }
+        const description = `${item?.system?.description} ${item?.system?.trapping}`
+        selected = description.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'actor_has_effect') {
         // noinspection AnonymousFunctionJS
         const effect = actor.effects.find(
