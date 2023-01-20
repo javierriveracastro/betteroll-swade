@@ -112,10 +112,9 @@ async function create_item_card(origin, item_id, collapse_actions) {
             swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
-    await message.setFlag('betterrolls-swade2', 'item_id',
-        item_id)
     let br_message = new BrCommonCard(message);
     br_message.type = BRSW_CONST.TYPE_ITEM_CARD
+    br_message.item_id = item_id
     await br_message.save()
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
     if ((item.type === "gear" && item.system.actions.skill === "") ||

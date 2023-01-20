@@ -65,6 +65,7 @@ export class BrCommonCard {
         this.type = undefined
         this.token_id = undefined
         this.actor_id = undefined
+        this.item_id = undefined
         this.environment = {light: 'bright'}
         this.actions = {}
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
@@ -82,7 +83,7 @@ export class BrCommonCard {
     }
 
     get_data() {
-        return {type: this.type, token_id: this.token_id,
+        return {type: this.type, token_id: this.token_id, item_id: this.item_id,
             environment: this.environment, actor_id: this.actor_id,
             actions: this.actions}
     }
@@ -91,6 +92,7 @@ export class BrCommonCard {
         this.type = data.type
         this.token_id = data.token_id
         this.actor_id = data.actor_id
+        this.item_id = data.item_id
         this.actions = data.actions
     }
 
@@ -123,9 +125,7 @@ export class BrCommonCard {
     }
 
     get item() {
-        // Temporal solution to get a complete api
-        const item_id = this.message.getFlag('betterrolls-swade2', 'item_id');
-        return this.actor.items.find((item) => item.id === item_id);
+        return this.actor.items.find((item) => item.id === this.item_id);
     }
 
     populate_actions() {
