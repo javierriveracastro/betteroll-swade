@@ -762,7 +762,7 @@ export async function update_message(message, actor, render_data) {
     const br_message = new BrCommonCard(message)
     if (br_message.type ===
             BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = get_item_from_message(message, actor);
+        const item = br_message.item
         render_data.skill = get_item_trait(item, actor);
     }
     create_render_options(actor, render_data, undefined, message);
@@ -862,7 +862,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     if (objetive && skill) {
         const origin_token = br_card.token
         if (origin_token) {
-            const item = get_item_from_message(message, actor)
+            const item = br_card.item
             const target_data = get_tn_from_token(
                 skill, objetive, origin_token, item);
             extra_options.tn = target_data.value;
@@ -907,7 +907,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     const br_message = new BrCommonCard(message)
     if (br_message.type ===
         BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = get_item_from_message(message, actor)
+        const item = br_message.item
         if (item.system.actions.skillMod) {
             let modifier_value = 0
             if (isNaN(item.system.actions.skillMod)) {
@@ -1338,7 +1338,7 @@ function get_tn_from_target(message, index, selected) {
     }
     if (objetive) {
         const br_card = new BrCommonCard(message)
-        const item = get_item_from_message(message, actor)
+        const item = br_card.item
         const origin_token = br_card.token
         if (origin_token) {
             const skill = get_skill_from_message(message, get_actor_from_message(message));
