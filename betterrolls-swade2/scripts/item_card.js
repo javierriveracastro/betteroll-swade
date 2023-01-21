@@ -1118,7 +1118,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item = get_item_from_message(message, actor)
     const raise_die_size = item.system.bonusDamageDie || 6
     let damage_formulas = {damage: item.system.damage, raise: `+1d${raise_die_size}x`,
-        ap: parseInt(item.system.ap), multiplier: 1}
+        ap: parseInt(item.system.ap), multiplier: 1, explodes: true}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1185,6 +1185,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             if (action.multiplyDmgMod) {
                 damage_formulas.multiplier = action.multiplyDmgMod
             }
+            if (action.avoid_exploding_damage) {
+                damage_formulas.explodes = false
+            }
         });
     }
     if (!damage_formulas.damage) {
@@ -1197,7 +1200,11 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(conviction_modifier);
     }
     // Roll
-    damage_formulas.damage = makeExplotable(damage_formulas.damage);
+    if (damage_formulas.explodes) {
+        damage_formulas.damage = makeExplotable(damage_formulas.damage);
+    } else {
+        damage_formulas.damage = damage_formulas.damage.replace('x', '')
+    }
     let targets = [undefined];
     if (game.user.targets.size > 0) {
         targets = await game.user.targets;
