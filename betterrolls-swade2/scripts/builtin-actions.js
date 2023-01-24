@@ -174,5 +174,9 @@ export const SYSTEM_GLOBAL_ACTION = [
         and_selector:[{selector_type:"target_has_edge", selector_value:"BRSW.EdgeName-Dodge"},
             {selector_type:"item_type", selector_value:"power"}], defaultChecked:"on", group:"BRSW.Target"},
     {id: "GROUP_ROLL", name:"Group roll", button_name: "BRSW.GroupRoll", add_wild_die: "true",
-        selector_type: "is_wildcard", selector_value: "false", group: "BRSW.SituationalModifiers"}
+        selector_type: "is_wildcard", selector_value: "false", group: "BRSW.SituationalModifiers"},
+    {id: "AttackInanimateObject ", name: "Attack Inanimate Object", button_name: "BRSW.AttackInanimate",
+        avoid_exploding_damage: "true", or_selector:[{selector_type:"item_type", selector_value:"power"},
+            {selector_type: "item_type", selector_value:"weapon"}],
+        "group": "BRSW.AttackOption"}
 ]
