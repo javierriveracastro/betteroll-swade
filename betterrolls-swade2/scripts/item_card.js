@@ -277,6 +277,7 @@ function preview_template(ev, message) {
     } else if (type === 'stream') {
         templateData.t = 'ray'
         templateData.distance = 12
+        templateData.width = 1
     } else {
         templateData.t = 'circle'
         templateData.distance = type === 'sbt' ? 1 : (type === 'mbt' ? 2 : 3)
