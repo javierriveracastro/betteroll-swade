@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.17 aka Destroying objects
+* World actions: 'item_description_includes' now also search trappings in spells.
+* Refactor: Complete removal of the item_id flag, item data stored in the card object.
+* World actions: New rule 'avoid_exploding_damage'
+* Built-in world actions: Attack objects action added (grendel11111)
+* Bugfix: Stream template has now with 1 instead of beign a simple line.
+
 ## Version 3.16 aka Bugs galore
 * Refactor: Foundation work to move action data to the card object.
 * Bugfix: Now direct rolling for attributes and skills is working again
