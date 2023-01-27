@@ -68,6 +68,8 @@ export class BrCommonCard {
         this.item_id = undefined
         this.environment = {light: 'bright'}
         this.actions = {}
+        this.render_data = {}  // Old render data, to be removed
+        this.update_list = {} // List of properties pending to be updated
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -79,9 +81,18 @@ export class BrCommonCard {
             console.error('No message to save')
             return
         }
+        if (Object.keys(this.update_list).length > 0) {
+            this.update_list.id = this.message.id
+            this.message.update(this.update_list)
+        }
         await this.message.setFlag('betterrolls-swade2', 'br_data', this.get_data())
+        // Temporary
+        await store_render_flag(this.message, this.render_data)
     }
 
+    /**
+    * Prepares the data to be saved
+    **/
     get_data() {
         return {type: this.type, token_id: this.token_id, item_id: this.item_id,
             environment: this.environment, actor_id: this.actor_id,
@@ -170,6 +181,73 @@ export class BrCommonCard {
             this.actions[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
+
+    /**
+     * Creates an object to store some data in the old render_data flag.
+     * @param render_data
+     * @param template
+     * @returns {*}
+     */
+    generate_render_data(render_data, template) {
+        render_data.bennie_avaliable = are_bennies_available(this.actor);
+        render_data.actor = this.actor;
+        render_data.result_master_only =
+            game.settings.get('betterrolls-swade2', 'result-card') === 'master';
+        // Benny image
+        render_data.benny_image = game.settings.get('swade', 'bennyImage3DFront') ||
+            '/systems/swade/assets/benny/benny-chip-front.png'
+        render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
+        render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
+        render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
+        if (template) {
+            render_data.template = template;
+        }
+        this.get_trait(render_data);
+        this.check_warnings(render_data);
+        return render_data;
+    }
+
+    /**
+     * Recovers the trait used in card
+     */
+    get_trait(render_data) {
+        if (render_data.hasOwnProperty('trait_id') && render_data.trait_id) {
+            let trait;
+            if (render_data.trait_id.hasOwnProperty('name')) {
+                // This is an attribute
+                trait = render_data.trait_id;
+            } else {
+                // Should be a skill
+                trait = this.actor.items.get(render_data.trait_id)
+            }
+            render_data.skill = trait
+            render_data.skill_title = trait ? trait.name + ' ' +
+                trait_to_string(trait.system) : '';
+        }
+    }
+
+    /**
+     * Checks and creates a warning in the top of the card
+     */
+    check_warnings(render_data) {
+        if (this.actor.system.status.isStunned) {
+            render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
+        } else if (this.actor.system.status.isShaken) {
+            render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
+        } else if (this.item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+            render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
+        } else if (this.item?.system.quantity <= 0) {
+            render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
+        } else {
+            render_data.warning = ''
+        }
+    }
+
+    async render() {
+        let new_content = await renderTemplate(this.render_data.template, this.render_data);
+        TextEditor.enrichHTML(new_content, {async: false});
+        this.update_list.content = new_content;
+    }
 }
 
 /**
@@ -195,14 +273,12 @@ export async function create_common_card(origin, render_data, chat_type, templat
     } else {
         actor = origin
     }
-    let render_object = create_render_options(
-        actor, render_data, template, undefined)
     let chatData = create_basic_chat_data(origin, chat_type);
-    chatData.content = await renderTemplate(template, render_object);
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
-    await store_render_flag(message, render_object);
     let br_message = new BrCommonCard(message)
+    br_message.generate_render_data(render_data, template)
+    await br_message.render()
     br_message.actor_id = actor.id
     if (actor !== origin) {
         br_message.token_id = origin.id
@@ -252,59 +328,6 @@ export function create_basic_chat_data(origin, type){
     }
     // noinspection JSValidateTypes
     return chatData
-}
-
-
-/**
- * Creates de common render options for all the cards
- * @param {SwadeActor} actor
- * @param {object} render_data: options for this card
- * @para item: An item object
- * @param {string} template:
- * @param {ChatMessage} message
- */
-export function create_render_options(actor, render_data, template, message) {
-    render_data.bennie_avaliable = are_bennies_available(actor);
-    render_data.actor = actor;
-    render_data.result_master_only =
-        game.settings.get('betterrolls-swade2', 'result-card') === 'master';
-        // Benny image
-    render_data.benny_image = game.settings.get('swade', 'bennyImage3DFront') ||
-        '/systems/swade/assets/benny/benny-chip-front.png'
-    render_data.show_rerolls = !(game.settings.get('betterrolls-swade2', 'hide-reroll-fumble') && render_data.trait_roll?.is_fumble);
-    render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
-    render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
-    if (template) {
-        render_data.template = template;
-    }
-    // Retrieve object from ids.
-    if (render_data.hasOwnProperty('trait_id') && render_data.trait_id) {
-        let trait;
-        if (render_data.trait_id.hasOwnProperty('name')) {
-            // This is an attribute
-            trait = render_data.trait_id;
-        } else {
-            // Should be a skill
-            trait = actor.items.get(render_data.trait_id)
-        }
-        render_data.skill = trait
-        render_data.skill_title = trait ? trait.name + ' ' +
-            trait_to_string(trait.system) : '';
-    }
-    const item = message ? get_item_from_message(message, actor) :
-        actor.items.getName(render_data.header.title)
-    if (actor.system.status.isStunned) {
-        render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
-    } else if (actor.system.status.isShaken) {
-        render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-    } else if (item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
-        render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
-    } else if (item?.system.quantity <= 0) {
-        render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
-    } else {
-        render_data.warning = ''
-    }
-    return render_data;
 }
 
 
@@ -765,12 +788,9 @@ export async function update_message(message, actor, render_data) {
         const item = br_message.item
         render_data.skill = get_item_trait(item, actor);
     }
-    create_render_options(actor, render_data, undefined, message);
-    let new_content = await renderTemplate(render_data.template, render_data);
-    // noinspection JSCheckFunctionSignatures
-    new_content = TextEditor.enrichHTML(new_content, {async: false});
-    await message.update({content: new_content});
-    await store_render_flag(message, render_data);
+    br_message.generate_render_data(render_data)
+    await br_message.render()
+    await br_message.save()
 }
 
 
