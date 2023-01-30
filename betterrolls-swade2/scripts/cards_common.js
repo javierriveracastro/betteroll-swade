@@ -204,6 +204,7 @@ export class BrCommonCard {
         }
         this.get_trait(render_data);
         this.check_warnings(render_data);
+        this.render_data = render_data;
         return render_data;
     }
 
@@ -277,12 +278,12 @@ export async function create_common_card(origin, render_data, chat_type, templat
     let message = await ChatMessage.create(chatData);
     // Remove actor to store the render data.
     let br_message = new BrCommonCard(message)
-    br_message.generate_render_data(render_data, template)
-    await br_message.render()
     br_message.actor_id = actor.id
     if (actor !== origin) {
         br_message.token_id = origin.id
     }
+    br_message.generate_render_data(render_data, template)
+    await br_message.render()
     await br_message.save()
     return message
 }
