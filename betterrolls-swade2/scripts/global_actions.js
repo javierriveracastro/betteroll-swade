@@ -282,7 +282,6 @@ function check_selector(type, value, item, actor){
             selected = !selected
         }
     } else if (type === 'item_source_contains') {
-        console.log(item)
         const item_source = item?.system?.source
         if (item_source) {
             selected = item_source.toLowerCase().includes(value.toLowerCase())
