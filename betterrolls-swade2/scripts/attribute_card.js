@@ -6,7 +6,7 @@ import {
     spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
     BRWSRoll, roll_trait, process_common_actions, BrCommonCard
 } from "./cards_common.js";
-import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
+import {get_global_action_from_name} from "./global_actions.js";
 import { run_macros } from "./item_card.js";
 import {get_enabled_gm_actions} from "./gm_modifiers.js";
 
@@ -46,20 +46,16 @@ async function create_attribute_card(origin, name, collapse_actions){
         }
     }
     let trait_roll = new BRWSRoll();
-    let attribute_item = {
-        name: name,
-        type: "attribute"
-    }
-    let actions = create_actions_array({}, attribute_item, actor);
     let message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll, action_groups: actions[0], attribute_name: name,
-            actions_collapsed: collapse_actions, extra_text: actions[1]},
+            trait_roll: trait_roll, attribute_name: name,
+            actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     // We always set the actor (as a fallback, and the token if possible)
     let br_message = new BrCommonCard(message)
+    br_message.attribute_name = name;
     br_message.type = BRSW_CONST.TYPE_ATTRIBUTE_CARD
     await br_message.save();
     return message

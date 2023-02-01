@@ -67,9 +67,11 @@ export class BrCommonCard {
         this.actor_id = undefined
         this.item_id = undefined
         this.environment = {light: 'bright'}
-        this.actions = {}
+        this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
+        this.extra_text = ''
+        this.attribute_name = ''  // If this is an attribute card, its name
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -96,7 +98,7 @@ export class BrCommonCard {
     get_data() {
         return {type: this.type, token_id: this.token_id, item_id: this.item_id,
             environment: this.environment, actor_id: this.actor_id,
-            actions: this.actions}
+            action_groups: this.action_groups}
     }
 
     load(data){
@@ -104,7 +106,7 @@ export class BrCommonCard {
         this.token_id = data.token_id
         this.actor_id = data.actor_id
         this.item_id = data.item_id
-        this.actions = data.actions
+        this.action_groups = data.action_groups
     }
 
     get token() {
@@ -140,7 +142,7 @@ export class BrCommonCard {
     }
 
     populate_actions() {
-        this.actions = []
+        this.action_groups = {}
         this.populate_world_actions()
         if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
             this.populate_item_actions()
@@ -148,15 +150,19 @@ export class BrCommonCard {
     }
 
     populate_world_actions() {
-        for (const global_action of get_actions(this.item, this.actor)) {
+        const item = this.item || {type: 'attribute', name: this.attribute_name}
+        for (const global_action of get_actions(item, this.actor)) {
             const name = global_action.button_name.slice(0, 5) === "BRSW." ?
                 game.i18n.localize(global_action.button_name) : global_action.button_name;
             let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
             let group_name_id = group_name.split('.').join('')
-            if (!this.actions.hasOwnProperty(group_name_id)) {
+            if (global_action.hasOwnProperty('extra_text')) {
+                this.extra_text += global_action.extra_text
+            }
+            if (!this.action_groups.hasOwnProperty(group_name_id)) {
                 const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
                     game.i18n.localize(group_name) : group_name
-                this.actions[group_name_id] = {
+                this.action_groups[group_name_id] = {
                     name: translated_group, actions: [], id: broofa()
                 }
             }
@@ -164,7 +170,7 @@ export class BrCommonCard {
             if (global_action.hasOwnProperty('defaultChecked')) {
                 new_action.selected = true
             }
-            this.actions[group_name_id].actions.push(new_action);
+            this.action_groups[group_name_id].actions.push(new_action);
         }
     }
 
@@ -178,7 +184,7 @@ export class BrCommonCard {
         }
         if (item_actions.length) {
             const name = game.i18n.localize("BRSW.ItemActions")
-            this.actions[name] = {name: name, actions: item_actions, id: broofa()}
+            this.action_groups[name] = {name: name, actions: item_actions, id: broofa()}
         }
     }
 
@@ -245,9 +251,18 @@ export class BrCommonCard {
     }
 
     async render() {
-        let new_content = await renderTemplate(this.render_data.template, this.render_data);
+        this.populate_actions()
+        let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
         this.update_list.content = new_content;
+    }
+
+    /**
+     * Temporal stop gap until render_data is removed, and we pass the class
+     * to the template
+     */
+    get_data_render() {
+        return {...this.get_data(), ...this.render_data}
     }
 }
 
