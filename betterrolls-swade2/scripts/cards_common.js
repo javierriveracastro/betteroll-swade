@@ -252,6 +252,7 @@ export class BrCommonCard {
 
     async render() {
         this.populate_actions()
+        console.log(this.get_data_render())
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
         this.update_list.content = new_content;

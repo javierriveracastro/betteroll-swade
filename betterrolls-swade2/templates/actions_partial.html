@@ -7,7 +7,7 @@
             <div class="brsw-actions-{{ this.id }} {{# if ../actions_collapsed}}brsw-collapsed{{/if}}">
                 {{# each this.actions }}
                     <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
-                            data-action_id="{{ this.code }}">
+                            data-action_id="{{ this.code.name }}">
                         {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                     </span>
                 {{/each}}
