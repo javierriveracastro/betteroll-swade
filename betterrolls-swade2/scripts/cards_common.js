@@ -66,6 +66,7 @@ export class BrCommonCard {
         this.token_id = undefined
         this.actor_id = undefined
         this.item_id = undefined
+        this.skill_id = undefined
         this.environment = {light: 'bright'}
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
@@ -141,10 +142,12 @@ export class BrCommonCard {
         return this.actor.items.find((item) => item.id === this.item_id);
     }
 
+    get skill() {
+        return this.actor.items.find((item) => item.id === this.skill_id);
+    }
+
     populate_actions() {
         this.action_groups = {}
-        console.log(this.item)
-        console.log(this.item_id)
         this.populate_world_actions()
         if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
             this.populate_item_actions()
@@ -152,7 +155,7 @@ export class BrCommonCard {
     }
 
     populate_world_actions() {
-        const item = this.item || {type: 'attribute', name: this.attribute_name}
+        const item = this.item || this.skill || {type: 'attribute', name: this.attribute_name}
         for (const global_action of get_actions(item, this.actor)) {
             const name = global_action.button_name.slice(0, 5) === "BRSW." ?
                 game.i18n.localize(global_action.button_name) : global_action.button_name;

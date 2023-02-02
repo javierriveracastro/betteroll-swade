@@ -54,6 +54,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
     br_message.type = BRSW_CONST.TYPE_SKILL_CARD
+    br_message.skill_id = skill.id
     await br_message.render()
     await br_message.save()
     return br_message.message;
