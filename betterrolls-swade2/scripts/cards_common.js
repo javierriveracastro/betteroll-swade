@@ -68,11 +68,11 @@ export class BrCommonCard {
         this.item_id = undefined
         this.skill_id = undefined
         this.environment = {light: 'bright'}
+        this.extra_text = ''
+        this.attribute_name = ''  // If this is an attribute card, its name
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
-        this.extra_text = ''
-        this.attribute_name = ''  // If this is an attribute card, its name
         const data = this.message.getFlag('betterrolls-swade2', 'br_data')
         if (data) {
             this.load(data)
@@ -97,8 +97,10 @@ export class BrCommonCard {
     * Prepares the data to be saved
     **/
     get_data() {
-        return {type: this.type, token_id: this.token_id, item_id: this.item_id,
-            environment: this.environment, actor_id: this.actor_id,
+        return {type: this.type, token_id: this.token_id,
+            actor_id: this.actor_id, item_id: this.item_id,
+            skill_id: this.skill_id, environment: this.environment,
+            extra_text: this.extra_text, attribute_name: this.attribute_name,
             action_groups: this.action_groups}
     }
 
@@ -107,6 +109,10 @@ export class BrCommonCard {
         this.token_id = data.token_id
         this.actor_id = data.actor_id
         this.item_id = data.item_id
+        this.skill_id = data.skill_id
+        this.environment = data.environment
+        this.extra_text = data.extra_text
+        this.attribute_name = data.attribute_name
         this.action_groups = data.action_groups
     }
 
