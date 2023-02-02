@@ -35,18 +35,18 @@ async function create_remove_status_card(original_message, actor, type) {
     const roll_title = type === BRSW_CONST.TYPE_UNSHAKE_CARD ?
         game.i18n.localize('BRSW.SpiritRoll') :
         game.i18n.localize('BRSW.VigorRoll');
-    let message = await create_common_card(actor,
+    let br_message = await create_common_card(actor,
     {header: {type: '',
         title: game.i18n.localize(title_name),
         notes: actor.name}, roll_title: roll_title, text: text, footer: footer,
         trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/remove_status_card.html")
-    await message.update({user: user.id});
-    let br_message = new BrCommonCard(message)
+    this.update_list={...this.update_list, ...{user: user.id}};
     br_message.type = type
     br_message.token_id = token_id
+    await br_message.render()
     await br_message.save()
-    return message
+    return br_message.message
 }
 
 export async function create_unshaken_card(original_message, token_id) {

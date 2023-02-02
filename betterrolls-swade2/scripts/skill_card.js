@@ -14,7 +14,7 @@ import {
     trait_to_string,
     create_modifier, process_common_actions, BrCommonCard
 } from "./cards_common.js";
-import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
+import {get_global_action_from_name} from "./global_actions.js";
 import {run_macros} from "./item_card.js";
 import {get_enabled_gm_actions} from "./gm_modifiers.js";
 
@@ -46,19 +46,17 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     const extra_name = skill.name + ' ' + trait_to_string(skill.system)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.system.attribute]
     let trait_roll = new BRWSRoll();
-    let actions = create_actions_array({}, skill, actor);
-    let message = await create_common_card(origin, {header:
+    let br_message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
             footer: footer, trait_roll: trait_roll, trait_id: skill.id,
-            action_groups: actions[0], extra_text: actions[1],
             actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
-    let br_message = new BrCommonCard(message)
     br_message.type = BRSW_CONST.TYPE_SKILL_CARD
+    await br_message.render()
     await br_message.save()
-    return message;
+    return br_message.message;
 }
 
 

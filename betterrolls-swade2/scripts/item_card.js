@@ -12,9 +12,9 @@ import {
     process_minimum_str_modifiers, BrCommonCard
 } from "./cards_common.js";
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
-import {get_targeted_token, makeExplotable, broofa, simple_form} from "./utils.js";
+import {get_targeted_token, makeExplotable, simple_form} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
-import {create_actions_array, get_global_action_from_name} from "./global_actions.js";
+import {get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
 import {get_enabled_gm_actions, get_gm_modifiers} from "./gm_modifiers.js";
 
@@ -56,38 +56,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const notes = item.system.notes || "";
     const description = item.system.description;
     let trait_roll = new BRWSRoll();
-    let action_groups = {};
     let possible_default_dmg_action;
-    if (!game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
-        let item_actions = []
-        for (let action in item.system?.actions?.additional) {
-            // noinspection JSUnresolvedVariable
-            if (item.system.actions.additional.hasOwnProperty(action)) {
-                // noinspection JSUnresolvedVariable
-                const has_skill_mod =
-                    !!(item.system.actions.additional[action].skillMod ||
-                        item.system.actions.additional[action].skillOverride);
-                const has_dmg_mod =
-                    !!item.system.actions.additional[action].dmgMod ||
-                        !!item.system.actions.additional[action].dmgOverride;
-                item_actions.push(
-                    {'code': action, 'name': item.system.actions.additional[action].name,
-                        pinned: false, damage_icon: has_dmg_mod,
-                        skill_icon: has_skill_mod});
-                // noinspection JSUnresolvedVariable
-                if (!possible_default_dmg_action &&
-                        item.system.actions.additional[action].dmgOverride) {
-                    // noinspection JSUnresolvedVariable
-                    possible_default_dmg_action =
-                        item.system.actions.additional[action].dmgOverride;
-                }
-            }
-        }
-        if (item_actions.length) {
-            const name = game.i18n.localize("BRSW.ItemActions")
-            action_groups[name] = {name: name, actions: item_actions, id: broofa()}
-        }
-    }
     let ammon_enabled = parseInt(item.system.shots) ||
         (item.system.autoReload && item.system.ammo)
     let power_points = parseFloat(item.system.pp);
@@ -99,22 +68,20 @@ async function create_item_card(origin, item_id, collapse_actions) {
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
     }
-    let actions = create_actions_array(action_groups, item, actor);
-    let message = await create_common_card(origin,
+    let br_message = await create_common_card(origin,
         {header: {type: 'Item', title: item.name,
             img: item.img}, notes: notes,  footer: footer, damage: damage,
             trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, action_groups: actions[0],
-            extra_text: actions[1], used_shots: 0,
+            powerpoints: power_points, used_shots: 0,
             actions_collapsed: collapse_actions, description: description,
             swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/item_card.html")
-    let br_message = new BrCommonCard(message);
     br_message.type = BRSW_CONST.TYPE_ITEM_CARD
     br_message.item_id = item_id
+    await br_message.render()
     await br_message.save()
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
     if ((item.type === "gear" && item.system.actions.skill === "") ||
@@ -123,7 +90,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
                 item.type !== "skill")) {
         Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
     }
-    return message;
+    return br_message.message;
 }
 
 
@@ -1527,6 +1494,5 @@ function has_heavy_armor(target) {
     const heavy_armor = target.document.actor.items.filter(
         item => item.type === 'armor' && item.system.isHeavyArmor &&
             item.system.locations.torso && item.system.equipStatus === 3)
-    console.log(heavy_armor)
     return heavy_armor.length > 0
 }

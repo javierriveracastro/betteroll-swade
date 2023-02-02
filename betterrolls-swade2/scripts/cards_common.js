@@ -143,6 +143,8 @@ export class BrCommonCard {
 
     populate_actions() {
         this.action_groups = {}
+        console.log(this.item)
+        console.log(this.item_id)
         this.populate_world_actions()
         if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
             this.populate_item_actions()
@@ -251,8 +253,9 @@ export class BrCommonCard {
     }
 
     async render() {
-        this.populate_actions()
-        console.log(this.get_data_render())
+        if (Object.keys(this.action_groups).length === 0) {
+            this.populate_actions()
+        }
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
         this.update_list.content = new_content;
@@ -299,9 +302,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
         br_message.token_id = origin.id
     }
     br_message.generate_render_data(render_data, template)
-    await br_message.render()
-    await br_message.save()
-    return message
+    return br_message
 }
 
 /**

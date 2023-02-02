@@ -31,7 +31,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         'betterrolls-swade2', 'optional_rules_enabled').indexOf(
             "GrittyDamage") > -1) && can_soak && (actor.system.wounds.max > 1);
     let trait_roll = new BRWSRoll();
-    let message = await create_common_card(token,
+    let br_message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: damage_result.text, footer: footer,
@@ -41,12 +41,12 @@ export async function create_damage_card(token_id, damage, damage_text) {
         show_injury: show_injury, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/damage_card.html")
-    await message.update({user: user.id});
-    let br_message = new BrCommonCard(message);
+    this.update_list={...this.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_DMG_CARD;
+    await br_message.render()
     await br_message.save();
     Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, br_message);
-    return message
+    return br_message.message
 }
 
 

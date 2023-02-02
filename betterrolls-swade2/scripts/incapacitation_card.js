@@ -58,18 +58,18 @@ export async function create_incapacitation_card(token_id) {
     const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor")
     let footer = status_footer(actor)
     let trait_roll = new BRWSRoll();
-    let message = await create_common_card(token,
+    let br_message = await create_common_card(token,
     {header: {type: '',
         title: game.i18n.localize("BRSW.Incapacitation"),
         notes: token.name}, text: text, text_after: text_after,
         footer: footer, trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
-    await message.update({user: user.id});
-    let br_message = new BrCommonCard(message);
+    this.update_list={...this.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_INC_CARD
+    await br_message.render()
     await br_message.save()
-    return message
+    return br_message.message
 }
 
 /**
@@ -212,7 +212,7 @@ export async function create_injury_card(token_id) {
         new_effect.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
         injury_effect = await actor.createEmbeddedDocuments('ActiveEffect', [new_effect]);
     }
-    let message = await create_common_card(token,
+    let br_message = await create_common_card(token,
     {header: {type: '',
         title: game.i18n.localize("BRSW.InjuryCard"),
         notes: token.name}, first_roll: first_roll, second_roll: second_roll,
@@ -220,12 +220,12 @@ export async function create_injury_card(token_id) {
         second_location: game.i18n.localize(second_result),
         footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/injury_card.html")
-    await message.update({user: user.id});
-    let br_message = new BrCommonCard(message);
+    this.update_list={...this.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_INJ_CARD
     await br_message.save()
+    await br_message.render()
     Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect)
-    return message
+    return br_message.message
 }
 
 /**
