@@ -3,7 +3,7 @@
 
 import {get_owner} from "./damage_card.js";
 import {
-    BrCommonCard, BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message,
+    BrCommonCard, BRSW_CONST, BRWSRoll, create_common_card, create_modifier, get_actor_from_message,
     roll_trait, spend_bennie, update_message
 } from "./cards_common.js";
 import {status_footer} from "./incapacitation_card.js";
@@ -207,6 +207,15 @@ async function roll_unstun(message) {
     const render_data = message.getFlag('betterrolls-swade2',
         'render_data');
     const actor = get_actor_from_message(message);
+    let extra_options = {};
+    // Unstun Bonus
+    if (actor.system.attributes.vigor.unStunBonus) {
+        const bonus = parseInt(actor.system.attributes.vigor.unStunBonus);
+        if (bonus) {
+            extra_options.modifiers = [create_modifier(game.i18n.localize("BRSW.UnstunBonus"), bonus)]
+            extra_options.total_modifiers += bonus;
+        }
+    }
     const roll = await roll_trait(message,
     actor.system.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
     '', {});
