@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.18 aka actions on NPCS.
+* Bugfix: Actions on NPCs didn't show the BR Card
+* Translations: Updates to French translations from the Weblate team.
+
 ## Version 3.17 aka Destroying objects
 * World actions: 'item_description_includes' now also search trappings in spells.
 * Refactor: Complete removal of the item_id flag, item data stored in the card object.
