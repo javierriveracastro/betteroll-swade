@@ -65,7 +65,7 @@ export async function create_incapacitation_card(token_id) {
         footer: footer, trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
-    this.update_list={...this.update_list, ...{user: user.id}};
+    br_message.update_list={...br_message.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_INC_CARD
     await br_message.render()
     await br_message.save()
@@ -220,10 +220,10 @@ export async function create_injury_card(token_id) {
         second_location: game.i18n.localize(second_result),
         footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/injury_card.html")
-    this.update_list={...this.update_list, ...{user: user.id}};
+    br_message.update_list={...br_message.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_INJ_CARD
-    await br_message.save()
     await br_message.render()
+    await br_message.save()
     Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect)
     return br_message.message
 }

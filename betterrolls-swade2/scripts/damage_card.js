@@ -41,7 +41,7 @@ export async function create_damage_card(token_id, damage, damage_text) {
         show_injury: show_injury, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/damage_card.html")
-    this.update_list={...this.update_list, ...{user: user.id}};
+    br_message.update_list={...br_message.update_list, ...{user: user.id}};
     br_message.type = BRSW_CONST.TYPE_DMG_CARD;
     await br_message.render()
     await br_message.save();
