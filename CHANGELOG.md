@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 3,19 aka more fun in the NPC sheet
+* Bugfix: Get the delete button in NPC items working.
+
 ## Version 3.18 aka actions on NPCS.
 * Bugfix: Actions on NPCs didn't show the BR Card
 * Translations: Updates to French translations from the Weblate team.
