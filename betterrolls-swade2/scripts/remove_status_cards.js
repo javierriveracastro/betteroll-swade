@@ -218,7 +218,7 @@ async function roll_unstun(message) {
     }
     const roll = await roll_trait(message,
     actor.system.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
-    '', {});
+    '', extra_options);
     let result = 0;
     roll.rolls.forEach(roll => {
         result = Math.max(roll.result, result);
