@@ -174,8 +174,8 @@ export class BrCommonCard {
                 const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
                     game.i18n.localize(group_name) : group_name
                 this.action_groups[group_name_id] = {
-                    name: translated_group, actions: [], id: broofa()
-                }
+                    name: translated_group, actions: [], id: broofa(),
+                    collapsed: game.settings.get('betterrolls-swade2', 'collapse-modifiers')}
             }
             let new_action = new brAction(name, global_action)
             if (global_action.hasOwnProperty('defaultChecked')) {
