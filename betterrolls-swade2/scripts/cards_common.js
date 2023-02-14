@@ -114,6 +114,9 @@ export class BrCommonCard {
         this.extra_text = data.extra_text
         this.attribute_name = data.attribute_name
         this.action_groups = data.action_groups
+        if (this.message) {
+            this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
+        }
     }
 
     get token() {
@@ -219,7 +222,6 @@ export class BrCommonCard {
         if (template) {
             render_data.template = template;
         }
-        this.get_trait(render_data);
         this.check_warnings(render_data);
         this.render_data = render_data;
         return render_data;
@@ -228,18 +230,18 @@ export class BrCommonCard {
     /**
      * Recovers the trait used in card
      */
-    get_trait(render_data) {
-        if (render_data.hasOwnProperty('trait_id') && render_data.trait_id) {
+    get_trait() {
+        if (this.render_data.hasOwnProperty('trait_id') && this.render_data.trait_id) {
             let trait;
-            if (render_data.trait_id.hasOwnProperty('name')) {
+            if (this.render_data.trait_id.hasOwnProperty('name')) {
                 // This is an attribute
-                trait = render_data.trait_id;
+                trait = this.render_data.trait_id;
             } else {
                 // Should be a skill
-                trait = this.actor.items.get(render_data.trait_id)
+                trait = this.actor.items.get(this.render_data.trait_id)
             }
-            render_data.skill = trait
-            render_data.skill_title = trait ? trait.name + ' ' +
+            this.render_data.skill = trait
+            this.render_data.skill_title = trait ? trait.name + ' ' +
                 trait_to_string(trait.system) : '';
         }
     }
@@ -265,6 +267,7 @@ export class BrCommonCard {
         if (Object.keys(this.action_groups).length === 0) {
             this.populate_actions()
         }
+        this.get_trait();
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
         this.update_list.content = new_content;
@@ -276,6 +279,17 @@ export class BrCommonCard {
      */
     get_data_render() {
         return {...this.get_data(), ...this.render_data}
+    }
+
+    /**
+     * Change the collapsed status of an action group
+     */
+    change_action_group_collapsed(group_id, new_status) {
+        for (let group in this.action_groups) {
+            if (this.action_groups[group].id === group_id) {
+                this.action_groups[group].collapsed = new_status
+            }
+        }
     }
 }
 
@@ -454,7 +468,7 @@ export function activate_common_listeners(message, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brws-selectable').click(manage_selectable_click);
     // Collapsable fields
-    manage_collapsables(html);
+    manage_collapsables(html, message);
     // Old rolls
     // noinspection JSUnresolvedFunction
     html.find('.brsw-old-roll').click(async ev => {
@@ -546,25 +560,36 @@ export function activate_common_listeners(message, html) {
 /**
  * Manage collapsable fields
  * @param html
+ * @param message: Null if this is called from someplace else than a message
  */
-export function manage_collapsables(html) {
+export function manage_collapsables(html, message) {
     let collapse_buttons = html.find('.brsw-collapse-button');
-    collapse_buttons.click(e => {
+    collapse_buttons.click(async e => {
         e.preventDefault();
         e.stopPropagation();
         let clicked = $(e.currentTarget)
-        let collapsable_span = html.find('.' + clicked.attr('data-collapse'));
-        collapsable_span.toggleClass('brsw-collapsed');
-        if (collapsable_span.hasClass('brsw-collapsed')) {
-            const button = clicked.find('.fas.fa-caret-down');
-            button.removeClass('fa-caret-down');
-            button.addClass('fa-caret-right');
+        const data_collapse = clicked.attr('data-collapse');
+        const collapsable_span = html.find('.' + data_collapse);
+        if (message && data_collapse.slice(0, 11) === 'brsw-action') {
+            const collapsed_status = collapsable_span.hasClass('brsw-collapsed')
+            const br_card = new BrCommonCard(message)
+            br_card.change_action_group_collapsed(data_collapse.slice(13),
+                !collapsed_status)
+            await br_card.render()
+            await br_card.save()
         } else {
-            const button = clicked.find('.fas.fa-caret-right');
-            button.removeClass('fa-caret-right');
-            button.addClass('fa-caret-down');
+            collapsable_span.toggleClass('brsw-collapsed');
+            if (collapsable_span.hasClass('brsw-collapsed')) {
+                const button = clicked.find('.fas.fa-caret-down');
+                button.removeClass('fa-caret-down');
+                button.addClass('fa-caret-right');
+            } else {
+                const button = clicked.find('.fas.fa-caret-right');
+                button.removeClass('fa-caret-right');
+                button.addClass('fa-caret-down');
+            }
         }
-    });
+    })
 }
 
 /**

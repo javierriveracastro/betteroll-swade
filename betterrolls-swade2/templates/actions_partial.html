@@ -4,7 +4,7 @@
             <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions-{{ this.id }}">
                 <i class="fas {{# if this.collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ this.name }}
             </div>
-            <div class="brsw-actions-{{ this.id }} {{# if ../actions_collapsed}}brsw-collapsed{{/if}}">
+            <div class="brsw-actions-{{ this.id }} {{# if this.collapsed}}brsw-collapsed{{/if}}">
                 {{# each this.actions }}
                     <span class="brws-selectable brsw-clickable brsw-action {{# if this.pinned }}brws-selected brws-permanent-selected{{/if}}"
                             data-action_id="{{ this.code.name }}">
