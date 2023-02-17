@@ -264,7 +264,7 @@ function check_selector(type, value, item, actor){
         }
     } else if (type === 'faction') {
         const tokens = actor.getActiveTokens()
-        if (game.user.targets.size > 0 && tokens.length > 0) {
+        if (game.user.targets.size > 0 && tokens.length > 0 && tokens[0] !== game.user.targets.first()) {
             const actor_disposition = tokens[0].document.disposition
             const target_disposition = game.user.targets.first().document.disposition;
             if (value === 'same') {
