@@ -161,8 +161,9 @@ async function roll_incapacitation(message, spend_benny) {
 /**
  * Shows an injury card and rolls it.
  * @param token_id
+ * @param {string} reason Reason for the injury
  */
-export async function create_injury_card(token_id) {
+export async function create_injury_card(token_id, reason) {
     let token = canvas.tokens.get(token_id);
     let actor = token.actor;
     let user = get_owner(actor);
@@ -224,7 +225,7 @@ export async function create_injury_card(token_id) {
     br_message.type = BRSW_CONST.TYPE_INJ_CARD
     await br_message.render()
     await br_message.save()
-    Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect)
+    Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect, reason)
     return br_message.message
 }
 

@@ -207,7 +207,7 @@ export function activate_damage_card_listeners(message, html) {
     });
     html.find('.brsw-injury-button').click(() => {
         // noinspection JSIgnoredPromiseFromCall
-        create_injury_card(br_card.token_id)
+        create_injury_card(br_card.token_id, 'gritty')
     })
 }
 
