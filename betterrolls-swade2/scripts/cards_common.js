@@ -521,7 +521,7 @@ export function activate_common_listeners(message, html) {
             // Actual roll manipulation
             await override_die_result(roll_data, die_index, new_value, false,
                 actor.isWildcard);
-            await update_message(message, get_actor_from_message(message), render_data);
+            await update_message(message, render_data);
         });
     })
     // Delete modifiers
@@ -830,15 +830,14 @@ function remove_discarded_die_mark(dice, rolls) {
 /**
  * Updates a message using a new render_data
  * @param {ChatMessage} message
- * @param {SwadeActor }actor
  * @param render_data
  */
-export async function update_message(message, actor, render_data) {
+export async function update_message(message, render_data) {
     const br_message = new BrCommonCard(message)
     if (br_message.type ===
             BRSW_CONST.TYPE_ITEM_CARD) {
         const item = br_message.item
-        render_data.skill = get_item_trait(item, actor);
+        render_data.skill = get_item_trait(item, br_message.actor);
     }
     br_message.generate_render_data(render_data)
     await br_message.render()
@@ -1196,7 +1195,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
 
         }
     }
-    await update_message(message, actor, render_data)
+    await update_message(message, render_data)
     return render_data.trait_roll;
 }
 
@@ -1247,7 +1246,7 @@ async function old_roll_clicked(event, message) {
     if (item) {
         render_data.skill = get_item_trait(item, actor);
     }
-    await update_message(message, actor, render_data);
+    await update_message(message, render_data);
 }
 
 
@@ -1319,7 +1318,7 @@ async function add_modifier(message, modifier) {
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         render_data.trait_roll.modifiers.push(new_mod)
         await update_roll_results(render_data.trait_roll, new_mod.value);
-        await update_message(message, get_actor_from_message(message), render_data);
+        await update_message(message, render_data);
     }
 }
 
@@ -1333,7 +1332,7 @@ async function delete_modifier(message, index) {
     let modifier = render_data.trait_roll.modifiers[index];
     await update_roll_results(render_data.trait_roll, - modifier.value);
     delete render_data.trait_roll.modifiers[index]
-    await update_message(message, get_actor_from_message(message), render_data);
+    await update_message(message, render_data);
 }
 
 
@@ -1353,7 +1352,7 @@ async function edit_modifier(message, index, new_modifier) {
         new_modifier.value = mod_value;
         render_data.trait_roll.modifiers[index] = new_modifier;
         await update_roll_results(render_data.trait_roll, difference);
-        await update_message(message, get_actor_from_message(message), render_data);
+        await update_message(message, render_data);
     }
 }
 
@@ -1384,7 +1383,7 @@ async function edit_tn(message, index, new_tn, reason) {
         });
     }
     await update_roll_results(render_data.trait_roll, 0);
-    await update_message(message, get_actor_from_message(message), render_data)
+    await update_message(message, render_data)
 }
 
 
@@ -1453,8 +1452,7 @@ async function duplicate_message(message, event) {
     data.flags['betterrolls-swade2'].render_data.damage_rolls = [];
     delete data._id;
     let new_message = await ChatMessage.create(data);
-    await update_message(new_message, get_actor_from_message(message),
-        data.flags['betterrolls-swade2'].render_data);
+    await update_message(new_message, data.flags['betterrolls-swade2'].render_data);
     const action = get_action_from_click(event);
     if (action.includes('trait')) {
         // noinspection JSUnresolvedVariable

@@ -269,6 +269,6 @@ async function roll_soak(message, use_bennie) {
         render_data.show_injury = (game.settings.get(
         'betterrolls-swade2', 'optional_rules_enabled').indexOf(
             "GrittyDamage") > -1) && (render_data.wounds > render_data.soaked)
-        await update_message(message, actor, render_data);
+        await update_message(message, render_data);
     }
 }

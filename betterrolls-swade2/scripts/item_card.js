@@ -758,7 +758,7 @@ export async function roll_item(message, html, expend_bennie,
     if (parseInt(br_message.item.system.pp) && pp_selected) {
         render_data.used_pp = await discount_pp(br_message.actor, br_message.item, trait_data.rolls, shots_override, previous_pp);
     }
-    await update_message(message, br_message.actor, render_data);
+    await update_message(message, render_data);
     await run_macros(macros, br_message.actor, br_message.item, message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
@@ -1197,7 +1197,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
                 pinned_actions.includes(action.name)
         }
     }
-    await update_message(message, actor, render_data);
+    await update_message(message, render_data);
     // Run macros
     await run_macros(macros, actor, item, message);
 }
@@ -1211,7 +1211,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
  */
 async function add_damage_dice(message, index) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const actor = get_actor_from_message(message);
     let damage_rolls = render_data.damage_rolls[index].brswroll;
     let roll = new Roll("1d6x");
     roll.evaluate({async:false});
@@ -1247,7 +1246,7 @@ async function add_damage_dice(message, index) {
         game.dice3d.showForRoll(roll, game.user, true, users)
     }
     // noinspection JSIgnoredPromiseFromCall
-    await update_message(message, actor, render_data)
+    await update_message(message, render_data)
 }
 
 
@@ -1269,7 +1268,6 @@ async function add_fixed_damage(event, form_results) {
     const modifier = parseInt(form_results.Value)
     if (! modifier) {return}
     const index = event.currentTarget.dataset.index
-    const actor = get_actor_from_message(event.data.message);
     let render_data = event.data.message.getFlag('betterrolls-swade2', 'render_data')
     let damage_rolls = render_data.damage_rolls[index].brswroll
     damage_rolls.modifiers.push(
@@ -1277,7 +1275,7 @@ async function add_fixed_damage(event, form_results) {
     damage_rolls.rolls[0].result += modifier
     render_data.damage_rolls[index].damage_result += await calculate_results(
         damage_rolls.rolls, true)
-    await update_message(event.data.message, actor, render_data)
+    await update_message(event.data.message, render_data)
 }
 
 
@@ -1288,7 +1286,6 @@ async function add_fixed_damage(event, form_results) {
  * @param {number} index
  */
 async function half_damage(message, index){
-    const actor = get_actor_from_message(message);
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     let damage_rolls = render_data.damage_rolls[index].brswroll;
     const half_damage = - Math.round(damage_rolls.rolls[0].result / 2);
@@ -1298,7 +1295,7 @@ async function half_damage(message, index){
     damage_rolls.rolls[0].result += half_damage;
     render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true);
-    await update_message(message, actor, render_data);
+    await update_message(message, render_data);
 }
 
 
@@ -1321,7 +1318,7 @@ async function edit_toughness(message, index) {
     render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls, true);
     // noinspection JSIgnoredPromiseFromCall
-    await update_message(message, actor, render_data)
+    await update_message(message, render_data)
 }
 
 /**

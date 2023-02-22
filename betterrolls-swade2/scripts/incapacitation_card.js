@@ -154,7 +154,7 @@ async function roll_incapacitation(message, spend_benny) {
     } else {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
     }
-    await update_message(message, actor, render_data);
+    await update_message(message, render_data);
 }
 
 

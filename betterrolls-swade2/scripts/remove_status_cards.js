@@ -121,7 +121,7 @@ async function roll_unshaken(message, use_bennie) {
             render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: actor.name})
         }
     }
-    await update_message(message, actor, render_data);
+    await update_message(message,render_data);
     Hooks.call("BRSW-Unshake", new BrCommonCard(message), actor)
 }
 
@@ -229,6 +229,6 @@ async function roll_unstun(message) {
     } else {
         render_data.text = game.i18n.format("BRSW.UnstunFailure", {name: actor.name})
     }
-    await update_message(message, actor, render_data);
+    await update_message(message, render_data);
     Hooks.call("BRSW-Unstun", new BrCommonCard(message), actor)
 }
