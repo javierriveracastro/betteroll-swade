@@ -217,7 +217,7 @@ export async function roll_attribute(message, html,
     for (let group in render_data.action_groups) {
         for (let action of render_data.action_groups[group].actions) {
             // Global and local actions are different
-            action.pinned = pinned_actions.includes(action.code) ||
+            action.selected = pinned_actions.includes(action.code) ||
                 pinned_actions.includes(action.name)
         }
     }

@@ -192,13 +192,17 @@ export class BrCommonCard {
         let item_actions = []
         for (let action in this.item.system?.actions?.additional) {
             if (this.item.system.actions.additional.hasOwnProperty(action)) {
-                action = new brAction(action.name, action)
-                item_actions.push(action)
+                let br_action = new brAction(
+                    this.item.system.actions.additional[action].name,
+                    this.item.system.actions.additional[action])
+                item_actions.push(br_action)
             }
         }
         if (item_actions.length) {
             const name = game.i18n.localize("BRSW.ItemActions")
-            this.action_groups[name] = {name: name, actions: item_actions, id: broofa()}
+            this.action_groups[name] =
+                {name: name, actions: item_actions, id: broofa(),
+                 collapsed: game.settings.get('betterrolls-swade2', 'collapse-modifiers')}
         }
     }
 
@@ -290,6 +294,20 @@ export class BrCommonCard {
                 this.action_groups[group].collapsed = new_status
             }
         }
+    }
+
+    /**
+     * Returns an action from an id
+     */
+    get_action_from_id(action_id) {
+        for (let group in this.action_groups) {
+            for (let action of this.action_groups[group].actions) {
+                if (action.code.name === action_id) {
+                    return action
+                }
+            }
+        }
+        return null
     }
 }
 
@@ -466,7 +484,7 @@ export function activate_common_listeners(message, html) {
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
-    html.find('.brws-selectable').click(manage_selectable_click);
+    html.find('.brws-selectable').click(ev => manage_selectable_click(ev, message));
     // Collapsable fields
     manage_collapsables(html, message);
     // Old rolls
@@ -595,10 +613,28 @@ export function manage_collapsables(html, message) {
 /**
  * Mark and unmark selectable items
  * @param ev mouse click event
+ * @param {ChatMessage} message: The message that contains the selectable item
  */
-export function manage_selectable_click(ev){
+export async function manage_selectable_click(ev, message){
     ev.preventDefault();
     ev.stopPropagation();
+    if (! message || ! ev.currentTarget.dataset.action_id) {
+        return manage_html_selectables(ev);
+    }
+    const br_card = new BrCommonCard(message);
+    let action = br_card.get_action_from_id(ev.currentTarget.dataset.action_id)
+    action.selected = !action.selected
+    console.log(action)
+    console.log(br_card.action_groups)
+    await br_card.render()
+    await br_card.save()
+}
+
+/**
+ * Manage selectables not based on cards
+ * @param ev
+ */
+function manage_html_selectables(ev) {
     if (ev.currentTarget.classList.contains('brws-permanent-selected')) {
         ev.currentTarget.classList.remove('brws-permanent-selected')
     } else {
@@ -610,7 +646,6 @@ export function manage_selectable_click(ev){
         }
     }
 }
-
 
 /**
  * Controls the sheet status when the portrait in the header is clicked
