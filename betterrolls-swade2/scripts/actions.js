@@ -7,13 +7,8 @@ export class brAction {
         this.name = name
         this.code = code
         this.selected = false
-    }
-
-    get has_skill_mod() {
-        return !!(this.code.skillMod || this.code.skillOverride);
-    }
-
-    get has_damage_mod() {
-        return !!(this.code.damageMod || this.code.damageOverride);
+        this.collapsed = false
+        this.has_skill_mod = !!(this.code.skillMod || this.code.skillOverride)
+        this.has_damage_mod = !!(this.code.damageMod || this.code.damageOverride);
     }
 }

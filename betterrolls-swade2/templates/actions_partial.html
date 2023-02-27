@@ -8,7 +8,7 @@
                 {{# each this.actions }}
                     <span class="brws-selectable brsw-clickable brsw-action {{# if this.selected }}brws-selected brws-permanent-selected{{/if}}"
                             data-action_id="{{ this.code.name }}">
-                        {{# if this.skill_icon}}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.damage_icon}}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
+                        {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                     </span>
                 {{/each}}
             </div>
