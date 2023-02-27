@@ -624,8 +624,6 @@ export async function manage_selectable_click(ev, message){
     const br_card = new BrCommonCard(message);
     let action = br_card.get_action_from_id(ev.currentTarget.dataset.action_id)
     action.selected = !action.selected
-    console.log(action)
-    console.log(br_card.action_groups)
     await br_card.render()
     await br_card.save()
 }

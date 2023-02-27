@@ -666,13 +666,7 @@ export async function roll_item(message, html, expend_bennie,
     // Actions
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
-            let action;
-            if (br_message.item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
-                action = br_message.item.system.actions.additional[element.dataset.action_id];
-            } else {
-                // GLOBAL ACTION
-                action = get_global_action_from_name(element.dataset.action_id);
-            }
+            let action = br_message.get_action_from_id(element.dataset.action_id).code
             if (action.skillOverride) {
                 trait = trait_from_string(br_message.actor, action.skillOverride);
                 render_data.trait_id = trait.id;
@@ -1115,15 +1109,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let pinned_actions = [];
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
-            let action;
-            // noinspection JSUnresolvedVariable
-            if (item.system.actions.additional.hasOwnProperty(element.dataset.action_id)) {
-                // noinspection JSUnresolvedVariable
-                action = item.system.actions.additional[element.dataset.action_id];
-            } else {
-                // GLOBAL ACTION
-                action = get_global_action_from_name(element.dataset.action_id);
-            }
+            let br_card = new BrCommonCard(message)
+            let action = br_card.get_action_from_id(element.dataset.action_id).code
             if (action.dmgMod) {
                 const new_mod = create_modifier(action.name, action.dmgMod)
                 damage_roll.brswroll.modifiers.push(new_mod)
