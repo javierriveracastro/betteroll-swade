@@ -126,7 +126,7 @@ export function activate_attribute_listeners(app, html) {
         const token_id = app.token ? app.token.id : '';
         const actor_id = app.object ? app.object.id : '';
         const attribute_name = ev.currentTarget.parentElement.parentElement.dataset.attribute ||
-            ev.currentTarget.parentElement.dataset.attribute
+            ev.currentTarget.parentElement.dataset.attribute || ev.currentTarget.dataset.attribute;
         let macro_data = {name: attribute_name, type: "script", scope: "global"}
         const bt = "`"
         macro_data.command = `/*######### USAGE #########
