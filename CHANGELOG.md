@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.20 aka Praying so nothing explodes too much
+* Cards: Collapse status of the action groups is now stored in the object and shared between users.
+* Cards: Selected actions are shared between clientes.
+* Cards: Removed "white" option inside cards.
+* Scripting: The ApplyInjuryAE Hook is now passed a reason for the injury
+* Bugfix: Don't fire faction actions when the targeted and acting token are the same
+
 ## Version 3,19 aka more fun in the NPC sheet
 * Bugfix: Get the delete button in NPC items working.
 
