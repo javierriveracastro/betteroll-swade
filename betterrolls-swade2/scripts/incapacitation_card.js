@@ -108,9 +108,9 @@ export function activate_incapacitation_card_listeners(message, html) {
     const br_card = new BrCommonCard(message);
     html.find('.brsw-vigor-button, .brsw-roll-button').bind(
         'click', {message: message}, roll_incapacitation_clicked);
-    html.find('.brsw-injury-button').click(() => {
+    html.find('.brsw-injury-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
-        create_injury_card(br_card.token_id)
+        create_injury_card(br_card.token_id, ev.currentTarget.dataset.injurytype)
     })
 }
 
@@ -143,16 +143,20 @@ async function roll_incapacitation(message, spend_benny) {
         }
     })
     render_data.show_roll_injury = true;
+    render_data.injury_type = "none"
     if (roll.is_fumble) {
         render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
         render_data.show_roll_injury = false;  // For what...
     } else if (result < 4) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
+        render_data.injury_type = "permanent"
         succ.apply_status(br_card.token_id, "bleeding-out")
     } else if (result < 8) {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury")
+        render_data.injury_type = "temporal-wounds"
     } else {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
+        render_data.injury_type = "temporal-24"
     }
     await update_message(message, render_data);
 }
@@ -164,6 +168,7 @@ async function roll_incapacitation(message, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
+    console.log(reason)
     let token = canvas.tokens.get(token_id);
     let actor = token.actor;
     let user = get_owner(actor);
