@@ -98,6 +98,9 @@ Hooks.on(`ready`, () => {
     }
     changeNames() // Change the names of the modifiers
     compatibility_warnings()
+    // Remove the fisrt hook from the hotbarDrop, hoping it is the system's
+    const system_event = Hooks.events.hotbarDrop.find(ev => ev.fn.name === 'onHotbarDrop')
+    Hooks.off('hotbarDrop', system_event.fn)
 })
 
 
