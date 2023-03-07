@@ -14,7 +14,6 @@ import {
 import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, simple_form} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
-import {get_global_action_from_name} from "./global_actions.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
 import {get_enabled_gm_actions, get_gm_modifiers} from "./gm_modifiers.js";
 
@@ -65,6 +64,14 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
     let damage = item.system.damage;
+    if (!damage) {
+        for (let action in item.system.actions.additional) {
+            if (item.system.actions.additional[action].dmgOverride) {
+                damage = true;
+                break;
+            }
+        }
+    }
     if (!damage && possible_default_dmg_action) {
         damage = possible_default_dmg_action;
     }
