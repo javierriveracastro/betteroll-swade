@@ -1155,7 +1155,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     if (!damage_formulas.damage) {
         // Damage is empty and damage action has not been selected...
-        damage_formulas.damage = "3d6" // Bet for a shotgun.
+        damage_formulas.damage = "1"
     }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(actor);
