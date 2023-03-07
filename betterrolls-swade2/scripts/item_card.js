@@ -679,7 +679,9 @@ export async function roll_item(message, html, expend_bennie,
                 render_data.trait_id = trait.id;
             }
             if (action.shotsUsed) {
-                shots_override = parseInt(action.shotsUsed);
+                if (!shots_override) {
+                    shots_override = parseInt(br_message.item.system.pp);
+                }
                 let first_char = '';
                 try {
                     first_char = action.shotsUsed.charAt(0);
@@ -688,8 +690,10 @@ export async function roll_item(message, html, expend_bennie,
                     // If we are using PP and the modifier starts with + or -
                     // we use it as a relative number.
                     if (parseInt(br_message.item.system.pp)) {
-                        shots_override = parseInt(br_message.item.system.pp) + shots_override;
+                        shots_override += parseInt(action.shotsUsed);
                     }
+                } else {
+                    shots_override = parseInt(action.shotsUsed);
                 }
             }
             process_common_actions(action, extra_data, macros, br_message.actor)
