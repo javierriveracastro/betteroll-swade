@@ -290,7 +290,7 @@ export function activate_item_card_listeners(br_card, html) {
     html.find('.brsw-damage-button, .brsw-damage-bennie-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
         roll_dmg(br_card.message, html, ev.currentTarget.classList.contains('brsw-damage-bennie-button'),
-            {}, ev.currentTarget.id.includes('raise'));
+            {}, ev.currentTarget.id.includes('raise'), ev.currentTarget.dataset.token);
     });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
         ammo_button.removeClass('brws-selected');
@@ -1084,9 +1084,10 @@ function joker_modifiers(message, actor, damage_roll) {
  * @param expend_bennie
  * @param default_options
  * @param {boolean} raise
- * @return {Promise<void>}
+ * @param {string} target_token_id
+ * @return {Promise<void>}*
  */
-export async function roll_dmg(message, html, expend_bennie, default_options, raise){
+export async function roll_dmg(message, html, expend_bennie, default_options, raise, target_token_id){
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
     const item = get_item_from_message(message, actor)
@@ -1172,11 +1173,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     } else {
         damage_formulas.damage = damage_formulas.damage.replace('x', '')
     }
-    let targets = [undefined];
-    if (game.user.targets.size > 0) {
-        targets = await game.user.targets;
-        targets = Array.from(targets).filter((token) => token.actor)
-    }
+    const targets = await get_dmg_targets(target_token_id)
     if (! raise) {damage_formulas.raise = ''}
     let total_modifiers = 0
     for (let modifier of damage_roll.brswroll.modifiers) {
@@ -1200,6 +1197,27 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     await run_macros(macros, actor, item, message);
 }
 
+
+/**
+ * Return an array of actors from a token id or targeted tokens
+ * @param {string} token_id
+ */
+async function get_dmg_targets(token_id) {
+    if (token_id) {
+        let token = canvas.tokens.get(token_id);
+        console.log(token)
+        if (token) {
+            return [token];
+        }
+    }
+    let targets = await game.user.targets;
+    if (targets.size > 0) {
+        targets = Array.from(targets).filter((token) => token.actor)
+    } else {
+        targets = [undefined]
+    }
+    return targets;
+}
 
 /**
  * Add a d6 to a damage roll

@@ -13,7 +13,7 @@
             {{#if ../bennie_avaliable}}
                 <button class="brsw-row-button brsw-damage-bennie-button brsw-form"
                         {{# if this.raise}}id="raise_roll"{{/if}}
-                        title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                        title="{{ localize 'BRSW.Roll_and_bennie' }}" data-token="{{ this.brswroll.rolls.0.target_id }}">
                     <img src="{{{ ../benny_image }}}" class="brsw-button-image" alt="Reroll with benny">
                 </button>
             {{/if}}
