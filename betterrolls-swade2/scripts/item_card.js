@@ -974,6 +974,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
             target_id: defense_values.token_id || 0
         });
     let last_string_term = ''
+    console.log(roll)
     for (let term of roll.terms) {
         if (term.hasOwnProperty('faces')) {
             let new_die = {
@@ -981,14 +982,14 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
                 extra_class: '',
                 label: game.i18n.localize("SWADE.Dmg") + ` (d${term.faces})`
             };
-            if (term.total > term.faces) {
-                new_die.extra_class = ' brsw-blue-text';
-                if (!current_damage_roll.brswroll.rolls[0].extra_class) {
-                    current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
-                }
-            }
             for (let result of term.results) {
                 new_die.results.push(result.result);
+                if (result.result >= term.faces) {
+                    new_die.extra_class = ' brsw-blue-text';
+                    if (!current_damage_roll.brswroll.rolls[0].extra_class) {
+                        current_damage_roll.brswroll.rolls[0].extra_class = ' brsw-blue-text';
+                    }
+                }
             }
             current_damage_roll.brswroll.dice.push(new_die);
         } else {
