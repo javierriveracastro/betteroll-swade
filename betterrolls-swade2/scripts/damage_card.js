@@ -225,7 +225,8 @@ async function roll_soak(message, use_bennie) {
     }
     let undo_wound_modifier = Math.min(actor.system.wounds.value, 3) -
         render_data.undo_values.wounds;
-    const ignored_wounds = parseInt(actor.system.wounds.ignored);
+    const ignored_wounds = parseInt(actor.system.wounds.ignored) +
+        (parseInt(actor.system.woundsOrFatigue.ignored) || 0)
     if (ignored_wounds) {
         undo_wound_modifier = Math.max(0, undo_wound_modifier -ignored_wounds)
     }

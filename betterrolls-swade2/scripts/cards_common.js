@@ -931,6 +931,17 @@ function get_actor_own_modifiers(actor, roll_options) {
             game.i18n.localize('SWADE.Fatigue'), fatiguePenalties))
         roll_options.total_modifiers += fatiguePenalties;
     }
+    // Wounds or Fatigue ignored
+    if (actor.system.woundsOrFatigue.ignored) {
+        const ignored = Math.min(
+            parseInt(actor.system.woundsOrFatigue.ignored) || 0,
+            - fatiguePenalties - woundPenalties);
+        if (ignored) {
+            roll_options.modifiers.push(create_modifier(
+                game.i18n.localize('BRSW.WoundsOrFatigueIgnored'), ignored))
+            roll_options.total_modifiers += parseInt(ignored);
+        }
+    }
     // Own status
     const statusPenalties = actor.calcStatusPenalties();
     if (statusPenalties !== 0) {
