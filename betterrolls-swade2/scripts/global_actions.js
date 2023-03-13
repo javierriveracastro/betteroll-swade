@@ -22,6 +22,10 @@ export function register_actions() {
  * @param {Array} actions
  */
 function add_actions(actions) {
+    // Delete duplicate actions
+    const actions_ids = actions.map(action => action.id);
+    const actions_to_delete = game.brsw.GLOBAL_ACTIONS.filter(action => actions_ids.includes(action.id));
+    game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter(action => !actions_to_delete.includes(action));
     game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.concat(actions)
 }
 
