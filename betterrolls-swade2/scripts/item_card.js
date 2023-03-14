@@ -974,7 +974,6 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
             target_id: defense_values.token_id || 0
         });
     let last_string_term = ''
-    console.log(roll)
     for (let term of roll.terms) {
         if (term.hasOwnProperty('faces')) {
             let new_die = {
