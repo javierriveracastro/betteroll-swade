@@ -66,9 +66,17 @@
         {{#each this.brswroll.modifiers}}
             <div class="brsw-roll-detail-row{{ this.extra_class }}">
                 <span>{{ this.name }}</span>
-                <span {{# if this.dice}}class="brsw-d{{this.dice.terms.0.faces}} brsw-dice-image"{{/if}}>
-                    {{ this.value }}
-                </span>
+                {{# if this.dice }}
+                    <span>{{#each this.dice.terms as |current_term| }}
+                        {{# each this.results }}
+                            <span class="brsw-d{{current_term.faces}} brsw-dice-image">{{ this.result }}</span>
+                        {{/each}}
+                    {{/each}}</span>
+                {{ else}}
+                    <span>
+                        {{ this.value }}
+                    </span>
+                {{/if}}
             </div>
         {{/each}}
         {{#each this.brswroll.rolls}}
