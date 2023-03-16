@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 3.21 aka bugfixing, now to write more bugs
+* Bugfix: Dropping items in the Macro Hotbar works again
+* API: Pass the kind of injury that created and injury in the Hook.
+* Items: Support damage actions in items with no damage.
+* Actions: Make "shots_used" in power points addictive
+* Bugfix: Bennie rerolls use the same target than the original roll not the one currently targeted
+* Bugfix: Damage explosions are marked (changed to blue) correctly
+* Api: add_action now replaces world actions with the same id
+* Bugfix: When a modifier is a die show the results of each dice instead of the total
+
 ## Version 3.20 aka Praying so nothing explodes too much
 * Cards: Collapse status of the action groups is now stored in the object and shared between users.
 * Cards: Selected actions are shared between clientes.

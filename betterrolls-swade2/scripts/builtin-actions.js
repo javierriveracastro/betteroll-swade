@@ -179,20 +179,4 @@ export const SYSTEM_GLOBAL_ACTION = [
         avoid_exploding_damage: "true", or_selector:[{selector_type:"item_type", selector_value:"power"},
             {selector_type: "item_type", selector_value:"weapon"}],
         "group": "BRSW.AttackOption"},
-    {id:"ADAPTABLECASTER", name:"Adaptable Caster (+1)", button_name:"Adaptable Caster (+1)", shotsUsed:"+1",
-      selector_type:"item_type", selector_value:"power", group: "Pending translation"
-    },
-    {id:"ARMORPIERCING", name:"Armor Piercing 2 (+1)", button_name:"Armor Piercing 2 (+1)", overrideAp:"2",
-      shotsUsed:"+1", selector_type:"item_type", selector_value:"power", group: "Pending translation"},
-    {
-      id:"POWERDAMAGEFIELDMODMEDIUM",
-      name: "Medium (+2)",
-      button_name: "Medium (+2)",
-      shotsUsed:"+2",
-      and_selector: [
-        { selector_type: "item_type", selector_value:"power" },
-        { selector_type: "item_name", selector_value: "Damage Field" }
-      ],
-      group: "Area of Effect"
-    }
 ]
