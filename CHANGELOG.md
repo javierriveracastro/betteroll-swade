@@ -1,4 +1,6 @@
 # Changelog
+* Not adding Shaken to an Actor that becomes Incapacitated anymore.
+* Making Incapacitated status icon small and Bleeding Out overlay instead.
 
 ## Version 3.21 aka bugfixing, now to write more bugs
 * Bugfix: Dropping items in the Macro Hotbar works again
