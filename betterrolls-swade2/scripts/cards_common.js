@@ -73,16 +73,17 @@ export class BrCommonCard {
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
-        const data = this.message.getFlag('betterrolls-swade2', 'br_data')
-        if (data) {
-            this.load(data)
+        if (message) {
+            const data = this.message.getFlag('betterrolls-swade2', 'br_data')
+            if (data) {
+                this.load(data)
+            }
         }
     }
 
     async save() {
         if (! this.message) {
-            console.error('No message to save')
-            return
+            await this.create_foundry_message()
         }
         if (Object.keys(this.update_list).length > 0) {
             this.update_list.id = this.message.id
@@ -274,7 +275,11 @@ export class BrCommonCard {
         this.get_trait();
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
-        this.update_list.content = new_content;
+        if (this.message) {
+            this.update_list.content = new_content;
+        } else {
+            await this.create_foundry_message(new_content)
+        }
     }
 
     /**
@@ -309,6 +314,17 @@ export class BrCommonCard {
         }
         return null
     }
+
+    /**
+     * Creates the Foundry message object
+     */
+    async create_foundry_message(new_content) {
+        let chatData = create_basic_chat_data(origin);
+        if (new_content) {
+            chatData.content = new_content;
+        }
+        this.message = await ChatMessage.create(chatData);
+    }
 }
 
 /**
@@ -334,10 +350,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
     } else {
         actor = origin
     }
-    let chatData = create_basic_chat_data(origin, chat_type);
-    let message = await ChatMessage.create(chatData);
-    // Remove actor to store the render data.
-    let br_message = new BrCommonCard(message)
+    let br_message = new BrCommonCard()
     br_message.actor_id = actor.id
     if (actor !== origin) {
         br_message.token_id = origin.id
@@ -349,10 +362,9 @@ export async function create_common_card(origin, render_data, chat_type, templat
 /**
 * Creates the basic chat data common to most cards
 * @param {SwadeActor, Token} origin:  The actor origin of the message
-* @param {int, string} type: The type of message
 * @return An object suitable to create a ChatMessage
 */
-export function create_basic_chat_data(origin, type){
+export function create_basic_chat_data(origin){
     let actor;
     let token;
     if (origin instanceof TokenDocument || origin instanceof Token) {
@@ -374,17 +386,15 @@ export function create_basic_chat_data(origin, type){
             token: token ? token.id:token,
             alias: origin.name
         },
-        type: type,
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         blind: whisper_data.blind,
         flags: {core: {canPopout: true}}
     }
     if (whisper_data.whisper) {
         chatData.whisper = whisper_data.whisper
     }
-    if (type === CONST.CHAT_MESSAGE_TYPES.ROLL) {
-        chatData.roll = new Roll("0").roll({async:false});
-        chatData.rollMode = whisper_data.rollMode;
-    }
+    chatData.roll = new Roll("0").roll({async:false});
+    chatData.rollMode = whisper_data.rollMode;
     // noinspection JSValidateTypes
     return chatData
 }
