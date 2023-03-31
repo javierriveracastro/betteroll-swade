@@ -150,7 +150,11 @@ async function roll_incapacitation(message, spend_benny) {
     } else if (result < 4) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
         render_data.injury_type = "permanent"
-        succ.apply_status(br_card.token_id, "bleeding-out")
+        if (await succ.check_status(br_card.token_id, "incapacitated")) {
+            await succ.apply_status(br_card.token_id, "incapacitated", false) //remove Inc as overlay
+            await succ.apply_status(br_card.token_id, "incapacitated", true, false) //add it as regular (small) icon
+        }
+        succ.apply_status(br_card.token_id, "bleeding-out", true, true) //make bleeding out overlay
     } else if (result < 8) {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury")
         render_data.injury_type = "temporal-wounds"
