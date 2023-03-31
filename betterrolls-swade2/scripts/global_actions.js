@@ -488,16 +488,16 @@ async function import_global_actions() {
       title: `Import Data: ${this.name}`,
       content: await renderTemplate("templates/apps/import-data.html",
           {
-            hint1: 'hint1',
-            hint2: 'hint2'}),
+            hint1: 'Select file to import'}),
       buttons: {
         import: {
           icon: '<i class="fas fa-file-import"></i>',
           label: "Import",
           callback: html => {
             const form = html.find("form")[0];
-            if ( !form.files.length ) {return ui.notifications.error("You did not upload a data file!");}
-            readTextFromFile(form.files[0]).then((json) => {
+            console.log(form)
+            if ( !form.data.files.length ) {return ui.notifications.error("You did not upload a data file!");}
+            readTextFromFile(form.data.files[0]).then((json) => {
                 game.settings.set('betterrolls-swade2', "world_global_actions", JSON.parse(json))
             });
           }
