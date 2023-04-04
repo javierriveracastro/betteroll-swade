@@ -52,7 +52,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const item = actor.items.find(item => {return item.id === item_id});
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
-    const notes = item.system.notes || "";
+    let notes = ""
+    if (item.system.notes && item.system.notes.length < 50) {
+        notes = item.system.notes;
+    }
     const description = item.system.description;
     let trait_roll = new BRWSRoll();
     let possible_default_dmg_action;
