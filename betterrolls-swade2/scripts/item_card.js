@@ -536,15 +536,17 @@ async function displayRemainingCard(content) {
  * @param {Roll[]} rolls
  * @param pp_override
  * @param old_pp: PPs expended in the current selected roll of this option
+ * @param pp_modifier: A number to be added or substracted from PPs
  */
-async function discount_pp(actor, item, rolls, pp_override, old_pp) {
+async function discount_pp(actor, item, rolls, pp_override, old_pp, pp_modifier) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
             success = true
         }
     }
-    const base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.system.pp)
+    let base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.system.pp)
+    base_pp_expended += pp_modifier;
     const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
@@ -662,6 +664,7 @@ export async function roll_item(message, html, expend_bennie,
     let trait = get_item_trait(br_message.item, br_message.actor);
     let macros = [];
     let shots_override;  // Override the number of shots used
+    let shots_modifier = 0;  // Modifier to the number of shots
     let extra_data = {skill: trait, modifiers: []};
     if (expend_bennie) {await spend_bennie(br_message.actor)}
     extra_data.rof = br_message.item.system.rof || 1;
@@ -682,9 +685,6 @@ export async function roll_item(message, html, expend_bennie,
                 render_data.trait_id = trait.id;
             }
             if (action.shotsUsed) {
-                if (!shots_override) {
-                    shots_override = parseInt(br_message.item.system.pp);
-                }
                 let first_char = '';
                 try {
                     first_char = action.shotsUsed.charAt(0);
@@ -693,7 +693,7 @@ export async function roll_item(message, html, expend_bennie,
                     // If we are using PP and the modifier starts with + or -
                     // we use it as a relative number.
                     if (parseInt(br_message.item.system.pp)) {
-                        shots_override += parseInt(action.shotsUsed);
+                        shots_modifier += parseInt(action.shotsUsed);
                     }
                 } else {
                     shots_override = parseInt(action.shotsUsed);
@@ -764,7 +764,8 @@ export async function roll_item(message, html, expend_bennie,
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
     if (parseInt(br_message.item.system.pp) && pp_selected) {
-        render_data.used_pp = await discount_pp(br_message.actor, br_message.item, trait_data.rolls, shots_override, previous_pp);
+        render_data.used_pp = await discount_pp(
+            br_message.actor, br_message.item, trait_data.rolls, shots_override, previous_pp, shots_modifier);
     }
     await update_message(message, render_data);
     await run_macros(macros, br_message.actor, br_message.item, message);
