@@ -1,6 +1,13 @@
-# Changelog
-* Not adding Shaken to an Actor that becomes Incapacitated anymore.
-* Making Incapacitated status icon small and Bleeding Out overlay instead.
+# Version 3.22 aka another round of bugfixes
+* Bugfix: Not adding Shaken to an Actor that becomes Incapacitated anymore. (SalierC)
+* Status: Making Incapacitated status icon small and Bleeding Out overlay instead. (SalieriC)
+* API: Add a Hook 'brswReady' (TheLaslo)
+* Bugfix: Delay the render of the cards to avoid temporary errors in slow connections
+* Bugfix: Get json importing of world actions working again.
+* Cards: Don't show notes bigger than 50 characters on cards
+* Cards: Change how adding pp with 'shotsUsed' and overriding them work, so that addition is done after all the overrides
+* Actions: Remove default: on from All Thumbs, Can't Swim, Hard of Hearing.
+* Bugfix: Editing TN when one die has a one doesn't trigger the extra critical failure test
 
 ## Version 3.21 aka bugfixing, now to write more bugs
 * Bugfix: Dropping items in the Macro Hotbar works again
