@@ -829,7 +829,7 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
         }
     }
     // Remove lower die.
-    if (remove_die) {
+    if (remove_die && dice.length) {
         rolls[min_position].extra_class += ' brsw-discarded-roll';
         rolls[min_position].tn = 0;
         dice[min_position].extra_class += ' brsw-discarded-roll';
@@ -1311,18 +1311,22 @@ async function old_roll_clicked(event, message) {
  * @param mod_value
  */
 async function update_roll_results(trait_roll, mod_value) {
-        trait_roll.rolls.forEach(roll => {
-            roll.result += mod_value;
-        });
-        trait_roll.is_fumble = await calculate_results(
-            trait_roll.rolls, false, false, [])
-        for (const old_roll of trait_roll.old_rolls) {
-            for (const roll of old_roll) {
-                roll.result += mod_value;
-            }
-            trait_roll.is_fumble = await calculate_results(
-                old_roll, false, false, [])
+    let wild_die = false
+    trait_roll.rolls.forEach(roll => {
+        roll.result += mod_value;
+        if (roll.extra_class === ' brsw-discarded-roll') {
+            wild_die = true;
         }
+    });
+    trait_roll.is_fumble = await calculate_results(
+        trait_roll.rolls, false, wild_die, [])
+    for (const old_roll of trait_roll.old_rolls) {
+        for (const roll of old_roll) {
+            roll.result += mod_value;
+        }
+        trait_roll.is_fumble = await calculate_results(
+            old_roll, false, wild_die, [])
+    }
 }
 
 
@@ -1337,7 +1341,9 @@ async function update_roll_results(trait_roll, mod_value) {
 async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false, is_wildcard = false) {
     let total_modifier = 0
     roll_data.modifiers.forEach(mod => {
-        total_modifier += mod.value;
+        if (mod) {
+            total_modifier += mod.value;
+        }
     })
     roll_data.rolls[die_index].result = parseInt(new_value) + total_modifier
     /* Recreate die*/
