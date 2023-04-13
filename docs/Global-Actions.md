@@ -49,13 +49,15 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * wildDieFormula: Another string dice formula, this time used for the Wild Die. Remember to specify the exploding. You can use an empty string for no wild die.
 * rerollSkillMod: A number used as a modifier for skill reroll
 * rerollDamageMod: A number used as a modifier for damage reroll
-* shotsUsed: A number that makes the action use that number of shots. If the item is a power, it will make it use that number of PPs instead.
+* shotsUsed: A number that makes the action use that number of shots. If the item is a power and the valus is a simple number it will make it use that number of PPs instead. If the value is a number preceded by a plus or minus symbol it will add or subtract that number from the usual PP cost of the power. 
 * rof: Numer of trait dice rolled.
 * tnOverride: A number that is set as the tn of the roll. Note that this takes precedence from other ways of setting the target number like targeting.
 * extra_text: Extra text to be shown in the card, it accepts HTML.
 * overrideAp: Override the Armor Penetration value of the item.
 * multiplyDmgMod: Multiply the final damage by this number.
 * self_add_status: Add that status to the token making the roll.
+* add_wild_die: If true a wild die will be added to the roll even if it normally doesn't have one.
+* avoid_exploding_damage: If this is set to "true" damage will not explode (like when attacking objects)
 
 **Selector fields:**
 
@@ -78,11 +80,13 @@ This group of fields are used to select when the action is available, you will n
 * target_has_hindrance: This action is like actor_has_edge but fires for target hindrances
 * target_has_major_hindrance: This other action only fires when the target has a major hindrance that includes the text in the value.
 * target_has_effect: String selector; works similar to `actor_has_effect` but checks for active effects on the target instead.
-* item_description_includes: This action will be shown if the item description includes the value.
+* item_description_includes: This action will be shown if the item description or trappings includes the value.
 * actor_additional_stat_xxx: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
 * item_additional_stat_xxx: This works like actor_additional_stat_xxx but applies to items.
 * faction: If `selector_value` is 'same' this will make the action appear when token from the same disposition is targeted. When the value is another it will make the action appear when the targeted token disposition is different from acting.
 * gm_action: A selector with this value will make the action appear in the dm modifiers above the char window.
+* is_wildcard: This will show the action if the character is a Wildcard. If the value is "false" it will only show the card for extras
+* actor_value: This expects a selector composed of "path=value". Where path is a dot path of actor data (like system.advances.value) and value a value (like 4). This coerces the values using javascript ==.
 
 **Complex Selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.

@@ -9,3 +9,4 @@ Better Rolls supports some additional active effects:
 
 # General active effects:
 - `brsw.thrown-range-modifier`: This key will add the modifier for the range of the thrown weapons
+- `brsw.soak-modifier`: This will add the modifier to soak rolls.
