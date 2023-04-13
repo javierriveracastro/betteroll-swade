@@ -304,7 +304,8 @@ function check_selector(type, value, item, actor){
 function check_actor_value(actor, value) {
     let [path, result] = value.split('=');
     let data = getProperty(actor, path);
-    return data === result;
+    // noinspection EqualityComparisonWithCoercionJS
+    return data == result;
 }
 
 /**
