@@ -14,7 +14,7 @@ import {create_incapacitation_card, create_injury_card} from "./incapacitation_c
  */
 export async function create_damage_card(token_id, damage, damage_text) {
     let token = canvas.tokens.get(token_id);
-    let actor = token.actor;
+    let {actor} = token;
     let user = get_owner(actor);
     // noinspection JSUnresolvedVariable
     let undo_values = {wounds: actor.system.wounds.value,
@@ -81,12 +81,10 @@ export function get_owner(actor) {
     game.users.forEach(user => {
         if (user.isGM) {
             gm = user
-        } else {
-            if (user.character?.id === actor.id) {
-                owner = user
-            } else if (actor.getUserLevel(user) > 2) {
-                player = user
-            }
+        } else if (user.character?.id === actor.id) {
+            owner = user
+        } else if (actor.getUserLevel(user) > 2) {
+            player = user
         }
     })
     return owner || player || gm;
@@ -99,13 +97,11 @@ export function get_owner(actor) {
  * @param {int} wounds
  * @param {int} soaked
  */
-async function apply_damage(token, wounds, soaked=0) {
+async function apply_damage(token_or_token_id, wounds, soaked=0) {
     if (wounds < 0) {return}
     let incapacitated;
-    if (!(token instanceof Token)) {
-        // If this is not a token then it is a token id
-        token = canvas.tokens.get(token);
-    }
+    const token = token_or_token_id instanceof Token ? token_or_token_id :
+        canvas.tokens.get(token_or_token_id);
     // We take the starting situation
     let initial_wounds = token.actor.system.wounds.value;
     // noinspection JSUnresolvedVariable
@@ -134,7 +130,7 @@ async function apply_damage(token, wounds, soaked=0) {
             game.i18n.format("BRSW.TokenShaken", {token_name:token.name}));
     // Now we look for soaking
     if (soaked) {
-        damage_wounds = damage_wounds - soaked;
+        damage_wounds -= soaked;
         if (damage_wounds <= 0) {
             // All damage soaked, remove shaken
             damage_wounds = 0;

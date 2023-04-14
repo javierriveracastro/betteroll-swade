@@ -156,6 +156,7 @@ async function roll_incapacitation(message, spend_benny) {
             await succ.apply_status(br_card.token_id, "incapacitated", false) //remove Inc as overlay
             await succ.apply_status(br_card.token_id, "incapacitated", true, false) //add it as regular (small) icon
         }
+        // noinspection ES6MissingAwait
         succ.apply_status(br_card.token_id, "bleeding-out", true, true) //make bleeding out overlay
     } else if (result < 8) {
         render_data.text_after = game.i18n.localize("BRSW.TempInjury")
@@ -174,7 +175,6 @@ async function roll_incapacitation(message, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
-    console.log(reason)
     let token = canvas.tokens.get(token_id);
     let actor = token.actor;
     let user = get_owner(actor);
