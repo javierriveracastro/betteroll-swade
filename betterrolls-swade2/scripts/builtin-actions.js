@@ -55,7 +55,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     {id:"RAN", name:"Ran", button_name:"BRSW.Ran", skillMod:"-2",
         not_selector:[{selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Steady-Hands"}],
         group:"BRSW.Multi-action"},
-    {id:"RANSTEADY", name:"Ran-Steady", button_name:"BRSW.Ran", skillMod:"-1", and_selector:[
+    {id:"RANSTEADY", name:"Ran-Steady", button_name:"BRSW.RanSteady", skillMod:"-1", and_selector:[
         {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Steady-Hands"}, {selector_type:"all"}],
         "group":"BRSW.Multi-action"},
     {id:"2ACTIONS", name:"2 actions",button_name:"BRSW.Two-actions", skillMod:"-2",selector_type:"all",

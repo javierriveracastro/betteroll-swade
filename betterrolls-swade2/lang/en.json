@@ -328,5 +328,6 @@
   "BRSW.HeavyArmor": "Heavy/Mega armor",
   "BRSW.AttackInanimate": "Attack Inanimate Object",
   "BRSW.UnstunBonus": "Unstun bonus",
-  "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored"
+  "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored",
+  "BRSW.RanSteady": "Ran (-1)"
 }
