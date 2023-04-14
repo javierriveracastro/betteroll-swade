@@ -41,7 +41,9 @@ const INJURY_ACTIVE_EFFECT = {
     "BRSW.Leg+": {changes: [{key: "data.stats.speed.runningDie", mode: 2, value: -2},
             {key: "data.stats.speed.value", mode: 2, value: -2}]},
     "BRSW.Head+BRSW.Blinded" : {},
-    "BRSW.Head+BRSW.Scar": {}
+    "BRSW.Head+BRSW.Scar": {},
+    "BRWS.Arm+": {},
+    "BRWS.Unmentionables+": {}
 }
 
 /**
