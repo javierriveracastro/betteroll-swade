@@ -42,8 +42,8 @@ const INJURY_ACTIVE_EFFECT = {
             {key: "data.stats.speed.value", mode: 2, value: -2}]},
     "BRSW.Head+BRSW.Blinded" : {},
     "BRSW.Head+BRSW.Scar": {},
-    "BRWS.Arm+": {},
-    "BRWS.Unmentionables+": {}
+    "BRSW.Arm+": {},
+    "BRSW.Unmentionables+": {}
 }
 
 /**
@@ -212,6 +212,7 @@ export async function create_injury_card(token_id, reason) {
         }
     }
     const active_effect_index = `${first_result}+${second_result}`;
+    console.log(active_effect_index)
     let new_effect
     let injury_effect
     if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
