@@ -1095,8 +1095,10 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     const actor = get_actor_from_message(message)
     const item = get_item_from_message(message, actor)
+    console.log(item)
     const raise_die_size = item.system.bonusDamageDie || 6
-    let damage_formulas = {damage: item.system.damage, raise: `+1d${raise_die_size}x`,
+    const number_raise_dice = item.system.bonusDamageDice || 1
+    let damage_formulas = {damage: item.system.damage, raise: `+${number_raise_dice}d${raise_die_size}x`,
         ap: parseInt(item.system.ap), multiplier: 1, explodes: true,
         heavy_weapon: false}
     let macros = [];
