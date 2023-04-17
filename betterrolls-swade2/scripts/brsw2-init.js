@@ -438,14 +438,6 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
-    game.settings.register('betterrolls-swade2', 'hide-reroll-fumble', {
-        name: game.i18n.localize('BRSW.HideReRolls'),
-        hint: game.i18n.localize('BRSW.HideReRollsHint'),
-        default: false,
-        scope: 'world',
-        type: Boolean,
-        config: true
-    });
     game.settings.register('betterrolls-swade2', 'hide-weapon-actions', {
         name: game.i18n.localize("BRSW.HideWeaponActions"),
         hint: game.i18n.localize("BRSW.HideWeaponActionsHint"),
