@@ -536,7 +536,7 @@ async function displayRemainingCard(content) {
  * @param {Roll[]} rolls
  * @param pp_override
  * @param old_pp: PPs expended in the current selected roll of this option
- * @param pp_modifier: A number to be added or substracted from PPs
+ * @param pp_modifier: A number to be added or subtracted from PPs
  */
 async function discount_pp(actor, item, rolls, pp_override, old_pp, pp_modifier) {
     let success = false;
@@ -1097,7 +1097,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const item = get_item_from_message(message, actor)
     const raise_die_size = item.system.bonusDamageDie || 6
     let damage_formulas = {damage: item.system.damage, raise: `+1d${raise_die_size}x`,
-        ap: parseInt(item.system.ap), multiplier: 1, explodes: true}
+        ap: parseInt(item.system.ap), multiplier: 1, explodes: true,
+        heavy_weapon: false}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1127,6 +1128,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         html.find('.brsw-action.brws-selected').each((_, element) => {
             let br_card = new BrCommonCard(message)
             let action = br_card.get_action_from_id(element.dataset.action_id).code
+            if (action.isHeavyWeapon) {
+                damage_formulas.heavy_weapon = true;
+            }
             if (action.dmgMod) {
                 const new_mod = create_modifier(action.name, action.dmgMod)
                 damage_roll.brswroll.modifiers.push(new_mod)
