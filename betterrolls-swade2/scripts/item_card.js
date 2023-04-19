@@ -297,7 +297,7 @@ export function activate_item_card_listeners(br_card, html) {
     });
     html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
         ammo_button.removeClass('brws-selected');
-        manual_ammo(item, actor);
+        item.reload()
     });
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
        pp_button.removeClass('brws-selected');
@@ -488,30 +488,6 @@ function check_skill_in_actor(actor, possible_skills) {
     return skill_found;
 }
 
-
-/**
- * Discount ammo from an item
- *
- * @param item Item that has been shot
- * @param rof Rof of the shot
- * @param {int} shot_override
- * @return {int} used shots
- */
-async function discount_ammo(item, rof, shot_override) {
-    // noinspection JSUnresolvedVariable
-    const ammo = parseInt(item.system.currentShots);
-    const ammo_spent = shot_override ? shot_override : ROF_BULLETS[rof];
-    const final_ammo = Math.max(ammo - ammo_spent, 0)
-    // noinspection JSUnresolvedVariable
-    let content = game.i18n.format("BRSW.ExpendedAmmo",
-        {ammo_spent: ammo_spent, item_name: item.name, final_ammo: final_ammo});
-    if (ammo_spent > ammo && !item.system.autoReload) {
-        content = '<p class="brsw-fumble-row">Not enough ammo!</p>' + content;
-    }
-    await item.update({'system.currentShots': final_ammo});
-    await displayRemainingCard(content);
-    return ammo_spent;
-}
 
 async function displayRemainingCard(content) {
   const show_card = game.settings.get('betterrolls-swade2', 'remaining_card_behaviour');
@@ -750,12 +726,10 @@ export async function roll_item(message, html, expend_bennie,
                 rof -= 1;
             }
             if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = discount_ammo(br_message.item, rof || 1, shots_override);
-                if (br_message.item.system.autoReload) {
-                    reload_weapon(br_message.actor, br_message.item, rof || 1)
-                }
+                render_data.used_shots = shots_override || rof || 1;
+                await br_message.item.consume(render_data.used_shots)
             } else {
-                render_data.used_shots = shots_override ? shots_override : ROF_BULLETS[rof || 1];
+                render_data.used_shots = shots_override || ROF_BULLETS[rof || 1];
             }
         }
     }
@@ -779,95 +753,6 @@ export async function roll_item(message, html, expend_bennie,
             }
         });
     }
-}
-
-/**
- * Reloads a weapon
- * @param actor: Actor owning the weapon
- * @param weapon
- * @param number: Number of shots reloaded
- */
-function reload_weapon(actor, weapon, number) {
-    // If the quantity of ammo is less than the amount required, use whatever is left.
-    let item = actor.items.get(weapon.id);
-    let ammo = actor.items.getName(item.system.ammo.trim())
-    let ammo_quantity = 999999999;
-    if (ammo) {
-        if (ammo.system.quantity <= 0) {
-            return ui.notifications.error(`${game.i18n.localize("BRSW.NoAmmoLeft")}`);
-        }
-        ammo_quantity = ammo.system.quantity;
-    }
-    let max_ammo = parseInt(weapon.system.shots);
-    // noinspection JSUnresolvedVariable
-    let current_ammo = parseInt(weapon.system.currentShots);
-    let newCharges = Math.min(max_ammo, current_ammo + number,
-        current_ammo + ammo_quantity);
-    let updates = [{_id: weapon.id, "system.currentShots": `${newCharges}`}];
-    if (ammo) {
-        const reload_quantity = weapon.system.autoReload ?
-            ammo.system.quantity - number :
-            ammo.system.quantity - newCharges + current_ammo
-        updates.push({_id: ammo.id, "system.quantity": reload_quantity});
-    }
-    actor.updateEmbeddedDocuments("Item", updates);
-    ChatMessage.create({
-        speaker: {
-            alias: actor.name
-        },
-        content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"><p>${game.i18n.format(
-            "BRSW.ReloadStatus", {actor_name: actor.name, weapon_name: weapon.name})}</p>`
-    })
-}
-
-function manual_ammo(weapon, actor) {
-    // Original idea and a tiny bit of code: SalieriC#8263; most of the code: Kandashi (He/Him)#6698;
-    // sound playback: Freeze#2689; chat message: Spacemandev#6256 (edited by SalieriC). Thank you all so much. =)}
-    // noinspection JSUnresolvedVariable
-    const currentCharges = parseInt(weapon.system.currentShots);
-    new Dialog({
-        title: 'Ammo Management',
-        content: `<form>
-                <div class="form-group">
-                    <label for="num"># of Shots: </label>
-                    <input id="num" name="num" type="number" min="0" value="1">
-                </div>
-            </form>`,
-        default: 'one',
-        buttons: {
-            one: {
-                label: game.i18n.localize("BRSW.Shooting"),
-                callback: (html) => {
-                    let number = Number(html.find("#num")[0].value);
-                    const newCharges = currentCharges - number;
-                    const updates = [
-                        {_id: weapon.id, "data.currentShots": `${newCharges}`},
-                    ];
-                    if (currentCharges < number) {
-                        ui.notifications.notify(game.i18n.localize("BRSW.NoAmmunition"))
-                    }
-                    else {
-                        actor.updateEmbeddedDocuments("Item", updates);
-                        ChatMessage.create({
-                            speaker: {
-                                alias: actor.name
-                            },
-                            content: `<img src=${weapon.img} alt="${weapon.name}" style="height: 2em;"> <p>${game.i18n.format(
-                                "BRSW.AmmunitionStatus", 
-                                {actor_name: actor.name, number: number, weapon_name: weapon.name, newCharges: newCharges})}</p>`
-                        })
-                    }
-                }
-            },
-            two: {
-                label: game.i18n.localize("BRSW.Reload"),
-                callback: (html) => {
-                    let number = Number(html.find("#num")[0].value);
-                    return reload_weapon(actor, weapon, number);
-                }
-            },
-        }
-    }).render(true)
 }
 
 
