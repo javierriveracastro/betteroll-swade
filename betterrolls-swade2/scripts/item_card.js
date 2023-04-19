@@ -59,8 +59,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
     const description = item.system.description;
     let trait_roll = new BRWSRoll();
     let possible_default_dmg_action;
-    let ammon_enabled = parseInt(item.system.shots) ||
-        (item.system.autoReload && item.system.ammo)
+    let ammon_enabled = parseInt(item.system.shots) || item.system.ammo
     let power_points = parseFloat(item.system.pp);
     const subtract_select = ammon_enabled ? game.settings.get(
         'betterrolls-swade2', 'default-ammo-management') : false;
