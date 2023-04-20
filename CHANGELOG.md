@@ -1,3 +1,15 @@
+# Version 3.23 aka this was longer than I was expecting...
+* Actions: Added the 'actor_value' selector that makes checking for any value in the actor object possible
+* Injury card: Added empty effects for arms and unmentionables.
+* Bugfix: Injury effects were not being passed correctly to Hooks.
+* Refactoring: Some code simplifications cortesy from Sourcery
+* Actions: Added text to differentiate normal ran from "Steady Hands" run
+* Translations: The weblate team added new translations.
+* Settings: Use new "Dumb Luck" setting from system instead of our own.
+* Weapon Actions: Added support for the new Hevay Weapon checkbox in item actions
+* Reloading: It is now using system code.
+* Bugfix: Shaken should be propely added when applying damage again.
+
 # Version 3.22 aka another round of bugfixes
 * Bugfix: Not adding Shaken to an Actor that becomes Incapacitated anymore. (SalierC)
 * Status: Making Incapacitated status icon small and Bleeding Out overlay instead. (SalieriC)
