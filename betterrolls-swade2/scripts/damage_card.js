@@ -93,7 +93,7 @@ export function get_owner(actor) {
 
 /**
  * Applies damage to a token
- * @param token
+ * @param token_or_token_id
  * @param {int} wounds
  * @param {int} soaked
  */
@@ -144,6 +144,9 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
     let final_wounds = initial_wounds + damage_wounds;
     incapacitated = final_wounds > token.actor.system.wounds.max
     await succ.apply_status(token, 'incapacitated', incapacitated, true)
+    if (incapacitated) {
+        final_shaken = false;
+    }
     // We cap damage on actor number of wounds
     final_wounds = Math.min(final_wounds, token.actor.system.wounds.max)
     // Finally, we update actor and mark defeated
