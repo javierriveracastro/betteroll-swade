@@ -148,7 +148,7 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
     final_wounds = Math.min(final_wounds, token.actor.system.wounds.max)
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
-    //await succ.apply_status(token, 'shaken', final_shaken)
+    await succ.apply_status(token, 'shaken', final_shaken)
     Hooks.call("BRSW-AfterApplyDamage", token, final_wounds, final_shaken,
         incapacitated, initial_wounds, initial_shaken, soaked);
     return {text: text, incapacitated: incapacitated};
