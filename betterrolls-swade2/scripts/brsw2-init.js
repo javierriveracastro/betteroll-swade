@@ -261,17 +261,6 @@ Hooks.once('diceSoNiceReady', () => {
         activate_attribute_listeners(app, html);
         activate_skill_listeners(app, html);
         activate_item_listeners(app, html);
-        // Edit with right click, like skills.
-        html.find('.item, .flexrow.active-effect').on('contextmenu', (ev) => {
-            const actor = app.token ? app.token.actor : app.object;
-            if (ev.currentTarget.dataset.itemId) {
-                const item = actor.items.get(ev.currentTarget.dataset.itemId);
-                item.sheet.render(true);
-            } else if (ev.currentTarget.dataset.effectId) {
-                const effect = actor.effects.get(ev.currentTarget.dataset.effectId);
-                effect.sheet.render(true);
-            }
-        })
     })
 })
 
