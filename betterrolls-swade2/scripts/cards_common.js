@@ -3,7 +3,7 @@
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
-import {get_item_from_message, get_item_trait, roll_item} from "./item_card.js";
+import {get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
@@ -1280,8 +1280,7 @@ function get_skill_from_message(message, actor) {
  */
 async function old_roll_clicked(event, message) {
     const index = event.currentTarget.dataset.index;
-    const actor = get_actor_from_message(message);
-    const item = get_item_from_message(message, actor);
+    const br_card = new BrCommonCard(message);
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
     render_data.trait_roll.old_rolls.push(render_data.trait_roll.rolls);
     render_data.trait_roll.rolls = render_data.trait_roll.old_rolls[index];
@@ -1298,8 +1297,8 @@ async function old_roll_clicked(event, message) {
             die.results.push(number > die.faces ? die.faces : number);
         }
     })
-    if (item) {
-        render_data.skill = get_item_trait(item, actor);
+    if (br_card.item) {
+        render_data.skill = get_item_trait(br_card.item, br_card.actor);
     }
     await update_message(message, render_data);
 }

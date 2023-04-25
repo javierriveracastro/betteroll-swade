@@ -755,19 +755,7 @@ export async function roll_item(message, html, expend_bennie,
 }
 
 
-/**
- * If a message has an item retrieve it
- * @param message:
- * @param actor
- */
-export function get_item_from_message(message, actor) {
-    return new BrCommonCard(message).item
-}
-
-
 // DAMAGE ROLLS
-
-
 /**
  * Gets the toughness value for the targeted token
  * @param {SwadeActor} acting_actor
@@ -830,8 +818,8 @@ function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
 }
 
 async function roll_dmg_target(damage_roll, damage_formulas, target, total_modifiers, message) {
-    const actor = get_actor_from_message(message)
-    const item = get_item_from_message(message, actor)
+    const br_card = new BrCommonCard(message)
+    const {actor, item} = br_card
     let current_damage_roll = JSON.parse(JSON.stringify(damage_roll))
     // @zk-sn: If strength is 1, make @str not explode: fix for #211 (Str 1 can't be rolled)
     let shortcuts = actor.getRollData();
@@ -976,10 +964,8 @@ function joker_modifiers(message, actor, damage_roll) {
  * @return {Promise<void>}*
  */
 export async function roll_dmg(message, html, expend_bennie, default_options, raise, target_token_id){
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const actor = get_actor_from_message(message)
-    const item = get_item_from_message(message, actor)
-    console.log(item)
+    const br_card = new BrCommonCard(message)
+    const {render_data, actor, item} = br_card
     const raise_die_size = item.system.bonusDamageDie || 6
     const number_raise_dice = item.system.bonusDamageDice || 1
     let damage_formulas = {damage: item.system.damage, raise: `+${number_raise_dice}d${raise_die_size}x`,
@@ -1012,7 +998,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let pinned_actions = [];
     if (html) {
         html.find('.brsw-action.brws-selected').each((_, element) => {
-            let br_card = new BrCommonCard(message)
             let action = br_card.get_action_from_id(element.dataset.action_id).code
             if (action.isHeavyWeapon) {
                 damage_formulas.heavy_weapon = true;
