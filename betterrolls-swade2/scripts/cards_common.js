@@ -169,7 +169,7 @@ export class BrCommonCard {
         for (const global_action of get_actions(item, this.actor)) {
             const name = global_action.button_name.slice(0, 5) === "BRSW." ?
                 game.i18n.localize(global_action.button_name) : global_action.button_name;
-            let group_name = global_action.group ? global_action.group : "BRSW.NoGroup"
+            let group_name = global_action.group || "BRSW.NoGroup"
             let group_name_id = group_name.split('.').join('')
             if (global_action.hasOwnProperty('extra_text')) {
                 this.extra_text += global_action.extra_text
@@ -645,13 +645,11 @@ export async function manage_selectable_click(ev, message){
 function manage_html_selectables(ev) {
     if (ev.currentTarget.classList.contains('brws-permanent-selected')) {
         ev.currentTarget.classList.remove('brws-permanent-selected')
+    } else if (ev.currentTarget.classList.contains('brws-selected')) {
+        ev.currentTarget.classList.remove('brws-selected');
     } else {
-        if (ev.currentTarget.classList.contains('brws-selected')) {
-            ev.currentTarget.classList.remove('brws-selected');
-        } else {
-            ev.currentTarget.classList.add('brws-permanent-selected');
-            ev.currentTarget.classList.add('brws-selected');
-        }
+        ev.currentTarget.classList.add('brws-permanent-selected');
+        ev.currentTarget.classList.add('brws-selected');
     }
 }
 
@@ -879,8 +877,7 @@ export async function update_message(message, render_data) {
     const br_message = new BrCommonCard(message)
     if (br_message.type ===
             BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = br_message.item
-        render_data.skill = get_item_trait(item, br_message.actor);
+        render_data.skill = get_item_trait(br_message.item, br_message.actor);
     }
     br_message.generate_render_data(render_data)
     await br_message.render()
@@ -987,9 +984,8 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     if (objetive && skill) {
         const origin_token = br_card.token
         if (origin_token) {
-            const item = br_card.item
             const target_data = get_tn_from_token(
-                skill, objetive, origin_token, item);
+                skill, objetive, origin_token, br_card.item);
             extra_options.tn = target_data.value;
             extra_options.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
@@ -1266,8 +1262,7 @@ function get_skill_from_message(message, actor) {
     if (render_data.hasOwnProperty('trait_id')) {
         skill = actor.items.get(render_data.trait_id);
     } else if (br_card.type === BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = br_card.item;
-        skill = get_item_trait(item, actor);
+        skill = get_item_trait(br_card.item, actor);
     }
     return skill
 }
@@ -1469,11 +1464,10 @@ function get_tn_from_target(message, index, selected) {
     }
     if (objetive) {
         const br_card = new BrCommonCard(message)
-        const item = br_card.item
         const origin_token = br_card.token
         if (origin_token) {
             const skill = get_skill_from_message(message, get_actor_from_message(message));
-            const target = get_tn_from_token(skill, objetive, origin_token, item);
+            const target = get_tn_from_token(skill, objetive, origin_token, br_card.item);
             if (target.value) {
                 // Don't update if we didn't get a value
                 // noinspection JSIgnoredPromiseFromCall
