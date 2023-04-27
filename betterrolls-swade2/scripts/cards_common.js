@@ -316,6 +316,21 @@ export class BrCommonCard {
     }
 
     /**
+     * Returns the actions currently selected in the card
+     */
+    get_selected_actions() {
+        let selected_actions = []
+        for (let group in this.action_groups) {
+            for (let action of this.action_groups[group].actions) {
+                if (action.selected) {
+                    selected_actions.push(action)
+                }
+            }
+        }
+        return selected_actions
+    }
+
+    /**
      * Creates the Foundry message object
      */
     async create_foundry_message(new_content) {

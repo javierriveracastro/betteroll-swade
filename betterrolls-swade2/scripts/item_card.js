@@ -646,39 +646,28 @@ export async function roll_item(message, html, expend_bennie,
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
     }
-    let pinned_actions = []
-    // Try to recover the html from the browser
-    if (!html) {
-        html = $(`.chat-message.message.flexcol[data-message-id="${message._id}"]`)
-    }
     // Actions
-    if (html) {
-        html.find('.brsw-action.brws-selected').each((_, element) => {
-            let action = br_message.get_action_from_id(element.dataset.action_id).code
-            if (action.skillOverride) {
-                trait = trait_from_string(br_message.actor, action.skillOverride);
-                render_data.trait_id = trait.id;
-            }
-            if (action.shotsUsed) {
-                let first_char = '';
-                try {
-                    first_char = action.shotsUsed.charAt(0);
-                } catch {}
-                if (first_char === '+' || first_char === '-') {
-                    // If we are using PP and the modifier starts with + or -
-                    // we use it as a relative number.
-                    if (parseInt(br_message.item.system.pp)) {
-                        shots_modifier += parseInt(action.shotsUsed);
-                    }
-                } else {
-                    shots_override = parseInt(action.shotsUsed);
+    for (let action of br_message.get_selected_actions()) {
+        if (action.code.skillOverride) {
+            trait = trait_from_string(br_message.actor, action.code.skillOverride);
+            render_data.trait_id = trait.id;
+        }
+        if (action.code.shotsUsed) {
+            let first_char = '';
+            try {
+                first_char = action.code.shotsUsed.charAt(0);
+            } catch {}
+            if (first_char === '+' || first_char === '-') {
+                // If we are using PP and the modifier starts with + or -
+                // we use it as a relative number.
+                if (parseInt(br_message.item.system.pp)) {
+                    shots_modifier += parseInt(action.code.shotsUsed);
                 }
+            } else {
+                shots_override = parseInt(action.code.shotsUsed);
             }
-            process_common_actions(action, extra_data, macros, br_message.actor)
-            if (element.classList.contains("brws-permanent-selected")) {
-                pinned_actions.push(action.name);
-            }
-        });
+        }
+        process_common_actions(action.code, extra_data, macros, br_message.actor);
     }
     for (let action of get_enabled_gm_actions()) {
         process_common_actions(action, extra_data, macros, br_message.actor)
@@ -707,14 +696,6 @@ export async function roll_item(message, html, expend_bennie,
     }
     const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
-    // Pinned actions
-    for (let group in render_data.action_groups) {
-        for (let action of render_data.action_groups[group].actions) {
-            // Global and local actions are different
-            action.selected = pinned_actions.includes(action.code) ||
-                pinned_actions.includes(action.name)
-        }
-    }
     // Ammo management
     if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
@@ -995,47 +976,40 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
     }
     // Actions
-    let pinned_actions = [];
-    if (html) {
-        html.find('.brsw-action.brws-selected').each((_, element) => {
-            let action = br_card.get_action_from_id(element.dataset.action_id).code
-            if (action.isHeavyWeapon) {
-                damage_formulas.heavy_weapon = true;
-            }
-            if (action.dmgMod) {
-                const new_mod = create_modifier(action.name, action.dmgMod)
-                damage_roll.brswroll.modifiers.push(new_mod)
-            }
-            if (action.dmgOverride) {
-                damage_formulas.damage = action.dmgOverride;
-            }
-            if (action.self_add_status) {
-                succ.apply_status(actor, action.self_add_status)
-            }
-            if (action.runDamageMacro) {
-                macros.push(action.runDamageMacro);
-            }
-            if (action.raiseDamageFormula) {
-                damage_formulas.raise = action.raiseDamageFormula;
-            }
-            if (action.overrideAp) {
-                damage_formulas.ap = action.overrideAp;
-            }
-            if (action.rerollDamageMod && expend_bennie) {
-                const reroll_mod = create_modifier(
-                    action.name, action.rerollDamageMod)
-                damage_roll.brswroll.modifiers.push(reroll_mod);
-            }
-            if (element.classList.contains("brws-permanent-selected")) {
-                pinned_actions.push(action.name);
-            }
-            if (action.multiplyDmgMod) {
-                damage_formulas.multiplier = action.multiplyDmgMod
-            }
-            if (action.avoid_exploding_damage) {
-                damage_formulas.explodes = false
-            }
-        });
+    for (let action of br_card.get_selected_actions()) {
+        if (action.code.isHeavyWeapon) {
+            damage_formulas.heavy_weapon = true;
+        }
+        if (action.code.dmgMod) {
+            const new_mod = create_modifier(action.code.name, action.code.dmgMod)
+            damage_roll.brswroll.modifiers.push(new_mod)
+        }
+        if (action.code.dmgOverride) {
+            damage_formulas.damage = action.code.dmgOverride;
+        }
+        if (action.code.self_add_status) {
+            succ.apply_status(actor, action.code.self_add_status)
+        }
+        if (action.code.runDamageMacro) {
+            macros.push(action.code.runDamageMacro);
+        }
+        if (action.code.raiseDamageFormula) {
+            damage_formulas.raise = action.code.raiseDamageFormula;
+        }
+        if (action.code.overrideAp) {
+            damage_formulas.ap = action.code.overrideAp;
+        }
+        if (action.code.rerollDamageMod && expend_bennie) {
+            const reroll_mod = create_modifier(
+                action.code.name, action.code.rerollDamageMod)
+            damage_roll.brswroll.modifiers.push(reroll_mod);
+        }
+        if (action.code.multiplyDmgMod) {
+            damage_formulas.multiplier = action.code.multiplyDmgMod
+        }
+        if (action.code.avoid_exploding_damage) {
+            damage_formulas.explodes = false
+        }
     }
     if (!damage_formulas.damage) {
         // Damage is empty and damage action has not been selected...
@@ -1061,15 +1035,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     for (let target of targets) {
         render_data.damage_rolls.push(await roll_dmg_target(
             damage_roll, damage_formulas, target, total_modifiers, message));
-    }
-    // Pinned actions
-    // noinspection JSUnresolvedVariable
-    for (let group in render_data.action_groups) {
-        for (let action of render_data.action_groups[group].actions) {
-            // Global and local actions are different
-            action.selected = pinned_actions.includes(action.code) ||
-                pinned_actions.includes(action.name)
-        }
     }
     await update_message(message, render_data);
     // Run macros

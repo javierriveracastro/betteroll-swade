@@ -14,7 +14,6 @@ import {
     trait_to_string,
     create_modifier, process_common_actions, BrCommonCard
 } from "./cards_common.js";
-import {get_global_action_from_name} from "./global_actions.js";
 import {run_macros} from "./item_card.js";
 import {get_enabled_gm_actions} from "./gm_modifiers.js";
 
@@ -156,29 +155,13 @@ export async function roll_skill(message, html, expend_bennie){
     let br_card = new BrCommonCard(message)
     const skill = br_card.actor.items.find((item) => item.id === render_data.trait_id);
     let extra_data = {}
-    let pinned_actions = []
     let macros = [];
     // Actions
-    if (html) {
-        html.find('.brsw-action.brws-selected').each((_, element) => {
-            // noinspection JSUnresolvedVariable
-            let action;
-            action = get_global_action_from_name(element.dataset.action_id);
-            process_common_actions(action, extra_data, macros, br_card.actor);
-            if (element.classList.contains("brws-permanent-selected")) {
-                pinned_actions.push(action.name);
-            }
-        });
+    for (let action of br_card.get_selected_actions()) {
+        process_common_actions(action.code, extra_data, macros, br_card.actor);
     }
     for (let action of get_enabled_gm_actions()) {
         process_common_actions(action, extra_data, macros, br_card.actor)
-    }
-    for (let group in render_data.action_groups) {
-        for (let action of render_data.action_groups[group].actions) {
-            // Global and local actions are different
-            action.selected = pinned_actions.includes(action.code) ||
-                pinned_actions.includes(action.name)
-        }
     }
     if (expend_bennie) {await spend_bennie(br_card.actor);}
     await roll_trait(message, skill.system , game.i18n.localize(

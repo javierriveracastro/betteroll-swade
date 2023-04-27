@@ -2,11 +2,9 @@
 /* global TokenDocument, Token, game, CONST */
 
 import {
-    BRSW_CONST, get_action_from_click, get_actor_from_message,
-    spend_bennie, get_actor_from_ids, trait_to_string, create_common_card,
-    BRWSRoll, roll_trait, process_common_actions
+    BRSW_CONST, get_action_from_click, spend_bennie, get_actor_from_ids, trait_to_string,
+    create_common_card, BRWSRoll, roll_trait, process_common_actions, BrCommonCard
 } from "./cards_common.js";
-import {get_global_action_from_name} from "./global_actions.js";
 import { run_macros } from "./item_card.js";
 import {get_enabled_gm_actions} from "./gm_modifiers.js";
 
@@ -194,36 +192,20 @@ export function activate_attribute_card_listeners(message, html) {
  */
 export async function roll_attribute(message, html,
                                      expend_bennie){
-    let actor = get_actor_from_message(message);
+    const br_card = new BrCommonCard(message);
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     const attribute_id = render_data.attribute_name;
     let extra_data = {}
-    let pinned_actions = [];
     let macros = [];
-    if (html) {
-        html.find('.brsw-action.brws-selected').each((_, element) => {
-            // noinspection JSUnresolvedVariable
-            let action;
-            action = get_global_action_from_name(element.dataset.action_id);
-            process_common_actions(action, extra_data, macros, actor);
-            if (element.classList.contains("brws-permanent-selected")) {
-                pinned_actions.push(action.name);
-            }
-        });
+    for (let action of br_card.get_selected_actions()) {
+        process_common_actions(action.code, extra_data, macros, br_card.actor);
     }
     for (let action of get_enabled_gm_actions()) {
-        process_common_actions(action, extra_data, macros, actor)
+        process_common_actions(action, extra_data, macros, br_card.actor)
     }
-    for (let group in render_data.action_groups) {
-        for (let action of render_data.action_groups[group].actions) {
-            // Global and local actions are different
-            action.selected = pinned_actions.includes(action.code) ||
-                pinned_actions.includes(action.name)
-        }
-    }
-    if (expend_bennie) {await spend_bennie(actor);}
-    await roll_trait(message, actor.system.attributes[attribute_id], game.i18n.localize(
-        "BRSW.AbilityDie"), html, extra_data);
+    if (expend_bennie) {await spend_bennie(br_card.actor);}
+    await roll_trait(message, br_card.actor.system.attributes[attribute_id],
+        game.i18n.localize("BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
-    run_macros(macros, actor, null, message);
+    run_macros(macros, br_card.actor, null, message);
 }
