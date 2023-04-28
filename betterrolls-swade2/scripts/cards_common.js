@@ -156,6 +156,11 @@ export class BrCommonCard {
         return this.actor.items.find((item) => item.id === this.skill_id);
     }
 
+    get sorted_action_groups() {
+        let groups_array = Object.values(this.action_groups)
+        return groups_array.sort((a, b) => {return a.name > b.name? 1: -1})
+    }
+
     populate_actions() {
         this.action_groups = {}
         this.populate_world_actions()
@@ -275,6 +280,7 @@ export class BrCommonCard {
         this.get_trait();
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
+        console.log(this.get_data_render())
         if (this.message) {
             this.update_list.content = new_content;
         } else {
@@ -287,7 +293,8 @@ export class BrCommonCard {
      * to the template
      */
     get_data_render() {
-        return {...this.get_data(), ...this.render_data}
+        return {...this.get_data(), ...this.render_data,
+            ...{sorted_action_groups: this.sorted_action_groups}}
     }
 
     /**
