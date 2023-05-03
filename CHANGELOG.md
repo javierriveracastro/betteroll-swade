@@ -1,3 +1,10 @@
+# Version 3.24 aka probably not worth releasing but the right click thing was making me uneasy
+* Sheets: Remove the use of the right click button to edit to make the new menu from system usable
+* Refactoring: Remove old code and various optimizations. Rely on the actions from the card class instead of reading the card HTML
+* Actions: Action groups are now sorted alphabetically. Please don't rush to rename your groups, soon another, more flexible, way of ordering will be available.
+* Refactoring: Start of the splitting of world actions into different files to make easier to add more.
+* Translations: German and Catalan updates from the weblate team.
+
 # Version 3.23 aka this was longer than I was expecting...
 * Actions: Added the 'actor_value' selector that makes checking for any value in the actor object possible
 * Injury card: Added empty effects for arms and unmentionables.
