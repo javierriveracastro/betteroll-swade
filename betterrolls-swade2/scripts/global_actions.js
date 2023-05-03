@@ -2,7 +2,7 @@
 /* jshint -W089 */
 
 import {get_item_trait} from "./item_card.js";
-import {SYSTEM_GLOBAL_ACTION} from "./builtin-actions.js"
+import {SYSTEM_GLOBAL_ACTION} from "./actions/builtin-actions.js"
 import {manage_selectable_gm} from "./gm_modifiers.js";
 
 // DMG override is still not implemented.
