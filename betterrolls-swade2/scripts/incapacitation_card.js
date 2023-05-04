@@ -6,7 +6,6 @@ import {
     BRSW_CONST,
     BRWSRoll,
     create_common_card,
-    get_actor_from_message,
     roll_trait,
     spend_bennie, update_message
 } from "./cards_common.js";
@@ -125,9 +124,7 @@ export function activate_incapacitation_card_listeners(message, html) {
  */
 async function roll_incapacitation(message, spend_benny) {
     const br_card = new BrCommonCard(message);
-    const render_data = message.getFlag('betterrolls-swade2',
-        'render_data');
-    const actor = get_actor_from_message(message)
+    const {render_data, actor} = br_card;
     if (spend_benny) {
         await spend_bennie(actor);
     }

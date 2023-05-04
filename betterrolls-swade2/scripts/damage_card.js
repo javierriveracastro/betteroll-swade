@@ -1,7 +1,7 @@
 // Functions for the damage card
 /* global game, canvas, CONST, Token, CONFIG, Hooks, succ */
 import {
-    BRSW_CONST, BRWSRoll, create_common_card, get_actor_from_message, are_bennies_available,
+    BRSW_CONST, BRWSRoll, create_common_card, are_bennies_available,
     roll_trait, spend_bennie, update_message, BrCommonCard
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
@@ -164,9 +164,7 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
  */
 async function undo_damage(message){
     const br_card = new BrCommonCard(message);
-    const actor = get_actor_from_message(message);
-    const render_data = message.getFlag('betterrolls-swade2',
-        'render_data');
+    const {actor, render_data} = br_card;
     await actor.update({"data.wounds.value": render_data.undo_values.wounds})
     if (br_card.token) {
         // Remove incapacitation and shaken
@@ -216,9 +214,8 @@ export function activate_damage_card_listeners(message, html) {
  * @param {Boolean} use_bennie
  */
 async function roll_soak(message, use_bennie) {
-    const render_data = message.getFlag('betterrolls-swade2',
-        'render_data');
-    const actor = get_actor_from_message(message);
+    let br_card = new BrCommonCard(message);
+    const {render_data, actor} = br_card;
     if (use_bennie) {
         await spend_bennie(actor);
     }
@@ -260,7 +257,6 @@ async function roll_soak(message, use_bennie) {
     if (result >= 4) {
         render_data.soaked = Math.floor(result / 4);
         await actor.update({"data.wounds.value": render_data.undo_values.wounds})
-        let br_card = new BrCommonCard(message);
         const damage_result = await apply_damage(br_card.token, render_data.wounds,
             render_data.soaked);
         render_data.text = damage_result.text

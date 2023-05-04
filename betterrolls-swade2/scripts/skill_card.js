@@ -8,7 +8,6 @@ import {
     create_common_card,
     get_action_from_click,
     get_actor_from_ids,
-    get_actor_from_message,
     roll_trait,
     spend_bennie,
     trait_to_string,
@@ -135,8 +134,8 @@ export function activate_skill_card_listeners(message, html) {
             'roll-bennie-button'));
     });
     html.find('.brsw-header-img').click(_ => {
-        const render_data = message.getFlag('betterrolls-swade2', 'render_data')
-        const actor = get_actor_from_message(message);
+        const br_card = new BrCommonCard(message);
+        const {render_data, actor} = br_card;
         const item = actor.items.get(render_data.trait_id);
         item.sheet.render(true);
     })

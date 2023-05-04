@@ -7,7 +7,7 @@ import {
     BRWSRoll,
     calculate_results,
     check_and_roll_conviction, create_common_card, get_action_from_click,
-    get_actor_from_message, get_roll_options, roll_trait, spend_bennie,
+    get_roll_options, roll_trait, spend_bennie,
     update_message, has_joker, create_modifier, process_common_actions,
     process_minimum_str_modifiers, BrCommonCard
 } from "./cards_common.js";
@@ -988,6 +988,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             damage_formulas.damage = action.code.dmgOverride;
         }
         if (action.code.self_add_status) {
+            // noinspection ES6MissingAwait
             succ.apply_status(actor, action.code.self_add_status)
         }
         if (action.code.runDamageMacro) {
@@ -1167,8 +1168,8 @@ async function half_damage(message, index){
  * @param {int} index:
  */
 async function edit_toughness(message, index) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const actor = get_actor_from_message(message);
+    const br_card = new BrCommonCard(message)
+    const {render_data, actor} = br_card
     const defense_values = get_toughness_targeted_selected(actor);
     let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
     damage_rolls[0].tn = defense_values.toughness;

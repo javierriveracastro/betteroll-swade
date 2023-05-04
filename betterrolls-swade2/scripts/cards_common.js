@@ -41,7 +41,7 @@ export function BRWSRoll() {
 /**
  * Stores a flag with the render data, deletes data can't be stored
  *
- * @param message
+ * @param {ChatMessage} message
  * @param render_object
  */
 async function store_render_flag(message, render_object) {
@@ -482,16 +482,6 @@ export function get_actor_from_ids(token_id, actor_id) {
     }
 }
 
-/**
- * Get the actor from the message flag
- * @param {ChatMessage} message
- * @returns {actor|null|*}
- */
-export function get_actor_from_message(message){
-    let br_card = new BrCommonCard(message);
-    return br_card.actor
-}
-
 
 /**
  * Connects the listener for all chat cards
@@ -501,12 +491,12 @@ export function get_actor_from_message(message){
 export function activate_common_listeners(message, html) {
     html = $(html)  // Get sure html is a Jquery element
     // The message will be rendered at creation and each time a flag is added
-    let actor = get_actor_from_message(message);
+    const br_card = new BrCommonCard(message);
     // Actor will be undefined if this is called before flags are set
-    if (actor){
+    if (br_card.actor){
         // noinspection JSUnresolvedFunction,AnonymousFunctionJS
         html.find('.brws-actor-img').addClass('bound').click(async () => {
-            await manage_sheet(actor)
+            await manage_sheet(br_card.actor)
         });
         //
         html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
@@ -541,12 +531,10 @@ export function activate_common_listeners(message, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brsw-edit-modifier').click((ev) => {
         const label_mod = game.i18n.localize("BRSW.Modifier");
-        const default_value = ev.currentTarget.dataset.value;
-        const default_label = ev.currentTarget.dataset.label;
-        const index = ev.currentTarget.dataset.index;
+        const {value, label, index} = ev.currentTarget.dataset
         simple_form(game.i18n.localize("BRSW.EditModifier"),
-            [{label: 'Label', default_value: default_label},
-                {id: 'value', label: label_mod, default_value: default_value}],
+            [{label: 'Label', default_value: label},
+                {id: 'value', label: label_mod, default_value: value}],
             async values => {
                 await edit_modifier(message, parseInt(index),
                     {name: values.Label, value: values.value,
@@ -570,7 +558,7 @@ export function activate_common_listeners(message, html) {
             const new_value = values.new_result;
             // Actual roll manipulation
             await override_die_result(roll_data, die_index, new_value, false,
-                actor.isWildcard);
+                br_card.actor.isWildcard);
             await update_message(message, render_data);
         });
     })
@@ -992,17 +980,16 @@ function get_actor_own_modifiers(actor, roll_options) {
 async function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
     let br_card = new BrCommonCard(message)
-    const actor = get_actor_from_message(message);
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
-            if (token.actor !== actor) {
+            if (token.actor !== br_card.actor) {
                 objetive = token;
             }
         })
     }
-    let skill = get_skill_from_message(message, actor);
+    let skill = get_skill_from_message(message, br_card.actor);
     if (objetive && skill) {
         const origin_token = br_card.token
         if (origin_token) {
@@ -1030,10 +1017,10 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.total_modifiers += mod_value;
     }
     get_below_chat_modifiers(options, roll_options);
-    get_actor_own_modifiers(actor, roll_options);
+    get_actor_own_modifiers(br_card.actor, roll_options);
     // Armor min str
     if (skill?.system.attribute === 'agility') {
-        let armor_penalty = get_actor_armor_minimum_strength(actor)
+        let armor_penalty = get_actor_armor_minimum_strength(br_card.actor)
         if (armor_penalty) {
             roll_options.total_modifiers += armor_penalty.value
             roll_options.modifiers.push(armor_penalty)
@@ -1050,14 +1037,13 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     const br_message = new BrCommonCard(message)
     if (br_message.type ===
         BRSW_CONST.TYPE_ITEM_CARD) {
-        const item = br_message.item
-        if (item.system.actions.skillMod) {
+        if (br_message.item.system.actions.skillMod) {
             let modifier_value = 0
-            if (isNaN(item.system.actions.skillMod)) {
-                const temp_roll = new Roll(item.system.actions.skillMod)
+            if (isNaN(br_message.item.system.actions.skillMod)) {
+                const temp_roll = new Roll(br_message.item.system.actions.skillMod)
                 modifier_value = (await temp_roll.evaluate()).total
             } else {
-                modifier_value = parseInt(item.system.actions.skillMod)
+                modifier_value = parseInt(br_message.item.system.actions.skillMod)
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
@@ -1072,7 +1058,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         })
     }
     //Conviction
-    const conviction_modifier = check_and_roll_conviction(actor);
+    const conviction_modifier = check_and_roll_conviction(br_card.actor);
     if (conviction_modifier) {
         roll_options.modifiers.push(conviction_modifier);
         roll_options.total_modifiers += conviction_modifier.value
@@ -1084,13 +1070,13 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     }
     // Encumbrance
     const render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    if (actor.isEncumbered) {
+    if (br_card.actor.isEncumbered) {
         if (render_data.attribute_name === 'agility') {
             roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                 value: -2})
             roll_options.total_modifiers -= 2
         } else {
-            const skill = actor.items.get(render_data.trait_id)
+            const skill = br_card.actor.items.get(render_data.trait_id)
             if (skill && skill.system.attribute === 'agility') {
                 roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
@@ -1197,8 +1183,8 @@ function create_roll_string(trait_dice, rof) {
  * @param extra_data: Extra data to add to render options
  */
 export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    const actor = get_actor_from_message(message);
+    const br_card = new BrCommonCard(message);
+    let {render_data, actor} = br_card;
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
     if (!render_data.trait_roll.rolls.length) {
@@ -1473,11 +1459,11 @@ async function edit_tn(message, index, new_tn, reason) {
  */
 function get_tn_from_target(message, index, selected) {
     let objetive;
-    let actor = get_actor_from_message(message);
+    const br_card = new BrCommonCard(message)
     if (selected) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
-            if (token.actor !== actor) {
+            if (token.actor !== br_card.actor) {
                 objetive = token;
             }
         });
@@ -1485,10 +1471,9 @@ function get_tn_from_target(message, index, selected) {
         objetive = get_targeted_token();
     }
     if (objetive) {
-        const br_card = new BrCommonCard(message)
         const origin_token = br_card.token
         if (origin_token) {
-            const skill = get_skill_from_message(message, get_actor_from_message(message));
+            const skill = get_skill_from_message(message, br_card.actor);
             const target = get_tn_from_token(skill, objetive, origin_token, br_card.item);
             if (target.value) {
                 // Don't update if we didn't get a value
