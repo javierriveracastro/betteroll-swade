@@ -1,3 +1,6 @@
+# Version 3.25 aka joker's bug
+* Bug: Solved a bug about making a trait roll from a card not directly linked to a token where joker was not detected correctly (mostly Laslo work, I just change a _ for a .)
+
 # Version 3.24 aka probably not worth releasing but the right click thing was making me uneasy
 * Sheets: Remove the use of the right click button to edit to make the new menu from system usable
 * Refactoring: Remove old code and various optimizations. Rely on the actions from the card class instead of reading the card HTML
