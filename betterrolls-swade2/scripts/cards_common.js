@@ -1078,7 +1078,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
-    if (br_card.token && has_joker(br_card.token_id)) {
+    if (br_card.token && has_joker(br_card.token.id)) {
         roll_options.modifiers.push(create_modifier('Joker', 2))
         roll_options.total_modifiers += 2;
     }
