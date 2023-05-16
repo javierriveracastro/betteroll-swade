@@ -135,7 +135,7 @@ export class BrCommonCard {
     get actor() {
         // We always prefer the token actor if available
         if (this.token_id) {
-            const token  = this.token
+            const token = this.token
             if (token) {
                 // Token can be undefined even with and id the scene is note
                 // ready or the token has been removed.
@@ -280,7 +280,6 @@ export class BrCommonCard {
         this.get_trait();
         let new_content = await renderTemplate(this.render_data.template, this.get_data_render());
         TextEditor.enrichHTML(new_content, {async: false});
-        console.log(this.get_data_render())
         if (this.message) {
             this.update_list.content = new_content;
         } else {
@@ -293,8 +292,10 @@ export class BrCommonCard {
      * to the template
      */
     get_data_render() {
-        return {...this.get_data(), ...this.render_data,
+        const data = {...this.get_data(), ...this.render_data,
             ...{sorted_action_groups: this.sorted_action_groups}}
+        data.actor = this.actor;
+        return data
     }
 
     /**
