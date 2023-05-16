@@ -1,5 +1,5 @@
 # Version 3.26 aka portrait bug
-* Bugfix: Actor portrait was disappearing when opening gorups.
+* Bugfix: Actor portrait was disappearing when opening groups.
 
 # Version 3.25 aka joker's bug
 * Bug: Solved a bug about making a trait roll from a card not directly linked to a token where joker was not detected correctly (mostly Laslo work, I just change a _ for a .)
