@@ -239,11 +239,11 @@ async function roll_soak(message, use_bennie) {
     }
     // Active effects
     let soak_active_effects = actor.effects.filter(
-        e => e.changes.find(ch => ch.key === 'brsw.soak-modifier'))
+        e => e.changes.find(ch => ch.key === 'brsw.soak-modifier' || ch.key === 'system.attributes.vigor.soakBonus'))
     for (let effect of soak_active_effects) {
-        let modifier = effect.changes.find(ch => ch.key ===
-            'brsw.soak-modifier').value
-        soak_modifiers.push({name: effect.label, value: parseInt(modifier)})
+        let change = effect.changes.find(ch => ch.key === 'brsw.soak-modifier') ||
+            effect.changes.find(ch => ch.key === 'system.attributes.vigor.soakBonus')
+        soak_modifiers.push({name: effect.label, value: parseInt(change.value)})
     }
     const roll = await roll_trait(message,
         actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
