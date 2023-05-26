@@ -78,6 +78,8 @@ export class BrCommonCard {
             if (data) {
                 this.load(data)
             }
+        } else {
+            this.id = broofa()
         }
     }
 
@@ -102,10 +104,11 @@ export class BrCommonCard {
             actor_id: this.actor_id, item_id: this.item_id,
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
-            action_groups: this.action_groups}
+            action_groups: this.action_groups, id: this.id}
     }
 
     load(data){
+        this.id = data.id
         this.type = data.type
         this.token_id = data.token_id
         this.actor_id = data.actor_id
