@@ -960,7 +960,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
-    let options = get_roll_options(html, default_options);
+    let options = get_roll_options(default_options);
     // Shotgun
     if (damage_formulas.damage === '1-3d6' && item.type === 'weapon') {
         // Bet that this is shotgun

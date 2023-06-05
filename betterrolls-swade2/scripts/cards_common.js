@@ -712,10 +712,9 @@ export function get_action_from_click(event){
 /**
  * Gets the roll options from the card html
  *
- * @param {string} html: Card html
  * @param old_options: Options used as default
  */
-export function get_roll_options(html, old_options){
+export function get_roll_options(old_options){
     let modifiers = old_options.additionalMods || [];
     let dmg_modifiers = old_options.dmgMods || [];
     let tn = old_options.tn || 4;
@@ -971,7 +970,6 @@ function get_actor_own_modifiers(actor, roll_options) {
     }
 }
 
-// noinspection FunctionTooLongJS
 /**
  * Get all the options needed for a new roll
  * @param {ChatMessage} message
@@ -1010,7 +1008,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     if (extra_data.hasOwnProperty('rof')) {
         extra_options.rof = extra_data.rof;
     }
-    let options = get_roll_options(html, extra_options);
+    let options = get_roll_options(extra_options);
     roll_options.rof = options.rof || 1;
     // Trait modifier
     if (parseInt(trait_dice.die.modifier)) {
