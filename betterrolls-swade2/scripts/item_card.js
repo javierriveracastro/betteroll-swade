@@ -807,6 +807,11 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
+    if (! damage_formulas.explode) {
+        for (let key of ['sma', 'spi', 'str', 'agi', 'vig']) {
+            shortcuts[key] = shortcuts[key].replace('x', '')
+        }
+    }
     let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
     // Heavy armor
@@ -1026,6 +1031,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_formulas.damage = makeExplotable(damage_formulas.damage);
     } else {
         damage_formulas.damage = damage_formulas.damage.replace('x', '')
+        damage_formulas.raise = damage_formulas.raise.replace('x', '')
     }
     const targets = await get_dmg_targets(target_token_id)
     if (! raise) {damage_formulas.raise = ''}
@@ -1050,7 +1056,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
 async function get_dmg_targets(token_id) {
     if (token_id) {
         let token = canvas.tokens.get(token_id);
-        console.log(token)
         if (token) {
             return [token];
         }

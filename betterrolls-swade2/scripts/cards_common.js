@@ -1148,7 +1148,6 @@ async function show_3d_dice(roll, message, modifiers) {
     // Dice buried in modifiers.
     for (let modifier of modifiers) {
         if (modifier.dice && (modifier.dice instanceof Roll)) {
-            console.log(modifier.dice)
             // noinspection ES6MissingAwait
             game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind)
         }
