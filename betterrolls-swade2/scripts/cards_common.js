@@ -183,8 +183,7 @@ export class BrCommonCard {
                 this.extra_text += global_action.extra_text
             }
             if (!this.action_groups.hasOwnProperty(group_name_id)) {
-                const translated_group = group_name.slice(0, 5) === 'BRSW.' ?
-                    game.i18n.localize(group_name) : group_name
+                const translated_group = game.i18n.localize(group_name)
                 this.action_groups[group_name_id] = {
                     name: translated_group, actions: [], id: broofa(),
                     collapsed: game.settings.get('betterrolls-swade2', 'collapse-modifiers')}
@@ -1542,13 +1541,13 @@ async function duplicate_message(message, event) {
 export function create_modifier(label, expression) {
     let modifier = {name: label, value: 0, extra_class: '', dice: null}
     if (isNaN(expression)) {
-        if (expression.indexOf('d')) {
+        if (expression.indexOf('d') > 0) {
             // This is a die expression
             modifier.dice = new Roll(expression)
             modifier.dice.evaluate({async:false})
             modifier.value = parseInt(modifier.dice.result)
         } else {
-            modifier.value = parseInt(expression)
+            modifier.value = eval(expression)
         }
     } else {
         modifier.value = parseInt(expression)
