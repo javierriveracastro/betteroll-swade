@@ -73,11 +73,6 @@
   "relationships": {
     "requires": [
       {
-        "id": "settings-extender",
-        "type": "module",
-        "compatibility": {}
-      },
-      {
         "id": "succ",
         "type": "module",
         "manifest": "https://raw.githubusercontent.com/SalieriC/SUCC/main/succ/module.json",
@@ -93,8 +88,8 @@
     ]
   },
   "compatibility": {
-    "minimum": "10",
-    "verified": "10.291",
-    "maximum": "10"
+    "minimum": "11",
+    "verified": "11.300",
+    "maximum": "11"
   }
 }
