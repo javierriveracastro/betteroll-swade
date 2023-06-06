@@ -1,3 +1,12 @@
+# Version 3.27 aka the end of v10
+* Bugfix: Grammar corrections on different places.
+* Cards: Use the new system key "system.attributes.vigor.soakBonus"
+* Damage: Multiple modifiers in damage calculation are now supported (Dan Brown)
+* Refactoring: Cards now show their id in the chat to be easier to find.
+* Translations: Updates from the Weblate team.
+* Bugfix: When exploding damage is disable also keep references like @str from exploding.
+* Refactoring: Removing unneeded paramethers from functions and some general simplifications.
+
 # Version 3.26 aka portrait bug
 * Bugfix: Actor portrait was disappearing when opening groups.
 
