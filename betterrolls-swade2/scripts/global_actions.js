@@ -166,7 +166,7 @@ function check_selector(type, value, item, actor){
     } else if (type === 'actor_has_effect') {
         // noinspection AnonymousFunctionJS
         const effect = actor.effects.find(
-            effect => effect.label.toLowerCase().includes(value.toLowerCase()));
+            effect => effect.name.toLowerCase().includes(value.toLowerCase()));
         selected = effect ? ! effect.disabled : false;
     } else if (type === 'actor_has_edge') {
         const edge_name = value.includes("BRSW.EdgeName-") ? game.i18n.localize(value) : value;
@@ -261,7 +261,7 @@ function check_selector(type, value, item, actor){
         selected = false
         for (const targeted_token of game.user.targets) {
             const effect = targeted_token.actor?.effects.find(
-                ef => ef.label.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
+                ef => ef.name.toLowerCase().includes(value.toLowerCase())); // jshint ignore:line
             if (effect) {
                 selected = selected || effect ? (! effect.disabled) : false;
             }
