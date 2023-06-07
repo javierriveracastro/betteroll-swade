@@ -143,7 +143,11 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
     // Final damage
     let final_wounds = initial_wounds + damage_wounds;
     incapacitated = final_wounds > token.actor.system.wounds.max
-    await succ.apply_status(token, 'incapacitated', incapacitated, true)
+    if (incapacitated) {
+        await game.succ.addCondition('incapacitated', token)
+    } else {
+        await game.succ.removeCondition('incapacitated', token)
+    }
     if (incapacitated) {
         final_shaken = false;
     }
@@ -151,7 +155,11 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
     final_wounds = Math.min(final_wounds, token.actor.system.wounds.max)
     // Finally, we update actor and mark defeated
     await token.actor.update({'data.wounds.value': final_wounds})
-    await succ.apply_status(token, 'shaken', final_shaken)
+    if (final_shaken) {
+        await game.succ.addCondition('shaken', token)
+    } else {
+        await game.succ.removeCondition('shaken', token)
+    }
     Hooks.call("BRSW-AfterApplyDamage", token, final_wounds, final_shaken,
         incapacitated, initial_wounds, initial_shaken, soaked);
     return {text: text, incapacitated: incapacitated};
@@ -169,7 +177,11 @@ async function undo_damage(message){
     if (br_card.token) {
         // Remove incapacitation and shaken
         let token_object = br_card.token.document
-        await succ.apply_status(token_object, 'shaken', render_data.undo_values.shaken)
+        if (render_data.undo_values.shaken){
+            await game.succ.addCondition('shaken', token_object)
+        } else {
+            await game.succ.removeCondition('shaken', token_object)
+        }
         let inc_effects = token_object.actor.effects.filter(
                 e => e.flags?.core?.statusId === 'incapacitated').map(
                     effect => {return effect.id})

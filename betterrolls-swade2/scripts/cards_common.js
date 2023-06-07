@@ -1583,7 +1583,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
     // noinspection JSUnresolvedVariable
     if (action.self_add_status) {
         // noinspection JSIgnoredPromiseFromCall
-        succ.apply_status(actor, action.self_add_status, true)
+        game.succ.addCondition(action.self_add_status, actor)
     }
     if (action.hasOwnProperty('wildDieFormula')) {
         extra_data.wildDieFormula = action.wildDieFormula;
