@@ -96,8 +96,7 @@ async function roll_unshaken(message, use_bennie) {
         // remove shaken
         await spend_bennie(actor)
         render_data.text = game.i18n.format("BRSW.UnshakeBennie", {name: actor.name})
-        succ.apply_status(actor, 'shaken', false).catch(
-            console.error("Error removing shaken") || false)
+        game.succ.removeCondition('shaken', actor).catch(console.error("Error removing shaken") || false)
     } else {
         // Check for Edges & Abilities
         const modifiers = await check_abilities(actor)
@@ -115,7 +114,7 @@ async function roll_unshaken(message, use_bennie) {
             } else {
                 render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRoll", {name: actor.name})
             }
-            succ.apply_status(actor, 'shaken', false).catch(console.error("Error removing shaken") || false)
+            game.succ.removeCondition('shaken', actor).catch(console.error("Error removing shaken") || false)
         } else {
             render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: actor.name})
         }
@@ -223,7 +222,7 @@ async function roll_unstun(message) {
     })
     if (result >= 4) {
         render_data.text = game.i18n.format("BRSW.UnstunSuccessfulRoll", {name: actor.name})
-        succ.apply_status(actor, 'stunned', false).catch(console.error("Error removing stunned") || false)
+        game.succ.removeCondition('stunned', actor).catch(console.error("Error removing stunned") || false)
     } else {
         render_data.text = game.i18n.format("BRSW.UnstunFailure", {name: actor.name})
     }

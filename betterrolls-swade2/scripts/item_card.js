@@ -994,8 +994,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             damage_formulas.damage = action.code.dmgOverride;
         }
         if (action.code.self_add_status) {
-            // noinspection ES6MissingAwait
-            succ.apply_status(actor, action.code.self_add_status)
+            game.succ.addCondition(action.code.self_add_status, actor)
         }
         if (action.code.runDamageMacro) {
             macros.push(action.code.runDamageMacro);
