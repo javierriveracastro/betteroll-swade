@@ -150,8 +150,8 @@ async function roll_incapacitation(message, spend_benny) {
         render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
         render_data.injury_type = "permanent"
         if (game.succ.hasCondition("incapacitated", br_card.token)) {
-            await succ.apply_status(br_card.token_id, "incapacitated", false) //remove Inc as overlay
-            await succ.apply_status(br_card.token_id, "incapacitated", true, false) //add it as regular (small) icon
+            await succ.apply_status(br_card.token, "incapacitated", false) //remove Inc as overlay
+            await succ.apply_status(br_card.token, "incapacitated", true, false) //add it as regular (small) icon
         }
         // noinspection ES6MissingAwait
         succ.apply_status(br_card.token_id, "bleeding-out", true, true) //make bleeding out overlay
