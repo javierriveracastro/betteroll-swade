@@ -1,3 +1,9 @@
+# Version 3.28 aka v11
+* Support Foundry v11
+* Remove settings extender as dependency
+* Accept (unskilled) (with parenthesis) as a valid name for the unskilled skill
+* Refactoring: Move succ use to the new API.
+
 # Version 3.27 aka the end of v10
 * Bugfix: Grammar corrections on different places.
 * Cards: Use the new system key "system.attributes.vigor.soakBonus"
