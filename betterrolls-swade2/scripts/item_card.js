@@ -307,7 +307,8 @@ export function activate_item_card_listeners(br_card, html) {
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
            ev.currentTarget.dataset.damage,
-           `${actor.name} - ${item.name}`).then();
+           `${actor.name} - ${item.name}`,
+           ev.currentTarget.dataset.heavyDamage).then();
    });
    html.find('.brsw-target-tough').click(ev => {
       // noinspection JSIgnoredPromiseFromCall

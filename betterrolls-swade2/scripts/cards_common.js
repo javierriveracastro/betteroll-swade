@@ -297,6 +297,7 @@ export class BrCommonCard {
         const data = {...this.get_data(), ...this.render_data,
             ...{sorted_action_groups: this.sorted_action_groups}}
         data.actor = this.actor;
+        data.item = this.item;
         return data
     }
 

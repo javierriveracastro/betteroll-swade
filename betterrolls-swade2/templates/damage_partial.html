@@ -26,7 +26,7 @@
                 {{# if ../damage_result }}
                     {{# if this.target_id }}
                         <button class="brsw-master-only brsw-row-button brsw-apply-damage" title="{{ localize "BRSW.ApplyDamage" }}"
-                                data-token="{{this.target_id}}" data-damage="{{../damage_result}}">
+                                data-token="{{this.target_id}}" data-damage="{{../damage_result}}" data-heavy-damage="{{ ../../item.system.isHeavyWeapon }}">
                             <i class="fas fa-check"></i><i class="fas fa-tint"></i>
                         </button>
                     {{/if}}

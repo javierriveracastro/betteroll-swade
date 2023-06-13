@@ -329,5 +329,6 @@
   "BRSW.AttackInanimate": "Attack Inanimate Object",
   "BRSW.UnstunBonus": "Unstun bonus",
   "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored",
-  "BRSW.RanSteady": "Ran (-1)"
+  "BRSW.RanSteady": "Ran (-1)",
+  "BRSW.OR.RiftsGrittyDamage": "Mega Damage causes gritty damage"
 }

@@ -11,8 +11,9 @@ import {create_incapacitation_card, create_injury_card} from "./incapacitation_c
  * @param {string} token_id
  * @param {int} damage
  * @param {string} damage_text
+ * @param {string} heavy_damage
  */
-export async function create_damage_card(token_id, damage, damage_text) {
+export async function create_damage_card(token_id, damage, damage_text, heavy_damage) {
     let token = canvas.tokens.get(token_id);
     let {actor} = token;
     let user = get_owner(actor);
@@ -27,9 +28,13 @@ export async function create_damage_card(token_id, damage, damage_text) {
     const can_soak = wounds || actor.system.status.isShaken;
     const damage_result = await apply_damage(token, wounds, 0);
     const footer = damage_card_footer(actor);
-    const show_injury = (game.settings.get(
+    let show_injury = (game.settings.get(
         'betterrolls-swade2', 'optional_rules_enabled').indexOf(
-            "GrittyDamage") > -1) && can_soak && (actor.system.wounds.max > 1);
+            "GrittyDamage") > -1)
+    show_injury = show_injury || ((
+        game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("RiftsGrittyDamage") > -1) &&
+        heavy_damage === 'true')
+    show_injury = show_injury && can_soak && (actor.system.wounds.max > 1);
     let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),

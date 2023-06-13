@@ -1,6 +1,6 @@
 /* globals game, FormApplication */
 
-const OPTIONAL_RULES = ["GrittyDamage"]
+const OPTIONAL_RULES = ["GrittyDamage", "RiftsGrittyDamage"]
 
 // noinspection JSPrimitiveTypeWrapperUsage
 /**
