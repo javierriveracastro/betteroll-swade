@@ -11,7 +11,7 @@ import {
     update_message, has_joker, create_modifier, process_common_actions,
     process_minimum_str_modifiers, BrCommonCard
 } from "./cards_common.js";
-import {FIGHTING_SKILLS, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
+import {FIGHTING_SKILLS, get_skill_effects, is_shooting_skill, SHOOTING_SKILLS, THROWING_SKILLS} from "./skill_card.js"
 import {get_targeted_token, makeExplotable, simple_form} from "./utils.js";
 import {create_damage_card} from "./damage_card.js";
 import {ATTRIBUTES_TRANSLATION_KEYS} from "./attribute_card.js";
@@ -647,6 +647,10 @@ export async function roll_item(message, html, expend_bennie,
     extra_data.rof = br_message.item.system.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
+    }
+    // Effects
+    if (Object.hasOwn(trait, 'type') && trait.type === 'skill') {
+        get_skill_effects(br_message.actor, trait, extra_data);
     }
     // Actions
     for (let action of br_message.get_selected_actions()) {

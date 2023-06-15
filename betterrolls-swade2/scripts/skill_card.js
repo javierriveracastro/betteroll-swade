@@ -153,7 +153,7 @@ export async function roll_skill(message, html, expend_bennie){
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     let br_card = new BrCommonCard(message)
     const skill = br_card.actor.items.find((item) => item.id === render_data.trait_id);
-    let extra_data = {}
+    let extra_data = {modifiers:[]}
     let macros = [];
     // Actions
     for (let action of br_card.get_selected_actions()) {
@@ -162,10 +162,31 @@ export async function roll_skill(message, html, expend_bennie){
     for (let action of get_enabled_gm_actions()) {
         process_common_actions(action, extra_data, macros, br_card.actor)
     }
+    get_skill_effects(br_card.actor, skill, extra_data);
     if (expend_bennie) {await spend_bennie(br_card.actor);}
     await roll_trait(message, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
     await run_macros(macros, br_card.actor, null, message);
+}
+
+/***
+ * Checks for active effects in an actor related to a skill
+ *
+ * @param {SwadeActor} actor
+ * @param {SwadeItem} skill
+ * @param {Object} extra_data: Extra data for the roll.
+ */
+export function get_skill_effects(actor, skill, extra_data) {
+    const attGlobalMods = actor.system.stats.globalMods[skill.system.attribute] ?? [];
+    const effectArray = [
+        ...actor.system.stats.globalMods.trait,
+        ...attGlobalMods,
+        ...skill.system.effects,
+    ];
+    for (let effect of effectArray) {
+        let modifier = create_modifier(effect.label, effect.value)
+        extra_data.modifiers.push(modifier);
+    }
 }
 
 /***
