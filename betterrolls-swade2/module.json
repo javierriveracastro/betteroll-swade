@@ -1,7 +1,7 @@
 {
   "title": "Better Rolls 2 for Savage Worlds",
   "description": "A module to make rolling in SWADE easier for experienced players.",
-  "version": "3.28",
+  "version": "3.29",
   "languages": [
     {
       "lang": "en",
@@ -89,7 +89,7 @@
   },
   "compatibility": {
     "minimum": "11",
-    "verified": "11.300",
+    "verified": "11.301",
     "maximum": "11"
   }
 }

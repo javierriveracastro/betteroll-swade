@@ -1,3 +1,8 @@
+# Version 3.29, item active effects-
+* Verified in Foundry 11.301
+* Optional rules: New optional rule for heavy weapons doing gritty damage
+* Support the new way of working in SWADE 3.0 for skill active effects.
+
 # Version 3.28 aka v11
 * Support Foundry v11
 * Remove settings extender as dependency
