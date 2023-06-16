@@ -221,7 +221,7 @@
     "BRSW.EdgeName-Block": "Bloquear",
     "BRSW.NotEnoughStrengthArmor": "Armadura com Força mínima",
     "BRSW.UnarmedDefender": "Defensor Desarmado",
-    "BRSW.Ran": "Corrida",
+    "BRSW.Ran": "Corrida (-2)",
     "BRSW.Multi-action": "Ações Múltiplas",
     "BRSW.EdgeName-Steady-Hands": "Mãos Firmes",
     "BRSW.EdgeName-Cant-Swim": "Não Sabe Nadar",
@@ -328,5 +328,6 @@
     "BRSW.EdgeName-Ambidextrous": "Ambidestro",
     "BRSW.Offhand": "Mão Inábil",
     "BRSW.WoundsOrFatigueIgnored": "Ferimentos ou Fadiga ignorados",
-    "BRSW.UnstunBonus": "Bônus para se recuperar do Estado Atordoado"
+    "BRSW.UnstunBonus": "Bônus para se recuperar do Estado Atordoado",
+    "BRSW.RanSteady": "Corrida (-1)"
 }
