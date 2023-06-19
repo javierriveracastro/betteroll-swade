@@ -813,7 +813,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
-    if (! damage_formulas.explodes) {
+    if (! damage_formulas.explodes) {K
         console.log('Here', damage_formulas)
         for (let key of ['sma', 'spi', 'str', 'agi', 'vig']) {
             shortcuts[key] = shortcuts[key].replace('x', '')
