@@ -1,3 +1,8 @@
+## Versiob 3.30 aka Nasty bugs
+* Refactoring: Use object data instead of functions to get a message related skill
+* Translations: Updates to the brazilian translation courtesy of the Weblate team.
+* Bug: Damage die from shortcuts weren't exploding.
+
 # Version 3.29, item active effects-
 * Verified in Foundry 11.301
 * Optional rules: New optional rule for heavy weapons doing gritty damage
