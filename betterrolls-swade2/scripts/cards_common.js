@@ -156,7 +156,16 @@ export class BrCommonCard {
     }
 
     get skill() {
-        return this.actor.items.find((item) => item.id === this.skill_id);
+        if (this.skill_id) {
+            return this.actor.items.find((item) => item.id === this.skill_id);
+        }
+        if (this.item_id) {
+            const trait = get_item_trait(this.item, this.actor);
+            if (Object.hasOwn(trait, 'type') && trait.type === 'skill') {
+                this.skill_id = trait.id
+            }
+            return trait
+        }
     }
 
     get sorted_action_groups() {
@@ -991,12 +1000,11 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
             }
         })
     }
-    let skill = get_skill_from_message(message, br_card.actor);
-    if (objetive && skill) {
+    if (objetive && br_card.skill) {
         const origin_token = br_card.token
         if (origin_token) {
             const target_data = get_tn_from_token(
-                skill, objetive, origin_token, br_card.item);
+                br_card.skill, objetive, origin_token, br_card.item);
             extra_options.tn = target_data.value;
             extra_options.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
@@ -1021,7 +1029,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
     get_below_chat_modifiers(options, roll_options);
     get_actor_own_modifiers(br_card.actor, roll_options);
     // Armor min str
-    if (skill?.system.attribute === 'agility') {
+    if (br_card.skill?.system.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(br_card.actor)
         if (armor_penalty) {
             roll_options.total_modifiers += armor_penalty.value
@@ -1260,24 +1268,6 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
 }
 
 /**
- * Get a skill in a message
- * @param {ChatMessage} message
- * @param {SwadeActor} actor
- */
-function get_skill_from_message(message, actor) {
-    const br_card = new BrCommonCard(message);
-    const render_data = message.getFlag('betterrolls-swade2', 'render_data')
-    let skill;
-    if (render_data.hasOwnProperty('trait_id')) {
-        skill = actor.items.get(render_data.trait_id);
-    } else if (br_card.type === BRSW_CONST.TYPE_ITEM_CARD) {
-        skill = get_item_trait(br_card.item, actor);
-    }
-    return skill
-}
-
-
-/**
  * Function that exchanges roll when clicked
  * @param event: mouse click event
  * @param message:
@@ -1474,8 +1464,7 @@ function get_tn_from_target(message, index, selected) {
     if (objetive) {
         const origin_token = br_card.token
         if (origin_token) {
-            const skill = get_skill_from_message(message, br_card.actor);
-            const target = get_tn_from_token(skill, objetive, origin_token, br_card.item);
+            const target = get_tn_from_token(br_card.skill, objetive, origin_token, br_card.item);
             if (target.value) {
                 // Don't update if we didn't get a value
                 // noinspection JSIgnoredPromiseFromCall
