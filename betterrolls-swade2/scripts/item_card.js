@@ -813,13 +813,15 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
     if (shortcuts.str === "1d1x[Strength]") {
         shortcuts.str = "1d1[Strength]";
     }
-    if (! damage_formulas.explode) {
+    if (! damage_formulas.explodes) {
+        console.log('Here', damage_formulas)
         for (let key of ['sma', 'spi', 'str', 'agi', 'vig']) {
             shortcuts[key] = shortcuts[key].replace('x', '')
         }
     }
     let roll = new Roll(damage_formulas.damage + damage_formulas.raise, shortcuts);
     roll.evaluate({async: false});
+    console.log(roll)
     // Heavy armor
     if (target && !item.system.isHeavyWeapon && has_heavy_armor(target)) {
         const no_damage_mod = create_modifier(game.i18n.localize("BRSW.HeavyArmor"), -999999)
