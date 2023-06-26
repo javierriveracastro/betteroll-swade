@@ -1134,17 +1134,9 @@ function get_reroll_options(actor, render_data, roll_options, extra_data,) {
     return options;
 }
 
-async function show_3d_dice(roll, message, modifiers) {
-    let wild_die_theme;
-    try {
-        // Swade 16
-        wild_die_theme = game.settings.get('swade', 'dsnWildDie');
-    } catch (_) {
-        // Swade 16.0.3
-        wild_die_theme = game.user.getFlag('swade', 'dsnWildDie') || "none";
-    }
-    if (wild_die_theme !== 'none') {
-        roll.dice[roll.dice.length - 1].options.colorset = wild_die_theme;
+async function show_3d_dice(roll, message, modifiers, wild_die) {
+    if (wild_die) {
+        set_wild_die_theme(roll.dice[roll.dice.length - 1]);
     }
     let users = null;
     if (message.whisper.length > 0) {
@@ -1160,6 +1152,47 @@ async function show_3d_dice(roll, message, modifiers) {
     }
     await game.dice3d.showForRoll(roll, game.user, true, users, blind);
 }
+
+function set_wild_die_theme(wildDie) {
+    const dieSystem = game.user.getFlag('swade', 'dsnWildDiePreset') || 'none';
+    if (!dieSystem || dieSystem === 'none') {
+        return;
+    }
+    const colorSet = game.user.getFlag('swade', 'dsnWildDie') || "none";
+    if (colorSet === 'customWildDie') {
+        // Build the custom appearance and set it
+        const customColors = game.user.getFlag('swade', 'dsnCustomWildDieColors');
+        const customOptions = game.user.getFlag('swade', 'dsnCustomWildDieOptions');
+        const customAppearance = {
+            colorset: 'custom',
+            foreground: customColors?.labelColor,
+            background: customColors?.diceColor,
+            edge: customColors?.edgeColor,
+            outline: customColors?.outlineColor,
+            font: customOptions?.font,
+            material: customOptions?.material,
+            texture: customOptions?.texture,
+            system: dieSystem,
+        };
+        setProperty(wildDie, 'options.appearance', customAppearance);
+    }
+    else {
+        // Set the preset
+        setProperty(wildDie, 'options.colorset', colorSet);
+    }
+    // Get the dicePreset for the given die type
+    const dicePreset = game.dice3d?.DiceFactory.systems[dieSystem].dice.find((d) => d.type === 'd' + wildDie.faces);
+    if (!dicePreset) {
+        return;
+    }
+    if (dicePreset?.modelFile && !dicePreset.modelLoaded) {
+        // Load the modelFile
+        dicePreset.loadModel(game.dice3d?.DiceFactory.loaderGLTF);
+    }
+    // Load the textures
+    dicePreset.loadTextures();
+}
+
 
 /**
  * Creates a roll string from a trait a number of dice
@@ -1250,7 +1283,8 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     })
     if (game.dice3d) {
-        await show_3d_dice(roll, message, roll_options.modifiers);
+        await show_3d_dice(roll, message, roll_options.modifiers,
+            (actor.isWildcard || extra_data.add_wild_die) && wild_die_formula);
     }
     render_data.trait_roll.is_fumble = await calculate_results(
         trait_rolls, false, actor.isWildcard, dice)
