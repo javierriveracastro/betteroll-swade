@@ -51,6 +51,11 @@ async function create_item_card(origin, item_id, collapse_actions) {
         actor = origin;
     }
     const item = actor.items.find(item => {return item.id === item_id});
+    if (item.type === 'consumable') {
+        // Just show the system card
+        item.show()
+        return
+    }
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
     let notes = ""
@@ -999,7 +1004,8 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
             damage_formulas.damage = action.code.dmgOverride;
         }
         if (action.code.self_add_status) {
-            game.succ.addCondition(action.code.self_add_status, actor)
+            game.succ.addCondition(action.code.self_add_status, actor).catch(
+                () => {console.log("BR2: Likely error in SUCC")})
         }
         if (action.code.runDamageMacro) {
             macros.push(action.code.runDamageMacro);
