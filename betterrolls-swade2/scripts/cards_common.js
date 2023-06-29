@@ -354,7 +354,7 @@ export class BrCommonCard {
      * Creates the Foundry message object
      */
     async create_foundry_message(new_content) {
-        let chatData = create_basic_chat_data(origin);
+        let chatData = create_basic_chat_data(this.actor);
         if (new_content) {
             chatData.content = new_content;
         }
