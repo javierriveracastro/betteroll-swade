@@ -512,65 +512,63 @@ async function displayRemainingCard(content) {
 /**
  * Discount pps from an actor (c) Javier or Arcane Device (c) Salieri
  *
- * @param {SwadeActor} actor
- * @param {function} actor.update
- * @param item
+ * @param {BrCommonCard} br_card
  * @param {Roll[]} rolls
  * @param pp_override
  * @param old_pp: PPs expended in the current selected roll of this option
  * @param pp_modifier: A number to be added or subtracted from PPs
  */
-async function discount_pp(actor, item, rolls, pp_override, old_pp, pp_modifier) {
+async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
             success = true
         }
     }
-    let base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(item.system.pp)
+    let base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(br_card.item.system.pp)
     base_pp_expended += pp_modifier;
     const pp = success ? base_pp_expended : 1;
     // noinspection JSUnresolvedVariable
     let current_pp;
     // If devicePP is found, it will be treated as an Arcane Device:
     let arcaneDevice = false;
-    if (item.system.additionalStats.devicePP) {
+    if (br_card.item.system.additionalStats.devicePP) {
         // Get the devices PP:
-        current_pp = item.system.additionalStats.devicePP.value;
+        current_pp = br_card.item.system.additionalStats.devicePP.value;
         arcaneDevice = true;
     }
     // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
-    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
-             actor.system.powerPoints[item.system.arcane].max) {
+    else if (br_card.actor.system.powerPoints.hasOwnProperty(br_card.item.system.arcane) &&
+             br_card.actor.system.powerPoints[br_card.item.system.arcane].max) {
         // Specific power points
-        current_pp = actor.system.powerPoints[item.system.arcane].value;
+        current_pp = br_card.actor.system.powerPoints[br_card.item.system.arcane].value;
     } else {
         // General pool
-        current_pp = actor.system.powerPoints.general.value;
+        current_pp = br_card.actor.system.powerPoints.general.value;
     }
     const final_pp = Math.max(current_pp - pp + old_pp, 0);
     let content = game.i18n.format("BRSW.ExpendedPoints",
-        {name: actor.name, final_pp: final_pp, pp: pp});
+        {name: br_card.actor.name, final_pp: final_pp, pp: pp});
     if (current_pp < pp) {
         content = game.i18n.localize("BRSW.NotEnoughPP") +  content;
     }
     let data = {}
     if (arcaneDevice === true) {
         const updates = [
-            { _id: item.id, "data.additionalStats.devicePP.value": `${final_pp}` },
+            { _id: br_card.item.id, "data.additionalStats.devicePP.value": `${final_pp}` },
           ];
           // Updating the Arcane Device:
-          actor.updateEmbeddedDocuments("Item", updates);
+          br_card.actor.updateEmbeddedDocuments("Item", updates);
     }
-    else if (actor.system.powerPoints.hasOwnProperty(item.system.arcane) &&
-             actor.system.powerPoints[item.system.arcane].max) {
-        data['data.powerPoints.' + item.system.arcane + '.value'] =
+    else if (br_card.actor.system.powerPoints.hasOwnProperty(br_card.item.system.arcane) &&
+             br_card.actor.system.powerPoints[br_card.item.system.arcane].max) {
+        data['data.powerPoints.' + br_card.item.system.arcane + '.value'] =
             final_pp;
     } else {
         data['data.powerPoints.general.value'] = final_pp;
     }
     if (arcaneDevice === false) {
-        await actor.update(data);
+        await br_card.actor.update(data);
     }
     if (pp !== old_pp) {
         await displayRemainingCard(content);
@@ -730,7 +728,7 @@ export async function roll_item(message, html, expend_bennie,
     let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
     if (parseInt(br_message.item.system.pp) && pp_selected) {
         render_data.used_pp = await discount_pp(
-            br_message.actor, br_message.item, trait_data.rolls, shots_override, previous_pp, shots_modifier);
+            br_message, trait_data.rolls, shots_override, previous_pp, shots_modifier);
     }
     await update_message(message, render_data);
     await run_macros(macros, br_message.actor, br_message.item, message);
