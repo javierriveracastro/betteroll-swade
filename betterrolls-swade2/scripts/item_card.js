@@ -518,7 +518,7 @@ async function displayRemainingCard(content) {
  * @param old_pp: PPs expended in the current selected roll of this option
  * @param pp_modifier: A number to be added or subtracted from PPs
  */
-async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
+export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {

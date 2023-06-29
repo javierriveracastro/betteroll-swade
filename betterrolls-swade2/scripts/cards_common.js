@@ -3,7 +3,7 @@
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
-import {get_item_trait, roll_item} from "./item_card.js";
+import {discount_pp, get_item_trait, roll_item} from "./item_card.js";
 import {get_tn_from_token, roll_skill} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
@@ -1327,6 +1327,11 @@ async function old_roll_clicked(event, message) {
     })
     if (br_card.item) {
         render_data.skill = get_item_trait(br_card.item, br_card.actor);
+        if (parseInt(br_card.item.system.pp) && render_data.used_pp) {
+            render_data.used_pp = await discount_pp(
+                br_card, render_data.trait_roll.rolls, 0, render_data.used_pp, 0);
+    }
+
     }
     await update_message(message, render_data);
 }
