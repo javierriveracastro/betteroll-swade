@@ -98,7 +98,7 @@ Hooks.on(`ready`, () => {
     }
     changeNames() // Change the names of the modifiers
     compatibility_warnings()
-    // Remove the fisrt hook from the hotbarDrop, hoping it is the system's
+    // Remove the first hook from the hotbarDrop, hoping it is the system's
     const system_event = Hooks.events.hotbarDrop.find(ev => ev.fn.name === 'onHotbarDrop')
     Hooks.off('hotbarDrop', system_event.fn)
     Hooks.callAll('brswReady');
@@ -511,6 +511,14 @@ function register_settings_version2() {
         default: 1,
         scope: 'world',
         type: Number,
+        config: true
+    });
+    game.settings.register('betterrolls-swade2', 'disable_for_actions', {
+        name: game.i18n.localize("BRSW.DisableActions"),
+        hint: game.i18n.localize("BRSW.DisableActionsHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
         config: true
     });
 }

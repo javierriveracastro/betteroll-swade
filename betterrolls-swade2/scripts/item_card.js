@@ -56,13 +56,18 @@ async function create_item_card(origin, item_id, collapse_actions) {
         item.show()
         return
     }
+    if (item.type === 'action' && game.settings.get('betterrolls-swade2', 'disable_for_actions')) {
+        // Disable actions
+        item.show()
+        return
+    }
     let footer = make_item_footer(item);
     const trait = get_item_trait(item, actor);
     let notes = ""
     if (item.system.notes && item.system.notes.length < 50) {
         notes = item.system.notes;
     }
-    const description = item.system.description;
+    let {description, damage} = item.system;
     let trait_roll = new BRWSRoll();
     let possible_default_dmg_action;
     let ammon_enabled = parseInt(item.system.shots) || item.system.ammo
@@ -71,7 +76,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
         'betterrolls-swade2', 'default-ammo-management') : false;
     const subtract_pp_select =  power_points ? game.settings.get(
         'betterrolls-swade2', 'default-pp-management') : false;
-    let damage = item.system.damage;
     if (!damage) {
         for (let action in item.system.actions.additional) {
             if (item.system.actions.additional[action].dmgOverride) {
