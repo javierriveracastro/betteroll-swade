@@ -3,14 +3,20 @@
         <img class="brws-actor-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{actor.img}}}">
     </div>
     <div class="flex-grow text-center align-middle text-lg">
-        <span class="brsw-header-txt">
-            {{header.title}}
-            <i class="brsw-repeat-card fas fa-redo hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"></i>
+        <span class="group">
+            {{header.title}}<i class="brsw-repeat-card fas fa-redo hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"></i>
+            {{# if description}}
+                <div id="tooltip-description" role="tooltip"
+                     class="invisible group-hover:visible absolute px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm w-3/4">
+                    {{{ description }}}
+                </div>
+            {{/if}}
         </span>
     </div>
     <div>
         {{# if header.img }}
-            <img class="brsw-header-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{header.img}}}">
+            <img class="brsw-header-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{header.img}}}"
+                alt="Item image">
         {{/if}}
     </div>
 </div>
