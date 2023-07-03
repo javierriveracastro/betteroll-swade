@@ -93,7 +93,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
             trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: power_points, used_shots: 0,
+            powerpoints: !isNaN(power_points), used_shots: 0,
             actions_collapsed: collapse_actions, description: description,
             swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -730,7 +730,7 @@ export async function roll_item(message, html, expend_bennie,
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
-    if (parseInt(br_message.item.system.pp) && pp_selected) {
+    if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
         render_data.used_pp = await discount_pp(
             br_message, trait_data.rolls, shots_override, previous_pp, shots_modifier);
     }

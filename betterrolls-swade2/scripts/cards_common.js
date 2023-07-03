@@ -1327,7 +1327,7 @@ async function old_roll_clicked(event, message) {
     })
     if (br_card.item) {
         render_data.skill = get_item_trait(br_card.item, br_card.actor);
-        if (parseInt(br_card.item.system.pp) && render_data.used_pp) {
+        if (!isNaN(parseInt(br_card.item.system.pp)) && render_data.used_pp) {
             render_data.used_pp = await discount_pp(
                 br_card, render_data.trait_roll.rolls, 0, render_data.used_pp, 0);
     }

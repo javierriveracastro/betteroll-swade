@@ -48,7 +48,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
             footer: footer, trait_roll: trait_roll, trait_id: skill.id,
-            actions_collapsed: collapse_actions},
+            actions_collapsed: collapse_actions, description: skill.system.description},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
     br_message.type = BRSW_CONST.TYPE_SKILL_CARD

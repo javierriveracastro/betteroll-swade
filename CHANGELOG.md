@@ -1,3 +1,13 @@
+## Version 3.32 aka Time to introduce new bugs
+* Refactoring: New roll classes introduced, they are still not used.
+* Wil die: Respect Wild Die theme in another browser.
+* Cards: Use system cards for consumables
+* Bugfix: Use again the actor name, not the player's in cards.
+* Refactor: Reduce the paramether count of discount_pp
+* Bugfix: When selecting an old roll recalculate power point usage.
+* Settings: Add an option to disable Better Roll when clicking on actions. System default will be used instead.
+* Cards: Powers with 0 power point cost now can call power point management.
+
 ## Versiob 3.30 aka Nasty bugs
 * Refactoring: Use object data instead of functions to get a message related skill
 * Translations: Updates to the brazilian translation courtesy of the Weblate team.
