@@ -307,6 +307,7 @@ export class BrCommonCard {
             ...{sorted_action_groups: this.sorted_action_groups}}
         data.actor = this.actor;
         data.item = this.item;
+        data.selected_actions = this.get_selected_actions();
         return data
     }
 
