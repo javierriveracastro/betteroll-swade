@@ -332,5 +332,6 @@
   "BRSW.RanSteady": "Ran (-1)",
   "BRSW.OR.RiftsGrittyDamage": "Mega Damage causes gritty damage",
   "BRSW.DisableActions": "Disable Better Rolls for actions",
-  "BRSW.DisableActionsHint": "Use system cards for actions"
+  "BRSW.DisableActionsHint": "Use system cards for actions",
+  "BRSW.OR.InnatePowersDontConsume": "Innate Powers don't spend power points"
 }

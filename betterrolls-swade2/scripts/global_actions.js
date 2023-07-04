@@ -158,6 +158,10 @@ function check_selector(type, value, item, actor){
         selected = item.type === value;
     } else if (type === 'actor_name') {
         selected = actor.name.toLowerCase().includes(value.toLowerCase());
+    } else if (type === 'actor_has_item') {
+        const ITEM_TYPES = ['weapon', 'armor', 'shield', 'gear', 'consumable']
+        const item = actor.items.find(item => {return ITEM_TYPES.indexOf(item.type) !== -1 && item.name.toLowerCase() === game.i18n.localize(value).toLowerCase()});
+        return !!item;
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_description_includes') {
@@ -307,19 +311,6 @@ function check_actor_value(actor, value) {
     // noinspection EqualityComparisonWithCoercionJS
     return data == result;
 }
-
-/**
- * Returns a global action from a name
- * @param {string} name
- */
-export function get_global_action_from_name(name) {
-    for (let action of game.brsw.GLOBAL_ACTIONS) {
-        if (action.name === name) {
-            return action;
-        }
-    }
-}
-
 
 // noinspection JSPrimitiveTypeWrapperUsage
 /**
