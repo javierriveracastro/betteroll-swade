@@ -523,6 +523,10 @@ async function displayRemainingCard(content) {
  * @param pp_modifier: A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
+    if (game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("InnatePowersDontConsume") > -1 && 
+            br_card.item.system.innate) {
+        return 0;
+    }
     let success = false;
     for (let roll of rolls) {
         if (roll.result >= 4) {
