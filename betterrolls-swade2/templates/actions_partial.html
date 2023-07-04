@@ -1,8 +1,8 @@
 {{# if action_groups }}
-    <div class="my-2 block p-1 bg-gray-200 border border-gray-700 rounded shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer">
+    <div class="my-2 block p-1 bg-gray-500 border border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer">
         {{# if this.selected_actions }}
             {{# each this.selected_actions }}
-                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">{{ this.name }}</span>
+                <span class="bg-blue-800 text-blue-200 text-xs font-medium px-2.5 py-0.5 rounded">{{ this.name }}</span>
             {{/each}}
         {{else}}
             No actions selected
