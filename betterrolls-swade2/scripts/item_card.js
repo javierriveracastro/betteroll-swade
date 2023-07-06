@@ -933,12 +933,14 @@ function get_chat_dmg_modifiers(options, damage_roll) {
 function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
     const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-    const str_die_size = actor?.system?.attributes?.strength?.die?.sides
-    if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor))) {
-        if (min_str_die_size > str_die_size) {
-            damage_formulas.damage = adjust_dmg_str(
-                damage_roll, damage_formulas.damage, str_die_size);
-        }
+    let str_die_size = actor?.system?.attributes?.strength?.die?.sides
+    if (actor?.system?.attributes?.strength.encumbranceSteps) {
+        str_die_size += Math.max(actor?.system?.attributes?.strength.encumbranceSteps * 2, 0)
+    }
+    if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor)) &&
+            min_str_die_size > str_die_size) {
+        damage_formulas.damage = adjust_dmg_str(
+          damage_roll, damage_formulas.damage, str_die_size);
     }
 }
 
