@@ -1,4 +1,4 @@
-## Version 3.3 aka that bug was introduced before 3.32, I promise.
+## Version 3.33 aka that bug was introduced before 3.32, I promise.
 * Power points: Added a setting option so that innate powers don't spend power points
 * World actions: Added 'actor_has_item' and 'actor_equips_item' selectors
 * Bugfix: Active effects that modify encumbrance also remove damage penalties for low strength
