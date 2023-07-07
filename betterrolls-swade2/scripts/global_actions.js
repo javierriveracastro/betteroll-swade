@@ -112,10 +112,8 @@ export function get_actions(item, actor) {
         disabled_actions = disabled_actions[0]
     }
     for (let action of game.brsw.GLOBAL_ACTIONS) {
-        if (!disabled_actions.includes(action.id)) {
-            if (process_action(action, item, actor)) {
-                actions_avaliable.push(action);
-            }
+        if (!disabled_actions.includes(action.id) && process_action(action, item, actor)) {
+              actions_avaliable.push(action);
         }
     }
     actions_avaliable.sort((a, b) => {
@@ -160,8 +158,15 @@ function check_selector(type, value, item, actor){
         selected = actor.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'actor_has_item') {
         const ITEM_TYPES = ['weapon', 'armor', 'shield', 'gear', 'consumable']
-        const item = actor.items.find(item => {return ITEM_TYPES.indexOf(item.type) !== -1 && item.name.toLowerCase() === game.i18n.localize(value).toLowerCase()});
+        const item = actor.items.find(item => {
+            return ITEM_TYPES.indexOf(item.type) !== -1 && item.name.toLowerCase() === game.i18n.localize(value).toLowerCase()
+        });
         return !!item;
+    } else if (type === 'actor_equips_item') {
+        const items = actor.items.find(item => {
+            return item.name.toLowerCase() === game.i18n.localize(value).toLowerCase() &&
+                item.system.equipStatus >1})
+        return !!items;
     } else if (type === 'item_name' && item.type !== 'skill') {
         selected = item.name.toLowerCase().includes(value.toLowerCase());
     } else if (type === 'item_description_includes') {
@@ -295,6 +300,8 @@ function check_selector(type, value, item, actor){
         }
     } else if (type === 'actor_value') {
         selected = check_actor_value(actor, value);
+    } else if (type === 'item_has_damage') {
+        selected = !!(item?.system?.damage);
     }
     return selected;
 }
@@ -451,13 +458,13 @@ export class WorldGlobalActions extends FormApplication {
         }
         if (!error) {
             // Check that the keys are supported
-            const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod',
+            const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod','apMod',
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
                 'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
                 'or_selector', 'rof', 'self_add_status', 'not_selector', 'tnOverride',
                 'extra_text', 'overrideAp', 'multiplyDmgMod', 'add_wild_die',
-                'avoid_exploding_damage']
+                'avoid_exploding_damage', 'change_location']
             for (let key in action) {
                 if (SUPPORTED_KEYS.indexOf(key) < 0) {
                     error = game.i18n.localize("BRSW.UnknownActionKey") + key

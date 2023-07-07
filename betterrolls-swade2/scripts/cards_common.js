@@ -108,16 +108,11 @@ export class BrCommonCard {
     }
 
     load(data){
-        this.id = data.id
-        this.type = data.type
-        this.token_id = data.token_id
-        this.actor_id = data.actor_id
-        this.item_id = data.item_id
-        this.skill_id = data.skill_id
-        this.environment = data.environment
-        this.extra_text = data.extra_text
-        this.attribute_name = data.attribute_name
-        this.action_groups = data.action_groups
+        const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
+            'skill_id', 'environment', 'extra_text', 'attribute_name', 'action_groups']
+        for (let field of FIELDS) {
+            this[field] = data[field]
+        }
         if (this.message) {
             this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
         }

@@ -435,7 +435,7 @@ function calculate_gangUp(attacker, target) {
         "BRSW.EdgeName-ImprovedBlock").toLowerCase()
     const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase()
     let findBlock = true
-    let blockEffects = target.actor.effects.filter(e => e.label.toLowerCase().includes(block_name))
+    let blockEffects = target.actor.effects.filter(e => e.name.toLowerCase().includes(block_name))
     for (let effect of blockEffects) {
         for (let change of effect.changes) {
             if (change.key === "brsw-ac.gangup-reduction") { findBlock = false }

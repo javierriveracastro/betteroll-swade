@@ -758,9 +758,10 @@ export async function roll_item(message, html, expend_bennie,
  * Gets the toughness value for the targeted token
  * @param {SwadeActor} acting_actor
  * @param {Token} target
+ * @param {string} location
  */
-function get_toughness_targeted_selected(acting_actor, target=undefined) {
-    let objetive = target ? target : get_targeted_token();
+function get_target_defense(acting_actor, target=undefined, location='torso') {
+    let objetive = target || get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
@@ -773,10 +774,13 @@ function get_toughness_targeted_selected(acting_actor, target=undefined) {
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
         if (objetive.actor.type !== "vehicle") {
+            console.log(objetive.actor.armorPerLocation)
+            console.log(location)
+            console.log(objetive.actor.armorPerLocation[location])
             defense_values.toughness = parseInt(
                 objetive.actor.system.stats.toughness.value);
             defense_values.armor = parseInt(
-                objetive.actor.system.stats.toughness.armor);
+                objetive.actor.armorPerLocation[location]) || 0;
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {
@@ -845,7 +849,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
         current_damage_roll.brswroll.modifiers.push(multiply_mod)
         total_modifiers = final_value - roll.total
     }
-    const defense_values = get_toughness_targeted_selected(actor, target);
+    const defense_values = get_target_defense(actor, target, damage_formulas.location);
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
@@ -933,12 +937,14 @@ function get_chat_dmg_modifiers(options, damage_roll) {
 function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
     const splited_minStr = item.system.minStr.split('d')
     const min_str_die_size = parseInt(splited_minStr[splited_minStr.length - 1])
-    const str_die_size = actor?.system?.attributes?.strength?.die?.sides
-    if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor))) {
-        if (min_str_die_size > str_die_size) {
-            damage_formulas.damage = adjust_dmg_str(
-                damage_roll, damage_formulas.damage, str_die_size);
-        }
+    let str_die_size = actor?.system?.attributes?.strength?.die?.sides
+    if (actor?.system?.attributes?.strength.encumbranceSteps) {
+        str_die_size += Math.max(actor?.system?.attributes?.strength.encumbranceSteps * 2, 0)
+    }
+    if (min_str_die_size && !is_shooting_skill(get_item_trait(item, actor)) &&
+            min_str_die_size > str_die_size) {
+        damage_formulas.damage = adjust_dmg_str(
+          damage_roll, damage_formulas.damage, str_die_size);
     }
 }
 
@@ -973,7 +979,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const number_raise_dice = item.system.bonusDamageDice || 1
     let damage_formulas = {damage: item.system.damage, raise: `+${number_raise_dice}d${raise_die_size}x`,
         ap: parseInt(item.system.ap), multiplier: 1, explodes: true,
-        heavy_weapon: false}
+        heavy_weapon: false, location: 'torso'}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1022,6 +1028,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         if (action.code.overrideAp) {
             damage_formulas.ap = action.code.overrideAp;
         }
+        if (action.code.apMod) {
+            damage_formulas.ap += action.code.apMod;
+        }
         if (action.code.rerollDamageMod && expend_bennie) {
             const reroll_mod = create_modifier(
                 action.code.name, action.code.rerollDamageMod)
@@ -1032,6 +1041,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         }
         if (action.code.avoid_exploding_damage) {
             damage_formulas.explodes = false
+        }
+        if (action.code.change_location) {
+            damage_formulas.location = action.code.change_location;
         }
     }
     if (!damage_formulas.damage) {
@@ -1192,7 +1204,7 @@ async function half_damage(message, index){
 async function edit_toughness(message, index) {
     const br_card = new BrCommonCard(message)
     const {render_data, actor} = br_card
-    const defense_values = get_toughness_targeted_selected(actor);
+    const defense_values = get_target_defense(actor);
     let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
     damage_rolls[0].tn = defense_values.toughness;
     damage_rolls[0].armor = defense_values.armor;
