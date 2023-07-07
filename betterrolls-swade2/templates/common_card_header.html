@@ -2,12 +2,12 @@
     <div>
         <img class="brws-actor-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{actor.img}}}">
     </div>
-    <div class="flex-grow text-center align-middle text-lg">
+    <div class="flex-grow text-center align-middle text-lg relative overflow-scroll hover:overflow-visible">
         <span class="group">
             {{header.title}}<i class="brsw-repeat-card fas fa-redo hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"></i>
             {{# if description}}
                 <div id="tooltip-description" role="tooltip"
-                     class="invisible group-hover:visible absolute px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm w-3/4">
+                     class="w-52 collapse h-0 absolute group-hover:visible group-hover:h-auto px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm">
                     {{{ description }}}
                 </div>
             {{/if}}
