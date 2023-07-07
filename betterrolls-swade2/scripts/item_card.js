@@ -758,8 +758,9 @@ export async function roll_item(message, html, expend_bennie,
  * Gets the toughness value for the targeted token
  * @param {SwadeActor} acting_actor
  * @param {Token} target
+ * @param {string} location
  */
-function get_target_defense(acting_actor, target=undefined) {
+function get_target_defense(acting_actor, target=undefined, location='torso') {
     let objetive = target || get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -773,10 +774,13 @@ function get_target_defense(acting_actor, target=undefined) {
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
         if (objetive.actor.type !== "vehicle") {
+            console.log(objetive.actor.armorPerLocation)
+            console.log(location)
+            console.log(objetive.actor.armorPerLocation[location])
             defense_values.toughness = parseInt(
                 objetive.actor.system.stats.toughness.value);
             defense_values.armor = parseInt(
-                objetive.actor.system.stats.toughness.armor);
+                objetive.actor.armorPerLocation[location]);
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {
