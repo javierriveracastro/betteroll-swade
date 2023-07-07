@@ -759,8 +759,8 @@ export async function roll_item(message, html, expend_bennie,
  * @param {SwadeActor} acting_actor
  * @param {Token} target
  */
-function get_toughness_targeted_selected(acting_actor, target=undefined) {
-    let objetive = target ? target : get_targeted_token();
+function get_target_defense(acting_actor, target=undefined) {
+    let objetive = target || get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
@@ -845,7 +845,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
         current_damage_roll.brswroll.modifiers.push(multiply_mod)
         total_modifiers = final_value - roll.total
     }
-    const defense_values = get_toughness_targeted_selected(actor, target);
+    const defense_values = get_target_defense(actor, target);
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
@@ -1194,7 +1194,7 @@ async function half_damage(message, index){
 async function edit_toughness(message, index) {
     const br_card = new BrCommonCard(message)
     const {render_data, actor} = br_card
-    const defense_values = get_toughness_targeted_selected(actor);
+    const defense_values = get_target_defense(actor);
     let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
     damage_rolls[0].tn = defense_values.toughness;
     damage_rolls[0].armor = defense_values.armor;
