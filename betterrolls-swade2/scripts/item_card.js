@@ -849,7 +849,7 @@ async function roll_dmg_target(damage_roll, damage_formulas, target, total_modif
         current_damage_roll.brswroll.modifiers.push(multiply_mod)
         total_modifiers = final_value - roll.total
     }
-    const defense_values = get_target_defense(actor, target);
+    const defense_values = get_target_defense(actor, target, damage_formulas.location);
     current_damage_roll.brswroll.rolls.push(
         {
             result: roll.total + total_modifiers, tn: defense_values.toughness,
@@ -979,7 +979,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     const number_raise_dice = item.system.bonusDamageDice || 1
     let damage_formulas = {damage: item.system.damage, raise: `+${number_raise_dice}d${raise_die_size}x`,
         ap: parseInt(item.system.ap), multiplier: 1, explodes: true,
-        heavy_weapon: false}
+        heavy_weapon: false, location: 'torso'}
     let macros = [];
     if (expend_bennie) {await spend_bennie(actor)}
     // Calculate modifiers
@@ -1038,6 +1038,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         }
         if (action.code.avoid_exploding_damage) {
             damage_formulas.explodes = false
+        }
+        if (action.code.change_location) {
+            damage_formulas.location = action.code.change_location;
         }
     }
     if (!damage_formulas.damage) {

@@ -73,7 +73,6 @@ export class BrCommonCard {
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
-        this.attack_location = undefined
         if (message) {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
@@ -105,14 +104,12 @@ export class BrCommonCard {
             actor_id: this.actor_id, item_id: this.item_id,
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
-            action_groups: this.action_groups, id: this.id,
-            attack_location:this.attack_location}
+            action_groups: this.action_groups, id: this.id}
     }
 
     load(data){
         const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
-            'skill_id', 'environment', 'extra_text', 'attribute_name', 'action_groups',
-            'attack_location']
+            'skill_id', 'environment', 'extra_text', 'attribute_name', 'action_groups']
         for (let field of FIELDS) {
             this[field] = data[field]
         }
