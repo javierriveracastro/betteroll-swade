@@ -780,7 +780,7 @@ function get_target_defense(acting_actor, target=undefined, location='torso') {
             defense_values.toughness = parseInt(
                 objetive.actor.system.stats.toughness.value);
             defense_values.armor = parseInt(
-                objetive.actor.armorPerLocation[location]);
+                objetive.actor.armorPerLocation[location]) || 0;
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {

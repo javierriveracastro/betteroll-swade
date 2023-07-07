@@ -130,6 +130,8 @@
   "BRSW.Save": "Save",
   "BRSW.TheDrop": "The Drop (+4)",
   "BRSW.CalledHead": "Called shot: Head (-4)",
+  "BRSW.CalledArm": "Called shot: Arm (-2)",
+  "BRSW.CalledLeg": "Called shot: Leg (-2)",
   "BRSW.RollInjury": "Roll for injury",
   "BRSW.Unmentionables": "Unmentionables",
   "BRSW.Arm": "Arm",
