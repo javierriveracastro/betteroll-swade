@@ -1028,6 +1028,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         if (action.code.overrideAp) {
             damage_formulas.ap = action.code.overrideAp;
         }
+        if (action.code.apMod) {
+            damage_formulas.ap += action.code.apMod;
+        }
         if (action.code.rerollDamageMod && expend_bennie) {
             const reroll_mod = create_modifier(
                 action.code.name, action.code.rerollDamageMod)
