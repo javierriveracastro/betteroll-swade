@@ -48,4 +48,16 @@ export const COMBAT_OPTIONS = [
                 avoid_exploding_damage: "true", or_selector:[{selector_type:"item_type", selector_value:"power"},
                         {selector_type: "item_type", selector_value:"weapon"}],
                 group: "BRSW.AttackOption"},
+        {id: "AP1", name:"AP1", button_name: "BRSW.AP1", apMod: 1,
+        and_selector:[{selector_type: "item_has_damage"},
+                {selector_type:"item_type", selector_value:"power"}],
+                group: "SWADE.APLong"},
+        {id: "AP2", name:"AP2", button_name: "BRSW.AP2", apMod: 2,
+        and_selector:[{selector_type: "item_has_damage"},
+                {selector_type:"item_type", selector_value:"power"}],
+                group: "SWADE.APLong"},
+        {id: "AP3", name:"AP3", button_name: "BRSW.AP3", apMod: 3,
+        and_selector:[{selector_type: "item_has_damage"},
+                {selector_type:"item_type", selector_value:"power"}],
+                group: "SWADE.APLong"}
 ]
