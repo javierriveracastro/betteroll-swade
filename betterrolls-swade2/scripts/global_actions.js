@@ -300,6 +300,8 @@ function check_selector(type, value, item, actor){
         }
     } else if (type === 'actor_value') {
         selected = check_actor_value(actor, value);
+    } else if (type === 'item_has_damage') {
+        selected = !!(item?.system?.damage);
     }
     return selected;
 }
@@ -456,7 +458,7 @@ export class WorldGlobalActions extends FormApplication {
         }
         if (!error) {
             // Check that the keys are supported
-            const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod',
+            const SUPPORTED_KEYS = ['id', 'name', 'button_name', 'skillMod', 'dmgMod','apMod',
                 'dmgOverride', 'defaultChecked', 'runSkillMacro', 'runDamageMacro',
                 'raiseDamageFormula', 'wildDieFormula', 'rerollSkillMod', 'rerollDamageMod',
                 'selector_type', 'selector_value', 'and_selector', 'group', 'shotsUsed',
