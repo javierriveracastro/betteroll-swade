@@ -1,5 +1,5 @@
 {{# if action_groups }}
-    <div class="my-2 block p-1 bg-gray-500 border border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer">
+    <div class="brsw-selected-actions my-2 block p-1 bg-gray-500 border border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" data-card-id="{{ id }}">
         {{# if this.selected_actions }}
             {{# each this.selected_actions }}
                 <span class="bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded">{{ this.name }}</span>

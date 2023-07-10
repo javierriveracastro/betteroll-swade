@@ -513,6 +513,11 @@ export function activate_common_listeners(message, html) {
         html.find('.br2-unstun-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
             create_unstun_card(message)})
     }
+    html.find('.brsw-selected-actions').on('click', async ev => {
+        console.log(ev.currentTarget.dataset)
+        console.log(ev.currentTarget)
+        game.brsw.dialog.show_card(ev.currentTarget.dataset.cardId);
+    })
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brws-selectable').click(ev => manage_selectable_click(ev, message));
