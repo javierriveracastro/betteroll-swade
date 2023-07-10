@@ -1,3 +1,13 @@
+# Version 3.34 aka the bug that has me made this releasr was also older, nothing from 3.30, I still promise
+* Global actions: Add the selector (item_has_damage) (DDBrown)
+* Global actions: Add an action that modifies the AP 'apMod' (DDBrown) 
+* Refactoring: Some functions names didn't really make sense now.
+* Minor: Updated Foundry verified version.
+* Refactoring: Remove warning caused by access to #label on an active effect
+* Global actions: Support for the change_location word action
+* Built-in actions: Leveraging above feature called shot now use the armor from the location 
+* Bugfix: Active effects that give bonuses on attribute rolls where being ignored.
+
 ## Version 3.33 aka that bug was introduced before 3.32, I promise.
 * Power points: Added a setting option so that innate powers don't spend power points
 * World actions: Added 'actor_has_item' and 'actor_equips_item' selectors
