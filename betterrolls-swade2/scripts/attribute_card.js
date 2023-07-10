@@ -3,7 +3,7 @@
 
 import {
     BRSW_CONST, get_action_from_click, spend_bennie, get_actor_from_ids, trait_to_string,
-    create_common_card, BRWSRoll, roll_trait, process_common_actions, BrCommonCard
+    create_common_card, BRWSRoll, roll_trait, process_common_actions, BrCommonCard, create_modifier
 } from "./cards_common.js";
 import { run_macros } from "./item_card.js";
 import {get_enabled_gm_actions} from "./gm_modifiers.js";
@@ -195,7 +195,7 @@ export async function roll_attribute(message, html,
     const br_card = new BrCommonCard(message);
     const render_data = message.getFlag('betterrolls-swade2', 'render_data')
     const attribute_id = render_data.attribute_name;
-    let extra_data = {}
+    let extra_data = {modifiers: []}
     let macros = [];
     for (let action of br_card.get_selected_actions()) {
         process_common_actions(action.code, extra_data, macros, br_card.actor);
@@ -203,9 +203,23 @@ export async function roll_attribute(message, html,
     for (let action of get_enabled_gm_actions()) {
         process_common_actions(action, extra_data, macros, br_card.actor)
     }
+    get_attribute_effects(br_card.actor, attribute_id, extra_data);
     if (expend_bennie) {await spend_bennie(br_card.actor);}
     await roll_trait(message, br_card.actor.system.attributes[attribute_id],
         game.i18n.localize("BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
     run_macros(macros, br_card.actor, null, message);
+}
+
+function get_attribute_effects(actor, attribute, extra_data) {
+    const abl = actor.system.attributes[attribute];
+    const effectArray = [
+        ...abl.effects,
+        ...actor.system.stats.globalMods[attribute],
+        ...actor.system.stats.globalMods.trait,
+    ];
+    for (let effect of effectArray) {
+        let modifier = create_modifier(effect.label, effect.value)
+        extra_data.modifiers.push(modifier);
+    }
 }
