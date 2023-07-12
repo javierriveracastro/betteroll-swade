@@ -33,6 +33,7 @@ class BrCardDialog {
         for (let button of document.querySelectorAll('#br-card-dialog .brsw-cancel')) {
             button.addEventListener('click', this.close_card.bind(this))
         }
+        console.log(this.BrCard)
     }
 
     close_card() {

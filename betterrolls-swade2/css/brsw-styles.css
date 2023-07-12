@@ -343,3 +343,7 @@
 .brsw-tab-content{
     height: 8em;
 }
+
+#br-card-dialog {
+    width: 55%;
+}

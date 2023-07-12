@@ -1,7 +1,7 @@
 <div class="z-50 overflow-y-auto h-50 max-h-full bg-gray-700">
     <div class="flex items-start justify-between p-2 border-b border-gray-600">
         <h2 class="text-xl font-semibold text-white border-none">
-            Card Name
+            {{ BrCard.render_data.header.title }}
         </h2>
         <button type="button" class="rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 hover:text-white brsw-cancel">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -10,5 +10,23 @@
             <span class="sr-only">Close modal</span>
         </button>
     </div>
-    <p>Card id {{ id }}</p>
+    <div class="p-3 space-y-6">
+        {{# each BrCard.sorted_action_groups }}
+            <div>
+                <div class="bg-gray-900">
+                    <h2 class="p-2 w-full font-medium bg-gray-800 text-white rounded-t border-none">
+                        {{ this.name }}
+                    </h2>
+                </div>
+                <div class="p-3 border-b-0 bg-gray-500 border border-gray-700 mt-0">
+                    {{# each this.actions }}
+                        <span class="m-1 border border:bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900"
+                              data-action_id="{{ this.code.name }}">
+                            {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
+                        </span>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
 </div>
