@@ -1,3 +1,7 @@
+# Version 3.35 aka is really bugfixing fun?
+* Bugfix: Expenditure of ammunition for high ROF was not calculated correctly when using system management.
+* Bugfix: Remove the auto damage die modifier from Martial Artist and Martial Warrior as it was causing issues when multiple edges are updating unarmed damage size. Also this should be probably better if done via Active Effect. (DDBrown)
+
 # Version 3.34 aka the bug that has me made this releasr was also older, nothing from 3.30, I still promise
 * Global actions: Add the selector (item_has_damage) (DDBrown)
 * Global actions: Add an action that modifies the AP 'apMod' (DDBrown) 
