@@ -722,11 +722,9 @@ export async function roll_item(message, html, expend_bennie,
             if (br_message.actor.isWildcard) {
                 rof -= 1;
             }
-            if (dis_ammo_selected && !trait_data.old_rolls.length) {
-                render_data.used_shots = shots_override || rof || 1;
+            render_data.used_shots = shots_override || ROF_BULLETS[rof || 1];
+            if (dis_ammo_selected && !trait_data.old_rolls.length > 0) {
                 await br_message.item.consume(render_data.used_shots)
-            } else {
-                render_data.used_shots = shots_override || ROF_BULLETS[rof || 1];
             }
         }
     }
