@@ -67,6 +67,7 @@ export class BrCommonCard {
         this.actor_id = undefined
         this.item_id = undefined
         this.skill_id = undefined
+        this.target_ids = []
         this.environment = {light: 'bright'}
         this.extra_text = ''
         this.attribute_name = ''  // If this is an attribute card, its name
@@ -104,12 +105,14 @@ export class BrCommonCard {
             actor_id: this.actor_id, item_id: this.item_id,
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
-            action_groups: this.action_groups, id: this.id}
+            action_groups: this.action_groups, id: this.id,
+            target_ids: this.target_ids}
     }
 
     load(data){
         const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
-            'skill_id', 'environment', 'extra_text', 'attribute_name', 'action_groups']
+            'skill_id', 'environment', 'extra_text', 'attribute_name',
+            'action_groups', 'target_ids']
         for (let field of FIELDS) {
             this[field] = data[field]
         }
@@ -166,6 +169,13 @@ export class BrCommonCard {
     get sorted_action_groups() {
         let groups_array = Object.values(this.action_groups)
         return groups_array.sort((a, b) => {return a.name > b.name? 1: -1})
+    }
+
+    get targets() {
+        const target_array = []
+        for (const target_id in this.target_ids) {
+            target_array.push(canvas.tokens.get(target_id))
+        }
     }
 
     populate_actions() {
