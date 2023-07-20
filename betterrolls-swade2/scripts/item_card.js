@@ -771,14 +771,19 @@ function get_target_defense(acting_actor, target=undefined, location='torso') {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
+        console.log(objetive.actor)
         if (objetive.actor.type !== "vehicle") {
-            console.log(objetive.actor.armorPerLocation)
-            console.log(location)
-            console.log(objetive.actor.armorPerLocation[location])
-            defense_values.toughness = parseInt(
-                objetive.actor.system.stats.toughness.value);
-            defense_values.armor = parseInt(
-                objetive.actor.armorPerLocation[location]) || 0;
+            if (objetive.actor.system.details.autoCalcToughness) {
+                defense_values.toughness = objetive.actor.calcToughness(false)
+                defense_values.armor = parseInt(
+                    objetive.actor.armorPerLocation[location]) || 0;
+            } else {
+                const armor= parseInt(objetive.actor.system.stats.toughness.armor)
+                defense_values.toughness = parseInt(
+                    objetive.actor.system.stats.toughness.value) - armor;
+                defense_values.armor = (location === 'torso') ? armor : 0
+            }
+            defense_values.toughness += defense_values.armor;
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
         } else {
