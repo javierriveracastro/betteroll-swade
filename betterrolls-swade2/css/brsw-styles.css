@@ -345,5 +345,7 @@
 }
 
 #br-card-dialog {
-    width: 55%;
+    width: 35%;
+    margin-left: 63%;
+    margin-right: 2%;
 }
