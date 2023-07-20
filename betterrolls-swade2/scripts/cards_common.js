@@ -174,6 +174,10 @@ export class BrCommonCard {
         if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
             this.populate_item_actions()
         }
+        for (const group in this.action_groups) {
+            this.action_groups[group].actions.sort(
+                (a, b) => {return a.code > b.code? 1: -1})
+        }
     }
 
     populate_world_actions() {
