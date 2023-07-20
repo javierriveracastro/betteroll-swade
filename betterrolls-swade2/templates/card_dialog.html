@@ -1,6 +1,6 @@
 <div class="z-50 overflow-y-auto h-50 max-h-full bg-gray-700">
-    <div class="flex items-start justify-between p-2 border-b border-gray-600">
-        <h2 class="text-xl font-semibold text-white border-none">
+    <div class="flex items-start justify-between p-1 border-b border-gray-600">
+        <h2 class="text-xl font-semibold text-white border-none ml-2">
             {{ BrCard.render_data.header.title }}
         </h2>
         <button type="button" class="rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 hover:text-white brsw-cancel">
@@ -10,17 +10,17 @@
             <span class="sr-only">Close modal</span>
         </button>
     </div>
-    <div class="p-3 space-y-6">
+    <div class="p-3 space-y-2">
         {{# each BrCard.sorted_action_groups }}
             <div>
                 <div class="bg-gray-900">
-                    <h2 class="p-2 w-full font-medium bg-gray-800 text-white rounded-t border-none">
+                    <h2 class="p-1 w-full font-medium bg-gray-800 text-white rounded-t border-none">
                         {{ this.name }}
                     </h2>
                 </div>
-                <div class="p-3 border-b-0 bg-gray-500 border border-gray-700 mt-0">
+                <div class="p-2 border-b-0 bg-gray-500 border border-gray-700 mt-0">
                     {{# each this.actions }}
-                        <span class="m-1 border border:bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900"
+                        <span class="m-1 border border:bg-red-700 text-red-200 text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900"
                               data-action_id="{{ this.code.name }}">
                             {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                         </span>
