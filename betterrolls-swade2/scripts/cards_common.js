@@ -78,9 +78,17 @@ export class BrCommonCard {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
                 this.load(data)
+                console.log("New card loaded from message")
+                // TODO: Reduce card creations.
             }
         } else {
             this.id = broofa()
+            this.recover_targets_from_user()
+            // TODO: Change targets when rolling a trait
+            // TODO: Change targets when rolling damage
+            // TODO: Change targets when clicking on the trait result
+            // TODO: Change targets when clicking on the damage result
+            // TODO: Use the targets from the card data not the current ones
         }
     }
 
@@ -175,6 +183,13 @@ export class BrCommonCard {
         const target_array = []
         for (const target_id in this.target_ids) {
             target_array.push(canvas.tokens.get(target_id))
+        }
+    }
+
+    recover_targets_from_user() {
+        this.target_ids = []
+        for (const target of game.user.targets) {
+            this.target_ids.push(target.id)
         }
     }
 
