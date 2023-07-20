@@ -85,7 +85,7 @@ export class BrCommonCard {
 
     async save() {
         if (! this.message) {
-            await this.create_foundry_message()
+            await this.create_foundry_message(undefined)
         }
         if (Object.keys(this.update_list).length > 0) {
             this.update_list.id = this.message.id
@@ -380,7 +380,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
     } else {
         actor = origin
     }
-    let br_message = new BrCommonCard()
+    let br_message = new BrCommonCard(undefined)
     br_message.actor_id = actor.id
     if (actor !== origin) {
         br_message.token_id = origin.id
@@ -508,9 +508,9 @@ export function activate_common_listeners(message, html) {
         });
         //
         html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unshaken_card(message)})
+            create_unshaken_card(message, undefined)})
         html.find('.br2-unstun-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unstun_card(message)})
+            create_unstun_card(message, undefined)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
@@ -807,7 +807,7 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
         result = roll.result - roll.tn;
         if (roll.ap) {
             // We have an AP value, add it to the result
-            result = result + Math.min(roll.ap, roll.armor);
+            result += Math.min(roll.ap, roll.armor);
         }
         if (result < 0) {
             roll.result_text = game.i18n.localize('BRSW.Failure');
@@ -896,7 +896,7 @@ export async function update_message(message, render_data) {
             BRSW_CONST.TYPE_ITEM_CARD) {
         render_data.skill = get_item_trait(br_message.item, br_message.actor);
     }
-    br_message.generate_render_data(render_data)
+    br_message.generate_render_data(render_data, undefined)
     await br_message.render()
     await br_message.save()
 }
@@ -963,7 +963,7 @@ function get_actor_own_modifiers(actor, roll_options) {
         if (ignored) {
             roll_options.modifiers.push(create_modifier(
                 game.i18n.localize('BRSW.WoundsOrFatigueIgnored'), ignored))
-            roll_options.total_modifiers += parseInt(ignored);
+            roll_options.total_modifiers += ignored;
         }
     }
     // Own status
@@ -1569,7 +1569,7 @@ export function create_modifier(label, expression) {
             modifier.dice.evaluate({async:false})
             modifier.value = parseInt(modifier.dice.result)
         } else {
-            modifier.value = eval(expression)
+            modifier.value = eval(expression) // jshint ignore:line
         }
     } else {
         modifier.value = parseInt(expression)
