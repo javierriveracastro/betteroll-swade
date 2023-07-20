@@ -67,6 +67,7 @@ export class BrCommonCard {
         this.actor_id = undefined
         this.item_id = undefined
         this.skill_id = undefined
+        this.target_ids = []
         this.environment = {light: 'bright'}
         this.extra_text = ''
         this.attribute_name = ''  // If this is an attribute card, its name
@@ -77,15 +78,23 @@ export class BrCommonCard {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
                 this.load(data)
+                console.log("New card loaded from message")
+                // TODO: Reduce card creations.
             }
         } else {
             this.id = broofa()
+            this.recover_targets_from_user()
+            // TODO: Change targets when rolling a trait
+            // TODO: Change targets when rolling damage
+            // TODO: Change targets when clicking on the trait result
+            // TODO: Change targets when clicking on the damage result
+            // TODO: Use the targets from the card data not the current ones
         }
     }
 
     async save() {
         if (! this.message) {
-            await this.create_foundry_message()
+            await this.create_foundry_message(undefined)
         }
         if (Object.keys(this.update_list).length > 0) {
             this.update_list.id = this.message.id
@@ -104,12 +113,14 @@ export class BrCommonCard {
             actor_id: this.actor_id, item_id: this.item_id,
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
-            action_groups: this.action_groups, id: this.id}
+            action_groups: this.action_groups, id: this.id,
+            target_ids: this.target_ids}
     }
 
     load(data){
         const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
-            'skill_id', 'environment', 'extra_text', 'attribute_name', 'action_groups']
+            'skill_id', 'environment', 'extra_text', 'attribute_name',
+            'action_groups', 'target_ids']
         for (let field of FIELDS) {
             this[field] = data[field]
         }
@@ -168,11 +179,29 @@ export class BrCommonCard {
         return groups_array.sort((a, b) => {return a.name > b.name? 1: -1})
     }
 
+    get targets() {
+        const target_array = []
+        for (const target_id in this.target_ids) {
+            target_array.push(canvas.tokens.get(target_id))
+        }
+    }
+
+    recover_targets_from_user() {
+        this.target_ids = []
+        for (const target of game.user.targets) {
+            this.target_ids.push(target.id)
+        }
+    }
+
     populate_actions() {
         this.action_groups = {}
         this.populate_world_actions()
         if (this.item && !game.settings.get('betterrolls-swade2', 'hide-weapon-actions')) {
             this.populate_item_actions()
+        }
+        for (const group in this.action_groups) {
+            this.action_groups[group].actions.sort(
+                (a, b) => {return a.code > b.code? 1: -1})
         }
     }
 
@@ -381,7 +410,7 @@ export async function create_common_card(origin, render_data, chat_type, templat
     } else {
         actor = origin
     }
-    let br_message = new BrCommonCard()
+    let br_message = new BrCommonCard(undefined)
     br_message.actor_id = actor.id
     if (actor !== origin) {
         br_message.token_id = origin.id
@@ -509,9 +538,9 @@ export function activate_common_listeners(message, html) {
         });
         //
         html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unshaken_card(message)})
+            create_unshaken_card(message, undefined)})
         html.find('.br2-unstun-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unstun_card(message)})
+            create_unstun_card(message, undefined)})
     }
     html.find('.brsw-selected-actions').on('click', async ev => {
         console.log(ev.currentTarget.dataset)
@@ -813,7 +842,7 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
         result = roll.result - roll.tn;
         if (roll.ap) {
             // We have an AP value, add it to the result
-            result = result + Math.min(roll.ap, roll.armor);
+            result += Math.min(roll.ap, roll.armor);
         }
         if (result < 0) {
             roll.result_text = game.i18n.localize('BRSW.Failure');
@@ -902,7 +931,7 @@ export async function update_message(message, render_data) {
             BRSW_CONST.TYPE_ITEM_CARD) {
         render_data.skill = get_item_trait(br_message.item, br_message.actor);
     }
-    br_message.generate_render_data(render_data)
+    br_message.generate_render_data(render_data, undefined)
     await br_message.render()
     await br_message.save()
 }
@@ -969,7 +998,7 @@ function get_actor_own_modifiers(actor, roll_options) {
         if (ignored) {
             roll_options.modifiers.push(create_modifier(
                 game.i18n.localize('BRSW.WoundsOrFatigueIgnored'), ignored))
-            roll_options.total_modifiers += parseInt(ignored);
+            roll_options.total_modifiers += ignored;
         }
     }
     // Own status
@@ -1575,7 +1604,7 @@ export function create_modifier(label, expression) {
             modifier.dice.evaluate({async:false})
             modifier.value = parseInt(modifier.dice.result)
         } else {
-            modifier.value = eval(expression)
+            modifier.value = eval(expression) // jshint ignore:line
         }
     } else {
         modifier.value = parseInt(expression)

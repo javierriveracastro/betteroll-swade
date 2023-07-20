@@ -49,7 +49,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * wildDieFormula: Another string dice formula, this time used for the Wild Die. Remember to specify the exploding. You can use an empty string for no wild die.
 * rerollSkillMod: A number used as a modifier for skill reroll
 * rerollDamageMod: A number used as a modifier for damage reroll
-* shotsUsed: A number that makes the action use that number of shots. If the item is a power and the valus is a simple number it will make it use that number of PPs instead. If the value is a number preceded by a plus or minus symbol it will add or subtract that number from the usual PP cost of the power. 
+* shotsUsed: A number that makes the action use that number of shots. If the item is a power and the values is a simple number it will make it use that number of PPs instead. If the value is a number preceded by a plus or minus symbol it will add or subtract that number from the usual PP cost of the power. 
 * rof: Numer of trait dice rolled.
 * tnOverride: A number that is set as the tn of the roll. Note that this takes precedence from other ways of setting the target number like targeting.
 * extra_text: Extra text to be shown in the card, it accepts HTML.
@@ -74,6 +74,8 @@ This group of fields are used to select when the action is available, you will n
 * actor_has_hindrance: Like the last two, but for hindrances.
 * actor_has_major_hindrance: This one only matches is the hindrance is major.
 * actor_has_ability: Like the last three, but for special abilities.
+* actor_has_item: Matches when the actor has an "item" (Weapon, Armor, Shield, Gear, Consumable) with the same name as the value (exact name)
+* actor_equips_item: This action will appear when the actor has an item (see above) with the same name as the value equipped.
 * all: It will always show this action.
 * actor_has_joker: The action will only be avaliable when the actor is in combat and has drawn a joker.
 * target_has_edge: This action will be avaliable if PRIOR TO CLICKING the icon, the user has selected a target that has some edge.
@@ -134,7 +136,7 @@ This tag lets you group the actions, it is not mandatory, but it will be used in
 # API
 You can define global actions within a module. This let the user activate your module and have all **Global Actions** you defined turned on.
 
-You need to load an script in your module. It's recommened to use "Hooks once ready".
+You need to load a script in your module. It's recommended to use "Hooks once ready".
 
 The format of the global action must be like an array of objects. Look at the example.
 
@@ -180,7 +182,7 @@ Hooks.once('ready', () => {
   ];
 
   game.brsw.add_actions(BETTER_ROLLS_GLOBAL_ACTIONS);  
-}
+})
 ```
 
 It's recommended to add a conditional check to `game.brsw.add_actions` to prevent an error if Better Rolls is not activated. 
@@ -206,13 +208,13 @@ Module for Example: https://github.com/brunocalado/savage-pathfinder-enhanced
 
 **Table of contents**
 1. SWADE  
-  1. Basic modifiers and actions  
-  2. Edges  
-  3. Special Abilities  
+   1. Basic modifiers and actions  
+   2. Edges  
+   3. Special Abilities  
 2. Pathfinder for Savage Worlds  
-  1. Edges  
+   1. Edges  
 3. Sprawlrunners  
-  1. Edges  
+   1. Edges  
 
 ## SWADE
 Below are examples for the core rules of SWADE and may be applicable to most settings.
@@ -289,7 +291,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 
 ```json
 {
-  "id": "OFFHANDATTACKS",
+  "id": "OFFHAND ATTACKS",
   "name": "Off-Hand Attacks",
   "button_name": "Off-Hand Attacks",
   "skillMod": "-2",
