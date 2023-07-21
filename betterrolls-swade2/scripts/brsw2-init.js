@@ -112,7 +112,7 @@ Hooks.on('renderChatMessage', (message, html) => {
     if (br_card) {
         const card = new BrCommonCard(message)
         // This chat card is one of ours
-        activate_common_listeners(card.message, html);
+        activate_common_listeners(card, html);
         if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
             activate_attribute_card_listeners(message, html);
         } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {

@@ -79,6 +79,8 @@ export class BrCommonCard {
             if (data) {
                 this.load(data)
                 console.log("New card loaded from message")
+                console.trace()
+                // TODO: Check if activate_common_listeners can be made a method of this class and simplified
                 // TODO: Reduce card creations.
             }
         } else {
@@ -522,13 +524,12 @@ export function get_actor_from_ids(token_id, actor_id) {
 
 /**
  * Connects the listener for all chat cards
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {HTMLElement} html: html of the card
  */
-export function activate_common_listeners(message, html) {
+export function activate_common_listeners(br_card, html) {
     html = $(html)  // Get sure html is a Jquery element
     // The message will be rendered at creation and each time a flag is added
-    const br_card = new BrCommonCard(message);
     // Actor will be undefined if this is called before flags are set
     if (br_card.actor){
         // noinspection JSUnresolvedFunction,AnonymousFunctionJS
@@ -537,19 +538,19 @@ export function activate_common_listeners(message, html) {
         });
         //
         html.find('.br2-unshake-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unshaken_card(message, undefined)})
+            create_unshaken_card(br_card.message, undefined)})
         html.find('.br2-unstun-card').on('click', ()=>{ // noinspection JSIgnoredPromiseFromCall
-            create_unstun_card(message, undefined)})
+            create_unstun_card(br_card.message, undefined)})
     }
     // Selectable modifiers
     // noinspection JSUnresolvedFunction
-    html.find('.brws-selectable').click(ev => manage_selectable_click(ev, message));
+    html.find('.brws-selectable').click(ev => manage_selectable_click(ev, br_card.message));
     // Collapsable fields
-    manage_collapsables(html, message);
+    manage_collapsables(html, br_card.message);
     // Old rolls
     // noinspection JSUnresolvedFunction
     html.find('.brsw-old-roll').click(async ev => {
-        await old_roll_clicked(ev, message);
+        await old_roll_clicked(ev, br_card.message);
     });
     // Add modifiers
     // noinspection JSUnresolvedFunction
@@ -560,7 +561,7 @@ export function activate_common_listeners(message, html) {
                     default_value: ''},
                 {id: 'value', label: label_mod,
                  default_value: 1}], async values => {
-                await add_modifier(message, {label: values.label,
+                await add_modifier(br_card.message, {label: values.label,
                     value: values.value});
             });
     })
@@ -573,7 +574,7 @@ export function activate_common_listeners(message, html) {
             [{label: 'Label', default_value: label},
                 {id: 'value', label: label_mod, default_value: value}],
             async values => {
-                await edit_modifier(message, parseInt(index),
+                await edit_modifier(br_card.message, parseInt(index),
                     {name: values.Label, value: values.value,
                         extra_class: parseInt(values.value) < 0 ? ' brsw-red-text' : ''});
             });
@@ -583,7 +584,7 @@ export function activate_common_listeners(message, html) {
     html.find('.brsw-override-die').click((ev) => {
         // Collect roll data
         let roll_data = null;
-        let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+        let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
         roll_data = render_data.trait_roll;
         // Retrieve additional data
         const die_index = Number(ev.currentTarget.dataset.dieIndex);
@@ -596,13 +597,13 @@ export function activate_common_listeners(message, html) {
             // Actual roll manipulation
             await override_die_result(roll_data, die_index, new_value, false,
                 br_card.actor.isWildcard);
-            await update_message(message, render_data);
+            await update_message(br_card.message, render_data);
         });
     })
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
-        await delete_modifier(message, parseInt(ev.currentTarget.dataset.index));
+        await delete_modifier(br_card.message, parseInt(ev.currentTarget.dataset.index));
     });
     // Edit TNs
     // noinspection JSUnresolvedFunction
@@ -613,21 +614,21 @@ export function activate_common_listeners(message, html) {
         simple_form(game.i18n.localize("BRSW.EditTN"), [
             {id: 'tn', label: tn_trans, default_value: old_tn}],
             async values => {
-                await edit_tn(message, index, values.tn, "");
+                await edit_tn(br_card.message, index, values.tn, "");
         });
     });
     // TNs from target
     // noinspection JSUnresolvedFunction
     html.find('.brsw-target-tn, .brsw-selected-tn').click(ev => {
         const index = ev.currentTarget.dataset.index;
-        get_tn_from_target(message, parseInt(index),
+        get_tn_from_target(br_card.message, parseInt(index),
             ev.currentTarget.classList.contains('brsw-selected-tn'));
     })
     // Repeat card
     // noinspection JSUnresolvedFunction
     html.find('.brsw-repeat-card').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
-        duplicate_message(message, ev);
+        duplicate_message(br_card.message, ev);
     })
 }
 
