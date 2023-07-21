@@ -1,3 +1,10 @@
+# Version 3.36 aka How would expect another bugfix release...
+* Refactoring: Minor coding style fixings
+* Actions: Order actions by id inside they group in the card
+* Actions: Use the above feature to change the light actions order
+* Refactoring: Store targets in the card object
+* Bugfix: Rework toughness calculation for called shots.
+
 # Version 3.35 aka is really bugfixing fun?
 * Bugfix: Expenditure of ammunition for high ROF was not calculated correctly when using system management.
 * Bugfix: Remove the auto damage die modifier from Martial Artist and Martial Warrior as it was causing issues when multiple edges are updating unarmed damage size. Also this should be probably better if done via Active Effect. (DDBrown)
