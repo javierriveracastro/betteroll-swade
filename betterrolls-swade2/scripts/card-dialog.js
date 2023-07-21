@@ -21,8 +21,8 @@ class BrCardDialog {
         return document.getElementById('br-card-dialog')
     }
 
-    show_card(message) {
-        this.BrCard = new BrCommonCard(message)
+    show_card(br_card) {
+        this.BrCard = br_card
         this.render().catch((err) => {console.log("Error rendering dialog", err)})
         this.dialog_element.showModal()
     }

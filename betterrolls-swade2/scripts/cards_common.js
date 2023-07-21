@@ -546,7 +546,7 @@ export function activate_common_listeners(br_card, html) {
     html.find('.brsw-selected-actions').on('click', async ev => {
         console.log(ev.currentTarget.dataset)
         console.log(ev.currentTarget)
-        game.brsw.dialog.show_card(message);
+        game.brsw.dialog.show_card(br_card);
     })
     // Selectable modifiers
     // noinspection JSUnresolvedFunction

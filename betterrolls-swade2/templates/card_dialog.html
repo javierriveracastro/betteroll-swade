@@ -1,6 +1,6 @@
-<div class="z-50 overflow-y-auto h-50 max-h-full bg-gray-700">
+<div class="z-50 overflow-y-auto h-50 max-h-full">
     <div class="flex items-start justify-between p-1 border-b border-gray-600">
-        <h2 class="text-xl font-semibold text-white border-none ml-2">
+        <h2 class="text-xl font-semibold border-none ml-2">
             {{ BrCard.render_data.header.title }}
         </h2>
         <button type="button" class="rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 hover:text-white brsw-cancel">
@@ -13,8 +13,8 @@
     <div class="p-3 space-y-2">
         {{# each BrCard.sorted_action_groups }}
             <div>
-                <div class="bg-gray-900">
-                    <h2 class="p-1 w-full font-medium bg-gray-800 text-white rounded-t border-none">
+                <div>
+                    <h2 class="p-1 w-full font-medium bg-gray-600 text-white rounded-t border-none">
                         {{ this.name }}
                     </h2>
                 </div>
@@ -28,5 +28,16 @@
                 </div>
             </div>
         {{/each}}
+    </div>
+    <div class="flex p-1">
+        <button type="button" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+            Set
+        </button>
+        <button type="button" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+            <i class="fas fa-dice"></i> Roll
+        </button>
+        <button type="button" class="focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-1 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
+            <i class="fas fa-times"></i> Cancel
+        </button>
     </div>
 </div>

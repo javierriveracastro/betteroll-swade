@@ -349,4 +349,7 @@
     margin-left: 63%;
     margin-right: 2%;
     padding: 3px;
+    background: url("/ui/parchment.jpg") repeat;
+    border: 3px solid #6f6c66;
+    border-radius: 5px;
 }
