@@ -80,8 +80,8 @@ export class BrCommonCard {
                 this.load(data)
                 console.log("New card loaded from message")
                 console.trace()
-                // TODO: Check if activate_common_listeners can be made a method of this class and simplified
-                // TODO: Reduce card creations.
+                // TODO: Check if activate_common_listeners can be made a method of this class and simplified.
+                // TODO: Reduce card creations. Attribute rolls done.
             }
         } else {
             this.id = broofa()
@@ -186,6 +186,7 @@ export class BrCommonCard {
         for (const target_id in this.target_ids) {
             target_array.push(canvas.tokens.get(target_id))
         }
+        return target_array
     }
 
     recover_targets_from_user() {
@@ -923,11 +924,13 @@ function remove_discarded_die_mark(dice, rolls) {
 
 /**
  * Updates a message using a new render_data
- * @param {ChatMessage} message
+ * @param {ChatMessage, BrCommonCard} br_message
  * @param render_data
  */
-export async function update_message(message, render_data) {
-    const br_message = new BrCommonCard(message)
+export async function update_message(br_message, render_data) {
+    if (!br_message.hasOwnProperty('action_groups')) {
+        br_message = new BrCommonCard(br_message)
+    }
     if (br_message.type ===
             BRSW_CONST.TYPE_ITEM_CARD) {
         render_data.skill = get_item_trait(br_message.item, br_message.actor);
@@ -1013,15 +1016,14 @@ function get_actor_own_modifiers(actor, roll_options) {
 
 /**
  * Get all the options needed for a new roll
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param extra_data
  * @param html
  * @param trait_dice
  * @param roll_options: An object with the current roll_options
  */
-async function get_new_roll_options(message, extra_data, html, trait_dice, roll_options) {
+async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
-    let br_card = new BrCommonCard(message)
     let objetive = get_targeted_token();
     if (!objetive) {
         canvas.tokens.controlled.forEach(token => {
@@ -1075,16 +1077,15 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         })
     }
     // Action mods
-    const br_message = new BrCommonCard(message)
-    if (br_message.type ===
+    if (br_card.type ===
         BRSW_CONST.TYPE_ITEM_CARD) {
-        if (br_message.item.system.actions.skillMod) {
+        if (br_card.item.system.actions.skillMod) {
             let modifier_value = 0
-            if (isNaN(br_message.item.system.actions.skillMod)) {
-                const temp_roll = new Roll(br_message.item.system.actions.skillMod)
+            if (isNaN(br_card.item.system.actions.skillMod)) {
+                const temp_roll = new Roll(br_card.item.system.actions.skillMod)
                 modifier_value = (await temp_roll.evaluate()).total
             } else {
-                modifier_value = parseInt(br_message.item.system.actions.skillMod)
+                modifier_value = parseInt(br_card.item.system.actions.skillMod)
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
@@ -1110,7 +1111,7 @@ async function get_new_roll_options(message, extra_data, html, trait_dice, roll_
         roll_options.total_modifiers += 2;
     }
     // Encumbrance
-    const render_data = message.getFlag('betterrolls-swade2', 'render_data');
+    const render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
     if (br_card.actor.isEncumbered) {
         if (render_data.attribute_name === 'agility') {
             roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
@@ -1250,19 +1251,21 @@ function create_roll_string(trait_dice, rof) {
 
 /**
  * Makes a roll trait
- * @param message
+ * @param {ChatMessage, BrCommonCard}br_card
  * @param trait_dice An object representing a trait dice
  * @param dice_label: Label for the trait die
  * @param {string} html: Html to be parsed for extra options.
  * @param extra_data: Extra data to add to render options
  */
-export async function roll_trait(message, trait_dice, dice_label, html, extra_data) {
-    const br_card = new BrCommonCard(message);
+export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
+    if (!br_card.hasOwnProperty('action_groups')) {
+        br_card = new BrCommonCard(br_card);
+    }
     let {render_data, actor} = br_card;
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
     if (!render_data.trait_roll.rolls.length) {
-        options = await get_new_roll_options(message, extra_data, html, trait_dice, roll_options);
+        options = await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
     } else {
         options = get_reroll_options(actor, render_data, roll_options, extra_data);
     }
@@ -1315,7 +1318,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
         }
     })
     if (game.dice3d) {
-        await show_3d_dice(roll, message, roll_options.modifiers,
+        await show_3d_dice(roll, br_card.message, roll_options.modifiers,
             (actor.isWildcard || extra_data.add_wild_die) && wild_die_formula);
     }
     render_data.trait_roll.is_fumble = await calculate_results(
@@ -1329,7 +1332,7 @@ export async function roll_trait(message, trait_dice, dice_label, html, extra_da
 
         }
     }
-    await update_message(message, render_data)
+    await update_message(br_card, render_data)
     return render_data.trait_roll;
 }
 
@@ -1578,9 +1581,10 @@ async function duplicate_message(message, event) {
     const action = get_action_from_click(event);
     if (action.includes('trait')) {
         // noinspection JSUnresolvedVariable
-        const card_type = new BrCommonCard(message).type
+        const br_card = new BrCommonCard(message)
+        const card_type = br_card.type
         if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-            await roll_attribute(new_message, $(message.content), false);
+            await roll_attribute(br_card, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
             await roll_skill(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {

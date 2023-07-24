@@ -183,6 +183,9 @@ export function get_skill_effects(actor, skill, extra_data) {
         ...attGlobalMods,
         ...skill.system.effects,
     ];
+    console.log(actor.system.stats.globalMods[skill.system.attribute])
+    console.log(actor.system.stats.globalMods.trait)
+    console.log(skill.system.effects)
     for (let effect of effectArray) {
         let modifier = create_modifier(effect.label, effect.value)
         extra_data.modifiers.push(modifier);
