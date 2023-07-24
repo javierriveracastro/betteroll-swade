@@ -20,8 +20,8 @@
                 </div>
                 <div class="p-2 border-b-0 bg-gray-500 border border-gray-700 mt-0">
                     {{# each this.actions }}
-                        <span class="m-1 border border:bg-red-700 text-red-200 text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900"
-                              data-action_id="{{ this.code.name }}">
+                        <span class="brsw-action-button m-1 border border:bg-red-700 text-red-200 text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900 hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"
+                              data-action-id="{{ this.code.id }}">
                             {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                         </span>
                     {{/each}}
@@ -30,13 +30,14 @@
         {{/each}}
     </div>
     <div class="flex p-1">
-        <button type="button" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+        <button type="button" id="brsw-save-button"
+                class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
             Set
         </button>
         <button type="button" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
             <i class="fas fa-dice"></i> Roll
         </button>
-        <button type="button" class="focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-1 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
+        <button type="button" class="brsw-cancel focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-1 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
             <i class="fas fa-times"></i> Cancel
         </button>
     </div>

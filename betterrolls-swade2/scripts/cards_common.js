@@ -78,8 +78,8 @@ export class BrCommonCard {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
                 this.load(data)
-                console.log("New card loaded from message")
-                console.trace()
+                //console.log("New card loaded from message")
+                // console.trace()
                 // TODO: Check if activate_common_listeners can be made a method of this class and simplified.
                 // TODO: Reduce card creations. Attribute rolls done.
             }
@@ -247,6 +247,16 @@ export class BrCommonCard {
             this.action_groups[name] =
                 {name: name, actions: item_actions, id: broofa(),
                  collapsed: game.settings.get('betterrolls-swade2', 'collapse-modifiers')}
+        }
+    }
+
+    set_active_actions(actions) {
+        console.log(actions)
+        for (let group in this.action_groups) {
+            for (let action of this.action_groups[group].actions) {
+                console.log(action)
+                action.selected = actions.includes(action.code.id)
+            }
         }
     }
 
