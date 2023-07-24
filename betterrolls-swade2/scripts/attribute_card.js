@@ -186,14 +186,16 @@ export function activate_attribute_card_listeners(message, html) {
 /**
  * Roll an attribute showing the roll card and the result card when enables
  *
- * @param {ChatMessage} message
+ * @param {ChatMessage, BrCommonCard} br_card
  * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie, True if we want to spend a bennie
  */
-export async function roll_attribute(message, html,
+export async function roll_attribute(br_card, html,
                                      expend_bennie){
-    const br_card = new BrCommonCard(message);
-    const render_data = message.getFlag('betterrolls-swade2', 'render_data')
+    if (!br_card.hasOwnProperty('action_groups')) {
+        br_card = new BrCommonCard(br_card);
+    }
+    const render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data')
     const attribute_id = render_data.attribute_name;
     let extra_data = {modifiers: []}
     let macros = [];
@@ -205,10 +207,10 @@ export async function roll_attribute(message, html,
     }
     get_attribute_effects(br_card.actor, attribute_id, extra_data);
     if (expend_bennie) {await spend_bennie(br_card.actor);}
-    await roll_trait(message, br_card.actor.system.attributes[attribute_id],
+    await roll_trait(br_card, br_card.actor.system.attributes[attribute_id],
         game.i18n.localize("BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
-    run_macros(macros, br_card.actor, null, message);
+    run_macros(macros, br_card.actor, null, br_card.message);
 }
 
 function get_attribute_effects(actor, attribute, extra_data) {
