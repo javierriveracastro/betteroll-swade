@@ -128,7 +128,7 @@ async function roll_incapacitation(message, spend_benny) {
     if (spend_benny) {
         await spend_bennie(actor);
     }
-    const roll = await roll_trait(message,
+    const roll = await roll_trait(br_card,
         actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
     let result = 0;
     roll.rolls.forEach(roll => {

@@ -164,7 +164,7 @@ export async function roll_skill(message, html, expend_bennie){
     }
     get_skill_effects(br_card.actor, skill, extra_data);
     if (expend_bennie) {await spend_bennie(br_card.actor);}
-    await roll_trait(message, skill.system , game.i18n.localize(
+    await roll_trait(br_card, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
     await run_macros(macros, br_card.actor, null, message);
 }
@@ -183,9 +183,6 @@ export function get_skill_effects(actor, skill, extra_data) {
         ...attGlobalMods,
         ...skill.system.effects,
     ];
-    console.log(actor.system.stats.globalMods[skill.system.attribute])
-    console.log(actor.system.stats.globalMods.trait)
-    console.log(skill.system.effects)
     for (let effect of effectArray) {
         let modifier = create_modifier(effect.label, effect.value)
         extra_data.modifiers.push(modifier);

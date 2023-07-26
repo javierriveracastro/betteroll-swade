@@ -711,7 +711,7 @@ export async function roll_item(message, html, expend_bennie,
                 game.i18n.localize("BRSW.Offhand"), -2))
         }
     }
-    const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
+    const trait_data = await roll_trait(br_message, trait.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){

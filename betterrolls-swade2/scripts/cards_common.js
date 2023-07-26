@@ -78,8 +78,8 @@ export class BrCommonCard {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
                 this.load(data)
-                console.log("New card loaded from message")
-                console.trace()
+                // console.log("New card loaded from message")
+                // console.trace()
                 // TODO: Check if activate_common_listeners can be made a method of this class and simplified.
                 // TODO: Reduce card creations. Attribute rolls done.
             }

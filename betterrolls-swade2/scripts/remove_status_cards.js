@@ -101,7 +101,7 @@ async function roll_unshaken(message, use_bennie) {
         // Check for Edges & Abilities
         const modifiers = await check_abilities(actor)
         // Make the roll
-        const roll = await roll_trait(message,
+        const roll = await roll_trait(br_card,
             actor.system.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
             '', {modifiers: modifiers});
         let result = 0;
@@ -213,7 +213,7 @@ async function roll_unstun(message) {
             extra_options.total_modifiers += bonus;
         }
     }
-    const roll = await roll_trait(message,
+    const roll = await roll_trait(br_card,
     actor.system.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
     '', extra_options);
     let result = 0;
