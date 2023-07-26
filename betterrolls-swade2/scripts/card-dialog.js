@@ -39,6 +39,7 @@ class BrCardDialog {
             button.addEventListener('click', this.action_button)
         }
         document.getElementById('brsw-save-button').addEventListener('click', this.save_actions.bind(this))
+        document.getElementById('brsw-dialog-roll').addEventListener('click', this.roll_button.bind(this))
     }
 
     action_button(event) {
@@ -60,5 +61,12 @@ class BrCardDialog {
         await this.BrCard.render()
         await this.BrCard.save()
         this.close_card()
+    }
+
+    roll_button() {
+        const card = document.getElementById(`brc-${this.BrCard.id}`).parentElement
+        const roll_button = card.querySelector('.brsw-roll-button')
+        this.save_actions().catch((err) => {console.log("Error saving actions", err)})
+        roll_button.click()
     }
 }
