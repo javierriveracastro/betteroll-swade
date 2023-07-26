@@ -20,7 +20,7 @@
                 </div>
                 <div class="p-2 border-b-0 bg-gray-500 border border-gray-700 mt-0">
                     {{# each this.actions }}
-                        <span class="brsw-action-button m-1 border border:bg-red-700 text-red-200 text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900 hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"
+                        <span class="brsw-action-button m-1 border border:bg-red-700 text-white text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900 hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"
                               data-action-id="{{ this.code.id }}">
                             {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                         </span>

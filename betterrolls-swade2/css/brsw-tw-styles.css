@@ -647,6 +647,10 @@ video {
   max-height: 100%;
 }
 
+.w-1 {
+  width: 0.25rem;
+}
+
 .w-3 {
   width: 0.75rem;
 }
@@ -874,6 +878,10 @@ video {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .text-blue-200 {
