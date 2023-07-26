@@ -1002,6 +1002,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(new_mod);
     }
     joker_modifiers(message, actor, damage_roll);
+    // Global modifiers
+    if (actor.system.stats?.globalMods?.damage?.length > 0) {
+        for (let mod of actor.system.stats.globalMods.damage) {
+            const new_mod = create_modifier(mod.label, mod.value)
+            damage_roll.brswroll.modifiers.push(new_mod)
+        }
+    }
     // Minimum strength
     if (item.system.minStr) {
         calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
