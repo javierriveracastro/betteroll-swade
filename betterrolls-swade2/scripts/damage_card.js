@@ -259,7 +259,7 @@ async function roll_soak(message, use_bennie) {
             effect.changes.find(ch => ch.key === 'system.attributes.vigor.soakBonus')
         soak_modifiers.push({name: effect.label, value: parseInt(change.value)})
     }
-    const roll = await roll_trait(message,
+    const roll = await roll_trait(br_card,
         actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers: soak_modifiers});
     let result = 0;

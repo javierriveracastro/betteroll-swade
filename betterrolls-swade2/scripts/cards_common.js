@@ -1245,16 +1245,13 @@ function create_roll_string(trait_dice, rof) {
 
 /**
  * Makes a roll trait
- * @param {ChatMessage, BrCommonCard}br_card
+ * @param {BrCommonCard}br_card
  * @param trait_dice An object representing a trait dice
  * @param dice_label: Label for the trait die
  * @param {string} html: Html to be parsed for extra options.
  * @param extra_data: Extra data to add to render options
  */
 export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
-    if (!br_card.hasOwnProperty('action_groups')) {
-        br_card = new BrCommonCard(br_card);
-    }
     let {render_data, actor} = br_card;
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
