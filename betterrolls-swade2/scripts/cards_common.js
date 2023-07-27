@@ -427,8 +427,8 @@ export async function create_common_card(origin, render_data, chat_type, templat
 
 /**
 * Creates the basic chat data common to most cards
-* @param {SwadeActor, Token} origin:  The actor origin of the message
-* @return An object suitable to create a ChatMessage
+* @param {SwadeActor, Token} origin -  The actor origin of the message
+* @return {Object} An object suitable to create a ChatMessage
 */
 export function create_basic_chat_data(origin){
     let actor;
@@ -468,7 +468,7 @@ export function create_basic_chat_data(origin){
 
 /**
  * Returns true if an actor has bennies available or is master controlled.
- * @param {SwadeActor} actor: The actor that we are checking
+ * @param {SwadeActor} actor - The actor that we are checking
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
@@ -481,7 +481,7 @@ export function are_bennies_available(actor) {
 
 /**
  * Expends a bennie
- * @param {SwadeActor} actor: Actor who is going to expend the bennie
+ * @param {SwadeActor} actor - Actor who is going to expend the bennie
  */
 export async function spend_bennie(actor){
     // Dice so Nice animation
@@ -530,7 +530,7 @@ export function get_actor_from_ids(token_id, actor_id) {
 /**
  * Connects the listener for all chat cards
  * @param {BrCommonCard} br_card
- * @param {HTMLElement} html: html of the card
+ * @param {HTMLElement} html - html of the card
  */
 export function activate_common_listeners(br_card, html) {
     html = $(html)  // Get sure html is a Jquery element
@@ -608,7 +608,7 @@ export function activate_common_listeners(br_card, html) {
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
-        await delete_modifier(br_card.message, parseInt(ev.currentTarget.dataset.index));
+        await delete_modifier(br_card, parseInt(ev.currentTarget.dataset.index));
     });
     // Edit TNs
     // noinspection JSUnresolvedFunction
@@ -641,7 +641,7 @@ export function activate_common_listeners(br_card, html) {
 /**
  * Manage collapsable fields
  * @param html
- * @param message: Null if this is called from someplace else than a message
+ * @param message - Null if this is called from someplace else than a message
  */
 export function manage_collapsables(html, message) {
     let collapse_buttons = html.find('.brsw-collapse-button');
@@ -676,7 +676,7 @@ export function manage_collapsables(html, message) {
 /**
  * Mark and unmark selectable items
  * @param ev mouse click event
- * @param {ChatMessage} message: The message that contains the selectable item
+ * @param {ChatMessage} message - The message that contains the selectable item
  */
 export async function manage_selectable_click(ev, message){
     ev.preventDefault();
@@ -708,7 +708,7 @@ function manage_html_selectables(ev) {
 
 /**
  * Controls the sheet status when the portrait in the header is clicked
- * @param {SwadeActor} actor: The actor instance that created the chat card
+ * @param {SwadeActor} actor - The actor instance that created the chat card
  */
 async function manage_sheet(actor) {
     if (actor.sheet.rendered) {
@@ -752,7 +752,7 @@ export function get_action_from_click(event){
 /**
  * Gets the roll options from the card html
  *
- * @param old_options: Options used as default
+ * @param old_options - Options used as default
  */
 export function get_roll_options(old_options){
     let modifiers = old_options.additionalMods || [];
@@ -826,7 +826,7 @@ async function detect_fumble(remove_die, fumble_possible, result, dice) {
  * @param {boolean} damage True if this is a damage roll
  * @param {boolean} remove_die True to remove a result, that usually means a
  *  trait roll made by a Wild Card
- * @param {Array} dice: The dice array that contains individual dice in a result
+ * @param {Array} dice - The dice array that contains individual dice in a result
  */
 export async function calculate_results(rolls, damage, remove_die, dice) {
     let result = 0;
@@ -942,7 +942,7 @@ export async function update_message(br_message, render_data) {
 /**
  * Checks and rolls convictions
  * @param {SwadeActor }actor
- * @return: Modifiers Array
+ * @return Modifiers Array
  */
 export function check_and_roll_conviction(actor) {
     let conviction_modifier;
@@ -1018,7 +1018,7 @@ function get_actor_own_modifiers(actor, roll_options) {
  * @param extra_data
  * @param html
  * @param trait_dice
- * @param roll_options: An object with the current roll_options
+ * @param roll_options - An object with the current roll_options
  */
 async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
@@ -1250,10 +1250,10 @@ function create_roll_string(trait_dice, rof) {
 /**
  * Makes a roll trait
  * @param {BrCommonCard}br_card
- * @param trait_dice An object representing a trait dice
- * @param dice_label: Label for the trait die
- * @param {string} html: Html to be parsed for extra options.
- * @param extra_data: Extra data to add to render options
+ * @param trait_dice - An object representing a trait dice
+ * @param dice_label - Label for the trait die
+ * @param {string} html - Html to be parsed for extra options.
+ * @param extra_data - Extra data to add to render options
  */
 export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
     let {render_data, actor} = br_card;
@@ -1333,8 +1333,8 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
 
 /**
  * Function that exchanges roll when clicked
- * @param event: mouse click event
- * @param message:
+ * @param event - mouse click event
+ * @param message
  */
 async function old_roll_clicked(event, message) {
     const index = event.currentTarget.dataset.index;
@@ -1424,7 +1424,7 @@ async function override_die_result(roll_data, die_index, new_value, is_damage_ro
 /**
  * Add a modifier to a message
  * @param {ChatMessage} message
- * @param modifier: A {name, value} modifier
+ * @param modifier - A {name, value} modifier
  */
 async function add_modifier(message, modifier) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
@@ -1447,15 +1447,18 @@ async function add_modifier(message, modifier) {
 
 /**
  * Deletes a modifier from a message
- * @param {ChatMessage} message
- * @param {int} index: Index of the modifier to delete.
+ * @param {BrCommonCard} br_card
+ * @param {int} index - Index of the modifier to delete.
  */
-async function delete_modifier(message, index) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+async function delete_modifier(br_card, index) {
+    let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
+    console.log(br_card, render_data)
     let modifier = render_data.trait_roll.modifiers[index];
     await update_roll_results(render_data.trait_roll, - modifier.value);
     delete render_data.trait_roll.modifiers[index]
-    await update_message(message, render_data);
+    await br_card.render()
+    br_card.save().catch(
+        () => {console.error("Error saving a card after deleting a modifier")})
 }
 
 
@@ -1484,9 +1487,9 @@ async function edit_modifier(message, index, new_modifier) {
  * Changes the of one of the rolls.
  *
  * @param {ChatMessage} message
- * @param {int} index: -1 to update all tns
+ * @param {int} index - -1 to update all tns
  * @param {int} new_tn
- * @param {string} reason: If it is set the reason will be changed
+ * @param {string} reason - If it is set the reason will be changed
  */
 async function edit_tn(message, index, new_tn, reason) {
     let render_data = message.getFlag('betterrolls-swade2', 'render_data');
@@ -1515,7 +1518,7 @@ async function edit_tn(message, index, new_tn, reason) {
  *
  * @param {ChatMessage} message
  * @param {int} index
- * @param {boolean} selected: True to select targeted, false for selected
+ * @param {boolean} selected - True to select targeted, false for selected
  */
 function get_tn_from_target(message, index, selected) {
     let objetive;
@@ -1562,7 +1565,7 @@ export function has_joker(token_id) {
 /**
  * Duplicate a message and clean rolls
  * @param {ChatMessage} message
- * @param event: javascript event for click
+ * @param event - javascript event for click
  */
 async function duplicate_message(message, event) {
     let data = duplicate(message);
@@ -1593,8 +1596,8 @@ async function duplicate_message(message, event) {
 
 /**
  * Creates a modifier object to add to a list
- * @param {String} label: Label of the modifier
- * @param {String, Number} expression: A number or a die expression.
+ * @param {String} label - Label of the modifier
+ * @param {String, Number} expression - A number or a die expression.
  */
 export function create_modifier(label, expression) {
     let modifier = {name: label, value: 0, extra_class: '', dice: null}
