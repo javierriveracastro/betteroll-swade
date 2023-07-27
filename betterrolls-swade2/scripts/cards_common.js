@@ -45,7 +45,7 @@ export function BRWSRoll() {
  * @param render_object
  */
 async function store_render_flag(message, render_object) {
-    for (let property of ['actor', 'skill', 'bennie_avaliable']) {
+    for (let property of ['actor', 'skill']) {
         delete render_object[property];
     }
     // Get sure thar there is a diff so update socket gets fired.
@@ -189,6 +189,10 @@ export class BrCommonCard {
         return target_array
     }
 
+    get bennie_avaliable(){
+        return are_bennies_available(this.actor)
+    }
+
     recover_targets_from_user() {
         this.target_ids = []
         for (const target of game.user.targets) {
@@ -257,7 +261,6 @@ export class BrCommonCard {
      * @returns {*}
      */
     generate_render_data(render_data, template) {
-        render_data.bennie_avaliable = are_bennies_available(this.actor);
         render_data.actor = this.actor;
         render_data.result_master_only =
             game.settings.get('betterrolls-swade2', 'result-card') === 'master';
@@ -334,6 +337,7 @@ export class BrCommonCard {
             ...{sorted_action_groups: this.sorted_action_groups}}
         data.actor = this.actor;
         data.item = this.item;
+        data.bennie_avaliable = this.bennie_avaliable;
         return data
     }
 
