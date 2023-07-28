@@ -1,13 +1,13 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
 {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
 <div class="brsw-form">
-    {{# unless trait_roll.rolls}}
+    {{# unless trait_roll.is_rolled}}
     <div class="brsw-button-row brsw-form">
         <button class="brsw-roll-button">{{ localize 'BRSW.Roll' }}</button>
     </div>
     {{/unless}}
 </div>
-{{# if trait_roll.rolls }}
+{{# if trait_roll.is_rolled }}
     {{>"modules/betterrolls-swade2/templates/trait_roll_partial.html"}}
     {{>"modules/betterrolls-swade2/templates/trait_result_partial.html"}}
 {{/if}}

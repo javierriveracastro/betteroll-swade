@@ -35,13 +35,28 @@ class Die {
 
         }
     }
+
+    get unexploded() {
+        const unexploded_die = [];
+        let current_total = this.total;
+        let out = false;
+        while (!out) {
+            if (current_total > this.sides) {
+                unexploded_die.push(this.sides);
+                current_total -= this.sides;
+            } else {
+                unexploded_die.push(current_total);
+                out = true;
+            }
+        }
+        return unexploded_die;
+    }
 }
 
 class SingleRoll {
     constructor() {
         this.dice = [];
         this.is_fumble = false;
-        this.result = null;
     }
 
     add_roll(roll, wild_die) {
@@ -73,7 +88,7 @@ class SingleRoll {
             fumble_possible += roll.fumble_potential
             if (roll.total <= minimum_value) {
                 min_position = index
-                minimum_value = roll.result
+                minimum_value = roll.total
             }
             roll.result = roll.total - tn;
         }
@@ -117,7 +132,15 @@ export class TraitRoll {
         this.selected_roll_index = this.rolls.indexOf(new_roll);
     }
     
-    current_roll() {
-        return this.rolls[this.selected_roll_index];
+    get current_roll() {
+        if (this.rolls.length > 0) {
+            return this.rolls[this.selected_roll_index];
+        }
+    }
+
+    get old_rolls() {
+        return this.rolls.filter((arr, index) => {
+            return index !== this.selected_roll_index;
+        })
     }
 }

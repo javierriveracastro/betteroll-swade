@@ -15,10 +15,10 @@
         <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}}{{# if trait_roll.modifiers }}(*){{/if}} :
     </span>
     <span>
-        {{#each trait_roll.rolls}}
+        {{#each trait_roll.current_roll.dice }}
             <a class="brsw-override-die" data-die-index="{{@index}}">
                 <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
-                    {{ this.result }}
+                    {{ this.total }}
                 </span>
             </a>
         {{/each}}
@@ -38,11 +38,11 @@
             <i class="fas fa-plus-circle" title="{{ localize 'BRSW.AddModifier' }}"></i>
         </span>
     </div>
-    {{#each trait_roll.dice as |current_dice|}}
+    {{#each trait_roll.current_roll.dice as |current_dice|}}
         <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.label }}</span>
-            <span>{{#each this.results}}
-                <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
+            <span>{{#each this.unexploded }}
+                <span class="brsw-d{{current_dice.sides}} brsw-dice-image">{{ this }}</span>
             {{/each}}</span>
         </div>
     {{/each}}
