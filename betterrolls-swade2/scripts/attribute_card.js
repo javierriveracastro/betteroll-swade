@@ -43,12 +43,10 @@ async function create_attribute_card(origin, name, collapse_actions){
                 actor.system.attributes[attribute])}`)
         }
     }
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll, attribute_name: name,
-            actions_collapsed: collapse_actions},
+            attribute_name: name, actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     // We always set the actor (as a fallback, and the token if possible)

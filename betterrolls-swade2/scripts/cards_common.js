@@ -131,7 +131,6 @@ export class BrCommonCard {
         if (this.message) {
             this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
         }
-        this.trait_roll.rep()
     }
 
     get token() {
@@ -805,7 +804,7 @@ export function trait_to_string(trait) {
 }
 
 
-async function detect_fumble(remove_die, fumble_possible, result, dice) {
+export async function detect_fumble(remove_die, fumble_possible, result, dice) {
     if (!remove_die && (fumble_possible < 1)) {
         let test_fumble_roll = new Roll('1d6');
         await test_fumble_roll.roll({async: true});
@@ -1167,17 +1166,22 @@ function get_reroll_options(actor, render_data, roll_options, extra_data,) {
     return options;
 }
 
-async function show_3d_dice(roll, message, modifiers, wild_die) {
-    if (wild_die) {
+/**
+ * Show the 3d dice for a trait roll
+ * @param {BrCommonCard} br_card
+ * @param {Roll} roll
+ */
+async function show_3d_dice(br_card, roll) {
+    if (br_card.trait_roll.wild_die) {
         set_wild_die_theme(roll.dice[roll.dice.length - 1]);
     }
     let users = null;
-    if (message.whisper.length > 0) {
-        users = message.whisper;
+    if (br_card.message.whisper.length > 0) {
+        users = br_card.message.whisper;
     }
-    const blind = message.blind
+    const blind = br_card.message.blind
     // Dice buried in modifiers.
-    for (let modifier of modifiers) {
+    for (let modifier of br_card.trait_roll.modifiers) {
         if (modifier.dice && (modifier.dice instanceof Roll)) {
             // noinspection ES6MissingAwait
             game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind)
@@ -1262,14 +1266,11 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     let {render_data, actor} = br_card;
     let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
     let options;
-    if (!render_data.trait_roll.rolls.length) {
+    if (!br_card.trait_roll.is_rolled) {
         options = await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
     } else {
         options = get_reroll_options(actor, render_data, roll_options, extra_data);
     }
-    render_data.trait_roll.is_fumble = false;
-    let trait_rolls = [];
-    let dice = [];
     let roll_string = create_roll_string(trait_dice, roll_options.rof);
     // Make penalties red
     for (let mod of roll_options.modifiers) {
@@ -1287,51 +1288,22 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     }
     if ((actor.isWildcard || extra_data.add_wild_die) && wild_die_formula) {
         roll_string += wild_die_formula;
+        br_card.trait_roll.wild_die = true;
+    } else {
+        br_card.trait_roll.wild_die = false;
     }
+    br_card.trait_roll.modifiers = roll_options.modifiers;
     let roll = new Roll(roll_string);
-    roll.evaluate({async:false})
-    let index = 0
-    roll.terms.forEach((term) => {
-        if (term.hasOwnProperty('faces')) {
-            // Results
-            let extra_class = '';
-            let fumble_possible = 1;
-            if (term.total === 1) {
-                extra_class = ' brsw-red-text';
-                fumble_possible -= 2;
-            } else if (term.total > term.faces) {
-                extra_class = ' brsw-blue-text';
-            }
-            trait_rolls.push({sides: term.faces, fumble_value: fumble_possible,
-                result: term.total + roll_options.total_modifiers, extra_class: extra_class,
-                tn: options.tn, tn_reason: options.tn_reason});
-            // Dies
-            let new_die = {faces: term.faces, results: [], label: dice_label,
-                extra_class: ''};
-            term.results.forEach(result => {
-                new_die.results.push(result.result);
-            })
-            dice.push(new_die);
-            index += 1;
-        }
-    })
-    if (game.dice3d) {
-        await show_3d_dice(roll, br_card.message, roll_options.modifiers,
-            (actor.isWildcard || extra_data.add_wild_die) && wild_die_formula);
-    }
-    render_data.trait_roll.is_fumble = await calculate_results(
-        trait_rolls, false, actor.isWildcard, dice)
-    render_data.trait_roll.rolls = trait_rolls;
-    render_data.trait_roll.modifiers = roll_options.modifiers;
-    render_data.trait_roll.dice = dice;
-    for (let key in extra_data) {
-        if (extra_data.hasOwnProperty(key)) {
-            render_data[key] = extra_data[key];
+    roll.evaluate().then(evaluate_roll(roll, br_card))
+}
 
-        }
+async function evaluate_roll(roll, br_card) {
+    br_card.trait_roll.add_roll(roll);
+    if (game.dice3d) {
+        await show_3d_dice(br_card, roll);
     }
-    await update_message(br_card, render_data)
-    return render_data.trait_roll;
+    br_card.save()
+    br_card.render()
 }
 
 /**
