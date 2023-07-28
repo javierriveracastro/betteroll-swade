@@ -21,5 +21,6 @@ export class TraitRoll {
         this.target_id = null;
         this.wild_die = null;
         this.modifiers = [];
+        this.selected_roll = null;
     }
 }

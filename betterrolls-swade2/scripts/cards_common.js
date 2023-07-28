@@ -10,6 +10,7 @@ import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js
 import {get_gm_modifiers} from './gm_modifiers.js';
 import {brAction} from "./actions.js";
 import {get_actions} from "./global_actions.js";
+import {TraitRoll} from "./rolls.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -74,6 +75,7 @@ export class BrCommonCard {
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
+        this.trait_roll = new TraitRoll()
         if (message) {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
@@ -116,19 +118,20 @@ export class BrCommonCard {
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
             action_groups: this.action_groups, id: this.id,
-            target_ids: this.target_ids}
+            target_ids: this.target_ids, trait_roll: this.trait_roll}
     }
 
     load(data){
         const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
             'skill_id', 'environment', 'extra_text', 'attribute_name',
-            'action_groups', 'target_ids']
+            'action_groups', 'target_ids', 'trait_roll']
         for (let field of FIELDS) {
             this[field] = data[field]
         }
         if (this.message) {
             this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
         }
+        this.trait_roll.rep()
     }
 
     get token() {
@@ -1452,7 +1455,6 @@ async function add_modifier(message, modifier) {
  */
 async function delete_modifier(br_card, index) {
     let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
-    console.log(br_card, render_data)
     let modifier = render_data.trait_roll.modifiers[index];
     await update_roll_results(render_data.trait_roll, - modifier.value);
     delete render_data.trait_roll.modifiers[index]
