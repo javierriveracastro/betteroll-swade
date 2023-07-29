@@ -589,10 +589,6 @@ export function activate_common_listeners(br_card, html) {
     // Edit die results
     // noinspection JSUnresolvedFunction
     html.find('.brsw-override-die').click((ev) => {
-        // Collect roll data
-        let roll_data = null;
-        let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
-        roll_data = render_data.trait_roll;
         // Retrieve additional data
         const die_index = Number(ev.currentTarget.dataset.dieIndex);
         // Show modal
@@ -602,9 +598,7 @@ export function activate_common_listeners(br_card, html) {
           async values => {
             const new_value = values.new_result;
             // Actual roll manipulation
-            await override_die_result(roll_data, die_index, new_value, false,
-                br_card.actor.isWildcard);
-            await update_message(br_card.message, render_data);
+            await override_die_result(br_card, die_index, new_value,);
         });
     })
     // Delete modifiers
@@ -898,29 +892,6 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
     return result
 }
 
-/**
- * Removes the class that marks a die as discarded from a die array
- * @param dice
- * @param rolls
- */
-function remove_discarded_die_mark(dice, rolls) {
-    // Because of some bright day idea we use tn = 0 to mark a discarded die
-    // So now we need this ugly hack to undo it
-    let tn = 0
-    for (const roll of rolls) {
-        if (roll.tn > tn) {tn = roll.tn}
-    }
-    for (const roll of rolls) {
-        roll.extra_class = roll.extra_class.replace(/ brsw-discarded-roll/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-red-text/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-blue-text/g, '')
-        roll.tn = tn
-    }
-    for (const roll of dice) {
-        roll.extra_class = roll.extra_class.replace(/ brsw-discarded-roll/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-red-text/g, '')
-    }
-}
 
 /**
  * Updates a message using a new render_data
@@ -1370,30 +1341,15 @@ async function update_roll_results(trait_roll, mod_value) {
 
 /**
  * Overrides the rolled result of a singular die in a given roll
- * @param roll_data
+ * @param {BrCommonCard} br_card
  * @param {int} die_index
  * @param {int, string} new_value
- * @param {boolean} [is_damage_roll=false]
- * @param {boolean} is_wildcard
  */
-async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false, is_wildcard = false) {
-    let total_modifier = 0
-    roll_data.modifiers.forEach(mod => {
-        if (mod) {
-            total_modifier += mod.value;
-        }
-    })
-    roll_data.rolls[die_index].result = parseInt(new_value) + total_modifier
-    /* Recreate die*/
-    roll_data.dice.forEach((die, index) => {
-        die.results = [];
-        let final_result = roll_data.rolls[index].result - total_modifier;
-        for (let number = final_result; number > 0; number -= die.faces) {
-            die.results.push(number > die.faces ? die.faces : number);
-        }
-    })
-    remove_discarded_die_mark(roll_data.dice, roll_data.rolls)
-    await calculate_results(roll_data.rolls, is_damage_roll, is_wildcard, roll_data.dice);
+async function override_die_result(br_card, die_index, new_value) {
+    br_card.trait_roll.current_roll.dice[die_index].raw_total = parseInt(new_value)
+    br_card.trait_roll.current_roll.calculate_results(br_card.trait_roll.tn, br_card.trait_roll.wild_die)
+    await br_card.render()
+    await br_card.save()
 }
 
 

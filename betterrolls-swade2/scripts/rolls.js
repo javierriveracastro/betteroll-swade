@@ -8,7 +8,8 @@ class Die {
         this.sides = 0;
         this.extra_class = ''; // Extra class for rendering this die
         this.fumble_potential = 1; // 1 = no fumble, 0 = fumble, -1 = critical fumble
-        this.total = null; // Number rolled counting explosions
+        this.raw_total = null; // Number rolled counting explosions
+        this.modifiers = 0; // Modifiers to the roll
         this.result = null; // Result (total - target number) usually
         this.label = 'Trait Die'
     }
@@ -38,7 +39,7 @@ class Die {
 
     get unexploded() {
         const unexploded_die = [];
-        let current_total = this.total;
+        let current_total = this.raw_total;
         let out = false;
         while (!out) {
             if (current_total > this.sides) {
@@ -51,6 +52,10 @@ class Die {
         }
         return unexploded_die;
     }
+
+    get final_total() {
+        return this.raw_total + this.modifiers;
+    }
 }
 
 class SingleRoll {
@@ -59,7 +64,7 @@ class SingleRoll {
         this.is_fumble = false;
     }
 
-    add_roll(roll, wild_die) {
+    add_roll(roll, wild_die, modifiers) {
          roll.terms.forEach((term) => {
             if (term.hasOwnProperty('faces')) {
                 let new_die = new Die();
@@ -70,7 +75,8 @@ class SingleRoll {
                     new_die.extra_class = ' brsw-blue-text';
                 }
                 new_die.sides = term.faces;
-                new_die.total = term.total;
+                new_die.raw_total = term.total;
+                new_die.modifiers = modifiers;
                 this.dice.push(new_die);
             }
         })
@@ -86,13 +92,14 @@ class SingleRoll {
         let fumble_possible = 0
         for (const [index, roll] of this.dice.entries()) {
             fumble_possible += roll.fumble_potential
-            if (roll.total <= minimum_value) {
+            if (roll.raw_total <= minimum_value) {
                 min_position = index
-                minimum_value = roll.total
+                minimum_value = roll.raw_total
             }
-            roll.result = roll.total - tn;
+            roll.result = roll.final_total - tn;
         }
-        // Remove lower die.
+        this.remove_discarded_die()
+        // Mark lower die as discarded.
         if (remove_die && this.dice.length) {
             this.dice[min_position].extra_class += ' brsw-discarded-roll';
             this.dice[min_position].result = null;
@@ -103,6 +110,12 @@ class SingleRoll {
             result = 0.01  // Ugly hack to differentiate from failure
         }
         this.is_fumble = detect_fumble(remove_die, fumble_possible, result, this.dice);
+    }
+
+    remove_discarded_die() {
+        for (let die of this.dice) {
+            die.extra_class = die.extra_class.replace(/ brsw-discarded-roll/g, '')
+        }
     }
 }
 
@@ -126,7 +139,7 @@ export class TraitRoll {
      */
     add_roll(roll) {
         const new_roll = new SingleRoll();
-        new_roll.add_roll(roll, this.wild_die);
+        new_roll.add_roll(roll, this.wild_die, this.total_modifiers);
         new_roll.calculate_results(this.tn, this.wild_die);
         this.rolls.push(new_roll);
         this.selected_roll_index = this.rolls.indexOf(new_roll);
@@ -142,5 +155,13 @@ export class TraitRoll {
         return this.rolls.filter((arr, index) => {
             return index !== this.selected_roll_index;
         })
+    }
+
+    get total_modifiers() {
+        let total = 0;
+        this.modifiers.forEach((mod) => {
+            total += mod.value;
+        })
+        return total;
     }
 }
