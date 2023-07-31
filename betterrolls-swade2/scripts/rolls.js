@@ -192,4 +192,11 @@ export class TraitRoll {
         }
         this.rolls = new_rolls;
     }
+
+    get rof() {
+        if (this.current_roll) {
+            const wild_die = this.wild_die ? -1 : 0;
+            return this.current_roll.dice.length + wild_die;
+        }
+    }
 }

@@ -1098,44 +1098,26 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             }
         }
     }
-    return options;
 }
 
 /**
  * Get the options for a reroll
+ * @param {BrCommonCard} br_card - The card to get the options from
+ * @param {Object} extra_data
  */
-function get_reroll_options(actor, render_data, roll_options, extra_data,) {
+function get_reroll_options(br_card, extra_data) {
     // Reroll, keep old options
-    roll_options.rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
-    roll_options.modifiers = render_data.trait_roll.modifiers;
     let reroll_mods_applied = false;
-    roll_options.modifiers.forEach(mod => {
-        roll_options.total_modifiers += mod.value
+    br_card.trait_roll.modifiers.forEach(mod => {
         if (mod.name.includes('(reroll)')) {
             reroll_mods_applied = true;
         }
     });
     if (extra_data.reroll_modifier && !reroll_mods_applied) {
-        roll_options.modifiers.push(create_modifier(
+        br_card.trait_roll.modifiers.push(create_modifier(
             `${extra_data.reroll_modifier.name} (reroll)`,
             extra_data.reroll_modifier.value))
-        roll_options.total_modifiers += extra_data.reroll_modifier.value;
     }
-    let options = {}
-    render_data.trait_roll.rolls.forEach(roll => {
-        if (roll.tn) {
-            // We hacky use tn = 0 to mark discarded dice,
-            // here we pay for it
-            options = {
-                tn: roll.tn,
-                tn_reason: roll.tn_reason
-            };
-        }
-    });
-    render_data.trait_roll.old_rolls.push(
-        render_data.trait_roll.rolls);
-    render_data.trait_roll.rolls = [];
-    return options;
 }
 
 /**
@@ -1236,12 +1218,14 @@ function create_roll_string(trait_dice, rof) {
  */
 export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
     let {render_data, actor} = br_card;
-    let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
+    let roll_options = {modifiers: [], rof: undefined}
     let options;
     if (!br_card.trait_roll.is_rolled) {
-        options = await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
+        await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
     } else {
-        options = get_reroll_options(actor, render_data, roll_options, extra_data);
+        roll_options.modifiers = br_card.trait_roll.modifiers;
+        roll_options.rof = br_card.trait_roll.rof;
+        get_reroll_options(br_card, extra_data);
     }
     let roll_string = create_roll_string(trait_dice, roll_options.rof);
     // Make penalties red
