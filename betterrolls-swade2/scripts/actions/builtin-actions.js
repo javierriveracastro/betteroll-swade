@@ -9,8 +9,13 @@ export const SYSTEM_GLOBAL_ACTION = [
         selector_value: "BRSW.EdgeName-NoMercy", defaultChecked:"on", group: "BRSW.Edges"},
     {id:"FRENZY", name:"Frenzy", button_name:"BRSW.EdgeName-Frenzy",
         and_selector: [{selector_type: "skill", selector_value: "fighting"},
-            {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Frenzy"}],
+            {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-Frenzy"}, {not_selector:[
+                {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-ImprovedFrenzy"}]}],
         defaultChecked:"on", group: "BRSW.Edges", rof: "2"},
+    {id:"IMPROVED FRENZY", name:"Improved Frenzy", button_name:"BRSW.EdgeName-ImprovedFrenzy",
+        and_selector: [{selector_type: "skill", selector_value: "fighting"},
+            {selector_type:"actor_has_edge", selector_value: "BRSW.EdgeName-ImprovedFrenzy"}, ],
+        defaultChecked:"on", group: "BRSW.Edges", rof: "3"},
     {id:"MARKSMAN", name:"Marksman", button_name: "BRSW.EdgeName-Marksman", "skillMod": "+1", and_selector:[
         {selector_type:"actor_has_edge", selector_value:"BRSW.EdgeName-Marksman"},
         {selector_type:"skill", selector_value:"BRSW.Shooting"}], group: "BRSW.Edges"},
