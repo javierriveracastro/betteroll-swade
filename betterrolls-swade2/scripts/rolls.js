@@ -4,7 +4,7 @@
 import {detect_fumble} from "./cards_common.js";
 
 class Die {
-    constructor() {
+    constructor(data) {
         this.sides = 0;
         this.extra_class = ''; // Extra class for rendering this die
         this.fumble_potential = 1; // 1 = no fumble, 0 = fumble, -1 = critical fumble
@@ -12,6 +12,9 @@ class Die {
         this.modifiers = 0; // Modifiers to the roll
         this.result = null; // Result (total - target number) usually
         this.label = 'Trait Die'
+        if (data) {
+            Object.assign(this, data)
+        }
     }
     
     result_text_icon() {
@@ -59,15 +62,18 @@ class Die {
 }
 
 class SingleRoll {
-    constructor() {
+    constructor(data) {
         this.dice = [];
         this.is_fumble = false;
+        if (data) {
+            this.load(data);
+        }
     }
 
     add_roll(roll, wild_die, modifiers) {
          roll.terms.forEach((term) => {
             if (term.hasOwnProperty('faces')) {
-                let new_die = new Die();
+                let new_die = new Die(null);
                 if (term.total === 1) {
                     new_die.extra_class = ' brsw-red-text';
                     new_die.fumble_potential = -1;
@@ -117,6 +123,15 @@ class SingleRoll {
             die.extra_class = die.extra_class.replace(/ brsw-discarded-roll/g, '')
         }
     }
+
+    load(data) {
+        Object.assign(this, data)
+        let new_dice = [];
+        for (let die of this.dice) {
+            new_dice.push(new Die(die));
+        }
+        this.dice = new_dice;
+    }
 }
 
 export class TraitRoll {
@@ -138,7 +153,7 @@ export class TraitRoll {
      * @param roll
      */
     add_roll(roll) {
-        const new_roll = new SingleRoll();
+        const new_roll = new SingleRoll(null);
         new_roll.add_roll(roll, this.wild_die, this.total_modifiers);
         new_roll.calculate_results(this.tn, this.wild_die);
         this.rolls.push(new_roll);
@@ -163,5 +178,18 @@ export class TraitRoll {
             total += mod.value;
         })
         return total;
+    }
+
+    /**
+     * Loads data from an object
+     * @param data
+     */
+    load(data) {
+        Object.assign(this, data);
+        let new_rolls = [];
+        for (let roll of this.rolls) {
+            new_rolls.push(new SingleRoll(roll));
+        }
+        this.rolls = new_rolls;
     }
 }

@@ -124,10 +124,11 @@ export class BrCommonCard {
     load(data){
         const FIELDS = ['id', 'type', 'token_id', 'actor_id', 'item_id',
             'skill_id', 'environment', 'extra_text', 'attribute_name',
-            'action_groups', 'target_ids', 'trait_roll']
+            'action_groups', 'target_ids']
         for (let field of FIELDS) {
             this[field] = data[field]
         }
+        this.trait_roll.load(data.trait_roll)
         if (this.message) {
             this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
         }
