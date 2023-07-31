@@ -558,7 +558,7 @@ export function activate_common_listeners(br_card, html) {
     // Old rolls
     // noinspection JSUnresolvedFunction
     html.find('.brsw-old-roll').click(async ev => {
-        await old_roll_clicked(ev, br_card.message);
+        await old_roll_clicked(ev, br_card);
     });
     // Add modifiers
     // noinspection JSUnresolvedFunction
@@ -1217,9 +1217,8 @@ function create_roll_string(trait_dice, rof) {
  * @param extra_data - Extra data to add to render options
  */
 export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
-    let {render_data, actor} = br_card;
+    let {actor} = br_card;
     let roll_options = {modifiers: [], rof: undefined}
-    let options;
     if (!br_card.trait_roll.is_rolled) {
         await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
     } else {
@@ -1266,36 +1265,23 @@ async function evaluate_roll(roll, br_card) {
 /**
  * Function that exchanges roll when clicked
  * @param event - mouse click event
- * @param message
+ * @param {BrCommonCard } br_card - The card to be updated
  */
-async function old_roll_clicked(event, message) {
-    const index = event.currentTarget.dataset.index;
-    const br_card = new BrCommonCard(message);
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    render_data.trait_roll.old_rolls.push(render_data.trait_roll.rolls);
-    render_data.trait_roll.rolls = render_data.trait_roll.old_rolls[index];
-    delete render_data.trait_roll.old_rolls[index];
-    // Recreate die
-    let total_modifier = 0;
-    render_data.trait_roll.modifiers.forEach(mod => {
-        total_modifier += mod.value;
-    })
-    render_data.trait_roll.dice.forEach((die, index) => {
-        die.results = [];
-        let final_result = render_data.trait_roll.rolls[index].result - total_modifier;
-        for (let number = final_result; number > 0; number -= die.faces) {
-            die.results.push(number > die.faces ? die.faces : number);
-        }
-    })
+async function old_roll_clicked(event, br_card) {
+    let index = parseInt(event.currentTarget.dataset.index);
+    if (index >= br_card.trait_roll.selected_roll_index) {
+        index +=1
+    }
+    br_card.trait_roll.selected_roll_index = index;
     if (br_card.item) {
-        render_data.skill = get_item_trait(br_card.item, br_card.actor);
-        if (!isNaN(parseInt(br_card.item.system.pp)) && render_data.used_pp) {
-            render_data.used_pp = await discount_pp(
-                br_card, render_data.trait_roll.rolls, 0, render_data.used_pp, 0);
+        br_card.skill = get_item_trait(br_card.item, br_card.actor);
+        if (!isNaN(parseInt(br_card.item.system.pp)) && br_card.render_data.used_pp) {
+            br_card.render_data.used_pp = await discount_pp(
+                br_card, br_card.trait_roll.rolls, 0, br_card.render_data.used_pp, 0);
+        }
     }
-
-    }
-    await update_message(message, render_data);
+    await br_card.render();
+    br_card.save().catch(err => console.error("Error while selecting and old roll: " + err));
 }
 
 
