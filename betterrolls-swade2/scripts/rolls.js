@@ -16,27 +16,36 @@ class Die {
             Object.assign(this, data)
         }
     }
-    
-    result_text_icon() {
-        const return_value = {text: '', icon: ''};
-        if (!this.result) {
-            return return_value;
+
+    get result_text() {
+        if (this.result === null) {
+            return '';
         }
         if (this.result < 0) {
-            return_value.text = game.i18n.localize('BRSW.Failure');
-            return_value.icon = '<i class="brsw-red-text fas fa-minus-circle"></i>'
+            return game.i18n.localize('BRSW.Failure');
         } else if (this.result < 4) {
-            return_value.text = game.i18n.localize('BRSW.Success');
-            return_value.icon = '<i class="brsw-blue-text fas fa-check"></i>'
+            return game.i18n.localize('BRSW.Success');
         } else if (this.result < 8) {
-            return_value.text = game.i18n.localize('BRSW.Raise');
-            return_value.icon = '<i class="brsw-blue-text fas fa-check-double"></i>'
-
+            return game.i18n.localize('BRSW.Raise');
         } else {
             const raises = Math.floor(this.result / 4)
-            return_value.text = game.i18n.localize('BRSW.Raise_plural') + ' ' + raises;
-            return_value.icon = raises.toString() + '<i class="brsw-blue-text fas fa-check-double"></i>';
+            return game.i18n.localize('BRSW.Raise_plural') + ' ' + raises;
+        }
+    }
 
+    get result_icon() {
+        if (this.result === null) {
+            return '';
+        }
+        if (this.result < 0) {
+            return '<i class="brsw-red-text fas fa-minus-circle"></i>'
+        } else if (this.result < 4) {
+            return '<i class="brsw-blue-text fas fa-check"></i>'
+        } else if (this.result < 8) {
+            return '<i class="brsw-blue-text fas fa-check-double"></i>'
+        } else {
+            const raises = Math.floor(this.result / 4)
+            return raises.toString() + '<i class="brsw-blue-text fas fa-check-double"></i>';
         }
     }
 
@@ -58,6 +67,10 @@ class Die {
 
     get final_total() {
         return this.raw_total + this.modifiers;
+    }
+
+    get is_not_discarded() {
+        return this.result !== null;
     }
 }
 

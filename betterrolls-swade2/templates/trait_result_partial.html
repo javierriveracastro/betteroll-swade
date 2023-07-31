@@ -8,11 +8,11 @@
             <i class="fas {{#if collapse_results }}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Result'}} :
         </span>
         <span>
-            {{#each trait_roll.rolls}}
-                {{# if this.tn }}
-                    <span>{{{ this.result_icon }}}</span>
-                {{/if}}
-            {{/each}}
+            {{# if trait_roll.tn }}
+                {{#each trait_roll.current_roll.dice}}
+                        <span>{{{ this.result_icon }}}</span>
+                {{/each}}
+            {{/if}}
         </span>
     </div>
     <div class="brsw-result-detail {{# if collapse_results }}brsw-collapsed{{/if}}">
@@ -28,10 +28,10 @@
                     title="{{ localize "BRSW.TNSelected"}}"></i>
             </span>
         </div>
-        {{#each trait_roll.rolls}}
-            {{# if this.tn }}
+        {{#each trait_roll.current_roll.dice}}
+            {{# if this.is_not_discarded }}
                 <div class="brsw-roll-detail-row">
-                    <span title="{{ this.tn_reason}}">{{ localize "BRSW.TN" }} {{ this.tn }} {{ localize "BRSW.Result" }} {{ this.result }}</span>
+                    <span title="{{ trait_roll.tn_reason}}">{{ localize "BRSW.TN" }} {{ ../trait_roll.tn }} {{ localize "BRSW.Result" }} {{ this.final_total }}</span>
                     <span>
                         {{ this.result_text }}
                         <i class="brsw-edit-tn brsw-clickable fas fa-edit brsw-form" data-index="{{@index}}"
