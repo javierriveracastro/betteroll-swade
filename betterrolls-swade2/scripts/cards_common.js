@@ -569,7 +569,7 @@ export function activate_common_listeners(br_card, html) {
                     default_value: ''},
                 {id: 'value', label: label_mod,
                  default_value: 1}], async values => {
-                await add_modifier(br_card.message, {label: values.label,
+                await add_modifier(br_card, {label: values.label,
                     value: values.value});
             });
     })
@@ -1325,25 +1325,26 @@ async function override_die_result(br_card, die_index, new_value) {
 
 /**
  * Add a modifier to a message
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param modifier - A {name, value} modifier
  */
-async function add_modifier(message, modifier) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+async function add_modifier(br_card, modifier) {
     if (modifier.value) {
         let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
         let new_mod = create_modifier(name, modifier.value)
         if (game.dice3d && new_mod.dice) {
             let users = null;
-            if (message.whisper.length > 0) {
-                users = message.whisper;
+            if (br_card.message.whisper.length > 0) {
+                users = br_card.message.whisper;
             }
-            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users, message.blind);
+            await game.dice3d.showForRoll(
+                new_mod.dice, game.user, true, users, br_card.message.blind);
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
-        render_data.trait_roll.modifiers.push(new_mod)
-        await update_roll_results(render_data.trait_roll, new_mod.value);
-        await update_message(message, render_data);
+        br_card.trait_roll.modifiers.push(new_mod)
+        br_card.trait_roll.calculate_results()
+        await br_card.render()
+        br_card.save().catch(() => {console.error("Error saving a card after adding a modifier")})
     }
 }
 
@@ -1353,7 +1354,6 @@ async function add_modifier(message, modifier) {
  * @param {int} index - Index of the modifier to delete.
  */
 async function delete_modifier(br_card, index) {
-    let modifier = br_card.trait_roll.modifiers[index];
     delete br_card.trait_roll.modifiers[index]
     br_card.trait_roll.calculate_results()
     await br_card.render()
