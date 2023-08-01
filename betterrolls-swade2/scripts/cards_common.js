@@ -582,7 +582,7 @@ export function activate_common_listeners(br_card, html) {
             [{label: 'Label', default_value: label},
                 {id: 'value', label: label_mod, default_value: value}],
             async values => {
-                await edit_modifier(br_card.message, parseInt(index),
+                await edit_modifier(br_card, parseInt(index),
                     {name: values.Label, value: values.value,
                         extra_class: parseInt(values.value) < 0 ? ' brsw-red-text' : ''});
             });
@@ -1364,21 +1364,19 @@ async function delete_modifier(br_card, index) {
 
 /**
  * Edits one modifier
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {int} index
  * @param {Object} new_modifier
  */
-async function edit_modifier(message, index, new_modifier) {
+async function edit_modifier(br_card, index, new_modifier) {
     // noinspection JSCheckFunctionSignatures
     let mod_value = parseInt(new_modifier.value);
     if (mod_value) {
-        let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-        const modifier = render_data.trait_roll.modifiers[index];
-        const difference = mod_value - modifier.value;
-        new_modifier.value = mod_value;
-        render_data.trait_roll.modifiers[index] = new_modifier;
-        await update_roll_results(render_data.trait_roll, difference);
-        await update_message(message, render_data);
+        br_card.trait_roll.modifiers[index].label = new_modifier.label;
+        br_card.trait_roll.modifiers[index].value = mod_value;
+        br_card.trait_roll.calculate_results()
+        await br_card.render()
+        br_card.save().catch(() => {console.error("Error saving a card after editing a modifier")})
     }
 }
 
