@@ -43,11 +43,10 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     const skill = actor.items.find(item => {return item.id === skill_id});
     const extra_name = skill.name + ' ' + trait_to_string(skill.system)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.system.attribute]
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
-            footer: footer, trait_roll: trait_roll, trait_id: skill.id,
+            footer: footer,trait_id: skill.id,
             actions_collapsed: collapse_actions, description: skill.system.description},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
