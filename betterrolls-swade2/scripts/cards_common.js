@@ -1283,32 +1283,6 @@ async function old_roll_clicked(event, br_card) {
     br_card.save().catch(err => console.error("Error while selecting and old roll: " + err));
 }
 
-
-/**
- * Updates the total results of an old stored rolls in a value
- * @param trait_roll
- * @param mod_value
- */
-async function update_roll_results(trait_roll, mod_value) {
-    let wild_die = false
-    trait_roll.rolls.forEach(roll => {
-        roll.result += mod_value;
-        if (roll.extra_class === ' brsw-discarded-roll') {
-            wild_die = true;
-        }
-    });
-    trait_roll.is_fumble = await calculate_results(
-        trait_roll.rolls, false, wild_die, [])
-    for (const old_roll of trait_roll.old_rolls) {
-        for (const roll of old_roll) {
-            roll.result += mod_value;
-        }
-        trait_roll.is_fumble = await calculate_results(
-            old_roll, false, wild_die, [])
-    }
-}
-
-
 /**
  * Overrides the rolled result of a singular die in a given roll
  * @param {BrCommonCard} br_card
