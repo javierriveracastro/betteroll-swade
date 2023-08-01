@@ -213,4 +213,10 @@ export class TraitRoll {
             return this.current_roll.dice.length + wild_die;
         }
     }
+
+    calculate_results() {
+        for (let roll of this.rolls) {
+            roll.calculate_results(this.tn, this.wild_die);
+        }
+    }
 }

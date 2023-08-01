@@ -611,12 +611,11 @@ export function activate_common_listeners(br_card, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brsw-edit-tn').click(async (ev) => {
         const old_tn = ev.currentTarget.dataset.value;
-        const index = parseInt(ev.currentTarget.dataset.index);
         const tn_trans = game.i18n.localize("BRSW.TN");
         simple_form(game.i18n.localize("BRSW.EditTN"), [
             {id: 'tn', label: tn_trans, default_value: old_tn}],
             async values => {
-                await edit_tn(br_card.message, index, values.tn, "");
+                await edit_tn(br_card, values.tn, "");
         });
     });
     // TNs from target
@@ -1388,30 +1387,18 @@ async function edit_modifier(message, index, new_modifier) {
 /**
  * Changes the of one of the rolls.
  *
- * @param {ChatMessage} message
- * @param {int} index - -1 to update all tns
+ * @param {BrCommonCard} br_card
  * @param {int} new_tn
  * @param {string} reason - If it is set the reason will be changed
  */
-async function edit_tn(message, index, new_tn, reason) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    if (index >= 0) {
-        render_data.trait_roll.rolls[index].tn = new_tn;
-        if (reason) {
-            render_data.trait_roll.rolls[index].tn_reason = reason;
-        }
-    } else {
-        render_data.trait_roll.rolls.forEach(roll => {
-            if (roll.tn) {
-                roll.tn = new_tn;
-                if (reason) {
-                    roll.tn_reason = reason;
-                }
-            }
-        });
+async function edit_tn(br_card, new_tn, reason) {
+    br_card.trait_roll.tn = new_tn;
+    if (reason) {
+        br_card.trait_roll.tn_reason = reason;
     }
-    await update_roll_results(render_data.trait_roll, 0);
-    await update_message(message, render_data)
+    br_card.trait_roll.calculate_results()
+    await br_card.render()
+    br_card.save().catch(() => {console.error("Error saving a card after editing a TN")})
 }
 
 
@@ -1440,9 +1427,8 @@ function get_tn_from_target(message, index, selected) {
         if (origin_token) {
             const target = get_tn_from_token(br_card.skill, objetive, origin_token, br_card.item);
             if (target.value) {
-                // Don't update if we didn't get a value
-                // noinspection JSIgnoredPromiseFromCall
-                edit_tn(message, index, target.value, target.reason)
+                edit_tn(br_card, target.value, target.reason).catch(
+                    () => {console.error("Error editing TN")})
             }
         }
     }
