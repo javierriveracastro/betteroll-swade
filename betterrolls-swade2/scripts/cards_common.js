@@ -1353,10 +1353,9 @@ async function add_modifier(message, modifier) {
  * @param {int} index - Index of the modifier to delete.
  */
 async function delete_modifier(br_card, index) {
-    let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
-    let modifier = render_data.trait_roll.modifiers[index];
-    await update_roll_results(render_data.trait_roll, - modifier.value);
-    delete render_data.trait_roll.modifiers[index]
+    let modifier = br_card.trait_roll.modifiers[index];
+    delete br_card.trait_roll.modifiers[index]
+    br_card.trait_roll.calculate_results()
     await br_card.render()
     br_card.save().catch(
         () => {console.error("Error saving a card after deleting a modifier")})

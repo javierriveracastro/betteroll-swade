@@ -215,8 +215,17 @@ export class TraitRoll {
     }
 
     calculate_results() {
+        this._deep_update_modifiers()
         for (let roll of this.rolls) {
             roll.calculate_results(this.tn, this.wild_die);
+        }
+    }
+
+    _deep_update_modifiers() {
+        for (let roll of this.rolls) {
+            for (let die of roll.dice) {
+                die.modifiers = this.total_modifiers;
+            }
         }
     }
 }
