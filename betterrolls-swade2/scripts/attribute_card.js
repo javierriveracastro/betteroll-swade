@@ -208,7 +208,7 @@ export async function roll_attribute(br_card, html,
     await roll_trait(br_card, br_card.actor.system.attributes[attribute_id],
         game.i18n.localize("BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
-    run_macros(macros, br_card.actor, null, br_card.message);
+    run_macros(macros, br_card.actor, null, br_card);
 }
 
 function get_attribute_effects(actor, attribute, extra_data) {

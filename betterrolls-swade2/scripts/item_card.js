@@ -590,9 +590,9 @@ export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifi
  * @param macros
  * @param actor_param
  * @param item_param
- * @param message_param
+ * @param br_card_param
  */
-export async function run_macros(macros, actor_param, item_param, message_param) {
+export async function run_macros(macros, actor_param, item_param, br_card_param) {
     if (macros) {
         for (let macro_name of macros) {
             const real_macro = await find_macro(macro_name)
@@ -603,12 +603,13 @@ export async function run_macros(macros, actor_param, item_param, message_param)
                 const token = canvas.tokens.get(speaker.token);
                 const character = game.user.character;
                 const targets = game.user.targets;
-                const message = message_param;
+                const br_card= br_card_param;
+                const message = br_card.message
                 // Attempt script execution
                 const body = `(async () => {${real_macro.command}})()`;
-                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body); // jshint ignore:line
+                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", "br_card", body); // jshint ignore:line
                 try {
-                  fn.call(this, speaker, actor, token, character, item, message, targets);
+                  fn.call(this, speaker, actor, token, character, item, message, targets, br_card);
                 } catch (err) {
                   ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
                 }
@@ -737,7 +738,7 @@ export async function roll_item(message, html, expend_bennie,
             br_message, trait_data.rolls, shots_override, previous_pp, shots_modifier);
     }
     await update_message(message, render_data);
-    await run_macros(macros, br_message.actor, br_message.item, message);
+    await run_macros(macros, br_message.actor, br_message.item, br_message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
@@ -1084,7 +1085,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     await update_message(message, render_data);
     // Run macros
-    await run_macros(macros, actor, item, message);
+    await run_macros(macros, actor, item, br_card);
 }
 
 
