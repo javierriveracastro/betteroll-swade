@@ -41,7 +41,7 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
  * @param {boolean} collapse_actions True if the action selector should start collapsed
  * @property {Object} item.system.actions.additional Additional actions.
  * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
- * @return A promise for the ChatMessage object
+ * @return {Promise} A promise for the ChatMessage object
 */
 async function create_item_card(origin, item_id, collapse_actions) {
     let actor;
@@ -68,7 +68,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
         notes = item.system.notes;
     }
     let {description, damage} = item.system;
-    let trait_roll = new BRWSRoll();
     let possible_default_dmg_action;
     let ammon_enabled = parseInt(item.system.shots) || item.system.ammo
     let power_points = parseFloat(item.system.pp);
@@ -119,7 +118,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
 *  before actor
 * @param {string} actor_id An actor id, it could be set as fallback or
 *  if you keep token empty as the only way to find the actor
-* @param {string} skill_id: Id of the skill item
+* @param {string} skill_id Id of the skill item
 * @return {Promise} a promise fot the ChatMessage object
 */
 function create_item_card_from_id(token_id, actor_id, skill_id){
@@ -152,8 +151,8 @@ export function expose_item_functions() {
 
 /**
  * Listens to click events on character sheets
- * @param ev: javascript click event
- * @param {SwadeActor, Token} target: token or actor from the char sheet
+ * @param ev javascript click event
+ * @param {SwadeActor, Token} target token or actor from the char sheet
  */
 async function item_click_listener(ev, target) {
     const action = get_action_from_click(ev);
@@ -188,9 +187,9 @@ async function item_click_listener(ev, target) {
 
 /**
  * Shows a card with an effect or its origin
- * @param {actor, SwadeActor} target: actor or token owning the effect
- * @param effect_id: id of the effect
- * @param show_origin: True to show the origin card instead of the effect card
+ * @param {actor, SwadeActor} target actor or token owning the effect
+ * @param effect_id id of the effect
+ * @param show_origin True to show the origin card instead of the effect card
  */
 function show_effect_card(target, effect_id, show_origin = false) {
     const actor = target.actor || target;
@@ -223,8 +222,8 @@ function drag_start_handle(ev) {
 
 /**
  * Activates the listeners in the character sheet in items
- * @param app: Sheet app
- * @param html: Html code
+ * @param app Sheet app
+ * @param html Html code
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
@@ -245,7 +244,7 @@ export function activate_item_listeners(app, html) {
 
 /**
  * Creates a template preview
- * @param ev: javascript click event
+ * @param ev javascript click event
  * @param {ChatMessage} message
  */
 function preview_template(ev, message) {
@@ -285,7 +284,7 @@ function preview_template(ev, message) {
 /**
  * Activate the listeners in the item card
  * @param {BrCommonCard} br_card
- * @param html: Html produced
+ * @param html Html produced
  */
 export function activate_item_card_listeners(br_card, html) {
     const actor = br_card.actor
@@ -519,8 +518,8 @@ async function displayRemainingCard(content) {
  * @param {BrCommonCard} br_card
  * @param {Roll[]} rolls
  * @param pp_override
- * @param old_pp: PPs expended in the current selected roll of this option
- * @param pp_modifier: A number to be added or subtracted from PPs
+ * @param old_pp PPs expended in the current selected roll of this option
+ * @param pp_modifier A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
     if (game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("InnatePowersDontConsume") > -1 && 
@@ -639,16 +638,17 @@ async function find_macro(macro_name) {
 /**
  * Roll the item damage
  *
- * @param {BrCommonCard } br_message: Message that originates this roll
- * @param {string} html: Html code to parse for extra options
- * @param {boolean} expend_bennie: Whenever to expend a bennie
- * @param {boolean} roll_damage: true if we want to autoroll damage
+ * @param {BrCommonCard } br_message Message that originates this roll
+ * @param {string} html Html code to parse for extra options
+ * @param {boolean} expend_bennie Whenever to expend a bennie
+ * @param {boolean} roll_damage true if we want to auto-roll damage
  *
  * @return {Promise<void>}
  */
 export async function roll_item(br_message, html, expend_bennie,
                                 roll_damage){
     // TODO: Check for attributes like in spells.
+    // TODO: Get Tn from target.
     let macros = [];
     let shots_override;  // Override the number of shots used
     let shots_modifier = 0;  // Modifier to the number of shots
@@ -737,10 +737,11 @@ export async function roll_item(br_message, html, expend_bennie,
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
-        trait_data.rolls.forEach(roll => {
-            if (roll.result >= roll.tn && roll.tn > 0) {
+        br_message.trait_data.current_roll.dice.forEach(roll => {
+            // TODO: Check for auto-roll damage.
+            if (roll.result >=  0) {
                 roll_dmg(br_message.message, html, false, {},
-                    roll.result > roll.tn + 3)
+                    roll.result > 3)
             }
         });
     }
@@ -1205,7 +1206,7 @@ async function half_damage(message, index){
  *
  * @param {ChatMessage} message
  * @param {function} message.getFlag
- * @param {int} index:
+ * @param {int} index
  */
 async function edit_toughness(message, index) {
     const br_card = new BrCommonCard(message)
@@ -1224,10 +1225,10 @@ async function edit_toughness(message, index) {
 
 /**
  * Expends power points, called when the first button in the dialog is clicked.
- * @param {Number} number: Number ot power points to remove
- * @param {string} mode: 'reload' to recharge pp
- * @param {SwadeActor} actor: The actor that casts the power
- * @param {Item} item: The power itself
+ * @param {Number} number Number ot power points to remove
+ * @param {string} mode 'reload' to recharge pp
+ * @param {SwadeActor} actor The actor that casts the power
+ * @param {Item} item The power itself
  */
 function modify_power_points(number, mode, actor, item) {
     const arcaneDevice = item.system.additionalStats.devicePP
