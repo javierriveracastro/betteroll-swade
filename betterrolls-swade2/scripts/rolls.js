@@ -104,7 +104,7 @@ class SingleRoll {
         }
     }
 
-    calculate_results(tn, remove_die) {
+    async calculate_results(tn, remove_die) {
         let result = 0;
         let minimum_value = 10000000
         let min_position = 0
@@ -123,12 +123,8 @@ class SingleRoll {
             this.dice[min_position].extra_class += ' brsw-discarded-roll';
             this.dice[min_position].result = null;
         }
-        if (result < 0) {
-            result = 0
-        } else if (result === 0) {
-            result = 0.01  // Ugly hack to differentiate from failure
-        }
-        this.is_fumble = detect_fumble(remove_die, fumble_possible, result, this.dice);
+        this.is_fumble = await detect_fumble(
+            remove_die, fumble_possible, result, this.dice)
     }
 
     remove_discarded_die() {
@@ -166,10 +162,10 @@ export class TraitRoll {
      * Adds a Foundry roll to the trait roll
      * @param roll
      */
-    add_roll(roll) {
+    async add_roll(roll) {
         const new_roll = new SingleRoll(null);
         new_roll.add_roll(roll, this.wild_die, this.total_modifiers);
-        new_roll.calculate_results(this.tn, this.wild_die);
+        await new_roll.calculate_results(this.tn, this.wild_die);
         this.rolls.push(new_roll);
         this.selected_roll_index = this.rolls.indexOf(new_roll);
     }
@@ -214,10 +210,10 @@ export class TraitRoll {
         }
     }
 
-    calculate_results() {
+    async calculate_results() {
         this._deep_update_modifiers()
         for (let roll of this.rolls) {
-            roll.calculate_results(this.tn, this.wild_die);
+            await roll.calculate_results(this.tn, this.wild_die);
         }
     }
 

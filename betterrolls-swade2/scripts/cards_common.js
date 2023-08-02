@@ -270,7 +270,6 @@ export class BrCommonCard {
         // Benny image
         render_data.benny_image = game.settings.get('swade', 'bennyImage3DFront') ||
             '/systems/swade/assets/benny/benny-chip-front.png'
-        render_data.show_rerolls = game.settings.get('swade', 'dumbLuck') || !render_data.trait_roll?.is_fumble;
         render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
         render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
         if (template) {
@@ -281,6 +280,14 @@ export class BrCommonCard {
         return render_data;
     }
 
+    get show_rerolls() {
+        if (game.settings.get('swade', 'dumbLuck') || !this.trait_roll.current_roll) {
+            return true
+        }
+        return this.trait_roll.current_roll && !this.trait_roll.current_roll.is_fumble
+    }
+    
+    
     /**
      * Recovers the trait used in card
      */
@@ -341,6 +348,7 @@ export class BrCommonCard {
         data.actor = this.actor;
         data.item = this.item;
         data.bennie_avaliable = this.bennie_avaliable;
+        data.show_rerolls = this.show_rerolls;
         return data
     }
 
@@ -809,7 +817,7 @@ export async function detect_fumble(remove_die, fumble_possible, result, dice) {
         }
     } else if (remove_die && (fumble_possible < 0)) {
         // It is only a fumble if the Wild Die is 1
-        if (dice[dice.length - 1].results[0] === 1) {
+        if (dice[dice.length - 1].raw_total === 1) {
             return true // Fumble mark
         }
     }
@@ -1088,7 +1096,6 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             }
         }
     }
-    console.log(roll_options)
 }
 
 /**
@@ -1238,7 +1245,6 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     } else {
         br_card.trait_roll.wild_die = false;
     }
-    console.log(roll_options)
     br_card.trait_roll.modifiers = roll_options.modifiers;
     let roll = new Roll(roll_string);
     roll.evaluate().then(
@@ -1246,7 +1252,7 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
 }
 
 async function evaluate_roll(roll, br_card) {
-    br_card.trait_roll.add_roll(roll);
+    await br_card.trait_roll.add_roll(roll);
     if (game.dice3d) {
         await show_3d_dice(br_card, roll);
     }
@@ -1260,7 +1266,6 @@ async function evaluate_roll(roll, br_card) {
  * @param {BrCommonCard } br_card - The card to be updated
  */
 async function old_roll_clicked(event, br_card) {
-    console.log(event, br_card)
     let index = parseInt(event.currentTarget.dataset.index);
     if (index >= br_card.trait_roll.selected_roll_index) {
         index +=1
@@ -1284,7 +1289,7 @@ async function old_roll_clicked(event, br_card) {
  */
 async function override_die_result(br_card, die_index, new_value) {
     br_card.trait_roll.current_roll.dice[die_index].raw_total = parseInt(new_value)
-    br_card.trait_roll.current_roll.calculate_results(br_card.trait_roll.tn, br_card.trait_roll.wild_die)
+    await br_card.trait_roll.current_roll.calculate_results(br_card.trait_roll.tn, br_card.trait_roll.wild_die)
     await br_card.render()
     await br_card.save()
 }
@@ -1309,7 +1314,7 @@ async function add_modifier(br_card, modifier) {
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
         br_card.trait_roll.modifiers.push(new_mod)
-        br_card.trait_roll.calculate_results()
+        await br_card.trait_roll.calculate_results()
         await br_card.render()
         br_card.save().catch(() => {console.error("Error saving a card after adding a modifier")})
     }
@@ -1322,7 +1327,7 @@ async function add_modifier(br_card, modifier) {
  */
 async function delete_modifier(br_card, index) {
     delete br_card.trait_roll.modifiers[index]
-    br_card.trait_roll.calculate_results()
+    await br_card.trait_roll.calculate_results()
     await br_card.render()
     br_card.save().catch(
         () => {console.error("Error saving a card after deleting a modifier")})
@@ -1341,7 +1346,7 @@ async function edit_modifier(br_card, index, new_modifier) {
     if (mod_value) {
         br_card.trait_roll.modifiers[index].label = new_modifier.label;
         br_card.trait_roll.modifiers[index].value = mod_value;
-        br_card.trait_roll.calculate_results()
+        await br_card.trait_roll.calculate_results()
         await br_card.render()
         br_card.save().catch(() => {console.error("Error saving a card after editing a modifier")})
     }
@@ -1360,7 +1365,7 @@ async function edit_tn(br_card, new_tn, reason) {
     if (reason) {
         br_card.trait_roll.tn_reason = reason;
     }
-    br_card.trait_roll.calculate_results()
+    await br_card.trait_roll.calculate_results()
     await br_card.render()
     br_card.save().catch(() => {console.error("Error saving a card after editing a TN")})
 }
@@ -1423,8 +1428,6 @@ async function duplicate_message(message, event) {
     let data = duplicate(message);
     // Remove rolls
     data.timestamp = new Date().getTime();
-    data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
-    data.flags['betterrolls-swade2'].render_data.damage_rolls = [];
     delete data._id;
     let new_message = await ChatMessage.create(data);
     await update_message(new_message, data.flags['betterrolls-swade2'].render_data);
