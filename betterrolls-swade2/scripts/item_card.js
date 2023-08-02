@@ -648,7 +648,6 @@ async function find_macro(macro_name) {
 export async function roll_item(br_message, html, expend_bennie,
                                 roll_damage){
     // TODO: Check for attributes like in spells.
-    // TODO: Get Tn from target.
     let macros = [];
     let shots_override;  // Override the number of shots used
     let shots_modifier = 0;  // Modifier to the number of shots

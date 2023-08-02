@@ -1009,8 +1009,8 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         if (origin_token) {
             const target_data = get_tn_from_token(
                 br_card.skill, objetive, origin_token, br_card.item);
-            extra_options.tn = target_data.value;
-            extra_options.tn_reason = target_data.reason;
+            br_card.trait_roll.tn = target_data.value;
+            br_card.trait_roll.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
         }
     }
@@ -1028,7 +1028,6 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         const mod_value = parseInt(trait_dice.die.modifier)
         roll_options.modifiers.push(create_modifier(
             game.i18n.localize("BRSW.TraitMod"), mod_value))
-        roll_options.total_modifiers += mod_value;
     }
     get_below_chat_modifiers(options, roll_options);
     get_actor_own_modifiers(br_card.actor, roll_options);
@@ -1036,14 +1035,12 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
     if (br_card.skill?.system.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(br_card.actor)
         if (armor_penalty) {
-            roll_options.total_modifiers += armor_penalty.value
             roll_options.modifiers.push(armor_penalty)
         }
     }
     // Target Mods
     if (extra_options.target_modifiers) {
         extra_options.target_modifiers.forEach(modifier => {
-            roll_options.total_modifiers += modifier.value;
             roll_options.modifiers.push(modifier);
         })
     }
@@ -1060,26 +1057,22 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
-            roll_options.total_modifiers += new_mod.value
         }
     }
     // Options set from card
     if (extra_data.modifiers) {
         extra_data.modifiers.forEach(modifier => {
             roll_options.modifiers.push(modifier);
-            roll_options.total_modifiers += modifier.value;
         })
     }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(br_card.actor);
     if (conviction_modifier) {
         roll_options.modifiers.push(conviction_modifier);
-        roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
     if (br_card.token && has_joker(br_card.token.id)) {
         roll_options.modifiers.push(create_modifier('Joker', 2))
-        roll_options.total_modifiers += 2;
     }
     // Encumbrance
     const render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
@@ -1087,16 +1080,15 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         if (render_data.attribute_name === 'agility') {
             roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                 value: -2})
-            roll_options.total_modifiers -= 2
         } else {
             const skill = br_card.actor.items.get(render_data.trait_id)
             if (skill && skill.system.attribute === 'agility') {
                 roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
-                roll_options.total_modifiers -= 2
             }
         }
     }
+    console.log(roll_options)
 }
 
 /**
@@ -1246,6 +1238,7 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     } else {
         br_card.trait_roll.wild_die = false;
     }
+    console.log(roll_options)
     br_card.trait_roll.modifiers = roll_options.modifiers;
     let roll = new Roll(roll_string);
     roll.evaluate().then(
