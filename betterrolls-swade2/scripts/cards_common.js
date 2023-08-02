@@ -1267,13 +1267,13 @@ async function evaluate_roll(roll, br_card) {
  * @param {BrCommonCard } br_card - The card to be updated
  */
 async function old_roll_clicked(event, br_card) {
+    console.log(event, br_card)
     let index = parseInt(event.currentTarget.dataset.index);
     if (index >= br_card.trait_roll.selected_roll_index) {
         index +=1
     }
     br_card.trait_roll.selected_roll_index = index;
     if (br_card.item) {
-        br_card.skill = get_item_trait(br_card.item, br_card.actor);
         if (!isNaN(parseInt(br_card.item.system.pp)) && br_card.render_data.used_pp) {
             br_card.render_data.used_pp = await discount_pp(
                 br_card, br_card.trait_roll.rolls, 0, br_card.render_data.used_pp, 0);
@@ -1446,7 +1446,7 @@ async function duplicate_message(message, event) {
             await roll_skill(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             const roll_damage = action.includes('damage')
-            await roll_item(new_message, $(message.content), false,
+            await roll_item(br_card, $(br_card.message.content), false,
                 roll_damage);
         }
     }

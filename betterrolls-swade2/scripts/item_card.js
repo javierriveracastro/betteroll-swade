@@ -92,8 +92,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             img: item.img}, notes: notes,  footer: footer, damage: damage,
             trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
-            trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: !isNaN(power_points), used_shots: 0,
+            damage_rolls: [], powerpoints: !isNaN(power_points), used_shots: 0,
             actions_collapsed: collapse_actions, description: description,
             swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -181,7 +180,8 @@ async function item_click_listener(ev, target) {
         await roll_dmg(message, $(message.content), false, false);
     }
     if (action.includes('trait')) {
-        await roll_item(message, $(message.content), false,
+        const br_card = new BrCommonCard(message);
+        await roll_item(br_card, $(message.content), false,
             action.includes('damage'));
     }
 }
@@ -296,7 +296,7 @@ export function activate_item_card_listeners(br_card, html) {
         item.sheet.render(true);
     });
     html.find('.brsw-roll-button').click(async ev =>{
-        await roll_item(br_card.message, html, ev.currentTarget.classList.contains(
+        await roll_item(br_card, html, ev.currentTarget.classList.contains(
             'roll-bennie-button'));
     });
     html.find('.brsw-damage-button, .brsw-damage-bennie-button').click((ev) => {
@@ -639,36 +639,34 @@ async function find_macro(macro_name) {
 /**
  * Roll the item damage
  *
- * @param message: Message that originates this roll
- * @param html: Html code to parse for extra options
- * @param expend_bennie: Whenever to expend a bennie
- * @param roll_damage: true if we want to autoroll damage
+ * @param {BrCommonCard } br_message: Message that originates this roll
+ * @param {string} html: Html code to parse for extra options
+ * @param {boolean} expend_bennie: Whenever to expend a bennie
+ * @param {boolean} roll_damage: true if we want to autoroll damage
  *
  * @return {Promise<void>}
  */
-export async function roll_item(message, html, expend_bennie,
+export async function roll_item(br_message, html, expend_bennie,
                                 roll_damage){
-    let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
-    let br_message = new BrCommonCard(message)
-    let trait = get_item_trait(br_message.item, br_message.actor);
+    // TODO: Check for attributes like in spells.
     let macros = [];
     let shots_override;  // Override the number of shots used
     let shots_modifier = 0;  // Modifier to the number of shots
-    let extra_data = {skill: trait, modifiers: []};
+    let extra_data = {modifiers: []};
     if (expend_bennie) {await spend_bennie(br_message.actor)}
     extra_data.rof = br_message.item.system.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
     }
     // Effects
-    if (Object.hasOwn(trait, 'type') && trait.type === 'skill') {
-        get_skill_effects(br_message.actor, trait, extra_data);
+    if (Object.hasOwn(br_message.skill, 'type') && br_message.skill.type === 'skill') {
+        get_skill_effects(br_message.actor, br_message.skill, extra_data);
     }
     // Actions
     for (let action of br_message.get_selected_actions()) {
         if (action.code.skillOverride) {
-            trait = trait_from_string(br_message.actor, action.code.skillOverride);
-            render_data.trait_id = trait.id;
+            let trait = trait_from_string(br_message.actor, action.code.skillOverride);
+            br_message.skill_id = trait.id;
         }
         if (action.code.shotsUsed) {
             let first_char = '';
@@ -712,39 +710,36 @@ export async function roll_item(message, html, expend_bennie,
                 game.i18n.localize("BRSW.Offhand"), -2))
         }
     }
-    const trait_data = await roll_trait(br_message, trait.system , game.i18n.localize(
+    await roll_trait(br_message, br_message.skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
-            let rof = trait_data.dice.length;
-            if (br_message.actor.isWildcard) {
-                rof -= 1;
-            }
-            render_data.used_shots = shots_override || ROF_BULLETS[rof || 1];
-            if (dis_ammo_selected && !trait_data.old_rolls.length > 0) {
-                await br_message.item.consume(render_data.used_shots)
+            br_message.render_data.used_shots = shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
+            if (dis_ammo_selected && br_message.trait_roll.rolls === 1) {
+                await br_message.item.consume(br_message.render_data.used_shots)
             }
         }
     }
     // Power points management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
-    let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
+    let previous_pp = br_message.trait_roll.old_rolls.length ? br_message.render_data.used_pp : 0
     if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
-        render_data.used_pp = await discount_pp(
-            br_message, trait_data.rolls, shots_override, previous_pp, shots_modifier);
+        br_message.render_data.used_pp = await discount_pp(
+            br_message, br_message.trait_roll.trait_data.rolls, shots_override, previous_pp, shots_modifier);
     }
-    await update_message(message, render_data);
+    await br_message.render()
+    await br_message.save()
     await run_macros(macros, br_message.actor, br_message.item, br_message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
         trait_data.rolls.forEach(roll => {
             if (roll.result >= roll.tn && roll.tn > 0) {
-                roll_dmg(message, html, false, {},
+                roll_dmg(br_message.message, html, false, {},
                     roll.result > roll.tn + 3)
             }
         });
