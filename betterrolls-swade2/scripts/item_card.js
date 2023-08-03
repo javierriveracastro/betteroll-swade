@@ -715,11 +715,8 @@ export async function roll_item(br_message, html, expend_bennie,
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
-            console.log("Municion")
             br_message.render_data.used_shots = shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
-            console.log(br_message.trait_roll.rolls)
             if (dis_ammo_selected && br_message.trait_roll.rolls.length === 0) {
-                console.log(br_message.render_data.used_shots)
                 await br_message.item.consume(br_message.render_data.used_shots)
             }
         }
@@ -730,7 +727,7 @@ export async function roll_item(br_message, html, expend_bennie,
     let previous_pp = br_message.trait_roll.old_rolls.length ? br_message.render_data.used_pp : 0
     if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
         br_message.render_data.used_pp = await discount_pp(
-            br_message, br_message.trait_roll.trait_data.rolls, shots_override, previous_pp, shots_modifier);
+            br_message, br_message.trait_roll.rolls, shots_override, previous_pp, shots_modifier);
     }
     await br_message.render()
     await br_message.save()
