@@ -647,7 +647,6 @@ async function find_macro(macro_name) {
  */
 export async function roll_item(br_message, html, expend_bennie,
                                 roll_damage){
-    // TODO: Check for attributes like in spells.
     let macros = [];
     let shots_override;  // Override the number of shots used
     let shots_modifier = 0;  // Modifier to the number of shots
@@ -736,9 +735,8 @@ export async function roll_item(br_message, html, expend_bennie,
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
-        br_message.trait_data.current_roll.dice.forEach(roll => {
-            // TODO: Check for auto-roll damage.
-            if (roll.result >=  0) {
+        br_message.trait_roll.current_roll.dice.forEach(roll => {
+            if (roll.result && roll.result >=  0) {
                 roll_dmg(br_message.message, html, false, {},
                     roll.result > 3)
             }
@@ -767,7 +765,6 @@ function get_target_defense(acting_actor, target=undefined, location='torso') {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
-        console.log(objetive.actor)
         if (objetive.actor.type !== "vehicle") {
             if (objetive.actor.system.details.autoCalcToughness) {
                 defense_values.toughness = objetive.actor.calcToughness(false)
