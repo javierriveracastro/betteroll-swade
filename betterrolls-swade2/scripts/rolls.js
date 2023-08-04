@@ -185,7 +185,9 @@ export class TraitRoll {
     get total_modifiers() {
         let total = 0;
         this.modifiers.forEach((mod) => {
-            total += mod.value;
+            if (mod && mod.value) {
+                total += mod.value;
+            }
         })
         return total;
     }
