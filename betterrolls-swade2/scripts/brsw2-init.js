@@ -125,7 +125,7 @@ Hooks.on('renderChatMessage', (message, html) => {
             activate_incapacitation_card_listeners(message, html);
         } else if (card.type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
                 card.type === BRSW_CONST.TYPE_UNSTUN_CARD) {
-            activate_remove_status_card_listeners(message, html, card.type);
+            activate_remove_status_card_listeners(card, html, card.type);
         }
         // Hide forms to non-master, non owner
         if (game.user.id !== message.user.id && !game.user.isGM) {
