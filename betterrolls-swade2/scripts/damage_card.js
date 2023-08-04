@@ -1,8 +1,8 @@
 // Functions for the damage card
 /* global game, canvas, CONST, Token, CONFIG, Hooks, succ */
 import {
-    BRSW_CONST, BRWSRoll, create_common_card, are_bennies_available,
-    roll_trait, spend_bennie, update_message, BrCommonCard
+    BRSW_CONST, create_common_card, are_bennies_available,
+    roll_trait, spend_bennie, BrCommonCard
 } from "./cards_common.js";
 import {create_incapacitation_card, create_injury_card} from "./incapacitation_card.js";
 
@@ -35,12 +35,11 @@ export async function create_damage_card(token_id, damage, damage_text, heavy_da
         game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("RiftsGrittyDamage") > -1) &&
         heavy_damage === 'true')
     show_injury = show_injury && can_soak && (actor.system.wounds.max > 1);
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(token,
     {header: {type: game.i18n.localize("SWADE.Dmg"),
         title: game.i18n.localize("SWADE.Dmg"),
         notes: damage_text}, text: damage_result.text, footer: footer,
-        undo_values: undo_values, trait_roll: trait_roll, wounds: wounds,
+        undo_values: undo_values, wounds: wounds,
         soaked: 0, soak_possible: (are_bennies_available(actor) && can_soak),
         show_incapacitation: damage_result.incapacitated && actor.isWildcard,
         show_injury: show_injury, attribute_name: 'vigor'},
@@ -198,8 +197,8 @@ async function undo_damage(message){
 
 /**
  * Activate the listeners of the damage card
- * @param message: Message date
- * @param html: Html produced
+ * @param message Message date
+ * @param html Html produced
  */
 export function activate_damage_card_listeners(message, html) {
     const br_card = new BrCommonCard(message);
@@ -213,7 +212,7 @@ export function activate_damage_card_listeners(message, html) {
             spend_bennie=true
         }
         // noinspection JSIgnoredPromiseFromCall
-        roll_soak(message, spend_bennie);
+        roll_soak(br_card, spend_bennie);
     });
     html.find('.brsw-show-incapacitation').click(() => {
         // noinspection JSIgnoredPromiseFromCall
@@ -227,61 +226,60 @@ export function activate_damage_card_listeners(message, html) {
 
 /**
  * Males a soak roll
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {Boolean} use_bennie
  */
-async function roll_soak(message, use_bennie) {
-    let br_card = new BrCommonCard(message);
-    const {render_data, actor} = br_card;
+async function roll_soak(br_card, use_bennie) {
     if (use_bennie) {
-        await spend_bennie(actor);
+        await spend_bennie(br_card.actor);
     }
-    let undo_wound_modifier = Math.min(actor.system.wounds.value, 3) -
-        render_data.undo_values.wounds;
-    const ignored_wounds = parseInt(actor.system.wounds.ignored) +
-        (parseInt(actor.system.woundsOrFatigue.ignored) || 0)
+    let undo_wound_modifier = Math.min(br_card.actor.system.wounds.value, 3) -
+        br_card.render_data.undo_values.wounds;
+    const ignored_wounds = parseInt(br_card.actor.system.wounds.ignored) +
+        (parseInt(br_card.actor.system.woundsOrFatigue.ignored) || 0)
     if (ignored_wounds) {
         undo_wound_modifier = Math.max(0, undo_wound_modifier -ignored_wounds)
     }
     let soak_modifiers = [{name: game.i18n.localize("BRSW.RemoveWounds"),
         value: undo_wound_modifier}]
-    if (actor.items.find(item => {
+    if (br_card.actor.items.find(item => {
         return item.type === 'edge' && item.name.toLowerCase().includes(
                 game.i18n.localize("BRSW.EdgeName-IronJaw").toLowerCase())})) {
         soak_modifiers.push({name: game.i18n.localize("BRSW.EdgeName-IronJaw"),
             value: 2})
     }
     // Active effects
-    let soak_active_effects = actor.effects.filter(
+    let soak_active_effects = br_card.actor.effects.filter(
         e => e.changes.find(ch => ch.key === 'brsw.soak-modifier' || ch.key === 'system.attributes.vigor.soakBonus'))
     for (let effect of soak_active_effects) {
         let change = effect.changes.find(ch => ch.key === 'brsw.soak-modifier') ||
             effect.changes.find(ch => ch.key === 'system.attributes.vigor.soakBonus')
         soak_modifiers.push({name: effect.label, value: parseInt(change.value)})
     }
-    const roll = await roll_trait(br_card,
-        actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
+    await roll_trait(
+        br_card, br_card.actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers: soak_modifiers});
     let result = 0;
-    roll.rolls.forEach(roll => {
-        result = Math.max(roll.result, result);
-    })
-    roll.old_rolls.forEach(old_roll => {
-        old_roll.forEach(roll => {
-            result = Math.max(roll.result, result);
-        })
-    })
+    for (let roll of br_card.trait_roll.rolls) {
+        for (let die of roll.dice) {
+            if (die.result !== null) {
+                result = Math.max(die.final_total, result);
+            }
+        }
+    }
     if (result >= 4) {
-        render_data.soaked = Math.floor(result / 4);
-        await actor.update({"data.wounds.value": render_data.undo_values.wounds})
-        const damage_result = await apply_damage(br_card.token, render_data.wounds,
-            render_data.soaked);
-        render_data.text = damage_result.text
-        render_data.show_incapacitation = damage_result.incapacitated &&
-            actor.isWildcard;
-        render_data.show_injury = (game.settings.get(
+        br_card.render_data.soaked = Math.floor(result / 4);
+        await br_card.actor.update({"data.wounds.value": br_card.render_data.undo_values.wounds})
+        const damage_result = await apply_damage(
+            br_card.token, br_card.render_data.wounds, br_card.render_data.soaked);
+        br_card.render_data.text = damage_result.text
+        br_card.render_data.show_incapacitation = damage_result.incapacitated &&
+            br_card.actor.isWildcard;
+        br_card.render_data.show_injury = (game.settings.get(
         'betterrolls-swade2', 'optional_rules_enabled').indexOf(
-            "GrittyDamage") > -1) && (render_data.wounds > render_data.soaked)
-        await update_message(message, render_data);
+            "GrittyDamage") > -1) && (br_card.render_data.wounds > br_card.render_data.soaked)
+
+        await br_card.render()
+        await br_card.save()
     }
 }

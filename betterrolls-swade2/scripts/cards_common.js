@@ -1247,11 +1247,7 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     }
     br_card.trait_roll.modifiers = roll_options.modifiers;
     let roll = new Roll(roll_string);
-    roll.evaluate().then(
-        (roll_evaluated) => {evaluate_roll(roll_evaluated, br_card)})
-}
-
-async function evaluate_roll(roll, br_card) {
+    await roll.evaluate()
     await br_card.trait_roll.add_roll(roll);
     if (game.dice3d) {
         await show_3d_dice(br_card, roll);
