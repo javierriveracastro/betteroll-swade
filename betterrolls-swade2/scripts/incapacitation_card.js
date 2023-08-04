@@ -4,10 +4,9 @@
 import {
     BrCommonCard,
     BRSW_CONST,
-    BRWSRoll,
     create_common_card,
     roll_trait,
-    spend_bennie, update_message
+    spend_bennie
 } from "./cards_common.js";
 import {get_owner, damage_card_footer} from "./damage_card.js";
 
@@ -58,12 +57,11 @@ export async function create_incapacitation_card(token_id) {
         {token_name: token.name});
     const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor")
     let footer = status_footer(actor)
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(token,
     {header: {type: '',
         title: game.i18n.localize("BRSW.Incapacitation"),
         notes: token.name}, text: text, text_after: text_after,
-        footer: footer, trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'vigor'},
+        footer: footer, show_roll_injury: false, attribute_name: 'vigor'},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/incapacitation_card.html")
     br_message.update_list={...br_message.update_list, ...{user: user.id}};
@@ -97,18 +95,18 @@ function roll_incapacitation_clicked(ev) {
             spend_bennie=true
         }
         // noinspection JSIgnoredPromiseFromCall
-        roll_incapacitation(ev.data.message, spend_bennie);
+        roll_incapacitation(ev.data.br_card, spend_bennie);
 }
 
 /**
  * Activate the listeners of the incapacitation card
- * @param message: Message date
- * @param html: Html produced
+ * @param message Message date
+ * @param html Html produced
  */
 export function activate_incapacitation_card_listeners(message, html) {
     const br_card = new BrCommonCard(message);
     html.find('.brsw-vigor-button, .brsw-roll-button').bind(
-        'click', {message: message}, roll_incapacitation_clicked);
+        'click', {br_card: br_card}, roll_incapacitation_clicked);
     html.find('.brsw-injury-button').click((ev) => {
         // noinspection JSIgnoredPromiseFromCall
         create_injury_card(br_card.token_id, ev.currentTarget.dataset.injuryType)
@@ -119,50 +117,46 @@ export function activate_incapacitation_card_listeners(message, html) {
 
 /**
  * Males a vigor incapacitation roll
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {boolean} spend_benny
  */
-async function roll_incapacitation(message, spend_benny) {
-    const br_card = new BrCommonCard(message);
-    const {render_data, actor} = br_card;
+async function roll_incapacitation(br_card, spend_benny) {
     if (spend_benny) {
-        await spend_bennie(actor);
+        await spend_bennie(br_card.actor);
     }
-    const roll = await roll_trait(br_card,
-        actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
+    await roll_trait(br_card,
+        br_card.actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
     let result = 0;
-    roll.rolls.forEach(roll => {
-        result = Math.max(roll.result, result);
-    })
-    roll.old_rolls.forEach(old_roll => {
-        if (old_roll) {
-            old_roll.forEach(roll => {
-                result = Math.max(roll.result, result);
-            });
+    for (let roll of br_card.trait_roll.rolls) {
+        for (let die of roll.dice) {
+            if (die.result !== null) {
+                result = Math.max(die.final_total, result);
+            }
         }
-    })
-    render_data.show_roll_injury = true;
-    render_data.injury_type = "none"
-    if (roll.is_fumble) {
-        render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
-        render_data.show_roll_injury = false;  // For what...
+    }
+    br_card.render_data.show_roll_injury = true;
+    br_card.render_data.injury_type = "none"
+    if (br_card.trait_roll.current_roll.is_fumble) {
+        br_card.render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
+        br_card.render_data.show_roll_injury = false;  // For what...
     } else if (result < 4) {
-        render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
-        render_data.injury_type = "permanent"
+        br_card.render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
+        br_card.render_data.injury_type = "permanent"
         if (game.succ.hasCondition("incapacitated", br_card.token)) {
             await succ.apply_status(br_card.token, "incapacitated", false) //remove Inc as overlay
             await succ.apply_status(br_card.token, "incapacitated", true, false) //add it as regular (small) icon
         }
         // noinspection ES6MissingAwait
-        succ.apply_status(br_card.token_id, "bleeding-out", true, true) //make bleeding out overlay
+        succ.apply_status(br_card.token, "bleeding-out", true, true) //make bleeding out overlay
     } else if (result < 8) {
-        render_data.text_after = game.i18n.localize("BRSW.TempInjury")
-        render_data.injury_type = "temporal-wounds"
+        br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury")
+        br_card.render_data.injury_type = "temporal-wounds"
     } else {
-        render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
-        render_data.injury_type = "temporal-24"
+        br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
+        br_card.render_data.injury_type = "temporal-24"
     }
-    await update_message(message, render_data);
+    await br_card.render()
+    await br_card.save()
 }
 
 
