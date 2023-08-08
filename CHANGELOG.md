@@ -1,4 +1,5 @@
 # Version 3.37 aka solving or creating bugs
+* Feature: Added improved frenzy matching new rules version (DDBrown)
 * Bugfix/Refactoring: Fixed an issue that prevented editing players rolls by the DM. This has created a big refactoring about rolls.
 * Refactoring: Reduce object creation/deletion
 * Feature: Support for Wild Die Themes
