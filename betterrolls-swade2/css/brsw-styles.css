@@ -40,21 +40,6 @@
 
 /* Styles for the card body */
 
-.brsw-false-button {
-    display: inline-block;
-    font-size: 12px;
-    height: 24px;
-    line-height: 20px;
-    margin: 7px 1px;
-    width: 100%;
-    background: rgba(255, 255, 240, 0.8) none repeat scroll 0 0;
-    border: 1px solid rgb(181, 179, 164);
-    border-radius: 3px;
-    font-family: "Signika", sans-serif;
-    text-align: center;
-    padding: 1px
-}
-
 .brws-attribute-buttons {
     clear: both;
     margin: 1px;
