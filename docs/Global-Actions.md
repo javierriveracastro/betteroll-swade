@@ -89,6 +89,10 @@ This group of fields are used to select when the action is available, you will n
 * gm_action: A selector with this value will make the action appear in the dm modifiers above the char window.
 * is_wildcard: This will show the action if the character is a Wildcard. If the value is "false" it will only show the card for extras
 * actor_value: This expects a selector composed of "path=value". Where path is a dot path of actor data (like system.advances.value) and value a value (like 4). This coerces the values using javascript ==.
+* item_has_damage: This will show the action if the item has a damage value. The value is ignored.
+* actor_has_item: This will show the action if the actor has an item with the same name as the value. 
+* actor_equips_item: This action will appear when the actor has an item (see above) with the same name as the value equipped, not just owned.
+
 
 **Complex Selectors:**
 * and_selector: Takes a list of the above selectors and executes the action if all are true i.e: 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes Jhon.

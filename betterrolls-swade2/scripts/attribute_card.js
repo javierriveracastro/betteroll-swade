@@ -43,12 +43,10 @@ async function create_attribute_card(origin, name, collapse_actions){
                 actor.system.attributes[attribute])}`)
         }
     }
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(origin,
         {header: {type: game.i18n.localize("BRSW.Attribute"),
                 title: title}, footer: footer,
-            trait_roll: trait_roll, attribute_name: name,
-            actions_collapsed: collapse_actions},
+            attribute_name: name, actions_collapsed: collapse_actions},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/attribute_card.html")
     // We always set the actor (as a fallback, and the token if possible)
@@ -210,7 +208,7 @@ export async function roll_attribute(br_card, html,
     await roll_trait(br_card, br_card.actor.system.attributes[attribute_id],
         game.i18n.localize("BRSW.AbilityDie"), html, extra_data);
     // noinspection ES6MissingAwait
-    run_macros(macros, br_card.actor, null, br_card.message);
+    run_macros(macros, br_card.actor, null, br_card);
 }
 
 function get_attribute_effects(actor, attribute, extra_data) {

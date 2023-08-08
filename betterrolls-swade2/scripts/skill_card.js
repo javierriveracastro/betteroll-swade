@@ -43,11 +43,10 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
     const skill = actor.items.find(item => {return item.id === skill_id});
     const extra_name = skill.name + ' ' + trait_to_string(skill.system)
     const footer = [game.i18n.localize('BRSW.Attribute') + ": " + skill.system.attribute]
-    let trait_roll = new BRWSRoll();
     let br_message = await create_common_card(origin, {header:
                 {type: game.i18n.localize("ITEM.TypeSkill"),
                     title: extra_name, img: skill.img},
-            footer: footer, trait_roll: trait_roll, trait_id: skill.id,
+            footer: footer,trait_id: skill.id,
             actions_collapsed: collapse_actions, description: skill.system.description},
         CONST.CHAT_MESSAGE_TYPES.ROLL,
         "modules/betterrolls-swade2/templates/skill_card.html")
@@ -164,9 +163,9 @@ export async function roll_skill(message, html, expend_bennie){
     }
     get_skill_effects(br_card.actor, skill, extra_data);
     if (expend_bennie) {await spend_bennie(br_card.actor);}
-    await roll_trait(message, skill.system , game.i18n.localize(
+    await roll_trait(br_card, skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data);
-    await run_macros(macros, br_card.actor, null, message);
+    await run_macros(macros, br_card.actor, null, br_card);
 }
 
 /***
@@ -183,9 +182,6 @@ export function get_skill_effects(actor, skill, extra_data) {
         ...attGlobalMods,
         ...skill.system.effects,
     ];
-    console.log(actor.system.stats.globalMods[skill.system.attribute])
-    console.log(actor.system.stats.globalMods.trait)
-    console.log(skill.system.effects)
     for (let effect of effectArray) {
         let modifier = create_modifier(effect.label, effect.value)
         extra_data.modifiers.push(modifier);

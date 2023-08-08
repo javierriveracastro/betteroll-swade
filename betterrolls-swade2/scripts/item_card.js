@@ -41,7 +41,7 @@ const ROF_BULLETS = {1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50}
  * @param {boolean} collapse_actions True if the action selector should start collapsed
  * @property {Object} item.system.actions.additional Additional actions.
  * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
- * @return A promise for the ChatMessage object
+ * @return {Promise} A promise for the ChatMessage object
 */
 async function create_item_card(origin, item_id, collapse_actions) {
     let actor;
@@ -68,7 +68,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
         notes = item.system.notes;
     }
     let {description, damage} = item.system;
-    let trait_roll = new BRWSRoll();
     let possible_default_dmg_action;
     let ammon_enabled = parseInt(item.system.shots) || item.system.ammo
     let power_points = parseFloat(item.system.pp);
@@ -92,8 +91,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
             img: item.img}, notes: notes,  footer: footer, damage: damage,
             trait_id: trait ? (trait.id || trait) : false, ammo: ammon_enabled,
             subtract_selected: subtract_select, subtract_pp: subtract_pp_select,
-            trait_roll: trait_roll, damage_rolls: [],
-            powerpoints: !isNaN(power_points), used_shots: 0,
+            damage_rolls: [], powerpoints: !isNaN(power_points), used_shots: 0,
             actions_collapsed: collapse_actions, description: description,
             swade_templates: get_template_from_item(item)},
             CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -120,7 +118,7 @@ async function create_item_card(origin, item_id, collapse_actions) {
 *  before actor
 * @param {string} actor_id An actor id, it could be set as fallback or
 *  if you keep token empty as the only way to find the actor
-* @param {string} skill_id: Id of the skill item
+* @param {string} skill_id Id of the skill item
 * @return {Promise} a promise fot the ChatMessage object
 */
 function create_item_card_from_id(token_id, actor_id, skill_id){
@@ -153,8 +151,8 @@ export function expose_item_functions() {
 
 /**
  * Listens to click events on character sheets
- * @param ev: javascript click event
- * @param {SwadeActor, Token} target: token or actor from the char sheet
+ * @param ev javascript click event
+ * @param {SwadeActor, Token} target token or actor from the char sheet
  */
 async function item_click_listener(ev, target) {
     const action = get_action_from_click(ev);
@@ -181,16 +179,17 @@ async function item_click_listener(ev, target) {
         await roll_dmg(message, $(message.content), false, false);
     }
     if (action.includes('trait')) {
-        await roll_item(message, $(message.content), false,
+        const br_card = new BrCommonCard(message);
+        await roll_item(br_card, $(message.content), false,
             action.includes('damage'));
     }
 }
 
 /**
  * Shows a card with an effect or its origin
- * @param {actor, SwadeActor} target: actor or token owning the effect
- * @param effect_id: id of the effect
- * @param show_origin: True to show the origin card instead of the effect card
+ * @param {actor, SwadeActor} target actor or token owning the effect
+ * @param effect_id id of the effect
+ * @param show_origin True to show the origin card instead of the effect card
  */
 function show_effect_card(target, effect_id, show_origin = false) {
     const actor = target.actor || target;
@@ -223,8 +222,8 @@ function drag_start_handle(ev) {
 
 /**
  * Activates the listeners in the character sheet in items
- * @param app: Sheet app
- * @param html: Html code
+ * @param app Sheet app
+ * @param html Html code
  */
 export function activate_item_listeners(app, html) {
     let target = app.token?app.token:app.object;
@@ -245,7 +244,7 @@ export function activate_item_listeners(app, html) {
 
 /**
  * Creates a template preview
- * @param ev: javascript click event
+ * @param ev javascript click event
  * @param {ChatMessage} message
  */
 function preview_template(ev, message) {
@@ -285,7 +284,7 @@ function preview_template(ev, message) {
 /**
  * Activate the listeners in the item card
  * @param {BrCommonCard} br_card
- * @param html: Html produced
+ * @param html Html produced
  */
 export function activate_item_card_listeners(br_card, html) {
     const actor = br_card.actor
@@ -296,7 +295,7 @@ export function activate_item_card_listeners(br_card, html) {
         item.sheet.render(true);
     });
     html.find('.brsw-roll-button').click(async ev =>{
-        await roll_item(br_card.message, html, ev.currentTarget.classList.contains(
+        await roll_item(br_card, html, ev.currentTarget.classList.contains(
             'roll-bennie-button'));
     });
     html.find('.brsw-damage-button, .brsw-damage-bennie-button').click((ev) => {
@@ -519,8 +518,8 @@ async function displayRemainingCard(content) {
  * @param {BrCommonCard} br_card
  * @param {Roll[]} rolls
  * @param pp_override
- * @param old_pp: PPs expended in the current selected roll of this option
- * @param pp_modifier: A number to be added or subtracted from PPs
+ * @param old_pp PPs expended in the current selected roll of this option
+ * @param pp_modifier A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
     if (game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("InnatePowersDontConsume") > -1 && 
@@ -590,9 +589,9 @@ export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifi
  * @param macros
  * @param actor_param
  * @param item_param
- * @param message_param
+ * @param br_card_param
  */
-export async function run_macros(macros, actor_param, item_param, message_param) {
+export async function run_macros(macros, actor_param, item_param, br_card_param) {
     if (macros) {
         for (let macro_name of macros) {
             const real_macro = await find_macro(macro_name)
@@ -603,12 +602,13 @@ export async function run_macros(macros, actor_param, item_param, message_param)
                 const token = canvas.tokens.get(speaker.token);
                 const character = game.user.character;
                 const targets = game.user.targets;
-                const message = message_param;
+                const br_card= br_card_param;
+                const message = br_card.message
                 // Attempt script execution
                 const body = `(async () => {${real_macro.command}})()`;
-                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", body); // jshint ignore:line
+                const fn = Function("speaker", "actor", "token", "character", "item", "message", "targets", "br_card", body); // jshint ignore:line
                 try {
-                  fn.call(this, speaker, actor, token, character, item, message, targets);
+                  fn.call(this, speaker, actor, token, character, item, message, targets, br_card);
                 } catch (err) {
                   ui.notifications.error(`There was an error in your macro syntax. See the console (F12) for details`);
                 }
@@ -638,36 +638,33 @@ async function find_macro(macro_name) {
 /**
  * Roll the item damage
  *
- * @param message: Message that originates this roll
- * @param html: Html code to parse for extra options
- * @param expend_bennie: Whenever to expend a bennie
- * @param roll_damage: true if we want to autoroll damage
+ * @param {BrCommonCard } br_message Message that originates this roll
+ * @param {string} html Html code to parse for extra options
+ * @param {boolean} expend_bennie Whenever to expend a bennie
+ * @param {boolean} roll_damage true if we want to auto-roll damage
  *
  * @return {Promise<void>}
  */
-export async function roll_item(message, html, expend_bennie,
+export async function roll_item(br_message, html, expend_bennie,
                                 roll_damage){
-    let render_data = await message.getFlag('betterrolls-swade2', 'render_data');
-    let br_message = new BrCommonCard(message)
-    let trait = get_item_trait(br_message.item, br_message.actor);
     let macros = [];
     let shots_override;  // Override the number of shots used
     let shots_modifier = 0;  // Modifier to the number of shots
-    let extra_data = {skill: trait, modifiers: []};
+    let extra_data = {modifiers: []};
     if (expend_bennie) {await spend_bennie(br_message.actor)}
     extra_data.rof = br_message.item.system.rof || 1;
     if (game.settings.get('betterrolls-swade2', 'default_rate_of_fire') === 'single_shot') {
         extra_data.rof = 1;
     }
     // Effects
-    if (Object.hasOwn(trait, 'type') && trait.type === 'skill') {
-        get_skill_effects(br_message.actor, trait, extra_data);
+    if (Object.hasOwn(br_message.skill, 'type') && br_message.skill.type === 'skill') {
+        get_skill_effects(br_message.actor, br_message.skill, extra_data);
     }
     // Actions
     for (let action of br_message.get_selected_actions()) {
         if (action.code.skillOverride) {
-            trait = trait_from_string(br_message.actor, action.code.skillOverride);
-            render_data.trait_id = trait.id;
+            let trait = trait_from_string(br_message.actor, action.code.skillOverride);
+            br_message.skill_id = trait.id;
         }
         if (action.code.shotsUsed) {
             let first_char = '';
@@ -711,40 +708,37 @@ export async function roll_item(message, html, expend_bennie,
                 game.i18n.localize("BRSW.Offhand"), -2))
         }
     }
-    const trait_data = await roll_trait(message, trait.system , game.i18n.localize(
+    await roll_trait(br_message, br_message.skill.system , game.i18n.localize(
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){
         const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
-            let rof = trait_data.dice.length;
-            if (br_message.actor.isWildcard) {
-                rof -= 1;
-            }
-            render_data.used_shots = shots_override || ROF_BULLETS[rof || 1];
-            if (dis_ammo_selected && !trait_data.old_rolls.length > 0) {
-                await br_message.item.consume(render_data.used_shots)
+            br_message.render_data.used_shots = shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
+            if (dis_ammo_selected && br_message.trait_roll.rolls.length === 0) {
+                await br_message.item.consume(br_message.render_data.used_shots)
             }
         }
     }
     // Power points management
     const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
-    let previous_pp = trait_data.old_rolls.length ? render_data.used_pp : 0
+    let previous_pp = br_message.trait_roll.old_rolls.length ? br_message.render_data.used_pp : 0
     if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
-        render_data.used_pp = await discount_pp(
-            br_message, trait_data.rolls, shots_override, previous_pp, shots_modifier);
+        br_message.render_data.used_pp = await discount_pp(
+            br_message, br_message.trait_roll.rolls, shots_override, previous_pp, shots_modifier);
     }
-    await update_message(message, render_data);
-    await run_macros(macros, br_message.actor, br_message.item, message);
+    await br_message.render()
+    await br_message.save()
+    await run_macros(macros, br_message.actor, br_message.item, br_message);
     //Call a hook after roll for other modules
     Hooks.call("BRSW-RollItem", br_message, html);
     if (roll_damage) {
-        trait_data.rolls.forEach(roll => {
-            if (roll.result >= roll.tn && roll.tn > 0) {
-                roll_dmg(message, html, false, {},
-                    roll.result > roll.tn + 3)
+        br_message.trait_roll.current_roll.dice.forEach(roll => {
+            if (roll.result && roll.result >=  0) {
+                roll_dmg(br_message.message, html, false, {},
+                    roll.result > 3)
             }
         });
     }
@@ -771,7 +765,6 @@ function get_target_defense(acting_actor, target=undefined, location='torso') {
     let defense_values = {toughness: 4, armor: 0,
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
-        console.log(objetive.actor)
         if (objetive.actor.type !== "vehicle") {
             if (objetive.actor.system.details.autoCalcToughness) {
                 defense_values.toughness = objetive.actor.calcToughness(false)
@@ -1002,6 +995,13 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_roll.brswroll.modifiers.push(new_mod);
     }
     joker_modifiers(message, actor, damage_roll);
+    // Global modifiers
+    if (actor.system.stats?.globalMods?.damage?.length > 0) {
+        for (let mod of actor.system.stats.globalMods.damage) {
+            const new_mod = create_modifier(mod.label, mod.value)
+            damage_roll.brswroll.modifiers.push(new_mod)
+        }
+    }
     // Minimum strength
     if (item.system.minStr) {
         calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
@@ -1077,7 +1077,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     await update_message(message, render_data);
     // Run macros
-    await run_macros(macros, actor, item, message);
+    await run_macros(macros, actor, item, br_card);
 }
 
 
@@ -1202,7 +1202,7 @@ async function half_damage(message, index){
  *
  * @param {ChatMessage} message
  * @param {function} message.getFlag
- * @param {int} index:
+ * @param {int} index
  */
 async function edit_toughness(message, index) {
     const br_card = new BrCommonCard(message)
@@ -1221,10 +1221,10 @@ async function edit_toughness(message, index) {
 
 /**
  * Expends power points, called when the first button in the dialog is clicked.
- * @param {Number} number: Number ot power points to remove
- * @param {string} mode: 'reload' to recharge pp
- * @param {SwadeActor} actor: The actor that casts the power
- * @param {Item} item: The power itself
+ * @param {Number} number Number ot power points to remove
+ * @param {string} mode 'reload' to recharge pp
+ * @param {SwadeActor} actor The actor that casts the power
+ * @param {Item} item The power itself
  */
 function modify_power_points(number, mode, actor, item) {
     const arcaneDevice = item.system.additionalStats.devicePP

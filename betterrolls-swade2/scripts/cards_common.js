@@ -10,6 +10,7 @@ import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js
 import {get_gm_modifiers} from './gm_modifiers.js';
 import {brAction} from "./actions.js";
 import {get_actions} from "./global_actions.js";
+import {TraitRoll} from "./rolls.js";
 
 export const BRSW_CONST = {
     TYPE_ATTRIBUTE_CARD: 1,
@@ -45,7 +46,7 @@ export function BRWSRoll() {
  * @param render_object
  */
 async function store_render_flag(message, render_object) {
-    for (let property of ['actor', 'skill', 'bennie_avaliable']) {
+    for (let property of ['actor', 'skill']) {
         delete render_object[property];
     }
     // Get sure thar there is a diff so update socket gets fired.
@@ -74,11 +75,12 @@ export class BrCommonCard {
         this.action_groups = {}
         this.render_data = {}  // Old render data, to be removed
         this.update_list = {} // List of properties pending to be updated
+        this.trait_roll = new TraitRoll()
         if (message) {
             const data = this.message.getFlag('betterrolls-swade2', 'br_data')
             if (data) {
                 this.load(data)
-                //console.log("New card loaded from message")
+                // console.log("New card loaded from message")
                 // console.trace()
                 // TODO: Check if activate_common_listeners can be made a method of this class and simplified.
                 // TODO: Reduce card creations. Attribute rolls done.
@@ -267,14 +269,12 @@ export class BrCommonCard {
      * @returns {*}
      */
     generate_render_data(render_data, template) {
-        render_data.bennie_avaliable = are_bennies_available(this.actor);
         render_data.actor = this.actor;
         render_data.result_master_only =
             game.settings.get('betterrolls-swade2', 'result-card') === 'master';
         // Benny image
         render_data.benny_image = game.settings.get('swade', 'bennyImage3DFront') ||
             '/systems/swade/assets/benny/benny-chip-front.png'
-        render_data.show_rerolls = game.settings.get('swade', 'dumbLuck') || !render_data.trait_roll?.is_fumble;
         render_data.collapse_results = ! (game.settings.get('betterrolls-swade2', 'expand-results'))
         render_data.collapse_rolls = ! (game.settings.get('betterrolls-swade2', 'expand-rolls'));
         if (template) {
@@ -284,6 +284,14 @@ export class BrCommonCard {
         this.render_data = render_data;
         return render_data;
     }
+
+    get show_rerolls() {
+        if (game.settings.get('swade', 'dumbLuck') || !this.trait_roll.current_roll) {
+            return true
+        }
+        return this.trait_roll.current_roll && !this.trait_roll.current_roll.is_fumble
+    }
+
 
     /**
      * Recovers the trait used in card
@@ -344,6 +352,8 @@ export class BrCommonCard {
             ...{sorted_action_groups: this.sorted_action_groups}}
         data.actor = this.actor;
         data.item = this.item;
+        data.bennie_avaliable = this.bennie_avaliable;
+        data.show_rerolls = this.show_rerolls;
         data.selected_actions = this.get_selected_actions();
         return data
     }
@@ -567,7 +577,7 @@ export function activate_common_listeners(br_card, html) {
     // Old rolls
     // noinspection JSUnresolvedFunction
     html.find('.brsw-old-roll').click(async ev => {
-        await old_roll_clicked(ev, br_card.message);
+        await old_roll_clicked(ev, br_card);
     });
     // Add modifiers
     // noinspection JSUnresolvedFunction
@@ -578,7 +588,7 @@ export function activate_common_listeners(br_card, html) {
                     default_value: ''},
                 {id: 'value', label: label_mod,
                  default_value: 1}], async values => {
-                await add_modifier(br_card.message, {label: values.label,
+                await add_modifier(br_card, {label: values.label,
                     value: values.value});
             });
     })
@@ -591,7 +601,7 @@ export function activate_common_listeners(br_card, html) {
             [{label: 'Label', default_value: label},
                 {id: 'value', label: label_mod, default_value: value}],
             async values => {
-                await edit_modifier(br_card.message, parseInt(index),
+                await edit_modifier(br_card, parseInt(index),
                     {name: values.Label, value: values.value,
                         extra_class: parseInt(values.value) < 0 ? ' brsw-red-text' : ''});
             });
@@ -599,10 +609,6 @@ export function activate_common_listeners(br_card, html) {
     // Edit die results
     // noinspection JSUnresolvedFunction
     html.find('.brsw-override-die').click((ev) => {
-        // Collect roll data
-        let roll_data = null;
-        let render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
-        roll_data = render_data.trait_roll;
         // Retrieve additional data
         const die_index = Number(ev.currentTarget.dataset.dieIndex);
         // Show modal
@@ -612,26 +618,23 @@ export function activate_common_listeners(br_card, html) {
           async values => {
             const new_value = values.new_result;
             // Actual roll manipulation
-            await override_die_result(roll_data, die_index, new_value, false,
-                br_card.actor.isWildcard);
-            await update_message(br_card.message, render_data);
+            await override_die_result(br_card, die_index, new_value,);
         });
     })
     // Delete modifiers
     // noinspection JSUnresolvedFunction
     html.find('.brsw-delete-modifier').click(async (ev) => {
-        await delete_modifier(br_card.message, parseInt(ev.currentTarget.dataset.index));
+        await delete_modifier(br_card, parseInt(ev.currentTarget.dataset.index));
     });
     // Edit TNs
     // noinspection JSUnresolvedFunction
     html.find('.brsw-edit-tn').click(async (ev) => {
         const old_tn = ev.currentTarget.dataset.value;
-        const index = parseInt(ev.currentTarget.dataset.index);
         const tn_trans = game.i18n.localize("BRSW.TN");
         simple_form(game.i18n.localize("BRSW.EditTN"), [
             {id: 'tn', label: tn_trans, default_value: old_tn}],
             async values => {
-                await edit_tn(br_card.message, index, values.tn, "");
+                await edit_tn(br_card, values.tn, "");
         });
     });
     // TNs from target
@@ -653,7 +656,7 @@ export function activate_common_listeners(br_card, html) {
 /**
  * Manage collapsable fields
  * @param html
- * @param message: Null if this is called from someplace else than a message
+ * @param message - Null if this is called from someplace else than a message
  */
 export function manage_collapsables(html, message) {
     let collapse_buttons = html.find('.brsw-collapse-button');
@@ -688,7 +691,7 @@ export function manage_collapsables(html, message) {
 /**
  * Mark and unmark selectable items
  * @param ev mouse click event
- * @param {ChatMessage} message: The message that contains the selectable item
+ * @param {ChatMessage} message - The message that contains the selectable item
  */
 export async function manage_selectable_click(ev, message){
     ev.preventDefault();
@@ -720,7 +723,7 @@ function manage_html_selectables(ev) {
 
 /**
  * Controls the sheet status when the portrait in the header is clicked
- * @param {SwadeActor} actor: The actor instance that created the chat card
+ * @param {SwadeActor} actor - The actor instance that created the chat card
  */
 async function manage_sheet(actor) {
     if (actor.sheet.rendered) {
@@ -764,7 +767,7 @@ export function get_action_from_click(event){
 /**
  * Gets the roll options from the card html
  *
- * @param old_options: Options used as default
+ * @param old_options - Options used as default
  */
 export function get_roll_options(old_options){
     let modifiers = old_options.additionalMods || [];
@@ -814,7 +817,7 @@ export function trait_to_string(trait) {
 }
 
 
-async function detect_fumble(remove_die, fumble_possible, result, dice) {
+export async function detect_fumble(remove_die, fumble_possible, result, dice) {
     if (!remove_die && (fumble_possible < 1)) {
         let test_fumble_roll = new Roll('1d6');
         await test_fumble_roll.roll({async: true});
@@ -825,7 +828,7 @@ async function detect_fumble(remove_die, fumble_possible, result, dice) {
         }
     } else if (remove_die && (fumble_possible < 0)) {
         // It is only a fumble if the Wild Die is 1
-        if (dice[dice.length - 1].results[0] === 1) {
+        if (dice[dice.length - 1].raw_total === 1) {
             return true // Fumble mark
         }
     }
@@ -838,7 +841,7 @@ async function detect_fumble(remove_die, fumble_possible, result, dice) {
  * @param {boolean} damage True if this is a damage roll
  * @param {boolean} remove_die True to remove a result, that usually means a
  *  trait roll made by a Wild Card
- * @param {Array} dice: The dice array that contains individual dice in a result
+ * @param {Array} dice - The dice array that contains individual dice in a result
  */
 export async function calculate_results(rolls, damage, remove_die, dice) {
     let result = 0;
@@ -908,29 +911,6 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
     return result
 }
 
-/**
- * Removes the class that marks a die as discarded from a die array
- * @param dice
- * @param rolls
- */
-function remove_discarded_die_mark(dice, rolls) {
-    // Because of some bright day idea we use tn = 0 to mark a discarded die
-    // So now we need this ugly hack to undo it
-    let tn = 0
-    for (const roll of rolls) {
-        if (roll.tn > tn) {tn = roll.tn}
-    }
-    for (const roll of rolls) {
-        roll.extra_class = roll.extra_class.replace(/ brsw-discarded-roll/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-red-text/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-blue-text/g, '')
-        roll.tn = tn
-    }
-    for (const roll of dice) {
-        roll.extra_class = roll.extra_class.replace(/ brsw-discarded-roll/g, '')
-        roll.extra_class = roll.extra_class.replace(/ brsw-red-text/g, '')
-    }
-}
 
 /**
  * Updates a message using a new render_data
@@ -954,7 +934,7 @@ export async function update_message(br_message, render_data) {
 /**
  * Checks and rolls convictions
  * @param {SwadeActor }actor
- * @return: Modifiers Array
+ * @return Modifiers Array
  */
 export function check_and_roll_conviction(actor) {
     let conviction_modifier;
@@ -1030,7 +1010,7 @@ function get_actor_own_modifiers(actor, roll_options) {
  * @param extra_data
  * @param html
  * @param trait_dice
- * @param roll_options: An object with the current roll_options
+ * @param roll_options - An object with the current roll_options
  */
 async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options) {
     let extra_options = {}
@@ -1048,8 +1028,8 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         if (origin_token) {
             const target_data = get_tn_from_token(
                 br_card.skill, objetive, origin_token, br_card.item);
-            extra_options.tn = target_data.value;
-            extra_options.tn_reason = target_data.reason;
+            br_card.trait_roll.tn = target_data.value;
+            br_card.trait_roll.tn_reason = target_data.reason;
             extra_options.target_modifiers = target_data.modifiers;
         }
     }
@@ -1067,7 +1047,6 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         const mod_value = parseInt(trait_dice.die.modifier)
         roll_options.modifiers.push(create_modifier(
             game.i18n.localize("BRSW.TraitMod"), mod_value))
-        roll_options.total_modifiers += mod_value;
     }
     get_below_chat_modifiers(options, roll_options);
     get_actor_own_modifiers(br_card.actor, roll_options);
@@ -1075,14 +1054,12 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
     if (br_card.skill?.system.attribute === 'agility') {
         let armor_penalty = get_actor_armor_minimum_strength(br_card.actor)
         if (armor_penalty) {
-            roll_options.total_modifiers += armor_penalty.value
             roll_options.modifiers.push(armor_penalty)
         }
     }
     // Target Mods
     if (extra_options.target_modifiers) {
         extra_options.target_modifiers.forEach(modifier => {
-            roll_options.total_modifiers += modifier.value;
             roll_options.modifiers.push(modifier);
         })
     }
@@ -1099,26 +1076,22 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             }
             let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
             roll_options.modifiers.push(new_mod)
-            roll_options.total_modifiers += new_mod.value
         }
     }
     // Options set from card
     if (extra_data.modifiers) {
         extra_data.modifiers.forEach(modifier => {
             roll_options.modifiers.push(modifier);
-            roll_options.total_modifiers += modifier.value;
         })
     }
     //Conviction
     const conviction_modifier = check_and_roll_conviction(br_card.actor);
     if (conviction_modifier) {
         roll_options.modifiers.push(conviction_modifier);
-        roll_options.total_modifiers += conviction_modifier.value
     }
     // Joker
     if (br_card.token && has_joker(br_card.token.id)) {
         roll_options.modifiers.push(create_modifier('Joker', 2))
-        roll_options.total_modifiers += 2;
     }
     // Encumbrance
     const render_data = br_card.message.getFlag('betterrolls-swade2', 'render_data');
@@ -1126,67 +1099,52 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
         if (render_data.attribute_name === 'agility') {
             roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                 value: -2})
-            roll_options.total_modifiers -= 2
         } else {
             const skill = br_card.actor.items.get(render_data.trait_id)
             if (skill && skill.system.attribute === 'agility') {
                 roll_options.modifiers.push({name: game.i18n.localize('SWADE.Encumbered'),
                     value: -2})
-                roll_options.total_modifiers -= 2
             }
         }
     }
-    return options;
 }
 
 /**
  * Get the options for a reroll
+ * @param {BrCommonCard} br_card - The card to get the options from
+ * @param {Object} extra_data
  */
-function get_reroll_options(actor, render_data, roll_options, extra_data,) {
+function get_reroll_options(br_card, extra_data) {
     // Reroll, keep old options
-    roll_options.rof = actor.isWildcard ? render_data.trait_roll.rolls.length - 1 : render_data.trait_roll.rolls.length;
-    roll_options.modifiers = render_data.trait_roll.modifiers;
     let reroll_mods_applied = false;
-    roll_options.modifiers.forEach(mod => {
-        roll_options.total_modifiers += mod.value
+    br_card.trait_roll.modifiers.forEach(mod => {
         if (mod.name.includes('(reroll)')) {
             reroll_mods_applied = true;
         }
     });
     if (extra_data.reroll_modifier && !reroll_mods_applied) {
-        roll_options.modifiers.push(create_modifier(
+        br_card.trait_roll.modifiers.push(create_modifier(
             `${extra_data.reroll_modifier.name} (reroll)`,
             extra_data.reroll_modifier.value))
-        roll_options.total_modifiers += extra_data.reroll_modifier.value;
     }
-    let options = {}
-    render_data.trait_roll.rolls.forEach(roll => {
-        if (roll.tn) {
-            // We hacky use tn = 0 to mark discarded dice,
-            // here we pay for it
-            options = {
-                tn: roll.tn,
-                tn_reason: roll.tn_reason
-            };
-        }
-    });
-    render_data.trait_roll.old_rolls.push(
-        render_data.trait_roll.rolls);
-    render_data.trait_roll.rolls = [];
-    return options;
 }
 
-async function show_3d_dice(roll, message, modifiers, wild_die) {
-    if (wild_die) {
+/**
+ * Show the 3d dice for a trait roll
+ * @param {BrCommonCard} br_card
+ * @param {Roll} roll
+ */
+async function show_3d_dice(br_card, roll) {
+    if (br_card.trait_roll.wild_die) {
         set_wild_die_theme(roll.dice[roll.dice.length - 1]);
     }
     let users = null;
-    if (message.whisper.length > 0) {
-        users = message.whisper;
+    if (br_card.message.whisper.length > 0) {
+        users = br_card.message.whisper;
     }
-    const blind = message.blind
+    const blind = br_card.message.blind
     // Dice buried in modifiers.
-    for (let modifier of modifiers) {
+    for (let modifier of br_card.trait_roll.modifiers) {
         if (modifier.dice && (modifier.dice instanceof Roll)) {
             // noinspection ES6MissingAwait
             game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind)
@@ -1261,27 +1219,22 @@ function create_roll_string(trait_dice, rof) {
 
 /**
  * Makes a roll trait
- * @param {ChatMessage, BrCommonCard}br_card
- * @param trait_dice An object representing a trait dice
- * @param dice_label: Label for the trait die
- * @param {string} html: Html to be parsed for extra options.
- * @param extra_data: Extra data to add to render options
+ * @param {BrCommonCard}br_card
+ * @param trait_dice - An object representing a trait dice
+ * @param dice_label - Label for the trait die
+ * @param {string} html - Html to be parsed for extra options.
+ * @param extra_data - Extra data to add to render options
  */
 export async function roll_trait(br_card, trait_dice, dice_label, html, extra_data) {
-    if (!br_card.hasOwnProperty('action_groups')) {
-        br_card = new BrCommonCard(br_card);
-    }
-    let {render_data, actor} = br_card;
-    let roll_options = {total_modifiers: 0, modifiers: [], rof: undefined}
-    let options;
-    if (!render_data.trait_roll.rolls.length) {
-        options = await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
+    let {actor} = br_card;
+    let roll_options = {modifiers: [], rof: undefined}
+    if (!br_card.trait_roll.is_rolled) {
+        await get_new_roll_options(br_card, extra_data, html, trait_dice, roll_options);
     } else {
-        options = get_reroll_options(actor, render_data, roll_options, extra_data);
+        roll_options.modifiers = br_card.trait_roll.modifiers;
+        roll_options.rof = br_card.trait_roll.rof;
+        get_reroll_options(br_card, extra_data);
     }
-    render_data.trait_roll.is_fumble = false;
-    let trait_rolls = [];
-    let dice = [];
     let roll_string = create_roll_string(trait_dice, roll_options.rof);
     // Make penalties red
     for (let mod of roll_options.modifiers) {
@@ -1299,198 +1252,110 @@ export async function roll_trait(br_card, trait_dice, dice_label, html, extra_da
     }
     if ((actor.isWildcard || extra_data.add_wild_die) && wild_die_formula) {
         roll_string += wild_die_formula;
+        br_card.trait_roll.wild_die = true;
+    } else {
+        br_card.trait_roll.wild_die = false;
     }
+    br_card.trait_roll.modifiers = roll_options.modifiers;
     let roll = new Roll(roll_string);
-    roll.evaluate({async:false})
-    let index = 0
-    roll.terms.forEach((term) => {
-        if (term.hasOwnProperty('faces')) {
-            // Results
-            let extra_class = '';
-            let fumble_possible = 1;
-            if (term.total === 1) {
-                extra_class = ' brsw-red-text';
-                fumble_possible -= 2;
-            } else if (term.total > term.faces) {
-                extra_class = ' brsw-blue-text';
-            }
-            trait_rolls.push({sides: term.faces, fumble_value: fumble_possible,
-                result: term.total + roll_options.total_modifiers, extra_class: extra_class,
-                tn: options.tn, tn_reason: options.tn_reason});
-            // Dies
-            let new_die = {faces: term.faces, results: [], label: dice_label,
-                extra_class: ''};
-            term.results.forEach(result => {
-                new_die.results.push(result.result);
-            })
-            dice.push(new_die);
-            index += 1;
-        }
-    })
+    await roll.evaluate()
+    await br_card.trait_roll.add_roll(roll);
     if (game.dice3d) {
-        await show_3d_dice(roll, br_card.message, roll_options.modifiers,
-            (actor.isWildcard || extra_data.add_wild_die) && wild_die_formula);
+        await show_3d_dice(br_card, roll);
     }
-    render_data.trait_roll.is_fumble = await calculate_results(
-        trait_rolls, false, actor.isWildcard, dice)
-    render_data.trait_roll.rolls = trait_rolls;
-    render_data.trait_roll.modifiers = roll_options.modifiers;
-    render_data.trait_roll.dice = dice;
-    for (let key in extra_data) {
-        if (extra_data.hasOwnProperty(key)) {
-            render_data[key] = extra_data[key];
-
-        }
-    }
-    await update_message(br_card, render_data)
-    return render_data.trait_roll;
+    await br_card.render()
+    await br_card.save()
 }
 
 /**
  * Function that exchanges roll when clicked
- * @param event: mouse click event
- * @param message:
+ * @param event - mouse click event
+ * @param {BrCommonCard } br_card - The card to be updated
  */
-async function old_roll_clicked(event, message) {
-    const index = event.currentTarget.dataset.index;
-    const br_card = new BrCommonCard(message);
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    render_data.trait_roll.old_rolls.push(render_data.trait_roll.rolls);
-    render_data.trait_roll.rolls = render_data.trait_roll.old_rolls[index];
-    delete render_data.trait_roll.old_rolls[index];
-    // Recreate die
-    let total_modifier = 0;
-    render_data.trait_roll.modifiers.forEach(mod => {
-        total_modifier += mod.value;
-    })
-    render_data.trait_roll.dice.forEach((die, index) => {
-        die.results = [];
-        let final_result = render_data.trait_roll.rolls[index].result - total_modifier;
-        for (let number = final_result; number > 0; number -= die.faces) {
-            die.results.push(number > die.faces ? die.faces : number);
-        }
-    })
+async function old_roll_clicked(event, br_card) {
+    let index = parseInt(event.currentTarget.dataset.index);
+    if (index >= br_card.trait_roll.selected_roll_index) {
+        index +=1
+    }
+    br_card.trait_roll.selected_roll_index = index;
     if (br_card.item) {
-        render_data.skill = get_item_trait(br_card.item, br_card.actor);
-        if (!isNaN(parseInt(br_card.item.system.pp)) && render_data.used_pp) {
-            render_data.used_pp = await discount_pp(
-                br_card, render_data.trait_roll.rolls, 0, render_data.used_pp, 0);
-    }
-
-    }
-    await update_message(message, render_data);
-}
-
-
-/**
- * Updates the total results of an old stored rolls in a value
- * @param trait_roll
- * @param mod_value
- */
-async function update_roll_results(trait_roll, mod_value) {
-    let wild_die = false
-    trait_roll.rolls.forEach(roll => {
-        roll.result += mod_value;
-        if (roll.extra_class === ' brsw-discarded-roll') {
-            wild_die = true;
+        if (!isNaN(parseInt(br_card.item.system.pp)) && br_card.render_data.used_pp) {
+            br_card.render_data.used_pp = await discount_pp(
+                br_card, br_card.trait_roll.rolls, 0, br_card.render_data.used_pp, 0);
         }
-    });
-    trait_roll.is_fumble = await calculate_results(
-        trait_roll.rolls, false, wild_die, [])
-    for (const old_roll of trait_roll.old_rolls) {
-        for (const roll of old_roll) {
-            roll.result += mod_value;
-        }
-        trait_roll.is_fumble = await calculate_results(
-            old_roll, false, wild_die, [])
     }
+    await br_card.render();
+    br_card.save().catch(err => console.error("Error while selecting and old roll: " + err));
 }
-
 
 /**
  * Overrides the rolled result of a singular die in a given roll
- * @param roll_data
+ * @param {BrCommonCard} br_card
  * @param {int} die_index
  * @param {int, string} new_value
- * @param {boolean} [is_damage_roll=false]
- * @param {boolean} is_wildcard
  */
-async function override_die_result(roll_data, die_index, new_value, is_damage_roll = false, is_wildcard = false) {
-    let total_modifier = 0
-    roll_data.modifiers.forEach(mod => {
-        if (mod) {
-            total_modifier += mod.value;
-        }
-    })
-    roll_data.rolls[die_index].result = parseInt(new_value) + total_modifier
-    /* Recreate die*/
-    roll_data.dice.forEach((die, index) => {
-        die.results = [];
-        let final_result = roll_data.rolls[index].result - total_modifier;
-        for (let number = final_result; number > 0; number -= die.faces) {
-            die.results.push(number > die.faces ? die.faces : number);
-        }
-    })
-    remove_discarded_die_mark(roll_data.dice, roll_data.rolls)
-    await calculate_results(roll_data.rolls, is_damage_roll, is_wildcard, roll_data.dice);
+async function override_die_result(br_card, die_index, new_value) {
+    br_card.trait_roll.current_roll.dice[die_index].raw_total = parseInt(new_value)
+    await br_card.trait_roll.current_roll.calculate_results(br_card.trait_roll.tn, br_card.trait_roll.wild_die)
+    await br_card.render()
+    await br_card.save()
 }
 
 
 /**
  * Add a modifier to a message
- * @param {ChatMessage} message
- * @param modifier: A {name, value} modifier
+ * @param {BrCommonCard} br_card
+ * @param modifier - A {name, value} modifier
  */
-async function add_modifier(message, modifier) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
+async function add_modifier(br_card, modifier) {
     if (modifier.value) {
         let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
         let new_mod = create_modifier(name, modifier.value)
         if (game.dice3d && new_mod.dice) {
             let users = null;
-            if (message.whisper.length > 0) {
-                users = message.whisper;
+            if (br_card.message.whisper.length > 0) {
+                users = br_card.message.whisper;
             }
-            await game.dice3d.showForRoll(new_mod.dice, game.user, true, users, message.blind);
+            await game.dice3d.showForRoll(
+                new_mod.dice, game.user, true, users, br_card.message.blind);
         }
         new_mod.extra_class = new_mod.value < 0 ? ' brsw-red-text' : ''
-        render_data.trait_roll.modifiers.push(new_mod)
-        await update_roll_results(render_data.trait_roll, new_mod.value);
-        await update_message(message, render_data);
+        br_card.trait_roll.modifiers.push(new_mod)
+        await br_card.trait_roll.calculate_results()
+        await br_card.render()
+        br_card.save().catch(() => {console.error("Error saving a card after adding a modifier")})
     }
 }
 
 /**
  * Deletes a modifier from a message
- * @param {ChatMessage} message
- * @param {int} index: Index of the modifier to delete.
+ * @param {BrCommonCard} br_card
+ * @param {int} index - Index of the modifier to delete.
  */
-async function delete_modifier(message, index) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    let modifier = render_data.trait_roll.modifiers[index];
-    await update_roll_results(render_data.trait_roll, - modifier.value);
-    delete render_data.trait_roll.modifiers[index]
-    await update_message(message, render_data);
+async function delete_modifier(br_card, index) {
+    delete br_card.trait_roll.modifiers[index]
+    await br_card.trait_roll.calculate_results()
+    await br_card.render()
+    br_card.save().catch(
+        () => {console.error("Error saving a card after deleting a modifier")})
 }
 
 
 /**
  * Edits one modifier
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {int} index
  * @param {Object} new_modifier
  */
-async function edit_modifier(message, index, new_modifier) {
+async function edit_modifier(br_card, index, new_modifier) {
     // noinspection JSCheckFunctionSignatures
     let mod_value = parseInt(new_modifier.value);
     if (mod_value) {
-        let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-        const modifier = render_data.trait_roll.modifiers[index];
-        const difference = mod_value - modifier.value;
-        new_modifier.value = mod_value;
-        render_data.trait_roll.modifiers[index] = new_modifier;
-        await update_roll_results(render_data.trait_roll, difference);
-        await update_message(message, render_data);
+        br_card.trait_roll.modifiers[index].label = new_modifier.label;
+        br_card.trait_roll.modifiers[index].value = mod_value;
+        await br_card.trait_roll.calculate_results()
+        await br_card.render()
+        br_card.save().catch(() => {console.error("Error saving a card after editing a modifier")})
     }
 }
 
@@ -1498,30 +1363,18 @@ async function edit_modifier(message, index, new_modifier) {
 /**
  * Changes the of one of the rolls.
  *
- * @param {ChatMessage} message
- * @param {int} index: -1 to update all tns
+ * @param {BrCommonCard} br_card
  * @param {int} new_tn
- * @param {string} reason: If it is set the reason will be changed
+ * @param {string} reason - If it is set the reason will be changed
  */
-async function edit_tn(message, index, new_tn, reason) {
-    let render_data = message.getFlag('betterrolls-swade2', 'render_data');
-    if (index >= 0) {
-        render_data.trait_roll.rolls[index].tn = new_tn;
-        if (reason) {
-            render_data.trait_roll.rolls[index].tn_reason = reason;
-        }
-    } else {
-        render_data.trait_roll.rolls.forEach(roll => {
-            if (roll.tn) {
-                roll.tn = new_tn;
-                if (reason) {
-                    roll.tn_reason = reason;
-                }
-            }
-        });
+async function edit_tn(br_card, new_tn, reason) {
+    br_card.trait_roll.tn = new_tn;
+    if (reason) {
+        br_card.trait_roll.tn_reason = reason;
     }
-    await update_roll_results(render_data.trait_roll, 0);
-    await update_message(message, render_data)
+    await br_card.trait_roll.calculate_results()
+    await br_card.render()
+    br_card.save().catch(() => {console.error("Error saving a card after editing a TN")})
 }
 
 
@@ -1530,7 +1383,7 @@ async function edit_tn(message, index, new_tn, reason) {
  *
  * @param {ChatMessage} message
  * @param {int} index
- * @param {boolean} selected: True to select targeted, false for selected
+ * @param {boolean} selected - True to select targeted, false for selected
  */
 function get_tn_from_target(message, index, selected) {
     let objetive;
@@ -1550,9 +1403,8 @@ function get_tn_from_target(message, index, selected) {
         if (origin_token) {
             const target = get_tn_from_token(br_card.skill, objetive, origin_token, br_card.item);
             if (target.value) {
-                // Don't update if we didn't get a value
-                // noinspection JSIgnoredPromiseFromCall
-                edit_tn(message, index, target.value, target.reason)
+                edit_tn(br_card, target.value, target.reason).catch(
+                    () => {console.error("Error editing TN")})
             }
         }
     }
@@ -1577,14 +1429,12 @@ export function has_joker(token_id) {
 /**
  * Duplicate a message and clean rolls
  * @param {ChatMessage} message
- * @param event: javascript event for click
+ * @param event - javascript event for click
  */
 async function duplicate_message(message, event) {
     let data = duplicate(message);
     // Remove rolls
     data.timestamp = new Date().getTime();
-    data.flags['betterrolls-swade2'].render_data.trait_roll = new BRWSRoll();
-    data.flags['betterrolls-swade2'].render_data.damage_rolls = [];
     delete data._id;
     let new_message = await ChatMessage.create(data);
     await update_message(new_message, data.flags['betterrolls-swade2'].render_data);
@@ -1599,7 +1449,7 @@ async function duplicate_message(message, event) {
             await roll_skill(new_message, $(message.content), false);
         } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
             const roll_damage = action.includes('damage')
-            await roll_item(new_message, $(message.content), false,
+            await roll_item(br_card, $(br_card.message.content), false,
                 roll_damage);
         }
     }
@@ -1608,8 +1458,8 @@ async function duplicate_message(message, event) {
 
 /**
  * Creates a modifier object to add to a list
- * @param {String} label: Label of the modifier
- * @param {String, Number} expression: A number or a die expression.
+ * @param {String} label - Label of the modifier
+ * @param {String, Number} expression - A number or a die expression.
  */
 export function create_modifier(label, expression) {
     let modifier = {name: label, value: 0, extra_class: '', dice: null}

@@ -2,9 +2,9 @@
     <div class="brsw-roll-row">
         <span class="brsw-small-font">{{ localize 'BRSW.OldRoll' }}</span>
         {{# each trait_roll.old_rolls}}
-                <span class="brsw-old-roll brsw-clickable" data-index="{{@index}}">{{# each this }}
-                    <span class="brsw-d{{this.sides}} brsw-small-dice-image{{this.extra_calss}}">
-                        {{ this.result }}
+                <span class="brsw-old-roll brsw-clickable" data-index="{{@index}}">{{# each dice }}
+                    <span class="brsw-d{{this.sides}} brsw-small-dice-image {{this.extra_class}}">
+                        {{ this.final_total }}
                     </span>
                 {{/each}}</span>
         {{/each}}
@@ -15,10 +15,10 @@
         <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}}{{# if trait_roll.modifiers }}(*){{/if}} :
     </span>
     <span>
-        {{#each trait_roll.rolls}}
+        {{#each trait_roll.current_roll.dice }}
             <a class="brsw-override-die" data-die-index="{{@index}}">
                 <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
-                    {{ this.result }}
+                    {{ this.final_total }}
                 </span>
             </a>
         {{/each}}
@@ -26,7 +26,7 @@
             <button class="brsw-trait-reroll brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
             {{#if bennie_avaliable}}
                 <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button brsw-form" title="{{ localize 'BRSW.Roll_and_bennie' }}">
-                    <img src="{{{ benny_image }}}" class="brsw-button-image">
+                    <img src="{{{ benny_image }}}" class="brsw-button-image" alt="Bennie re-roll">
                 </button>
             {{/if}}
         {{/if}}
@@ -38,11 +38,11 @@
             <i class="fas fa-plus-circle" title="{{ localize 'BRSW.AddModifier' }}"></i>
         </span>
     </div>
-    {{#each trait_roll.dice as |current_dice|}}
+    {{#each trait_roll.current_roll.dice as |current_dice|}}
         <div class="brsw-roll-detail-row{{ this.extra_class }}">
             <span>{{ this.label }}</span>
-            <span>{{#each this.results}}
-                <span class="brsw-d{{current_dice.faces}} brsw-dice-image">{{ this }}</span>
+            <span>{{#each this.unexploded }}
+                <span class="brsw-d{{current_dice.sides}} brsw-dice-image">{{ this }}</span>
             {{/each}}</span>
         </div>
     {{/each}}

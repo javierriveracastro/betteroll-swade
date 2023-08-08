@@ -3,8 +3,8 @@
 
 import {get_owner} from "./damage_card.js";
 import {
-    BrCommonCard, BRSW_CONST, BRWSRoll, create_common_card, create_modifier,
-    roll_trait, spend_bennie, update_message
+    BrCommonCard, BRSW_CONST, create_common_card, create_modifier,
+    roll_trait, spend_bennie
 } from "./cards_common.js";
 import {status_footer} from "./incapacitation_card.js";
 
@@ -30,7 +30,6 @@ async function create_remove_status_card(original_message, actor, type) {
         game.i18n.format("BRSW.UnshakenText", {token_name: actor.name}):
         game.i18n.format("BRSW.UnstunText", {token_name: actor.name})
     let footer = status_footer(actor)
-    let trait_roll = new BRWSRoll();
     let title_name = type === BRSW_CONST.TYPE_UNSHAKE_CARD ? "BRSW.Unshake" : "BRSW.Unstun";
     const roll_title = type === BRSW_CONST.TYPE_UNSHAKE_CARD ?
         game.i18n.localize('BRSW.SpiritRoll') :
@@ -39,7 +38,7 @@ async function create_remove_status_card(original_message, actor, type) {
     {header: {type: '',
         title: game.i18n.localize(title_name),
         notes: actor.name}, roll_title: roll_title, text: text, footer: footer,
-        trait_roll: trait_roll, show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.ROLL,
+        show_roll_injury: false, attribute_name: 'spirit'}, CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/remove_status_card.html")
     br_message.update_list={...br_message.update_list, ...{user: user.id}};
     br_message.type = type
@@ -65,11 +64,11 @@ export async function create_unstun_card(original_message, token_id) {
 
 /**
  * Activate the listeners of the unshake card
- * @param message: Message data
- * @param html: Html produced
- * @param card_type: Type of card
+ * @param {BrCommonCard} br_card
+ * @param html Html produced
+ * @param card_type Type of card
  */
-export function activate_remove_status_card_listeners(message, html, card_type) {
+export function activate_remove_status_card_listeners(br_card, html, card_type) {
     const roll_function = card_type === BRSW_CONST.TYPE_UNSHAKE_CARD ?
         roll_unshaken : roll_unstun
     html.find('.brsw-spirit-button, .brsw-roll-button').click((ev) =>{
@@ -79,48 +78,54 @@ export function activate_remove_status_card_listeners(message, html, card_type) 
             spend_bennie=true
         }
         // noinspection JSIgnoredPromiseFromCall
-        roll_function(message, spend_bennie);
+        roll_function(br_card, spend_bennie);
     });
 }
 
 
 /**
  * Checks if a benny has been expended and rolls to remove shaken
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {Boolean} use_bennie
  */
-async function roll_unshaken(message, use_bennie) {
-    const br_card = new BrCommonCard(message);
-    const {render_data, actor} = br_card;
+async function roll_unshaken(br_card, use_bennie) {
     if (use_bennie) {
         // remove shaken
-        await spend_bennie(actor)
-        render_data.text = game.i18n.format("BRSW.UnshakeBennie", {name: actor.name})
-        game.succ.removeCondition('shaken', actor).catch(console.error("Error removing shaken") || false)
+        await spend_bennie(br_card.actor)
+        br_card.render_data.text = game.i18n.format("BRSW.UnshakeBennie", {name: br_card.actor.name})
+        game.succ.removeCondition('shaken', br_card.actor).catch(console.error("Error removing shaken") || false)
     } else {
         // Check for Edges & Abilities
-        const modifiers = await check_abilities(actor)
+        const modifiers = await check_abilities(br_card.actor)
         // Make the roll
-        const roll = await roll_trait(message,
-            actor.system.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
+        await roll_trait(br_card,
+            br_card.actor.system.attributes.spirit, game.i18n.localize("BRSW.SpiritRoll"),
             '', {modifiers: modifiers});
         let result = 0;
-        roll.rolls.forEach(roll => {
-            result = Math.max(roll.result, result);
-        })
+        for (let roll of br_card.trait_roll.rolls) {
+            for (let die of roll.dice) {
+                if (die.result !== null) {
+                    result = Math.max(die.final_total, result);
+                }
+            }
+        }
         if (result >= 4) {
             if (game.settings.get('betterrolls-swade2', 'swd-unshake') === true && result < 8) {
-                render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRollSWD", {name: actor.name})
+                br_card.render_data.text = game.i18n.format(
+                    "BRSW.UnshakeSuccessfulRollSWD", {name: br_card.actor.name})
             } else {
-                render_data.text = game.i18n.format("BRSW.UnshakeSuccessfulRoll", {name: actor.name})
+                br_card.render_data.text = game.i18n.format(
+                    "BRSW.UnshakeSuccessfulRoll", {name: br_card.actor.name})
             }
-            game.succ.removeCondition('shaken', actor).catch(console.error("Error removing shaken") || false)
+            game.succ.removeCondition('shaken', br_card.actor).catch(
+                console.error("Error removing shaken") || false)
         } else {
-            render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: actor.name})
+            br_card.render_data.text = game.i18n.format("BRSW.UnshakeFailure", {name: br_card.actor.name})
         }
     }
-    await update_message(message,render_data);
-    Hooks.call("BRSW-Unshake", new BrCommonCard(message), actor)
+    await br_card.render()
+    await br_card.save()
+    Hooks.call("BRSW-Unshake", br_card, br_card.actor)
 }
 
 async function check_abilities(actor) {
@@ -166,7 +171,7 @@ async function check_abilities(actor) {
     let genericMod = actor.system.attributes.spirit.unShakeBonus
     if (effectValue.length > 0 && genericMod !== 0) {
         for (let each of effectValue) {
-            genericMod = genericMod - each
+            genericMod -= each
         }
     }
     // Checking if the actor has the Edges and Abilities:
@@ -199,33 +204,39 @@ async function check_abilities(actor) {
 
 /**
  * Roll to remove stunned
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  */
-async function roll_unstun(message) {
-    const br_card = new BrCommonCard(message);
-    const {render_data, actor} = br_card;
+async function roll_unstun(br_card) {
     let extra_options = {};
     // Unstun Bonus
-    if (actor.system.attributes.vigor.unStunBonus) {
-        const bonus = parseInt(actor.system.attributes.vigor.unStunBonus);
+    if (br_card.actor.system.attributes.vigor.unStunBonus) {
+        const bonus = parseInt(br_card.actor.system.attributes.vigor.unStunBonus);
         if (bonus) {
             extra_options.modifiers = [create_modifier(game.i18n.localize("BRSW.UnstunBonus"), bonus)]
             extra_options.total_modifiers += bonus;
         }
     }
-    const roll = await roll_trait(message,
-    actor.system.attributes.vigor, game.i18n.localize("BRSW.VigorRoll"),
+    await roll_trait(br_card, br_card.actor.system.attributes.vigor,
+        game.i18n.localize("BRSW.VigorRoll"),
     '', extra_options);
     let result = 0;
-    roll.rolls.forEach(roll => {
-        result = Math.max(roll.result, result);
-    })
-    if (result >= 4) {
-        render_data.text = game.i18n.format("BRSW.UnstunSuccessfulRoll", {name: actor.name})
-        game.succ.removeCondition('stunned', actor).catch(console.error("Error removing stunned") || false)
-    } else {
-        render_data.text = game.i18n.format("BRSW.UnstunFailure", {name: actor.name})
+    for (let roll of br_card.trait_roll.rolls) {
+        for (let die of roll.dice) {
+            if (die.result !== null) {
+                result = Math.max(die.final_total, result);
+            }
+        }
     }
-    await update_message(message, render_data);
-    Hooks.call("BRSW-Unstun", new BrCommonCard(message), actor)
+    if (result >= 4) {
+        br_card.render_data.text = game.i18n.format(
+            "BRSW.UnstunSuccessfulRoll", {name: br_card.actor.name})
+        game.succ.removeCondition('stunned', br_card.actor).catch(
+            console.error("Error removing stunned") || false)
+    } else {
+        br_card.render_data.text = game.i18n.format("BRSW.UnstunFailure",
+            {name: br_card.actor.name})
+    }
+    await br_card.render()
+    await br_card.save()
+    Hooks.call("BRSW-Unstun", br_card, br_card.actor)
 }
