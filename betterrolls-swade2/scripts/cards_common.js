@@ -118,7 +118,7 @@ export class BrCommonCard {
             skill_id: this.skill_id, environment: this.environment,
             extra_text: this.extra_text, attribute_name: this.attribute_name,
             action_groups: this.action_groups, id: this.id,
-            target_ids: this.target_ids}
+            target_ids: this.target_ids, trait_roll: this.trait_roll}
     }
 
     load(data){
