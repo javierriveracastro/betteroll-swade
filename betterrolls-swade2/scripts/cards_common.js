@@ -128,6 +128,7 @@ export class BrCommonCard {
         for (let field of FIELDS) {
             this[field] = data[field]
         }
+        this.trait_roll.load(data.trait_roll)
         if (this.message) {
             this.render_data = this.message.getFlag('betterrolls-swade2', 'render_data')
         }
@@ -196,6 +197,10 @@ export class BrCommonCard {
         for (const target of game.user.targets) {
             this.target_ids.push(target.id)
         }
+    }
+
+    get bennie_available() {
+        return are_bennies_available(this.actor)
     }
 
     populate_actions() {
@@ -444,8 +449,8 @@ export async function create_common_card(origin, render_data, chat_type, templat
 
 /**
 * Creates the basic chat data common to most cards
-* @param {SwadeActor, Token} origin:  The actor origin of the message
-* @return An object suitable to create a ChatMessage
+* @param {SwadeActor, Token} origin -  The actor origin of the message
+* @return {Object} An object suitable to create a ChatMessage
 */
 export function create_basic_chat_data(origin){
     let actor;
@@ -485,7 +490,7 @@ export function create_basic_chat_data(origin){
 
 /**
  * Returns true if an actor has bennies available or is master controlled.
- * @param {SwadeActor} actor: The actor that we are checking
+ * @param {SwadeActor} actor - The actor that we are checking
  */
 export function are_bennies_available(actor) {
     if (actor.hasPlayerOwner) {
@@ -498,7 +503,7 @@ export function are_bennies_available(actor) {
 
 /**
  * Expends a bennie
- * @param {SwadeActor} actor: Actor who is going to expend the bennie
+ * @param {SwadeActor} actor - Actor who is going to expend the bennie
  */
 export async function spend_bennie(actor){
     // Dice so Nice animation
@@ -547,7 +552,7 @@ export function get_actor_from_ids(token_id, actor_id) {
 /**
  * Connects the listener for all chat cards
  * @param {BrCommonCard} br_card
- * @param {HTMLElement} html: html of the card
+ * @param {HTMLElement} html - html of the card
  */
 export function activate_common_listeners(br_card, html) {
     html = $(html)  // Get sure html is a Jquery element
