@@ -192,7 +192,7 @@ export class BrCommonCard {
         return target_array
     }
 
-    get bennie_available() {
+    get bennie_avaliable() {
         return are_bennies_available(this.actor)
     }
 
