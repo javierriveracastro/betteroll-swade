@@ -1270,7 +1270,7 @@ async function old_roll_clicked(event, br_card) {
     if (br_card.item) {
         if (!isNaN(parseInt(br_card.item.system.pp)) && br_card.render_data.used_pp) {
             br_card.render_data.used_pp = await discount_pp(
-                br_card, br_card.trait_roll.rolls, 0, br_card.render_data.used_pp, 0);
+                br_card,0, br_card.render_data.used_pp, 0);
         }
     }
     await br_card.render();
