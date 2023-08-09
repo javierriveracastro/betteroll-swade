@@ -192,15 +192,15 @@ export class BrCommonCard {
         return target_array
     }
 
+    get bennie_available() {
+        return are_bennies_available(this.actor)
+    }
+
     recover_targets_from_user() {
         this.target_ids = []
         for (const target of game.user.targets) {
             this.target_ids.push(target.id)
         }
-    }
-
-    get bennie_available() {
-        return are_bennies_available(this.actor)
     }
 
     populate_actions() {
