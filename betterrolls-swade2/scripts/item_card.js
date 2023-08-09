@@ -516,25 +516,26 @@ async function displayRemainingCard(content) {
  * Discount pps from an actor (c) Javier or Arcane Device (c) Salieri
  *
  * @param {BrCommonCard} br_card
- * @param {Roll[]} rolls
  * @param pp_override
  * @param old_pp PPs expended in the current selected roll of this option
  * @param pp_modifier A number to be added or subtracted from PPs
  */
-export async function discount_pp(br_card, rolls, pp_override, old_pp, pp_modifier) {
+export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     if (game.settings.get('betterrolls-swade2', 'optional_rules_enabled').indexOf("InnatePowersDontConsume") > -1 && 
             br_card.item.system.innate) {
         return 0;
     }
     let success = false;
-    for (let roll of rolls) {
-        if (roll.result >= 4) {
+    for (let roll of br_card.trait_roll.current_roll.dice) {
+        if (roll.result >= 0) {
             success = true
         }
     }
     let base_pp_expended = pp_override ? parseInt(pp_override) : parseInt(br_card.item.system.pp)
     base_pp_expended += pp_modifier;
     const pp = success ? base_pp_expended : 1;
+    br_card.render_data.used_pp = pp;
+    br_card.save()
     // noinspection JSUnresolvedVariable
     let current_pp;
     // If devicePP is found, it will be treated as an Arcane Device:
@@ -727,7 +728,7 @@ export async function roll_item(br_message, html, expend_bennie,
     let previous_pp = br_message.trait_roll.old_rolls.length ? br_message.render_data.used_pp : 0
     if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
         br_message.render_data.used_pp = await discount_pp(
-            br_message, br_message.trait_roll.rolls, shots_override, previous_pp, shots_modifier);
+            br_message, shots_override, previous_pp, shots_modifier);
     }
     await br_message.render()
     await br_message.save()
@@ -1170,8 +1171,11 @@ async function add_fixed_damage(event, form_results) {
     let damage_rolls = render_data.damage_rolls[index].brswroll
     damage_rolls.modifiers.push(
         {value: modifier, name: form_results.Label})
+    console.log(index)
+    console.log(render_data)
+    console.log(damage_rolls)
     damage_rolls.rolls[0].result += modifier
-    render_data.damage_rolls[index].damage_result += await calculate_results(
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true)
     await update_message(event.data.message, render_data)
 }
