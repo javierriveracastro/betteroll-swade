@@ -1426,7 +1426,10 @@ async function duplicate_message(message, event) {
     data.timestamp = new Date().getTime();
     delete data._id;
     let new_message = await ChatMessage.create(data);
-    await update_message(new_message, data.flags['betterrolls-swade2'].render_data);
+    let br_card = new BrCommonCard(new_message)
+    br_card.trait_roll = new TraitRoll()
+    await br_card.render()
+    await br_card.save()
     const action = get_action_from_click(event);
     if (action.includes('trait')) {
         // noinspection JSUnresolvedVariable
