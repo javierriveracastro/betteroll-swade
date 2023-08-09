@@ -1,3 +1,9 @@
+# Version 3.38 aka I told you
+* Manifest: Updated verified Foundry version to 11.307
+* Bugfix: Get card duplication working again
+* Bugfix: Discounts PP calculate results correctly now
+* Bugfix: Adding a fixed damage works again
+
 # Version 3.37 aka solving or creating bugs
 * Feature: Added improved frenzy matching new rules version (DDBrown)
 * Bugfix/Refactoring: Fixed an issue that prevented editing players rolls by the DM. This has created a big refactoring about rolls.
