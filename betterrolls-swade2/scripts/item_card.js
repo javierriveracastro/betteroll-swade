@@ -1171,8 +1171,11 @@ async function add_fixed_damage(event, form_results) {
     let damage_rolls = render_data.damage_rolls[index].brswroll
     damage_rolls.modifiers.push(
         {value: modifier, name: form_results.Label})
-    damage_rolls.rolls[index].result += modifier
-    render_data.damage_rolls.damage_result = await calculate_results(
+    console.log(index)
+    console.log(render_data)
+    console.log(damage_rolls)
+    damage_rolls.rolls[0].result += modifier
+    render_data.damage_rolls[index].damage_result = await calculate_results(
         damage_rolls.rolls, true)
     await update_message(event.data.message, render_data)
 }
