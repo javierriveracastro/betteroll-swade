@@ -15,9 +15,8 @@
         {{# if ammo }}
             <span>
                 <span class="brws-common-modifiers brsw-form flex">
-                    <span class="brws-selectable brsw-ammo-toggle {{#if subtract_selected}}brws-permanent-selected{{/if}} m-1 border border:bg-red-700 text-white text-sm font-medium px-2.5 py-0.5 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer">
-                        {{ localize 'BRSW.SubtractAmmo' }}
-                    </span>
+                    <img src="modules/betterrolls-swade2/assets/bullet.svg" alt="ammo" title="{{ localize 'BRSW.SubtractAmmo' }}"
+                         class="w-6 brsw-ammo-toggle cursor-pointer border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 bg-red-700 hover:bg-gray-900">
                     <img src="modules/betterrolls-swade2/assets/cycle.svg" alt="reload"
                          title="{{ localize 'BRSW.ManualAmmo' }}" class="w-6 brsw-ammo-manual cursor-pointer bg-transparent border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
                 </span>
