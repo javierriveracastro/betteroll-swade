@@ -1,3 +1,7 @@
+# Version 3.39 aka I told you again
+* Bugfix: Duplicating a card now deletes damage rollsç
+* Feature: Added support for Unarmored Hero in system settings.
+
 # Version 3.38 aka I told you
 * Manifest: Updated verified Foundry version to 11.307
 * Bugfix: Get card duplication working again
