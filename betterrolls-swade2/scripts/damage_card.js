@@ -256,6 +256,10 @@ async function roll_soak(br_card, use_bennie) {
             effect.changes.find(ch => ch.key === 'system.attributes.vigor.soakBonus')
         soak_modifiers.push({name: effect.label, value: parseInt(change.value)})
     }
+    // Unarmored hero
+    if (game.settings.get('swade', 'unarmoredHero') && br_card.actor.isUnarmored) {
+        soak_modifiers.push({name: game.i18n.localize("BRSW.UnarmoredHero"), value: 2})
+    }
     await roll_trait(
         br_card, br_card.actor.system.attributes.vigor, game.i18n.localize("BRSW.SoakRoll"),
         '', {modifiers: soak_modifiers});
