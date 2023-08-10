@@ -1428,6 +1428,8 @@ async function duplicate_message(message, event) {
     let new_message = await ChatMessage.create(data);
     let br_card = new BrCommonCard(new_message)
     br_card.trait_roll = new TraitRoll()
+    br_card.render_data.damage_rolls = []
+    console.log(br_card.render_data)
     await br_card.render()
     await br_card.save()
     const action = get_action_from_click(event);
