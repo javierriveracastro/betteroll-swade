@@ -339,5 +339,6 @@
   "BRSW.OR.InnatePowersDontConsume": "Innate Powers don't spend power points",
   "BRSW.AP1": "Armor Piercing +1",
   "BRSW.AP2": "Armor Piercing +2",
-  "BRSW.AP3": "Armor Piercing +3"
+  "BRSW.AP3": "Armor Piercing +3",
+  "BRSW.UnarmoredHero": "Unarmored Hero"
 }
