@@ -252,14 +252,22 @@ function calculate_distance(origin_token, target_token, item, tn, skill) {
                 }
             }
         }
+        let extreme_ranger = 0
         for (let i = 0; i < 3 && i < range.length; i++) {
             let range_int = parseInt(range[i])
             if (rangeEffects) {
                 range_int = range_int + rangeEffects * (i + 1)
             }
+            if (range_int > extreme_ranger) {
+                extreme_ranger = range_int
+            }
             if (range_int && range_int < distance) {
                 distance_penalty = i < 2 ? (i + 1) * 2 : 8;
             }
+        }
+        if (distance > extreme_ranger * 4) {
+            tn.modifiers.push(
+                create_modifier(game.i18n.localize("BRSW.OverExtremeRange"), -999))
         }
         if (distance_penalty) {
             tn.modifiers.push(create_modifier(
