@@ -717,7 +717,8 @@ export async function roll_item(br_message, html, expend_bennie,
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
             br_message.render_data.used_shots = shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
-            if (dis_ammo_selected && br_message.trait_roll.rolls.length === 0) {
+            console.log(br_message.trait_roll.rolls.length)
+            if (dis_ammo_selected && br_message.trait_roll.rolls.length === 1) {
                 await br_message.item.consume(br_message.render_data.used_shots)
             }
         }
