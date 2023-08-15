@@ -1,3 +1,7 @@
+# Version 3.40 aka Well, it is starting to get a little anoying
+* Bugfix: Get ammo management working again
+* Feature: Added support for extreme ranger, now attacks over four times the largest range should get a -999 modifier.
+
 # Version 3.39 aka I told you again
 * Bugfix: Duplicating a card now deletes damage rolls
 * Feature: Added support for Unarmored Hero in system settings.
