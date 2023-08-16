@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ, console */
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ, console, $ */
 // noinspection JSUnusedAssignment
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
@@ -35,7 +35,6 @@ export function BRWSRoll() {
     this.dice = []; // Array with the dice {sides, results: [int], label, extra_class}
     // noinspection JSUnusedGlobalSymbols
     this.is_fumble = false
-    this.old_rolls = [] // Array with an array of old rolls.
 }
 
 
