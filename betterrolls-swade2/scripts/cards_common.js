@@ -211,7 +211,7 @@ export class BrCommonCard {
         }
         for (const group in this.action_groups) {
             this.action_groups[group].actions.sort(
-                (a, b) => {return a.code > b.code? 1: -1})
+                (a, b) => {return a.code.id > b.code.id? 1: -1})
         }
     }
 
