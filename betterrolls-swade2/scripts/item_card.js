@@ -289,7 +289,6 @@ function preview_template(ev, message) {
 export function activate_item_card_listeners(br_card, html) {
     const actor = br_card.actor
     const item = br_card.item
-    const ammo_button = html.find('.brws-selected.brsw-ammo-toggle');
     const pp_button = html.find('.brws-selected.brsw-pp-toggle')
     html.find('.brsw-header-img').click(_ => {
         item.sheet.render(true);
@@ -303,8 +302,7 @@ export function activate_item_card_listeners(br_card, html) {
         roll_dmg(br_card.message, html, ev.currentTarget.classList.contains('brsw-damage-bennie-button'),
             {}, ev.currentTarget.id.includes('raise'), ev.currentTarget.dataset.token);
     });
-    html.find('.brsw-false-button.brsw-ammo-manual').click(() => {
-        ammo_button.removeClass('brws-selected');
+    html.find('.brsw-ammo-manual').click(() => {
         item.reload()
     });
    html.find('.brsw-false-button.brsw-pp-manual').click(() => {
@@ -341,6 +339,11 @@ export function activate_item_card_listeners(br_card, html) {
       ev.originalEvent.dataTransfer.setData('text/plain',
           JSON.stringify({'type': 'target_click', 'tag_id': 'roll-raise-damage', 'message_id': br_card.message.id}));
     })
+    html.find('.brsw-ammo-toggle').click((ev) => {
+        ev.currentTarget.classList.toggle('bg-red-700');
+        ev.currentTarget.classList.toggle('bg-gray-500');
+    });
+
 }
 
 
@@ -713,7 +716,7 @@ export async function roll_item(br_message, html, expend_bennie,
         "BRSW.SkillDie"), html, extra_data)
     // Ammo management
     if (parseInt(br_message.item.system.shots) || br_message.item.system.autoReload){
-        const dis_ammo_selected = html ? html.find('.brws-selected.brsw-ammo-toggle').length :
+        const dis_ammo_selected = html ? html.find('.bg-red-700.brsw-ammo-toggle').length :
             game.settings.get('betterrolls-swade2', 'default-ammo-management');
         if (dis_ammo_selected || macros) {
             br_message.render_data.used_shots = shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
