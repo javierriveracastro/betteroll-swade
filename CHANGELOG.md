@@ -1,3 +1,6 @@
+# Version 3.41 aka ejem...
+* Bugfix: Check that extreme range is true to avoid triggering it when range is not calculable.
+
 # Version 3.40 aka Well, it is starting to get a little anoying
 * Bugfix: Get ammo management working again
 * Feature: Added support for extreme ranger, now attacks over four times the largest range should get a -999 modifier.
