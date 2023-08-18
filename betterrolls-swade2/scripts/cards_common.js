@@ -4,7 +4,7 @@
 
 import {getWhisperData, spendMastersBenny, simple_form, get_targeted_token, broofa} from "./utils.js";
 import {discount_pp, get_item_trait, roll_item} from "./item_card.js";
-import {get_tn_from_token, roll_skill} from "./skill_card.js";
+import {get_tn_from_token, roll_skill, calculate_distance} from "./skill_card.js";
 import {roll_attribute} from "./attribute_card.js";
 import {create_unshaken_card, create_unstun_card} from "./remove_status_cards.js";
 import {get_gm_modifiers} from './gm_modifiers.js';
@@ -629,7 +629,7 @@ export function activate_common_listeners(br_card, html) {
     // noinspection JSUnresolvedFunction
     html.find('.brsw-target-tn, .brsw-selected-tn').click(ev => {
         const index = ev.currentTarget.dataset.index;
-        get_tn_from_target(br_card.message, parseInt(index),
+        get_tn_from_target(br_card, parseInt(index),
             ev.currentTarget.classList.contains('brsw-selected-tn'));
     })
     // Repeat card
@@ -1369,13 +1369,12 @@ async function edit_tn(br_card, new_tn, reason) {
 /**
  * Change the TNs of a roll from a token (targeted or selected)
  *
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {int} index
  * @param {boolean} selected - True to select targeted, false for selected
  */
-function get_tn_from_target(message, index, selected) {
+function get_tn_from_target(br_card, index, selected) {
     let objetive;
-    const br_card = new BrCommonCard(message)
     if (selected) {
         canvas.tokens.controlled.forEach(token => {
             // noinspection JSUnresolvedVariable
@@ -1395,6 +1394,13 @@ function get_tn_from_target(message, index, selected) {
                     () => {console.error("Error editing TN")})
             }
         }
+        let tn = {modifiers: []}
+        calculate_distance(origin_token, objetive, br_card.item, tn, br_card.skill)
+        br_card.trait_roll.delete_range_modifiers()
+        br_card.trait_roll.modifiers = br_card.trait_roll.modifiers.concat(tn.modifiers)
+        br_card.trait_roll.calculate_results()
+        br_card.render()
+        br_card.save()
     }
 }
 

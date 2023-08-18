@@ -219,6 +219,14 @@ export class TraitRoll {
         }
     }
 
+    delete_range_modifiers() {
+        for (let modifer of this.modifiers) {
+            if (modifer.name.startsWith(game.i18n.localize("BRSW.Range"))) {
+                this.modifiers.splice(this.modifiers.indexOf(modifer), 1);
+            }
+        }
+    }
+
     _deep_update_modifiers() {
         for (let roll of this.rolls) {
             for (let die of roll.dice) {
