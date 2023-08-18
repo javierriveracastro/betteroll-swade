@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $ */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -289,7 +289,6 @@ function preview_template(ev, message) {
 export function activate_item_card_listeners(br_card, html) {
     const actor = br_card.actor
     const item = br_card.item
-    const pp_button = html.find('.brws-selected.brsw-pp-toggle')
     html.find('.brsw-header-img').click(_ => {
         item.sheet.render(true);
     });
@@ -305,10 +304,8 @@ export function activate_item_card_listeners(br_card, html) {
     html.find('.brsw-ammo-manual').click(() => {
         item.reload()
     });
-   html.find('.brsw-false-button.brsw-pp-manual').click(() => {
-       pp_button.removeClass('brws-selected');
-       // noinspection JSIgnoredPromiseFromCall
-       manual_pp(actor, item);
+   html.find('.brsw-pp-manual').click(() => {
+       manual_pp(actor, item).catch(err => {console.log("Error in manual PP management")});
     });
    html.find('.brsw-apply-damage').click((ev) => {
        create_damage_card(ev.currentTarget.dataset.token,
@@ -343,7 +340,10 @@ export function activate_item_card_listeners(br_card, html) {
         ev.currentTarget.classList.toggle('bg-red-700');
         ev.currentTarget.classList.toggle('bg-gray-500');
     });
-
+    html.find('.brsw-pp-toggle').click((ev) => {
+        ev.currentTarget.classList.toggle('bg-red-700');
+        ev.currentTarget.classList.toggle('bg-gray-500');
+    })
 }
 
 
@@ -727,7 +727,7 @@ export async function roll_item(br_message, html, expend_bennie,
         }
     }
     // Power points management
-    const pp_selected = html ? html.find('.brws-selected.brsw-pp-toggle').length :
+    const pp_selected = html ? html.find('.bg-red-700.brsw-pp-toggle').length :
         game.settings.get('betterrolls-swade2', 'default-pp-management');
     let previous_pp = br_message.trait_roll.old_rolls.length ? br_message.render_data.used_pp : 0
     if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
