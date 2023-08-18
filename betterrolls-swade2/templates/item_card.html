@@ -22,17 +22,15 @@
                 </span>
             </span>
         {{/if}}
+        {{# if powerpoints}}
+            <span class="brws-common-modifiers brsw-form flex">
+                <img src="modules/betterrolls-swade2/assets/sun.svg" alt="power point" title="{{ localize 'BRSW.SubtractPP' }}"
+                     class="w-6 brsw-pp-toggle cursor-pointer border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 bg-red-700 hover:bg-gray-900">
+                <img src="modules/betterrolls-swade2/assets/spell-book.svg" alt="reload"
+                     title="{{ localize 'BRSW.ManualPP' }}" class="w-6 brsw-pp-manual cursor-pointer bg-transparent border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+            </span>
+        {{/if}}
     </div>
-    {{# if powerpoints}}
-        <div class="brws-common-modifiers brsw-form">
-            <span class="brws-selectable brsw-clickable brsw-pp-toggle {{#if subtract_pp}}brws-selected {{/if}}">
-                {{ localize 'BRSW.SubtractPP' }}
-            </span>
-            <span class="brsw-false-button brsw-clickable brsw-pp-manual">
-                {{ localize 'BRSW.ManualPP' }}
-            </span>
-        </div>
-    {{/if}}
     {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
     <div class="brsw-button-row">
         {{# unless trait_roll.is_rolled}}
