@@ -1,5 +1,5 @@
 // functions for the incapacitation card
-/* globals canvas, game, CONST, Roll, Hooks, succ */
+/* globals canvas, game, CONST, Roll, Hooks, succ, fromUuid */
 
 import {
     BrCommonCard,
@@ -166,6 +166,13 @@ async function roll_incapacitation(br_card, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
+    if (game.settings.get('betterrolls-swade2', 'use_system_injury_table')) {
+        const injuryTable = (await fromUuid(game.settings.get('swade', 'injuryTable')));
+        if (injuryTable) {
+            await injuryTable.draw();
+        }
+        return
+    }
     let token = canvas.tokens.get(token_id);
     let actor = token.actor;
     let user = get_owner(actor);

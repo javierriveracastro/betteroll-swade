@@ -220,7 +220,7 @@ export function is_shooting_skill(skill) {
  * @param {SwadeItem} skill
  * @return {boolean} True if parry should be used as the tn (tokens are adjacent)
  */
-function calculate_distance(origin_token, target_token, item, tn, skill) {
+export function calculate_distance(origin_token, target_token, item, tn, skill) {
     const grid_unit = canvas.grid.grid.options.dimensions.distance
     let use_parry_as_tn = false
     let use_grid_calc = game.settings.get('betterrolls-swade2', 'range_calc_grid');
@@ -257,8 +257,6 @@ function calculate_distance(origin_token, target_token, item, tn, skill) {
             let range_int = parseInt(range[i])
             if (rangeEffects) {
                 range_int = range_int + rangeEffects * (i + 1)
-            }
-            if (range_int > extreme_range) {
             }
             if (range_int && range_int < distance) {
                 distance_penalty = i < 2 ? (i + 1) * 2 : 8;

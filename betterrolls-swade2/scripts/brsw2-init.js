@@ -524,6 +524,14 @@ function register_settings_version2() {
         type: Boolean,
         config: true
     });
+    game.settings.register('betterrolls-swade2', 'use_system_injury_table', {
+        name: game.i18n.localize("BRSW.UseSystemInjuryTable"),
+        hint: game.i18n.localize("BRSW.UseSystemInjuryTableHint"),
+        default: false,
+        scope: 'world',
+        type: Boolean,
+        config: true
+    })
 }
 
 // Settings related to Dice So Nice.
