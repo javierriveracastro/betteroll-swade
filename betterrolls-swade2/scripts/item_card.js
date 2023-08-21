@@ -1067,7 +1067,7 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
         damage_formulas.damage = damage_formulas.damage.replace('x', '')
         damage_formulas.raise = damage_formulas.raise.replace('x', '')
     }
-    const targets = await get_dmg_targets(target_token_id)
+    const targets = await get_dmg_targets(target_token_id, br_card)
     if (! raise) {damage_formulas.raise = ''}
     let total_modifiers = 0
     for (let modifier of damage_roll.brswroll.modifiers) {
@@ -1086,8 +1086,9 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
 /**
  * Return an array of actors from a token id or targeted tokens
  * @param {string} token_id
+ * @param {BrCommonCard} br_card
  */
-async function get_dmg_targets(token_id) {
+async function get_dmg_targets(token_id, br_card) {
     if (token_id) {
         let token = canvas.tokens.get(token_id);
         if (token) {
@@ -1098,7 +1099,11 @@ async function get_dmg_targets(token_id) {
     if (targets.size > 0) {
         targets = Array.from(targets).filter((token) => token.actor)
     } else {
-        targets = [undefined]
+        if (br_card.targets.length > 0) {
+            targets = br_card.targets
+        } else {
+            targets = [undefined]
+        }
     }
     return targets;
 }
