@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $ */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -535,7 +535,7 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     base_pp_expended += pp_modifier;
     const pp = success ? base_pp_expended : 1;
     br_card.render_data.used_pp = pp;
-    br_card.save()
+    await br_card.save()
     // noinspection JSUnresolvedVariable
     let current_pp;
     // If devicePP is found, it will be treated as an Arcane Device:
