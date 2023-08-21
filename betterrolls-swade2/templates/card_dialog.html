@@ -18,10 +18,10 @@
                         {{ this.name }}
                     </h2>
                 </div>
-                <div class="p-2 border-b-0 bg-gray-500 border border-gray-700 mt-0">
+                <div class="p-2 border-b-0 bg-gray-500 border border-gray-700 mt-0 leading-8">
                     {{# each this.actions }}
                         <span class="brsw-action-button m-1 border border:bg-red-700 text-white text-sm font-medium px-2.5 py-0.5 rounded {{# if this.selected }}bg-red-700{{/if}} hover:bg-gray-900 hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"
-                              data-action-id="{{ this.code.id }}">
+                              data-action-id="{{ this.code.id }}" style="display: inline-block">
                             {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
                         </span>
                     {{/each}}
@@ -31,10 +31,10 @@
     </div>
     <div class="flex p-1">
         <button type="button" id="brsw-save-button"
-                class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+                class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
             Set
         </button>
-        {{# unless BrCard.trait_roll.is_rolled }}<button type="button" id="brsw-dialog-roll" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">
+        {{# unless BrCard.trait_roll.is_rolled }}<button type="button" id="brsw-dialog-roll" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
             <i class="fas fa-dice"></i> Roll
         </button>{{/unless}}
         <button type="button" class="brsw-cancel focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-1 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
