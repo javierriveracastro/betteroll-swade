@@ -302,10 +302,6 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         if (target_token.actor.type !== "vehicle") {
             tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
             tn.value = parseInt(target_token.actor.system.stats.parry.value);
-            const parry_mod = parseInt(target_token.actor.system.stats.parry.modifier);
-            if (parry_mod) {
-                tn.value += parry_mod;
-            }
         }
         else {
             tn.reason = `Veh - ${target_token.name}`;
