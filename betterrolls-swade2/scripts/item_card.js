@@ -667,19 +667,20 @@ export async function roll_item(br_message, html, expend_bennie,
             let trait = trait_from_string(br_message.actor, action.code.skillOverride);
             br_message.skill_id = trait.id;
         }
-        if (action.code.shotsUsed) {
+        if (action.code.shotsUsed || action.code.resourcesUsed) {
+            let shots_used = action.code.shotsUsed || action.code.resourcesUsed;
             let first_char = '';
             try {
-                first_char = action.code.shotsUsed.charAt(0);
+                first_char = shots_used.charAt(0);
             } catch {}
             if (first_char === '+' || first_char === '-') {
                 // If we are using PP and the modifier starts with + or -
                 // we use it as a relative number.
                 if (parseInt(br_message.item.system.pp)) {
-                    shots_modifier += parseInt(action.code.shotsUsed);
+                    shots_modifier += parseInt(shots_used);
                 }
             } else {
-                shots_override = parseInt(action.code.shotsUsed);
+                shots_override = parseInt(shots_used);
             }
         }
         process_common_actions(action.code, extra_data, macros, br_message.actor);
