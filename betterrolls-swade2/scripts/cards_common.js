@@ -1500,6 +1500,9 @@ export function process_common_actions(action, extra_data, macros, actor) {
     if (action.rof) {
         extra_data.rof = action.rof;
     }
+    if (action.dice) {
+        extra_data.rof = action.dice;
+    }
     if (action.tnOverride) {
         extra_data.tn = action.tnOverride
         extra_data.tn_reason = action.button_name
