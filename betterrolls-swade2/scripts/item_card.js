@@ -101,8 +101,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
     await br_message.render()
     await br_message.save()
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
-    if ((item.type === "gear" && item.system.actions.skill === "") ||
-            item.system.actions?.skill.toLowerCase() === "none" ||
+    if ((item.type === "gear" && item.system.actions.trait === "") ||
+            item.system.actions?.trait.toLowerCase() === "none" ||
             (item.system.hasOwnProperty("actions") === false &&
                 item.type !== "skill")) {
         Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
@@ -412,8 +412,8 @@ export function make_item_footer(item) {
  */
 export function get_item_trait(item, actor) {
     // First if the item has a skill in actions we use it
-    if (item.system.actions && item.system.actions.skill) {
-        return trait_from_string(actor, item.system.actions.skill);
+    if (item.system.actions && item.system.actions.trait) {
+        return trait_from_string(actor, item.system.actions.trait);
     }
     // Some types of items don't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(

@@ -314,7 +314,7 @@ export class BrCommonCard {
             render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
         } else if (this.actor.system.status.isShaken) {
             render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-        } else if (this.item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+        } else if (this.item?.system.actions?.trait.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
             render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
         } else if (this.item?.system.quantity <= 0) {
             render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
