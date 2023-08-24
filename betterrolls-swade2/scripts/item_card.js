@@ -703,8 +703,11 @@ export async function roll_item(br_message, html, expend_bennie,
     }
     // Offhand
     if (br_message.item.system.equipStatus === 2) {
-        if (! br_message.actor.items.find(item => item.type === "edge" &&
-                item.name.toLowerCase() === game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase())) {
+        let is_ambidextrous = br_message.actor.items.find(
+            item => item.type === "edge" &&
+                item.name.toLowerCase() === game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase())
+        is_ambidextrous = is_ambidextrous || br_message.actor.getFlag('swade', 'ambidextrous')
+        if (!is_ambidextrous) {
             extra_data.modifiers.push(create_modifier(
                 game.i18n.localize("BRSW.Offhand"), -2))
         }
