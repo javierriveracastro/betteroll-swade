@@ -79,6 +79,13 @@
         "compatibility": {}
       }
     ],
+    "conflicts": [
+      {
+        "id": "swade-tools",
+        "type": "module",
+        "compatibility": {}
+      }
+    ],
     "systems": [
       {
         "id": "swade",

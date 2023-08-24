@@ -101,8 +101,8 @@ async function create_item_card(origin, item_id, collapse_actions) {
     await br_message.render()
     await br_message.save()
     // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
-    if ((item.type === "gear" && item.system.actions.skill === "") ||
-            item.system.actions?.skill.toLowerCase() === "none" ||
+    if ((item.type === "gear" && item.system.actions.trait === "") ||
+            item.system.actions?.trait.toLowerCase() === "none" ||
             (item.system.hasOwnProperty("actions") === false &&
                 item.type !== "skill")) {
         Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
@@ -415,8 +415,8 @@ export function make_item_footer(item) {
  */
 export function get_item_trait(item, actor) {
     // First if the item has a skill in actions we use it
-    if (item.system.actions && item.system.actions.skill) {
-        return trait_from_string(actor, item.system.actions.skill);
+    if (item.system.actions && item.system.actions.trait) {
+        return trait_from_string(actor, item.system.actions.trait);
     }
     // Some types of items don't have an associated skill
     if (['armor', 'shield', 'gear', 'edge', 'hindrance'].includes(
@@ -670,19 +670,20 @@ export async function roll_item(br_message, html, expend_bennie,
             let trait = trait_from_string(br_message.actor, action.code.skillOverride);
             br_message.skill_id = trait.id;
         }
-        if (action.code.shotsUsed) {
+        if (action.code.shotsUsed || action.code.resourcesUsed) {
+            let shots_used = action.code.shotsUsed || action.code.resourcesUsed;
             let first_char = '';
             try {
-                first_char = action.code.shotsUsed.charAt(0);
+                first_char = shots_used.charAt(0);
             } catch {}
             if (first_char === '+' || first_char === '-') {
                 // If we are using PP and the modifier starts with + or -
                 // we use it as a relative number.
                 if (parseInt(br_message.item.system.pp)) {
-                    shots_modifier += parseInt(action.code.shotsUsed);
+                    shots_modifier += parseInt(shots_used);
                 }
             } else {
-                shots_override = parseInt(action.code.shotsUsed);
+                shots_override = parseInt(shots_used);
             }
         }
         process_common_actions(action.code, extra_data, macros, br_message.actor);
@@ -771,19 +772,13 @@ function get_target_defense(acting_actor, target=undefined, location='torso') {
         name: game.i18n.localize("BRSW.Default")};
     if (objetive && objetive.actor) {
         if (objetive.actor.type !== "vehicle") {
-            if (objetive.actor.system.details.autoCalcToughness) {
-                defense_values.toughness = objetive.actor.calcToughness(false)
-                defense_values.armor = parseInt(
-                    objetive.actor.armorPerLocation[location]) || 0;
-            } else {
-                const armor= parseInt(objetive.actor.system.stats.toughness.armor)
-                defense_values.toughness = parseInt(
-                    objetive.actor.system.stats.toughness.value) - armor;
-                defense_values.armor = (location === 'torso') ? armor : 0
-            }
-            defense_values.toughness += defense_values.armor;
+            defense_values.toughness = objetive.actor.system.stats.toughness.value
+            defense_values.armor = parseInt(objetive.actor.armorPerLocation[location]) ||
+                 objetive.actor.system.stats.toughness.armor || 0;
             defense_values.name = objetive.name;
             defense_values.token_id = objetive.id;
+            console.log("New data")
+            console.log(defense_values)
         } else {
             defense_values.toughness = parseInt(
                 objetive.actor.system.toughness.total);
@@ -992,13 +987,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     get_chat_dmg_modifiers(options, damage_roll);
-    // Action mods
-    if (item.system.actions.dmgMod) {
-        // noinspection JSUnresolvedVariable
-        const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
-            item.system.actions.dmgMod)
-        damage_roll.brswroll.modifiers.push(new_mod);
-    }
     joker_modifiers(message, actor, damage_roll);
     // Global modifiers
     if (actor.system.stats?.globalMods?.damage?.length > 0) {
