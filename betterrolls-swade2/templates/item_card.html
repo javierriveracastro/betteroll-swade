@@ -34,7 +34,9 @@
     {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
     <div class="brsw-button-row">
         {{# unless trait_roll.is_rolled}}
-            <button class="brsw-roll-button brsw-form py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">{{ localize 'BRSW.Roll' }}</button>
+            <button class="brsw-roll-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+                <i class="fas fa-dice"></i> {{ localize 'BRSW.Roll' }}
+            </button>
         {{/unless}}
     </div>
     {{# if trait_roll.is_rolled }}
@@ -45,7 +47,7 @@
 {{# if swade_templates }}
     <div class="brsw-form brsw-button-row brsw-form-options">
         {{# each swade_templates }}
-            <button class="brsw-template-button py-1 px-5 mr-1 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" data-size="{{ this }}"><i class="fas fa-ruler-combined"></i> {{ this }}</button>
+            <button class="brsw-template-button py-0.5 px-5 mr-1 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" data-size="{{ this }}"><i class="fas fa-ruler-combined"></i> {{ this }}</button>
         {{/each}}
     </div>
 {{/if}}
@@ -54,10 +56,10 @@
     <div class="brsw-form brsw-button-row brsw-form-options pt-2">
         {{ localize 'BRSW.Damage' }}
         <span>
-            <button id="roll-damage" class="brsw-damage-button brsw-form py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.Damage' }}" draggable="true">
+            <button id="roll-damage" class="brsw-damage-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.Damage' }}" draggable="true">
                 <i class="fas fa-dice"></i>
             </button>
-            <button id="roll-raise-damage" class="brsw-damage-button brsw-form py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.RaiseDamage' }}" draggable="true">
+            <button id="roll-raise-damage" class="brsw-damage-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.RaiseDamage' }}" draggable="true">
                 <i class="fas fa-plus"></i><i class="fas fa-dice-six"></i>
             </button>
         </span>

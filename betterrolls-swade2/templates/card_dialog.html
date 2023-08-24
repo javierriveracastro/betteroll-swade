@@ -31,13 +31,13 @@
     </div>
     <div class="flex p-1">
         <button type="button" id="brsw-save-button"
-                class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+                class="py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
             Set
         </button>
-        {{# unless BrCard.trait_roll.is_rolled }}<button type="button" id="brsw-dialog-roll" class="py-1 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
-            <i class="fas fa-dice"></i> Roll
+        {{# unless BrCard.trait_roll.is_rolled }}<button type="button" id="brsw-dialog-roll" class="py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+            <i class="fas fa-dice"></i> {{ localize 'BRSW.Roll' }}
         </button>{{/unless}}
-        <button type="button" class="brsw-cancel focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-1 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
+        <button type="button" class="brsw-cancel focus:outline-none focus:ring-4 font-medium rounded-lg px-5 py-0.5 mr-2 mb-2 bg-red-600 hover:bg-red-700 focus:ring-red-900">
             <i class="fas fa-times"></i> Cancel
         </button>
     </div>
