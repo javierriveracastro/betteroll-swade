@@ -1051,21 +1051,6 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             roll_options.modifiers.push(modifier);
         })
     }
-    // Action mods
-    if (br_card.type ===
-        BRSW_CONST.TYPE_ITEM_CARD) {
-        if (br_card.item.system.actions.skillMod) {
-            let modifier_value = 0
-            if (isNaN(br_card.item.system.actions.skillMod)) {
-                const temp_roll = new Roll(br_card.item.system.actions.skillMod)
-                modifier_value = (await temp_roll.evaluate()).total
-            } else {
-                modifier_value = parseInt(br_card.item.system.actions.skillMod)
-            }
-            let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
-            roll_options.modifiers.push(new_mod)
-        }
-    }
     // Options set from card
     if (extra_data.modifiers) {
         extra_data.modifiers.forEach(modifier => {

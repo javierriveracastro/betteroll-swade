@@ -984,13 +984,6 @@ export async function roll_dmg(message, html, expend_bennie, default_options, ra
     }
     let damage_roll = {label: '---', brswroll: new BRWSRoll(), raise:raise};
     get_chat_dmg_modifiers(options, damage_roll);
-    // Action mods
-    if (item.system.actions.dmgMod) {
-        // noinspection JSUnresolvedVariable
-        const new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"),
-            item.system.actions.dmgMod)
-        damage_roll.brswroll.modifiers.push(new_mod);
-    }
     joker_modifiers(message, actor, damage_roll);
     // Global modifiers
     if (actor.system.stats?.globalMods?.damage?.length > 0) {
