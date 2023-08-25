@@ -198,12 +198,20 @@
   border-width: 1px
 }
 
+.border-0 {
+  border-width: 0px
+}
+
 .border-b {
   border-bottom-width: 1px
 }
 
 .border-b-0 {
   border-bottom-width: 0px
+}
+
+.border-solid {
+  border-style: solid
 }
 
 .border-none {
@@ -223,6 +231,11 @@
 .border-slate-400 {
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity))
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity))
 }
 
 .bg-gray-500 {
@@ -309,11 +322,6 @@
 .py-0\.5 {
   padding-top: 0.125rem;
   padding-bottom: 0.125rem
-}
-
-.py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem
 }
 
 .py-2 {
