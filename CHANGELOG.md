@@ -1,3 +1,15 @@
+# Version 3.42 aka System wait there...
+* Feature: Added a setting to use the system injury table. Note that this enables you to use any table as you can configure it in system. Also note that this will not give actors active effects for the injury
+* Bugfix: Ordering of active actions is working now.
+* Code: Lots of cleans, starting using prettier with default options to forget about code style.
+* Feature: Range modifiers are updated when targets are changed.
+* Feature: When there is no token targeted, and you roll damage, if the trait roll has a target BR will use it.
+* Manifest: Add Swade Tools as a conflict in the manifest.
+* Compatibility: Add compatibility with Swade 3.1.x
+* Actions: Update cover actions, so they also show on powers (Bruno Calado)
+* Feature: Add support for the new flags on SWADE 3.1 (ambidextrous, hardy and ignoreBleedOut)
+* Actions: Are add actions to expend extra power points when using a power (Bruno Calado but he probably still doesn't know)
+
 # Version 3.41 aka ejem...
 * Bugfix: Check that extreme range is true to avoid triggering it when range is not calculable.
 
