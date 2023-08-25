@@ -1,4 +1,5 @@
 import { COMBAT_OPTIONS } from "./combat_options.js";
+import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
 
 export const SYSTEM_GLOBAL_ACTION = [
   {
@@ -587,4 +588,6 @@ export const SYSTEM_GLOBAL_ACTION = [
     defaultChecked: "on",
     group: "BRSW.Target",
   },
-].concat(COMBAT_OPTIONS);
+]
+  .concat(COMBAT_OPTIONS)
+  .concat(POWER_POINT_OPTIONS);

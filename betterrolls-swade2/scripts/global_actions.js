@@ -330,9 +330,9 @@ function check_selector(type, value, item, actor) {
   } else if (type === "target_has_effect") {
     selected = false;
     for (const targeted_token of game.user.targets) {
-      const effect = targeted_token.actor?.effects.find((ef) =>
-        ef.name.toLowerCase().includes(value.toLowerCase()),
-      ); // jshint ignore:line
+      const effect = targeted_token.actor?.effects.find(
+        (ef) => ef.name.toLowerCase().includes(value.toLowerCase()), // jshint ignore:line
+      );
       if (effect) {
         selected = selected || effect ? !effect.disabled : false;
       }
