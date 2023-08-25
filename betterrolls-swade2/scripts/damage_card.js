@@ -116,11 +116,12 @@ async function apply_damage(token_or_token_id, wounds, soaked=0) {
     let text = ''
     if (wounds < 1 && initial_shaken) {
         // Shaken twice
-        if (token.actor.items.find(item => {
+        const has_hardy = (token.actor.items.find(item => {
             return item.name.toLowerCase().includes(
                 game.i18n.localize("BRSW.HardyIdentifier")) &&
                 (item.type === "edge" || item.type === 'ability');
-            })) {
+            }))
+        if (has_hardy || token.actor.getFlag('swade', 'hardy')) {
             text += game.i18n.localize("BRSW.HardyActivated");
             damage_wounds = 0
         } else {

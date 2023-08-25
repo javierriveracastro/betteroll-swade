@@ -1,5 +1,5 @@
 // functions for the incapacitation card
-/* globals canvas, game, CONST, Roll, Hooks, succ, fromUuid */
+/* globals canvas, game, CONST, Roll, Hooks, succ, fromUuid, console */
 
 import {
     BrCommonCard,
@@ -147,7 +147,11 @@ async function roll_incapacitation(br_card, spend_benny) {
             await succ.apply_status(br_card.token, "incapacitated", true, false) //add it as regular (small) icon
         }
         // noinspection ES6MissingAwait
-        succ.apply_status(br_card.token, "bleeding-out", true, true) //make bleeding out overlay
+        const ignoreBleedOut = game.settings.get('swade', 'heroesNeverDie') || br_card.actor.getFlag('swade', 'ignoreBleedOut');
+        if (!ignoreBleedOut) {
+            succ.apply_status(br_card.token, "bleeding-out", true, true).catch(
+                () => {console.log("Error while applying bleeding out")}) //make bleeding out overlay
+        }
     } else if (result < 8) {
         br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury")
         br_card.render_data.injury_type = "temporal-wounds"
@@ -197,16 +201,14 @@ export async function create_injury_card(token_id, reason) {
     // Check for another roll
     let second_roll = new Roll("1d6");
     for (let table in SECOND_INJURY_TABLES) {
-        if (SECOND_INJURY_TABLES.hasOwnProperty(table)) {
-            if (first_result === table) {
-                second_roll.evaluate({async:false});
-                if (game.dice3d) {
-                    // noinspection ES6MissingAwait
-                    await game.dice3d.showForRoll(second_roll, game.user, true);
-                }
-                second_result = read_table(SECOND_INJURY_TABLES[table],
-                    parseInt(second_roll.result));
+        if (SECOND_INJURY_TABLES.hasOwnProperty(table) && first_result === table) {
+            second_roll.evaluate({async: false});
+            if (game.dice3d) {
+                // noinspection ES6MissingAwait
+                await game.dice3d.showForRoll(second_roll, game.user, true);
             }
+            second_result = read_table(SECOND_INJURY_TABLES[table],
+                parseInt(second_roll.result));
         }
     }
     const active_effect_index = `${first_result}+${second_result}`;
@@ -246,10 +248,8 @@ export async function create_injury_card(token_id, reason) {
 function read_table(table, value) {
     let result;
     for (let index in table) {
-        if (table.hasOwnProperty(index)) {
-            if (parseInt(index) <= value) {
-                result = table[index];
-            }
+        if (table.hasOwnProperty(index) && parseInt(index) <= value) {
+              result = table[index];
         }
     }
     return result;
