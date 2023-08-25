@@ -31,6 +31,7 @@ import {
 } from "./gm_modifiers.js";
 import {create_unshaken_wrapper, create_unstun_wrapper} from "./combat.js";
 import {ModifierSettingsConfiguration, changeNames} from "./chat_modifers_names.js";
+import {setup_dialog} from "./card-dialog.js";
 
 // Startup scripts
 
@@ -62,7 +63,8 @@ Hooks.on(`ready`, () => {
         'modules/betterrolls-swade2/templates/trait_roll_partial.html',
         'modules/betterrolls-swade2/templates/trait_result_partial.html',
         'modules/betterrolls-swade2/templates/damage_partial.html',
-        'modules/betterrolls-swade2/templates/actions_partial.html'];
+        'modules/betterrolls-swade2/templates/actions_partial.html',
+        'modules/betterrolls-swade2/templates/card_dialog.html',];
     loadTemplates(templatePaths).then(() => {
         console.log("Better Rolls templates preloaded")
     });
@@ -98,6 +100,7 @@ Hooks.on(`ready`, () => {
     }
     changeNames() // Change the names of the modifiers
     compatibility_warnings()
+    setup_dialog()
     // Remove the first hook from the hotbarDrop, hoping it is the system's
     const system_event = Hooks.events.hotbarDrop.find(ev => ev.fn.name === 'onHotbarDrop')
     Hooks.off('hotbarDrop', system_event.fn)

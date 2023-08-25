@@ -55,7 +55,7 @@
   "BRSW.ChatFormTittle": "Modifiers for Better Rolls",
   "BRSW.TraitModifier": "Trait roll modifier",
   "BRSW.DmgModifier": "Damage roll modifier",
-  "BRSW.ManualAmmo": "Reload/Manual ammo",
+  "BRSW.ManualAmmo": "Reload",
   "BRSW.BennieFrontName": "Custom Benny front image",
   "BRSW.BenniFrontHint": "Path to the image to be shown on the Benny front (World)",
   "BRSW.BackBennieName": "Custom Benny back image",

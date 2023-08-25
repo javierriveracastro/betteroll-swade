@@ -1,25 +1,32 @@
-<div id="brc-{{ id }}" class="brsw-header">
-    {{# if warning }}
-        <div class="brsw-warning">
-            {{{ warning }}}
-        </div>
-    {{/if}}
-    <img class="brws-actor-img brsw-clickable" src="{{{actor.img}}}">
-    <span class="brsw-header-type-text">
-        {{header.type}}
-    </span>
-    <div class="brsw-header-tittle">
-        {{# if header.img }}
-            <img class="brsw-header-img brsw-clickable" src="{{{header.img}}}">
-        {{/if}}
-        <span class="brsw-header-txt">
-            {{header.title}}
-            <i class="brsw-repeat-card fas fa-redo brsw-clickable"></i>
+<div id="brc-{{ id }}" class="flex flex-row mb-1">
+    <div>
+        <img class="brws-actor-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{actor.img}}}">
+    </div>
+    <div class="flex-grow text-center align-middle text-lg relative overflow-scroll hover:overflow-visible">
+        <span class="group">
+            {{header.title}}<i class="brsw-repeat-card fas fa-redo hover:ring-2 hover:ring-offset-1 hover:cursor-pointer"></i>
+            {{# if description}}
+                <div id="tooltip-description" role="tooltip"
+                     class="w-52 collapse h-0 absolute group-hover:visible group-hover:h-auto px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm">
+                    {{{ description }}}
+                </div>
+            {{/if}}
         </span>
     </div>
-    {{# if extra_text }}
-        <div class="brsw-extra-text">
-            {{{extra_text}}}
-        </div>
-    {{/if}}
+    <div>
+        {{# if header.img }}
+            <img class="brsw-header-img w-8 h-8 rounded hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" src="{{{header.img}}}"
+                alt="Item image">
+        {{/if}}
+    </div>
 </div>
+{{# if warning }}
+    <div class="m-1 p-1 pl-4 pr-4 text-sm text-red-400 rounded-lg bg-gray-800">
+        {{{ warning }}}
+    </div>
+{{/if}}
+{{# if extra_text }}
+    <div class="m-1 p-1 pl-4 pr-4 text-sm text-gray-300 rounded-lg bg-gray-800">
+        {{{extra_text}}}
+    </div>
+{{/if}}

@@ -311,6 +311,16 @@ export class BrCommonCard {
     }
   }
 
+  set_active_actions(actions) {
+    console.log(actions);
+    for (let group in this.action_groups) {
+      for (let action of this.action_groups[group].actions) {
+        console.log(action);
+        action.selected = actions.includes(action.code.id);
+      }
+    }
+  }
+
   /**
    * Creates an object to store some data in the old render_data flag.
    * @param render_data
@@ -431,6 +441,7 @@ export class BrCommonCard {
     data.item = this.item;
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;
+    data.selected_actions = this.get_selected_actions();
     return data;
   }
 
@@ -652,6 +663,11 @@ export function activate_common_listeners(br_card, html) {
       create_unstun_card(br_card.message, undefined);
     });
   }
+  html.find(".brsw-selected-actions").on("click", async (ev) => {
+    console.log(ev.currentTarget.dataset);
+    console.log(ev.currentTarget);
+    game.brsw.dialog.show_card(br_card);
+  });
   // Selectable modifiers
   // noinspection JSUnresolvedFunction
   html

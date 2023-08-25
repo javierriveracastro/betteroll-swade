@@ -1,5 +1,6 @@
 .idea/
 notas.txt
+node_modules/**
 betterrolls-swade2/.vscode/launch.json
 /node_modules/.bin/cssesc
 /node_modules/.bin/jiti

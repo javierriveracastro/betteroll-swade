@@ -1,0 +1,72 @@
+// A dialog to manage br cards
+/* global game, console, renderTemplate */
+
+export function setup_dialog() {
+    let dialog_element = document.createElement('dialog')
+    dialog_element.setAttribute('id', 'br-card-dialog')
+    dialog_element.classList.add('bg-gray-700')
+    document.body.insertAdjacentElement('beforeend', dialog_element)
+    game.brsw.dialog = new BrCardDialog()
+}
+
+class BrCardDialog {
+
+    constructor() {
+        this.BrCard = null
+    }
+
+    get dialog_element() {
+        return document.getElementById('br-card-dialog')
+    }
+
+    show_card(br_card) {
+        this.BrCard = br_card
+        this.render().catch((err) => {console.log("Error rendering dialog", err)})
+        this.dialog_element.showModal()
+    }
+
+    async render() {
+        this.dialog_element.innerHTML = await renderTemplate(
+            'modules/betterrolls-swade2/templates/card_dialog.html', {BrCard: this.BrCard});
+        this.bind_events()
+    }
+
+    bind_events() {
+        for (let button of document.querySelectorAll('#br-card-dialog .brsw-cancel')) {
+            button.addEventListener('click', this.close_card.bind(this))
+        }
+        for (let button of document.querySelectorAll('.brsw-action-button')) {
+            button.addEventListener('click', this.action_button)
+        }
+        document.getElementById('brsw-save-button').addEventListener('click', this.save_actions.bind(this))
+        document.getElementById('brsw-dialog-roll').addEventListener('click', this.roll_button.bind(this))
+    }
+
+    action_button(event) {
+        event.currentTarget.classList.toggle('bg-red-700')
+    }
+
+    close_card() {
+        this.BrCard = null
+        this.dialog_element.inner_html = ''
+        this.dialog_element.close()
+    }
+
+    async save_actions() {
+        const enabled_actions = []
+        for (let button of document.querySelectorAll('.brsw-action-button.bg-red-700')) {
+            enabled_actions.push(button.dataset.actionId)
+        }
+        this.BrCard.set_active_actions(enabled_actions)
+        await this.BrCard.render()
+        await this.BrCard.save()
+        this.close_card()
+    }
+
+    roll_button() {
+        const card = document.getElementById(`brc-${this.BrCard.id}`).parentElement
+        const roll_button = card.querySelector('.brsw-roll-button')
+        this.save_actions().catch((err) => {console.log("Error saving actions", err)})
+        roll_button.click()
+    }
+}

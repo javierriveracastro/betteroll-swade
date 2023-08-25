@@ -11,22 +11,6 @@
 
 /* Styles for the card header */
 
-.brws-actor-img {
-    float: left;
-    height: 1.5em;
-}
-
-.brsw-header {
-    margin-bottom: .5em;
-}
-
-.brsw-header-tittle {
-    text-align: center;
-    width: 100%;
-    color: darkred;
-    font-weight: bold;
-}
-
 .brsw-header-type-text {
     float: right;
     color: darkgray;
@@ -42,15 +26,6 @@
     margin: 2px;
 }
 
-.brsw-header-img {
-    height: 1.5em;
-}
-
-.brsw-header-txt {
-    line-height: 1.5em;
-    vertical-align: top;
-}
-
 .brsw-collapse-button.brsw-clickable {
     margin-bottom: 3px;
 }
@@ -63,38 +38,7 @@
     font-size: 70%;
 }
 
-.brsw-warning {
-    font-size: large;
-    text-align: center;
-    font-weight: bold;
-    background: red;
-    color: white;
-    margin: 5px;
-    border-radius: 5px;
-}
-
-.brsw-extra-text {
-    color: gray;
-    margin: 3px;
-    border: 1px solid gray;
-    border-radius: 5px;
-}
 /* Styles for the card body */
-
-.brsw-false-button {
-    display: inline-block;
-    font-size: 12px;
-    height: 24px;
-    line-height: 20px;
-    margin: 7px 1px;
-    width: 100%;
-    background: rgba(255, 255, 240, 0.8) none repeat scroll 0 0;
-    border: 1px solid rgb(181, 179, 164);
-    border-radius: 3px;
-    font-family: "Signika", sans-serif;
-    text-align: center;
-    padding: 1px
-}
 
 .brws-attribute-buttons {
     clear: both;
@@ -320,7 +264,7 @@
 }
 
 .brsw-damage-button {
-    width: 4em;
+    width: 5.5em;
 }
 
 .brsw-damage-roll {
@@ -383,4 +327,14 @@
 
 .brsw-tab-content{
     height: 8em;
+}
+
+#br-card-dialog {
+    width: 35%;
+    margin-left: 63%;
+    margin-right: 2%;
+    padding: 3px;
+    background: url("/ui/parchment.jpg") repeat;
+    border: 3px solid #6f6c66;
+    border-radius: 5px;
 }

@@ -1,12 +1,11 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
-<div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-skill-description">
-    <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Description' }}
-</div>
 {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
 <div class="brsw-form">
     {{# unless trait_roll.is_rolled }}
         <div class="brsw-button-row">
-            <button class="brsw-roll-button brsw-form">{{ localize 'BRSW.Roll' }}</button>
+            <button class="brsw-roll-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+                <i class="fas fa-dice"></i> {{ localize 'BRSW.Roll' }}
+            </button>
         </div>
     {{/unless}}
 </div>

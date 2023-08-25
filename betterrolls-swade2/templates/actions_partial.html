@@ -1,17 +1,11 @@
 {{# if action_groups }}
-    <div class="brsw-form">
-        {{# each sorted_action_groups }}
-            <div class="brsw-collapse-button brsw-clickable" data-collapse="brsw-actions-{{ this.id }}">
-                <i class="fas {{# if this.collapsed}}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ this.name }}
-            </div>
-            <div class="brsw-actions-{{ this.id }} {{# if this.collapsed}}brsw-collapsed{{/if}}">
-                {{# each this.actions }}
-                    <span class="brws-selectable brsw-clickable brsw-action {{# if this.selected }}brws-selected brws-permanent-selected{{/if}}"
-                            data-action_id="{{ this.code.name }}">
-                        {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}{{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}} {{ this.name }}
-                    </span>
-                {{/each}}
-            </div>
-        {{/each}}
+    <div class="brsw-selected-actions my-2 block p-1 bg-gray-500 border border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" data-card-id="{{ id }}">
+        {{# if this.selected_actions }}
+            {{# each this.selected_actions }}
+                <span class="bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded">{{ this.name }}</span>
+            {{/each}}
+        {{else}}
+            No actions selected
+        {{/if}}
     </div>
 {{/if}}
