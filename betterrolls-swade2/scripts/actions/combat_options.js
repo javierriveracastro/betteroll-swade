@@ -17,14 +17,69 @@ export const COMBAT_OPTIONS = [
         {id: "CS-LEG", name:"Called Shot: Leg", button_name: "BRSW.CalledLeg", skillMod: -2,
                 selector_type: "item_type", selector_value: "weapon", group: "BRSW.AttackOption",
                 change_location: "leg"},
-        {id: "1-LightCover", name: "Light Cover", button_name: "BRSW.LightCover", skillMod: "-2",
-                selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
-        {id: "2-MediumCover", name: "Medium Cover", button_name: "BRSW.MediumCover",
-                skillMod: "-4", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
-        {id: "3-HeavyCover", name: "Heavy Cover", button_name: "BRSW.HeavyCover", skillMod: "-6",
-                selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
-        {id: "4-NearTotalCover", name: "Near Total Cover", button_name: "BRSW.NearTotalCover",
-                skillMod: "-8", selector_type: "item_type", selector_value: "weapon", group: "BRSW.Cover"},
+
+  {
+    id: "1-LightCover",
+    name: "Light Cover",
+    button_name: "Light",
+    skillMod: "-2",
+    or_selector: [{
+        selector_type: "item_type",
+        selector_value: "power"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      }
+    ],    
+    group: "BRSW.Cover"
+  }, {
+    id: "2-MediumCover",
+    name: "Medium Cover",
+    button_name: "Medium",
+    skillMod: "-4",
+    or_selector: [{
+        selector_type: "item_type",
+        selector_value: "power"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      }
+    ], 
+    group: "BRSW.Cover"
+  }, {
+    id: "3-HeavyCover",
+    name: "Heavy Cover",
+    button_name: "Heavy",
+    skillMod: "-6",
+    or_selector: [{
+        selector_type: "item_type",
+        selector_value: "power"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      }
+    ], 
+    group: "BRSW.Cover"
+  }, {
+    id: "4-NearTotalCover",
+    name: "Near Total Cover",
+    button_name: "NearTotal",
+    skillMod: "-8",
+    or_selector: [{
+        selector_type: "item_type",
+        selector_value: "power"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      }
+    ], 
+    group: "BRSW.Cover"
+  },
+        
         {id: "1LDimGm", name: "Dim", button_name: "BRSW.IlluminationDim", skillMod: "-2", selector_type: "gm_action", group: "BRSW.IlluminationGM"},
         {id: "2LDarkGm", name: "Dark", button_name: "BRSW.IlluminationDark", skillMod: "-4", selector_type: "gm_action", group: "BRSW.IlluminationGM"},
         {id: "3LPitchGm", name: "Pitch Dark", button_name: "BRSW.IlluminationPitch", skillMod: "-6",
