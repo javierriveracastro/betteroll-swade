@@ -314,7 +314,7 @@ export class BrCommonCard {
             render_data.warning = `<span class="br2-unstun-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsStunned")}</span>`
         } else if (this.actor.system.status.isShaken) {
             render_data.warning = `<span class="br2-unshake-card brsw-clickable">${game.i18n.localize("BRSW.CharacterIsShaken")}</span>`
-        } else if (this.item?.system.actions?.skill.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
+        } else if (this.item?.system.actions?.trait.toLowerCase() === game.i18n.localize("BRSW.none").toLowerCase()) {
             render_data.warning = game.i18n.localize("BRSW.NoRollRequired")
         } else if (this.item?.system.quantity <= 0) {
             render_data.warning = game.i18n.localize("BRSW.QuantityIsZero")
@@ -1051,21 +1051,6 @@ async function get_new_roll_options(br_card, extra_data, html, trait_dice, roll_
             roll_options.modifiers.push(modifier);
         })
     }
-    // Action mods
-    if (br_card.type ===
-        BRSW_CONST.TYPE_ITEM_CARD) {
-        if (br_card.item.system.actions.skillMod) {
-            let modifier_value = 0
-            if (isNaN(br_card.item.system.actions.skillMod)) {
-                const temp_roll = new Roll(br_card.item.system.actions.skillMod)
-                modifier_value = (await temp_roll.evaluate()).total
-            } else {
-                modifier_value = parseInt(br_card.item.system.actions.skillMod)
-            }
-            let new_mod = create_modifier(game.i18n.localize("BRSW.ItemMod"), modifier_value)
-            roll_options.modifiers.push(new_mod)
-        }
-    }
     // Options set from card
     if (extra_data.modifiers) {
         extra_data.modifiers.forEach(modifier => {
@@ -1499,6 +1484,9 @@ export function process_common_actions(action, extra_data, macros, actor) {
     }
     if (action.rof) {
         extra_data.rof = action.rof;
+    }
+    if (action.dice) {
+        extra_data.rof = action.dice;
     }
     if (action.tnOverride) {
         extra_data.tn = action.tnOverride
