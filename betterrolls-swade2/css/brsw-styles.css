@@ -5,27 +5,6 @@
     box-shadow: 0 0 8px red;
 }
 
-.brsw-display-none {
-    display: none;
-}
-
-/* Styles for the card header */
-
-.brsw-header-type-text {
-    float: right;
-    color: darkgray;
-}
-
-.brsw-popup{
-    color: black;
-}
-
-.brsw-header-notes {
-    text-align: right;
-    width: 100%;
-    margin: 2px;
-}
-
 .brsw-collapse-button.brsw-clickable {
     margin-bottom: 3px;
 }
@@ -39,11 +18,6 @@
 }
 
 /* Styles for the card body */
-
-.brws-attribute-buttons {
-    clear: both;
-    margin: 1px;
-}
 
 .brws-common-modifiers {
     margin-bottom: 5px;
@@ -83,18 +57,6 @@
     color: white;
 }
 
-.brsw-modifier {
-    padding: 1px;
-    margin: 2px;
-    border: 1px solid red;
-    border-radius: 5px;
-    font-size: 12px;
-}
-
-.brsw-modifier.brsw-positive {
-    border-color: blue;
-}
-
 .brsw-collapsed {
     display: none !important;
 }
@@ -119,10 +81,6 @@
     display: flex;
 }
 
-.brsw-button-smaller {
-    max-width: 40%;
-}
-
 /* Styles for the footer */
 
 .card-footer {
@@ -139,23 +97,6 @@
 .card-footer span:last-child {
     border-right: 0;
     padding-right: 0;
-}
-
-/* Styles for the result card */
-
-.brsw-result-row {
-    text-align: center;
-}
-
-.brsw-bar-input {
-    max-width: 2em;
-}
-
-.brsw-result-text {
-    margin: 2px;
-    text-align: center;
-    border-style: solid;
-    border-radius: 5px;
 }
 
 /* Styles for the critical failure card */
@@ -258,10 +199,6 @@
 }
 
 /* Damage buttons */
-
-.brsw-damage-buttons-box {
-    flex-grow: 3;
-}
 
 .brsw-damage-button {
     width: 5.5em;
