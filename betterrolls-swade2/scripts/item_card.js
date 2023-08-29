@@ -201,12 +201,10 @@ async function create_item_card(origin, item_id, collapse_actions) {
  */
 function create_item_card_from_id(token_id, actor_id, skill_id) {
   let origin;
-  if (canvas) {
-    if (token_id) {
-      let token = canvas.tokens.get(token_id);
-      if (token) {
-        origin = token;
-      }
+  if (canvas && token_id) {
+    let token = canvas.tokens.get(token_id);
+    if (token) {
+      origin = token;
     }
   }
   if (!origin && actor_id) {
@@ -320,7 +318,7 @@ function drag_start_handle(ev) {
  * @param html Html code
  */
 export function activate_item_listeners(app, html) {
-  let target = app.token ? app.token : app.object;
+  let target = app.token || app.object;
   const item_images = html.find(
     ".item-image, .item-img, .name.item-show, span.item>.item-control.item-edit," +
       " .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4," +
@@ -418,7 +416,7 @@ export function activate_item_card_listeners(br_card, html) {
     item.reload();
   });
   html.find(".brsw-pp-manual").click(() => {
-    manual_pp(actor, item).catch((err) => {
+    manual_pp(actor, item).catch(() => {
       console.log("Error in manual PP management");
     });
   });
@@ -785,7 +783,8 @@ export async function run_macros(
         const message = br_card.message;
         // Attempt script execution
         const body = `(async () => {${real_macro.command}})()`;
-        const fn = Function(
+        // prettier-ignore
+        const fn = Function( // jshint ignore:line
           "speaker",
           "actor",
           "token",
@@ -795,7 +794,7 @@ export async function run_macros(
           "targets",
           "br_card",
           body,
-        ); // jshint ignore:line
+        );
         try {
           fn.call(
             this,
@@ -1760,7 +1759,7 @@ function get_template_from_item(item) {
       }
       if (
         item.system?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
-        item.system?.range?.toLowerCase().includes(translated_key_text)
+        item.system?.range?.toLowerCase().includes(translated_key_text) // jshint ignore:line
       ) {
         // jshint ignore:line
         if (!templates_found.includes(template_key)) {
