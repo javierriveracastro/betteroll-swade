@@ -315,7 +315,6 @@ export class BrCommonCard {
     console.log(actions);
     for (let group in this.action_groups) {
       for (let action of this.action_groups[group].actions) {
-        console.log(action);
         action.selected = actions.includes(action.code.id);
       }
     }
@@ -1726,6 +1725,9 @@ export function process_common_actions(action, extra_data, macros, actor) {
   }
   if (action.runSkillMacro) {
     macros.push(action.runSkillMacro);
+  }
+  if (action.type === "macro") {
+    macros.push(action.uuid);
   }
   if (action.add_wild_die) {
     extra_data.add_wild_die = true;
