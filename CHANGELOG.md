@@ -1,3 +1,8 @@
+# Version 3.43 aka Sexy Girl...
+* Manifest: Update verified Foundry version to 11.308
+* Feature: Remove the tokenbar redraw feature as it is likely not used.
+* Cards: Part 1 of the redesign projects gets life. Either enjoy or hate it.
+
 # Version 3.42 aka System wait there...
 * Feature: Added a setting to use the system injury table. Note that this enables you to use any table as you can configure it in system. Also note that this will not give actors active effects for the injury
 * Bugfix: Ordering of active actions is working now.
