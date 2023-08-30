@@ -59,7 +59,7 @@ export const COMBAT_OPTIONS = [
   {
     id: "1-LightCover",
     name: "Light Cover",
-    button_name: "Light",
+    button_name: "BRSW.LightCover",
     skillMod: "-2",
     or_selector: [
       {
@@ -76,7 +76,7 @@ export const COMBAT_OPTIONS = [
   {
     id: "2-MediumCover",
     name: "Medium Cover",
-    button_name: "Medium",
+    button_name: "BRSW.MediumCover",
     skillMod: "-4",
     or_selector: [
       {
@@ -93,7 +93,7 @@ export const COMBAT_OPTIONS = [
   {
     id: "3-HeavyCover",
     name: "Heavy Cover",
-    button_name: "Heavy",
+    button_name: "BRSW.HeavyCover",
     skillMod: "-6",
     or_selector: [
       {
@@ -110,7 +110,7 @@ export const COMBAT_OPTIONS = [
   {
     id: "4-NearTotalCover",
     name: "Near Total Cover",
-    button_name: "NearTotal",
+    button_name: "BRSW.NearTotalCover",
     skillMod: "-8",
     or_selector: [
       {
