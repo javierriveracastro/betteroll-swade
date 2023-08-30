@@ -878,16 +878,10 @@ export function get_action_from_click(event) {
   // noinspection JSUnresolvedVariable
   if (event.shiftKey) {
     setting_name = "shift_click";
-  } else {
-    // noinspection JSUnresolvedVariable
-    if (event.ctrlKey) {
-      setting_name = "ctrl_click";
-    } else {
-      // noinspection JSUnresolvedVariable
-      if (event.altKey) {
-        setting_name = "alt_click";
-      }
-    }
+  } else if (event.ctrlKey) {
+    setting_name = "ctrl_click";
+  } else if (event.altKey) {
+    setting_name = "alt_click";
   }
   return game.settings.get("betterrolls-swade2", setting_name);
 }
@@ -957,11 +951,12 @@ export async function detect_fumble(remove_die, fumble_possible, result, dice) {
     if (test_fumble_roll.total === 1) {
       return true; // Fumble mark
     }
-  } else if (remove_die && fumble_possible < 0) {
-    // It is only a fumble if the Wild Die is 1
-    if (dice[dice.length - 1].raw_total === 1) {
-      return true; // Fumble mark
-    }
+  } else if (
+    remove_die &&
+    fumble_possible < 0 &&
+    dice[dice.length - 1].raw_total === 1
+  ) {
+    return true;
   }
   return false;
 }
@@ -1437,18 +1432,17 @@ async function old_roll_clicked(event, br_card) {
     index += 1;
   }
   br_card.trait_roll.selected_roll_index = index;
-  if (br_card.item) {
-    if (
-      !isNaN(parseInt(br_card.item.system.pp)) &&
-      br_card.render_data.used_pp
-    ) {
-      br_card.render_data.used_pp = await discount_pp(
-        br_card,
-        0,
-        br_card.render_data.used_pp,
-        0,
-      );
-    }
+  if (
+    br_card.item &&
+    !isNaN(parseInt(br_card.item.system.pp)) &&
+    br_card.render_data.used_pp
+  ) {
+    br_card.render_data.used_pp = await discount_pp(
+      br_card,
+      0,
+      br_card.render_data.used_pp,
+      0,
+    );
   }
   await br_card.render();
   br_card
