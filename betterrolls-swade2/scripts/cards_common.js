@@ -1226,19 +1226,16 @@ async function get_new_roll_options(
     roll_options.modifiers.push(create_modifier("Joker", 2));
   }
   // Encumbrance
-  const render_data = br_card.message.getFlag(
-    "betterrolls-swade2",
-    "render_data",
-  );
-  if (br_card.actor.isEncumbered) {
-    if (render_data.attribute_name === "agility") {
-      roll_options.modifiers.push({
-        name: game.i18n.localize("SWADE.Encumbered"),
-        value: -2,
-      });
-    } else {
-      const skill = br_card.actor.items.get(render_data.trait_id);
-      if (skill && skill.system.attribute === "agility") {
+  const npc_avoid_encumbrance =
+    game.settings
+      .get("betterrolls-swade2", "optional_rules_enabled")
+      .indexOf("NPCDontUseEncumbrance") > -1;
+  if (br_card.actor.type === "character" || !npc_avoid_encumbrance) {
+    if (br_card.actor.isEncumbered) {
+      if (
+        br_card.attribute_name === "agility" ||
+        br_card.skill?.system.attribute === "agility"
+      ) {
         roll_options.modifiers.push({
           name: game.i18n.localize("SWADE.Encumbered"),
           value: -2,
