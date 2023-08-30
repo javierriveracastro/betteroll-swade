@@ -290,9 +290,13 @@ export class BrCommonCard {
     let item_actions = [];
     for (let action in this.item.system?.actions?.additional) {
       if (this.item.system.actions.additional.hasOwnProperty(action)) {
+        const code = JSON.parse(
+          JSON.stringify(this.item.system.actions.additional[action]),
+        );
+        code.id = broofa();
         let br_action = new brAction(
           this.item.system.actions.additional[action].name,
-          this.item.system.actions.additional[action],
+          code,
         );
         item_actions.push(br_action);
       }
@@ -312,7 +316,6 @@ export class BrCommonCard {
   }
 
   set_active_actions(actions) {
-    console.log(actions);
     for (let group in this.action_groups) {
       for (let action of this.action_groups[group].actions) {
         action.selected = actions.includes(action.code.id);
