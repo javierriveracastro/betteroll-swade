@@ -1,3 +1,6 @@
+# Version 3.44 aka ... buggy Girl
+* Bugfix: Item actions should be working again.
+
 # Version 3.43 aka Sexy Girl...
 * Manifest: Update verified Foundry version to 11.308
 * Feature: Remove the tokenbar redraw feature as it is likely not used.
