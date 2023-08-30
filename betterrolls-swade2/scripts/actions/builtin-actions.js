@@ -1,17 +1,8 @@
 import { COMBAT_OPTIONS } from "./combat_options.js";
 import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
+import { BACKGROUND_EDGES } from "./background_edges.js";
 
 export const SYSTEM_GLOBAL_ACTION = [
-  {
-    id: "ELAN",
-    name: "Elan Edge",
-    button_name: "BRSW.EdgeName-Elan",
-    rerollSkillMod: "+2",
-    selector_type: "actor_has_edge",
-    selector_value: "BRSW.EdgeName-Elan",
-    defaultChecked: "on",
-    group: "BRSW.Edges",
-  },
   {
     id: "NO_MERCY",
     name: "No Mercy Edge",
@@ -72,21 +63,6 @@ export const SYSTEM_GLOBAL_ACTION = [
       },
       { selector_type: "skill", selector_value: "BRSW.Shooting" },
     ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "ALERTNESS",
-    name: "Alertness",
-    button_name: "BRSW.EdgeName-Alertness",
-    skillMod: "+2",
-    and_selector: [
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Alertness",
-      },
-      { selector_type: "skill", selector_value: "Notice" },
-    ],
-    defaultChecked: "on",
     group: "BRSW.Edges",
   },
   {
@@ -331,122 +307,6 @@ export const SYSTEM_GLOBAL_ACTION = [
     group: "BRSW.Hindrances",
   },
   {
-    id: "Aristocrat",
-    name: "Aristocrat",
-    button_name: "BRSW.EdgeName-Aristocrat",
-    skillMod: "+2",
-    and_selector: [
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Aristocrat",
-      },
-      {
-        or_selector: [
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-Performance",
-          },
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-CommonKnowledge",
-          },
-        ],
-      },
-    ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "Attractive",
-    name: "Attractive",
-    button_name: "BRSW.EdgeName-Attractive",
-    skillMod: "+1",
-    and_selector: [
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Attractive",
-      },
-      {
-        or_selector: [
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-Performance",
-          },
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-Persuasion",
-          },
-        ],
-      },
-      {
-        not_selector: [
-          {
-            selector_type: "actor_has_edge",
-            selector_value: "BRSW.EdgeName-VeryAttractive",
-          },
-        ],
-      },
-    ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "Very Attractive",
-    name: "Very Attractive",
-    button_name: "BRSW.EdgeName-VeryAttractive",
-    skillMod: "+2",
-    and_selector: [
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-VeryAttractive",
-      },
-      {
-        or_selector: [
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-Performance",
-          },
-          {
-            selector_type: "skill",
-            selector_value: "BRSW.SkillName-Persuasion",
-          },
-        ],
-      },
-    ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "Fame",
-    name: "Fame",
-    button_name: "BRSW.EdgeName-Fame",
-    skillMod: "+1",
-    and_selector: [
-      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Fame" },
-      { selector_type: "skill", selector_value: "BRSW.SkillName-Persuasion" },
-      {
-        not_selector: [
-          {
-            selector_type: "actor_has_edge",
-            selector_value: "BRSW.EdgeName-Famous",
-          },
-        ],
-      },
-    ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "Famous",
-    name: "Famous",
-    button_name: "BRSW.EdgeName-Famous",
-    skillMod: "+2",
-    and_selector: [
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Famous",
-      },
-      { selector_type: "skill", selector_value: "BRSW.SkillName-Persuasion" },
-    ],
-    group: "BRSW.Edges",
-  },
-  {
     id: "Free runner",
     name: "Free runner",
     button_name: "BRSW.ApplyFreeRunner",
@@ -590,4 +450,5 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
 ]
   .concat(COMBAT_OPTIONS)
-  .concat(POWER_POINT_OPTIONS);
+  .concat(POWER_POINT_OPTIONS)
+  .concat(BACKGROUND_EDGES);
