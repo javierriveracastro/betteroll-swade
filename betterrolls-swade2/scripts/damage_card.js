@@ -299,7 +299,12 @@ async function roll_soak(br_card, use_bennie) {
     parseInt(br_card.actor.system.wounds.ignored) +
     (parseInt(br_card.actor.system.woundsOrFatigue.ignored) || 0);
   if (ignored_wounds) {
-    undo_wound_modifier = Math.max(0, undo_wound_modifier - ignored_wounds);
+    undo_wound_modifier = Math.max(
+      0,
+      Math.min(br_card.actor.system.wounds.value, 3) -
+        ignored_wounds -
+        Math.max(0, br_card.render_data.undo_values.wounds - ignored_wounds),
+    );
   }
   let soak_modifiers = [
     {
