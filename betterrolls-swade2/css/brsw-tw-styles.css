@@ -38,6 +38,14 @@
   z-index: 50
 }
 
+.m-0 {
+  margin: 0px
+}
+
+.m-0\.5 {
+  margin: 0.125rem
+}
+
 .m-1 {
   margin: 0.25rem
 }
@@ -233,11 +241,6 @@
   border-color: rgb(148 163 184 / var(--tw-border-opacity))
 }
 
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity))
-}
-
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity))
@@ -383,6 +386,14 @@
 
 .leading-8 {
   line-height: 2rem
+}
+
+.leading-4 {
+  line-height: 1rem
+}
+
+.leading-6 {
+  line-height: 1.5rem
 }
 
 .text-blue-200 {

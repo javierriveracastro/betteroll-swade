@@ -1,8 +1,12 @@
 {{# if action_groups }}
-    <div class="brsw-selected-actions my-2 block p-1 bg-gray-500 border border-solid border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" data-card-id="{{ id }}">
+    <div class="brsw-selected-actions my-2 block p-1 bg-gray-500 border border-solid border-gray-700 rounded text-blue-200 shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer leading-6" data-card-id="{{ id }}">
         {{# if this.selected_actions }}
             {{# each this.selected_actions }}
-                <span class="bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded">{{ this.name }}</span>
+                <span class="bg-red-700 text-red-200 text-xs font-medium px-2.5 py-0.5 rounded m-0.5" style="display: inline-block">
+                    {{# if this.has_skill_mod }}<i class="fas fa-bullseye"></i>{{/if}}
+                    {{# if this.has_damage_mod }}<i class="fas fa-tint"></i>{{/if}}
+                    {{ this.name }}
+                </span>
             {{/each}}
         {{else}}
             No actions selected
