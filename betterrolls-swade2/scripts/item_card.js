@@ -672,6 +672,7 @@ async function displayRemainingCard(content) {
  * @param pp_modifier A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
+  console.log(pp_override, old_pp, pp_modifier);
   if (
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")
@@ -682,7 +683,7 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
   }
   let success = false;
   for (let roll of br_card.trait_roll.current_roll.dice) {
-    if (roll.result >= 0) {
+    if (roll.result !== null && roll.result >= 0) {
       success = true;
     }
   }
@@ -693,7 +694,6 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
   const pp = success ? base_pp_expended : 1;
   br_card.render_data.used_pp = pp;
   await br_card.save();
-  // noinspection JSUnresolvedVariable
   let current_pp;
   // If devicePP is found, it will be treated as an Arcane Device:
   let arcaneDevice = false;
@@ -701,9 +701,7 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     // Get the devices PP:
     current_pp = br_card.item.system.additionalStats.devicePP.value;
     arcaneDevice = true;
-  }
-  // Do the rest only if it is not an Arcane Device and ALSO only use the tabs PP if it has a value:
-  else if (
+  } else if (
     br_card.actor.system.powerPoints.hasOwnProperty(
       br_card.item.system.arcane,
     ) &&
@@ -768,7 +766,6 @@ export async function run_macros(
   item_param,
   br_card_param,
 ) {
-  console.log(macros);
   if (macros) {
     for (let macro_name of macros) {
       const real_macro = await find_macro(macro_name);
@@ -837,9 +834,6 @@ async function find_macro(macro_name_or_id) {
       }
     }
   }
-  console.log("MACRO");
-  console.log(macro);
-  console.log(macro_name_or_id);
   return macro;
 }
 
@@ -962,7 +956,6 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
     if (dis_ammo_selected || macros) {
       br_message.render_data.used_shots =
         shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
-      console.log(br_message.trait_roll.rolls.length);
       if (dis_ammo_selected && br_message.trait_roll.rolls.length === 1) {
         await br_message.item.consume(br_message.render_data.used_shots);
       }
@@ -1032,8 +1025,6 @@ function get_target_defense(
         0;
       defense_values.name = objetive.name;
       defense_values.token_id = objetive.id;
-      console.log("New data");
-      console.log(defense_values);
     } else {
       defense_values.toughness = parseInt(
         objetive.actor.system.toughness.total,
@@ -1507,9 +1498,6 @@ async function add_fixed_damage(event, form_results) {
   );
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   damage_rolls.modifiers.push({ value: modifier, name: form_results.Label });
-  console.log(index);
-  console.log(render_data);
-  console.log(damage_rolls);
   damage_rolls.rolls[0].result += modifier;
   render_data.damage_rolls[index].damage_result = await calculate_results(
     damage_rolls.rolls,
