@@ -289,17 +289,12 @@ export class BrCommonCard {
   populate_item_actions() {
     let item_actions = [];
     for (let action in this.item.system?.actions?.additional) {
-      if (this.item.system.actions.additional.hasOwnProperty(action)) {
-        const code = JSON.parse(
-          JSON.stringify(this.item.system.actions.additional[action]),
-        );
-        code.id = broofa();
-        let br_action = new brAction(
-          this.item.system.actions.additional[action].name,
-          code,
-        );
-        item_actions.push(br_action);
-      }
+      let br_action = new brAction(
+        this.item.system.actions.additional[action].name,
+        this.item.system.actions.additional[action],
+        "item",
+      );
+      item_actions.push(br_action);
     }
     if (item_actions.length) {
       const name = game.i18n.localize("BRSW.ItemActions");
