@@ -1,3 +1,11 @@
+# Version 3.45 aka ... buggy ...
+* Optional rules: Add a setting for not applying encumbrance to NPCs.
+* Bugfix: Use translations strings again for cover actions
+* Refactoring: Move actions related to background edges to its own file
+* Cards: Use icons and margins in the action display of the card.
+* Bugfix: Get success detection working again for power-point deduction and auto damage rolling.
+* Bugfix: Soaking correctly works for actors that ignore wounds.
+
 # Version 3.44 aka ... buggy Girl
 * Bugfix: Item actions should be working again.
 
