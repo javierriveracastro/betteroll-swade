@@ -983,7 +983,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   Hooks.call("BRSW-RollItem", br_message, html);
   if (roll_damage) {
     br_message.trait_roll.current_roll.dice.forEach((roll) => {
-      if (roll.result && roll.result >= 0) {
+      if (roll.result !== null && roll.result >= 0) {
         roll_dmg(br_message.message, html, false, {}, roll.result > 3);
       }
     });
