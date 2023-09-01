@@ -357,7 +357,6 @@ async function roll_soak(br_card, use_bennie) {
     br_card,
     br_card.actor.system.attributes.vigor,
     game.i18n.localize("BRSW.SoakRoll"),
-    "",
     { modifiers: soak_modifiers },
   );
   let result = 0;

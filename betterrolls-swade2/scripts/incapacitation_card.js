@@ -2,87 +2,112 @@
 /* globals canvas, game, CONST, Roll, Hooks, succ, fromUuid, console */
 
 import {
-    BrCommonCard,
-    BRSW_CONST,
-    create_common_card,
-    roll_trait,
-    spend_bennie
+  BrCommonCard,
+  BRSW_CONST,
+  create_common_card,
+  roll_trait,
+  spend_bennie,
 } from "./cards_common.js";
-import {get_owner, damage_card_footer} from "./damage_card.js";
+import { get_owner, damage_card_footer } from "./damage_card.js";
 
 const INJURY_BASE = {
-    2: "BRSW.Unmentionables",
-    3: "BRSW.Arm",
-    5: "BRSW.Guts",
-    10: "BRSW.Leg",
-    12: "BRSW.Head"
-}
+  2: "BRSW.Unmentionables",
+  3: "BRSW.Arm",
+  5: "BRSW.Guts",
+  10: "BRSW.Leg",
+  12: "BRSW.Head",
+};
 
 const SECOND_INJURY_TABLES = {
-    "BRSW.Guts": {
-        1: "BRSW.Broken",
-        3: "BRSW.Battered",
-        5: "BRSW.Busted"
-    },
-    "BRSW.Head" : {
-        1: "BRSW.Scar",
-        4: "BRSW.Blinded",
-        6: "BRSW.Brain"
-    }
-}
+  "BRSW.Guts": {
+    1: "BRSW.Broken",
+    3: "BRSW.Battered",
+    5: "BRSW.Busted",
+  },
+  "BRSW.Head": {
+    1: "BRSW.Scar",
+    4: "BRSW.Blinded",
+    6: "BRSW.Brain",
+  },
+};
 
 const INJURY_ACTIVE_EFFECT = {
-    "BRSW.Guts+BRSW.Broken": {changes: [{key: "data.attributes.agility.die.sides", mode: 2, value: -2}]},
-    "BRSW.Guts+BRSW.Battered": {changes: [{key: "data.attributes.vigor.die.sides", mode: 2, value: -2}]},
-    "BRSW.Guts+BRSW.Busted": {changes: [{key: "data.attributes.strength.die.sides", mode: 2, value: -2}]},
-    "BRSW.Head+BRSW.Brain": {changes: [{key: "data.attributes.smarts.die.sides", mode: 2, value: -2}]},
-    "BRSW.Leg+": {changes: [{key: "data.stats.speed.runningDie", mode: 2, value: -2},
-            {key: "data.stats.speed.value", mode: 2, value: -2}]},
-    "BRSW.Head+BRSW.Blinded" : {},
-    "BRSW.Head+BRSW.Scar": {},
-    "BRSW.Arm+": {},
-    "BRSW.Unmentionables+": {}
-}
+  "BRSW.Guts+BRSW.Broken": {
+    changes: [{ key: "data.attributes.agility.die.sides", mode: 2, value: -2 }],
+  },
+  "BRSW.Guts+BRSW.Battered": {
+    changes: [{ key: "data.attributes.vigor.die.sides", mode: 2, value: -2 }],
+  },
+  "BRSW.Guts+BRSW.Busted": {
+    changes: [
+      { key: "data.attributes.strength.die.sides", mode: 2, value: -2 },
+    ],
+  },
+  "BRSW.Head+BRSW.Brain": {
+    changes: [{ key: "data.attributes.smarts.die.sides", mode: 2, value: -2 }],
+  },
+  "BRSW.Leg+": {
+    changes: [
+      { key: "data.stats.speed.runningDie", mode: 2, value: -2 },
+      { key: "data.stats.speed.value", mode: 2, value: -2 },
+    ],
+  },
+  "BRSW.Head+BRSW.Blinded": {},
+  "BRSW.Head+BRSW.Scar": {},
+  "BRSW.Arm+": {},
+  "BRSW.Unmentionables+": {},
+};
 
 /**
  * Shows an incapacitation card an
  * @param {string} token_id As it comes from damage its target is always a token
  */
 export async function create_incapacitation_card(token_id) {
-    let token = canvas.tokens.get(token_id);
-    let actor = token.actor;
-    let user = get_owner(actor);
-    // noinspection JSUnresolvedVariable
-    const text = game.i18n.format("BRSW.IncapacitatedText",
-        {token_name: token.name});
-    const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor")
-    let footer = status_footer(actor)
-    let br_message = await create_common_card(token,
-    {header: {type: '',
+  let token = canvas.tokens.get(token_id);
+  let actor = token.actor;
+  let user = get_owner(actor);
+  // noinspection JSUnresolvedVariable
+  const text = game.i18n.format("BRSW.IncapacitatedText", {
+    token_name: token.name,
+  });
+  const text_after = game.i18n.localize("BRSW.IncapacitatedMustVigor");
+  let footer = status_footer(actor);
+  let br_message = await create_common_card(
+    token,
+    {
+      header: {
+        type: "",
         title: game.i18n.localize("BRSW.Incapacitation"),
-        notes: token.name}, text: text, text_after: text_after,
-        footer: footer, show_roll_injury: false, attribute_name: 'vigor'},
-        CONST.CHAT_MESSAGE_TYPES.ROLL,
-    "modules/betterrolls-swade2/templates/incapacitation_card.html")
-    br_message.update_list={...br_message.update_list, ...{user: user.id}};
-    br_message.type = BRSW_CONST.TYPE_INC_CARD
-    await br_message.render()
-    await br_message.save()
-    return br_message.message
+        notes: token.name,
+      },
+      text: text,
+      text_after: text_after,
+      footer: footer,
+      show_roll_injury: false,
+      attribute_name: "vigor",
+    },
+    CONST.CHAT_MESSAGE_TYPES.ROLL,
+    "modules/betterrolls-swade2/templates/incapacitation_card.html",
+  );
+  br_message.update_list = { ...br_message.update_list, ...{ user: user.id } };
+  br_message.type = BRSW_CONST.TYPE_INC_CARD;
+  await br_message.render();
+  await br_message.save();
+  return br_message.message;
 }
 
 /**
  * Hooks the public functions to a global object
  */
 export function incapacitation_card_hooks() {
-    game.brsw.create_incapacitation_card = create_incapacitation_card
+  game.brsw.create_incapacitation_card = create_incapacitation_card;
 }
 
 /**
  * Creates a footer based in status that will be shared by various cards
  */
 export function status_footer(actor) {
-    return damage_card_footer(actor)
+  return damage_card_footer(actor);
 }
 
 /**
@@ -90,12 +115,12 @@ export function status_footer(actor) {
  * @param ev
  */
 function roll_incapacitation_clicked(ev) {
-        let spend_bennie = false
-        if (ev.currentTarget.classList.contains('roll-bennie-button')) {
-            spend_bennie=true
-        }
-        // noinspection JSIgnoredPromiseFromCall
-        roll_incapacitation(ev.data.br_card, spend_bennie);
+  let spend_bennie = false;
+  if (ev.currentTarget.classList.contains("roll-bennie-button")) {
+    spend_bennie = true;
+  }
+  // noinspection JSIgnoredPromiseFromCall
+  roll_incapacitation(ev.data.br_card, spend_bennie);
 }
 
 /**
@@ -104,16 +129,15 @@ function roll_incapacitation_clicked(ev) {
  * @param html Html produced
  */
 export function activate_incapacitation_card_listeners(message, html) {
-    const br_card = new BrCommonCard(message);
-    html.find('.brsw-vigor-button, .brsw-roll-button').bind(
-        'click', {br_card: br_card}, roll_incapacitation_clicked);
-    html.find('.brsw-injury-button').click((ev) => {
-        // noinspection JSIgnoredPromiseFromCall
-        create_injury_card(br_card.token_id, ev.currentTarget.dataset.injuryType)
-    })
+  const br_card = new BrCommonCard(message);
+  html
+    .find(".brsw-vigor-button, .brsw-roll-button")
+    .bind("click", { br_card: br_card }, roll_incapacitation_clicked);
+  html.find(".brsw-injury-button").click((ev) => {
+    // noinspection JSIgnoredPromiseFromCall
+    create_injury_card(br_card.token_id, ev.currentTarget.dataset.injuryType);
+  });
 }
-
-
 
 /**
  * Males a vigor incapacitation roll
@@ -121,48 +145,58 @@ export function activate_incapacitation_card_listeners(message, html) {
  * @param {boolean} spend_benny
  */
 async function roll_incapacitation(br_card, spend_benny) {
-    if (spend_benny) {
-        await spend_bennie(br_card.actor);
+  if (spend_benny) {
+    await spend_bennie(br_card.actor);
+  }
+  await roll_trait(
+    br_card,
+    br_card.actor.system.attributes.vigor,
+    game.i18n.localize("BRSW.IncapacitationRoll"),
+    {},
+  );
+  let result = 0;
+  for (let roll of br_card.trait_roll.rolls) {
+    for (let die of roll.dice) {
+      if (die.result !== null) {
+        result = Math.max(die.final_total, result);
+      }
     }
-    await roll_trait(br_card,
-        br_card.actor.system.attributes.vigor, game.i18n.localize("BRSW.IncapacitationRoll"), '', {});
-    let result = 0;
-    for (let roll of br_card.trait_roll.rolls) {
-        for (let die of roll.dice) {
-            if (die.result !== null) {
-                result = Math.max(die.final_total, result);
-            }
-        }
+  }
+  br_card.render_data.show_roll_injury = true;
+  br_card.render_data.injury_type = "none";
+  if (br_card.trait_roll.current_roll.is_fumble) {
+    br_card.render_data.text_after = `</p><p>${game.i18n.localize(
+      "BRSW.Fumble",
+    )}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`;
+    br_card.render_data.show_roll_injury = false; // For what...
+  } else if (result < 4) {
+    br_card.render_data.text_after = game.i18n.localize(
+      "BRSW.BleedingOutResult",
+    );
+    br_card.render_data.injury_type = "permanent";
+    if (game.succ.hasCondition("incapacitated", br_card.token)) {
+      await succ.apply_status(br_card.token, "incapacitated", false); //remove Inc as overlay
+      await succ.apply_status(br_card.token, "incapacitated", true, false); //add it as regular (small) icon
     }
-    br_card.render_data.show_roll_injury = true;
-    br_card.render_data.injury_type = "none"
-    if (br_card.trait_roll.current_roll.is_fumble) {
-        br_card.render_data.text_after = `</p><p>${game.i18n.localize("BRSW.Fumble")}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`
-        br_card.render_data.show_roll_injury = false;  // For what...
-    } else if (result < 4) {
-        br_card.render_data.text_after = game.i18n.localize("BRSW.BleedingOutResult")
-        br_card.render_data.injury_type = "permanent"
-        if (game.succ.hasCondition("incapacitated", br_card.token)) {
-            await succ.apply_status(br_card.token, "incapacitated", false) //remove Inc as overlay
-            await succ.apply_status(br_card.token, "incapacitated", true, false) //add it as regular (small) icon
-        }
-        // noinspection ES6MissingAwait
-        const ignoreBleedOut = game.settings.get('swade', 'heroesNeverDie') || br_card.actor.getFlag('swade', 'ignoreBleedOut');
-        if (!ignoreBleedOut) {
-            succ.apply_status(br_card.token, "bleeding-out", true, true).catch(
-                () => {console.log("Error while applying bleeding out")}) //make bleeding out overlay
-        }
-    } else if (result < 8) {
-        br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury")
-        br_card.render_data.injury_type = "temporal-wounds"
-    } else {
-        br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury24")
-        br_card.render_data.injury_type = "temporal-24"
+    // noinspection ES6MissingAwait
+    const ignoreBleedOut =
+      game.settings.get("swade", "heroesNeverDie") ||
+      br_card.actor.getFlag("swade", "ignoreBleedOut");
+    if (!ignoreBleedOut) {
+      succ.apply_status(br_card.token, "bleeding-out", true, true).catch(() => {
+        console.log("Error while applying bleeding out");
+      }); //make bleeding out overlay
     }
-    await br_card.render()
-    await br_card.save()
+  } else if (result < 8) {
+    br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury");
+    br_card.render_data.injury_type = "temporal-wounds";
+  } else {
+    br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury24");
+    br_card.render_data.injury_type = "temporal-24";
+  }
+  await br_card.render();
+  await br_card.save();
 }
-
 
 /**
  * Shows an injury card and rolls it.
@@ -170,74 +204,93 @@ async function roll_incapacitation(br_card, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
-    if (game.settings.get('betterrolls-swade2', 'use_system_injury_table')) {
-        const injuryTable = (await fromUuid(game.settings.get('swade', 'injuryTable')));
-        if (injuryTable) {
-            await injuryTable.draw();
-        }
-        return
+  if (game.settings.get("betterrolls-swade2", "use_system_injury_table")) {
+    const injuryTable = await fromUuid(
+      game.settings.get("swade", "injuryTable"),
+    );
+    if (injuryTable) {
+      await injuryTable.draw();
     }
-    let token = canvas.tokens.get(token_id);
-    let actor = token.actor;
-    let user = get_owner(actor);
-    // noinspection JSUnresolvedVariable
-    let footer = [`${game.i18n.localize("SWADE.Wounds")}: ${actor.system.wounds.value}/${actor.system.wounds.max}`]
-    for (let status in actor.system.status) {
-        // noinspection JSUnfilteredForInLoop
-        if (actor.system.status[status]) {
-            // noinspection JSUnfilteredForInLoop
-            footer.push(status.slice(2));
-        }
+    return;
+  }
+  let token = canvas.tokens.get(token_id);
+  let actor = token.actor;
+  let user = get_owner(actor);
+  // noinspection JSUnresolvedVariable
+  let footer = [
+    `${game.i18n.localize("SWADE.Wounds")}: ${actor.system.wounds.value}/${
+      actor.system.wounds.max
+    }`,
+  ];
+  for (let status in actor.system.status) {
+    // noinspection JSUnfilteredForInLoop
+    if (actor.system.status[status]) {
+      // noinspection JSUnfilteredForInLoop
+      footer.push(status.slice(2));
     }
-    // First roll
-    let first_roll = new Roll("2d6");
-    first_roll.evaluate({async:false});
-    if (game.dice3d) {
+  }
+  // First roll
+  let first_roll = new Roll("2d6");
+  first_roll.evaluate({ async: false });
+  if (game.dice3d) {
+    // noinspection ES6MissingAwait
+    await game.dice3d.showForRoll(first_roll, game.user, true);
+  }
+  const first_result = read_table(INJURY_BASE, parseInt(first_roll.result));
+  let second_result = "";
+  // Check for another roll
+  let second_roll = new Roll("1d6");
+  for (let table in SECOND_INJURY_TABLES) {
+    if (SECOND_INJURY_TABLES.hasOwnProperty(table) && first_result === table) {
+      second_roll.evaluate({ async: false });
+      if (game.dice3d) {
         // noinspection ES6MissingAwait
-        await game.dice3d.showForRoll(first_roll, game.user, true);
+        await game.dice3d.showForRoll(second_roll, game.user, true);
+      }
+      second_result = read_table(
+        SECOND_INJURY_TABLES[table],
+        parseInt(second_roll.result),
+      );
     }
-    const first_result = read_table(INJURY_BASE, parseInt(first_roll.result));
-    let second_result = ''
-    // Check for another roll
-    let second_roll = new Roll("1d6");
-    for (let table in SECOND_INJURY_TABLES) {
-        if (SECOND_INJURY_TABLES.hasOwnProperty(table) && first_result === table) {
-            second_roll.evaluate({async: false});
-            if (game.dice3d) {
-                // noinspection ES6MissingAwait
-                await game.dice3d.showForRoll(second_roll, game.user, true);
-            }
-            second_result = read_table(SECOND_INJURY_TABLES[table],
-                parseInt(second_roll.result));
-        }
+  }
+  const active_effect_index = `${first_result}+${second_result}`;
+  let new_effect;
+  let injury_effect;
+  if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
+    new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index] };
+    if (second_result) {
+      new_effect.label = game.i18n.localize(second_result);
+    } else {
+      new_effect.label = game.i18n.localize(first_result);
     }
-    const active_effect_index = `${first_result}+${second_result}`;
-    let new_effect
-    let injury_effect
-    if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
-        new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index]};
-        if (second_result) {
-            new_effect.label = game.i18n.localize(second_result);
-        } else {
-            new_effect.label = game.i18n.localize(first_result);
-        }
-        new_effect.icon = '/systems/swade/assets/icons/skills/medical-pack.svg';
-        injury_effect = await actor.createEmbeddedDocuments('ActiveEffect', [new_effect]);
-    }
-    let br_message = await create_common_card(token,
-    {header: {type: '',
+    new_effect.icon = "/systems/swade/assets/icons/skills/medical-pack.svg";
+    injury_effect = await actor.createEmbeddedDocuments("ActiveEffect", [
+      new_effect,
+    ]);
+  }
+  let br_message = await create_common_card(
+    token,
+    {
+      header: {
+        type: "",
         title: game.i18n.localize("BRSW.InjuryCard"),
-        notes: token.name}, first_roll: first_roll, second_roll: second_roll,
-        first_location: game.i18n.localize(first_result),
-        second_location: game.i18n.localize(second_result),
-        footer: footer}, CONST.CHAT_MESSAGE_TYPES.ROLL,
-    "modules/betterrolls-swade2/templates/injury_card.html")
-    br_message.update_list={...br_message.update_list, ...{user: user.id}};
-    br_message.type = BRSW_CONST.TYPE_INJ_CARD
-    await br_message.render()
-    await br_message.save()
-    Hooks.call('BRSW-InjuryAEApplied', br_message, injury_effect, reason)
-    return br_message.message
+        notes: token.name,
+      },
+      first_roll: first_roll,
+      second_roll: second_roll,
+      first_location: game.i18n.localize(first_result),
+      second_location: game.i18n.localize(second_result),
+      footer: footer,
+    },
+    CONST.CHAT_MESSAGE_TYPES.ROLL,
+    "modules/betterrolls-swade2/templates/injury_card.html",
+  );
+  br_message.update_list = { ...br_message.update_list, ...{ user: user.id } };
+  br_message.type = BRSW_CONST.TYPE_INJ_CARD;
+  await br_message.render();
+  await br_message.save();
+  Hooks.call("BRSW-InjuryAEApplied", br_message, injury_effect, reason);
+  return br_message.message;
 }
 
 /**
@@ -246,11 +299,11 @@ export async function create_injury_card(token_id, reason) {
  * @param {Number} value
  */
 function read_table(table, value) {
-    let result;
-    for (let index in table) {
-        if (table.hasOwnProperty(index) && parseInt(index) <= value) {
-              result = table[index];
-        }
+  let result;
+  for (let index in table) {
+    if (table.hasOwnProperty(index) && parseInt(index) <= value) {
+      result = table[index];
     }
-    return result;
+  }
+  return result;
 }

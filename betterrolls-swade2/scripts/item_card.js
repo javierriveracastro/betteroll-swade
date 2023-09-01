@@ -942,7 +942,6 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
     br_message,
     br_message.skill.system,
     game.i18n.localize("BRSW.SkillDie"),
-    html,
     extra_data,
   );
   // Ammo management
