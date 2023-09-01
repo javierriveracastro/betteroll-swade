@@ -1139,14 +1139,12 @@ function get_actor_own_modifiers(actor, roll_options) {
  * Get all the options needed for a new roll
  * @param {BrCommonCard} br_card
  * @param extra_data
- * @param html
  * @param trait_dice
  * @param roll_options - An object with the current roll_options
  */
 async function get_new_roll_options(
   br_card,
   extra_data,
-  html,
   trait_dice,
   roll_options,
 ) {
@@ -1369,13 +1367,7 @@ export async function roll_trait(
   let { actor } = br_card;
   let roll_options = { modifiers: [], rof: undefined };
   if (!br_card.trait_roll.is_rolled) {
-    await get_new_roll_options(
-      br_card,
-      extra_data,
-      html,
-      trait_dice,
-      roll_options,
-    );
+    await get_new_roll_options(br_card, extra_data, trait_dice, roll_options);
   } else {
     roll_options.modifiers = br_card.trait_roll.modifiers;
     roll_options.rof = br_card.trait_roll.rof;
