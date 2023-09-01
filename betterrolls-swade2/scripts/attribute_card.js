@@ -128,7 +128,7 @@ async function attribute_click_listener(ev, target) {
     action.includes("trait"),
   );
   if (action.includes("trait")) {
-    await roll_attribute(message, $(message.content), false);
+    await roll_attribute(message, false);
   }
 }
 
@@ -207,7 +207,6 @@ export function activate_attribute_card_listeners(message, html) {
   html.find(".brsw-roll-button").click(async (ev) => {
     await roll_attribute(
       message,
-      html,
       ev.currentTarget.classList.contains("roll-bennie-button"),
     );
   });
@@ -217,10 +216,9 @@ export function activate_attribute_card_listeners(message, html) {
  * Roll an attribute showing the roll card and the result card when enables
  *
  * @param {ChatMessage, BrCommonCard} br_card
- * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie True if we want to spend a bennie
  */
-export async function roll_attribute(br_card, html, expend_bennie) {
+export async function roll_attribute(br_card, expend_bennie) {
   if (!br_card.hasOwnProperty("action_groups")) {
     br_card = new BrCommonCard(br_card);
   }

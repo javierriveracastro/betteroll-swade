@@ -144,7 +144,7 @@ async function skill_click_listener(ev, target) {
     action.includes("trait"),
   );
   if (action.includes("trait")) {
-    await roll_skill(message, $(message.content), false);
+    await roll_skill(message, false);
   }
 }
 
@@ -172,7 +172,6 @@ export function activate_skill_card_listeners(message, html) {
   html.find(".brsw-roll-button").click(async (ev) => {
     await roll_skill(
       message,
-      html,
       ev.currentTarget.classList.contains("roll-bennie-button"),
     );
   });
@@ -188,10 +187,9 @@ export function activate_skill_card_listeners(message, html) {
  * Roll a skill showing the roll card and the result card when enables
  *
  * @param {ChatMessage} message
- * @param {string} html Current HTML code of the message
  * @param {boolean} expend_bennie, True if we want to spend a bennie
  */
-export async function roll_skill(message, html, expend_bennie) {
+export async function roll_skill(message, expend_bennie) {
   const render_data = message.getFlag("betterrolls-swade2", "render_data");
   let br_card = new BrCommonCard(message);
   const skill = br_card.actor.items.find(
