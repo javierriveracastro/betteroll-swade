@@ -4,7 +4,6 @@
 
 import {
   BRSW_CONST,
-  BRWSRoll,
   create_common_card,
   get_action_from_click,
   get_actor_from_ids,
@@ -18,6 +17,7 @@ import {
 import { run_macros } from "./item_card.js";
 import { get_enabled_gm_actions } from "./gm_modifiers.js";
 
+// noinspection SpellCheckingInspection
 export const FIGHTING_SKILLS = [
   "fighting",
   "kämpfen",
@@ -26,6 +26,7 @@ export const FIGHTING_SKILLS = [
   "lutar",
   "combattere",
 ];
+// noinspection SpellCheckingInspection
 export const SHOOTING_SKILLS = [
   "shooting",
   "schiessen",
@@ -34,6 +35,7 @@ export const SHOOTING_SKILLS = [
   "atirar",
   "sparare",
 ];
+// noinspection SpellCheckingInspection
 export const THROWING_SKILLS = [
   "athletics",
   "athletik",
@@ -50,7 +52,7 @@ export const THROWING_SKILLS = [
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} skill_id The id of the skill that we want to show
  * @param {boolean} collapse_actions
- * @return A promise for the ChatMessage object
+ * @return {Promise} A promise for the ChatMessage object
  */
 async function create_skill_card(origin, skill_id, collapse_actions) {
   let actor;
@@ -99,7 +101,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
  *  before actor
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
- * @param {string} skill_id: Id of the skill item
+ * @param {string} skill_id Id of the skill item
  * @return {Promise} a promise fot the ChatMessage object
  */
 function create_skill_card_from_id(token_id, actor_id, skill_id) {
@@ -122,8 +124,8 @@ export function skill_card_hooks() {
 
 /**
  * Creates a card after an event.
- * @param ev: javascript click event
- * @param {SwadeActor, Token} target: token or actor from the char sheet
+ * @param ev javascript click event
+ * @param {SwadeActor, Token} target token or actor from the char sheet
  */
 async function skill_click_listener(ev, target) {
   const action = get_action_from_click(ev);
@@ -150,8 +152,8 @@ async function skill_click_listener(ev, target) {
 
 /**
  * Activates the listeners in the character sheet for skills
- * @param app: Sheet app
- * @param html: Html code
+ * @param app Sheet app
+ * @param html Html code
  */
 export function activate_skill_listeners(app, html) {
   let target = app.token ? app.token : app.object;
@@ -165,8 +167,8 @@ export function activate_skill_listeners(app, html) {
 
 /**
  * Activate the listeners in the skill card
- * @param message: Message date
- * @param html: Html produced
+ * @param message Message date
+ * @param html Html produced
  */
 export function activate_skill_card_listeners(message, html) {
   html.find(".brsw-roll-button").click(async (ev) => {
@@ -187,7 +189,7 @@ export function activate_skill_card_listeners(message, html) {
  * Roll a skill showing the roll card and the result card when enables
  *
  * @param {ChatMessage} message
- * @param {boolean} expend_bennie, True if we want to spend a bennie
+ * @param {boolean} expend_bennie True if we want to spend a bennie
  */
 export async function roll_skill(message, expend_bennie) {
   const render_data = message.getFlag("betterrolls-swade2", "render_data");
@@ -222,7 +224,7 @@ export async function roll_skill(message, expend_bennie) {
  *
  * @param {SwadeActor} actor
  * @param {SwadeItem} skill
- * @param {Object} extra_data: Extra data for the roll.
+ * @param {Object} extra_data Extra data for the roll.
  */
 export function get_skill_effects(actor, skill, extra_data) {
   const attGlobalMods =
@@ -295,7 +297,7 @@ export function calculate_distance(
   } else if (item) {
     const range = item.system.range.split("/");
     if (grid_unit % 5 === 0) {
-      distance = distance / 5;
+      distance /= 5;
     }
     if (origin_token.document.elevation !== target_token.document.elevation) {
       let h_diff = Math.abs(
@@ -324,7 +326,7 @@ export function calculate_distance(
     for (let i = 0; i < 3 && i < range.length; i++) {
       let range_int = parseInt(range[i]);
       if (rangeEffects) {
-        range_int = range_int + rangeEffects * (i + 1);
+        range_int += rangeEffects * (i + 1);
       }
       if (range_int && range_int < distance) {
         distance_penalty = i < 2 ? (i + 1) * 2 : 8;
@@ -543,7 +545,7 @@ function calculate_gangUp(attacker, target) {
         return item.name.toLowerCase().includes(formation_fighter_name);
       })
     ) {
-      enemies = enemies + 1;
+      enemies += 1;
     }
     // allies with formation fighter are counted twice
     allies = enemies_within_range_both_attacker_target.length;
@@ -633,7 +635,7 @@ function withinRange(origin, target, range) {
   let distance = canvas.grid.measureDistances([{ ray }], {
     gridSpaces: false,
   })[0];
-  distance = distance / grid_unit;
+  distance /= grid_unit;
   return range >= distance;
 }
 
@@ -641,8 +643,8 @@ function withinRange(origin, target, range) {
  * Calculates appropriate illumination penalties
  * @param actorToken
  * @param targetToken
- * @param lighting: The selected lighting level
- * @param distance: The distance between token and target
+ * @param lighting The selected lighting level
+ * @param distance The distance between token and target
  */
 export async function find_illumination_penalty(
   actorToken,
@@ -683,7 +685,7 @@ export async function find_illumination_penalty(
         !effect.data.disabled
       ) {
         if (change.mode === 2) {
-          genericModifier = genericModifier + Number(change.value);
+          genericModifier += Number(change.value);
         } else {
           console.warn(
             'Better Rolls 2 does only support the "Add" mode for illumination penalties on Active Effects.',
@@ -707,13 +709,13 @@ export async function find_illumination_penalty(
   ) {
     illuminationPenalty = 0;
   }
-  illuminationPenalty = illuminationPenalty + genericModifier;
+  illuminationPenalty += genericModifier;
   if (illuminationPenalty > 0) {
     illuminationPenalty = 0;
   } //We don't want to apply a bonus from ignoring illumination penalties
   if (illuminationPenalty < 0) {
     if (ownedAbilities.includes(infravision)) {
-      illuminationPenalty = illuminationPenalty / 2;
+      illuminationPenalty /= 2;
     }
     if (
       (ownedAbilities.includes(undead) ||
