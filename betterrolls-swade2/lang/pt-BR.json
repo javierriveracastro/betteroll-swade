@@ -329,5 +329,6 @@
     "BRSW.Offhand": "Mão Inábil",
     "BRSW.WoundsOrFatigueIgnored": "Ferimentos ou Fadiga ignorados",
     "BRSW.UnstunBonus": "Bônus para se recuperar do Estado Atordoado",
-    "BRSW.RanSteady": "Corrida (-1)"
+    "BRSW.RanSteady": "Corrida (-1)",
+    "BRSW.ActiveEffects": "Efeitos Ativos"
 }

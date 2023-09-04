@@ -328,5 +328,6 @@
     "BRSW.MeleeDistanceHint": "La distancia a la que se considera que el personaje está en cuerpo a cuerpo. En pulgadas o en unidades de cuadrícula.",
     "BRSW.AttackInanimate": "Atacar objecte inanimat",
     "BRSW.UnstunBonus": "bonus per conmocionat",
-    "BRSW.RanSteady": "Còrrer (-1)"
+    "BRSW.RanSteady": "Còrrer (-1)",
+    "BRSW.ActiveEffects": "Efectos activos"
 }

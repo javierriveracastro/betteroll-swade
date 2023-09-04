@@ -326,5 +326,6 @@
     "BRSW.TargetHasDodgePower": "El objetivo tiene esquivar (-2), poderes",
     "BRSW.GroupRoll": "Tirada de grupo",
     "BRSW.UnstunBonus": "Bonus para quitar el conmocionado",
-    "BRSW.OR.RiftsGrittyDamage": "El daño pesado hace heridas"
+    "BRSW.OR.RiftsGrittyDamage": "El daño pesado hace heridas",
+    "BRSW.ActiveEffects": "Efectos activos"
 }

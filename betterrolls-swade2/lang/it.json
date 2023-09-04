@@ -250,5 +250,6 @@
     "BRSW.EdgeName-Outsider": "Estraneo",
     "BRSW.EdgeName-TongueTied": "Lingua attorcigliata",
     "BRSW.TargetHasDodge": "Il bersaglio ha Schivare",
-    "BRSW.EdgeName-Dodge": "Schivare"
+    "BRSW.EdgeName-Dodge": "Schivare",
+    "BRSW.ActiveEffects": "Active effects"
 }

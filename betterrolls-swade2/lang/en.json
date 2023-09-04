@@ -344,5 +344,6 @@
   "BRSW.UnarmoredHero": "Unarmored Hero",
   "BRSW.OverExtremeRange": "Over extreme range",
   "BRSW.UseSystemInjuryTable": "Use system injury table",
-  "BRSW.UseSystemInjuryTableHint": "Use the system injury table instead of BR2 provided one. Note that system table doesn't add active effects for the injuries, so you probably don't want to use it unless you want to use some custom table. (World)."
+  "BRSW.UseSystemInjuryTableHint": "Use the system injury table instead of BR2 provided one. Note that system table doesn't add active effects for the injuries, so you probably don't want to use it unless you want to use some custom table. (World).",
+  "BRSW.ActiveEffects": "Active effects"
 }

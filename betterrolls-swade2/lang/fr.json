@@ -323,5 +323,6 @@
     "BRSW.EdgeName-Ambidextrous": "Ambidextre",
     "BRSW.Offhand": "Désinvolte",
     "BRSW.MeleeDistance": "Distance de mêlée",
-    "BRSW.MeleeDistanceHint": "La distance à laquelle le personnage est considéré comme étant en mêlée. Elle peut être exprimée en pouces ou en unités de grille."
+    "BRSW.MeleeDistanceHint": "La distance à laquelle le personnage est considéré comme étant en mêlée. Elle peut être exprimée en pouces ou en unités de grille.",
+    "BRSW.ActiveEffects": "Active effects"
 }

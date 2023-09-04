@@ -246,11 +246,13 @@ export class BrCommonCard {
     ) {
       this.populate_item_actions();
     }
+    this.populate_active_effect_actions();
     for (const group in this.action_groups) {
       this.action_groups[group].actions.sort((a, b) => {
         return a.code.id > b.code.id ? 1 : -1;
       });
     }
+    console.log(this.action_groups);
   }
 
   populate_world_actions() {
@@ -297,6 +299,35 @@ export class BrCommonCard {
       this.action_groups[name] = {
         name: name,
         actions: item_actions,
+        id: broofa(),
+      };
+    }
+  }
+
+  populate_active_effect_actions() {
+    const attGlobalMods =
+      this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
+    const effectArray = [
+      ...this.actor.system.stats.globalMods.trait,
+      ...attGlobalMods,
+      ...this.skill.system.effects,
+    ];
+    let effectActions = [];
+    for (let effect of effectArray) {
+      console.log(effect);
+      const br_action = new brAction(
+        effect.label,
+        { skillMod: effect.value, name: effect.label, id: broofa() },
+        "active_effect",
+      );
+      br_action.selected = !effect.ignore;
+      effectActions.push(br_action);
+    }
+    if (effectActions.length) {
+      const name = game.i18n.localize("BRSW.ActiveEffects");
+      this.action_groups[name] = {
+        name: name,
+        actions: effectActions,
         id: broofa(),
       };
     }

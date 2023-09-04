@@ -330,5 +330,6 @@
     "BRSW.AttackInanimate": "Dinge zerstören",
     "BRSW.WoundsOrFatigueIgnored": "Ignorierte Wunden oder Erschöpfung",
     "BRSW.UnstunBonus": "Bonus, sich von Betäubung zu erholen",
-    "BRSW.RanSteady": "Gerannt (-1)"
+    "BRSW.RanSteady": "Gerannt (-1)",
+    "BRSW.ActiveEffects": "Active effects"
 }

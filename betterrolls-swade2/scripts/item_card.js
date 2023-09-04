@@ -21,7 +21,6 @@ import {
 } from "./cards_common.js";
 import {
   FIGHTING_SKILLS,
-  get_skill_effects,
   is_shooting_skill,
   SHOOTING_SKILLS,
   THROWING_SKILLS,
@@ -851,13 +850,6 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
     "single_shot"
   ) {
     extra_data.rof = 1;
-  }
-  // Effects
-  if (
-    Object.hasOwn(br_message.skill, "type") &&
-    br_message.skill.type === "skill"
-  ) {
-    get_skill_effects(br_message.actor, br_message.skill, extra_data);
   }
   // Actions
   for (let action of br_message.get_selected_actions()) {
