@@ -98,12 +98,11 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} item_id The id of the item that we want to show
- * @param {boolean} collapse_actions True if the action selector should start collapsed
  * @property {Object} item.system.actions.additional Additional actions.
  * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
  * @return {Promise} A promise for the ChatMessage object
  */
-async function create_item_card(origin, item_id, collapse_actions) {
+async function create_item_card(origin, item_id) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -167,7 +166,6 @@ async function create_item_card(origin, item_id, collapse_actions) {
       damage_rolls: [],
       powerpoints: !isNaN(power_points),
       used_shots: 0,
-      actions_collapsed: collapse_actions,
       description: description,
       swade_templates: get_template_from_item(item),
     },
@@ -210,11 +208,7 @@ function create_item_card_from_id(token_id, actor_id, skill_id) {
   if (!origin && actor_id) {
     origin = game.actors.get(actor_id);
   }
-  return create_item_card(
-    origin,
-    skill_id,
-    game.settings.get("betterrolls-swade2", "collapse-modifiers"),
-  );
+  return create_item_card(origin, skill_id);
 }
 
 /**
@@ -252,12 +246,8 @@ async function item_click_listener(ev, target) {
         .effectId;
     return show_effect_card(target, effect_id, true);
   }
-  const collapse_actions =
-    action.includes("trait") ||
-    action.includes("damage") ||
-    game.settings.get("betterrolls-swade2", "collapse-modifiers");
   // Show card
-  let message = await create_item_card(target, item_id, collapse_actions);
+  let message = await create_item_card(target, item_id);
   // Shortcut for rolling damage
   if (ev.currentTarget.classList.contains("damage-roll")) {
     await roll_dmg(message, $(message.content), false, false);
@@ -1404,12 +1394,10 @@ async function get_dmg_targets(token_id, br_card) {
   let targets = await game.user.targets;
   if (targets.size > 0) {
     targets = Array.from(targets).filter((token) => token.actor);
+  } else if (br_card.targets.length > 0) {
+    targets = br_card.targets;
   } else {
-    if (br_card.targets.length > 0) {
-      targets = br_card.targets;
-    } else {
-      targets = [undefined];
-    }
+    targets = [undefined];
   }
   return targets;
 }
@@ -1745,14 +1733,14 @@ function get_template_from_item(item) {
         translated_key_text = game.i18n.localize(key_text);
       }
       if (
-        item.system?.description?.toLowerCase().includes(translated_key_text) || // jshint ignore:line
-        item.system?.range?.toLowerCase().includes(translated_key_text) // jshint ignore:line
+        (item.system?.description
+          ?.toLowerCase() // jshint ignore:line
+          .includes(translated_key_text) ||
+          item.system?.range?.toLowerCase().includes(translated_key_text)) && // jshint ignore:line
+        !templates_found.includes(template_key)
       ) {
-        // jshint ignore:line
-        if (!templates_found.includes(template_key)) {
-          templates_found.push(template_key);
-          break;
-        }
+        templates_found.push(template_key);
+        break;
       }
     }
   }
