@@ -51,19 +51,15 @@ export const THROWING_SKILLS = [
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} skill_id The id of the skill that we want to show
- * @param {boolean} collapse_actions
  * @return {Promise} A promise for the ChatMessage object
  */
-async function create_skill_card(origin, skill_id, collapse_actions) {
+async function create_skill_card(origin, skill_id) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
   } else {
     actor = origin;
   }
-  collapse_actions =
-    collapse_actions ||
-    game.settings.get("betterrolls-swade2", "collapse-modifiers");
   const skill = actor.items.find((item) => {
     return item.id === skill_id;
   });
@@ -81,7 +77,6 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
       },
       footer: footer,
       trait_id: skill.id,
-      actions_collapsed: collapse_actions,
       description: skill.system.description,
     },
     CONST.CHAT_MESSAGE_TYPES.ROLL,
@@ -106,11 +101,7 @@ async function create_skill_card(origin, skill_id, collapse_actions) {
  */
 function create_skill_card_from_id(token_id, actor_id, skill_id) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_skill_card(
-    actor,
-    skill_id,
-    game.settings.get("betterrolls-swade2", "collapse-modifiers"),
-  );
+  return create_skill_card(actor, skill_id);
 }
 
 /**
@@ -140,11 +131,7 @@ async function skill_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.dataset.itemId;
   // Show card
-  let message = await create_skill_card(
-    target,
-    skill_id,
-    action.includes("trait"),
-  );
+  let message = await create_skill_card(target, skill_id);
   if (action.includes("trait")) {
     await roll_skill(message, false);
   }
@@ -156,7 +143,7 @@ async function skill_click_listener(ev, target) {
  * @param html Html code
  */
 export function activate_skill_listeners(app, html) {
-  let target = app.token ? app.token : app.object;
+  let target = app.token || app.object;
   const skill_labels = html.find(
     ".skill-label a, .skill.item>a, .skill-name, .skill-die",
   );
@@ -710,9 +697,7 @@ export async function find_illumination_penalty(
     illuminationPenalty = 0;
   }
   illuminationPenalty += genericModifier;
-  if (illuminationPenalty > 0) {
-    illuminationPenalty = 0;
-  } //We don't want to apply a bonus from ignoring illumination penalties
+  illuminationPenalty = Math.min(illuminationPenalty, 0);
   if (illuminationPenalty < 0) {
     if (ownedAbilities.includes(infravision)) {
       illuminationPenalty /= 2;
