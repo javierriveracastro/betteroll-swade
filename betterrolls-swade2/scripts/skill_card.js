@@ -561,7 +561,7 @@ function gang_up_reduction(target) {
     if (!effect.disabled) {
       for (let change of effect.changes) {
         if (change.key === "brsw-ac.gangup-reduction") {
-          reduction += parseInt(change.value) ? change.value : 0;
+          reduction += parseInt(change.value) || 0;
         }
       }
     }

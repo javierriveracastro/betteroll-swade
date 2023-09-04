@@ -252,7 +252,6 @@ export class BrCommonCard {
         return a.code.id > b.code.id ? 1 : -1;
       });
     }
-    console.log(this.action_groups);
   }
 
   populate_world_actions() {
