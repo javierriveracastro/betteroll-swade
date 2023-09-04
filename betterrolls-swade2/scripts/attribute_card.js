@@ -33,19 +33,15 @@ export const ATTRIBUTES_TRANSLATION_KEYS = {
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} name The name of the attribute like 'vigor'
- * @param {boolean} collapse_actions
- * @return A promise for the ChatMessage object
+ * @return {Promise} A promise for the ChatMessage object
  */
-async function create_attribute_card(origin, name, collapse_actions) {
+async function create_attribute_card(origin, name) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
   } else {
     actor = origin;
   }
-  collapse_actions =
-    collapse_actions ||
-    game.settings.get("betterrolls-swade2", "collapse-modifiers");
   const translated_name = game.i18n.localize(ATTRIBUTES_TRANSLATION_KEYS[name]);
   let title =
     translated_name +
@@ -65,7 +61,6 @@ async function create_attribute_card(origin, name, collapse_actions) {
       header: { type: game.i18n.localize("BRSW.Attribute"), title: title },
       footer: footer,
       attribute_name: name,
-      actions_collapsed: collapse_actions,
     },
     CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/attribute_card.html",
@@ -90,11 +85,7 @@ async function create_attribute_card(origin, name, collapse_actions) {
  */
 function create_attribute_card_from_id(token_id, actor_id, name) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_attribute_card(
-    actor,
-    name,
-    game.settings.get("betterrolls-swade2", "collapse-modifiers"),
-  );
+  return create_attribute_card(actor, name);
 }
 
 /**
@@ -122,11 +113,7 @@ async function attribute_click_listener(ev, target) {
   // The attribute id placement is sheet dependent.
   const attribute_id = ev.currentTarget.dataset.attribute;
   // Show card
-  const message = await create_attribute_card(
-    target,
-    attribute_id,
-    action.includes("trait"),
-  );
+  const message = await create_attribute_card(target, attribute_id);
   if (action.includes("trait")) {
     await roll_attribute(message, false);
   }
@@ -138,7 +125,7 @@ async function attribute_click_listener(ev, target) {
  * @param html Html code
  */
 export function activate_attribute_listeners(app, html) {
-  let target = app.token ? app.token : app.object;
+  let target = app.token || app.object;
   // We need a closure to hold data
   const attribute_labels = html.find(".attribute-value");
   attribute_labels.bindFirst("click", async (ev) => {
@@ -215,13 +202,13 @@ export function activate_attribute_card_listeners(message, html) {
 /**
  * Roll an attribute showing the roll card and the result card when enables
  *
- * @param {ChatMessage, BrCommonCard} br_card
+ * @param {ChatMessage, BrCommonCard} card_or_message
  * @param {boolean} expend_bennie True if we want to spend a bennie
  */
-export async function roll_attribute(br_card, expend_bennie) {
-  if (!br_card.hasOwnProperty("action_groups")) {
-    br_card = new BrCommonCard(br_card);
-  }
+export async function roll_attribute(card_or_message, expend_bennie) {
+  let br_card = card_or_message.hasOwnProperty("action_groups")
+    ? card_or_message
+    : new BrCommonCard(card_or_message);
   const render_data = br_card.message.getFlag(
     "betterrolls-swade2",
     "render_data",
