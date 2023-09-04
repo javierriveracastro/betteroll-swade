@@ -181,7 +181,7 @@ export class BrCommonCard {
   get actor() {
     // We always prefer the token actor if available
     if (this.token_id) {
-      const token = this.token;
+      const { token } = this;
       if (token) {
         // Token can be undefined even with and id the scene is note
         // ready or the token has been removed.
@@ -272,10 +272,6 @@ export class BrCommonCard {
           name: translated_group,
           actions: [],
           id: broofa(),
-          collapsed: game.settings.get(
-            "betterrolls-swade2",
-            "collapse-modifiers",
-          ),
         };
       }
       let new_action = new brAction(name, global_action);
@@ -302,10 +298,6 @@ export class BrCommonCard {
         name: name,
         actions: item_actions,
         id: broofa(),
-        collapsed: game.settings.get(
-          "betterrolls-swade2",
-          "collapse-modifiers",
-        ),
       };
     }
   }
@@ -440,17 +432,6 @@ export class BrCommonCard {
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
     return data;
-  }
-
-  /**
-   * Change the collapsed status of an action group
-   */
-  change_action_group_collapsed(group_id, new_status) {
-    for (let group in this.action_groups) {
-      if (this.action_groups[group].id === group_id) {
-        this.action_groups[group].collapsed = new_status;
-      }
-    }
   }
 
   /**
@@ -671,7 +652,7 @@ export function activate_common_listeners(br_card, html) {
     .find(".brws-selectable")
     .click((ev) => manage_selectable_click(ev, br_card.message));
   // Collapsable fields
-  manage_collapsables(html, br_card.message);
+  manage_collapsables(html);
   // Old rolls
   // noinspection JSUnresolvedFunction
   html.find(".brsw-old-roll").click(async (ev) => {
@@ -779,9 +760,8 @@ export function activate_common_listeners(br_card, html) {
 /**
  * Manage collapsable fields
  * @param html
- * @param message - Null if this is called from someplace else than a message
  */
-export function manage_collapsables(html, message) {
+export function manage_collapsables(html) {
   let collapse_buttons = html.find(".brsw-collapse-button");
   collapse_buttons.click(async (e) => {
     e.preventDefault();
@@ -789,26 +769,15 @@ export function manage_collapsables(html, message) {
     let clicked = $(e.currentTarget);
     const data_collapse = clicked.attr("data-collapse");
     const collapsable_span = html.find("." + data_collapse);
-    if (message && data_collapse.slice(0, 11) === "brsw-action") {
-      const collapsed_status = collapsable_span.hasClass("brsw-collapsed");
-      const br_card = new BrCommonCard(message);
-      br_card.change_action_group_collapsed(
-        data_collapse.slice(13),
-        !collapsed_status,
-      );
-      await br_card.render();
-      await br_card.save();
+    collapsable_span.toggleClass("brsw-collapsed");
+    if (collapsable_span.hasClass("brsw-collapsed")) {
+      const button = clicked.find(".fas.fa-caret-down");
+      button.removeClass("fa-caret-down");
+      button.addClass("fa-caret-right");
     } else {
-      collapsable_span.toggleClass("brsw-collapsed");
-      if (collapsable_span.hasClass("brsw-collapsed")) {
-        const button = clicked.find(".fas.fa-caret-down");
-        button.removeClass("fa-caret-down");
-        button.addClass("fa-caret-right");
-      } else {
-        const button = clicked.find(".fas.fa-caret-right");
-        button.removeClass("fa-caret-right");
-        button.addClass("fa-caret-down");
-      }
+      const button = clicked.find(".fas.fa-caret-right");
+      button.removeClass("fa-caret-right");
+      button.addClass("fa-caret-down");
     }
   });
 }
