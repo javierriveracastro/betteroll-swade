@@ -274,7 +274,7 @@ export function calculate_distance(
     let rangeEffects;
     if (!is_shooting_skill(skill)) {
       // Throwing skill them
-      rangeEffects = origin_token.actor.effects.find((e) =>
+      rangeEffects = origin_token.actor.appliedEffects.find((e) =>
         e.changes.find((ch) => ch.key === "brsw.thrown-range-modifier"),
       );
       if (rangeEffects) {
@@ -523,7 +523,7 @@ function calculate_gangUp(attacker, target) {
     .toLowerCase();
   const block_name = game.i18n.localize("BRSW.EdgeName-Block").toLowerCase();
   let findBlock = true;
-  let blockEffects = target.actor.effects.filter((e) =>
+  let blockEffects = target.actor.appliedEffects.filter((e) =>
     e.name.toLowerCase().includes(block_name),
   );
   for (let effect of blockEffects) {
@@ -557,7 +557,7 @@ function calculate_gangUp(attacker, target) {
  */
 function gang_up_reduction(target) {
   let reduction = 0;
-  for (let effect of target.effects) {
+  for (let effect of target.appliedEffects) {
     if (!effect.disabled) {
       for (let change of effect.changes) {
         if (change.key === "brsw-ac.gangup-reduction") {
@@ -575,7 +575,7 @@ function gang_up_reduction(target) {
  */
 function gang_up_addition(attacker) {
   let addition = 0;
-  for (let effect of attacker.effects) {
+  for (let effect of attacker.appliedEffects) {
     if (!effect.disabled) {
       for (let change of effect.changes) {
         if (change.key === "brsw-ac.gangup-addition") {
@@ -641,7 +641,7 @@ export async function find_illumination_penalty(
     }
   }
 
-  let effects = actor.effects;
+  let effects = actor.appliedEffects;
   let genericModifier = 0; //Generic modifier to ignore penalties
   for (let effect of effects) {
     for (let change of effect.data.changes) {

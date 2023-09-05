@@ -237,14 +237,6 @@ async function item_click_listener(ev, target) {
     ev.currentTarget.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
-  if (!item_id) {
-    const effect_id =
-      ev.currentTarget.parentElement.dataset.effectId ||
-      ev.currentTarget.parentElement.parentElement.dataset.effectId ||
-      ev.currentTarget.parentElement.parentElement.parentElement.dataset
-        .effectId;
-    return show_effect_card(target, effect_id, true);
-  }
   // Show card
   let message = await create_item_card(target, item_id);
   // Shortcut for rolling damage
@@ -259,30 +251,6 @@ async function item_click_listener(ev, target) {
       false,
       action.includes("damage"),
     );
-  }
-}
-
-/**
- * Shows a card with an effect or its origin
- * @param {actor, SwadeActor} target actor or token owning the effect
- * @param effect_id id of the effect
- * @param show_origin True to show the origin card instead of the effect card
- */
-function show_effect_card(target, effect_id, show_origin = false) {
-  const actor = target.actor || target;
-  const effect = actor.effects.get(effect_id);
-  if (!effect) {
-    return;
-  }
-  if (show_origin && effect.data.origin) {
-    const item_id_position = effect.data.origin.indexOf("Item.") + 5;
-    const item_id = effect.data.origin.slice(item_id_position);
-    const origin_item = actor.items.get(item_id);
-    if (origin_item) {
-      origin_item.sheet.render(true);
-    }
-  } else {
-    effect.sheet.render(true);
   }
 }
 

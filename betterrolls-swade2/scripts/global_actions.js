@@ -206,9 +206,11 @@ function check_selector(type, value, item, actor) {
     selected = description.toLowerCase().includes(value.toLowerCase());
   } else if (type === "actor_has_effect") {
     // noinspection AnonymousFunctionJS
-    const effect = actor.effects.find((effect) =>
-      effect.name.toLowerCase().includes(value.toLowerCase()),
-    );
+    const effect = actor
+      .appliedEffects()
+      .find((effect) =>
+        effect.name.toLowerCase().includes(value.toLowerCase()),
+      );
     selected = effect ? !effect.disabled : false;
   } else if (type === "actor_has_edge") {
     const edge_name = value.includes("BRSW.EdgeName-")
@@ -330,7 +332,7 @@ function check_selector(type, value, item, actor) {
   } else if (type === "target_has_effect") {
     selected = false;
     for (const targeted_token of game.user.targets) {
-      const effect = targeted_token.actor?.effects.find(
+      const effect = targeted_token.actor?.appliedEffects.find(
         (ef) => ef.name.toLowerCase().includes(value.toLowerCase()), // jshint ignore:line
       );
       if (effect) {
