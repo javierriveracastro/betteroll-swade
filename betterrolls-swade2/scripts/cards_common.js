@@ -204,7 +204,7 @@ export class BrCommonCard {
     }
     if (this.item_id) {
       const trait = get_item_trait(this.item, this.actor);
-      if (Object.hasOwn(trait, "type") && trait.type === "skill") {
+      if (trait && Object.hasOwn(trait, "type") && trait.type === "skill") {
         this.skill_id = trait.id;
       }
       return trait;
@@ -304,6 +304,9 @@ export class BrCommonCard {
   }
 
   populate_active_effect_actions() {
+    if (!this.skill) {
+      return;
+    }
     const attGlobalMods =
       this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
     const effectArray = [

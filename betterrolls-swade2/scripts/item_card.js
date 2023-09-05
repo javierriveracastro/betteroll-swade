@@ -505,9 +505,22 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-  // First if the item has a skill in actions we use it
+  // First if the item has a skill in actions tab we use it
   if (item.system.actions && item.system.actions.trait) {
     return trait_from_string(actor, item.system.actions.trait);
+  }
+  // Now check for a skill in additional actions.
+  for (let action in item.system.actions.additional) {
+    console.log(action);
+    if (
+      item.system.actions.additional[action].type === "trait" &&
+      item.system.actions.additional[action].name
+    ) {
+      return trait_from_string(
+        actor,
+        item.system.actions.additional[action].name,
+      );
+    }
   }
   // Some types of items don't have an associated skill
   if (
