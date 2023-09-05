@@ -1,3 +1,11 @@
+# Version 2.46 aka ... but each day less buggy...
+* Refactoring: Removing lots of code that is not used with the new cards. Lots more of restructuring. All of that can create bugs, but I hope it will make the code more maintainable.
+* Documentation: Better docs for the modifier row (Steve Culshaw)
+* Actions: Enabled active effects are now shown as actions
+* Bugfix: Solved a problem with type casting on gangup calculations that can lead to bugs.
+* Bugfix: Test for effects transferred from items in lots of places, including gangup reduction.
+* Cards: When an item has no trait defined, but owns an action that has one, use it for rolling
+
 # Version 3.45 aka ... buggy ...
 * Optional rules: Add a setting for not applying encumbrance to NPCs.
 * Bugfix: Use translations strings again for cover actions
