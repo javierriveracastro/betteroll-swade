@@ -316,7 +316,6 @@ export class BrCommonCard {
     ];
     let effectActions = [];
     for (let effect of effectArray) {
-      console.log(effect);
       const br_action = new brAction(
         effect.label,
         { skillMod: effect.value, name: effect.label, id: broofa() },

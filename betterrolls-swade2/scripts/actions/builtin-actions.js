@@ -113,38 +113,6 @@ export const SYSTEM_GLOBAL_ACTION = [
     group: "BRSW.Hindrances",
   },
   {
-    id: "BADEYES",
-    name: "Bad Eyes",
-    button_name: "BRSW.EdgeName-Bad-Eyes",
-    skillMod: "-1",
-    and_selector: [
-      {
-        selector_type: "actor_has_hindrance",
-        selector_value: "BRSW.EdgeName-Bad-Eyes",
-      },
-      {
-        not_selector: [
-          {
-            selector_type: "actor_has_hindrance",
-            selector_value: "BRSW.EdgeName-Bad-Eyes-Major",
-          },
-        ],
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Hindrances",
-  },
-  {
-    id: "BADEYES+",
-    name: "Bad Eyes+",
-    button_name: "BRSW.EdgeName-Bad-Eyes-Major",
-    skillMod: "-2",
-    selector_type: "actor_has_hindrance",
-    selector_value: "BRSW.EdgeName-Bad-Eyes-Major",
-    defaultChecked: "on",
-    group: "BRSW.Hindrances",
-  },
-  {
     id: "BLIND",
     name: "Blind",
     button_name: "BRSW.EdgeName-Blind",
