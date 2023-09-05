@@ -189,9 +189,9 @@ async function check_abilities(actor) {
   edgeAndAbilityNames = edgeAndAbilityNames.map((name) => name.toLowerCase());
   // Check if these have an AE (using .entries() to not loose the index):
   for (let [index, value] of edgeAndAbilityNames.entries()) {
-    let effect = actor.apliedEffects.find(
-      (active_e) => active_e.label.toLowerCase() === value,
-    ); // jshint ignore:line
+    let effect = actor.appliedEffects.find(
+      (active_e) => active_e.label.toLowerCase() === value, // jshint ignore:line
+    );
     // Only splice if the AE affects the generic bonus:
     let affectsUnshake = false;
     if (effect) {
