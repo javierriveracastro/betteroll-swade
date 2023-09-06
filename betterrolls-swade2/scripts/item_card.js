@@ -901,6 +901,15 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       );
     }
   }
+  // Item properties tab
+  if (br_message.item.system.actions.traitMod) {
+    extra_data.modifiers.push(
+      create_modifier(
+        game.i18n.localize("BRSW.ItemPropertiesTraitMod"),
+        br_message.item.system.actions.traitMod,
+      ),
+    );
+  }
   await roll_trait(
     br_message,
     br_message.skill.system,
@@ -1261,6 +1270,14 @@ export async function roll_dmg(
       const new_mod = create_modifier(mod.label, mod.value);
       damage_roll.brswroll.modifiers.push(new_mod);
     }
+  }
+  // Item properties tab
+  if (item.system.actions.dmgMod) {
+    const new_mod = create_modifier(
+      game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
+      item.system.actions.dmgMod,
+    );
+    damage_roll.brswroll.modifiers.push(new_mod);
   }
   // Minimum strength
   if (item.system.minStr) {
