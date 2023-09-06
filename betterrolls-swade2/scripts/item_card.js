@@ -237,14 +237,6 @@ async function item_click_listener(ev, target) {
     ev.currentTarget.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
-  if (!item_id) {
-    const effect_id =
-      ev.currentTarget.parentElement.dataset.effectId ||
-      ev.currentTarget.parentElement.parentElement.dataset.effectId ||
-      ev.currentTarget.parentElement.parentElement.parentElement.dataset
-        .effectId;
-    return show_effect_card(target, effect_id, true);
-  }
   // Show card
   let message = await create_item_card(target, item_id);
   // Shortcut for rolling damage
@@ -259,30 +251,6 @@ async function item_click_listener(ev, target) {
       false,
       action.includes("damage"),
     );
-  }
-}
-
-/**
- * Shows a card with an effect or its origin
- * @param {actor, SwadeActor} target actor or token owning the effect
- * @param effect_id id of the effect
- * @param show_origin True to show the origin card instead of the effect card
- */
-function show_effect_card(target, effect_id, show_origin = false) {
-  const actor = target.actor || target;
-  const effect = actor.effects.get(effect_id);
-  if (!effect) {
-    return;
-  }
-  if (show_origin && effect.data.origin) {
-    const item_id_position = effect.data.origin.indexOf("Item.") + 5;
-    const item_id = effect.data.origin.slice(item_id_position);
-    const origin_item = actor.items.get(item_id);
-    if (origin_item) {
-      origin_item.sheet.render(true);
-    }
-  } else {
-    effect.sheet.render(true);
   }
 }
 
@@ -537,9 +505,22 @@ export function make_item_footer(item) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-  // First if the item has a skill in actions we use it
+  // First if the item has a skill in actions tab we use it
   if (item.system.actions && item.system.actions.trait) {
     return trait_from_string(actor, item.system.actions.trait);
+  }
+  // Now check for a skill in additional actions.
+  for (let action in item.system.actions.additional) {
+    console.log(action);
+    if (
+      item.system.actions.additional[action].type === "trait" &&
+      item.system.actions.additional[action].name
+    ) {
+      return trait_from_string(
+        actor,
+        item.system.actions.additional[action].name,
+      );
+    }
   }
   // Some types of items don't have an associated skill
   if (
@@ -920,6 +901,15 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       );
     }
   }
+  // Item properties tab
+  if (br_message.item.system.actions.traitMod) {
+    extra_data.modifiers.push(
+      create_modifier(
+        game.i18n.localize("BRSW.ItemPropertiesTraitMod"),
+        br_message.item.system.actions.traitMod,
+      ),
+    );
+  }
   await roll_trait(
     br_message,
     br_message.skill.system,
@@ -1280,6 +1270,14 @@ export async function roll_dmg(
       const new_mod = create_modifier(mod.label, mod.value);
       damage_roll.brswroll.modifiers.push(new_mod);
     }
+  }
+  // Item properties tab
+  if (item.system.actions.dmgMod) {
+    const new_mod = create_modifier(
+      game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
+      item.system.actions.dmgMod,
+    );
+    damage_roll.brswroll.modifiers.push(new_mod);
   }
   // Minimum strength
   if (item.system.minStr) {

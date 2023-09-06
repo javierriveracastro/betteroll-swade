@@ -242,8 +242,6 @@
     "BRSW.DisableGangUpHint": "Desactiva el càlcul automàtic de múltiples adversaris (World)",
     "BRSW.ApplyFreeRunner": "Escalant o en persecució a peu",
     "BRSW.EdgeName-MartialArtist": "Artista marcial",
-    "BRSW.collapse-modifiers": "Contrau sempre els camps modificadors",
-    "BRSW.collapse-modifiers_hint": "Mostra la targeta amb tots els modificadors col·lapsats per a una vista més compactada (World)",
     "BRSW.Target": "Objectiu",
     "BRSW.EdgeName-Mean": "Canalla",
     "BRSW.SkillName-Persuasion": "Persuadir",

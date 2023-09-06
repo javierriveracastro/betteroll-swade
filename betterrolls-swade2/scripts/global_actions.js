@@ -144,10 +144,10 @@ export function get_actions(item, actor) {
 // noinspection OverlyComplexFunctionJS,FunctionTooLongJS
 /**
  * Check if a selector matches
- * @param type: Type of the selector
- * @param value: Value of the selector
- * @param item: item been checked
- * @param actor: actor been checked
+ * @param type Type of the selector
+ * @param value Value of the selector
+ * @param item item been checked
+ * @param actor actor been checked
  */
 function check_selector(type, value, item, actor) {
   let selected = false;
@@ -206,7 +206,7 @@ function check_selector(type, value, item, actor) {
     selected = description.toLowerCase().includes(value.toLowerCase());
   } else if (type === "actor_has_effect") {
     // noinspection AnonymousFunctionJS
-    const effect = actor.effects.find((effect) =>
+    const effect = actor.appliedEffects.find((effect) =>
       effect.name.toLowerCase().includes(value.toLowerCase()),
     );
     selected = effect ? !effect.disabled : false;
@@ -330,7 +330,7 @@ function check_selector(type, value, item, actor) {
   } else if (type === "target_has_effect") {
     selected = false;
     for (const targeted_token of game.user.targets) {
-      const effect = targeted_token.actor?.effects.find(
+      const effect = targeted_token.actor?.appliedEffects.find(
         (ef) => ef.name.toLowerCase().includes(value.toLowerCase()), // jshint ignore:line
       );
       if (effect) {

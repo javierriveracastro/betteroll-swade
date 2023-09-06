@@ -239,7 +239,7 @@ async function undo_damage(message) {
       // noinspection JSCheckFunctionSignatures
       await game.succ.removeCondition("shaken", token_object);
     }
-    let inc_effects = token_object.actor.effects
+    let inc_effects = [...token_object.actor.allApplicableEffects()]
       .filter((e) => e.flags?.core?.statusId === "incapacitated")
       .map((effect) => {
         return effect.id;
@@ -328,7 +328,7 @@ async function roll_soak(br_card, use_bennie) {
     });
   }
   // Active effects
-  let soak_active_effects = br_card.actor.effects.filter((e) =>
+  let soak_active_effects = br_card.actor.appliedEffects.filter((e) =>
     e.changes.find(
       (ch) =>
         ch.key === "brsw.soak-modifier" ||

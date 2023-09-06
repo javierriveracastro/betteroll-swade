@@ -18,11 +18,9 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "Frenzy",
     button_name: "BRSW.EdgeName-Frenzy",
     and_selector: [
-      { selector_type: "skill", selector_value: "fighting" },
-      {
-        selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Frenzy",
-      },
+      { selector_type: "skill", selector_value: "Fighting" },
+      { selector_type: "actor_has_edge", selector_value: "Frenzy" },
+      { selector_type: "item_type", selector_value: "weapon" },
       {
         not_selector: [
           {
@@ -41,11 +39,12 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "Improved Frenzy",
     button_name: "BRSW.EdgeName-ImprovedFrenzy",
     and_selector: [
-      { selector_type: "skill", selector_value: "fighting" },
+      { selector_type: "skill", selector_value: "Fighting" },
       {
         selector_type: "actor_has_edge",
         selector_value: "BRSW.EdgeName-ImprovedFrenzy",
       },
+      { selector_type: "item_type", selector_value: "weapon" },
     ],
     defaultChecked: "on",
     group: "BRSW.Edges",
@@ -110,38 +109,6 @@ export const SYSTEM_GLOBAL_ACTION = [
     skillMod: "-2",
     selector_type: "actor_has_hindrance",
     selector_value: "BRSW.EdgeName-All-Thumbs",
-    group: "BRSW.Hindrances",
-  },
-  {
-    id: "BADEYES",
-    name: "Bad Eyes",
-    button_name: "BRSW.EdgeName-Bad-Eyes",
-    skillMod: "-1",
-    and_selector: [
-      {
-        selector_type: "actor_has_hindrance",
-        selector_value: "BRSW.EdgeName-Bad-Eyes",
-      },
-      {
-        not_selector: [
-          {
-            selector_type: "actor_has_hindrance",
-            selector_value: "BRSW.EdgeName-Bad-Eyes-Major",
-          },
-        ],
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Hindrances",
-  },
-  {
-    id: "BADEYES+",
-    name: "Bad Eyes+",
-    button_name: "BRSW.EdgeName-Bad-Eyes-Major",
-    skillMod: "-2",
-    selector_type: "actor_has_hindrance",
-    selector_value: "BRSW.EdgeName-Bad-Eyes-Major",
-    defaultChecked: "on",
     group: "BRSW.Hindrances",
   },
   {
