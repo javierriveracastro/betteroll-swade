@@ -243,8 +243,6 @@
   "BRSW.SkillName-Athletics": "Athletics",
   "BRSW.SkillName-Stealth": "Stealth",
   "BRSW.EdgeName-HardOfHearing": "Hard of Hearing",
-  "BRSW.collapse-modifiers": "Always collapse modifier fields",
-  "BRSW.collapse-modifiers_hint": "Show the card with all the modifiers collapsed for more compact output. (World)",
   "BRSW.Target": "Target",
   "BRSW.EdgeName-Mean": "Mean",
   "BRSW.SkillName-Persuasion": "Persuasion",

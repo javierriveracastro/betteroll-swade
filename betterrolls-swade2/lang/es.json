@@ -237,8 +237,6 @@
     "BRSW.SkillName-Athletics": "Atletismo",
     "BRSW.SkillName-Stealth": "Sigilo",
     "BRSW.EdgeName-HardOfHearing": "Sordo",
-    "BRSW.collapse-modifiers": "Las acciones y modificadores se muestran colapsados",
-    "BRSW.collapse-modifiers_hint": "Muestra colapsados los modificadores de la carta, logrando una apariencia más compacta. (Mundo)",
     "BRSW.Target": "Objetivo",
     "BRSW.WoundCap": "Límite de heridas",
     "BRSW.WoundCapHint": "Si este campo tiene un número se activará la regla de límite de heridas, si es 0 o está en blanco se desactivará. (Mundo)",
