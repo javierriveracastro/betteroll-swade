@@ -144,10 +144,10 @@ export function get_actions(item, actor) {
 // noinspection OverlyComplexFunctionJS,FunctionTooLongJS
 /**
  * Check if a selector matches
- * @param type: Type of the selector
- * @param value: Value of the selector
- * @param item: item been checked
- * @param actor: actor been checked
+ * @param type Type of the selector
+ * @param value Value of the selector
+ * @param item item been checked
+ * @param actor actor been checked
  */
 function check_selector(type, value, item, actor) {
   let selected = false;
