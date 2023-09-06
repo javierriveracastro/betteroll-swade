@@ -1,3 +1,10 @@
+# Version 3.47 aka 
+* Builtin actions: Updated Improved Frenzy to the last SWADE version (Bruno Calado)
+* Feature: Support for the damage and trait modifiers fields on the item sheet.
+* Bugfix: Don't access appliedEffects as a funcion when checking for actions.
+* Refactoring: Some code simplifications and removals of dead code
+* Refactoring: Remove the now unused setting to collapse actions in cards
+
 # Version 3.46 aka ... still new but each day less buggy...
 * Refactoring: Removing lots of code that is not used with the new cards. Lots more of restructuring. All of that can create bugs, but I hope it will make the code more maintainable.
 * Documentation: Better docs for the modifier row (Steve Culshaw)
