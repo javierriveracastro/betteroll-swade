@@ -206,11 +206,9 @@ function check_selector(type, value, item, actor) {
     selected = description.toLowerCase().includes(value.toLowerCase());
   } else if (type === "actor_has_effect") {
     // noinspection AnonymousFunctionJS
-    const effect = actor
-      .appliedEffects()
-      .find((effect) =>
-        effect.name.toLowerCase().includes(value.toLowerCase()),
-      );
+    const effect = actor.appliedEffects.find((effect) =>
+      effect.name.toLowerCase().includes(value.toLowerCase()),
+    );
     selected = effect ? !effect.disabled : false;
   } else if (type === "actor_has_edge") {
     const edge_name = value.includes("BRSW.EdgeName-")
