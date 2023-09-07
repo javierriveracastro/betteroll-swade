@@ -70,7 +70,7 @@ async function create_attribute_card(origin, name) {
   br_message.type = BRSW_CONST.TYPE_ATTRIBUTE_CARD;
   await br_message.render();
   await br_message.save();
-  return br_message.message;
+  return br_message;
 }
 
 /**
@@ -113,9 +113,9 @@ async function attribute_click_listener(ev, target) {
   // The attribute id placement is sheet dependent.
   const attribute_id = ev.currentTarget.dataset.attribute;
   // Show card
-  const message = await create_attribute_card(target, attribute_id);
+  const br_card = await create_attribute_card(target, attribute_id);
   if (action.includes("trait")) {
-    await roll_attribute(message, false);
+    await roll_attribute(br_card, false);
   }
 }
 
@@ -187,13 +187,13 @@ if (event) {
 
 /**
  * Activate the listeners of the attribute card
- * @param message Message date
+ * @param {BrCommonCard} card Message date
  * @param html Html produced
  */
-export function activate_attribute_card_listeners(message, html) {
+export function activate_attribute_card_listeners(card, html) {
   html.find(".brsw-roll-button").click(async (ev) => {
     await roll_attribute(
-      message,
+      card,
       ev.currentTarget.classList.contains("roll-bennie-button"),
     );
   });
@@ -202,18 +202,10 @@ export function activate_attribute_card_listeners(message, html) {
 /**
  * Roll an attribute showing the roll card and the result card when enables
  *
- * @param {ChatMessage, BrCommonCard} card_or_message
+ * @param {BrCommonCard} br_card The card being rolled
  * @param {boolean} expend_bennie True if we want to spend a bennie
  */
-export async function roll_attribute(card_or_message, expend_bennie) {
-  let br_card = card_or_message.hasOwnProperty("action_groups")
-    ? card_or_message
-    : new BrCommonCard(card_or_message);
-  const render_data = br_card.message.getFlag(
-    "betterrolls-swade2",
-    "render_data",
-  );
-  const attribute_id = render_data.attribute_name;
+export async function roll_attribute(br_card, expend_bennie) {
   let extra_data = { modifiers: [] };
   let macros = [];
   for (let action of br_card.get_selected_actions()) {
@@ -222,13 +214,13 @@ export async function roll_attribute(card_or_message, expend_bennie) {
   for (let action of get_enabled_gm_actions()) {
     process_common_actions(action, extra_data, macros, br_card.actor);
   }
-  get_attribute_effects(br_card.actor, attribute_id, extra_data);
+  get_attribute_effects(br_card.actor, br_card.attribute_name, extra_data);
   if (expend_bennie) {
     await spend_bennie(br_card.actor);
   }
   await roll_trait(
     br_card,
-    br_card.actor.system.attributes[attribute_id],
+    br_card.actor.system.attributes[br_card.attribute_name],
     game.i18n.localize("BRSW.AbilityDie"),
     extra_data,
   );

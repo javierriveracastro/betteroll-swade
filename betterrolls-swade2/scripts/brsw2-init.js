@@ -134,7 +134,7 @@ Hooks.on("renderChatMessage", (message, html) => {
     // This chat card is one of ours
     activate_common_listeners(card, html);
     if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-      activate_attribute_card_listeners(message, html);
+      activate_attribute_card_listeners(card, html);
     } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
       activate_skill_card_listeners(message, html);
     } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
