@@ -11,7 +11,6 @@ import {
   roll_trait,
   process_common_actions,
   BrCommonCard,
-  create_modifier,
 } from "./cards_common.js";
 import { run_macros } from "./item_card.js";
 import { get_enabled_gm_actions } from "./gm_modifiers.js";
@@ -33,7 +32,7 @@ export const ATTRIBUTES_TRANSLATION_KEYS = {
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} name The name of the attribute like 'vigor'
- * @return {Promise} A promise for the ChatMessage object
+ * @return {Promise} A promise for the BrCommonCard object
  */
 async function create_attribute_card(origin, name) {
   let actor;
