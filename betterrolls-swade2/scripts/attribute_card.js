@@ -113,8 +113,7 @@ async function attribute_click_listener(ev, target) {
   const attribute_id = ev.currentTarget.dataset.attribute;
   // Show card
   const br_card = await create_attribute_card(target, attribute_id);
-  console.log(action);
-  if (action.ibcludes("dialog")) {
+  if (action.includes("dialog")) {
     game.brsw.dialog.show_card(br_card);
   } else if (action.includes("trait")) {
     await roll_attribute(br_card, false);

@@ -86,7 +86,7 @@ async function create_skill_card(origin, skill_id) {
   br_message.skill_id = skill.id;
   await br_message.render();
   await br_message.save();
-  return br_message.message;
+  return br_message;
 }
 
 /**
@@ -131,9 +131,11 @@ async function skill_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.dataset.itemId;
   // Show card
-  let message = await create_skill_card(target, skill_id);
-  if (action.includes("trait")) {
-    await roll_skill(message, false);
+  let br_card = await create_skill_card(target, skill_id);
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
+    await roll_skill(br_card.message, false);
   }
 }
 

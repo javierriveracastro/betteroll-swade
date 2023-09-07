@@ -1623,7 +1623,9 @@ async function duplicate_message(message, event) {
   await br_card.render();
   await br_card.save();
   const action = get_action_from_click(event);
-  if (action.includes("trait")) {
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
     // noinspection JSUnresolvedVariable
     const br_card = new BrCommonCard(message);
     const card_type = br_card.type;

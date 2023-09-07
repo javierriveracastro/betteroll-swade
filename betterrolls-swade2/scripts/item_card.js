@@ -183,7 +183,7 @@ async function create_item_card(origin, item_id) {
   ) {
     Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
   }
-  return br_message.message;
+  return br_message;
 }
 
 /**
@@ -238,16 +238,17 @@ async function item_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
   // Show card
-  let message = await create_item_card(target, item_id);
+  let br_card = await create_item_card(target, item_id);
   // Shortcut for rolling damage
   if (ev.currentTarget.classList.contains("damage-roll")) {
-    await roll_dmg(message, $(message.content), false, false);
+    await roll_dmg(br_card.message, $(br_card.message.content), false, false);
   }
-  if (action.includes("trait")) {
-    const br_card = new BrCommonCard(message);
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
     await roll_item(
       br_card,
-      $(message.content),
+      $(br_card.content),
       false,
       action.includes("damage"),
     );
