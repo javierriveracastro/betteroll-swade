@@ -304,9 +304,6 @@ export class BrCommonCard {
   }
 
   populate_active_effect_actions() {
-    console.log(this.skill);
-    console.log(this.attribute_name);
-    console.log(this);
     if (this.skill) {
       const attGlobalMods =
         this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
@@ -323,7 +320,6 @@ export class BrCommonCard {
         ...this.actor.system.stats.globalMods[this.attribute_name],
         ...this.actor.system.stats.globalMods.trait,
       ];
-      console.log(effectArray);
       this.populate_active_effect_actions_from_array(effectArray);
     }
   }
@@ -689,8 +685,6 @@ export function activate_common_listeners(br_card, html) {
     });
   }
   html.find(".brsw-selected-actions").on("click", async (ev) => {
-    console.log(ev.currentTarget.dataset);
-    console.log(ev.currentTarget);
     game.brsw.dialog.show_card(br_card);
   });
   // Selectable modifiers
@@ -1626,7 +1620,6 @@ async function duplicate_message(message, event) {
   let br_card = new BrCommonCard(new_message);
   br_card.trait_roll = new TraitRoll();
   br_card.render_data.damage_rolls = [];
-  console.log(br_card.render_data);
   await br_card.render();
   await br_card.save();
   const action = get_action_from_click(event);

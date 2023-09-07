@@ -345,5 +345,6 @@
   "BRSW.UseSystemInjuryTableHint": "Use the system injury table instead of BR2 provided one. Note that system table doesn't add active effects for the injuries, so you probably don't want to use it unless you want to use some custom table. (World).",
   "BRSW.ActiveEffects": "Active effects",
   "BRSW.ItemPropertiesTraitMod": "Item properties",
-  "BRSW.ItemPropertiesDmgMod": "Item properties (damage)"
+  "BRSW.ItemPropertiesDmgMod": "Item properties (damage)",
+  "BRSW.Show_dialog": "Show the card and open the action dialog"
 }

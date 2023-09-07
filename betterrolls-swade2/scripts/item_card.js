@@ -511,7 +511,6 @@ export function get_item_trait(item, actor) {
   }
   // Now check for a skill in additional actions.
   for (let action in item.system.actions.additional) {
-    console.log(action);
     if (
       item.system.actions.additional[action].type === "trait" &&
       item.system.actions.additional[action].name
@@ -642,7 +641,6 @@ async function displayRemainingCard(content) {
  * @param pp_modifier A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
-  console.log(pp_override, old_pp, pp_modifier);
   if (
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")

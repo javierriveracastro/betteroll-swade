@@ -30,7 +30,6 @@ function add_actions(actions) {
   const actions_to_delete = game.brsw.GLOBAL_ACTIONS.filter((action) =>
     actions_ids.includes(action.id),
   );
-  console.log(actions_to_delete);
   game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter(
     (action) => !actions_to_delete.includes(action),
   );
