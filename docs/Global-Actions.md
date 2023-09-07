@@ -66,7 +66,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 
 ### Selector fields
 
-This group of fields are used to select when the action is available, you will need to specify a `selector_type` and a `selector_value` for a simple selection. You can also use and_selector and give it a list of simple selectors.
+This group of fields are used to select when the action is available, you will need to specify a `selector_type` and a `selector_value` for a simple selection. You can also use `and_selector` and give it a list of simple selectors.
 
 #### selector_type
 
@@ -101,11 +101,11 @@ This group of fields are used to select when the action is available, you will n
 
 #### Complex Selectors
 
-* `and_selector`: Takes a list of the above selectors and executes the action if all are true, i.e., 'and_selector'. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes John.
+* `and_selector`: Takes a list of the above selectors and executes the action if all are true, i.e., `and_selector`. As an example the following json will select and item that uses fighting skill and is owned by an actor whose name includes John.
 * `or_selector`: Takes a list of selectors and executes the action if at least one is true
 * `not_selector`: Takes a list of only on selector and executes the action if that selector conditions are NOT met.
 
-#### Example: Basic Selector
+#### Example: Basic `and_selector` Selector
 
 ```json
   "and_selector": [
@@ -135,7 +135,7 @@ This tag lets you group the actions, it is not mandatory, but it will be used in
 ## Macros
 
 The following variables are pre-populated in a macro run from global actions for macro writer convenience.
-Note that all info is already stored in the message, all the other are just conveniences.
+Note that all info is already stored in the message, all the others are just conveniences.
 
 ```js
 const actor = actor_param; // The card actor
@@ -148,7 +148,7 @@ const message = message_param; // The full message object
 
 ## API
 
-You can define global actions within a module. This let the user activate your module and have all **Global Actions** you defined turned on.
+You can define global actions within a module. This let the user activate your module and have all the **Global Actions** you defined turned on.
 
 You need to load a script in your module. It's recommended to use `Hooks once ready`.
 
@@ -191,7 +191,7 @@ Hooks.once('ready', () => {
             selector_value: "Fighting"
           }
         ],
-        group: "Savage Pathfinder"
+        group: groupName
       }
   ];
 
@@ -199,7 +199,7 @@ Hooks.once('ready', () => {
 })
 ```
 
-It's recommended to add a conditional check to `game.brsw.add_actions` to prevent an error if Better Rolls is not activated.
+It's recommended to add a conditional check to `game.brsw.add_actions` to prevent an error if the Better Rolls module is not activated.
 
 ```js
 if (game.modules.get("betterrolls-swade2")?.active) {
@@ -208,7 +208,7 @@ if (game.modules.get("betterrolls-swade2")?.active) {
 }
 ```
 
-It's also recommended to add to your module settings an option to let the user turn on this feature. Maybe the user wants to use his own global actions.
+It's also recommended to add an option to your module settings to let the user turn on this feature, e.g., maybe the user wants to use their own global actions.
 
 ```js
 if (game.settings.get("yourModuleID", "TurnOnOrOffMyModuleGlobalActions")) {
@@ -218,7 +218,7 @@ if (game.settings.get("yourModuleID", "TurnOnOrOffMyModuleGlobalActions")) {
 
 Module for Example: <https://github.com/brunocalado/savage-pathfinder-enhanced>
 
-## Examples from Different Settings
+## Example Global Actions from Different Settings
 
 ### Table of contents
 
@@ -242,7 +242,7 @@ Below are examples for the core rules of SWADE and may be applicable to most set
 
 These cover the most basic modifiers and combat actions in SWADE.
 
-#### Called Shot
+##### Called Shot
 
 ```json
 {
@@ -257,7 +257,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Unarmed Defender
+##### Unarmed Defender
 
 ```json
 {
@@ -271,7 +271,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Unstable Platform
+##### Unstable Platform
 
 ```json
 {
@@ -293,7 +293,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Touch Attack
+##### Touch Attack
 
 ```json
 {
@@ -308,7 +308,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Off-Hand Attacks
+##### Off-Hand Attacks
 
 ```json
 {
@@ -322,7 +322,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Nonlethal Damage
+##### Nonlethal Damage
 
 ```json
 {
@@ -336,7 +336,7 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Two Weapons
+##### Two Weapons
 
 ```json
 {
@@ -350,11 +350,11 @@ These cover the most basic modifiers and combat actions in SWADE.
 }
 ```
 
-#### Edges
+#### Edges in SWADE
 
 This is a non-exhaustive list of modifiers enabled by Edges a character has learned in SWADE.
 
-#### Dodge
+##### Dodge
 
 ```json
 {
@@ -374,7 +374,7 @@ This is a non-exhaustive list of modifiers enabled by Edges a character has lear
 }
 ```
 
-#### Marksman
+##### Marksman
 
 ```json
 {
@@ -396,7 +396,7 @@ This is a non-exhaustive list of modifiers enabled by Edges a character has lear
 }
 ```
 
-#### Alertness
+##### Alertness
 
 ```json
 {
@@ -419,7 +419,7 @@ This is a non-exhaustive list of modifiers enabled by Edges a character has lear
 }
 ```
 
-#### Mr Fix It
+##### Mr Fix It
 
 ```json
 {
@@ -444,7 +444,7 @@ This is a non-exhaustive list of modifiers enabled by Edges a character has lear
 
 Here are examples for Special Abilities (N)PCs might have in SWADE.
 
-#### Rollover (Alligator/Crocodile ability)
+##### Rollover (Alligator/Crocodile ability)
 
 ```json
 {
@@ -460,7 +460,7 @@ Here are examples for Special Abilities (N)PCs might have in SWADE.
 }
 ```
 
-#### Pounce (Lion ability)
+##### Pounce (Lion ability)
 
 ```json
 {
@@ -480,7 +480,7 @@ Here are examples for Special Abilities (N)PCs might have in SWADE.
 
 Below is a list of actions for the Fantasy Companion for SWADE.
 
-#### Edges
+#### Edges in Fantasy Companion
 
 ##### Savagery
 
@@ -509,6 +509,8 @@ SWPF adds new combat options like Desperate Attack which is listed as an example
 ##### Desperate Attack
 
 Due to the nature of Desperate Attack, i.e., either a +2 or +4 to Fighting and subtract like amount from damage, two global actions are needed:
+
+*NOTE: Desperate Attack has been rolled back into the core Savage Worlds in the "printing v5".*
 
 ```json
 {
@@ -552,7 +554,7 @@ Due to the nature of Desperate Attack, i.e., either a +2 or +4 to Fighting and s
 }
 ```
 
-##### Edges
+#### Edges in Pathfinder for Savage Worlds
 
 These are examples enabled by learned Edges from Savage Pathfinder.
 
@@ -675,7 +677,7 @@ These are examples enabled by learned Edges from Savage Pathfinder.
 
 These are examples common to the Sprawlrunners rules for Savage Worlds.
 
-#### Edges
+#### Edges in Sprawlrunners
 
 These are enabled by Edges a character has learned in Sprawlrunners.
 
