@@ -214,7 +214,6 @@ export async function roll_attribute(br_card, expend_bennie) {
   for (let action of get_enabled_gm_actions()) {
     process_common_actions(action, extra_data, macros, br_card.actor);
   }
-  get_attribute_effects(br_card.actor, br_card.attribute_name, extra_data);
   if (expend_bennie) {
     await spend_bennie(br_card.actor);
   }
@@ -226,17 +225,4 @@ export async function roll_attribute(br_card, expend_bennie) {
   );
   // noinspection ES6MissingAwait
   run_macros(macros, br_card.actor, null, br_card);
-}
-
-function get_attribute_effects(actor, attribute, extra_data) {
-  const abl = actor.system.attributes[attribute];
-  const effectArray = [
-    ...abl.effects,
-    ...actor.system.stats.globalMods[attribute],
-    ...actor.system.stats.globalMods.trait,
-  ];
-  for (let effect of effectArray) {
-    let modifier = create_modifier(effect.label, effect.value);
-    extra_data.modifiers.push(modifier);
-  }
 }

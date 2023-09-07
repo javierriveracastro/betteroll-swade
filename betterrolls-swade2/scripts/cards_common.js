@@ -304,16 +304,31 @@ export class BrCommonCard {
   }
 
   populate_active_effect_actions() {
-    if (!this.skill) {
-      return;
+    console.log(this.skill);
+    console.log(this.attribute_name);
+    console.log(this);
+    if (this.skill) {
+      const attGlobalMods =
+        this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
+      const effectArray = [
+        ...this.actor.system.stats.globalMods.trait,
+        ...attGlobalMods,
+        ...this.skill.system.effects,
+      ];
+      this.populate_active_effect_actions_from_array(effectArray);
+    } else if (this.attribute_name) {
+      const abl = this.actor.system.attributes[this.attribute_name];
+      const effectArray = [
+        ...abl.effects,
+        ...this.actor.system.stats.globalMods[this.attribute_name],
+        ...this.actor.system.stats.globalMods.trait,
+      ];
+      console.log(effectArray);
+      this.populate_active_effect_actions_from_array(effectArray);
     }
-    const attGlobalMods =
-      this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
-    const effectArray = [
-      ...this.actor.system.stats.globalMods.trait,
-      ...attGlobalMods,
-      ...this.skill.system.effects,
-    ];
+  }
+
+  populate_active_effect_actions_from_array(effectArray) {
     let effectActions = [];
     for (let effect of effectArray) {
       const br_action = new brAction(
