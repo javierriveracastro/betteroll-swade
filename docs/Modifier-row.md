@@ -1,4 +1,4 @@
-Better Rolls 2 adds a section above the chat window allowing you to set up generic **"one-time"** modifiers for your next roll (one click, white highlight), or **"persistent"**, i.e. all rolls until toggled off (double click, red highlight).
+The **Better Rolls 2 for Savage Worlds** module adds a section above the chat window allowing you to set up generic **"one-time"** modifiers for your next roll (one click, white highlight), or **"persistent"**, i.e. all rolls until toggled off (double click, red highlight).
 
 If you prefer this section to start hidden, you can find an option to collapse it by default in the settings.
 
