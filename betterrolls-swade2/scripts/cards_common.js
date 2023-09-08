@@ -527,19 +527,13 @@ export function expose_card_class() {
 }
 
 /**
- * Creates a char card
+ * Creates a chat card
  *
  * @param {PlaceableObject, SwadeActor} origin The origin of this card
  * @param {object} render_data Data to pass to the render template
- * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card
  */
-export async function create_common_card(
-  origin,
-  render_data,
-  chat_type,
-  template,
-) {
+export async function create_common_card(origin, render_data, template) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;

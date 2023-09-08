@@ -168,7 +168,6 @@ async function create_item_card(origin, item_id) {
       description: description,
       swade_templates: get_template_from_item(item),
     },
-    CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/item_card.html",
   );
   br_message.type = BRSW_CONST.TYPE_ITEM_CARD;

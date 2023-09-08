@@ -79,7 +79,6 @@ async function create_skill_card(origin, skill_id) {
       trait_id: skill.id,
       description: skill.system.description,
     },
-    CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/skill_card.html",
   );
   br_message.type = BRSW_CONST.TYPE_SKILL_CARD;

@@ -52,7 +52,6 @@ async function create_attribute_card(origin, name) {
       header: { type: game.i18n.localize("BRSW.Attribute"), title: title },
       attribute_name: name,
     },
-    CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/attribute_card.html",
   );
   // We always set the actor (as a fallback, and the token if possible)
