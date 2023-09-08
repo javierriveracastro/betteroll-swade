@@ -64,9 +64,6 @@ async function create_skill_card(origin, skill_id) {
     return item.id === skill_id;
   });
   const extra_name = skill.name + " " + trait_to_string(skill.system);
-  const footer = [
-    game.i18n.localize("BRSW.Attribute") + ": " + skill.system.attribute,
-  ];
   let br_message = await create_common_card(
     origin,
     {
@@ -75,7 +72,6 @@ async function create_skill_card(origin, skill_id) {
         title: extra_name,
         img: skill.img,
       },
-      footer: footer,
       trait_id: skill.id,
       description: skill.system.description,
     },
