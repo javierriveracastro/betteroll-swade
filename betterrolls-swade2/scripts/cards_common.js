@@ -510,11 +510,39 @@ export class BrCommonCard {
    * Creates the Foundry message object
    */
   async create_foundry_message(new_content) {
-    let chatData = create_basic_chat_data(this.actor);
+    let chatData = this.create_basic_chat_data();
     if (new_content) {
       chatData.content = new_content;
     }
     this.message = await ChatMessage.create(chatData);
+  }
+
+  /**
+   * Creates the basic chat data common to most cards
+   * @return {Object} An object suitable to create a ChatMessage
+   */
+  create_basic_chat_data() {
+    let whisper_data = getWhisperData();
+    // noinspection JSUnresolvedVariable
+    let chatData = {
+      user: game.user.id,
+      content: "<p>Default content, likely an error in Better Rolls</p>",
+      speaker: {
+        actor: this.actor._idx,
+        token: this.token.id,
+        alias: this.actor.name,
+      },
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      blind: whisper_data.blind,
+      flags: { core: { canPopout: true } },
+    };
+    if (whisper_data.whisper) {
+      chatData.whisper = whisper_data.whisper;
+    }
+    chatData.roll = new Roll("0").roll({ async: false });
+    chatData.rollMode = whisper_data.rollMode;
+    // noinspection JSValidateTypes
+    return chatData;
   }
 }
 
@@ -547,46 +575,6 @@ export async function create_common_card(origin, render_data, template) {
   }
   br_message.generate_render_data(render_data, template);
   return br_message;
-}
-
-/**
- * Creates the basic chat data common to most cards
- * @param {SwadeActor, Token} origin -  The actor origin of the message
- * @return {Object} An object suitable to create a ChatMessage
- */
-export function create_basic_chat_data(origin) {
-  let actor;
-  let token;
-  if (origin instanceof TokenDocument || origin instanceof Token) {
-    // This is a token or a TokenDocument
-    actor = origin.actor;
-    token = origin;
-  } else {
-    // This is an actor
-    actor = origin;
-    token = actor.token;
-  }
-  let whisper_data = getWhisperData();
-  // noinspection JSUnresolvedVariable
-  let chatData = {
-    user: game.user.id,
-    content: "<p>Default content, likely an error in Better Rolls</p>",
-    speaker: {
-      actor: actor._idx,
-      token: token ? token.id : token,
-      alias: origin.name,
-    },
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-    blind: whisper_data.blind,
-    flags: { core: { canPopout: true } },
-  };
-  if (whisper_data.whisper) {
-    chatData.whisper = whisper_data.whisper;
-  }
-  chatData.roll = new Roll("0").roll({ async: false });
-  chatData.rollMode = whisper_data.rollMode;
-  // noinspection JSValidateTypes
-  return chatData;
 }
 
 /**
@@ -678,7 +666,7 @@ export function activate_common_listeners(br_card, html) {
       create_unstun_card(br_card.message, undefined);
     });
   }
-  html.find(".brsw-selected-actions").on("click", async (ev) => {
+  html.find(".brsw-selected-actions").on("click", async () => {
     game.brsw.dialog.show_card(br_card);
   });
   // Selectable modifiers
