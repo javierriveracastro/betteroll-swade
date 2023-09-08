@@ -46,19 +46,10 @@ async function create_attribute_card(origin, name) {
     translated_name +
     " " +
     trait_to_string(actor.system.attributes[name.toLowerCase()]);
-  let footer = [];
-  for (let attribute in actor.system.attributes) {
-    if (actor.system.attributes.hasOwnProperty(attribute)) {
-      footer.push(
-        `${attribute} ${trait_to_string(actor.system.attributes[attribute])}`,
-      );
-    }
-  }
   let br_message = await create_common_card(
     origin,
     {
       header: { type: game.i18n.localize("BRSW.Attribute"), title: title },
-      footer: footer,
       attribute_name: name,
     },
     CONST.CHAT_MESSAGE_TYPES.ROLL,
