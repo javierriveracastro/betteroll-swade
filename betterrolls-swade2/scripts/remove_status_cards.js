@@ -10,7 +10,6 @@ import {
   roll_trait,
   spend_bennie,
 } from "./cards_common.js";
-import { status_footer } from "./incapacitation_card.js";
 
 /**
  * Shows the unshaken card
@@ -36,7 +35,6 @@ async function create_remove_status_card(original_message, actor, type) {
     type === BRSW_CONST.TYPE_UNSHAKE_CARD
       ? game.i18n.format("BRSW.UnshakenText", { token_name: actor.name })
       : game.i18n.format("BRSW.UnstunText", { token_name: actor.name });
-  let footer = status_footer(actor);
   let title_name =
     type === BRSW_CONST.TYPE_UNSHAKE_CARD ? "BRSW.Unshake" : "BRSW.Unstun";
   const roll_title =
@@ -53,7 +51,6 @@ async function create_remove_status_card(original_message, actor, type) {
       },
       roll_title: roll_title,
       text: text,
-      footer: footer,
       show_roll_injury: false,
       attribute_name: "spirit",
     },

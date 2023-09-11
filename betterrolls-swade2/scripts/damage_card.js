@@ -44,7 +44,6 @@ export async function create_damage_card(
   // noinspection JSUnresolvedVariable
   const can_soak = wounds || actor.system.status.isShaken;
   const damage_result = await apply_damage(token, wounds, 0);
-  const footer = damage_card_footer(actor);
   let show_injury =
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")
@@ -65,7 +64,6 @@ export async function create_damage_card(
         notes: damage_text,
       },
       text: damage_result.text,
-      footer: footer,
       undo_values: undo_values,
       wounds: wounds,
       soaked: 0,
@@ -82,29 +80,6 @@ export async function create_damage_card(
   await br_message.save();
   Hooks.call("BRSW-AfterShowDamageCard", actor, wounds, br_message);
   return br_message.message;
-}
-
-/**
- * Creates the footer for damage and incapacitation cards
- * @param {{SwadeActor}} actor
- * @return {[string]}
- */
-export function damage_card_footer(actor) {
-  // noinspection JSUnresolvedVariable
-  let footer = [
-    `${game.i18n.localize("SWADE.Wounds")}: ${actor.system.wounds.value}/${
-      actor.system.wounds.max
-    }`,
-  ];
-  // noinspection JSUnresolvedVariable
-  for (let status in actor.system.status) {
-    // noinspection JSUnfilteredForInLoop,JSUnresolvedVariable
-    if (actor.system.status[status]) {
-      // noinspection JSUnfilteredForInLoop
-      footer.push(status.slice(2));
-    }
-  }
-  return footer;
 }
 
 /**

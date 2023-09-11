@@ -72,7 +72,6 @@ Hooks.on(`ready`, () => {
   // Load partials.
   const templatePaths = [
     "modules/betterrolls-swade2/templates/common_card_header.html",
-    "modules/betterrolls-swade2/templates/common_card_footer.html",
     "modules/betterrolls-swade2/templates/trait_roll_partial.html",
     "modules/betterrolls-swade2/templates/trait_result_partial.html",
     "modules/betterrolls-swade2/templates/damage_partial.html",
