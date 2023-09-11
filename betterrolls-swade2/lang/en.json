@@ -346,5 +346,6 @@
   "BRSW.ActiveEffects": "Active effects",
   "BRSW.ItemPropertiesTraitMod": "Item properties",
   "BRSW.ItemPropertiesDmgMod": "Item properties (damage)",
-  "BRSW.Show_dialog": "Show the card and open the action dialog"
+  "BRSW.Show_dialog": "Show the card and open the action dialog",
+  "BRSW.TraitDie": "Trait Die"
 }
