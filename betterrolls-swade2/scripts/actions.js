@@ -27,6 +27,7 @@ export class brAction {
         this.code.skillMod = this.code.modifier;
       } else if (this.code.type === "damage") {
         this.code.dmgMod = this.code.modifier;
+        this.code.dmgOverride = this.code.override;
       }
     }
   }
