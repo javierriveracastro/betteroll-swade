@@ -325,5 +325,6 @@
     "BRSW.GroupRoll": "Tirada de grupo",
     "BRSW.UnstunBonus": "Bonus para quitar el conmocionado",
     "BRSW.OR.RiftsGrittyDamage": "El daño pesado hace heridas",
-    "BRSW.ActiveEffects": "Efectos activos"
+    "BRSW.ActiveEffects": "Efectos activos",
+    "BRSW.TraitDie": "Dado de rasgo"
 }
