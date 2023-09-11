@@ -1380,6 +1380,10 @@ export async function roll_trait(br_card, trait_dice, dice_label, extra_data) {
     br_card.trait_roll.wild_die = false;
   }
   br_card.trait_roll.modifiers = roll_options.modifiers;
+  if (extra_data.tn) {
+    br_card.trait_roll.tn = extra_data.tn;
+    br_card.trait_roll.tn_reason = extra_data.tn_reason;
+  }
   let roll = new Roll(roll_string);
   await roll.evaluate();
   await br_card.trait_roll.add_roll(roll);
