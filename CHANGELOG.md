@@ -1,3 +1,16 @@
+# Version 3.48 aka no, still not solved the Monks bug.
+* Bugfix: Spelling and grammar errors. (Steve Culshaw)
+* Refactoring: .gitignore has been made simpler.
+* Refactoring: Simplify a lot the code for attribute rolling.
+* Feature: Active effects that affect a roll appear now as actions.
+* Feature: Add an option in settings to show the card and the action selection window on a click or a key plus click.
+* Evil feature removal: Footers are gone. Cards look better. You have less info at a glance.
+* Bugfix: Make the "Trait die" string translatable.
+* Bugfix: Make tnOverride work again
+* Feature: Add actions for Desesperate Attack (Bruno Calado, but he doesn't know yet. Again. Yes more shameless stealing from his module)
+* Feature: Support the damage override field in the action tabs of items.
+* Refactoring: Simplify card creation.
+
 # Version 3.47 aka 
 * Builtin actions: Updated Improved Frenzy to the last SWADE version (Bruno Calado)
 * Feature: Support for the damage and trait modifiers fields on the item sheet.
