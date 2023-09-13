@@ -14,7 +14,7 @@ export class brAction {
     this.selected = false;
     this.recreate_skill_damage_mods();
     this.has_skill_mod = !!(this.code.skillMod || this.code.skillOverride);
-    this.has_damage_mod = !!(this.code.dmgMod || this.code.damageOverride);
+    this.has_damage_mod = !!(this.code.dmgMod || this.code.dmgOverride);
   }
 
   recreate_skill_damage_mods() {
