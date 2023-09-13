@@ -310,7 +310,7 @@ export const COMBAT_OPTIONS = [
     and_selector: [
       {
         selector_type: "skill",
-        selector_value: "Fighting",
+        selector_value: "fighting",
       },
       {
         selector_type: "item_type",
@@ -329,7 +329,7 @@ export const COMBAT_OPTIONS = [
     and_selector: [
       {
         selector_type: "skill",
-        selector_value: "Fighting",
+        selector_value: "fighting",
       },
       {
         selector_type: "item_type",

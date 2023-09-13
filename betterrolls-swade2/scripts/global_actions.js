@@ -166,7 +166,9 @@ function check_selector(type, value, item, actor) {
             skill.name
               .toLowerCase()
               .includes(
-                game.i18n.localize("BRSW.SkillName-" + value).toLowerCase(),
+                game.i18n
+                  .localize("BRSW.SkillName-" + value.toLowerCase())
+                  .toLowerCase(),
               );
         }
       }
