@@ -1287,16 +1287,20 @@ export async function roll_dmg(
   for (let modifier of damage_roll.brswroll.modifiers) {
     total_modifiers += modifier.value;
   }
+  let first_roll = true;
   for (let target of targets) {
-    render_data.damage_rolls.push(
-      await roll_dmg_target(
-        damage_roll,
-        damage_formulas,
-        target,
-        total_modifiers,
-        message,
-      ),
-    );
+    if (target || first_roll) {
+      render_data.damage_rolls.push(
+        await roll_dmg_target(
+          damage_roll,
+          damage_formulas,
+          target,
+          total_modifiers,
+          message,
+        ),
+      );
+      first_roll = false; // Only roll once without targets.
+    }
   }
   await update_message(message, render_data);
   // Run macros
