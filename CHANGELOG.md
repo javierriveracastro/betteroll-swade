@@ -1,3 +1,10 @@
+# Version 3.49 aka Bugfixes gallore
+* Bugfix: Make the code that tries to find the translation for skills that appear in actions better.
+* Bugfix: Damage overriding actions now show the damage icon (DDBrown)
+* Bugfix: Gitignore works again for those poor people forced to use VSCode. (Poor DDBrown)
+* Bugfix: Item and Active Effect actions are now ordered by name, as if was random generated (DDBrown)
+* Bugfix: Check that damage is only roll once for "default target". This should solve the Monks plus Wargate mistery bug. 
+
 # Version 3.48 aka no, still not solved the Monks bug.
 * Bugfix: Spelling and grammar errors. (Steve Culshaw)
 * Refactoring: .gitignore has been made simpler.
