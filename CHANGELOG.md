@@ -1,3 +1,6 @@
+# Version 3.50 aka Nothing to see here, this version doesn't exist, it is only in your imagination
+* Bugfix: Rolling for actors without tokens workign again (but I never broke that, it must be your imagination)
+
 # Version 3.49 aka Bugfixes gallore
 * Bugfix: Make the code that tries to find the translation for skills that appear in actions better.
 * Bugfix: Damage overriding actions now show the damage icon (DDBrown)
