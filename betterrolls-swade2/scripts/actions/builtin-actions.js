@@ -19,7 +19,10 @@ export const SYSTEM_GLOBAL_ACTION = [
     button_name: "BRSW.EdgeName-Frenzy",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
-      { selector_type: "actor_has_edge", selector_value: "Frenzy" },
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-Frenzy",
+      },
       { selector_type: "item_type", selector_value: "weapon" },
       {
         not_selector: [
