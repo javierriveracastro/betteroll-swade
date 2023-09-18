@@ -257,3 +257,10 @@
     border: 3px solid #6f6c66;
     border-radius: 5px;
 }
+
+/* Tailwind hides all inputs with the collapse class */
+
+#sidebar-tabs .collapse {
+    visibility: visible;
+}
+
