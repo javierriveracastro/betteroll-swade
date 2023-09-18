@@ -10,27 +10,30 @@
         {{/each}}
     </div>
 {{/if}}
-<div class="brsw-roll-row">
-    <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-roll-detail">
-        <i class="fas fa-caret-right"></i>{{ localize 'BRSW.Rolls'}}{{# if trait_roll.modifiers }}(*){{/if}} :
-    </span>
-    <span>
-        {{#each trait_roll.current_roll.dice }}
-            <a class="brsw-override-die" data-die-index="{{@index}}">
-                <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
-                    {{ this.final_total }}
-                </span>
-            </a>
-        {{/each}}
-        {{# if show_rerolls }}
-            <button class="brsw-trait-reroll brsw-row-button brsw-roll-button brsw-form" title="{{ localize "BRSW.Free_reroll" }}"><i class="fas fa-redo-alt"></i></button>
+<div class="my-2 block p-1 bg-gray-500 border border-solid border-gray-700 rounded shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer leading-6">
+    <div class="flex justify-between">
+        <span>
+            {{#each trait_roll.current_roll.dice }}
+                <a class="brsw-override-die" data-die-index="{{@index}}">
+                    <span class="brsw-d{{this.sides}} brsw-dice-image{{this.extra_class}}">
+                        {{ this.final_total }}
+                    </span>
+                </a>
+            {{/each}}
+        </span>
+        {{# if show_rerolls }}<span>
+            <button class="brsw-row-button brsw-roll-button brsw-form py-0.5 px-1 mr-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
+                    title="{{ localize "BRSW.Free_reroll" }}">
+                <i class="fas fa-redo-alt"></i>
+            </button>
             {{#if bennie_avaliable}}
-                <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button brsw-form" title="{{ localize 'BRSW.Roll_and_bennie' }}">
+                <button class="brsw-trait-reroll brsw-row-button brsw-roll-button roll-bennie-button brsw-form py-0.5 px-1 mr-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
+                        title="{{ localize 'BRSW.Roll_and_bennie' }}">
                     <img src="{{{ benny_image }}}" class="brsw-button-image" alt="Bennie re-roll">
                 </button>
             {{/if}}
-        {{/if}}
-    </span>
+        </span>{{/if}}
+    </div>
 </div>
 <div class="brsw-roll-detail {{# if collapse_rolls }}brsw-collapsed{{/if}}">
     <div class="brsw-form">
