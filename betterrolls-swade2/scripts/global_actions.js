@@ -4,6 +4,7 @@
 import { get_item_trait } from "./item_card.js";
 import { SYSTEM_GLOBAL_ACTION } from "./actions/builtin-actions.js";
 import { manage_selectable_gm } from "./gm_modifiers.js";
+import { get_roll_options } from "./cards_common";
 
 // DMG override is still not implemented.
 /**
@@ -48,6 +49,7 @@ function process_not_selector(action, item, actor) {
  */
 export function expose_global_actions_functions() {
   game.brsw.add_actions = add_actions;
+  game.brsw.get_roll_options = get_roll_options;
 }
 
 /**
