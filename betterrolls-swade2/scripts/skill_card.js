@@ -64,9 +64,6 @@ async function create_skill_card(origin, skill_id) {
     return item.id === skill_id;
   });
   const extra_name = skill.name + " " + trait_to_string(skill.system);
-  const footer = [
-    game.i18n.localize("BRSW.Attribute") + ": " + skill.system.attribute,
-  ];
   let br_message = await create_common_card(
     origin,
     {
@@ -75,18 +72,16 @@ async function create_skill_card(origin, skill_id) {
         title: extra_name,
         img: skill.img,
       },
-      footer: footer,
       trait_id: skill.id,
       description: skill.system.description,
     },
-    CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/skill_card.html",
   );
   br_message.type = BRSW_CONST.TYPE_SKILL_CARD;
   br_message.skill_id = skill.id;
   await br_message.render();
   await br_message.save();
-  return br_message.message;
+  return br_message;
 }
 
 /**
@@ -131,9 +126,11 @@ async function skill_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.dataset.itemId;
   // Show card
-  let message = await create_skill_card(target, skill_id);
-  if (action.includes("trait")) {
-    await roll_skill(message, false);
+  let br_card = await create_skill_card(target, skill_id);
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
+    await roll_skill(br_card.message, false);
   }
 }
 

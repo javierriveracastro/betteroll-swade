@@ -4,6 +4,7 @@
 import { get_item_trait } from "./item_card.js";
 import { SYSTEM_GLOBAL_ACTION } from "./actions/builtin-actions.js";
 import { manage_selectable_gm } from "./gm_modifiers.js";
+import { get_roll_options } from "./cards_common.js";
 
 // DMG override is still not implemented.
 /**
@@ -30,7 +31,6 @@ function add_actions(actions) {
   const actions_to_delete = game.brsw.GLOBAL_ACTIONS.filter((action) =>
     actions_ids.includes(action.id),
   );
-  console.log(actions_to_delete);
   game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter(
     (action) => !actions_to_delete.includes(action),
   );
@@ -49,6 +49,7 @@ function process_not_selector(action, item, actor) {
  */
 export function expose_global_actions_functions() {
   game.brsw.add_actions = add_actions;
+  game.brsw.get_roll_options = get_roll_options;
 }
 
 /**
@@ -167,7 +168,9 @@ function check_selector(type, value, item, actor) {
             skill.name
               .toLowerCase()
               .includes(
-                game.i18n.localize("BRSW.SkillName-" + value).toLowerCase(),
+                game.i18n
+                  .localize("BRSW.SkillName-" + value.toLowerCase())
+                  .toLowerCase(),
               );
         }
       }

@@ -72,7 +72,6 @@ Hooks.on(`ready`, () => {
   // Load partials.
   const templatePaths = [
     "modules/betterrolls-swade2/templates/common_card_header.html",
-    "modules/betterrolls-swade2/templates/common_card_footer.html",
     "modules/betterrolls-swade2/templates/trait_roll_partial.html",
     "modules/betterrolls-swade2/templates/trait_result_partial.html",
     "modules/betterrolls-swade2/templates/damage_partial.html",
@@ -134,7 +133,7 @@ Hooks.on("renderChatMessage", (message, html) => {
     // This chat card is one of ours
     activate_common_listeners(card, html);
     if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-      activate_attribute_card_listeners(message, html);
+      activate_attribute_card_listeners(card, html);
     } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
       activate_skill_card_listeners(message, html);
     } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
@@ -347,6 +346,7 @@ function register_settings_version2() {
   const br_choices = {
     system: game.i18n.localize("BRSW.Default_system_roll"),
     card: game.i18n.localize("BRSW.Show_Betterrolls_card"),
+    dialog: game.i18n.localize("BRSW.Show_dialog"),
     trait: game.i18n.localize("BRSW.Show_card_and_trait"),
     trait_damage: game.i18n.localize("BRSW.Show_card_damage"),
   };

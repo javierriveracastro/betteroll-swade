@@ -124,7 +124,6 @@ async function create_item_card(origin, item_id) {
     item.show();
     return;
   }
-  let footer = make_item_footer(item);
   const trait = get_item_trait(item, actor);
   let notes = "";
   if (item.system.notes && item.system.notes.length < 50) {
@@ -156,7 +155,6 @@ async function create_item_card(origin, item_id) {
     {
       header: { type: "Item", title: item.name, img: item.img },
       notes: notes,
-      footer: footer,
       damage: damage,
       trait_id: trait ? trait.id || trait : false,
       ammo: ammon_enabled,
@@ -168,7 +166,6 @@ async function create_item_card(origin, item_id) {
       description: description,
       swade_templates: get_template_from_item(item),
     },
-    CONST.CHAT_MESSAGE_TYPES.ROLL,
     "modules/betterrolls-swade2/templates/item_card.html",
   );
   br_message.type = BRSW_CONST.TYPE_ITEM_CARD;
@@ -183,7 +180,7 @@ async function create_item_card(origin, item_id) {
   ) {
     Hooks.call("BRSW-CreateItemCardNoRoll", br_message);
   }
-  return br_message.message;
+  return br_message;
 }
 
 /**
@@ -238,16 +235,17 @@ async function item_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
   // Show card
-  let message = await create_item_card(target, item_id);
+  let br_card = await create_item_card(target, item_id);
   // Shortcut for rolling damage
   if (ev.currentTarget.classList.contains("damage-roll")) {
-    await roll_dmg(message, $(message.content), false, false);
+    await roll_dmg(br_card.message, $(br_card.message.content), false, false);
   }
-  if (action.includes("trait")) {
-    const br_card = new BrCommonCard(message);
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
     await roll_item(
       br_card,
-      $(message.content),
+      $(br_card.content),
       false,
       action.includes("damage"),
     );
@@ -434,68 +432,6 @@ export function activate_item_card_listeners(br_card, html) {
 }
 
 /**
- * Creates a footer useful for an item.
- */
-export function make_item_footer(item) {
-  let footer = [];
-  if (item.type === "weapon") {
-    footer.push(
-      game.i18n.localize("SWADE.Range._name") + ": " + item.system.range,
-    );
-    // noinspection JSUnresolvedVariable
-    footer.push(game.i18n.localize("SWADE.RoF") + ": " + item.system.rof);
-    // noinspection JSUnresolvedVariable
-    footer.push(game.i18n.localize("BRSW.Dmg") + ": " + item.system.damage);
-    footer.push(game.i18n.localize("SWADE.Ap") + ": " + item.system.ap);
-    if (parseInt(item.system.shots)) {
-      // noinspection JSUnresolvedVariable
-      footer.push(
-        game.i18n.localize("SWADE.Mag") +
-          ": " +
-          item.system.currentShots +
-          "/" +
-          item.system.shots,
-      );
-    }
-  } else if (item.type === "power") {
-    // noinspection JSUnresolvedVariable
-    footer.push(game.i18n.localize("SWADE.PP") + ": " + item.system.pp);
-    footer.push(
-      game.i18n.localize("SWADE.Range._name") + ": " + item.system.range,
-    );
-    footer.push(game.i18n.localize("SWADE.Dur") + ": " + item.system.duration);
-    // noinspection JSUnresolvedVariable
-    if (item.system.damage) {
-      // noinspection JSUnresolvedVariable
-      footer.push(game.i18n.localize("BRSW.Dmg") + ": " + item.system.damage);
-    }
-  } else if (item.type === "armor") {
-    footer.push(game.i18n.localize("SWADE.Armor") + ": " + item.system.armor);
-    // noinspection JSUnresolvedVariable
-    footer.push(game.i18n.localize("BRSW.MinStr") + ": " + item.system.minStr);
-    let locations = game.i18n.localize("BRSW.Location") + ": ";
-    for (let armor_location in item.system.locations) {
-      if (
-        item.system.locations.hasOwnProperty(armor_location) &&
-        item.system.locations[armor_location]
-      ) {
-        const location_formatted =
-          armor_location.charAt(0).toUpperCase() + armor_location.slice(1);
-        locations += game.i18n.localize(`SWADE.${location_formatted}`) + " ";
-      }
-    }
-    footer.push(locations);
-  } else if (item.type === "shield") {
-    footer.push(game.i18n.localize("SWADE.Parry") + ": " + item.system.parry);
-    // noinspection JSUnresolvedVariable
-    footer.push(
-      game.i18n.localize("SWADE.Cover._name") + ": " + item.system.cover,
-    );
-  }
-  return footer;
-}
-
-/**
  * Guess the skill/attribute that should be rolled for an item
  * @param {Item} item The item.
  * @param {string} item.system.arcane
@@ -511,7 +447,6 @@ export function get_item_trait(item, actor) {
   }
   // Now check for a skill in additional actions.
   for (let action in item.system.actions.additional) {
-    console.log(action);
     if (
       item.system.actions.additional[action].type === "trait" &&
       item.system.actions.additional[action].name
@@ -642,7 +577,6 @@ async function displayRemainingCard(content) {
  * @param pp_modifier A number to be added or subtracted from PPs
  */
 export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
-  console.log(pp_override, old_pp, pp_modifier);
   if (
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")
@@ -1353,16 +1287,20 @@ export async function roll_dmg(
   for (let modifier of damage_roll.brswroll.modifiers) {
     total_modifiers += modifier.value;
   }
+  let first_roll = true;
   for (let target of targets) {
-    render_data.damage_rolls.push(
-      await roll_dmg_target(
-        damage_roll,
-        damage_formulas,
-        target,
-        total_modifiers,
-        message,
-      ),
-    );
+    if (target || first_roll) {
+      render_data.damage_rolls.push(
+        await roll_dmg_target(
+          damage_roll,
+          damage_formulas,
+          target,
+          total_modifiers,
+          message,
+        ),
+      );
+      first_roll = false; // Only roll once without targets.
+    }
   }
   await update_message(message, render_data);
   // Run macros

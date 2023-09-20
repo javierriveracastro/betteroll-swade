@@ -18,8 +18,11 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "Frenzy",
     button_name: "BRSW.EdgeName-Frenzy",
     and_selector: [
-      { selector_type: "skill", selector_value: "Fighting" },
-      { selector_type: "actor_has_edge", selector_value: "Frenzy" },
+      { selector_type: "skill", selector_value: "fighting" },
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-Frenzy",
+      },
       { selector_type: "item_type", selector_value: "weapon" },
       {
         not_selector: [
@@ -39,7 +42,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "Improved Frenzy",
     button_name: "BRSW.EdgeName-ImprovedFrenzy",
     and_selector: [
-      { selector_type: "skill", selector_value: "Fighting" },
+      { selector_type: "skill", selector_value: "fighting" },
       {
         selector_type: "actor_has_edge",
         selector_value: "BRSW.EdgeName-ImprovedFrenzy",

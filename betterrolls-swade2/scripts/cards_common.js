@@ -249,6 +249,9 @@ export class BrCommonCard {
     this.populate_active_effect_actions();
     for (const group in this.action_groups) {
       this.action_groups[group].actions.sort((a, b) => {
+        if (group == "Active effects" || group == "Item actions") {
+          return a.code.name > b.code.name ? 1 : -1;
+        }
         return a.code.id > b.code.id ? 1 : -1;
       });
     }
@@ -304,16 +307,27 @@ export class BrCommonCard {
   }
 
   populate_active_effect_actions() {
-    if (!this.skill) {
-      return;
+    if (this.skill) {
+      const attGlobalMods =
+        this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
+      const effectArray = [
+        ...this.actor.system.stats.globalMods.trait,
+        ...attGlobalMods,
+        ...this.skill.system.effects,
+      ];
+      this.populate_active_effect_actions_from_array(effectArray);
+    } else if (this.attribute_name) {
+      const abl = this.actor.system.attributes[this.attribute_name];
+      const effectArray = [
+        ...abl.effects,
+        ...this.actor.system.stats.globalMods[this.attribute_name],
+        ...this.actor.system.stats.globalMods.trait,
+      ];
+      this.populate_active_effect_actions_from_array(effectArray);
     }
-    const attGlobalMods =
-      this.actor.system.stats.globalMods[this.skill.system.attribute] ?? [];
-    const effectArray = [
-      ...this.actor.system.stats.globalMods.trait,
-      ...attGlobalMods,
-      ...this.skill.system.effects,
-    ];
+  }
+
+  populate_active_effect_actions_from_array(effectArray) {
     let effectActions = [];
     for (let effect of effectArray) {
       const br_action = new brAction(
@@ -499,11 +513,39 @@ export class BrCommonCard {
    * Creates the Foundry message object
    */
   async create_foundry_message(new_content) {
-    let chatData = create_basic_chat_data(this.actor);
+    let chatData = this.create_basic_chat_data();
     if (new_content) {
       chatData.content = new_content;
     }
     this.message = await ChatMessage.create(chatData);
+  }
+
+  /**
+   * Creates the basic chat data common to most cards
+   * @return {Object} An object suitable to create a ChatMessage
+   */
+  create_basic_chat_data() {
+    let whisper_data = getWhisperData();
+    // noinspection JSUnresolvedVariable
+    let chatData = {
+      user: game.user.id,
+      content: "<p>Default content, likely an error in Better Rolls</p>",
+      speaker: {
+        actor: this.actor._idx,
+        token: this.token?.id,
+        alias: this.actor.name,
+      },
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      blind: whisper_data.blind,
+      flags: { core: { canPopout: true } },
+    };
+    if (whisper_data.whisper) {
+      chatData.whisper = whisper_data.whisper;
+    }
+    chatData.roll = new Roll("0").roll({ async: false });
+    chatData.rollMode = whisper_data.rollMode;
+    // noinspection JSValidateTypes
+    return chatData;
   }
 }
 
@@ -516,19 +558,13 @@ export function expose_card_class() {
 }
 
 /**
- * Creates a char card
+ * Creates a chat card
  *
  * @param {PlaceableObject, SwadeActor} origin The origin of this card
  * @param {object} render_data Data to pass to the render template
- * @param chat_type Type of char message
  * @param {string} template Path to the template that renders this card
  */
-export async function create_common_card(
-  origin,
-  render_data,
-  chat_type,
-  template,
-) {
+export async function create_common_card(origin, render_data, template) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -542,46 +578,6 @@ export async function create_common_card(
   }
   br_message.generate_render_data(render_data, template);
   return br_message;
-}
-
-/**
- * Creates the basic chat data common to most cards
- * @param {SwadeActor, Token} origin -  The actor origin of the message
- * @return {Object} An object suitable to create a ChatMessage
- */
-export function create_basic_chat_data(origin) {
-  let actor;
-  let token;
-  if (origin instanceof TokenDocument || origin instanceof Token) {
-    // This is a token or a TokenDocument
-    actor = origin.actor;
-    token = origin;
-  } else {
-    // This is an actor
-    actor = origin;
-    token = actor.token;
-  }
-  let whisper_data = getWhisperData();
-  // noinspection JSUnresolvedVariable
-  let chatData = {
-    user: game.user.id,
-    content: "<p>Default content, likely an error in Better Rolls</p>",
-    speaker: {
-      actor: actor._idx,
-      token: token ? token.id : token,
-      alias: origin.name,
-    },
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-    blind: whisper_data.blind,
-    flags: { core: { canPopout: true } },
-  };
-  if (whisper_data.whisper) {
-    chatData.whisper = whisper_data.whisper;
-  }
-  chatData.roll = new Roll("0").roll({ async: false });
-  chatData.rollMode = whisper_data.rollMode;
-  // noinspection JSValidateTypes
-  return chatData;
 }
 
 /**
@@ -673,9 +669,7 @@ export function activate_common_listeners(br_card, html) {
       create_unstun_card(br_card.message, undefined);
     });
   }
-  html.find(".brsw-selected-actions").on("click", async (ev) => {
-    console.log(ev.currentTarget.dataset);
-    console.log(ev.currentTarget);
+  html.find(".brsw-selected-actions").on("click", async () => {
     game.brsw.dialog.show_card(br_card);
   });
   // Selectable modifiers
@@ -1389,6 +1383,10 @@ export async function roll_trait(br_card, trait_dice, dice_label, extra_data) {
     br_card.trait_roll.wild_die = false;
   }
   br_card.trait_roll.modifiers = roll_options.modifiers;
+  if (extra_data.tn) {
+    br_card.trait_roll.tn = extra_data.tn;
+    br_card.trait_roll.tn_reason = extra_data.tn_reason;
+  }
   let roll = new Roll(roll_string);
   await roll.evaluate();
   await br_card.trait_roll.add_roll(roll);
@@ -1611,11 +1609,12 @@ async function duplicate_message(message, event) {
   let br_card = new BrCommonCard(new_message);
   br_card.trait_roll = new TraitRoll();
   br_card.render_data.damage_rolls = [];
-  console.log(br_card.render_data);
   await br_card.render();
   await br_card.save();
   const action = get_action_from_click(event);
-  if (action.includes("trait")) {
+  if (action.includes("dialog")) {
+    game.brsw.dialog.show_card(br_card);
+  } else if (action.includes("trait")) {
     // noinspection JSUnresolvedVariable
     const br_card = new BrCommonCard(message);
     const card_type = br_card.type;
