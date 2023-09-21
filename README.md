@@ -31,7 +31,7 @@ In the [Wiki for this repository](https://github.com/javierriveracastro/betterol
 
 ## Integrations
 
-* **Dice so Nice:** This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
+* **Dice So Nice:** This module supports using a different theme for the damage dice when you are using Dice so Nice. You can select it in the module settings (see above)
 * **Dice Tray:** If Dice Tray is enabled, better rolls will use it's modifier box in addition to all other options.
 
 ## Known incompatibilities
