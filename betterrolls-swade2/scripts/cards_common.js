@@ -571,6 +571,11 @@ export async function create_common_card(origin, render_data, template) {
   } else {
     actor = origin;
   }
+  render_data.description = // Limit description size.
+    render_data.description.length <
+    game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      ? render_data.description
+      : null;
   let br_message = new BrCommonCard(undefined);
   br_message.actor_id = actor.id;
   if (actor !== origin) {
