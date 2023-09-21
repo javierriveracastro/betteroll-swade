@@ -552,6 +552,14 @@ function register_settings_version2() {
     type: Boolean,
     config: true,
   });
+  game.settings.register("betterrolls-swade2", "max_tooltip_length", {
+    name: "BRSW.MaxTooltipLength",
+    label: "BRSW.MaxTooltipLengthLabel",
+    hint: "BRSW.MaxTooltipLengthHint",
+    type: Number,
+    default: 500,
+    config: true,
+  });
 }
 
 // Settings related to Dice So Nice.
