@@ -8,7 +8,7 @@ import { get_roll_options } from "./cards_common.js";
 
 // DMG override is still not implemented.
 /**
- * Registers all the avaliable global actions
+ * Registers all the available global actions
  */
 export function register_actions() {
   let world_actions = game.settings.get(
@@ -115,7 +115,7 @@ function process_action(action, item, actor) {
 }
 
 /**
- * Returns the global actions avaliable for an item
+ * Returns the global actions available for an item
  * @param {Item} item
  * @param {SwadeActor} actor
  */
