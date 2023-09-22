@@ -130,7 +130,7 @@ async function skill_click_listener(ev, target) {
   if (action.includes("dialog")) {
     game.brsw.dialog.show_card(br_card);
   } else if (action.includes("trait")) {
-    await roll_skill(br_card.message, false);
+    await roll_skill(br_card, false);
   }
 }
 
@@ -151,18 +151,17 @@ export function activate_skill_listeners(app, html) {
 
 /**
  * Activate the listeners in the skill card
- * @param message Message date
+ * @param {BrCommonCard} br_card
  * @param html Html produced
  */
-export function activate_skill_card_listeners(message, html) {
+export function activate_skill_card_listeners(br_card, html) {
   html.find(".brsw-roll-button").click(async (ev) => {
     await roll_skill(
-      message,
+      br_card,
       ev.currentTarget.classList.contains("roll-bennie-button"),
     );
   });
   html.find(".brsw-header-img").click((_) => {
-    const br_card = new BrCommonCard(message);
     const { render_data, actor } = br_card;
     const item = actor.items.get(render_data.trait_id);
     item.sheet.render(true);
@@ -172,15 +171,10 @@ export function activate_skill_card_listeners(message, html) {
 /**
  * Roll a skill showing the roll card and the result card when enables
  *
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {boolean} expend_bennie True if we want to spend a bennie
  */
-export async function roll_skill(message, expend_bennie) {
-  const render_data = message.getFlag("betterrolls-swade2", "render_data");
-  let br_card = new BrCommonCard(message);
-  const skill = br_card.actor.items.find(
-    (item) => item.id === render_data.trait_id,
-  );
+export async function roll_skill(br_card, expend_bennie) {
   let extra_data = { modifiers: [] };
   let macros = [];
   // Actions
@@ -195,7 +189,7 @@ export async function roll_skill(message, expend_bennie) {
   }
   await roll_trait(
     br_card,
-    skill.system,
+    br_card.skill.system,
     game.i18n.localize("BRSW.SkillDie"),
     extra_data,
   );

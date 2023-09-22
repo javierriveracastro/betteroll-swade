@@ -1626,7 +1626,7 @@ async function duplicate_message(message, event) {
     if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
       await roll_attribute(br_card, false);
     } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
-      await roll_skill(new_message, false);
+      await roll_skill(br_card, false);
     } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
       const roll_damage = action.includes("damage");
       await roll_item(br_card, $(br_card.message.content), false, roll_damage);
