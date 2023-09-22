@@ -2,30 +2,48 @@ The **Better Rolls 2 for Savage Worlds** module comes with a variety of settings
 
 ![Settings](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/module-settings.jpg?raw=true)
 
-## Optional rules
+## Global Actions
+
+See [Global Actions](https://github.com/javierriveracastro/betteroll-swade/wiki/Global-Actions).
+
+## Optional Rules
 
 ![Optional](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/optional-rules.jpg?raw=true)
 
 This setting allows you to quickly enable optional rules. For more advanced custom rules you can use [Global Actions](https://github.com/javierriveracastro/betteroll-swade/wiki/Global-Actions).
 
-## Better Rolls 2 card configuration
+## Click Actions
 
-Better Rolls 2 offers a few display modes that you can switch between using different click actions:
+Better Rolls 2 offers various click actions; Single click, Shift click, Control click and Alt click.
 
-### Show Better Rolls card (Default)
+![Click Actions](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/module-settings-click-action.jpg?raw=true)
 
-This option will display the Better Rolls 2 card, when single clicking on a Trait, Weapon or Power. See details below. This option is useful, if you need to add some settings on the card itself (like global actions; e.g. Wild Attack, changes in Ammo or Power Point handling).
+### Click Action Display Modes
 
-### Show card and trait roll
+Better Rolls 2 offers various display modes that you can switch between using the different click actions.
 
-This option will display the card and automatically rolling the selected trait (powers and weapons rely on the arcane/weapon skill). It will automatically factor in the Better Rolls modifiers from the chat bar as well as modifications through Wounds, Fatigue, or states like *Distracted* or *Vulnerable*. Additionally, the selected “Modifiers for Better Rolls” will apply.
+![Display modes](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/module-settings-click-action-display-modes.jpg?raw=true)
 
-### Show card and roll trait and damage
+#### Show Better Rolls card (Default)
 
-See above, but the damage will also be rolled automatically-
+This option will display the Better Rolls card in the Chat Log, when single clicking on a Trait, Weapon or Power. This option is useful if you need to add some settings on the card itself (like global actions, e.g., Wild Attack, changes in Ammo or Power Point handling).
 
-### Default system roll
+#### Show the card and open the action dialog
+
+This option will display the Better Rolls card and automatically open the action selection dialog.
+
+#### Show card and trait roll
+
+This option will display the Better Rolls card and automatically roll the selected trait *(powers and weapons rely on the arcane/weapon skill)*. It will automatically factor in the Better Rolls modifiers selected in the action dialog, as well as modifications through Wounds, Fatigue, or states like *Distracted* or *Vulnerable*. Additionally, the selected “Modifiers for Better Rolls” will apply.
+
+#### Show card and roll trait and damage
+
+As above, and the damage will also be automatically rolled, assuming the Target Number is matched.
+
+#### Default system roll
 
 This will open the default modification popup window of the SWADE rule system.
 
-Other options allow to switch on and off the automatic ammo and power point handling (see below), the uploading of custom benny images and the option to select a different Dice so nice! theme for your damage dice.
+## Other Options
+
+Other options allow to switch on and off the automatic ammo and power point handling, the uploading of custom benny images and the option to select a different Dice So Nice! theme for your damage dice.
