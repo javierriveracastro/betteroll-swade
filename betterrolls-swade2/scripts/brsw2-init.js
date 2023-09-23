@@ -135,7 +135,7 @@ Hooks.on("renderChatMessage", (message, html) => {
     if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
       activate_attribute_card_listeners(card, html);
     } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
-      activate_skill_card_listeners(message, html);
+      activate_skill_card_listeners(card, html);
     } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
       activate_item_card_listeners(card, html);
     } else if (card.type === BRSW_CONST.TYPE_DMG_CARD) {
@@ -550,6 +550,14 @@ function register_settings_version2() {
     default: false,
     scope: "world",
     type: Boolean,
+    config: true,
+  });
+  game.settings.register("betterrolls-swade2", "max_tooltip_length", {
+    name: "BRSW.MaxTooltipLength",
+    label: "BRSW.MaxTooltipLengthLabel",
+    hint: "BRSW.MaxTooltipLengthHint",
+    type: Number,
+    default: 500,
     config: true,
   });
 }

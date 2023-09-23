@@ -249,7 +249,7 @@ export class BrCommonCard {
     this.populate_active_effect_actions();
     for (const group in this.action_groups) {
       this.action_groups[group].actions.sort((a, b) => {
-        if (group == "Active effects" || group == "Item actions") {
+        if (group === "Active effects" || group === "Item actions") {
           return a.code.name > b.code.name ? 1 : -1;
         }
         return a.code.id > b.code.id ? 1 : -1;
@@ -570,6 +570,13 @@ export async function create_common_card(origin, render_data, template) {
     actor = origin.actor;
   } else {
     actor = origin;
+  }
+  if (render_data.description) {
+    render_data.description = // Limit description size.
+      render_data.description.length <
+      game.settings.get("betterrolls-swade2", "max_tooltip_length")
+        ? render_data.description
+        : null;
   }
   let br_message = new BrCommonCard(undefined);
   br_message.actor_id = actor.id;
@@ -1621,7 +1628,7 @@ async function duplicate_message(message, event) {
     if (card_type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
       await roll_attribute(br_card, false);
     } else if (card_type === BRSW_CONST.TYPE_SKILL_CARD) {
-      await roll_skill(new_message, false);
+      await roll_skill(br_card, false);
     } else if (card_type === BRSW_CONST.TYPE_ITEM_CARD) {
       const roll_damage = action.includes("damage");
       await roll_item(br_card, $(br_card.message.content), false, roll_damage);
