@@ -1,3 +1,10 @@
+## Version 3.51 aka too stable?
+* Bugfix: Frenzy edge was not translatable.
+* Documentation: Update the documentation to use the new action dialo (Steve Culshaw).
+* Feature: Item description tooltop gets now a configurable maximum length (500 charactes by default, set to 0 to disable the tooltip)
+* Refactoring: Code simplifications for skill cards (look for new bugs here)
+* Feature: Added actions for the generic power modifiers (Steve Culshaw and again Bruno Calado but doens't know)
+
 ## Version 3.50 aka Nothing to see here, this version doesn't exist, it is only in your imagination
 
 * Bugfix: Rolling for actors without tokens working again (but I never broke that, it must be your imagination)
