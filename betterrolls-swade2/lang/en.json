@@ -350,5 +350,18 @@
   "BRSW.TraitDie": "Trait Die",
   "BRSW.MaxTooltipLength": "Max Tooltip Length",
   "BRSW.MaxTooltipLengthLabel": "Max Tooltip Length",
-  "BRSW.MaxTooltipLengthHint": "The maximum length (in characters) of the tooltip shown when hovering over the title of the card. Use 0 to disable the tooltip (World)"
+  "BRSW.MaxTooltipLengthHint": "The maximum length (in characters) of the tooltip shown when hovering over the title of the card. Use 0 to disable the tooltip (World)",
+  "BRSW.PowerModifiersGeneric": "Power Modifiers - Generic",
+  "BRSW.ArmorPiercing1": "Armor Piercing 2 (+1)",
+  "BRSW.ArmorPiercing2": "Armor Piercing 4 (+2)",
+  "BRSW.ArmorPiercing3": "Armor Piercing 6 (+3)",
+  "BRSW.FatigueModifier": "Fatigue (+2)",
+  "BRSW.GlowShroud": "Glow/Shroud (+1)",
+  "BRSW.HeavyWeaponModifier": "Heavy Weapon (+2)",
+  "BRSW.HinderHurryModifier": "Hinder/Hurry (+1)",
+  "BRSW.LingeringDamageModifier": "Lingering Damage (+2)",
+  "BRSW.RangeModifier1": "Range 2x (+1)",
+  "BRSW.RangeModifier2": "Range 3x (+2)",
+  "BRSW.SelectiveModifier": "Selective (+1)",
+  "BRSW.HastyModifier": "Hasty (+2)"
 }
