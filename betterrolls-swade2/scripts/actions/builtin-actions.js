@@ -419,6 +419,48 @@ export const SYSTEM_GLOBAL_ACTION = [
     defaultChecked: "on",
     group: "BRSW.Target",
   },
+  {
+    id: "SWEEP",
+    name: "Sweep",
+    button_name: "BRSW.EdgeName-Sweep",
+    skillMod: "-2",
+    extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target <b>ALL</b> targets within weapon reach",
+    and_selector: [
+      { selector_type: "skill", selector_value: "fighting" },
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-Sweep",
+      },
+      { selector_type: "item_type", selector_value: "weapon" },
+      {
+        not_selector: [
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "BRSW.EdgeName-SweepImproved",
+          },
+        ],
+      },
+    ],
+    defaultChecked: "off",
+    group: "BRSW.Edges",
+  },
+  {
+    id: "IMPROVED-SWEEP",
+    name: "Improved Sweep",
+    button_name: "BRSW.EdgeName-SweepImproved",
+    skillMod: "-2",
+    extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
+    and_selector: [
+      { selector_type: "skill", selector_value: "fighting" },
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-SweepImproved",
+      },
+      { selector_type: "item_type", selector_value: "weapon" },
+    ],
+    defaultChecked: "off",
+    group: "BRSW.Edges",
+  },
 ]
   .concat(COMBAT_OPTIONS)
   .concat(POWER_POINT_OPTIONS)
