@@ -368,7 +368,9 @@ function check_selector(type, value, item, actor) {
       selected = item_source.toLowerCase().includes(value.toLowerCase());
     }
   } else if (type === "actor_value") {
-    selected = check_actor_value(actor, value);
+    selected = check_document_value(actor, value);
+  } else if (type === "item_value") {
+    selected = check_document_value(item, value);
   } else if (type === "item_has_damage") {
     selected = !!item?.system?.damage;
   }
@@ -377,12 +379,12 @@ function check_selector(type, value, item, actor) {
 
 /**
  * Checks for a value in the actor data structure
- * @param {Actor} actor
+ * @param {Document} document
  * @param {string} value
  */
-function check_actor_value(actor, value) {
+function check_document_value(document, value) {
   let [path, result] = value.split("=");
-  let data = getProperty(actor, path);
+  let data = getProperty(document, path);
   // noinspection EqualityComparisonWithCoercionJS
   return data == result;
 }
