@@ -48,6 +48,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * `dmgMod`: A number that will be used as a modifier for damage roll
 * `dmgOverride`: A foundry die expression that will be rolled for damage instead of the weapon default.
 * `defaultChecked`: If this key exists the action button will start pinned (marked in red)
+  * NOTE: using `defaultChecked: "off"` does **NOT** mean the button is by default unchecked. If you don't want the button checked by default, do **NOT** put any `defaultChecked` element in.
 * `runSkillMacro`: This key will run a macro named like its value after skill roll.
 * `runDamageMacro`: This key will run a macro named like its value after damage roll.
 * `raiseDamageFormula`: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substitution should be done in a similar way, i.e. "+1d10x" to add a normal exploding d10.

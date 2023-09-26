@@ -306,7 +306,7 @@
   "BRSW.RangeCalcUseGridHint": "Use grid measurement instead of actual measurement for range penalties (World)",
   "BRSW.ChatModifiersMenu": "Chat modifiers name",
   "BRSW.ChatModifiersMenuHint": "Change the chat modifiers names (World)",
-  "BRSW.UnstunText" : "Pass a Vigor roll to recover.",
+  "BRSW.UnstunText": "Pass a Vigor roll to recover.",
   "BRSW.Unstun": "Remove stunned",
   "BRSW.VigorRoll": "Roll vigor",
   "BRSW.UnstunSuccessfulRoll": "{name} passed a Vigor roll, removing stunned.",
@@ -363,5 +363,7 @@
   "BRSW.RangeModifier1": "Range 2x (+1)",
   "BRSW.RangeModifier2": "Range 3x (+2)",
   "BRSW.SelectiveModifier": "Selective (+1)",
-  "BRSW.HastyModifier": "Hasty (+2)"
+  "BRSW.HastyModifier": "Hasty (+2)",
+  "BRSW.EdgeName-Sweep": "Sweep",
+  "BRSW.EdgeName-SweepImproved": "Improved Sweep"
 }
