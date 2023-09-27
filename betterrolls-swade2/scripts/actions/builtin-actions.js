@@ -441,7 +441,6 @@ export const SYSTEM_GLOBAL_ACTION = [
         ],
       },
     ],
-    defaultChecked: "off",
     group: "BRSW.Edges",
   },
   {
@@ -458,7 +457,6 @@ export const SYSTEM_GLOBAL_ACTION = [
       },
       { selector_type: "item_type", selector_value: "weapon" },
     ],
-    defaultChecked: "off",
     group: "BRSW.Edges",
   },
 ]
