@@ -238,7 +238,7 @@ async function item_click_listener(ev, target) {
   let br_card = await create_item_card(target, item_id);
   // Shortcut for rolling damage
   if (ev.currentTarget.classList.contains("damage-roll")) {
-    await roll_dmg(br_card.message, $(br_card.message.content), false, false);
+    await roll_dmg(br_card, $(br_card.message.content), false, false);
   }
   if (action.includes("dialog")) {
     game.brsw.dialog.show_card(br_card);
@@ -295,9 +295,9 @@ export function activate_item_listeners(app, html) {
 /**
  * Creates a template preview
  * @param ev javascript click event
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  */
-function preview_template(ev, message) {
+function preview_template(ev, br_card) {
   let templateData = {
     user: game.user.id,
     distance: 0,
@@ -329,12 +329,7 @@ function preview_template(ev, message) {
   );
   // noinspection JSPotentiallyInvalidConstructorUsage
   let template = new CONFIG.MeasuredTemplate.objectClass(template_base);
-  Hooks.call(
-    "BRSW-BeforePreviewingTemplate",
-    template,
-    new BrCommonCard(message),
-    ev,
-  );
+  Hooks.call("BRSW-BeforePreviewingTemplate", template, br_card, ev);
   template.drawPreview(ev);
 }
 
@@ -344,8 +339,7 @@ function preview_template(ev, message) {
  * @param html Html produced
  */
 export function activate_item_card_listeners(br_card, html) {
-  const actor = br_card.actor;
-  const item = br_card.item;
+  const { actor, item } = br_card;
   html.find(".brsw-header-img").click((_) => {
     item.sheet.render(true);
   });
@@ -359,7 +353,7 @@ export function activate_item_card_listeners(br_card, html) {
   html.find(".brsw-damage-button, .brsw-damage-bennie-button").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
     roll_dmg(
-      br_card.message,
+      br_card,
       html,
       ev.currentTarget.classList.contains("brsw-damage-bennie-button"),
       {},
@@ -385,21 +379,21 @@ export function activate_item_card_listeners(br_card, html) {
   });
   html.find(".brsw-target-tough").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
-    edit_toughness(br_card.message, ev.currentTarget.dataset.index);
+    edit_toughness(br_card, ev.currentTarget.dataset.index);
   });
   html.find(".brsw-add-damage-d6").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
-    add_damage_dice(br_card.message, ev.currentTarget.dataset.index);
+    add_damage_dice(br_card, ev.currentTarget.dataset.index);
   });
   html.find(".brsw-half-damage").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
-    half_damage(br_card.message, ev.currentTarget.dataset.index);
+    half_damage(br_card, ev.currentTarget.dataset.index);
   });
   html
     .find(".brsw-add-damage-number")
     .bind("click", { message: br_card.message }, show_fixed_damage_dialog);
   html.find(".brsw-template-button").on("click", (ev) => {
-    preview_template(ev, br_card.message);
+    preview_template(ev, br_card);
   });
   html.find("#roll-damage").on("dragstart", (ev) => {
     ev.originalEvent.dataTransfer.setData(
@@ -678,10 +672,8 @@ export async function run_macros(
         const item = item_param;
         const speaker = ChatMessage.getSpeaker();
         const token = canvas.tokens.get(speaker.token);
-        const character = game.user.character;
-        const targets = game.user.targets;
+        const { character, targets } = game.user;
         const br_card = br_card_param;
-        const message = br_card.message;
         // Attempt script execution
         const body = `(async () => {${real_macro.command}})()`;
         // prettier-ignore
@@ -704,7 +696,7 @@ export async function run_macros(
             token,
             character,
             item,
-            message,
+            br_card.message,
             targets,
             br_card,
           );
@@ -889,7 +881,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   if (roll_damage) {
     br_message.trait_roll.current_roll.dice.forEach((roll) => {
       if (roll.result !== null && roll.result >= 0) {
-        roll_dmg(br_message.message, html, false, {}, roll.result > 3);
+        roll_dmg(br_message, html, false, {}, roll.result > 3);
       }
     });
   }
@@ -1075,11 +1067,16 @@ async function roll_dmg_target(
     if (message.whisper.length > 0) {
       users = message.whisper;
     }
-    const blind = message.blind;
     for (let modifier of damage_roll.brswroll.modifiers) {
       if (modifier.dice) {
         // noinspection ES6MissingAwait
-        game.dice3d.showForRoll(modifier.dice, game.user, true, users, blind);
+        game.dice3d.showForRoll(
+          modifier.dice,
+          game.user,
+          true,
+          users,
+          message.blind,
+        );
       }
     }
     let damage_theme = game.settings.get(
@@ -1092,7 +1089,7 @@ async function roll_dmg_target(
       }
     }
     // noinspection ES6MissingAwait
-    await game.dice3d.showForRoll(roll, game.user, true, users, blind);
+    await game.dice3d.showForRoll(roll, game.user, true, users, message.blind);
   }
   current_damage_roll.damage_result = await calculate_results(
     current_damage_roll.brswroll.rolls,
@@ -1141,12 +1138,11 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
 
 /**
  * Calculates the modifier from jokers to the damage roll.
- * @param {ChatMessage} message
+ * @param {BrCommonCard} br_card
  * @param {SwadeActor} actor
  * @param damage_roll
  */
-function joker_modifiers(message, actor, damage_roll) {
-  const br_card = new BrCommonCard(message);
+function joker_modifiers(br_card, actor, damage_roll) {
   let token_id = br_card.token?.id;
   if (token_id && has_joker(token_id)) {
     damage_roll.brswroll.modifiers.push(create_modifier("Joker", 2));
@@ -1155,7 +1151,7 @@ function joker_modifiers(message, actor, damage_roll) {
 
 /**
  * Rolls damage dor an item
- * @param message
+ * @param {BrCommonCard} br_card
  * @param html
  * @param expend_bennie
  * @param default_options
@@ -1164,14 +1160,13 @@ function joker_modifiers(message, actor, damage_roll) {
  * @return {Promise<void>}*
  */
 export async function roll_dmg(
-  message,
+  br_card,
   html,
   expend_bennie,
   default_options,
   raise,
   target_token_id,
 ) {
-  const br_card = new BrCommonCard(message);
   const { render_data, actor, item } = br_card;
   const raise_die_size = item.system.bonusDamageDie || 6;
   const number_raise_dice = item.system.bonusDamageDice || 1;
@@ -1197,7 +1192,7 @@ export async function roll_dmg(
   }
   let damage_roll = { label: "---", brswroll: new BRWSRoll(), raise: raise };
   get_chat_dmg_modifiers(options, damage_roll);
-  joker_modifiers(message, actor, damage_roll);
+  joker_modifiers(br_card, actor, damage_roll);
   // Global modifiers
   if (actor.system.stats?.globalMods?.damage?.length > 0) {
     for (let mod of actor.system.stats.globalMods.damage) {
@@ -1296,13 +1291,13 @@ export async function roll_dmg(
           damage_formulas,
           target,
           total_modifiers,
-          message,
+          br_card.message,
         ),
       );
       first_roll = false; // Only roll once without targets.
     }
   }
-  await update_message(message, render_data);
+  await update_message(br_card, render_data);
   // Run macros
   await run_macros(macros, actor, item, br_card);
 }
@@ -1332,12 +1327,14 @@ async function get_dmg_targets(token_id, br_card) {
 
 /**
  * Add a d6 to a damage roll
- * @param {ChatMessage} message
- * @param {function} message.getFlag
+ * @param {BrCommonCard} br_card
  * @param {int} index
  */
-async function add_damage_dice(message, index) {
-  let render_data = message.getFlag("betterrolls-swade2", "render_data");
+async function add_damage_dice(br_card, index) {
+  let render_data = br_card.message.getFlag(
+    "betterrolls-swade2",
+    "render_data",
+  );
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   let roll = new Roll("1d6x");
   roll.evaluate({ async: false });
@@ -1372,14 +1369,14 @@ async function add_damage_dice(message, index) {
       });
     }
     let users = null;
-    if (message.whisper.length > 0) {
-      users = message.whisper;
+    if (br_card.message.whisper.length > 0) {
+      users = br_card.message.whisper;
     }
     // noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
     game.dice3d.showForRoll(roll, game.user, true, users);
   }
   // noinspection JSIgnoredPromiseFromCall
-  await update_message(message, render_data);
+  await update_message(br_card, render_data);
 }
 
 async function show_fixed_damage_dialog(event) {
@@ -1423,12 +1420,14 @@ async function add_fixed_damage(event, form_results) {
 
 /**
  * Change damage to half
- * @param {ChatMessage} message
- * @param {function} message.getFlag
+ * @param {BrCommonCard} br_card
  * @param {number} index
  */
-async function half_damage(message, index) {
-  let render_data = message.getFlag("betterrolls-swade2", "render_data");
+async function half_damage(br_card, index) {
+  let render_data = br_card.message.getFlag(
+    "betterrolls-swade2",
+    "render_data",
+  );
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   const half_damage = -Math.round(damage_rolls.rolls[0].result / 2);
   damage_rolls.modifiers.push({
@@ -1440,18 +1439,16 @@ async function half_damage(message, index) {
     damage_rolls.rolls,
     true,
   );
-  await update_message(message, render_data);
+  await update_message(br_card, render_data);
 }
 
 /**
  * Changes the damage target of one of the rolls.
  *
- * @param {ChatMessage} message
- * @param {function} message.getFlag
+ * @param {BrCommonCard} br_card
  * @param {int} index
  */
-async function edit_toughness(message, index) {
-  const br_card = new BrCommonCard(message);
+async function edit_toughness(br_card, index) {
   const { render_data, actor } = br_card;
   const defense_values = get_target_defense(actor);
   let damage_rolls = render_data.damage_rolls[index].brswroll.rolls;
@@ -1464,7 +1461,7 @@ async function edit_toughness(message, index) {
     true,
   );
   // noinspection JSIgnoredPromiseFromCall
-  await update_message(message, render_data);
+  await update_message(br_card, render_data);
 }
 
 /**
