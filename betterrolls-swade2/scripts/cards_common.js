@@ -840,10 +840,10 @@ export async function manage_selectable_click(ev, message) {
 function manage_html_selectables(ev) {
   if (ev.currentTarget.classList.contains("brws-permanent-selected")) {
     ev.currentTarget.classList.remove("brws-permanent-selected");
-  } else if (ev.currentTarget.classList.contains("brws-selected")) {
     ev.currentTarget.classList.remove("brws-selected");
-  } else {
+  } else if (ev.currentTarget.classList.contains("brws-selected")) {
     ev.currentTarget.classList.add("brws-permanent-selected");
+  } else {
     ev.currentTarget.classList.add("brws-selected");
   }
 }
