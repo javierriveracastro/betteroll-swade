@@ -48,6 +48,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * `dmgMod`: A number that will be used as a modifier for damage roll
 * `dmgOverride`: A foundry die expression that will be rolled for damage instead of the weapon default.
 * `defaultChecked`: If this key exists the action button will start pinned (marked in red)
+  * NOTE: using `defaultChecked: "off"` does **NOT** mean the button is by default unchecked. If you don't want the button checked by default, do **NOT** put any `defaultChecked` element in.
 * `runSkillMacro`: This key will run a macro named like its value after skill roll.
 * `runDamageMacro`: This key will run a macro named like its value after damage roll.
 * `raiseDamageFormula`: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substitution should be done in a similar way, i.e. "+1d10x" to add a normal exploding d10.
@@ -95,6 +96,7 @@ This group of fields are used to select when the action is available, you will n
 * `gm_action`: A selector with this value will make the action appear in the dm modifiers above the char window.
 * `is_wildcard`: This will show the action if the character is a Wildcard. If the value is "false" it will only show the card for extras
 * `actor_value`: This expects a selector composed of "path=value". Where path is a dot path of actor data (like system.advances.value) and value a value (like 4). This coerces the values using javascript ==.
+* `item_value`: The same selector as above but for items instead of actors.
 * `item_has_damage`: This will show the action if the item has a damage value. The value is ignored.
 * `actor_has_item`: This will show the action if the actor has an item with the same name as the value.
 * `actor_equips_item`: This action will appear when the actor has an item (see above) with the same name as the value equipped, not just owned.

@@ -3,7 +3,7 @@
 export const COMBAT_OPTIONS = [
   {
     id: "WTK",
-    name: "Wild Attack",
+    name: "BRSW.WildAttack",
     button_name: "BRSW.WildAttack",
     skillMod: 2,
     dmgMod: 2,
@@ -15,7 +15,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "DROP",
-    name: "The Drop",
+    name: "BRSW.TheDrop",
     button_name: "BRSW.TheDrop",
     skillMod: 4,
     dmgMod: 4,
@@ -26,7 +26,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "CS-HEAD",
-    name: "Called Shot: Head",
+    name: "BRSW.CalledHead",
     button_name: "BRSW.CalledHead",
     skillMod: -4,
     dmgMod: +4,
@@ -38,7 +38,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "CS-ARM",
-    name: "Called Shot: Arm",
+    name: "BRSW.CalledArm",
     button_name: "BRSW.CalledArm",
     skillMod: -2,
     selector_type: "item_type",
@@ -48,7 +48,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "CS-LEG",
-    name: "Called Shot: Leg",
+    name: "BRSW.CalledLeg",
     button_name: "BRSW.CalledLeg",
     skillMod: -2,
     selector_type: "item_type",
@@ -58,7 +58,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "1-LightCover",
-    name: "Light Cover",
+    name: "BRSW.LightCover",
     button_name: "BRSW.LightCover",
     skillMod: "-2",
     or_selector: [
@@ -75,7 +75,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "2-MediumCover",
-    name: "Medium Cover",
+    name: "BRSW.MediumCover",
     button_name: "BRSW.MediumCover",
     skillMod: "-4",
     or_selector: [
@@ -92,7 +92,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "3-HeavyCover",
-    name: "Heavy Cover",
+    name: "BRSW.HeavyCover",
     button_name: "BRSW.HeavyCover",
     skillMod: "-6",
     or_selector: [
@@ -109,7 +109,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "4-NearTotalCover",
-    name: "Near Total Cover",
+    name: "BRSW.NearTotalCover",
     button_name: "BRSW.NearTotalCover",
     skillMod: "-8",
     or_selector: [
@@ -127,7 +127,7 @@ export const COMBAT_OPTIONS = [
 
   {
     id: "1LDimGm",
-    name: "Dim",
+    name: "BRSW.IlluminationDim",
     button_name: "BRSW.IlluminationDim",
     skillMod: "-2",
     selector_type: "gm_action",
@@ -135,7 +135,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "2LDarkGm",
-    name: "Dark",
+    name: "BRSW.IlluminationDark",
     button_name: "BRSW.IlluminationDark",
     skillMod: "-4",
     selector_type: "gm_action",
@@ -143,7 +143,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "3LPitchGm",
-    name: "Pitch Dark",
+    name: "BRSW.IlluminationPitch",
     button_name: "BRSW.IlluminationPitch",
     skillMod: "-6",
     selector_type: "gm_action",
@@ -151,7 +151,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "1LDim",
-    name: "Dim",
+    name: "BRSW.IlluminationDim",
     button_name: "BRSW.IlluminationDim",
     selector_type: "all",
     skillMod: "-2",
@@ -159,7 +159,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "2LDark",
-    name: "Dark",
+    name: "BRSW.IlluminationDark",
     button_name: "BRSW.IlluminationDark",
     selector_type: "all",
     skillMod: "-4",
@@ -167,7 +167,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "3LPitch",
-    name: "Pitch Dark",
+    name: "BRSW.IlluminationPitch",
     button_name: "BRSW.IlluminationPitch",
     selector_type: "all",
     skillMod: "-6",
@@ -175,7 +175,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "UNSTABLEPLATFORM",
-    name: "Unstable Platform",
+    name: "BRSW.UnstablePlatform",
     button_name: "BRSW.UnstablePlatform",
     skillMod: "-2",
     and_selector: [
@@ -201,7 +201,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "TOUCHATTACK",
-    name: "Touch Attack",
+    name: "BRSW.TouchAttack",
     button_name: "BRSW.TouchAttack",
     skillMod: "+2",
     dmgOverride: "0",
@@ -211,7 +211,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "NONLETHALDAMAGE",
-    name: "Nonlethal Damage",
+    name: "BRSW.NonlethalDamage",
     button_name: "BRSW.NonlethalDamage",
     skillMod: "-1",
     selector_type: "skill",
@@ -220,7 +220,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "RAN",
-    name: "Ran",
+    name: "BRSW.Ran",
     button_name: "BRSW.Ran",
     skillMod: "-2",
     not_selector: [
@@ -233,7 +233,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "2ACTIONS",
-    name: "2 actions",
+    name: "BRSW.Two-actions",
     button_name: "BRSW.Two-actions",
     skillMod: "-2",
     selector_type: "all",
@@ -241,7 +241,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "3ACTIONS",
-    name: "3 actions",
+    name: "BRSW.Three-actions",
     button_name: "BRSW.Three-actions",
     skillMod: "-4",
     selector_type: "all",
@@ -249,7 +249,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "GROUP_ROLL",
-    name: "Group roll",
+    name: "BRSW.GroupRoll",
     button_name: "BRSW.GroupRoll",
     add_wild_die: "true",
     selector_type: "is_wildcard",
@@ -258,7 +258,7 @@ export const COMBAT_OPTIONS = [
   },
   {
     id: "AttackInanimateObject ",
-    name: "Attack Inanimate Object",
+    name: "BRSW.AttackInanimate",
     button_name: "BRSW.AttackInanimate",
     avoid_exploding_damage: "true",
     or_selector: [
@@ -266,39 +266,6 @@ export const COMBAT_OPTIONS = [
       { selector_type: "item_type", selector_value: "weapon" },
     ],
     group: "BRSW.AttackOption",
-  },
-  {
-    id: "AP1",
-    name: "AP1",
-    button_name: "BRSW.AP1",
-    apMod: 1,
-    and_selector: [
-      { selector_type: "item_has_damage" },
-      { selector_type: "item_type", selector_value: "power" },
-    ],
-    group: "SWADE.APLong",
-  },
-  {
-    id: "AP2",
-    name: "AP2",
-    button_name: "BRSW.AP2",
-    apMod: 2,
-    and_selector: [
-      { selector_type: "item_has_damage" },
-      { selector_type: "item_type", selector_value: "power" },
-    ],
-    group: "SWADE.APLong",
-  },
-  {
-    id: "AP3",
-    name: "AP3",
-    button_name: "BRSW.AP3",
-    apMod: 3,
-    and_selector: [
-      { selector_type: "item_has_damage" },
-      { selector_type: "item_type", selector_value: "power" },
-    ],
-    group: "SWADE.APLong",
   },
   {
     id: "DESPERATE_ATTACK-2",

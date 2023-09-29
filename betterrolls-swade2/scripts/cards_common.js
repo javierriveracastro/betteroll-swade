@@ -840,10 +840,10 @@ export async function manage_selectable_click(ev, message) {
 function manage_html_selectables(ev) {
   if (ev.currentTarget.classList.contains("brws-permanent-selected")) {
     ev.currentTarget.classList.remove("brws-permanent-selected");
-  } else if (ev.currentTarget.classList.contains("brws-selected")) {
     ev.currentTarget.classList.remove("brws-selected");
-  } else {
+  } else if (ev.currentTarget.classList.contains("brws-selected")) {
     ev.currentTarget.classList.add("brws-permanent-selected");
+  } else {
     ev.currentTarget.classList.add("brws-selected");
   }
 }
@@ -1663,7 +1663,7 @@ export function create_modifier(label, expression) {
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros, actor) {
-  let action_name = action.button_name || action.name;
+  let action_name = action.name || action.button_name;
   action_name = action_name.includes("BRSW.")
     ? game.i18n.localize(action_name)
     : action_name;

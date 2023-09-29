@@ -8,7 +8,7 @@ import { get_roll_options } from "./cards_common.js";
 
 // DMG override is still not implemented.
 /**
- * Registers all the avaliable global actions
+ * Registers all the available global actions
  */
 export function register_actions() {
   let world_actions = game.settings.get(
@@ -115,7 +115,7 @@ function process_action(action, item, actor) {
 }
 
 /**
- * Returns the global actions avaliable for an item
+ * Returns the global actions available for an item
  * @param {Item} item
  * @param {SwadeActor} actor
  */
@@ -368,7 +368,9 @@ function check_selector(type, value, item, actor) {
       selected = item_source.toLowerCase().includes(value.toLowerCase());
     }
   } else if (type === "actor_value") {
-    selected = check_actor_value(actor, value);
+    selected = check_document_value(actor, value);
+  } else if (type === "item_value") {
+    selected = check_document_value(item, value);
   } else if (type === "item_has_damage") {
     selected = !!item?.system?.damage;
   }
@@ -377,12 +379,12 @@ function check_selector(type, value, item, actor) {
 
 /**
  * Checks for a value in the actor data structure
- * @param {Actor} actor
+ * @param {Document} document
  * @param {string} value
  */
-function check_actor_value(actor, value) {
+function check_document_value(document, value) {
   let [path, result] = value.split("=");
-  let data = getProperty(actor, path);
+  let data = getProperty(document, path);
   // noinspection EqualityComparisonWithCoercionJS
   return data == result;
 }
