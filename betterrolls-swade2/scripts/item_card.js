@@ -1218,7 +1218,10 @@ export async function roll_dmg(
       damage_formulas.heavy_weapon = true;
     }
     if (action.code.dmgMod) {
-      const new_mod = create_modifier(action.code.name, action.code.dmgMod);
+      let action_name = action.code.name.includes("BRSW.")
+        ? game.i18n.localize(action.code.name)
+        : action.code.name;
+      const new_mod = create_modifier(action_name, action.code.dmgMod);
       damage_roll.brswroll.modifiers.push(new_mod);
     }
     if (action.code.dmgOverride) {

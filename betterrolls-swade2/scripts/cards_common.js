@@ -1663,7 +1663,7 @@ export function create_modifier(label, expression) {
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros, actor) {
-  let action_name = action.button_name || action.name;
+  let action_name = action.name || action.button_name;
   action_name = action_name.includes("BRSW.")
     ? game.i18n.localize(action_name)
     : action_name;
