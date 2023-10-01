@@ -42,8 +42,8 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERBOLTMODRATEOFFIRE",
-    name: starIcon + "Rate of Fire (+2)",
-    button_name: starIcon + "Rate of Fire (+2)",
+    name: "Rate of Fire (+2)",
+    button_name: "BRSW.PowerModifiersBoltRateOfFire",
     shotsUsed: "+2",
     rof: "2",
     and_selector: [
