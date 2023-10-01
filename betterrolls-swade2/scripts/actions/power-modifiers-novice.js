@@ -146,5 +146,16 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: groupProtectionName
   },
+  {
+    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS5",
+    name: "Additional Recipients +5",
+    button_name: "BRSW.PowerModifiersProtectionAddRecipients5",
+    shotsUsed: "+5",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Protection" }
+    ],
+    group: groupProtectionName
+  },
 
 ];
