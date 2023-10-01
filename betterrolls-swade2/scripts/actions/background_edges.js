@@ -3,7 +3,7 @@
 export const BACKGROUND_EDGES = [
   {
     id: "ALERTNESS",
-    name: "Alertness",
+    name: "BRSW.EdgeName-Alertness",
     button_name: "BRSW.EdgeName-Alertness",
     skillMod: "+2",
     and_selector: [
@@ -18,7 +18,7 @@ export const BACKGROUND_EDGES = [
   },
   {
     id: "Aristocrat",
-    name: "Aristocrat",
+    name: "BRSW.EdgeName-Aristocrat",
     button_name: "BRSW.EdgeName-Aristocrat",
     skillMod: "+2",
     and_selector: [
@@ -43,7 +43,7 @@ export const BACKGROUND_EDGES = [
   },
   {
     id: "Attractive",
-    name: "Attractive",
+    name: "BRSW.EdgeName-Attractive",
     button_name: "BRSW.EdgeName-Attractive",
     skillMod: "+1",
     and_selector: [
@@ -76,7 +76,7 @@ export const BACKGROUND_EDGES = [
   },
   {
     id: "Very Attractive",
-    name: "Very Attractive",
+    name: "BRSW.EdgeName-VeryAttractive",
     button_name: "BRSW.EdgeName-VeryAttractive",
     skillMod: "+2",
     and_selector: [
@@ -101,7 +101,7 @@ export const BACKGROUND_EDGES = [
   },
   {
     id: "ELAN",
-    name: "Elan Edge",
+    name: "BRSW.EdgeName-Elan",
     button_name: "BRSW.EdgeName-Elan",
     rerollSkillMod: "+2",
     selector_type: "actor_has_edge",

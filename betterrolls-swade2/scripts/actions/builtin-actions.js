@@ -7,7 +7,7 @@ import { POWER_MODIFIERS_NOVICE } from "./power-modifiers-novice.js";
 export const SYSTEM_GLOBAL_ACTION = [
   {
     id: "NO_MERCY",
-    name: "No Mercy Edge",
+    name: "BRSW.EdgeName-NoMercy",
     button_name: "BRSW.EdgeName-NoMercy",
     rerollDamageMod: "+2",
     selector_type: "actor_has_edge",
@@ -17,7 +17,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "FRENZY",
-    name: "Frenzy",
+    name: "BRSW.EdgeName-Frenzy",
     button_name: "BRSW.EdgeName-Frenzy",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
@@ -41,7 +41,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "IMPROVED FRENZY",
-    name: "Improved Frenzy",
+    name: "BRSW.EdgeName-ImprovedFrenzy",
     button_name: "BRSW.EdgeName-ImprovedFrenzy",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
@@ -57,7 +57,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "MARKSMAN",
-    name: "Marksman",
+    name: "BRSW.EdgeName-Marksman",
     button_name: "BRSW.EdgeName-Marksman",
     skillMod: "+1",
     and_selector: [
@@ -71,7 +71,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "MRFIXIT",
-    name: "Mr Fix It",
+    name: "BRSW.EdgeName-MrFixIt",
     button_name: "BRSW.EdgeName-MrFixIt",
     skillMod: "+2",
     and_selector: [
@@ -86,7 +86,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "UNARMEDDEFENDER",
-    name: "Unarmed Defender",
+    name: "BRSW.UnarmedDefender",
     button_name: "BRSW.UnarmedDefender",
     skillMod: "+2",
     selector_type: "skill",
@@ -95,7 +95,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "RANSTEADY",
-    name: "Ran-Steady",
+    name: "BRSW.RanSteady",
     button_name: "BRSW.RanSteady",
     skillMod: "-1",
     and_selector: [
@@ -109,7 +109,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "ALLTHUMBS",
-    name: "All Thumbs",
+    name: "BRSW.EdgeName-All-Thumbs",
     button_name: "BRSW.EdgeName-All-Thumbs",
     skillMod: "-2",
     selector_type: "actor_has_hindrance",
@@ -118,7 +118,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "BLIND",
-    name: "Blind",
+    name: "BRSW.EdgeName-Blind",
     button_name: "BRSW.EdgeName-Blind",
     skillMod: "-6",
     selector_type: "actor_has_hindrance",
@@ -128,7 +128,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "CANTSWIN",
-    name: "Can't Swim",
+    name: "BRSW.EdgeName-Cant-Swim",
     button_name: "BRSW.EdgeName-Cant-Swim",
     skillMod: "-2",
     and_selector: [
@@ -139,7 +139,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Clueless",
-    name: "Clueless",
+    name: "BRSW.EdgeName-Clueless",
     button_name: "BRSW.EdgeName-Clueless",
     skillMod: "-1",
     and_selector: [
@@ -162,7 +162,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Clumsy",
-    name: "Clumsy",
+    name: "BRSW.EdgeName-Clumsy",
     button_name: "BRSW.EdgeName-Clumsy",
     skillMod: "-2",
     and_selector: [
@@ -185,7 +185,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Hard of Hearing",
-    name: "Hard of Hearing",
+    name: "BRSW.EdgeName-HardOfHearing",
     button_name: "BRSW.EdgeName-HardOfHearing",
     skillMod: "-4",
     and_selector: [
@@ -199,7 +199,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Mean",
-    name: "Mean",
+    name: "BRSW.EdgeName-Mean",
     button_name: "BRSW.EdgeName-Mean",
     skillMod: "-1",
     and_selector: [
@@ -214,7 +214,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Mild Mannered",
-    name: "Mild Mannered",
+    name: "BRSW.EdgeName-MildMannered",
     button_name: "BRSW.EdgeName-MildMannered",
     skillMod: "-2",
     and_selector: [
@@ -229,7 +229,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Outsider",
-    name: "Outsider",
+    name: "BRSW.EdgeName-Outsider",
     button_name: "BRSW.EdgeName-Outsider",
     skillMod: "-2",
     and_selector: [
@@ -249,7 +249,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Tongue Tied",
-    name: "Tongue Tied",
+    name: "BRSW.EdgeName-TongueTied",
     button_name: "BRSW.EdgeName-TongueTied",
     skillMod: "-1",
     and_selector: [
@@ -280,7 +280,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Free runner",
-    name: "Free runner",
+    name: "BRSW.ApplyFreeRunner",
     button_name: "BRSW.ApplyFreeRunner",
     skillMod: "+2",
     and_selector: [
@@ -294,7 +294,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Giant Killer",
-    name: "Giant Killer",
+    name: "BRSW.EdgeName-GiantKiller",
     button_name: "BRSW.EdgeName-GiantKiller",
     dmgMod: "+1d6x",
     and_selector: [
@@ -313,7 +313,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Martial Artist",
-    name: "MartialArtist",
+    name: "BRSW.EdgeName-MartialArtist",
     button_name: "BRSW.EdgeName-MartialArtist",
     skillMod: "+1",
     and_selector: [
@@ -336,7 +336,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Martial Warrior",
-    name: "MartialWarrior",
+    name: "BRSW.EdgeName-MartialWarrior",
     button_name: "BRSW.EdgeName-MartialWarrior",
     skillMod: "+2",
     and_selector: [
@@ -351,7 +351,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Target has dodge",
-    name: "The target has dodge (weapon)",
+    name: "BRSW.TargetHasDodge",
     button_name: "BRSW.TargetHasDodge",
     skillMod: "-2",
     and_selector: [
@@ -372,7 +372,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Assassin",
-    name: "Assassin",
+    name: "BRSW.EdgeName-Assassin",
     button_name: "BRSW.EdgeName-Assassin",
     dmgMod: "+2",
     and_selector: [
@@ -391,7 +391,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Investigator",
-    name: "Investigator",
+    name: "BRSW.EdgeName-Investigator",
     button_name: "BRSW.EdgeName-Investigator",
     skillMod: "+2",
     nd_selector: [
@@ -407,7 +407,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "Target has dodge 2",
-    name: "The target has dodge (power)",
+    name: "BRSW.TargetHasDodgePower",
     button_name: "BRSW.TargetHasDodgePower",
     skillMod: "-2",
     and_selector: [
@@ -422,7 +422,7 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "SWEEP",
-    name: "Sweep",
+    name: "BRSW.EdgeName-Sweep",
     button_name: "BRSW.EdgeName-Sweep",
     skillMod: "-2",
     //extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. <br>Target <b>ALL</b> targets within weapon reach",
@@ -446,10 +446,10 @@ export const SYSTEM_GLOBAL_ACTION = [
   },
   {
     id: "IMPROVED-SWEEP",
-    name: "Improved Sweep",
+    name: "BRSW.EdgeName-SweepImproved",
     button_name: "BRSW.EdgeName-SweepImproved",
     skillMod: "-2",
-    //extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. <br>Target all targets within weapon reach, <b>AVOIDING</b> allies",
+    extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
       {
