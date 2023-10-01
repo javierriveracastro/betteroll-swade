@@ -9,7 +9,6 @@ export const POWER_MODIFIERS_NOVICE = [
     button_name: "BRSW.PowerModifiersBoltDamage", // button text in modal dialog, is translated
     shotsUsed: "+2",
     dmgMod: "+d6x",
-    // this works ...
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Bolt" }  // currently NOT translated
@@ -24,35 +23,35 @@ export const POWER_MODIFIERS_NOVICE = [
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Bolt" },
-      // this works ...
-      // this doesn't work ...
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
     group: groupBoltName
   },
-  // {
-  //   id: "POWERBOLTMODGREATERBOLT",
-  //   name: "Greater Bolt (+2d6)",
-  //   button_name: "BRSW.PowerModifiersBoltGreaterBolt",
-  //   shotsUsed: "+4",
-  //   dmgMod: "+2d6x",
-  //   and_selector: [
-  //     { selector_type: "item_type", selector_value: "power" },
-  //     { selector_type: "item_name", selector_value: "Bolt" }
-  //   ],
-  //   group: groupBoltName
-  // },
-  // {
-  //   id: "POWERBOLTMODRATEOFFIRE",
-  //   name: starIcon + "Rate of Fire (+2)",
-  //   button_name: starIcon + "Rate of Fire (+2)",
-  //   shotsUsed: "+2",
-  //   rof: "2",
-  //   and_selector: [
-  //     { selector_type: "item_type", selector_value: "power" },
-  //     { selector_type: "item_name", selector_value: "Bolt" }
-  //   ],
-  //   group: groupBoltName
-  // },
+  {
+    id: "POWERBOLTMODGREATERBOLT",
+    name: "Greater Bolt (+2d6)",
+    button_name: "BRSW.PowerModifiersBoltGreaterBolt",
+    shotsUsed: "+4",
+    dmgMod: "+2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Bolt" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: groupBoltName
+  },
+  {
+    id: "POWERBOLTMODRATEOFFIRE",
+    name: starIcon + "Rate of Fire (+2)",
+    button_name: starIcon + "Rate of Fire (+2)",
+    shotsUsed: "+2",
+    rof: "2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Bolt" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: groupBoltName
+  },
 
 ];

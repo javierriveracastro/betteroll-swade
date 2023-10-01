@@ -50,7 +50,8 @@
     "scripts/brsw2-init.js"
   ],
   "styles": [
-    "css/brsw-styles.css", "css/brsw-tw-styles.css"
+    "css/brsw-styles.css",
+    "css/brsw-tw-styles.css"
   ],
   "url": "https://github.com/javierriveracastro/betteroll-swade/tree/version_2",
   "manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/betterrolls-swade2/module.json",

@@ -449,7 +449,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "BRSW.EdgeName-SweepImproved",
     button_name: "BRSW.EdgeName-SweepImproved",
     skillMod: "-2",
-    extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
+    // extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
       {
