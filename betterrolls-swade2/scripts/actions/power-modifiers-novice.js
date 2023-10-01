@@ -2,7 +2,15 @@
 
 const groupArcaneProtectionName = "BRSW.PowerModifiersArcaneProtection";
 const groupBoltName = "BRSW.PowerModifiersBolt";
+const groupBurstName = "BRSW.PowerModifiersBurst";
 const groupProtectionName = "BRSW.PowerModifiersProtection";
+
+/*
+  format of power modifier ...
+    name: "xxxxx", // text for line in damage roll details, currently NOT translated
+    button_name: "BRSW.xxxxx", // button text in modal dialog, is translated
+    { selector_type: "item_name", selector_value: "xxxxx" }  // currently NOT translated
+*/
 
 export const POWER_MODIFIERS_NOVICE = [
   {
@@ -56,7 +64,43 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: groupBoltName
   },
-
+  // BURST
+  {
+    id: "POWERBURSTMODDAMAGE",
+    name: "Damage (+1d6)",
+    button_name: "BRSW.PowerModifiersBurstDamage",
+    shotsUsed: "+2",
+    dmgMod: "+d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Burst" }
+    ],
+    group: groupBurstName
+  },
+  {
+    id: "POWERBURSTMODGREATERBURST",
+    name: "Greater Burst (+2d6)",
+    button_name: "BRSW.PowerModifiersBurstGreaterBurst",
+    shotsUsed: "+4",
+    dmgMod: "+2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Burst" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: groupBurstName
+  },
+  {
+    id: "POWERBURSTPUSH",
+    name: "Push (+1)",
+    button_name: "BRSW.PowerModifiersBurstPush",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Burst" }
+    ],
+    group: groupBurstName
+  },
   // PROTECTION
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS1",
