@@ -123,11 +123,10 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHavoc"
   },
   // HEALING
-
   {
     id: "POWERHEALINGMODGREATERHEALING",
     name: "Greater Healing",
-    button_name: "Greater Healing (+10)",
+    button_name: "BRSW.PowerModifiersHealingGreaterHealing",
     shotsUsed: "+10",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
@@ -137,30 +136,32 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERHEALINGMODMASSHEALINGMEDIUMBLAST",
-    name: starIcon + "Mass Healing - Medium Blast (+2)",
-    button_name: starIcon + "Mass Healing - Medium Blast (+2)",
+    name: "Mass Healing - MBT",
+    button_name: "BRSW.PowerModifiersHealingMassHealingMBT",
     shotsUsed: "+2",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Healing" }
+      { selector_type: "item_name", selector_value: "Healing" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
     group: "BRSW.PowerModifiersHealing"
   },
   {
     id: "POWERHEALINGMODMASSHEALINGLARGEBLAST",
-    name: starIcon + "Mass Healing - Large Blast (+3)",
-    button_name: starIcon + "Mass Healing - Large Blast (+3)",
+    name: "Mass Healing - LBT",
+    button_name: "BRSW.PowerModifiersHealingMassHealingLBT",
     shotsUsed: "+3",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Healing" }
+      { selector_type: "item_name", selector_value: "Healing" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
     group: "BRSW.PowerModifiersHealing"
   },
   {
     id: "POWERHEALINGMODCRIPPLINGINJURIES",
-    name: "Crippling Injuries (+15)",
-    button_name: "Crippling Injuries (+15)",
+    name: "Crippling Injuries",
+    button_name: "BRSW.PowerModifiersHealingCripplingInjuries",
     shotsUsed: "+15",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
@@ -170,8 +171,8 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERHEALINGMODNEUTRALIZEPOISON",
-    name: "Neutralize Poison or Disease (+1)",
-    button_name: "Neutralize Poison or Disease (+1)",
+    name: "Neutralize Poison or Disease",
+    button_name: "BRSW.PowerModifiersHealingNeutralisePoisonOrDisease",
     shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
@@ -179,7 +180,6 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersHealing"
   },
-
   // PROTECTION
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS1",
