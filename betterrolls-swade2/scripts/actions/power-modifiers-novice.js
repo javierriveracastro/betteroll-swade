@@ -1,25 +1,126 @@
 /// power modifiers for novice powers ...
 
-
 /*
   format of power modifier elements ...
     name: "xxxxx", // text for line in damage roll details, currently NOT translated
     button_name: "BRSW.xxxxx", // button text in modal dialog, is translated
-    { selector_type: "item_name", selector_value: "xxxxx" }  // currently NOT translated
+    { selector_type: "item_name", selector_value: "xxxxx" }           // "item_name"      is currently NOT translated
+    { selector_type: "actor_has_edge", selector_value: "BRSW.xxxxx" } // "actor_has_edge" is translated
     group: "BRSW.xxxxx"
 */
 
 export const POWER_MODIFIERS_NOVICE = [
+  // ADDITIONALRECIPIENTS
+  {
+    id: "POWERADDITIONALRECIPIENTS1",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersGenericAdditionalRecipients1",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      {
+        or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Protection",
+          }
+        ],
+      }
+    ],
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+  },
+  {
+    id: "POWERADDITIONALRECIPIENTS2",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersGenericAdditionalRecipients2",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      {
+        or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Protection",
+          }
+        ],
+      }
+    ],
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+  },
+  {
+    id: "POWERADDITIONALRECIPIENTS3",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersGenericAdditionalRecipients3",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      {
+        or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Protection",
+          }
+        ],
+      }
+    ],
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+  },
+  {
+    id: "POWERADDITIONALRECIPIENTS4",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersGenericAdditionalRecipients4",
+    shotsUsed: "+4",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      {
+        or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Protection",
+          }
+        ],
+      }
+    ],
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+  },
+  {
+    id: "POWERADDITIONALRECIPIENTS5",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersGenericAdditionalRecipients5",
+    shotsUsed: "+5",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      {
+        or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Protection",
+          }
+        ],
+      }
+    ],
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+  },
   // BOLT
   {
     id: "POWERBOLTMODDAMAGE",
-    name: "Damage (+1d6)", // text for line in damage roll details, currently NOT translated
-    button_name: "BRSW.PowerModifiersBoltDamage", // button text in modal dialog, is translated
+    name: "Damage (+1d6)",
+    button_name: "BRSW.PowerModifiersBoltDamage",
     shotsUsed: "+2",
     dmgMod: "+d6x",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Bolt" }  // currently NOT translated
+      { selector_type: "item_name", selector_value: "Bolt" }
     ],
     group: "BRSW.PowerModifiersBolt"
   },
@@ -61,10 +162,22 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBolt"
   },
+  // BURROW
+  {
+    id: "POWERBURROWMODPOWER",
+    name: "Power",
+    button_name: "BRSW.PowerModifiersBurrowPower",
+    shotsUsed: "+5",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Burrow" }
+    ],
+    group: "BRSW.PowerModifiersBurrow"
+  },
   // BURST
   {
     id: "POWERBURSTMODDAMAGE",
-    name: "Damage (+1d6)",
+    name: "Damage (+5d6)",
     button_name: "BRSW.PowerModifiersBurstDamage",
     shotsUsed: "+2",
     dmgMod: "+d6x",
@@ -91,7 +204,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERBURSTPUSH",
     name: "Push (2d6 feet)",
     button_name: "BRSW.PowerModifiersBurstPush",
-    shotsUsed: "+1",
+    shotsUsed: "+5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Burst" }
@@ -113,9 +226,9 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERHAVOCMODAREA",
-    name: "Area Effect (+1)",
+    name: "Area Effect (+5)",
     button_name: "BRSW.PowerModifiersHavocAreaEffect",
-    shotsUsed: "+1",
+    shotsUsed: "+5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Havoc" }
@@ -127,7 +240,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERHEALINGMODGREATERHEALING",
     name: "Greater Healing",
     button_name: "BRSW.PowerModifiersHealingGreaterHealing",
-    shotsUsed: "+10",
+    shotsUsed: "+50",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Healing" }
@@ -162,7 +275,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERHEALINGMODCRIPPLINGINJURIES",
     name: "Crippling Injuries",
     button_name: "BRSW.PowerModifiersHealingCripplingInjuries",
-    shotsUsed: "+15",
+    shotsUsed: "+55",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Healing" }
@@ -173,7 +286,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERHEALINGMODNEUTRALIZEPOISON",
     name: "Neutralize Poison or Disease",
     button_name: "BRSW.PowerModifiersHealingNeutralisePoisonOrDisease",
-    shotsUsed: "+1",
+    shotsUsed: "+5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Healing" }
@@ -181,60 +294,5 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   // PROTECTION
-  {
-    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS1",
-    name: "Additional Recipients +1",
-    button_name: "BRSW.PowerModifiersProtectionAddRecipients1",
-    shotsUsed: "+1",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Protection" }
-    ],
-    group: "BRSW.PowerModifiersProtection"
-  },
-  {
-    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS2",
-    name: "Additional Recipients +2",
-    button_name: "BRSW.PowerModifiersProtectionAddRecipients2",
-    shotsUsed: "+2",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Protection" }
-    ],
-    group: "BRSW.PowerModifiersProtection"
-  },
-  {
-    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS3",
-    name: "Additional Recipients +3",
-    button_name: "BRSW.PowerModifiersProtectionAddRecipients3",
-    shotsUsed: "+3",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Protection" }
-    ],
-    group: "BRSW.PowerModifiersProtection"
-  },
-  {
-    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS4",
-    name: "Additional Recipients +4",
-    button_name: "BRSW.PowerModifiersProtectionAddRecipients4",
-    shotsUsed: "+4",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Protection" }
-    ],
-    group: "BRSW.PowerModifiersProtection"
-  },
-  {
-    id: "POWERPROTECTIONMODADDITIONALRECIPIENTS5",
-    name: "Additional Recipients +5",
-    button_name: "BRSW.PowerModifiersProtectionAddRecipients5",
-    shotsUsed: "+5",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Protection" }
-    ],
-    group: "BRSW.PowerModifiersProtection"
-  },
-
+  // ... is just Additional Recipients, which is handled by the generic clause above
 ];
