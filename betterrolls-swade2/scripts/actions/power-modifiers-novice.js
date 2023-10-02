@@ -24,6 +24,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
             selector_type: "item_name", selector_value: "Protection",
           }
         ],
@@ -42,6 +45,9 @@ export const POWER_MODIFIERS_NOVICE = [
         or_selector: [
           {
             selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
@@ -64,6 +70,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
             selector_type: "item_name", selector_value: "Protection",
           }
         ],
@@ -84,6 +93,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
             selector_type: "item_name", selector_value: "Protection",
           }
         ],
@@ -102,6 +114,9 @@ export const POWER_MODIFIERS_NOVICE = [
         or_selector: [
           {
             selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
@@ -174,6 +189,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBurrow"
   },
+  // plus Additional Recipients, which is handled by the generic clause above
   // BURST
   {
     id: "POWERBURSTMODDAMAGE",
@@ -295,4 +311,28 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   // PROTECTION
   // ... is just Additional Recipients, which is handled by the generic clause above
+  // RELIEF
+  {
+    id: "POWERRELIEFMODRESTORATION",
+    name: "Restoration",
+    button_name: "BRSW.PowerModifiersReliefRestoration",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Relief" }
+    ],
+    group: "BRSW.PowerModifiersRelief"
+  },
+  {
+    id: "POWERRELIEFMODSTUNNED",
+    name: "Stunned (+1)",
+    button_name: "BRSW.PowerModifiersReliefStunned",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Relief" }
+    ],
+    group: "BRSW.PowerModifiersRelief"
+  },
+  // plus Additional Recipients, which is handled by the generic clause above
 ];
