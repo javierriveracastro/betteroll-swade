@@ -2,6 +2,7 @@ import { COMBAT_OPTIONS } from "./combat_options.js";
 import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
 import { BACKGROUND_EDGES } from "./background_edges.js";
 import { GENERIC_POWER_MODIFIERS } from "./power-generic-modifiers.js";
+import { POWER_MODIFIERS_NOVICE } from "./power-modifiers-novice.js";
 
 export const SYSTEM_GLOBAL_ACTION = [
   {
@@ -424,8 +425,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "BRSW.EdgeName-Sweep",
     button_name: "BRSW.EdgeName-Sweep",
     skillMod: "-2",
-    extra_text:
-      "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target <b>ALL</b> targets within weapon reach",
+    //extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. <br>Target <b>ALL</b> targets within weapon reach",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
       {
@@ -442,7 +442,6 @@ export const SYSTEM_GLOBAL_ACTION = [
         ],
       },
     ],
-    defaultChecked: "off",
     group: "BRSW.Edges",
   },
   {
@@ -450,8 +449,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "BRSW.EdgeName-SweepImproved",
     button_name: "BRSW.EdgeName-SweepImproved",
     skillMod: "-2",
-    extra_text:
-      "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
+    // extra_text: "TEMP: Applying -2 penalty for One-Handed Weapon, so add +2 if using Two-Handed Weapon. Target all targets within weapon reach, <b>avoiding</b> allies",
     and_selector: [
       { selector_type: "skill", selector_value: "fighting" },
       {
@@ -460,11 +458,11 @@ export const SYSTEM_GLOBAL_ACTION = [
       },
       { selector_type: "item_type", selector_value: "weapon" },
     ],
-    defaultChecked: "off",
     group: "BRSW.Edges",
   },
 ]
   .concat(COMBAT_OPTIONS)
   .concat(POWER_POINT_OPTIONS)
   .concat(BACKGROUND_EDGES)
-  .concat(GENERIC_POWER_MODIFIERS);
+  .concat(GENERIC_POWER_MODIFIERS)
+  .concat(POWER_MODIFIERS_NOVICE);
