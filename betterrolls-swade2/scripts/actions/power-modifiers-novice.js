@@ -1,15 +1,12 @@
 /// power modifiers for novice powers ...
 
-const groupArcaneProtectionName = "BRSW.PowerModifiersArcaneProtection";
-const groupBoltName = "BRSW.PowerModifiersBolt";
-const groupBurstName = "BRSW.PowerModifiersBurst";
-const groupProtectionName = "BRSW.PowerModifiersProtection";
 
 /*
-  format of power modifier ...
+  format of power modifier elements ...
     name: "xxxxx", // text for line in damage roll details, currently NOT translated
     button_name: "BRSW.xxxxx", // button text in modal dialog, is translated
     { selector_type: "item_name", selector_value: "xxxxx" }  // currently NOT translated
+    group: "BRSW.xxxxx"
 */
 
 export const POWER_MODIFIERS_NOVICE = [
@@ -24,7 +21,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Bolt" }  // currently NOT translated
     ],
-    group: groupBoltName
+    group: "BRSW.PowerModifiersBolt"
   },
   {
     id: "POWERBOLTMODDISINTEGRATE",
@@ -36,7 +33,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Bolt" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: groupBoltName
+    group: "BRSW.PowerModifiersBolt"
   },
   {
     id: "POWERBOLTMODGREATERBOLT",
@@ -49,7 +46,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Bolt" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: groupBoltName
+    group: "BRSW.PowerModifiersBolt"
   },
   {
     id: "POWERBOLTMODRATEOFFIRE",
@@ -62,7 +59,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Bolt" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: groupBoltName
+    group: "BRSW.PowerModifiersBolt"
   },
   // BURST
   {
@@ -75,7 +72,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Burst" }
     ],
-    group: groupBurstName
+    group: "BRSW.PowerModifiersBurst"
   },
   {
     id: "POWERBURSTMODGREATERBURST",
@@ -88,18 +85,18 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Burst" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: groupBurstName
+    group: "BRSW.PowerModifiersBurst"
   },
   {
     id: "POWERBURSTPUSH",
-    name: "Push (+1)",
+    name: "Push (2d6 feet)",
     button_name: "BRSW.PowerModifiersBurstPush",
     shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Burst" }
     ],
-    group: groupBurstName
+    group: "BRSW.PowerModifiersBurst"
   },
   // HAVOC
   {
@@ -127,6 +124,62 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   // HEALING
 
+  {
+    id: "POWERHEALINGMODGREATERHEALING",
+    name: "Greater Healing",
+    button_name: "Greater Healing (+10)",
+    shotsUsed: "+10",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+  {
+    id: "POWERHEALINGMODMASSHEALINGMEDIUMBLAST",
+    name: starIcon + "Mass Healing - Medium Blast (+2)",
+    button_name: starIcon + "Mass Healing - Medium Blast (+2)",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+  {
+    id: "POWERHEALINGMODMASSHEALINGLARGEBLAST",
+    name: starIcon + "Mass Healing - Large Blast (+3)",
+    button_name: starIcon + "Mass Healing - Large Blast (+3)",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+  {
+    id: "POWERHEALINGMODCRIPPLINGINJURIES",
+    name: "Crippling Injuries (+15)",
+    button_name: "Crippling Injuries (+15)",
+    shotsUsed: "+15",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+  {
+    id: "POWERHEALINGMODNEUTRALIZEPOISON",
+    name: "Neutralize Poison or Disease (+1)",
+    button_name: "Neutralize Poison or Disease (+1)",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+
   // PROTECTION
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS1",
@@ -137,7 +190,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Protection" }
     ],
-    group: groupProtectionName
+    group: "BRSW.PowerModifiersProtection"
   },
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS2",
@@ -148,7 +201,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Protection" }
     ],
-    group: groupProtectionName
+    group: "BRSW.PowerModifiersProtection"
   },
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS3",
@@ -159,7 +212,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Protection" }
     ],
-    group: groupProtectionName
+    group: "BRSW.PowerModifiersProtection"
   },
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS4",
@@ -170,7 +223,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Protection" }
     ],
-    group: groupProtectionName
+    group: "BRSW.PowerModifiersProtection"
   },
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS5",
@@ -181,7 +234,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Protection" }
     ],
-    group: groupProtectionName
+    group: "BRSW.PowerModifiersProtection"
   },
 
 ];
