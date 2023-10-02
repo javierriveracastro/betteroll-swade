@@ -13,8 +13,8 @@ const groupProtectionName = "BRSW.PowerModifiersProtection";
 */
 
 export const POWER_MODIFIERS_NOVICE = [
+  // BOLT
   {
-    // BOLT
     id: "POWERBOLTMODDAMAGE",
     name: "Damage (+1d6)", // text for line in damage roll details, currently NOT translated
     button_name: "BRSW.PowerModifiersBoltDamage", // button text in modal dialog, is translated
@@ -101,6 +101,32 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: groupBurstName
   },
+  // HAVOC
+  {
+    id: "POWERHAVOCMODGREATER",
+    name: "Greater Havoc (+2d6)",
+    button_name: "BRSW.PowerModifiersHavocGreaterHavoc",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Havoc" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersHavoc"
+  },
+  {
+    id: "POWERHAVOCMODAREA",
+    name: "Area Effect (+1)",
+    button_name: "BRSW.PowerModifiersHavocAreaEffect",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Havoc" }
+    ],
+    group: "BRSW.PowerModifiersHavoc"
+  },
+  // HEALING
+
   // PROTECTION
   {
     id: "POWERPROTECTIONMODADDITIONALRECIPIENTS1",
