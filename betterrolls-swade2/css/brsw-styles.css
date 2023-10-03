@@ -179,13 +179,12 @@
     background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d12-blue.svg");
 }
 
-
 .brsw-dice-image {
-    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     font-size: 15px;
-    padding: 10px;
+    padding: 8px 8px 8px 8px;
+    margin-left: 2px;
 }
 
 .brsw-button-image {
