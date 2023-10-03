@@ -15,7 +15,7 @@
         <span>
             {{#each trait_roll.current_roll.dice }}
                 <a class="brsw-override-die" data-die-index="{{@index}}">
-                    <span class="brsw-d{{this.sides}}{{this.result_class}} brsw-dice-image{{this.extra_class}}">
+                    <span class="brsw-d{{this.sides}}{{this.result_class}} brsw-dice-image{{this.extra_class}}"  title="{{this.result_text}}">
                         {{ this.final_total }}
                     </span>
                 </a>
