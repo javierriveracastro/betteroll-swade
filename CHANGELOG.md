@@ -1,3 +1,10 @@
+## Version 3.52 aka A small one.
+* Documentation: Better notes for default checked (Steve Culshaw)
+* Actions: Added actions for sweep and novice powers (Steve Culshaw)
+* Actions: Add the item_value selector that lets you use an arbitrary value from an item
+* Refactoring: New bugs added, I mean, simpler and better code in item_cards.js
+* Chat modifiers: Change the select sequence to white->red->none
+
 ## Version 3.51 aka too stable?
 * Bugfix: Frenzy edge was not translatable.
 * Documentation: Update the documentation to use the new action dialgo (Steve Culshaw).

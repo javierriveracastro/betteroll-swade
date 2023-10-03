@@ -1,7 +1,7 @@
 {
   "title": "Better Rolls 2 for Savage Worlds",
   "description": "A module to make rolling in SWADE easier for experienced players.",
-  "version": "3.51",
+  "version": "3.52",
   "languages": [
     {
       "lang": "en",
@@ -50,7 +50,8 @@
     "scripts/brsw2-init.js"
   ],
   "styles": [
-    "css/brsw-styles.css", "css/brsw-tw-styles.css"
+    "css/brsw-styles.css",
+    "css/brsw-tw-styles.css"
   ],
   "url": "https://github.com/javierriveracastro/betteroll-swade/tree/version_2",
   "manifest": "https://raw.githubusercontent.com/javierriveracastro/betteroll-swade/version_2/betterrolls-swade2/module.json",
@@ -96,7 +97,7 @@
   },
   "compatibility": {
     "minimum": "11",
-    "verified": "11.309",
+    "verified": "11.311",
     "maximum": "11"
   }
 }
