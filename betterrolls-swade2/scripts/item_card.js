@@ -236,19 +236,14 @@ async function item_click_listener(ev, target) {
     ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
   // Show card
   let br_card = await create_item_card(target, item_id);
-  // Shortcut for rolling damage
-  if (ev.currentTarget.classList.contains("damage-roll")) {
-    await roll_dmg(br_card, $(br_card.message.content), false, false);
-  }
   if (action.includes("dialog")) {
     game.brsw.dialog.show_card(br_card);
   } else if (action.includes("trait")) {
-    await roll_item(
-      br_card,
-      $(br_card.content),
-      false,
-      action.includes("damage"),
-    );
+    await roll_item(br_card, "", false, action.includes("damage"));
+  }
+  // Shortcut for rolling damage
+  if (ev.currentTarget.classList.contains("damage-roll")) {
+    await roll_dmg(br_card, $(br_card.message.content), false, false);
   }
 }
 
