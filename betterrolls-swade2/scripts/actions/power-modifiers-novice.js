@@ -335,4 +335,107 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersRelief"
   },
   // plus Additional Recipients, which is handled by the generic clause above
+  // SHAPE CHANGE
+  {
+    id: "POWERSHAPECHANGEMODDURATION",
+    name: "Duration",
+    button_name: "BRSW.PowerModifiersShapeChangeDuration",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODTRANSFORMTOUCH",
+    name: "☆ Transform (Touch)",
+    button_name: "BRSW.PowerModifiersShapeChangeTransformTouch",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODTRANSFORMRANGE",
+    name: "☆ Transform (Range)",
+    button_name: "BRSW.PowerModifiersShapeChangeTransformRange",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODPOLYMORPH",
+    name: "☆ Polymorph (+3)",
+    button_name: "BRSW.PowerModifiersShapeChangePolymorph",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODSIZE-4",
+    name: "Size -4 to -1",
+    button_name: "BRSW.PowerModifiersShapeChangeSize-4to-1",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODSIZE0",
+    name: "Size 0",
+    button_name: "BRSW.PowerModifiersShapeChangeSize0",
+    shotsUsed: "+5",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODSIZE1",
+    name: "Size 1 to 2",
+    button_name: "BRSW.PowerModifiersShapeChangeSize1to2",
+    shotsUsed: "+8",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODSIZE3",
+    name: "Size 3 to 4",
+    button_name: "BRSW.PowerModifiersShapeChangeSize3to4",
+    shotsUsed: "+11",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
+  {
+    id: "POWERSHAPECHANGEMODSIZE5",
+    name: "Size 5 to 10",
+    button_name: "BRSW.PowerModifiersShapeChangeSize5to10",
+    shotsUsed: "+15",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Shape Change" }
+    ],
+    group: "BRSW.PowerModifiersShapeChange"
+  },
 ];
