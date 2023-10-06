@@ -1,5 +1,8 @@
 /// power modifiers for novice powers ...
 
+// TODO ... add limit by characters current Rank to the various Size modifiers
+// potentially using actor_value to check for rank `actor_value': 'system.advances.rank=Novice'` 
+
 /*
   format of power modifier elements ...
     name: "xxxxx", // text for line in damage roll details, currently NOT translated
@@ -11,6 +14,7 @@
 
 export const POWER_MODIFIERS_NOVICE = [
   // ADDITIONALRECIPIENTS
+  // NOTE: rather than have each power with the additional recipients have its own set of buttons, centralise it to this block
   {
     id: "POWERADDITIONALRECIPIENTS1",
     name: "Power",
@@ -392,7 +396,8 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
     ],
-    group: "BRSW.PowerModifiersShapeChange"
+    group: "BRSW.PowerModifiersShapeChange",
+    defaultChecked: "on"
   },
   {
     id: "POWERSHAPECHANGEMODSIZE0",
