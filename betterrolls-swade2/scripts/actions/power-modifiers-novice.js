@@ -1,6 +1,7 @@
 /// power modifiers for novice powers ...
 
-// TODO ... add limit by characters current Rank to the various Size modifiers
+// TODO ... add limit by characters current Rank to the various Size modifiers in Shape Change
+// TODO ... add radio button for any Area of Effect selection, e.g. Entangle
 // potentially using actor_value to check for rank `actor_value': 'system.advances.rank=Novice'` 
 
 /*
@@ -182,22 +183,22 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBolt"
   },
   // BURROW
+  // plus Additional Recipients, which is handled by the generic clause above
   {
     id: "POWERBURROWMODPOWER",
     name: "Power",
     button_name: "BRSW.PowerModifiersBurrowPower",
-    shotsUsed: "+5",
+    shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Burrow" }
     ],
     group: "BRSW.PowerModifiersBurrow"
   },
-  // plus Additional Recipients, which is handled by the generic clause above
   // BURST
   {
     id: "POWERBURSTMODDAMAGE",
-    name: "Damage (+5d6)",
+    name: "Damage (+2d6)",
     button_name: "BRSW.PowerModifiersBurstDamage",
     shotsUsed: "+2",
     dmgMod: "+d6x",
@@ -224,13 +225,71 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERBURSTPUSH",
     name: "Push (2d6 feet)",
     button_name: "BRSW.PowerModifiersBurstPush",
-    shotsUsed: "+5",
+    shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Burst" }
     ],
     group: "BRSW.PowerModifiersBurst"
   },
+  // ENTANGLE
+  {
+    id: "POWERENTANGLEMODMEDIUM",
+    name: "Medium (LBT)",
+    button_name: "BRSW.PowerModifiersEntangleAreaEffectMBT",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Entangle" }
+    ],
+    group: "BRSW.PowerModifiersEntangle"
+  },
+  {
+    id: "POWERENTANGLEMODLARGE",
+    name: "Large or Stream (+3)",
+    button_name: "BRSW.PowerModifiersEntangleAreaEffectLBTStream",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Entangle" }
+    ],
+    group: "BRSW.PowerModifiersEntangle"
+  },
+  {
+    id: "POWERENTANGLEMODDAMAGE",
+    name: "Damage (+2)",
+    button_name: "BRSW.PowerModifiersEntangleDamage",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Entangle" }
+    ],
+    group: "BRSW.PowerModifiersEntangle"
+  },
+  {
+    id: "POWERENTANGLEMODDEADLY",
+    name: "☆ Deadly (+4)",
+    button_name: "BRSW.PowerModifiersEntangleDeadly",
+    shotsUsed: "+4",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Entangle" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersEntangle"
+  },
+  {
+    id: "POWERENTANGLEMODTOUGH",
+    name: "Tough (+1)",
+    button_name: "BRSW.PowerModifiersEntangleTough",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Entangle" }
+    ],
+    group: "BRSW.PowerModifiersEntangle"
+  },
+
   // HAVOC
   {
     id: "POWERHAVOCMODGREATER",
@@ -246,9 +305,9 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERHAVOCMODAREA",
-    name: "Area Effect (+5)",
+    name: "Area Effect (LBT)",
     button_name: "BRSW.PowerModifiersHavocAreaEffect",
-    shotsUsed: "+5",
+    shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Havoc" }
@@ -260,7 +319,18 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERHEALINGMODGREATERHEALING",
     name: "Greater Healing",
     button_name: "BRSW.PowerModifiersHealingGreaterHealing",
-    shotsUsed: "+50",
+    shotsUsed: "+10",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Healing" }
+    ],
+    group: "BRSW.PowerModifiersHealing"
+  },
+  {
+    id: "POWERHEALINGMODCRIPPLINGINJURIES",
+    name: "Crippling Injuries",
+    button_name: "BRSW.PowerModifiersHealingCripplingInjuries",
+    shotsUsed: "+20",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Healing" }
@@ -292,21 +362,10 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   {
-    id: "POWERHEALINGMODCRIPPLINGINJURIES",
-    name: "Crippling Injuries",
-    button_name: "BRSW.PowerModifiersHealingCripplingInjuries",
-    shotsUsed: "+55",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Healing" }
-    ],
-    group: "BRSW.PowerModifiersHealing"
-  },
-  {
     id: "POWERHEALINGMODNEUTRALIZEPOISON",
     name: "Neutralize Poison or Disease",
     button_name: "BRSW.PowerModifiersHealingNeutralisePoisonOrDisease",
-    shotsUsed: "+5",
+    shotsUsed: "+1",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Healing" }
@@ -315,7 +374,9 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   // PROTECTION
   // ... is just Additional Recipients, which is handled by the generic clause above
+
   // RELIEF
+  // plus Additional Recipients, which is handled by the generic clause above
   {
     id: "POWERRELIEFMODRESTORATION",
     name: "Restoration",
@@ -338,8 +399,8 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersRelief"
   },
-  // plus Additional Recipients, which is handled by the generic clause above
   // SHAPE CHANGE
+  // plus Additional Recipients, which is handled by the generic clause above
   {
     id: "POWERSHAPECHANGEMODDURATION",
     name: "Duration",
