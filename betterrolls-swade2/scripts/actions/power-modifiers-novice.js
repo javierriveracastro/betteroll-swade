@@ -391,7 +391,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERSHAPECHANGEMODSIZE-4",
     name: "Size -4 to -1",
     button_name: "BRSW.PowerModifiersShapeChangeSize-4to-1",
-    shotsUsed: "+3",
+    shotsUsed: "3",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
@@ -403,7 +403,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERSHAPECHANGEMODSIZE0",
     name: "Size 0",
     button_name: "BRSW.PowerModifiersShapeChangeSize0",
-    shotsUsed: "+5",
+    shotsUsed: "5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
@@ -414,7 +414,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERSHAPECHANGEMODSIZE1",
     name: "Size 1 to 2",
     button_name: "BRSW.PowerModifiersShapeChangeSize1to2",
-    shotsUsed: "+8",
+    shotsUsed: "8",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
@@ -425,7 +425,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERSHAPECHANGEMODSIZE3",
     name: "Size 3 to 4",
     button_name: "BRSW.PowerModifiersShapeChangeSize3to4",
-    shotsUsed: "+11",
+    shotsUsed: "11",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
@@ -436,7 +436,7 @@ export const POWER_MODIFIERS_NOVICE = [
     id: "POWERSHAPECHANGEMODSIZE5",
     name: "Size 5 to 10",
     button_name: "BRSW.PowerModifiersShapeChangeSize5to10",
-    shotsUsed: "+15",
+    shotsUsed: "15",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
