@@ -26,6 +26,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Boost",
+          },
+          {
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
@@ -48,6 +51,9 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       {
         or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Boost",
+          },
           {
             selector_type: "item_name", selector_value: "Burrow",
           },
@@ -72,6 +78,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Boost",
+          },
+          {
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
@@ -95,6 +104,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Boost",
+          },
+          {
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
@@ -117,6 +129,9 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       {
         or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Boost",
+          },
           {
             selector_type: "item_name", selector_value: "Burrow",
           },
@@ -182,6 +197,32 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBolt"
   },
+  // BOOST/LOWER TRAIT
+  // plus Additional Recipients, which is handled by the generic clause above
+  {
+    id: "POWERBOOSTLOWERTRAITMOGREATER",
+    name: "Greater Boost/Lower Trait",
+    button_name: "BRSW.PowerModifiersBoostLowerGreater",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Boost/Lower Trait" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersBoostLower"
+  },
+  {
+    id: "POWERBOOSTLOWERTRAITMODSTRONG",
+    name: "Strong (+1)",
+    button_name: "BRSW.PowerModifiersBoostLowerStrong",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Boost/Lower Trait" }
+    ],
+    group: "BRSW.PowerModifiersBoostLower"
+  },
+
   // BURROW
   // plus Additional Recipients, which is handled by the generic clause above
   {
