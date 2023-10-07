@@ -11,6 +11,8 @@
     { selector_type: "item_name", selector_value: "xxxxx" }           // "item_name"      is currently NOT translated
     { selector_type: "actor_has_edge", selector_value: "BRSW.xxxxx" } // "actor_has_edge" is translated
     group: "BRSW.xxxxx"
+
+    { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
 */
 
 export const POWER_MODIFIERS_NOVICE = [
@@ -25,6 +27,9 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       {
         or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Arcane Protection",
+          },
           {
             selector_type: "item_name", selector_value: "Boost",
           },
@@ -52,6 +57,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Arcane Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Boost",
           },
           {
@@ -77,6 +85,9 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       {
         or_selector: [
+          {
+            selector_type: "item_name", selector_value: "Arcane Protection",
+          },
           {
             selector_type: "item_name", selector_value: "Boost",
           },
@@ -104,6 +115,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Arcane Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Boost",
           },
           {
@@ -130,6 +144,9 @@ export const POWER_MODIFIERS_NOVICE = [
       {
         or_selector: [
           {
+            selector_type: "item_name", selector_value: "Arcane Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Boost",
           },
           {
@@ -146,6 +163,22 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersGenericAdditionalRecipients"
   },
+
+  // ARCANE PROTECTION
+  // plus Additional Recipients, which is handled by the generic clause above
+  {
+    id: "POWERARCANEPROTECTIONGREATER",
+    name: "Greater Arcane Protection",
+    button_name: "BRSW.PowerModifiersArcaneProtectionGreater",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Arcane Protection" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersArcaneProtection"
+  },
+
   // BOLT
   {
     id: "POWERBOLTMODDAMAGE",
@@ -197,6 +230,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBolt"
   },
+
   // BOOST/LOWER TRAIT
   // plus Additional Recipients, which is handled by the generic clause above
   {
@@ -236,6 +270,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBurrow"
   },
+
   // BURST
   {
     id: "POWERBURSTMODDAMAGE",
@@ -273,6 +308,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBurst"
   },
+
   // ENTANGLE
   {
     id: "POWERENTANGLEMODMEDIUM",
@@ -355,6 +391,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersHavoc"
   },
+
   // HEALING
   {
     id: "POWERHEALINGMODGREATERHEALING",
@@ -413,6 +450,7 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersHealing"
   },
+
   // PROTECTION
   // ... is just Additional Recipients, which is handled by the generic clause above
 
@@ -431,7 +469,7 @@ export const POWER_MODIFIERS_NOVICE = [
   },
   {
     id: "POWERRELIEFMODSTUNNED",
-    name: "Stunned (+1)",
+    name: "Stunned",
     button_name: "BRSW.PowerModifiersReliefStunned",
     shotsUsed: "+1",
     and_selector: [
@@ -440,6 +478,43 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersRelief"
   },
+
+  // SANCTUARY
+  {
+    id: "POWERSANCTUARYMODSTRONG",
+    name: "☆ Strong",
+    button_name: "BRSW.PowerModifiersSanctuaryStrong",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Sanctuary" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: groupSanctuaryName
+  },
+  {
+    id: "POWERSANCTUARYMODMEDIUMBLAST",
+    name: "Medium Blast",
+    button_name: "BRSW.PowerModifiersSanctuaryAreaEffectMBT",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Sanctuary" }
+    ],
+    group: groupSanctuaryName
+  },
+  {
+    id: "POWERSANCTUARYMODLARGEBLAST",
+    name: "Large Blast",
+    button_name: "BRSW.PowerModifiersSanctuaryAreaEffectLBT",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Sanctuary" }
+    ],
+    group: groupSanctuaryName
+  },
+
   // SHAPE CHANGE
   // plus Additional Recipients, which is handled by the generic clause above
   {
