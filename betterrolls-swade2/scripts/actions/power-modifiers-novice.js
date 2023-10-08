@@ -2,7 +2,8 @@
 
 // TODO ... add limit by characters current Rank to the various Size modifiers in Shape Change
 // TODO ... add radio button for any Area of Effect selection, e.g. Entangle
-// potentially using actor_value to check for rank `actor_value': 'system.advances.rank=Novice'` 
+// TODO ... potentially using actor_value to check for rank `actor_value': 'system.advances.rank=Novice'` in powers such as Summon Ally
+// TODO ... handle the additional modifiers in Summon Ally; Additional Allies, Combat Edge & Increased Trait, rather than use the crude "spend x PP's" buttons
 
 /*
   format of power modifier elements ...
@@ -44,6 +45,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Protection",
+          },
+          {
+            selector_type: "item_name", selector_value: "Wall Walker",
           }
         ],
       }
@@ -76,6 +80,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Protection",
+          },
+          {
+            selector_type: "item_name", selector_value: "Wall Walker",
           }
         ],
       }
@@ -108,6 +115,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Protection",
+          },
+          {
+            selector_type: "item_name", selector_value: "Wall Walker",
           }
         ],
       }
@@ -140,6 +150,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Protection",
+          },
+          {
+            selector_type: "item_name", selector_value: "Wall Walker",
           }
         ],
       }
@@ -172,6 +185,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Protection",
+          },
+          {
+            selector_type: "item_name", selector_value: "Wall Walker",
           }
         ],
       }
@@ -229,7 +245,6 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBeastFriend"
   },
-
 
   // BOLT
   {
@@ -360,6 +375,10 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBurst"
   },
+
+  // DISPEL
+
+  // DEFLECTION
 
   // ENTANGLE
   {
@@ -685,4 +704,78 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersShapeChange"
   },
+
+  // STUN
+
+  // SUMMON ALLY
+  {
+    id: "POWERSUMMONALLYMODNOVICE",
+    name: "Novice",
+    button_name: "BRSW.PowerModifiersSummonAlly1Novice",
+    shotsUsed: "1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODSEASONED",
+    name: "Seasoned",
+    button_name: "BRSW.PowerModifiersSummonAlly2Seasoned",
+    shotsUsed: "3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODVETERAN",
+    name: "Veteran",
+    button_name: "BRSW.PowerModifiersSummonAlly3Veteran",
+    shotsUsed: "5",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODHEROIC",
+    name: "Heroic",
+    button_name: "BRSW.PowerModifiersSummonAlly4Heroic",
+    shotsUsed: "7",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODMINDRIDER",
+    name: "Mind Rider",
+    button_name: "BRSW.PowerModifiersSummonAllyMindRider",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersBeastFriend"
+  },
+  {
+    id: "POWERSUMMONALLYMODFLIGHT",
+    name: "Flight",
+    button_name: "BRSW.PowerModifiersSummonAllyFlight",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersBeastFriend"
+  },
+
+
+  // WALL WALKER
+  // ... is just Additional Recipients, which is handled by the generic clause above
 ];
