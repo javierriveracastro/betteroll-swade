@@ -271,10 +271,10 @@ export function activate_item_listeners(app, html) {
   let target = app.token || app.object;
   const item_images = html.find(
     ".item-image, .item-img, .name.item-show, span.item>.item-control.item-edit," +
-      " .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4," +
-      " .power-header>.item-name, .card-button, .item-control.item-show," +
-      " .power button.item-show, .weapon button.item-show, .edge-hindrance>.item-control" +
-      " .item-control.item-edit, .item-control.item-show, .item.edge-hindrance>.item-show",
+    " .gear-card>.card-header>.item-name, .damage-roll, .item-name>h4," +
+    " .power-header>.item-name, .card-button, .item-control.item-show," +
+    " .power button.item-show, .weapon button.item-show, .edge-hindrance>.item-control" +
+    " .item-control.item-edit, .item-control.item-show, .item.edge-hindrance>.item-show",
   );
   item_images.bindFirst("click", async (ev) => {
     await item_click_listener(ev, target);
@@ -496,7 +496,7 @@ function trait_from_string(actor, trait_name) {
   let skill = actor.items.find((skill) => {
     return (
       skill.name.toLowerCase().replace("★ ", "") ===
-        trait_name.toLowerCase().replace("★ ", "") && skill.type === "skill"
+      trait_name.toLowerCase().replace("★ ", "") && skill.type === "skill"
     );
   });
   if (!skill) {
@@ -767,7 +767,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       let first_char = "";
       try {
         first_char = shots_used.charAt(0);
-      } catch {}
+      } catch { }
       if (first_char === "+" || first_char === "-") {
         // If we are using PP and the modifier starts with + or -
         // we use it as a relative number.
@@ -812,7 +812,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       (item) =>
         item.type === "edge" &&
         item.name.toLowerCase() ===
-          game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase(),
+        game.i18n.localize("BRSW.EdgeName-Ambidextrous").toLowerCase(),
     );
     is_ambidextrous =
       is_ambidextrous || br_message.actor.getFlag("swade", "ambidextrous");
@@ -1553,7 +1553,7 @@ function modify_power_points(number, mode, actor, item) {
  * @param {Item} item
  */
 async function manual_pp(actor, item) {
-  const amount_pp = game.i18n.localize("BRSW.AmmountPP");
+  const amount_pp = game.i18n.localize("BRSW.AmountPP");
   new Dialog({
     title: game.i18n.localize("BRSW.PPManagement"),
     content: `<form> <div class="form-group"> 
@@ -1583,7 +1583,7 @@ async function manual_pp(actor, item) {
           ),
       },
       three: {
-        label: game.i18n.localize("BRSW.PPBeniRecharge"),
+        label: game.i18n.localize("BRSW.PPBennieRecharge"),
         callback: () => {
           //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
           if (actor.system.bennies.value < 1) {
