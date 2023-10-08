@@ -37,6 +37,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Environmental Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Relief",
           },
           {
@@ -64,6 +67,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
             selector_type: "item_name", selector_value: "Relief",
@@ -95,6 +101,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Environmental Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Relief",
           },
           {
@@ -124,6 +133,9 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Environmental Protection",
+          },
+          {
             selector_type: "item_name", selector_value: "Relief",
           },
           {
@@ -151,6 +163,9 @@ export const POWER_MODIFIERS_NOVICE = [
           },
           {
             selector_type: "item_name", selector_value: "Burrow",
+          },
+          {
+            selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
             selector_type: "item_name", selector_value: "Relief",
@@ -365,6 +380,19 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Entangle" }
     ],
     group: "BRSW.PowerModifiersEntangle"
+  },
+
+  // ENVIRONMENTAL PROTECTION
+  {
+    id: "POWERENVPROTECTIONMODRESISTANCE",
+    name: "Environmental Resistance",
+    button_name: "BRSW.PowerModifiersEnvironmentalProtectionEnvironmentalResistance",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Environmental Protection" }
+    ],
+    group: "BRSW.PowerModifiersEnvironmentalProtection"
   },
 
   // HAVOC

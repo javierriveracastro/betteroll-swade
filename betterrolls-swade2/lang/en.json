@@ -245,6 +245,8 @@
   "BRSW.PowerModifiersEntangleDamage": "Damage (2d4) [+2PP]",
   "BRSW.PowerModifiersEntangleDeadly": "☆ Deadly (2d6) [+4PP]",
   "BRSW.PowerModifiersEntangleTough": "Tough (Hard 10) [+1PP]",
+  "BRSW.PowerModifiersEnvironmentalProtection": "Power Modifiers - Environmental Protection",
+  "BRSW.PowerModifiersEnvironmentalProtectionEnvironmentalResistance": "Environmental Resistance [+1PP]",
   "BRSW.PowerModifiersGeneric": "Power Modifiers - Generic",
   "BRSW.PowerModifiersGenericAdditionalRecipients": "Power Modifiers - Generic (Additional Recipients)",
   "BRSW.PowerModifiersGenericAdditionalRecipients1": "Add.Recpt's +1 [+1PP]",
