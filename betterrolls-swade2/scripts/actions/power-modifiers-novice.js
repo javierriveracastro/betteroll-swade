@@ -717,7 +717,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersSummonAlly"
+    group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
     id: "POWERSUMMONALLYMODSEASONED",
@@ -728,7 +728,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersSummonAlly"
+    group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
     id: "POWERSUMMONALLYMODVETERAN",
@@ -739,7 +739,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersSummonAlly"
+    group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
     id: "POWERSUMMONALLYMODHEROIC",
@@ -750,7 +750,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersSummonAlly"
+    group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
     id: "POWERSUMMONALLYMODMINDRIDER",
@@ -761,7 +761,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersBeastFriend"
+    group: "BRSW.PowerModifiersSummonAlly"
   },
   {
     id: "POWERSUMMONALLYMODFLIGHT",
@@ -772,9 +772,8 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
     ],
-    group: "BRSW.PowerModifiersBeastFriend"
+    group: "BRSW.PowerModifiersSummonAlly"
   },
-
 
   // WALL WALKER
   // ... is just Additional Recipients, which is handled by the generic clause above
