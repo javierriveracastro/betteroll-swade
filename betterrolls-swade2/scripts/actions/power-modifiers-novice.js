@@ -490,7 +490,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Sanctuary" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: groupSanctuaryName
+    group: "BRSW.PowerModifiersSanctuary"
   },
   {
     id: "POWERSANCTUARYMODMEDIUMBLAST",
@@ -501,7 +501,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Sanctuary" }
     ],
-    group: groupSanctuaryName
+    group: "BRSW.PowerModifiersSanctuary"
   },
   {
     id: "POWERSANCTUARYMODLARGEBLAST",
@@ -512,7 +512,7 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Sanctuary" }
     ],
-    group: groupSanctuaryName
+    group: "BRSW.PowerModifiersSanctuary"
   },
 
   // SHAPE CHANGE
