@@ -194,6 +194,43 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersArcaneProtection"
   },
 
+  // BEAST FRIEND
+  {
+    id: "POWERBEASTFRIENDMODBESTIARIUM",
+    name: "☆ Beastarium",
+    button_name: "BRSW.PowerModifiersBeastFriendBeastarium",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Beast Friend" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersBeastFriend"
+  },
+  {
+    id: "POWERBEASTFRIENDMODDURATION",
+    name: "Duration (+1)",
+    button_name: "Duration (+1)",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Beast Friend" }
+    ],
+    group: "BRSW.PowerModifiersBeastFriend"
+  },
+  {
+    id: "POWERBEASTFRIENDMODMINDRIDER",
+    name: "Mind Rider (+1)",
+    button_name: "Mind Rider (+1)",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Beast Friend" }
+    ],
+    group: "BRSW.PowerModifiersBeastFriend"
+  },
+
+
   // BOLT
   {
     id: "POWERBOLTMODDAMAGE",
