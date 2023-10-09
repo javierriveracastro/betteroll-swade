@@ -2,7 +2,6 @@
 
 // TODO ... add limit by characters current Rank to the various Size modifiers in Shape Change
 // TODO ... add radio button for any Area of Effect selection, e.g. Entangle
-// TODO ... potentially using actor_value to check for rank `actor_value': 'system.advances.rank=Novice'` in powers such as Summon Ally
 // TODO ... handle the additional modifiers in Summon Ally; Additional Allies, Combat Edge & Increased Trait, rather than use the crude "spend x PP's" buttons
 
 /*
@@ -726,7 +725,23 @@ export const POWER_MODIFIERS_NOVICE = [
     shotsUsed: "3",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Summon Ally" }
+      { selector_type: "item_name", selector_value: "Summon Ally" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Seasoned",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Veteran",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
     ],
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
@@ -737,7 +752,20 @@ export const POWER_MODIFIERS_NOVICE = [
     shotsUsed: "5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Summon Ally" }
+      { selector_type: "item_name", selector_value: "Summon Ally" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Veteran",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
     ],
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
@@ -748,7 +776,17 @@ export const POWER_MODIFIERS_NOVICE = [
     shotsUsed: "7",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Summon Ally" }
+      { selector_type: "item_name", selector_value: "Summon Ally" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
     ],
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
@@ -768,6 +806,40 @@ export const POWER_MODIFIERS_NOVICE = [
     name: "Flight",
     button_name: "BRSW.PowerModifiersSummonAllyFlight",
     shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODADDITIONALALLIES",
+    name: "Additional Allies",
+    button_name: "BRSW.PowerModifiersSummonAllyAdditionalAllies",
+    shotsUsed: "+0",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODCOMBATEDGE",
+    name: "Combat Edge",
+    button_name: "BRSW.PowerModifiersSummonAllyCombatEdge",
+    shotsUsed: "+0",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Summon Ally" }
+    ],
+    group: "BRSW.PowerModifiersSummonAlly"
+  },
+  {
+    id: "POWERSUMMONALLYMODINCREASEDTRAIT",
+    name: "Increased Trait",
+    button_name: "BRSW.PowerModifiersSummonAllyIncreasedTrait",
+    shotsUsed: "+0",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Summon Ally" }
