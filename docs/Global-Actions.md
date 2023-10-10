@@ -39,6 +39,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 ### Required fields
 
 * `id`: Any string, needs to be different for each action.
+  * **NOTE**: the actions are displayed in order of id, so name appropriately
 * `name`: The name of the action.
 * `button_name`: The name that will be displayed on the icon. Will be made optional in some update.
 
@@ -48,7 +49,7 @@ If this action is checked it will add a penalty of 4 to the skill roll and a bon
 * `dmgMod`: A number that will be used as a modifier for damage roll
 * `dmgOverride`: A foundry die expression that will be rolled for damage instead of the weapon default.
 * `defaultChecked`: If this key exists the action button will start pinned (marked in red)
-  * NOTE: using `defaultChecked: "off"` does **NOT** mean the button is by default unchecked. If you don't want the button checked by default, do **NOT** put any `defaultChecked` element in.
+  * **NOTE**: using `defaultChecked: "off"` does **NOT** mean the button is by default unchecked. If you don't want the button checked by default, do **NOT** put any `defaultChecked` element in.
 * `runSkillMacro`: This key will run a macro named like its value after skill roll.
 * `runDamageMacro`: This key will run a macro named like its value after damage roll.
 * `raiseDamageFormula`: A string, specify here the formula used to add damage in the event of a raise. The default formula is "+1d6x", so any substitution should be done in a similar way, i.e. "+1d10x" to add a normal exploding d10.
@@ -71,31 +72,31 @@ This group of fields are used to select when the action is available, you will n
 
 #### selector_type
 
-* `skill`: 'selector_value' must be a string. The action will be available when the item uses a skill with that name.
-* `attribute`: 'selector_value' must be a string. The action will be available when the attribute named is rolled, e.g., strength, agility, spirit, smarts, vigor.
-* `item_type`: 'selector_value' must be another string, a valid SWADE item type; weapon, power, edge, ...
-* `actor_name`: 'selector_value' must be a string. The action will be available to actor that include that string in their name.
-* `item_name`: selector value must be again a string that this time is compared with the item name.
+* `skill`: `'selector_value'` must be a string. The action will be available when the item uses a skill with that name.
+* `attribute`: `'selector_value'` must be a string. The action will be available when the attribute named is rolled, e.g., strength, agility, spirit, smarts, vigor.
+* `item_type`: `'selector_value'` must be another string, a valid SWADE item type; weapon, power, edge, ...
+* `actor_name`: `'selector_value'` must be a string. The action will be available to actor that include that string in their name.
+* `item_name`: `'selector_value'` must be again a string that this time is compared with the item name.
 * `actor_has_effect`: Another string selector, will select actors that have an enabled effect whose label contains the string.
 * `actor_has_edge`: The same, this time it will look for an edge that contains that string.
 * `actor_has_hindrance`: Like the last two, but for hindrances.
 * `actor_has_major_hindrance`: This one only matches is the hindrance is major.
 * `actor_has_ability`: Like the last three, but for special abilities.
-* `actor_has_item`: Matches when the actor has an "item" (Weapon, Armor, Shield, Gear, Consumable) with the same name as the value *(exact name)*
+* `actor_has_item`: Matches when the actor has an `item` (Weapon, Armor, Shield, Gear, Consumable) with the same name as the value *(exact name)*
 * `actor_equips_item`: This action will appear when the actor has an item (see above) with the same name as the value equipped.
 * `all`: It will always show this action.
 * `actor_has_joker`: The action will only be available when the actor is in combat and has drawn a joker.
 * `target_has_edge`: This action will be available if PRIOR TO CLICKING the icon, the user has selected a target that has some edge.
-* `target_has_hindrance`: This action is like actor_has_edge but fires for target hindrances
+* `target_has_hindrance`: This action is like `actor_has_edge` but fires for target hindrances
 * `target_has_major_hindrance`: This other action only fires when the target has a major hindrance that includes the text in the value.
 * `target_has_effect`: String selector; works similar to `actor_has_effect` but checks for active effects on the target instead.
 * `item_description_includes`: This action will be shown if the item description or trappings includes the value.
-* `actor_additional_stat_xxx`: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in selector_value. You need to substitute xxx with the additional stat name.
-* `item_additional_stat_xxx`: This works like actor_additional_stat_xxx but applies to items.
-* `faction`: If `selector_value` is 'same' this will make the action appear when token from the same disposition is targeted. When the value is another it will make the action appear when the targeted token disposition is different from acting.
+* `actor_additional_stat_xxx`: This action will be present if an actor has an additional stat named xxx and its value is equal to what is in `selector_value``. You need to substitute xxx with the additional stat name.
+* `item_additional_stat_xxx`: This works like `actor_additional_stat_xxx` but applies to items.
+* `faction`: If `selector_value` is `same` this will make the action appear when token from the same disposition is targeted. When the value is another it will make the action appear when the targeted token disposition is different from acting.
 * `gm_action`: A selector with this value will make the action appear in the dm modifiers above the char window.
 * `is_wildcard`: This will show the action if the character is a Wildcard. If the value is "false" it will only show the card for extras
-* `actor_value`: This expects a selector composed of "path=value". Where path is a dot path of actor data (like system.advances.value) and value a value (like 4). This coerces the values using javascript ==.
+* `actor_value`: This expects a selector composed of `"path=value"`. Where path is a dot path of actor data (like `system.advances.value`) and value a value (like 4). This coerces the values using javascript `==`.
 * `item_value`: The same selector as above but for items instead of actors.
 * `item_has_damage`: This will show the action if the item has a damage value. The value is ignored.
 * `actor_has_item`: This will show the action if the actor has an item with the same name as the value.
@@ -116,7 +117,7 @@ This group of fields are used to select when the action is available, you will n
   ]
 ```
 
-#### Example: Nested Selectors
+#### Example: Nested AND and OR Selectors
 
 ```json
   "and_selector": [{
