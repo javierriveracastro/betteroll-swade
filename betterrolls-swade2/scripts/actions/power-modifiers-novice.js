@@ -1,8 +1,6 @@
 /// power modifiers for novice powers ...
 
-// TODO ... add limit by characters current Rank to the various Size modifiers in Shape Change
-// TODO ... add radio button for any Area of Effect selection, e.g. Entangle
-// TODO ... handle the additional modifiers in Summon Ally; Additional Allies, Combat Edge & Increased Trait, rather than use the crude "spend x PP's" buttons
+// TODO ... if available, add radio button for any Area of Effect selection, e.g. Entangle
 
 /*
   format of power modifier elements ...
@@ -247,7 +245,7 @@ export const POWER_MODIFIERS_NOVICE = [
 
   // BOLT
   {
-    id: "POWERBOLTMODDAMAGE",
+    id: "POWERBOLTMOD1DAMAGE",
     name: "Damage (+1d6)",
     button_name: "BRSW.PowerModifiersBoltDamage",
     shotsUsed: "+2",
@@ -259,7 +257,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBolt"
   },
   {
-    id: "POWERBOLTMODDISINTEGRATE",
+    id: "POWERBOLTMOD3DISINTEGRATE",
     name: "Disintegrate",
     button_name: "BRSW.PowerModifiersBoltDisintegrate",
     shotsUsed: "+2",
@@ -271,7 +269,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBolt"
   },
   {
-    id: "POWERBOLTMODGREATERBOLT",
+    id: "POWERBOLTMOD2GREATERBOLT",
     name: "Greater Bolt (+2d6)",
     button_name: "BRSW.PowerModifiersBoltGreaterBolt",
     shotsUsed: "+4",
@@ -284,7 +282,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBolt"
   },
   {
-    id: "POWERBOLTMODRATEOFFIRE",
+    id: "POWERBOLTMOD4RATEOFFIRE",
     name: "Rate of Fire",
     button_name: "BRSW.PowerModifiersBoltRateOfFire",
     shotsUsed: "+2",
@@ -339,7 +337,7 @@ export const POWER_MODIFIERS_NOVICE = [
 
   // BURST
   {
-    id: "POWERBURSTMODDAMAGE",
+    id: "POWERBURSTMOD1DAMAGE",
     name: "Damage (+2d6)",
     button_name: "BRSW.PowerModifiersBurstDamage",
     shotsUsed: "+2",
@@ -351,7 +349,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBurst"
   },
   {
-    id: "POWERBURSTMODGREATERBURST",
+    id: "POWERBURSTMOD3GREATERBURST",
     name: "Greater Burst (+2d6)",
     button_name: "BRSW.PowerModifiersBurstGreaterBurst",
     shotsUsed: "+4",
@@ -364,7 +362,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBurst"
   },
   {
-    id: "POWERBURSTPUSH",
+    id: "POWERBURSTMOD2PUSH",
     name: "Push (2d6 feet)",
     button_name: "BRSW.PowerModifiersBurstPush",
     shotsUsed: "+1",
@@ -381,7 +379,7 @@ export const POWER_MODIFIERS_NOVICE = [
 
   // ENTANGLE
   {
-    id: "POWERENTANGLEMODMEDIUM",
+    id: "POWERENTANGLEMOD1MEDIUM",
     name: "Medium (LBT)",
     button_name: "BRSW.PowerModifiersEntangleAreaEffectMBT",
     shotsUsed: "+2",
@@ -392,7 +390,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersEntangle"
   },
   {
-    id: "POWERENTANGLEMODLARGE",
+    id: "POWERENTANGLEMOD2LARGE",
     name: "Large or Stream (+3)",
     button_name: "BRSW.PowerModifiersEntangleAreaEffectLBTStream",
     shotsUsed: "+3",
@@ -403,7 +401,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersEntangle"
   },
   {
-    id: "POWERENTANGLEMODDAMAGE",
+    id: "POWERENTANGLEMOD4DAMAGE",
     name: "Damage (+2)",
     button_name: "BRSW.PowerModifiersEntangleDamage",
     shotsUsed: "+2",
@@ -414,7 +412,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersEntangle"
   },
   {
-    id: "POWERENTANGLEMODDEADLY",
+    id: "POWERENTANGLEMOD5DEADLY",
     name: "☆ Deadly (+4)",
     button_name: "BRSW.PowerModifiersEntangleDeadly",
     shotsUsed: "+4",
@@ -426,7 +424,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersEntangle"
   },
   {
-    id: "POWERENTANGLEMODTOUGH",
+    id: "POWERENTANGLEMOD3TOUGH",
     name: "Tough (+1)",
     button_name: "BRSW.PowerModifiersEntangleTough",
     shotsUsed: "+1",
@@ -477,7 +475,7 @@ export const POWER_MODIFIERS_NOVICE = [
 
   // HEALING
   {
-    id: "POWERHEALINGMODGREATERHEALING",
+    id: "POWERHEALINGMOD4GREATERHEALING",
     name: "Greater Healing",
     button_name: "BRSW.PowerModifiersHealingGreaterHealing",
     shotsUsed: "+10",
@@ -488,7 +486,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   {
-    id: "POWERHEALINGMODCRIPPLINGINJURIES",
+    id: "POWERHEALINGMOD5CRIPPLINGINJURIES",
     name: "Crippling Injuries",
     button_name: "BRSW.PowerModifiersHealingCripplingInjuries",
     shotsUsed: "+20",
@@ -499,7 +497,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   {
-    id: "POWERHEALINGMODMASSHEALINGMEDIUMBLAST",
+    id: "POWERHEALINGMOD2MASSHEALINGMEDIUMBLAST",
     name: "Mass Healing - MBT",
     button_name: "BRSW.PowerModifiersHealingMassHealingMBT",
     shotsUsed: "+2",
@@ -511,7 +509,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   {
-    id: "POWERHEALINGMODMASSHEALINGLARGEBLAST",
+    id: "POWERHEALINGMOD3MASSHEALINGLARGEBLAST",
     name: "Mass Healing - LBT",
     button_name: "BRSW.PowerModifiersHealingMassHealingLBT",
     shotsUsed: "+3",
@@ -523,7 +521,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
   {
-    id: "POWERHEALINGMODNEUTRALIZEPOISON",
+    id: "POWERHEALINGMOD1NEUTRALIZEPOISON",
     name: "Neutralize Poison or Disease",
     button_name: "BRSW.PowerModifiersHealingNeutralisePoisonOrDisease",
     shotsUsed: "+1",
@@ -648,7 +646,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersShapeChange"
   },
   {
-    id: "POWERSHAPECHANGEMODSIZE-4",
+    id: "POWERSHAPECHANGEMOD1SIZE-4",
     name: "Size -4 to -1",
     button_name: "BRSW.PowerModifiersShapeChangeSize-4to-1",
     shotsUsed: "3",
@@ -660,46 +658,94 @@ export const POWER_MODIFIERS_NOVICE = [
     defaultChecked: "on"
   },
   {
-    id: "POWERSHAPECHANGEMODSIZE0",
+    id: "POWERSHAPECHANGEMOD2SIZE0",
     name: "Size 0",
     button_name: "BRSW.PowerModifiersShapeChangeSize0",
     shotsUsed: "5",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Shape Change" }
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Seasoned",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Veteran",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
     ],
     group: "BRSW.PowerModifiersShapeChange"
   },
   {
-    id: "POWERSHAPECHANGEMODSIZE1",
+    id: "POWERSHAPECHANGEMOD3SIZE1",
     name: "Size 1 to 2",
     button_name: "BRSW.PowerModifiersShapeChangeSize1to2",
     shotsUsed: "8",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Shape Change" }
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Veteran",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
+
     ],
     group: "BRSW.PowerModifiersShapeChange"
   },
   {
-    id: "POWERSHAPECHANGEMODSIZE3",
+    id: "POWERSHAPECHANGEMOD4SIZE3",
     name: "Size 3 to 4",
     button_name: "BRSW.PowerModifiersShapeChangeSize3to4",
     shotsUsed: "11",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Shape Change" }
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Heroic",
+          },
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
+
     ],
     group: "BRSW.PowerModifiersShapeChange"
   },
   {
-    id: "POWERSHAPECHANGEMODSIZE5",
+    id: "POWERSHAPECHANGEMOD5SIZE5",
     name: "Size 5 to 10",
     button_name: "BRSW.PowerModifiersShapeChangeSize5to10",
     shotsUsed: "15",
     and_selector: [
       { selector_type: "item_type", selector_value: "power" },
-      { selector_type: "item_name", selector_value: "Shape Change" }
+      { selector_type: "item_name", selector_value: "Shape Change" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_value", selector_value: "system.advances.rank=Legendary",
+          }
+        ],
+      }
     ],
     group: "BRSW.PowerModifiersShapeChange"
   },
@@ -708,7 +754,7 @@ export const POWER_MODIFIERS_NOVICE = [
 
   // SUMMON ALLY
   {
-    id: "POWERSUMMONALLYMODNOVICE",
+    id: "POWERSUMMONALLYMOD1NOVICE",
     name: "Novice",
     button_name: "BRSW.PowerModifiersSummonAlly1Novice",
     shotsUsed: "1",
@@ -719,7 +765,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
-    id: "POWERSUMMONALLYMODSEASONED",
+    id: "POWERSUMMONALLYMOD2SEASONED",
     name: "Seasoned",
     button_name: "BRSW.PowerModifiersSummonAlly2Seasoned",
     shotsUsed: "3",
@@ -746,7 +792,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
-    id: "POWERSUMMONALLYMODVETERAN",
+    id: "POWERSUMMONALLYMOD3VETERAN",
     name: "Veteran",
     button_name: "BRSW.PowerModifiersSummonAlly3Veteran",
     shotsUsed: "5",
@@ -770,7 +816,7 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersSummonAllyRank"
   },
   {
-    id: "POWERSUMMONALLYMODHEROIC",
+    id: "POWERSUMMONALLYMOD4HEROIC",
     name: "Heroic",
     button_name: "BRSW.PowerModifiersSummonAlly4Heroic",
     shotsUsed: "7",
