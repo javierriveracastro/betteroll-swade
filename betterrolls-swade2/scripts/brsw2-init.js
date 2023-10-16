@@ -233,13 +233,11 @@ function create_macro_command(data, actor_id, token_id) {
             }
             let message;
             if (${data.type === "skill"}) {
-                message = await game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${
-                  data._id
-                }');
+                message = await game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${data._id
+    }');
             } else {
-                message = await game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${
-                  data._id
-                }');
+                message = await game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${data._id
+    }');
             }
             if (event) {
                 if (behaviour.includes('trait')) {
@@ -370,7 +368,7 @@ function register_settings_version2() {
   });
   game.settings.register("betterrolls-swade2", "ctrl_click", {
     name: game.i18n.localize("BRSW.Control_click_action"),
-    hint: game.i18n.localize("BRWS.Control_click_hint"),
+    hint: game.i18n.localize("BRSW.Control_click_hint"),
     default: "trait",
     scope: "world",
     type: String,
@@ -481,7 +479,7 @@ function register_settings_version2() {
     scope: "world",
     type: String,
     choices: {
-      none: game.i18n.localize("BRSW.None"),
+      none: game.i18n.localize("BRSW.NoOne"),
       master_only: game.i18n.localize("BRSW.MasterOnly"),
       master_and_gm: game.i18n.localize("BRSW.MasterAndGM"),
       everybody: game.i18n.localize("BRSW.Everybody"),

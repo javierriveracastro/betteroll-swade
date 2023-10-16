@@ -574,7 +574,7 @@ export async function create_common_card(origin, render_data, template) {
   if (render_data.description) {
     render_data.description = // Limit description size.
       render_data.description.length <
-      game.settings.get("betterrolls-swade2", "max_tooltip_length")
+        game.settings.get("betterrolls-swade2", "max_tooltip_length")
         ? render_data.description
         : null;
   }
@@ -943,7 +943,7 @@ export async function detect_fumble(remove_die, fumble_possible, result, dice) {
     let test_fumble_roll = new Roll("1d6");
     await test_fumble_roll.roll({ async: true });
     await test_fumble_roll.toMessage({
-      flavor: game.i18n.localize("BRWS.Testing_fumbles"),
+      flavor: game.i18n.localize("BRSW.Testing_fumbles"),
     });
     if (test_fumble_roll.total === 1) {
       return true; // Fumble mark
