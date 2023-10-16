@@ -207,7 +207,7 @@
   "BRSW.NonlethalDamage": "Non lethal damage (-1)",
   "BRSW.NoOne": "No one",
   "BRSW.NoRollRequired": "No skill roll required!",
-  "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Not enough PP!</p>",
+  "BRSW.NotEnoughPP": "Not enough PP!",
   "BRSW.NotEnoughStrength": "Under minimum Strength",
   "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength",
   "BRSW.Number_trait_dice": "Number of trait dice",

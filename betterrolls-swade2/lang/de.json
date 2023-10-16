@@ -155,7 +155,7 @@
   "BRSW.Actions": "Aktionen",
   "BRSW.DamageDiceThemeHint": "Wähle ein Dice So Nice Theme für die Schadenwürfel aus (Client)",
   "BRSW.Label": "Bezeichnung",
-  "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Nicht genügend MP!</p>",
+  "BRSW.NotEnoughPP": "Nicht genügend MP!",
   "BRSW.WorldGlobalMenu": "Globale Aktionen konfigurieren",
   "BRSW.WorldGlobalMenuLabel": "Globale Aktionen (Welt)",
   "BRSW.WorldGlobalMenuHint": "Verwalte die globalen Aktionen dieser Welt. (Welt)",

@@ -77,7 +77,7 @@
   "BRSW.DamageDiceThemeHint": "Escolha um dos temas do Dice So Nice para o dado de dano (Cliente)",
   "BRSW.Label": "Etiqueta",
   "BRSW.ExpendedPoints": "<p>{pp} Pontos de Poder foram gastos por {name}. Restam {final_pp}.</p>",
-  "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Não há PP suficiente!</p>",
+  "BRSW.NotEnoughPP": "Não há PP suficiente!",
   "BRSW.InjuryCard": "Lesão",
   "BRSW.WorldGlobalMenu": "Configurar ações globais",
   "BRSW.WorldGlobalMenuLabel": "Ações globais do Mundo",

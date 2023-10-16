@@ -153,7 +153,7 @@
   "BRSW.DamageDiceThemeHint": "Scegli un tema da Dice So Nice per i dadi dei danni",
   "BRSW.Label": "Label",
   "BRSW.ExpendedPoints": "<p>{pp} Punti Potere sono stati spesi da {name}. {final_pp} rimanenti.</p>",
-  "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Non hai abbastanza Punti!</p>",
+  "BRSW.NotEnoughPP": "Non hai abbastanza Punti!",
   "BRSW.InjuryCard": "Lesione",
   "BRSW.WorldGlobalMenu": "Configura Azioni globali",
   "BRSW.WorldGlobalMenuLabel": "Azioni specifiche per questo Mondo di gioco",

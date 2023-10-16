@@ -152,7 +152,7 @@
   "BRSW.DamageDiceThemeHint": "Choisir un thème Dice So Nice pour les dés de dégâts",
   "BRSW.Label": "Libellé",
   "BRSW.ExpendedPoints": "<p>{name} a dépensé {pp} Points de pouvoir. Il ne lui en reste plus que {final_pp}.</p>",
-  "BRSW.NotEnoughPP": "<p class='brsw-fumble-row'>Pas assez de PP !</p>",
+  "BRSW.NotEnoughPP": "Pas assez de PP !",
   "BRSW.DamageDiceTheme": "Thème pour les dés de dégâts",
   "BRSW.InjuryCard": "Séquelle",
   "BRSW.WorldGlobalMenuHint": "Utiliser cette fenêtre d'options pour créer des actions globales spécifiques à ce monde.",
