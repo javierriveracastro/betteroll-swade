@@ -1,3 +1,13 @@
+## Version 3.53 aka Steve did more than me.
+* NOTE: THIS VERSION IS NOT SWADE 3.2 compatible.
+* Global actions: Lots of power modifiers: Havoc, Healing, Relieg, Shape Change, Entangle, Boost/lower trair, arcane protection, sanctuary. enviromental protection, beast friend, wall walker, summon ally (Steve Culshaw)
+* Grammar: Lots of grammar fixes all around (Steve Culshaw)
+* Bugfix: PP are now deducted when auto-rolling a power.
+* Char cards: Padding reduced in template buttons hoping they look better
+* Power points: Add a Foundry warning in addition to card warning when a power is rolled and the character has not enough power points.
+* Bugfix: Powers with 0 PP value now trigger power-point workflow. That way actions can change that 0 into something else.
+* Manifest: Updated Foundry verified version.
+
 ## Version 3.52 aka A small one.
 * Documentation: Better notes for default checked (Steve Culshaw)
 * Actions: Added actions for sweep and novice powers (Steve Culshaw)
