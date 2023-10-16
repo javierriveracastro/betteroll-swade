@@ -132,7 +132,8 @@ async function create_item_card(origin, item_id) {
   let { description, damage } = item.system;
   let possible_default_dmg_action;
   let ammon_enabled = parseInt(item.system.shots) || item.system.ammo;
-  let power_points = parseFloat(item.system.pp);
+  let power_points =
+    !isNaN(parseFloat(item.system.pp)) || item.type === "power";
   const subtract_select = ammon_enabled
     ? game.settings.get("betterrolls-swade2", "default-ammo-management")
     : false;
@@ -161,7 +162,7 @@ async function create_item_card(origin, item_id) {
       subtract_selected: subtract_select,
       subtract_pp: subtract_pp_select,
       damage_rolls: [],
-      powerpoints: !isNaN(power_points),
+      powerpoints: power_points,
       used_shots: 0,
       description: description,
       swade_templates: get_template_from_item(item),
@@ -862,7 +863,11 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   let previous_pp = br_message.trait_roll.old_rolls.length
     ? br_message.render_data.used_pp
     : 0;
-  if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
+  if (
+    (!isNaN(parseInt(br_message.item.system.pp)) ||
+      br_message.item.type === "power") &&
+    pp_selected
+  ) {
     br_message.render_data.used_pp = await discount_pp(
       br_message,
       shots_override,
