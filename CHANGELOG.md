@@ -1,4 +1,4 @@
-## Version 3.53 aka Steve did more than me.
+## Version 3.53 aka Steve did much more than me this time.
 * NOTE: THIS VERSION IS NOT SWADE 3.2 compatible.
 * Global actions: Lots of power modifiers: Havoc, Healing, Relieg, Shape Change, Entangle, Boost/lower trair, arcane protection, sanctuary. enviromental protection, beast friend, wall walker, summon ally (Steve Culshaw)
 * Grammar: Lots of grammar fixes all around (Steve Culshaw)
