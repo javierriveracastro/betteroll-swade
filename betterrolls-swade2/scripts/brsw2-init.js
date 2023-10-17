@@ -233,11 +233,13 @@ function create_macro_command(data, actor_id, token_id) {
             }
             let message;
             if (${data.type === "skill"}) {
-                message = await game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${data._id
-    }');
+                message = await game.brsw.create_skill_card_from_id('${token_id}', '${actor_id}', '${
+                  data._id
+                }');
             } else {
-                message = await game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${data._id
-    }');
+                message = await game.brsw.create_item_card_from_id('${token_id}', '${actor_id}', '${
+                  data._id
+                }');
             }
             if (event) {
                 if (behaviour.includes('trait')) {
@@ -249,6 +251,21 @@ function create_macro_command(data, actor_id, token_id) {
                 }
             }
         `;
+}
+
+function create_attribute_macro(data) {
+  return `
+    let behaviour = game.brsw.get_action_from_click(event);
+    if (behaviour === 'system') {
+      game.swade.rollItemMacro("${data.attribute}");
+    } else {
+      origin = await fromUuid("${data.uuid}");
+      const br_card = await game.brsw.create_atribute_card(origin, "${data.attribute}");
+      if (behaviour.includes('trait')) {
+        game.brsw.roll_attribute(br_card, false);
+      }
+    }
+  `;
 }
 
 Hooks.on("hotbarDrop", (bar, data, slot) => {
@@ -275,6 +292,18 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
       });
     });
     return false;
+  } else if (data.type === "Attribute") {
+    const command = create_attribute_macro(data);
+    Macro.create({
+      name: data.attribute,
+      type: "script",
+      img: "systems/swade/assets/icons/attribute.svg",
+      command: command,
+      scope: "global",
+    }).then((macro) => {
+      // noinspection JSIgnoredPromiseFromCall
+      game.user.assignHotbarMacro(macro, slot);
+    });
   }
 });
 
