@@ -1,3 +1,8 @@
+## Version 3.54 aka Version 3.2, here we are.
+NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
+* Drag and drop: Make attribute drag and drop work with SWADE 3.2
+* Compatibility: Use "system.encumbered" instead of "isEmcumbered"
+
 ## Version 3.53 aka Steve did much more than me this time.
 * NOTE: THIS VERSION IS NOT SWADE 3.2 compatible.
 * Global actions: Lots of power modifiers: Havoc, Healing, Relieg, Shape Change, Entangle, Boost/lower trair, arcane protection, sanctuary. enviromental protection, beast friend, wall walker, summon ally (Steve Culshaw)
