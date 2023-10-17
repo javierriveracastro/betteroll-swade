@@ -574,7 +574,7 @@ export async function create_common_card(origin, render_data, template) {
   if (render_data.description) {
     render_data.description = // Limit description size.
       render_data.description.length <
-        game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      game.settings.get("betterrolls-swade2", "max_tooltip_length")
         ? render_data.description
         : null;
   }
@@ -1226,7 +1226,7 @@ async function get_new_roll_options(
       .get("betterrolls-swade2", "optional_rules_enabled")
       .indexOf("NPCDontUseEncumbrance") > -1;
   if (br_card.actor.type === "character" || !npc_avoid_encumbrance) {
-    if (br_card.actor.isEncumbered) {
+    if (br_card.actor.system.encumbered) {
       if (
         br_card.attribute_name === "agility" ||
         br_card.skill?.system.attribute === "agility"
