@@ -378,6 +378,7 @@
   "BRSW.SubtractPP": "Subtract Power points",
   "BRSW.Success": "Success",
   "BRSW.SwadeToolsCompatibilityWarning": "Better Rolls detected that you also have SWADE Tools activated. Please not that SWADE Tools and Better Rolls for Savage Worlds are incompatible and should not be activated in the same world. Please disable either SWADE Tools or Better Rolls for Savage Worlds.",
+  "BRSW.Swat": "Swat",
   "BRSW.SWD-Unshake": "Use SWD rules to unshake.",
   "BRSW.SWD-UnshakeHint": "Use the Savage Worlds Deluxe rules to unshake (raise needed to act immediately). (World)",
   "BRSW.SystemGlobalMenu": "Enable or disable global actions",

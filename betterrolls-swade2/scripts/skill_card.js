@@ -370,12 +370,34 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
         1,
     ); // actor or default
     if (origin_scale_mod !== target_scale_mod) {
+      let scale_mod = target_scale_mod - origin_scale_mod;
       tn.modifiers.push(
         create_modifier(
           game.i18n.localize("BRSW.Scale"),
-          target_scale_mod - origin_scale_mod,
+          scale_mod,
         ),
       );
+
+      // If the scale mod is negative, check if the attacking actor has the swat ability
+      if (scale_mod < 0) {
+        const swat = origin_token?.actor?.items?.find((item) => {
+          return (
+            item.type === "ability" &&
+            item.name.toLowerCase().includes("swat")
+          );
+        });
+        
+        if (swat) {
+          // The swat ability ignores up to 4 points of scale penalties
+          let swat_mod = scale_mod < -4 ? 4 : scale_mod * -1;
+          tn.modifiers.push(
+            create_modifier(
+              game.i18n.localize("BRSW.Swat"),
+              swat_mod,
+            ),
+          );
+        }
+      }
     }
   }
   // noinspection JSUnresolvedVariable
