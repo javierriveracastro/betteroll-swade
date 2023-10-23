@@ -72,6 +72,7 @@ export const COMBAT_OPTIONS = [
       },
     ],
     group: "BRSW.Cover",
+    group_single: true,
   },
   {
     id: "2-MediumCover",
@@ -89,6 +90,7 @@ export const COMBAT_OPTIONS = [
       },
     ],
     group: "BRSW.Cover",
+    group_single: true,
   },
   {
     id: "3-HeavyCover",
@@ -106,6 +108,7 @@ export const COMBAT_OPTIONS = [
       },
     ],
     group: "BRSW.Cover",
+    group_single: true,
   },
   {
     id: "4-NearTotalCover",
@@ -123,6 +126,7 @@ export const COMBAT_OPTIONS = [
       },
     ],
     group: "BRSW.Cover",
+    group_single: true,
   },
 
   {

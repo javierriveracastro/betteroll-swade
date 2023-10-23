@@ -267,6 +267,7 @@ export class BrCommonCard {
           : global_action.button_name;
       let group_name = global_action.group || "BRSW.NoGroup";
       let group_name_id = group_name.split(".").join("");
+      let group_single = global_action.hasOwnProperty("group_single");
       if (global_action.hasOwnProperty("extra_text")) {
         this.extra_text += global_action.extra_text;
       }
@@ -276,6 +277,7 @@ export class BrCommonCard {
           name: translated_group,
           actions: [],
           id: broofa(),
+          single_choice: group_single,
         };
       }
       let new_action = new brAction(name, global_action);
@@ -302,6 +304,7 @@ export class BrCommonCard {
         name: name,
         actions: item_actions,
         id: broofa(),
+        single_choice: false,
       };
     }
   }
@@ -344,6 +347,7 @@ export class BrCommonCard {
         name: name,
         actions: effectActions,
         id: broofa(),
+        single_choice: false,
       };
     }
   }
@@ -1225,17 +1229,18 @@ async function get_new_roll_options(
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")
       .indexOf("NPCDontUseEncumbrance") > -1;
-  if (br_card.actor.type === "character" || !npc_avoid_encumbrance) {
-    if (br_card.actor.system.encumbered) {
-      if (
-        br_card.attribute_name === "agility" ||
-        br_card.skill?.system.attribute === "agility"
-      ) {
-        roll_options.modifiers.push({
-          name: game.i18n.localize("SWADE.Encumbered"),
-          value: -2,
-        });
-      }
+  if (
+    (br_card.actor.type === "character" || !npc_avoid_encumbrance) &&
+    br_card.actor.system.encumbered
+  ) {
+    if (
+      br_card.attribute_name === "agility" ||
+      br_card.skill?.system.attribute === "agility"
+    ) {
+      roll_options.modifiers.push({
+        name: game.i18n.localize("SWADE.Encumbered"),
+        value: -2,
+      });
     }
   }
 }

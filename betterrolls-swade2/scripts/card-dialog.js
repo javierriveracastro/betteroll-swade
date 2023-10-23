@@ -52,6 +52,15 @@ class BrCardDialog {
   }
 
   action_button(event) {
+    if (event.currentTarget.parentElement.dataset.singleChoice) {
+      for (let element of event.currentTarget.parentElement.getElementsByTagName(
+        "span",
+      )) {
+        if (element !== event.currentTarget) {
+          element.classList.remove("bg-red-700");
+        }
+      }
+    }
     event.currentTarget.classList.toggle("bg-red-700");
   }
 
