@@ -131,9 +131,10 @@ This group of fields are used to select when the action is available, you will n
 
 #### Grouping
 
-This tag lets you group the actions, it is not mandatory, but it will be used in the card in some next update.
+This tag lets you group the actions.
 
 * `group`: A string containing a group name, actions with the same name will be shown grouped in the card (in some future version)
+* `group_single`: If all entries of a group have this option set to true the group will let you select only one of the options.
 
 ## Macros
 
