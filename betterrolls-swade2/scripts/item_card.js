@@ -25,7 +25,12 @@ import {
   SHOOTING_SKILLS,
   THROWING_SKILLS,
 } from "./skill_card.js";
-import { get_targeted_token, makeExplotable, simple_form } from "./utils.js";
+import {
+  get_targeted_token,
+  makeExplotable,
+  set_or_update_condition,
+  simple_form,
+} from "./utils.js";
 import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
@@ -1230,8 +1235,8 @@ export async function roll_dmg(
       damage_formulas.damage = action.code.dmgOverride;
     }
     if (action.code.self_add_status) {
-      game.succ.addCondition(action.code.self_add_status, actor).catch(() => {
-        console.log("BR2: Likely error in SUCC");
+      set_or_update_condition(action.self_add_status, actor).catch(() => {
+        console.error("BR2: Unable to update condition");
       });
     }
     if (action.code.runDamageMacro) {

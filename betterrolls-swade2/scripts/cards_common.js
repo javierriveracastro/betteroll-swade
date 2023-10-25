@@ -6,6 +6,7 @@ import {
   broofa,
   get_targeted_token,
   getWhisperData,
+  set_or_update_condition,
   simple_form,
   spendMastersBenny,
 } from "./utils.js";
@@ -1231,17 +1232,14 @@ async function get_new_roll_options(
       .indexOf("NPCDontUseEncumbrance") > -1;
   if (
     (br_card.actor.type === "character" || !npc_avoid_encumbrance) &&
-    br_card.actor.system.encumbered
+    br_card.actor.system.encumbered &&
+    (br_card.attribute_name === "agility" ||
+      br_card.skill?.system.attribute === "agility")
   ) {
-    if (
-      br_card.attribute_name === "agility" ||
-      br_card.skill?.system.attribute === "agility"
-    ) {
-      roll_options.modifiers.push({
-        name: game.i18n.localize("SWADE.Encumbered"),
-        value: -2,
-      });
-    }
+    roll_options.modifiers.push({
+      name: game.i18n.localize("SWADE.Encumbered"),
+      value: -2,
+    });
   }
 }
 
@@ -1700,8 +1698,9 @@ export function process_common_actions(action, extra_data, macros, actor) {
   }
   // noinspection JSUnresolvedVariable
   if (action.self_add_status) {
-    // noinspection JSIgnoredPromiseFromCall
-    game.succ.addCondition(action.self_add_status, actor);
+    set_or_update_condition(action.self_add_status, actor).catch(() => {
+      console.error("BR2: Unable to update condition");
+    });
   }
   if (action.hasOwnProperty("wildDieFormula")) {
     extra_data.wildDieFormula = action.wildDieFormula;
