@@ -89,7 +89,6 @@ class BrCardDialog {
       .then(() => {
         const card = document.getElementById(card_id).parentElement;
         const roll_button = card.querySelector(".brsw-roll-button");
-        console.log(card, roll_button);
         roll_button.click();
       })
       .catch((err) => {
