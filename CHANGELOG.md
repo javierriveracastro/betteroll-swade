@@ -1,3 +1,10 @@
+## Version 3.55 aka Single groups?
+* Feature: Added support for swat (Dan Brown)
+* Documentation: Update of power docs (Steve Culshaw)
+* Cards: Added single option card groups, they only allow one option of the group to be selected.
+* Card actions: Cover now is a single option group
+* Bugfix: Refactor of the condition adding and updating code as new swade version broke it.
+
 ## Version 3.54 aka Version 3.2, here we are.
 NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
 * Drag and drop: Make attribute drag and drop work with SWADE 3.2
