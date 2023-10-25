@@ -23,13 +23,13 @@ export function makeExplotable(expression) {
   // Make all dice of a roll able to explode
   // Code from the SWADE system
   const reg_exp = /\d*d\d+[^kdrxc]/g;
-  expression += " "; // Just because of my poor reg_exp foo
-  let dice_strings = expression.match(reg_exp);
+  let new_expression = expression + " "; // Just because of my poor reg_exp foo
+  let dice_strings = new_expression.match(reg_exp);
   let used = [];
   if (dice_strings) {
     dice_strings.forEach((match) => {
       if (used.indexOf(match.slice(0, -1)) === -1) {
-        expression = expression.replace(
+        new_expression = new_expression.replace(
           new RegExp(match.slice(0, -1), "g"),
           match.slice(0, -1) + "x",
         );
@@ -37,7 +37,7 @@ export function makeExplotable(expression) {
       }
     });
   }
-  return expression;
+  return new_expression;
 }
 
 export async function spendMastersBenny() {
@@ -55,7 +55,7 @@ export async function spendMastersBenny() {
 
 export function broofa() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    let r = (Math.random() * 16) | 0,
+    let r = (Math.random() * 16) | 0, //jshint ignore:line
       v = c === "x" ? r : (r & 0x3) | 0x8; // jshint ignore:line
     return v.toString(16);
   });
@@ -121,6 +121,7 @@ export function get_targeted_token() {
  * @param actor
  */
 export async function set_or_update_condition(condition_id, actor) {
+  // noinspection ES6RedundantAwait
   if (await game.succ.hasCondition(condition_id, actor)) {
     const condition = await game.succ.getConditionFrom(condition_id, actor);
     condition.update({
