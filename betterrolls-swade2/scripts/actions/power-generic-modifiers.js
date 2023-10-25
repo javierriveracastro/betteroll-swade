@@ -1,12 +1,15 @@
 /// generic power modifiers for any power ...
 
+// TODO ... if available, add radio buttons functionality around the three Armour Piercing power modifiers
+// TODO ... if available, add radio buttons functionality around the two Range power modifiers
+
 const groupNameGenericPModifiers = "BRSW.PowerModifiersGeneric";
 
 export const GENERIC_POWER_MODIFIERS = [
   {
     id: "ARMORPIERCING1",
-    name: "BRSW.ArmorPiercing1",
-    button_name: "BRSW.ArmorPiercing1",
+    name: "BRSW.PowerModifiersGenericArmorPiercing1",
+    button_name: "BRSW.PowerModifiersGenericArmorPiercing1",
     overrideAp: "2",
     shotsUsed: "+1",
     selector_type: "item_type",
@@ -15,8 +18,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "ARMORPIERCING2",
-    name: "BRSW.ArmorPiercing2",
-    button_name: "BRSW.ArmorPiercing2",
+    name: "BRSW.PowerModifiersGenericArmorPiercing2",
+    button_name: "BRSW.PowerModifiersGenericArmorPiercing2",
     overrideAp: "4",
     shotsUsed: "+2",
     selector_type: "item_type",
@@ -25,8 +28,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "ARMORPIERCING3",
-    name: "BRSW.ArmorPiercing3",
-    button_name: "BRSW.ArmorPiercing3",
+    name: "BRSW.PowerModifiersGenericArmorPiercing3",
+    button_name: "BRSW.PowerModifiersGenericArmorPiercing3",
     overrideAp: "6",
     shotsUsed: "+3",
     selector_type: "item_type",
@@ -35,8 +38,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "FATIGUE",
-    name: "BRSW.FatigueModifier",
-    button_name: "BRSW.FatigueModifier",
+    name: "BRSW.PowerModifiersGenericFatigueModifier",
+    button_name: "BRSW.PowerModifiersGenericFatigueModifier",
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
@@ -44,8 +47,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "GLOWSHROUD1",
-    name: "BRSW.GlowShroud",
-    button_name: "BRSW.GlowShroud",
+    name: "BRSW.PowerModifiersGenericGlowShroud",
+    button_name: "BRSW.PowerModifiersGenericGlowShroud",
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
@@ -53,8 +56,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "HEAVYWEAPON2",
-    name: "BRSW.HeavyWeaponModifier",
-    button_name: "BRSW.HeavyWeaponModifier",
+    name: "BRSW.PowerModifiersGenericHeavyWeaponModifier",
+    button_name: "BRSW.PowerModifiersGenericHeavyWeaponModifier",
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
@@ -62,8 +65,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "HINDERHURRY1",
-    name: "BRSW.HinderHurryModifier",
-    button_name: "BRSW.HinderHurryModifier",
+    name: "BRSW.PowerModifiersGenericHinderHurryModifier",
+    button_name: "BRSW.PowerModifiersGenericHinderHurryModifier",
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
@@ -71,8 +74,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "LINGERINGDAMAGE2",
-    name: "BRSW.LingeringDamageModifier",
-    button_name: "BRSW.LingeringDamageModifier",
+    name: "BRSW.PowerModifiersGenericLingeringDamageModifier",
+    button_name: "BRSW.PowerModifiersGenericLingeringDamageModifier",
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
@@ -80,8 +83,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "RANGE1",
-    name: "BRSW.RangeModifier1",
-    button_name: "BRSW.RangeModifier1",
+    name: "BRSW.PowerModifiersGenericRangeModifier1",
+    button_name: "BRSW.PowerModifiersGenericRangeModifier1",
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
@@ -89,8 +92,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "RANGE2",
-    name: "BRSW.RangeModifier2",
-    button_name: "BRSW.RangeModifier2",
+    name: "BRSW.PowerModifiersGenericRangeModifier2",
+    button_name: "BRSW.PowerModifiersGenericRangeModifier2",
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
@@ -98,8 +101,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "SELECTIVE1",
-    name: "BRSW.SelectiveModifier",
-    button_name: "BRSW.SelectiveModifier",
+    name: "BRSW.PowerModifiersGenericSelectiveModifier",
+    button_name: "BRSW.PowerModifiersGenericSelectiveModifier",
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
@@ -107,8 +110,8 @@ export const GENERIC_POWER_MODIFIERS = [
   },
   {
     id: "HASTY2",
-    name: "BRSW.HastyModifier",
-    button_name: "BRSW.HastyModifier",
+    name: "BRSW.PowerModifiersGenericHastyModifier",
+    button_name: "BRSW.PowerModifiersGenericHastyModifier",
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",

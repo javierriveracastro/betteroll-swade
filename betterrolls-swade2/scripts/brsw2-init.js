@@ -253,6 +253,21 @@ function create_macro_command(data, actor_id, token_id) {
         `;
 }
 
+function create_attribute_macro(data) {
+  return `
+    let behaviour = game.brsw.get_action_from_click(event);
+    if (behaviour === 'system') {
+      game.swade.rollItemMacro("${data.attribute}");
+    } else {
+      origin = await fromUuid("${data.uuid}");
+      const br_card = await game.brsw.create_atribute_card(origin, "${data.attribute}");
+      if (behaviour.includes('trait')) {
+        game.brsw.roll_attribute(br_card, false);
+      }
+    }
+  `;
+}
+
 Hooks.on("hotbarDrop", (bar, data, slot) => {
   if (data.type === "Item") {
     Item.implementation.fromDropData(data).then((data) => {
@@ -277,6 +292,18 @@ Hooks.on("hotbarDrop", (bar, data, slot) => {
       });
     });
     return false;
+  } else if (data.type === "Attribute") {
+    const command = create_attribute_macro(data);
+    Macro.create({
+      name: data.attribute,
+      type: "script",
+      img: "systems/swade/assets/icons/attribute.svg",
+      command: command,
+      scope: "global",
+    }).then((macro) => {
+      // noinspection JSIgnoredPromiseFromCall
+      game.user.assignHotbarMacro(macro, slot);
+    });
   }
 });
 
@@ -370,7 +397,7 @@ function register_settings_version2() {
   });
   game.settings.register("betterrolls-swade2", "ctrl_click", {
     name: game.i18n.localize("BRSW.Control_click_action"),
-    hint: game.i18n.localize("BRWS.Control_click_hint"),
+    hint: game.i18n.localize("BRSW.Control_click_hint"),
     default: "trait",
     scope: "world",
     type: String,
@@ -481,7 +508,7 @@ function register_settings_version2() {
     scope: "world",
     type: String,
     choices: {
-      none: game.i18n.localize("BRSW.None"),
+      none: game.i18n.localize("BRSW.NoOne"),
       master_only: game.i18n.localize("BRSW.MasterOnly"),
       master_and_gm: game.i18n.localize("BRSW.MasterAndGM"),
       everybody: game.i18n.localize("BRSW.Everybody"),

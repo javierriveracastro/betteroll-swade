@@ -580,6 +580,7 @@ export class WorldGlobalActions extends FormApplication {
         "add_wild_die",
         "avoid_exploding_damage",
         "change_location",
+        "group_single",
       ];
       for (let key in action) {
         if (SUPPORTED_KEYS.indexOf(key) < 0) {

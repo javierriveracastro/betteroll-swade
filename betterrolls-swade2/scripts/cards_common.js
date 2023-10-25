@@ -6,6 +6,7 @@ import {
   broofa,
   get_targeted_token,
   getWhisperData,
+  set_or_update_condition,
   simple_form,
   spendMastersBenny,
 } from "./utils.js";
@@ -267,6 +268,7 @@ export class BrCommonCard {
           : global_action.button_name;
       let group_name = global_action.group || "BRSW.NoGroup";
       let group_name_id = group_name.split(".").join("");
+      let group_single = global_action.hasOwnProperty("group_single");
       if (global_action.hasOwnProperty("extra_text")) {
         this.extra_text += global_action.extra_text;
       }
@@ -276,6 +278,7 @@ export class BrCommonCard {
           name: translated_group,
           actions: [],
           id: broofa(),
+          single_choice: group_single,
         };
       }
       let new_action = new brAction(name, global_action);
@@ -302,6 +305,7 @@ export class BrCommonCard {
         name: name,
         actions: item_actions,
         id: broofa(),
+        single_choice: false,
       };
     }
   }
@@ -344,6 +348,7 @@ export class BrCommonCard {
         name: name,
         actions: effectActions,
         id: broofa(),
+        single_choice: false,
       };
     }
   }
@@ -943,7 +948,7 @@ export async function detect_fumble(remove_die, fumble_possible, result, dice) {
     let test_fumble_roll = new Roll("1d6");
     await test_fumble_roll.roll({ async: true });
     await test_fumble_roll.toMessage({
-      flavor: game.i18n.localize("BRWS.Testing_fumbles"),
+      flavor: game.i18n.localize("BRSW.Testing_fumbles"),
     });
     if (test_fumble_roll.total === 1) {
       return true; // Fumble mark
@@ -1225,18 +1230,16 @@ async function get_new_roll_options(
     game.settings
       .get("betterrolls-swade2", "optional_rules_enabled")
       .indexOf("NPCDontUseEncumbrance") > -1;
-  if (br_card.actor.type === "character" || !npc_avoid_encumbrance) {
-    if (br_card.actor.isEncumbered) {
-      if (
-        br_card.attribute_name === "agility" ||
-        br_card.skill?.system.attribute === "agility"
-      ) {
-        roll_options.modifiers.push({
-          name: game.i18n.localize("SWADE.Encumbered"),
-          value: -2,
-        });
-      }
-    }
+  if (
+    (br_card.actor.type === "character" || !npc_avoid_encumbrance) &&
+    br_card.actor.system.encumbered &&
+    (br_card.attribute_name === "agility" ||
+      br_card.skill?.system.attribute === "agility")
+  ) {
+    roll_options.modifiers.push({
+      name: game.i18n.localize("SWADE.Encumbered"),
+      value: -2,
+    });
   }
 }
 
@@ -1695,8 +1698,9 @@ export function process_common_actions(action, extra_data, macros, actor) {
   }
   // noinspection JSUnresolvedVariable
   if (action.self_add_status) {
-    // noinspection JSIgnoredPromiseFromCall
-    game.succ.addCondition(action.self_add_status, actor);
+    set_or_update_condition(action.self_add_status, actor).catch(() => {
+      console.error("BR2: Unable to update condition");
+    });
   }
   if (action.hasOwnProperty("wildDieFormula")) {
     extra_data.wildDieFormula = action.wildDieFormula;

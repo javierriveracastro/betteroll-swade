@@ -63,7 +63,17 @@ Available global actions are "Subtract Power points" - can be activated in the s
 With the implementation of [#341](https://github.com/javierriveracastro/betteroll-swade/issues/341), power points can now directly edited by item actions. To do so just set up an action for the power, specifying the amount of power points as "Shots Used" as in the screenshot below. Selecting the action in the chat card will then result in power point usage equal to the amount specified in that action. This allows the user to set up power modifiers in advance, making sure the proper power point amount is spent without the need to manually edit them each roll.  
 
 ![Power Point Modifiers](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/power_point_modifiers.png?raw=true)  
-  
+
+#### Powers with templates
+
+Certain powers have associated templates, e.g. Burst has Cone or Stream. These are displayed on the power card and can be clicked on change to the template tool.
+
+![Power card templates](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/power_card_templates.png?raw=true)  
+
+The available templates are managed by the enabled templates on the power. Note: the availably is also triggered by the template being present in the description of the power, e.g. "cone of a volcano" in Environmental Protection.
+
+![Power card template options](https://github.com/javierriveracastro/betteroll-swade/blob/version_2/docs/img/power_card_templates_options.png?raw=true)  
+
 ### Arcane Devices (by SalieriC)  
 
 *With the introduction of Arcane Devices to the core system, this feature is about to be deprecated once BR2 supports the system Arcane Device system.*  

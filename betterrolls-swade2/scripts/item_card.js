@@ -25,7 +25,12 @@ import {
   SHOOTING_SKILLS,
   THROWING_SKILLS,
 } from "./skill_card.js";
-import { get_targeted_token, makeExplotable, simple_form } from "./utils.js";
+import {
+  get_targeted_token,
+  makeExplotable,
+  set_or_update_condition,
+  simple_form,
+} from "./utils.js";
 import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
@@ -132,7 +137,8 @@ async function create_item_card(origin, item_id) {
   let { description, damage } = item.system;
   let possible_default_dmg_action;
   let ammon_enabled = parseInt(item.system.shots) || item.system.ammo;
-  let power_points = parseFloat(item.system.pp);
+  let power_points =
+    !isNaN(parseFloat(item.system.pp)) || item.type === "power";
   const subtract_select = ammon_enabled
     ? game.settings.get("betterrolls-swade2", "default-ammo-management")
     : false;
@@ -161,7 +167,7 @@ async function create_item_card(origin, item_id) {
       subtract_selected: subtract_select,
       subtract_pp: subtract_pp_select,
       damage_rolls: [],
-      powerpoints: !isNaN(power_points),
+      powerpoints: power_points,
       used_shots: 0,
       description: description,
       swade_templates: get_template_from_item(item),
@@ -614,7 +620,9 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     pp: pp,
   });
   if (current_pp < pp) {
-    content = game.i18n.localize("BRSW.NotEnoughPP") + content;
+    const message_text = game.i18n.localize("BRSW.NotEnoughPP");
+    content = `<p class="brsw-fumble-row">${message_text}</p> ${content}`;
+    ui.notifications.warn(message_text);
   }
   let data = {};
   if (arcaneDevice === true) {
@@ -860,7 +868,11 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   let previous_pp = br_message.trait_roll.old_rolls.length
     ? br_message.render_data.used_pp
     : 0;
-  if (!isNaN(parseInt(br_message.item.system.pp)) && pp_selected) {
+  if (
+    (!isNaN(parseInt(br_message.item.system.pp)) ||
+      br_message.item.type === "power") &&
+    pp_selected
+  ) {
     br_message.render_data.used_pp = await discount_pp(
       br_message,
       shots_override,
@@ -1223,8 +1235,8 @@ export async function roll_dmg(
       damage_formulas.damage = action.code.dmgOverride;
     }
     if (action.code.self_add_status) {
-      game.succ.addCondition(action.code.self_add_status, actor).catch(() => {
-        console.log("BR2: Likely error in SUCC");
+      set_or_update_condition(action.self_add_status, actor).catch(() => {
+        console.error("BR2: Unable to update condition");
       });
     }
     if (action.code.runDamageMacro) {
@@ -1553,7 +1565,7 @@ function modify_power_points(number, mode, actor, item) {
  * @param {Item} item
  */
 async function manual_pp(actor, item) {
-  const amount_pp = game.i18n.localize("BRSW.AmmountPP");
+  const amount_pp = game.i18n.localize("BRSW.AmountPP");
   new Dialog({
     title: game.i18n.localize("BRSW.PPManagement"),
     content: `<form> <div class="form-group"> 
@@ -1583,7 +1595,7 @@ async function manual_pp(actor, item) {
           ),
       },
       three: {
-        label: game.i18n.localize("BRSW.PPBeniRecharge"),
+        label: game.i18n.localize("BRSW.PPBennieRecharge"),
         callback: () => {
           //Button 3: Benny Recharge (spends a benny and increases the data.powerPoints.value by 5 but does not increase it above the number given in data.powerPoints.max)
           if (actor.system.bennies.value < 1) {
