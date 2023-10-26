@@ -239,7 +239,7 @@ export const COMBAT_OPTIONS = [
         selector_value: "BRSW.EdgeName-Steady-Hands",
       },
     ],
-    group: "BRSW.Multi-action",
+    group: "BRSW.SituationalModifiers",
   },
   {
     id: "2ACTIONS",
@@ -248,6 +248,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-2",
     selector_type: "all",
     group: "BRSW.Multi-action",
+    group_single: true,
   },
   {
     id: "3ACTIONS",
@@ -256,6 +257,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-4",
     selector_type: "all",
     group: "BRSW.Multi-action",
+    group_single: true,
   },
   {
     id: "GROUP_ROLL",
