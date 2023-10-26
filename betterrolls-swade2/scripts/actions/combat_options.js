@@ -25,6 +25,17 @@ export const COMBAT_OPTIONS = [
     group: "BRSW.SituationalModifiers",
   },
   {
+    id: "CS-ARM",
+    name: "BRSW.CalledArm",
+    button_name: "BRSW.CalledArm",
+    skillMod: -2,
+    selector_type: "item_type",
+    selector_value: "weapon",
+    change_location: "arm",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
+  },
+  {
     id: "CS-HEAD",
     name: "BRSW.CalledHead",
     button_name: "BRSW.CalledHead",
@@ -33,18 +44,9 @@ export const COMBAT_OPTIONS = [
     dmgOverride: "",
     selector_type: "item_type",
     selector_value: "weapon",
-    group: "BRSW.AttackOption",
     change_location: "head",
-  },
-  {
-    id: "CS-ARM",
-    name: "BRSW.CalledArm",
-    button_name: "BRSW.CalledArm",
-    skillMod: -2,
-    selector_type: "item_type",
-    selector_value: "weapon",
-    group: "BRSW.AttackOption",
-    change_location: "arm",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
   },
   {
     id: "CS-LEG",
@@ -53,8 +55,9 @@ export const COMBAT_OPTIONS = [
     skillMod: -2,
     selector_type: "item_type",
     selector_value: "weapon",
-    group: "BRSW.AttackOption",
     change_location: "leg",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
   },
   {
     id: "1-LightCover",
@@ -298,7 +301,6 @@ export const COMBAT_OPTIONS = [
     ],
     group: "BRSW.AttackOptionDesperate",
     group_single: true,
-
   },
   {
     id: "DESPERATE_ATTACK-4",
