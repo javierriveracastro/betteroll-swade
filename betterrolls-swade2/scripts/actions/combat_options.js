@@ -136,6 +136,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-2",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "2LDarkGm",
@@ -144,6 +145,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-4",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "3LPitchGm",
@@ -152,6 +154,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-6",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "1LDim",
@@ -160,6 +163,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-2",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "2LDark",
@@ -168,6 +172,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-4",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "3LPitch",
@@ -176,6 +181,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-6",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "UNSTABLEPLATFORM",
