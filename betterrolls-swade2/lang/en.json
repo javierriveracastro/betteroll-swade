@@ -27,6 +27,7 @@
   "BRSW.Arm": "Arm",
   "BRSW.AttackInanimate": "Attack Inanimate Object",
   "BRSW.AttackOption": "Attack options",
+  "BRSW.AttackOptionDesperate": "Attack options [Desperate]",
   "BRSW.Attribute": "Attribute",
   "BRSW.Auto-status-cards": "Show status removal cards",
   "BRSW.Auto-status-cardsHint": "Show the cards to remove status (currently only shaken) at the start of the combat (World)",

@@ -296,7 +296,9 @@ export const COMBAT_OPTIONS = [
         selector_value: "weapon",
       },
     ],
-    group: "BRSW.AttackOption",
+    group: "BRSW.AttackOptionDesperate",
+    group_single: true,
+
   },
   {
     id: "DESPERATE_ATTACK-4",
@@ -315,6 +317,7 @@ export const COMBAT_OPTIONS = [
         selector_value: "weapon",
       },
     ],
-    group: "BRSW.AttackOption",
+    group: "BRSW.AttackOptionDesperate",
+    group_single: true,
   },
 ];
