@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $ */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $, fromUuid */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -720,6 +720,10 @@ export async function run_macros(
 async function find_macro(macro_name_or_id) {
   let macro =
     game.macros.getName(macro_name_or_id) || game.macros.get(macro_name_or_id);
+  if (!macro) {
+    // Try Uuuid
+    macro = await fromUuid(macro_name_or_id);
+  }
   if (!macro) {
     // Search compendiums
     for (let compendium of game.packs.contents) {
