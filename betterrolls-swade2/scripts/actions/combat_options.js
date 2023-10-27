@@ -25,6 +25,17 @@ export const COMBAT_OPTIONS = [
     group: "BRSW.SituationalModifiers",
   },
   {
+    id: "CS-ARM",
+    name: "BRSW.CalledArm",
+    button_name: "BRSW.CalledArm",
+    skillMod: -2,
+    selector_type: "item_type",
+    selector_value: "weapon",
+    change_location: "arm",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
+  },
+  {
     id: "CS-HEAD",
     name: "BRSW.CalledHead",
     button_name: "BRSW.CalledHead",
@@ -33,18 +44,9 @@ export const COMBAT_OPTIONS = [
     dmgOverride: "",
     selector_type: "item_type",
     selector_value: "weapon",
-    group: "BRSW.AttackOption",
     change_location: "head",
-  },
-  {
-    id: "CS-ARM",
-    name: "BRSW.CalledArm",
-    button_name: "BRSW.CalledArm",
-    skillMod: -2,
-    selector_type: "item_type",
-    selector_value: "weapon",
-    group: "BRSW.AttackOption",
-    change_location: "arm",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
   },
   {
     id: "CS-LEG",
@@ -53,8 +55,9 @@ export const COMBAT_OPTIONS = [
     skillMod: -2,
     selector_type: "item_type",
     selector_value: "weapon",
-    group: "BRSW.AttackOption",
     change_location: "leg",
+    group: "BRSW.AttackOptionCalledShot",
+    group_single: true,
   },
   {
     id: "1-LightCover",
@@ -136,6 +139,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-2",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "2LDarkGm",
@@ -144,6 +148,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-4",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "3LPitchGm",
@@ -152,6 +157,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-6",
     selector_type: "gm_action",
     group: "BRSW.IlluminationGM",
+    group_single: true,
   },
   {
     id: "1LDim",
@@ -160,6 +166,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-2",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "2LDark",
@@ -168,6 +175,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-4",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "3LPitch",
@@ -176,6 +184,7 @@ export const COMBAT_OPTIONS = [
     selector_type: "all",
     skillMod: "-6",
     group: "BRSW.Illumination",
+    group_single: true,
   },
   {
     id: "UNSTABLEPLATFORM",
@@ -233,7 +242,7 @@ export const COMBAT_OPTIONS = [
         selector_value: "BRSW.EdgeName-Steady-Hands",
       },
     ],
-    group: "BRSW.Multi-action",
+    group: "BRSW.SituationalModifiers",
   },
   {
     id: "2ACTIONS",
@@ -242,6 +251,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-2",
     selector_type: "all",
     group: "BRSW.Multi-action",
+    group_single: true,
   },
   {
     id: "3ACTIONS",
@@ -250,6 +260,7 @@ export const COMBAT_OPTIONS = [
     skillMod: "-4",
     selector_type: "all",
     group: "BRSW.Multi-action",
+    group_single: true,
   },
   {
     id: "GROUP_ROLL",
@@ -288,7 +299,8 @@ export const COMBAT_OPTIONS = [
         selector_value: "weapon",
       },
     ],
-    group: "BRSW.AttackOption",
+    group: "BRSW.AttackOptionDesperate",
+    group_single: true,
   },
   {
     id: "DESPERATE_ATTACK-4",
@@ -307,6 +319,7 @@ export const COMBAT_OPTIONS = [
         selector_value: "weapon",
       },
     ],
-    group: "BRSW.AttackOption",
+    group: "BRSW.AttackOptionDesperate",
+    group_single: true,
   },
 ];
