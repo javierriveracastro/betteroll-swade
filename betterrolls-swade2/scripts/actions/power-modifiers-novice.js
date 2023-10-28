@@ -49,7 +49,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS2",
@@ -84,7 +85,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS3",
@@ -119,7 +121,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS4",
@@ -154,7 +157,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS5",
@@ -189,7 +193,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
 
   // ARCANE PROTECTION
