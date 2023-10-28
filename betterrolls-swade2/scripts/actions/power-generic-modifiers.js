@@ -1,8 +1,5 @@
 /// generic power modifiers for any power ...
 
-// TODO ... if available, add radio buttons functionality around the three Armour Piercing power modifiers
-// TODO ... if available, add radio buttons functionality around the two Range power modifiers
-
 const groupNameGenericPModifiers = "BRSW.PowerModifiersGeneric";
 const groupNameGenericPModifiersArmourPiercing = "BRSW.PowerModifiersGenericArmorPiercing";
 const groupNameGenericPModifiersRange = "BRSW.PowerModifiersGenericRangeModifier";
