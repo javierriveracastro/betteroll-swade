@@ -49,7 +49,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS2",
@@ -84,7 +85,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS3",
@@ -119,7 +121,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS4",
@@ -154,7 +157,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
   {
     id: "POWERADDITIONALRECIPIENTS5",
@@ -189,7 +193,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersGenericAdditionalRecipients"
+    group: "BRSW.PowerModifiersGenericAdditionalRecipients",
+    group_single: true,
   },
 
   // ARCANE PROTECTION
@@ -654,7 +659,8 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_type", selector_value: "power" },
       { selector_type: "item_name", selector_value: "Shape Change" }
     ],
-    group: "BRSW.PowerModifiersShapeChange",
+    group: "BRSW.PowerModifiersShapeChangeSize",
+    group_single: true,
     defaultChecked: "on"
   },
   {
@@ -682,7 +688,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersShapeChange"
+    group: "BRSW.PowerModifiersShapeChangeSize",
+    group_single: true,
   },
   {
     id: "POWERSHAPECHANGEMOD3SIZE1",
@@ -707,7 +714,8 @@ export const POWER_MODIFIERS_NOVICE = [
       }
 
     ],
-    group: "BRSW.PowerModifiersShapeChange"
+    group: "BRSW.PowerModifiersShapeChangeSize",
+    group_single: true,
   },
   {
     id: "POWERSHAPECHANGEMOD4SIZE3",
@@ -729,7 +737,8 @@ export const POWER_MODIFIERS_NOVICE = [
       }
 
     ],
-    group: "BRSW.PowerModifiersShapeChange"
+    group: "BRSW.PowerModifiersShapeChangeSize",
+    group_single: true,
   },
   {
     id: "POWERSHAPECHANGEMOD5SIZE5",
@@ -747,7 +756,8 @@ export const POWER_MODIFIERS_NOVICE = [
         ],
       }
     ],
-    group: "BRSW.PowerModifiersShapeChange"
+    group: "BRSW.PowerModifiersShapeChangeSize",
+    group_single: true,
   },
 
   // STUN

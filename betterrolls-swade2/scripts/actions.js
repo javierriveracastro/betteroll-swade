@@ -8,6 +8,9 @@ export class brAction {
     if (type === "item") {
       this.code = JSON.parse(JSON.stringify(code));
       this.code.id = broofa();
+      if (this.code.type === "macro") {
+        this.type = "macro";
+      }
     } else {
       this.code = code;
     }

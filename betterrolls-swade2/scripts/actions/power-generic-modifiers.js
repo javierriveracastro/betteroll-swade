@@ -1,9 +1,8 @@
 /// generic power modifiers for any power ...
 
-// TODO ... if available, add radio buttons functionality around the three Armour Piercing power modifiers
-// TODO ... if available, add radio buttons functionality around the two Range power modifiers
-
 const groupNameGenericPModifiers = "BRSW.PowerModifiersGeneric";
+const groupNameGenericPModifiersArmourPiercing = "BRSW.PowerModifiersGenericArmorPiercing";
+const groupNameGenericPModifiersRange = "BRSW.PowerModifiersGenericRangeModifier";
 
 export const GENERIC_POWER_MODIFIERS = [
   {
@@ -14,7 +13,8 @@ export const GENERIC_POWER_MODIFIERS = [
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
-    group: groupNameGenericPModifiers,
+    group: groupNameGenericPModifiersArmourPiercing,
+    group_single: true,
   },
   {
     id: "ARMORPIERCING2",
@@ -24,7 +24,8 @@ export const GENERIC_POWER_MODIFIERS = [
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
-    group: groupNameGenericPModifiers,
+    group: groupNameGenericPModifiersArmourPiercing,
+    group_single: true,
   },
   {
     id: "ARMORPIERCING3",
@@ -34,7 +35,8 @@ export const GENERIC_POWER_MODIFIERS = [
     shotsUsed: "+3",
     selector_type: "item_type",
     selector_value: "power",
-    group: groupNameGenericPModifiers,
+    group: groupNameGenericPModifiersArmourPiercing,
+    group_single: true,
   },
   {
     id: "FATIGUE",
@@ -88,7 +90,8 @@ export const GENERIC_POWER_MODIFIERS = [
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
-    group: groupNameGenericPModifiers,
+    group: groupNameGenericPModifiersRange,
+    group_single: true,
   },
   {
     id: "RANGE2",
@@ -97,7 +100,8 @@ export const GENERIC_POWER_MODIFIERS = [
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
-    group: groupNameGenericPModifiers,
+    group: groupNameGenericPModifiersRange,
+    group_single: true,
   },
   {
     id: "SELECTIVE1",

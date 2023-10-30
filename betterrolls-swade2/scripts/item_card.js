@@ -1,5 +1,5 @@
 // Functions for cards representing all items but skills
-/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $ */
+/* globals Token, TokenDocument, game, CONST, canvas, console, CONFIG, ChatMessage, ui, Hooks, Dialog, Roll, succ, structuredClone, $, fromUuid */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -721,6 +721,10 @@ async function find_macro(macro_name_or_id) {
   let macro =
     game.macros.getName(macro_name_or_id) || game.macros.get(macro_name_or_id);
   if (!macro) {
+    // Try Uuuid
+    macro = await fromUuid(macro_name_or_id);
+  }
+  if (!macro) {
     // Search compendiums
     for (let compendium of game.packs.contents) {
       if (compendium.documentClass.documentName === "Macro") {
@@ -838,6 +842,17 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
         br_message.item.system.actions.traitMod,
       ),
     );
+  }
+  // Item global modifiers
+  if (
+    br_message.item.type === "weapon" &&
+    br_message.actor.system.stats.globalMods.attack
+  ) {
+    for (let modifier of br_message.actor.system.stats.globalMods.attack) {
+      extra_data.modifiers.push(
+        create_modifier(modifier.label, modifier.value),
+      );
+    }
   }
   await roll_trait(
     br_message,
