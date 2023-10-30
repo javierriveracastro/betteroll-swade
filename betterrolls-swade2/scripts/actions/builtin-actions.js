@@ -105,7 +105,7 @@ export const SYSTEM_GLOBAL_ACTION = [
       },
       { selector_type: "all" },
     ],
-    group: "BRSW.Multi-action",
+    group: "BRSW.SituationalModifiers",
   },
   {
     id: "ALLTHUMBS",
