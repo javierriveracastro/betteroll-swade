@@ -14,14 +14,14 @@
 * Card actions: Cover now is a single option group
 * Bugfix: Refactor of the condition adding and updating code as new swade version broke it.
 
-## Version 3.54 aka Version 3.2, here we are.
+## Version 3.54 aka Version 3.2, here we are
 
 NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
 
 * Drag and drop: Make attribute drag and drop work with SWADE 3.2
 * Compatibility: Use "system.encumbered" instead of "isEncumbered"
 
-## Version 3.53 aka Steve did much more than me this time.
+## Version 3.53 aka Steve did much more than me this time
 
 * NOTE: THIS VERSION IS NOT SWADE 3.2 compatible.
 * Global actions: Lots of power modifiers: Havoc, Healing, Relief, Shape Change, Entangle, Boost/Lower Trait, Arcane Protection, Sanctuary, Environmental Protection, Beast Friend, Wall Walker, Summon Ally (Steve Culshaw)
@@ -32,7 +32,7 @@ NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
 * Bugfix: Powers with 0 PP value now trigger power-point workflow. That way actions can change that 0 into something else.
 * Manifest: Updated Foundry verified version.
 
-## Version 3.52 aka A small one.
+## Version 3.52 aka A small one
 
 * Documentation: Better notes for default checked (Steve Culshaw)
 * Actions: Added actions for sweep and novice powers (Steve Culshaw)
