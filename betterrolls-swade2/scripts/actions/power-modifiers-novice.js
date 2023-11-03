@@ -467,6 +467,10 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersArcaneProtection"
   },
 
+  // BANISH 
+
+  // BARRIER
+
   // BEAST FRIEND
   {
     id: "POWERBEASTFRIENDMODBESTIARIUM",
@@ -502,6 +506,12 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersBeastFriend"
   },
+
+  // BLAST
+
+  // BLESSING
+
+  // BLIND
 
   // BOLT
   {
@@ -633,10 +643,32 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBurst"
   },
 
-  // DISPEL
+  // CONFUSION
+
+  // CONJURE ITEM
+
+  // CURSE
+
+  // DAMAGE FIELD
+
+  // DARKSIGHT
 
   // DEFLECTION
   // just Additional Recipients, which is handled by the generic clause above
+
+  // DETECT/CONCEAL ARCANA
+
+  // DISGUISE
+
+  // DISPEL
+
+  // DIVINATION
+
+  // DRAIN POWER POINTS
+
+  // ELEMENTAL MANIPULATION
+
+  // EMPATHY
 
   // ENTANGLE
   {
@@ -708,6 +740,12 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersEnvironmentalProtection"
   },
+
+  // FARSIGHT
+
+  // FEAR
+
+  // GROWTH/SHRINK
 
   // HAVOC
   {
@@ -793,8 +831,36 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
 
+  // ILLUSION
+
+  // INTANGIBILITY
+
+  // INVISIBILITY
+
+  // LIGHT/DARKNESS
+
+  // LOCATE
+
+  // LOCK/UNLOCK
+
+  // MIND LINK
+
+  // MIND READING
+
+  // MIND WIPE
+
+  // MYSTIC INTERVENTION
+
+  // OBJECT READING
+
+  // PLANAR BINDING
+
+  // PLANE SHIFT
+
   // PROTECTION
   // ... is just Additional Recipients, which is handled by the generic clause above
+
+  // PUPPET
 
   // RELIEF
   // plus Additional Recipients, which is handled by the generic clause above
@@ -820,6 +886,8 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersRelief"
   },
+
+  // RESURRECTION
 
   // SANCTUARY
   {
@@ -856,6 +924,8 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersSanctuary"
   },
+
+  // SCRYING
 
   // SHAPE CHANGE
   // plus Additional Recipients, which is handled by the generic clause above
@@ -1016,6 +1086,16 @@ export const POWER_MODIFIERS_NOVICE = [
     group_single: true,
   },
 
+  // SLOTH/SPEED
+
+  // SLUMBER
+
+  // SMITE
+
+  // SOUND/SILENCE
+
+  // SPEAK LANGUAGE
+
   // STUN
 
   // SUMMON ALLY
@@ -1159,6 +1239,23 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersSummonAlly"
   },
 
+  // SUMMON ANIMAL
+
+  // SUMMON MONSTER
+
+  // SUMMON UNDEAD
+
+  // TELEKINESIS
+
+  // TELEPORT
+
+  // TIME STOP
+
   // WALL WALKER
-  // ... is just Additional Recipients, which is handled by the generic clause above
+  // just Additional Recipients, which is handled by the generic clause above
+
+  // WISH
+
+  // ZOMBIE
+
 ];
