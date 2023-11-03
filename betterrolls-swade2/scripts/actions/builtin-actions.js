@@ -1,8 +1,8 @@
-import { COMBAT_OPTIONS } from "./combat_options.js";
-import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
 import { BACKGROUND_EDGES } from "./background_edges.js";
+import { COMBAT_OPTIONS } from "./combat_options.js";
 import { GENERIC_POWER_MODIFIERS } from "./power-generic-modifiers.js";
 import { POWER_MODIFIERS } from "./power-modifiers.js";
+import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
 
 export const SYSTEM_GLOBAL_ACTION = [
   {
