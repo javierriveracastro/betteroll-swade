@@ -843,6 +843,17 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       ),
     );
   }
+  // Item global modifiers
+  if (
+    br_message.item.type === "weapon" &&
+    br_message.actor.system.stats.globalMods.attack
+  ) {
+    for (let modifier of br_message.actor.system.stats.globalMods.attack) {
+      extra_data.modifiers.push(
+        create_modifier(modifier.label, modifier.value),
+      );
+    }
+  }
   await roll_trait(
     br_message,
     br_message.skill.system,

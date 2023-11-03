@@ -1,3 +1,10 @@
+## Version 3.56 aka Single groups gallore.
+* Builtin actions: Make illumination, multi-actions, desesperate action and called shots a single choice (Steve Culshaw)
+* Actions: Run macros from Uuid (helps with new item macros)
+* Refactoring: Avoid some type coercions in comparisons that could give problems
+* Builtin actions: Add sinle to generic power mods and make additional recipients a single choice (Steve Culshaw)
+* Features: Add support for the system attack global modifier.
+
 ## Version 3.55 aka Single groups?
 * Feature: Added support for swat (Dan Brown)
 * Documentation: Update of power docs (Steve Culshaw)
