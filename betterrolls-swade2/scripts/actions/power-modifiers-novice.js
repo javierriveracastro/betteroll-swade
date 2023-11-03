@@ -35,17 +35,68 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
-          }
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
+          },
         ],
       }
     ],
