@@ -424,6 +424,13 @@ export function activate_item_card_listeners(br_card, html) {
     ev.currentTarget.classList.toggle("bg-red-700");
     ev.currentTarget.classList.toggle("bg-gray-500");
   });
+  html.find(".brsw-macro-button").click((ev) => {
+    const action =
+      br_card.item.system.actions.additional[ev.currentTarget.dataset.macro];
+    execute_macro(action, br_card).catch((err) => {
+      console.error("Error in macro", err);
+    });
+  });
 }
 
 /**
@@ -1711,4 +1718,20 @@ function has_heavy_armor(target) {
       item.system.equipStatus === 3,
   );
   return heavy_armor.length > 0;
+}
+
+async function execute_macro(action, br_card) {
+  if (!action.uuid) {
+    return null;
+  }
+  const macro = await fromUuid(action.uuid);
+  if (!macro) {
+    console.warn(
+      game.i18n.format("SWADE.CouldNotFindMacro", { uuid: action.uuid }),
+      { toast: true },
+    );
+  }
+  const targetActor = action.macroActor === "self" ? br_card.action : undefined;
+  await macro?.execute({ actor: targetActor, item: br_card.item }); // jshint ignore:line
+  return null;
 }
