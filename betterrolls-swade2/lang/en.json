@@ -313,6 +313,7 @@
   "BRSW.PowerModifiersSummonAllyIncreasedTrait": "Increased Trait [+PP's]",
   "BRSW.PowerModifiersSummonAllyMindRider": "Mind Rider [+1PP]",
   "BRSW.PowerModifiersSummonAllyRank": "Power Modifiers - Summon Ally Rank",
+  "BRSW.PP": "Power Points",
   "BRSW.PPBennieRecharge": "Benny Recharge",
   "BRSW.PPManagement": "Power Point Management",
   "BRSW.PPManagementHint": "When checked Subtract pp will be selected by default (World)",

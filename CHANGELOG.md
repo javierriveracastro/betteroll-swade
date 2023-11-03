@@ -1,25 +1,30 @@
-## Version 3.56 aka Single groups gallore.
-* Builtin actions: Make illumination, multi-actions, desesperate action and called shots a single choice (Steve Culshaw)
+## Version 3.56 aka Single groups galore
+
+* Builtin actions: Make illumination, multi-actions, desperate action and called shots a single choice (Steve Culshaw)
 * Actions: Run macros from Uuid (helps with new item macros)
 * Refactoring: Avoid some type coercions in comparisons that could give problems
-* Builtin actions: Add sinle to generic power mods and make additional recipients a single choice (Steve Culshaw)
+* Builtin actions: Add single to generic power mods and make additional recipients a single choice (Steve Culshaw)
 * Features: Add support for the system attack global modifier.
 
 ## Version 3.55 aka Single groups?
+
 * Feature: Added support for swat (Dan Brown)
 * Documentation: Update of power docs (Steve Culshaw)
 * Cards: Added single option card groups, they only allow one option of the group to be selected.
 * Card actions: Cover now is a single option group
 * Bugfix: Refactor of the condition adding and updating code as new swade version broke it.
 
-## Version 3.54 aka Version 3.2, here we are.
-NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
-* Drag and drop: Make attribute drag and drop work with SWADE 3.2
-* Compatibility: Use "system.encumbered" instead of "isEmcumbered"
+## Version 3.54 aka Version 3.2, here we are
 
-## Version 3.53 aka Steve did much more than me this time.
+NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
+
+* Drag and drop: Make attribute drag and drop work with SWADE 3.2
+* Compatibility: Use "system.encumbered" instead of "isEncumbered"
+
+## Version 3.53 aka Steve did much more than me this time
+
 * NOTE: THIS VERSION IS NOT SWADE 3.2 compatible.
-* Global actions: Lots of power modifiers: Havoc, Healing, Relieg, Shape Change, Entangle, Boost/lower trair, arcane protection, sanctuary. enviromental protection, beast friend, wall walker, summon ally (Steve Culshaw)
+* Global actions: Lots of power modifiers: Havoc, Healing, Relief, Shape Change, Entangle, Boost/Lower Trait, Arcane Protection, Sanctuary, Environmental Protection, Beast Friend, Wall Walker, Summon Ally (Steve Culshaw)
 * Grammar: Lots of grammar fixes all around (Steve Culshaw)
 * Bugfix: PP are now deducted when auto-rolling a power.
 * Char cards: Padding reduced in template buttons hoping they look better
@@ -27,7 +32,8 @@ NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
 * Bugfix: Powers with 0 PP value now trigger power-point workflow. That way actions can change that 0 into something else.
 * Manifest: Updated Foundry verified version.
 
-## Version 3.52 aka A small one.
+## Version 3.52 aka A small one
+
 * Documentation: Better notes for default checked (Steve Culshaw)
 * Actions: Added actions for sweep and novice powers (Steve Culshaw)
 * Actions: Add the item_value selector that lets you use an arbitrary value from an item
@@ -35,11 +41,12 @@ NOTE: NO NEW FEATURES, JUST COMPATIBILITY WITH SWADE 3.2
 * Chat modifiers: Change the select sequence to white->red->none
 
 ## Version 3.51 aka too stable?
+
 * Bugfix: Frenzy edge was not translatable.
-* Documentation: Update the documentation to use the new action dialgo (Steve Culshaw).
+* Documentation: Update the documentation to use the new action dialog (Steve Culshaw).
 * Feature: Item description tooltip gets now a configurable maximum length (500 characters by default, set to 0 to disable the tooltip)
 * Refactoring: Code simplifications for skill cards (look for new bugs here)
-* Feature: Added actions for the generic power modifiers (Steve Culshaw and again Bruno Calado but doens't know)
+* Feature: Added actions for the generic power modifiers (Steve Culshaw and again Bruno Calado but doesn't know)
 
 ## Version 3.50 aka Nothing to see here, this version doesn't exist, it is only in your imagination
 

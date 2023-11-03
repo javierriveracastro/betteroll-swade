@@ -8,7 +8,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+1",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH02PP",
@@ -17,7 +17,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+2",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH03PP",
@@ -26,7 +26,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+3",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH04PP",
@@ -35,7 +35,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+4",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH05PP",
@@ -44,7 +44,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+5",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH06PP",
@@ -53,7 +53,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+6",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH07PP",
@@ -62,7 +62,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+7",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH08PP",
@@ -71,7 +71,7 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+8",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
   {
     id: "CH09PP",
@@ -80,6 +80,6 @@ export const POWER_POINT_OPTIONS = [
     shotsUsed: "+9",
     selector_type: "item_type",
     selector_value: "power",
-    group: "Power Points",
+    group: "BRSW.PP",
   },
 ];
