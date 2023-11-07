@@ -1,3 +1,10 @@
+## Version 3.57 aka That shinny new heal macro...
+
+* Builtin actions: Lots of work in powers and power modifiers (Steve Culshaw)
+* Changelog: Cleaning of this same file (Steve Culshaw)
+* Cards: Item macros (not macros added from global actions) now have a button on the card
+* Bugfix: Error when applying an effect to self when rolling damage.
+
 ## Version 3.56 aka Single groups galore
 
 * Builtin actions: Make illumination, multi-actions, desperate action and called shots a single choice (Steve Culshaw)
