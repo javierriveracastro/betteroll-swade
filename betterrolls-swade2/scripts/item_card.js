@@ -1257,7 +1257,7 @@ export async function roll_dmg(
       damage_formulas.damage = action.code.dmgOverride;
     }
     if (action.code.self_add_status) {
-      set_or_update_condition(action.self_add_status, actor).catch(() => {
+      set_or_update_condition(action.code.self_add_status, actor).catch(() => {
         console.error("BR2: Unable to update condition");
       });
     }
