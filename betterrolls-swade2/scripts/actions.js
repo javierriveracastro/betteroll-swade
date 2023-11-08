@@ -25,6 +25,7 @@ export class brAction {
       this.code = JSON.parse(JSON.stringify(this.code));
       if (this.code.type === "trait") {
         this.code.skillMod = this.code.modifier;
+        this.code.skillOverride = this.code.override;
       } else if (this.code.type === "damage") {
         this.code.dmgMod = this.code.modifier;
         this.code.dmgOverride = this.code.override;
