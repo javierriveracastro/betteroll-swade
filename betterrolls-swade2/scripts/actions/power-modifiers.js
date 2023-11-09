@@ -1,6 +1,6 @@
 /// power modifiers for novice powers ...
 
-// TODO ... if available, add radio button for any Area of Effect selection, e.g. Entangle
+// TODO ... some way to handle different Areas of Effect using the single button selector ???
 
 /*
   format of power modifier elements ...
@@ -13,7 +13,7 @@
     { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
 */
 
-export const POWER_MODIFIERS_NOVICE = [
+export const POWER_MODIFIERS = [
   // ADDITIONALRECIPIENTS
   // NOTE: rather than have each power with the additional recipients have its own set of buttons, centralise it to this block
   {
@@ -35,16 +35,67 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
           }
         ],
       }
@@ -71,16 +122,67 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
           }
         ],
       }
@@ -107,16 +209,67 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
           }
         ],
       }
@@ -143,16 +296,67 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
           }
         ],
       }
@@ -179,16 +383,67 @@ export const POWER_MODIFIERS_NOVICE = [
             selector_type: "item_name", selector_value: "Burrow",
           },
           {
+            selector_type: "item_name", selector_value: "Darksight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Deflection",
+          },
+          {
+            selector_type: "item_name", selector_value: "DetectConcealArcana",
+          },
+          {
+            selector_type: "item_name", selector_value: "Disguise",
+          },
+          {
+            selector_type: "item_name", selector_value: "Empathy",
+          },
+          {
             selector_type: "item_name", selector_value: "Environmental Protection",
           },
           {
-            selector_type: "item_name", selector_value: "Relief",
+            selector_type: "item_name", selector_value: "Farsight",
+          },
+          {
+            selector_type: "item_name", selector_value: "Fly",
+          },
+          {
+            selector_type: "item_name", selector_value: "Intangibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "Invisibility",
+          },
+          {
+            selector_type: "item_name", selector_value: "MindLink",
+          },
+          {
+            selector_type: "item_name", selector_value: "PlaneShift",
           },
           {
             selector_type: "item_name", selector_value: "Protection",
           },
           {
+            selector_type: "item_name", selector_value: "Puppet",
+          },
+          {
+            selector_type: "item_name", selector_value: "Relief",
+          },
+          {
+            selector_type: "item_name", selector_value: "SlothSpeed",
+          },
+          {
+            selector_type: "item_name", selector_value: "Smite",
+          },
+          {
+            selector_type: "item_name", selector_value: "SpeakLanguages",
+          },
+          {
+            selector_type: "item_name", selector_value: "Teleport",
+          },
+          {
             selector_type: "item_name", selector_value: "Wall Walker",
+          },
+          {
+            selector_type: "item_name", selector_value: "WarriorsGift",
           }
         ],
       }
@@ -211,6 +466,10 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersArcaneProtection"
   },
+
+  // BANISH (V)
+
+  // BARRIER (S)
 
   // BEAST FRIEND
   {
@@ -246,6 +505,45 @@ export const POWER_MODIFIERS_NOVICE = [
       { selector_type: "item_name", selector_value: "Beast Friend" }
     ],
     group: "BRSW.PowerModifiersBeastFriend"
+  },
+
+  // BLAST (S)
+
+  // BLESSING (S)
+
+  // BLIND
+  {
+    id: "POWERBLINDMOD3STRONG",
+    name: "Strong",
+    button_name: "BRSW.PowerModifiersBlindStrong",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blind" }
+    ],
+    group: "BRSW.PowerModifiersBlind"
+  },
+  {
+    id: "POWERBLINDMOD1MEDIUM",
+    name: "Medium (LBT)",
+    button_name: "BRSW.PowerModifiersBlindAreaEffect2MBT",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blind" }
+    ],
+    group: "BRSW.PowerModifiersBlind"
+  },
+  {
+    id: "POWERBLINDMOD2LARGE",
+    name: "Large (+3)",
+    button_name: "BRSW.PowerModifiersBlindAreaEffect3LBTStream",
+    shotsUsed: "+3",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blind" }
+    ],
+    group: "BRSW.PowerModifiersBlind"
   },
 
   // BOLT
@@ -378,9 +676,32 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersBurst"
   },
 
-  // DISPEL
+  // CONFUSION
+
+  // CONJURE ITEM
+
+  // CURSE
+
+  // DAMAGE FIELD
+
+  // DARKSIGHT
 
   // DEFLECTION
+  // just Additional Recipients, which is handled by the generic clause above
+
+  // DETECT/CONCEAL ARCANA
+
+  // DISGUISE
+
+  // DISPEL
+
+  // DIVINATION
+
+  // DRAIN POWER POINTS
+
+  // ELEMENTAL MANIPULATION
+
+  // EMPATHY
 
   // ENTANGLE
   {
@@ -452,6 +773,12 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersEnvironmentalProtection"
   },
+
+  // FARSIGHT
+
+  // FEAR
+
+  // GROWTH/SHRINK
 
   // HAVOC
   {
@@ -537,8 +864,36 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersHealing"
   },
 
+  // ILLUSION
+
+  // INTANGIBILITY
+
+  // INVISIBILITY
+
+  // LIGHT/DARKNESS
+
+  // LOCATE
+
+  // LOCK/UNLOCK
+
+  // MIND LINK
+
+  // MIND READING
+
+  // MIND WIPE
+
+  // MYSTIC INTERVENTION
+
+  // OBJECT READING
+
+  // PLANAR BINDING
+
+  // PLANE SHIFT
+
   // PROTECTION
-  // ... is just Additional Recipients, which is handled by the generic clause above
+  // just Additional Recipients, which is handled by the generic clause above
+
+  // PUPPET
 
   // RELIEF
   // plus Additional Recipients, which is handled by the generic clause above
@@ -564,6 +919,8 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersRelief"
   },
+
+  // RESURRECTION
 
   // SANCTUARY
   {
@@ -600,6 +957,8 @@ export const POWER_MODIFIERS_NOVICE = [
     ],
     group: "BRSW.PowerModifiersSanctuary"
   },
+
+  // SCRYING
 
   // SHAPE CHANGE
   // plus Additional Recipients, which is handled by the generic clause above
@@ -760,6 +1119,16 @@ export const POWER_MODIFIERS_NOVICE = [
     group_single: true,
   },
 
+  // SLOTH/SPEED
+
+  // SLUMBER
+
+  // SMITE
+
+  // SOUND/SILENCE
+
+  // SPEAK LANGUAGE
+
   // STUN
 
   // SUMMON ALLY
@@ -903,6 +1272,23 @@ export const POWER_MODIFIERS_NOVICE = [
     group: "BRSW.PowerModifiersSummonAlly"
   },
 
+  // SUMMON ANIMAL
+
+  // SUMMON MONSTER
+
+  // SUMMON UNDEAD
+
+  // TELEKINESIS
+
+  // TELEPORT
+
+  // TIME STOP
+
   // WALL WALKER
-  // ... is just Additional Recipients, which is handled by the generic clause above
+  // just Additional Recipients, which is handled by the generic clause above
+
+  // WISH
+
+  // ZOMBIE
+
 ];

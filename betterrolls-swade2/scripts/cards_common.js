@@ -81,6 +81,7 @@ export class BrCommonCard {
     this.extra_text = "";
     this.attribute_name = ""; // If this is an attribute card, its name
     this.action_groups = {};
+    this.macro_buttons = []; // Macro buttons from items
     this.render_data = {}; // Old render data, to be removed
     this.update_list = {}; // List of properties pending to be updated
     this.trait_roll = new TraitRoll();
@@ -135,6 +136,7 @@ export class BrCommonCard {
       extra_text: this.extra_text,
       attribute_name: this.attribute_name,
       action_groups: this.action_groups,
+      macro_buttons: this.macro_buttons,
       id: this.id,
       target_ids: this.target_ids,
       trait_roll: this.trait_roll,
@@ -154,6 +156,7 @@ export class BrCommonCard {
       "attribute_name",
       "action_groups",
       "target_ids",
+      "macro_buttons",
     ];
     for (let field of FIELDS) {
       this[field] = data[field];
@@ -238,6 +241,18 @@ export class BrCommonCard {
     }
   }
 
+  populate_macro_buttons() {
+    if (!this.item.system?.actions?.additional) {
+      return;
+    }
+    const additional_actions = this.item.system?.actions?.additional;
+    for (let action in additional_actions) {
+      if (additional_actions[action].type === "macro") {
+        this.macro_buttons.push({ key: action, ...additional_actions[action] });
+      }
+    }
+  }
+
   populate_actions() {
     this.action_groups = {};
     this.populate_world_actions();
@@ -292,12 +307,14 @@ export class BrCommonCard {
   populate_item_actions() {
     let item_actions = [];
     for (let action in this.item.system?.actions?.additional) {
-      let br_action = new brAction(
-        this.item.system.actions.additional[action].name,
-        this.item.system.actions.additional[action],
-        "item",
-      );
-      item_actions.push(br_action);
+      if (this.item.system.actions.additional[action].type !== "macro") {
+        let br_action = new brAction(
+          this.item.system.actions.additional[action].name,
+          this.item.system.actions.additional[action],
+          "item",
+        );
+        item_actions.push(br_action);
+      }
     }
     if (item_actions.length) {
       const name = game.i18n.localize("BRSW.ItemActions");
@@ -453,6 +470,9 @@ export class BrCommonCard {
   async render() {
     if (Object.keys(this.action_groups).length === 0) {
       this.populate_actions();
+    }
+    if (this.item && this.macro_buttons.length === 0) {
+      this.populate_macro_buttons();
     }
     this.get_trait();
     let new_content = await renderTemplate(

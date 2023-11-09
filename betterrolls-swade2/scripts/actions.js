@@ -8,9 +8,6 @@ export class brAction {
     if (type === "item") {
       this.code = JSON.parse(JSON.stringify(code));
       this.code.id = broofa();
-      if (this.code.type === "macro") {
-        this.type = "macro";
-      }
     } else {
       this.code = code;
     }
@@ -28,6 +25,7 @@ export class brAction {
       this.code = JSON.parse(JSON.stringify(this.code));
       if (this.code.type === "trait") {
         this.code.skillMod = this.code.modifier;
+        this.code.skillOverride = this.code.override;
       } else if (this.code.type === "damage") {
         this.code.dmgMod = this.code.modifier;
         this.code.dmgOverride = this.code.override;
