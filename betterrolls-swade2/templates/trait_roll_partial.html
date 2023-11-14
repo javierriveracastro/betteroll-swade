@@ -14,8 +14,8 @@
     <div class="flex justify-between align-middle">
         <span>
             {{#each trait_roll.current_roll.dice }}
-                <a class="brsw-override-die" data-die-index="{{@index}}">
-                    <span class="brsw-d{{this.sides}}{{this.result_class}} brsw-dice-image{{this.extra_class}}"  title="{{this.result_text}}">
+                <a class="brsw-override-die mr-1" data-die-index="{{@index}}">
+                    <span class="p-0.5 {{this.extra_class}} {{this.result_class}} text-xl font-bold"  title="{{this.result_text}}">
                         {{ this.final_total }}
                     </span>
                 </a>

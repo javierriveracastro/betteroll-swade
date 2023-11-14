@@ -203,6 +203,7 @@
 
 .brsw-discarded-roll {
     text-decoration: red line-through;
+    color: lightgray;
 }
 
 .brsw-red-text {
@@ -213,8 +214,8 @@
     color: blue;
 }
 
-.brsw-white-text {
-    color: white
+.brsw-green-text {
+    color: lawngreen;
 }
 
 .brsw-row-button {

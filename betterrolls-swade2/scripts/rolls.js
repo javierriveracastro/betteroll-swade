@@ -38,11 +38,11 @@ class Die {
       return "";
     }
     if (this.result < 0) {
-      return "-fail";
+      return "";
     } else if (this.result < 4) {
-      return "-success";
+      return "brsw-green-text";
     } else if (this.result >= 4) {
-      return "-raise";
+      return "brsw-blue-text";
     }
     return "";
   }
@@ -104,10 +104,10 @@ class SingleRoll {
       if (term.hasOwnProperty("faces")) {
         let new_die = new Die(null);
         if (term.total === 1) {
-          new_die.extra_class = " brsw-white-text";
+          new_die.extra_class = " brsw-red-text";
           new_die.fumble_potential = -1;
         } else if (term.total > term.faces) {
-          new_die.extra_class = " brsw-blue-text";
+          new_die.extra_class = " underline decoration-blue-700 decoration-2";
         }
         new_die.sides = term.faces;
         new_die.raw_total = term.total;
