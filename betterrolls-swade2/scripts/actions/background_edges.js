@@ -30,7 +30,7 @@ export const BACKGROUND_EDGES = [
         or_selector: [
           {
             selector_type: "skill",
-            selector_value: "BRSW.SkillName-Performance",
+            selector_value: "BRSW.SkillName-Persuasion",
           },
           {
             selector_type: "skill",
