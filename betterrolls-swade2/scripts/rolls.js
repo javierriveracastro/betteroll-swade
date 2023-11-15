@@ -107,7 +107,7 @@ class SingleRoll {
           new_die.extra_class = " brsw-red-text";
           new_die.fumble_potential = -1;
         } else if (term.total > term.faces) {
-          new_die.extra_class = " underline decoration-blue-700 decoration-2";
+          new_die.extra_class = " animate-ping";
         }
         new_die.sides = term.faces;
         new_die.raw_total = term.total;
