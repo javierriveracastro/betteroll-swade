@@ -394,8 +394,11 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "BRSW.EdgeName-Investigator",
     button_name: "BRSW.EdgeName-Investigator",
     skillMod: "+2",
-    nd_selector: [
-      { selector_type: "actor_has_edge", selector_value: "Fame" },
+    and_selector: [
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-Investigator"
+      },
       {
         or_selector: [
           { selector_type: "skill", selector_value: "BRSW.SkillName-Notice" },
@@ -403,6 +406,7 @@ export const SYSTEM_GLOBAL_ACTION = [
         ],
       },
     ],
+    defaultChecked: "on",
     group: "BRSW.Edges",
   },
   {
