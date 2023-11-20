@@ -581,6 +581,7 @@ export class WorldGlobalActions extends FormApplication {
         "avoid_exploding_damage",
         "change_location",
         "group_single",
+        "gm_action",
       ];
       for (let key in action) {
         if (SUPPORTED_KEYS.indexOf(key) < 0) {
