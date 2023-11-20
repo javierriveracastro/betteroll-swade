@@ -147,7 +147,8 @@ async function create_item_card(origin, item_id) {
     : false;
   if (!damage) {
     for (let action in item.system.actions.additional) {
-      if (item.system.actions.additional[action].dmgOverride) {
+      const current_action = item.system.actions.additional[action];
+      if (current_action.type === "damage" && current_action.override) {
         damage = true;
         break;
       }
