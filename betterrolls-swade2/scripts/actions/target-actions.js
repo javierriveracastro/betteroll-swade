@@ -5,8 +5,8 @@
 export const TARGET_ACTIONS = [
   {
     id: "TARGET-HAS-DODGE-WEAPONS",
-    name: "BRSW.TargetHasDodge",
-    button_name: "BRSW.TargetHasDodge",
+    name: "BRSW.TargetHasDodgeWeapon",
+    button_name: "BRSW.TargetHasDodgeWeapon",
     skillMod: "-2",
     and_selector: [
       {
