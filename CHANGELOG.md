@@ -1,7 +1,8 @@
-# Version 3.58 ake a real small one.
+# Version 3.58 ake a real small one
+
 * Bugfix: Added support (again) for trait overrides in item actions.
 
-## Version 3.57 aka That shinny new heal macro...
+## Version 3.57 aka That shiny new heal macro
 
 * Builtin actions: Lots of work in powers and power modifiers (Steve Culshaw)
 * Changelog: Cleaning of this same file (Steve Culshaw)
