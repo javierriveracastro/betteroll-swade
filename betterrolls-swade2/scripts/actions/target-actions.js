@@ -16,7 +16,7 @@ export const TARGET_ACTIONS = [
     id: "TARGET-HAS-DODGE-POWERS",
     name: "BRSW.TargetHasDodgePower",
     button_name: "BRSW.TargetHasDodgePower",
-    skillMod: "-2",
+    skillMod: "-2", // NOTE: is this correct, as it affects activation, not hitting the target?
     and_selector: [
       {
         selector_type: "target_has_edge",
