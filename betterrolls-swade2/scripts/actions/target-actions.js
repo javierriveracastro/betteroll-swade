@@ -2,7 +2,16 @@
 // target actions, i.e. where the target has some sort of effect, such as Dodge
 //
 
+//
+// NOTE: The actions using the "target_has_effect" selector are opinionated in the name of the effect.
+// NOTE: The suffixes of "weapon" and "power" refer to the source of the "attack" on the target, i.e. physical weapons and arcane powers.
+// NOTE: There is a question on the logic for actions where the skillMod of a power is reduced.
+//       Currently this meaning the activation fails, so the cost is 1 PP. 
+//       But the power is activated, e.g. a Bolt that misses because of Deflection is still activated on a 4 or greater, it just needs a 6 or greater to hit the target.
+//
+
 export const TARGET_ACTIONS = [
+  // DODGE EDGE ...
   {
     id: "TARGET-HAS-DODGE-POWERS",
     name: "BRSW.TargetHasDodgePower",
@@ -11,7 +20,7 @@ export const TARGET_ACTIONS = [
     and_selector: [
       {
         selector_type: "target_has_edge",
-        selector_value: "BRSW.EdgeName-Dodge",
+        selector_value: "BRSW.EdgeName-Dodge", // NOTE this works because the global_actions.js expects the ... value.includes("BRSW.EdgeName-")
       },
       {
         selector_type: "item_type",
@@ -50,6 +59,25 @@ export const TARGET_ACTIONS = [
             selector_value: "BRSW.SkillName-Athletics"
           },
         ],
+      },
+    ],
+    defaultChecked: "on",
+    group: "BRSW.Target",
+  },
+  // SHROUD GENERIC POWER MODIFIER ...
+  {
+    id: "TARGET-HAS-SHROUD-WEAPONS",
+    name: "TargetHasShroudWeapon",
+    button_name: "has Shroud",
+    skillMod: "-1",
+    and_selector: [
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      },
+      {
+        selector_type: "target_has_effect",
+        selector_value: "Shroud",
       },
     ],
     defaultChecked: "on",
