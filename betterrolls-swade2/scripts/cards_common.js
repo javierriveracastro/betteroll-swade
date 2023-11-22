@@ -379,8 +379,8 @@ export class BrCommonCard {
       return;
     }
     for (let action in this.item.system.actions.additional) {
-      if (action === "resist") {
-        const current_action = this.item.system.actions.additional[action];
+      const current_action = this.item.system.actions.additional[action];
+      if (current_action.type === "resist") {
         this.resist_buttons.push({
           name: current_action.name,
           trait: current_action.override,

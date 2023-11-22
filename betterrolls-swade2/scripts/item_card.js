@@ -432,6 +432,35 @@ export function activate_item_card_listeners(br_card, html) {
       console.error("Error in macro", err);
     });
   });
+  html.find(".brsw-resist-button").click((ev) => {
+    roll_resist(ev.currentTarget.dataset.trait, br_card);
+  });
+}
+
+/**
+ * Makes an attribute card for a resist roll
+ *
+ * @param {string} trait - The trait that will be rolled
+ * @param {BrCommonCard} br_card - The card from where we get the TN
+ */
+async function roll_resist(trait, br_card) {
+  if (canvas.tokens.controlled.length === 0) {
+    ui.notifications.warn(game.i18n.localize("BRSW.NoTokenSelectedError"));
+    return;
+  }
+  for (let token of canvas.tokens.controlled) {
+    const new_card = await game.brsw.create_atribute_card(
+      token,
+      trait.toLowerCase(),
+    );
+    const results = br_card.trait_roll.current_roll.dice.map((die) => {
+      return die.result;
+    });
+    new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
+    new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
+    new_card.render();
+    new_card.save();
+  }
 }
 
 /**
