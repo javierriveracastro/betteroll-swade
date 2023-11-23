@@ -1,3 +1,16 @@
+# Version 3.59 aka Rolling to Resist
+
+* Bugfix: Incorrect skilled bumped in Aristocrat edge.
+* Bugfix: Spelling and incorrect markdown in changelogs (Steve Culshaw)
+* Bugfix: Error in Investigator edge (Steve Culshaw)
+* Bugfix: Updated Dodge effect. (Steve Culshaw)
+* Bugfix: Numerous spelling errors in different places (Steve Culshaw)
+* Bugfix: Make the "gm_action" action work in user word actions
+* Bugfix: Stop using the now deprecated dmgOverride item action
+* Feature: Add resist buttons to support Resist actions.
+* Actions: Added "Target has dodge" and "Target has dodge power" actions (Steve Culshaw)
+* Bugfix: More bugs in the self_add_effect renewal workflow.
+
 # Version 3.58 ake a real small one
 
 * Bugfix: Added support (again) for trait overrides in item actions.
