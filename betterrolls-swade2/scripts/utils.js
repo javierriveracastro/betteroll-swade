@@ -117,8 +117,8 @@ export function get_targeted_token() {
 
 /**
  * Sets or updates a condition
- * @param condition_id
- * @param actor
+ * @param {string} condition_id
+ * @param {SwadeActor} actor
  */
 export async function set_or_update_condition(condition_id, actor) {
   // noinspection ES6RedundantAwait
