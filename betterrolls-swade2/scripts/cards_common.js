@@ -390,6 +390,10 @@ export class BrCommonCard {
     console.log(this.resist_buttons);
   }
 
+  get has_feet_buttons() {
+    return Boolean(this.resist_buttons) && Boolean(this.macro_buttons);
+  }
+
   set_active_actions(actions) {
     for (let group in this.action_groups) {
       for (let action of this.action_groups[group].actions) {
@@ -522,6 +526,7 @@ export class BrCommonCard {
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
+    data.has_feet_buttons = this.has_feet_buttons;
     return data;
   }
 
