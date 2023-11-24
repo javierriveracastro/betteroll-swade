@@ -1,3 +1,6 @@
+# Version 3.60 aka Sofa's quick fix
+* Bugfix: Show a button for a resist action when there is no macro.
+
 # Version 3.59 aka Rolling to Resist
 
 * Bugfix: Incorrect skilled bumped in Aristocrat edge.
