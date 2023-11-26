@@ -83,4 +83,51 @@ export const TARGET_ACTIONS = [
     defaultChecked: "on",
     group: "BRSW.Target",
   },
+  // ARCANE PROTECTION POWER 
+  // ... no actual effect, but shows target has Arcane Protection
+  // TODO ... look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4
+  {
+    id: "TARGET-HAS-ARCANE-PROTECTION",
+    name: "TargetHasArcaneProtection",
+    button_name: "has Arcane Protection",
+    selector_type: "target_has_effect",
+    selector_value: "Arcane Protection",
+    defaultChecked: "on",
+    group: "BRSW.Target",
+  },
+  // PROTECTION POWER 
+  // ... no actual effect, but shows target has Protection
+  {
+    id: "TARGET-HAS-PROTECTION",
+    name: "TargetHasProtection",
+    button_name: "has Protection",
+    and_selector: [
+      {
+        selector_type: "target_has_effect",
+        selector_value: "Protection"
+      },
+      {
+        "not_selector": [
+          {
+            "selector_type": "target_has_effect",
+            "selector_value": "Arcane Protection"
+          }
+        ]
+      },
+    ],
+    defaultChecked: "on",
+    group: "BRSW.Target",
+  },
+  // SANCTUARY POWER 
+  // ... no actual effect, but shows target has Sanctuary
+  {
+    id: "TARGET-HAS-SANCTUARY",
+    name: "TargetHasSanctuary",
+    button_name: "has Sanctuary",
+    selector_type: "target_has_effect",
+    selector_value: "Sanctuary",
+    defaultChecked: "on",
+    group: "BRSW.Target",
+  },
+
 ];
