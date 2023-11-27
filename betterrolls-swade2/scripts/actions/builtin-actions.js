@@ -3,6 +3,7 @@ import { COMBAT_OPTIONS } from "./combat_options.js";
 import { GENERIC_POWER_MODIFIERS } from "./power-generic-modifiers.js";
 import { POWER_MODIFIERS } from "./power-modifiers.js";
 import { POWER_POINT_OPTIONS } from "./PowerPoints.js";
+import { TARGET_ACTIONS } from "./target-actions.js";
 
 export const SYSTEM_GLOBAL_ACTION = [
   {
@@ -350,27 +351,6 @@ export const SYSTEM_GLOBAL_ACTION = [
     group: "BRSW.Edges",
   },
   {
-    id: "Target has dodge",
-    name: "BRSW.TargetHasDodge",
-    button_name: "BRSW.TargetHasDodge",
-    skillMod: "-2",
-    and_selector: [
-      { selector_type: "item_type", selector_value: "weapon" },
-      {
-        selector_type: "target_has_edge",
-        selector_value: "BRSW.EdgeName-Dodge",
-      },
-      {
-        or_selector: [
-          { selector_type: "skill", selector_value: "BRSW.Shooting" },
-          { selector_type: "skill", selector_value: "Athletics" },
-        ],
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Target",
-  },
-  {
     id: "Assassin",
     name: "BRSW.EdgeName-Assassin",
     button_name: "BRSW.EdgeName-Assassin",
@@ -394,8 +374,11 @@ export const SYSTEM_GLOBAL_ACTION = [
     name: "BRSW.EdgeName-Investigator",
     button_name: "BRSW.EdgeName-Investigator",
     skillMod: "+2",
-    nd_selector: [
-      { selector_type: "actor_has_edge", selector_value: "Fame" },
+    and_selector: [
+      {
+        selector_type: "actor_has_edge",
+        selector_value: "BRSW.EdgeName-Investigator"
+      },
       {
         or_selector: [
           { selector_type: "skill", selector_value: "BRSW.SkillName-Notice" },
@@ -403,22 +386,8 @@ export const SYSTEM_GLOBAL_ACTION = [
         ],
       },
     ],
-    group: "BRSW.Edges",
-  },
-  {
-    id: "Target has dodge 2",
-    name: "BRSW.TargetHasDodgePower",
-    button_name: "BRSW.TargetHasDodgePower",
-    skillMod: "-2",
-    and_selector: [
-      {
-        selector_type: "target_has_edge",
-        selector_value: "BRSW.EdgeName-Dodge",
-      },
-      { selector_type: "item_type", selector_value: "power" },
-    ],
     defaultChecked: "on",
-    group: "BRSW.Target",
+    group: "BRSW.Edges",
   },
   {
     id: "SWEEP",
@@ -465,4 +434,5 @@ export const SYSTEM_GLOBAL_ACTION = [
   .concat(POWER_POINT_OPTIONS)
   .concat(BACKGROUND_EDGES)
   .concat(GENERIC_POWER_MODIFIERS)
-  .concat(POWER_MODIFIERS);
+  .concat(POWER_MODIFIERS)
+  .concat(TARGET_ACTIONS);

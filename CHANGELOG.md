@@ -1,7 +1,24 @@
-# Version 3.58 ake a real small one.
+# Version 3.60 aka Sofa's quick fix
+* Bugfix: Show a button for a resist action when there is no macro.
+
+# Version 3.59 aka Rolling to Resist
+
+* Bugfix: Incorrect skilled bumped in Aristocrat edge.
+* Bugfix: Spelling and incorrect markdown in changelogs (Steve Culshaw)
+* Bugfix: Error in Investigator edge (Steve Culshaw)
+* Bugfix: Updated Dodge effect. (Steve Culshaw)
+* Bugfix: Numerous spelling errors in different places (Steve Culshaw)
+* Bugfix: Make the "gm_action" action work in user word actions
+* Bugfix: Stop using the now deprecated dmgOverride item action
+* Feature: Add resist buttons to support Resist actions.
+* Actions: Added "Target has dodge" and "Target has dodge power" actions (Steve Culshaw)
+* Bugfix: More bugs in the self_add_effect renewal workflow.
+
+# Version 3.58 ake a real small one
+
 * Bugfix: Added support (again) for trait overrides in item actions.
 
-## Version 3.57 aka That shinny new heal macro...
+## Version 3.57 aka That shiny new heal macro
 
 * Builtin actions: Lots of work in powers and power modifiers (Steve Culshaw)
 * Changelog: Cleaning of this same file (Steve Culshaw)

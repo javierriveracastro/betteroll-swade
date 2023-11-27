@@ -84,6 +84,7 @@ export class BrCommonCard {
     this.macro_buttons = []; // Macro buttons from items
     this.render_data = {}; // Old render data, to be removed
     this.update_list = {}; // List of properties pending to be updated
+    this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
@@ -140,6 +141,7 @@ export class BrCommonCard {
       id: this.id,
       target_ids: this.target_ids,
       trait_roll: this.trait_roll,
+      resist_buttons: this.resist_buttons,
     };
   }
 
@@ -157,6 +159,7 @@ export class BrCommonCard {
       "action_groups",
       "target_ids",
       "macro_buttons",
+      "resist_buttons",
     ];
     for (let field of FIELDS) {
       this[field] = data[field];
@@ -263,6 +266,7 @@ export class BrCommonCard {
       this.populate_item_actions();
     }
     this.populate_active_effect_actions();
+    this.populate_resist_actions();
     for (const group in this.action_groups) {
       this.action_groups[group].actions.sort((a, b) => {
         if (group == "Active effects" || group == "Item actions") {
@@ -368,6 +372,25 @@ export class BrCommonCard {
         single_choice: false,
       };
     }
+  }
+
+  populate_resist_actions() {
+    if (!this.item) {
+      return;
+    }
+    for (let action in this.item.system.actions.additional) {
+      const current_action = this.item.system.actions.additional[action];
+      if (current_action.type === "resist") {
+        this.resist_buttons.push({
+          name: current_action.name,
+          trait: current_action.override,
+        });
+      }
+    }
+  }
+
+  get has_feet_buttons() {
+    return Boolean(this.resist_buttons) && Boolean(this.macro_buttons);
   }
 
   set_active_actions(actions) {
@@ -502,6 +525,7 @@ export class BrCommonCard {
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
+    data.has_feet_buttons = this.has_feet_buttons;
     return data;
   }
 

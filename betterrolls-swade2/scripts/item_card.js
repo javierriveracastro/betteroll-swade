@@ -95,6 +95,8 @@ const UNTRAINED_SKILLS = [
   "(unskilled)",
 ];
 
+const ATTRIBUTES = ["agility", "smarts", "spirit", "strength", "vigor"];
+
 const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
 
 /**
@@ -147,7 +149,8 @@ async function create_item_card(origin, item_id) {
     : false;
   if (!damage) {
     for (let action in item.system.actions.additional) {
-      if (item.system.actions.additional[action].dmgOverride) {
+      const current_action = item.system.actions.additional[action];
+      if (current_action.type === "damage" && current_action.override) {
         damage = true;
         break;
       }
@@ -431,6 +434,44 @@ export function activate_item_card_listeners(br_card, html) {
       console.error("Error in macro", err);
     });
   });
+  html.find(".brsw-resist-button").click((ev) => {
+    roll_resist(ev.currentTarget.dataset.trait, br_card);
+  });
+}
+
+/**
+ * Makes an attribute card for a resist roll
+ *
+ * @param {string} trait - The trait that will be rolled
+ * @param {BrCommonCard} br_card - The card from where we get the TN
+ */
+async function roll_resist(trait, br_card) {
+  if (canvas.tokens.controlled.length === 0) {
+    ui.notifications.warn(game.i18n.localize("BRSW.NoTokenSelectedError"));
+    return;
+  }
+  for (let token of canvas.tokens.controlled) {
+    const trait_lower = trait.toLowerCase();
+    let new_card;
+    if (ATTRIBUTES.includes(trait_lower)) {
+      new_card = await game.brsw.create_atribute_card(
+        token,
+        trait.toLowerCase(),
+      );
+    } else {
+      new_card = await game.brsw.create_skill_card(
+        token,
+        trait_from_string(token.actor, trait).id,
+      );
+    }
+    const results = br_card.trait_roll.current_roll.dice.map((die) => {
+      return die.result;
+    });
+    new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
+    new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
+    new_card.render();
+    new_card.save();
+  }
 }
 
 /**
@@ -514,7 +555,6 @@ function trait_from_string(actor, trait_name) {
   });
   if (!skill) {
     // Time to check for an attribute
-    const ATTRIBUTES = ["agility", "smarts", "spirit", "strength", "vigor"];
     for (let attribute of ATTRIBUTES) {
       const translation = game.i18n.localize(
         ATTRIBUTES_TRANSLATION_KEYS[attribute],

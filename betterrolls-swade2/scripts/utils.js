@@ -117,15 +117,16 @@ export function get_targeted_token() {
 
 /**
  * Sets or updates a condition
- * @param condition_id
- * @param actor
+ * @param {string} condition_id
+ * @param {SwadeActor} actor
  */
 export async function set_or_update_condition(condition_id, actor) {
   // noinspection ES6RedundantAwait
   if (await game.succ.hasCondition(condition_id, actor)) {
     const condition = await game.succ.getConditionFrom(condition_id, actor);
-    condition.update({
-      "duration.startRound": game.combat ? game.combat.round : 0,
+    await condition.update({
+      ["duration.startRound"]: game.combat ? game.combat.round : 0,
+      ["duration.startTurn"]: game.combat ? game.combat.turn : 0,
     });
   } else {
     await game.succ.addCondition(condition_id, actor);
