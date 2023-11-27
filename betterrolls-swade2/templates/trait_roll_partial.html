@@ -14,9 +14,9 @@
     <div class="flex justify-between align-middle">
         <span>
             {{#each trait_roll.current_roll.dice }}
-                <a class="brsw-override-die mr-1" data-die-index="{{@index}}">
+                <a class="brsw-override-die mr-2" data-die-index="{{@index}}">
                     <span class="{{this.extra_class}} {{this.result_class}} text-xl font-bold"  title="{{this.result_text}}">
-                        {{ this.final_total }}
+                        {{ this.final_total }} {{# if this.exploded }}<i class="fas fa-burst fa-2xs animate-ping"></i>{{/if}}
                     </span>
                 </a>
             {{/each}}

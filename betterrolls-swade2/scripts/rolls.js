@@ -88,6 +88,10 @@ class Die {
   get is_not_discarded() {
     return this.result !== null;
   }
+
+  get exploded() {
+    return this.raw_total > this.sides;
+  }
 }
 
 class SingleRoll {
@@ -106,8 +110,6 @@ class SingleRoll {
         if (term.total === 1) {
           new_die.extra_class = " brsw-red-text";
           new_die.fumble_potential = -1;
-        } else if (term.total > term.faces) {
-          new_die.extra_class = " animate-ping";
         }
         new_die.sides = term.faces;
         new_die.raw_total = term.total;
