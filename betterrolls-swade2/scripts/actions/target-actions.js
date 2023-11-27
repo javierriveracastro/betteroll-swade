@@ -12,11 +12,13 @@
 
 export const TARGET_ACTIONS = [
   // DODGE EDGE ...
+  // TODO ... Look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4 imposed by Arcane Protection.
+  //      ... It will just fail to affect the target. 
   {
     id: "TARGET-HAS-DODGE-POWERS",
     name: "BRSW.TargetHasDodgePower",
     button_name: "BRSW.TargetHasDodgePower",
-    skillMod: "-2", // NOTE: is this correct, as it affects activation, not hitting the target?
+    skillMod: "-2",
     and_selector: [
       {
         selector_type: "target_has_edge",
@@ -84,19 +86,32 @@ export const TARGET_ACTIONS = [
     group: "BRSW.Target",
   },
   // ARCANE PROTECTION POWER 
-  // ... no actual effect, but shows target has Arcane Protection
-  // TODO ... look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4
+  // NOTE ... This action currently has NO actual effect, i.e, for now, it just shows a target has Arcane Protection.
+  // TODO ... Look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4 imposed by Arcane Protection.
+  //      ... It will just fail to affect the target.
+  // TODO ... Add the skillMod -2 and handle the -4 for a raise.
   {
     id: "TARGET-HAS-ARCANE-PROTECTION",
     name: "TargetHasArcaneProtection",
     button_name: "has Arcane Protection",
-    selector_type: "target_has_effect",
-    selector_value: "Arcane Protection",
+    and_selector: [
+      {
+        selector_type: "target_has_effect",
+        selector_value: "Protection"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "power"
+      },
+    ],
     defaultChecked: "on",
     group: "BRSW.Target",
   },
-  // PROTECTION POWER 
-  // ... no actual effect, but shows target has Protection
+  // PROTECTION POWER
+  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Protection. 
+  //      ... The assumption is the target has an Active Effect with increases to either Armour or Toughness, i.e.,
+  //      ...   system.stats.toughness.armor Add 2  (with activation)
+  //      ...   system.stats.toughness.value Add 2  (with raise)
   {
     id: "TARGET-HAS-PROTECTION",
     name: "TargetHasProtection",
