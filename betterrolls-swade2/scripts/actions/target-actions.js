@@ -90,6 +90,7 @@ export const TARGET_ACTIONS = [
   // TODO ... Look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4 imposed by Arcane Protection.
   //      ... It will just fail to affect the target.
   // TODO ... Add the skillMod -2 and handle the -4 for a raise.
+  // TODO ... Add the skillMod -4 and -6 for the epic modifier Greater Arcane Protection.
   {
     id: "TARGET-HAS-ARCANE-PROTECTION",
     name: "TargetHasArcaneProtection",
