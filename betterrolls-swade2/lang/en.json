@@ -212,6 +212,7 @@
   "BRSW.NotEnoughPP": "Not enough PP!",
   "BRSW.NotEnoughStrength": "Under minimum Strength",
   "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength",
+  "BRSW.NoTokenSelectedError": "You need to select a token to use this function",
   "BRSW.Number_trait_dice": "Number of trait dice",
   "BRSW.Offhand": "Offhand",
   "BRSW.OldRoll": "Older rolls",
@@ -341,6 +342,7 @@
   "BRSW.RemainingBehaviour": "Who can see the PP and ammo remaining card",
   "BRSW.RemainingBehaviour_hint": "Select who (if anybody) can see the card informing of the used and remaining shots and PP. (World)",
   "BRSW.RemoveWounds": "Remove wound modifier",
+  "BRSW.ResistingRoll": "Resisting another roll",
   "BRSW.Result": "Result",
   "BRSW.Roll": "Roll",
   "BRSW.Roll_and_bennie": "Reroll with Benny",
@@ -398,8 +400,9 @@
   "BRSW.SystemGlobalMenuLabel": "Global actions",
   "BRSW.Target": "Target",
   "BRSW.Target_number": "Target Number",
-  "BRSW.TargetHasDodgeWeapon": "Target Dodge (weapon)",
-  "BRSW.TargetHasDodgePower": "Target Dodge (power)",
+  "BRSW.TargetHas": "has ",
+  "BRSW.TargetHasDodgePower": "has Dodge (power)",
+  "BRSW.TargetHasDodgeWeapon": "has Dodge (weapon)",
   "BRSW.TempInjury": ", and has suffered a temporary injury (goes away when all wounds are cured).</p>",
   "BRSW.TempInjury24": ", and has suffered an injury that goes away in 24 hours or when all wounds are healed</p>",
   "BRSW.Testing_fumbles": "Testing for Critical Failure",
@@ -451,8 +454,6 @@
   "BRSW.WoundCapHint": "If you put a number here it will be activate the wound cap rule with that number as a cap, if it is either zero or blank it will use default rules. (World)",
   "BRSW.Wounds": "Wounds",
   "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored",
-  "BRSW.NoTokenSelectedError": "You need to select a token to use this function",
-  "BRSW.ResistingRoll": "Resisting another roll",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]
