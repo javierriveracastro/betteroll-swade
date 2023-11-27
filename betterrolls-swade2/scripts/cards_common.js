@@ -387,7 +387,6 @@ export class BrCommonCard {
         });
       }
     }
-    console.log(this.resist_buttons);
   }
 
   get has_feet_buttons() {
