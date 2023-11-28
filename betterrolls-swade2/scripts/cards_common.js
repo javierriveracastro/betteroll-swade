@@ -269,7 +269,7 @@ export class BrCommonCard {
     this.populate_resist_actions();
     for (const group in this.action_groups) {
       this.action_groups[group].actions.sort((a, b) => {
-        if (group == "Active effects" || group == "Item actions") {
+        if (group === "Active effects" || group === "Item actions") {
           return a.code.name > b.code.name ? 1 : -1;
         }
         return a.code.id > b.code.id ? 1 : -1;
