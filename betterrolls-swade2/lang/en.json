@@ -398,7 +398,7 @@
   "BRSW.SystemGlobalMenu": "Enable or disable global actions",
   "BRSW.SystemGlobalMenuHint": "Use this window to enable or disable individual global actions defined by the system (World)",
   "BRSW.SystemGlobalMenuLabel": "Global actions",
-  "BRSW.Target": "Target",
+  "BRSW.Target": "Target has",
   "BRSW.Target_number": "Target Number",
   "BRSW.TargetHas": "has ",
   "BRSW.TargetHasDodgePower": "has Dodge (power)",
