@@ -806,6 +806,7 @@ export function activate_common_listeners(br_card, html) {
   // Delete modifiers
   // noinspection JSUnresolvedFunction
   html.find(".brsw-delete-modifier").click(async (ev) => {
+    ev.stopPropagation();
     await delete_modifier(br_card, parseInt(ev.currentTarget.dataset.index));
   });
   // Edit TNs
@@ -824,6 +825,7 @@ export function activate_common_listeners(br_card, html) {
   // TNs from target
   // noinspection JSUnresolvedFunction
   html.find(".brsw-target-tn, .brsw-selected-tn").click((ev) => {
+    ev.stopPropagation();
     const index = ev.currentTarget.dataset.index;
     get_tn_from_target(
       br_card,
