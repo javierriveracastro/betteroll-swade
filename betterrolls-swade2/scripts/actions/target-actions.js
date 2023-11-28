@@ -16,47 +16,51 @@
 // NOTE: The actions using the "target_has_effect" selector are opinionated in the name of the effect.
 // NOTE: The suffixes of "weapon" and "power" refer to the source of the "attack" on the target, i.e. physical weapons and arcane powers.
 // NOTE: There is a question on the logic for actions where the skillMod of a power is reduced.
-//       Currently this means the activation fails, so the cost is 1 PP. 
-//       But in the rules, the power is activated, 
+//       Currently this means the activation fails, so the cost is 1 PP.
+//       But in the rules, the power is activated,
 //       e.g., a Bolt that misses because the target has Deflection, is still activated on a 4 or greater, it just needs a 6 or greater to hit the target.
 // NOTE: There are likely to be conflicts with the SWIM module, as it adds some world actions in its brsw_actions_setup.js, but if we take a dependency on SWIM, we end up with a circular dependency
 //
 
 export const TARGET_ACTIONS = [
   // DODGE EDGE ... Subtracts 2 from all ranged attacks.
-  // TODO ... Look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4 imposed by Arcane Protection.
-  //      ... It will just fail to affect the target. 
+  // TODO ... Look at how a skillMod -2 affects the activation, as the Bolt power should activate on a 4 result, ignoring the -2 imposed by Dodge.
+  //      ... So on a 4 or 5, it will cost the full Power Points to activate, but still fail to hit the target.
   {
-    id: "TARGET-HAS-DODGE-POWERS",
-    name: "TargetHasDodgePower",
-    button_name: "has Dodge",
-    skillMod: "-2",
+    id: "TARGET-HAS-DODGE-BOLT",
+    name: "Dodge vs Bolt",
+    button_name: "has Dodge vs Bolt",
+    //skillMod: "0",  //TODO this was so the power in the card Rolls section, but "0" seems to cause an error, so leave out for now.
     and_selector: [
       {
         selector_type: "target_has_edge",
-        selector_value: "BRSW.EdgeName-Dodge", // NOTE this works because the global_actions.js expects the ... value.includes("BRSW.EdgeName-")
+        selector_value: "BRSW.EdgeName-Dodge", // NOTE This works because the global_actions.js expects ... value.includes("BRSW.EdgeName-")
       },
       {
         selector_type: "item_type",
         selector_value: "power"
       },
+      {
+        selector_type: "item_name",
+        selector_value: "Bolt"
+      }
     ],
     defaultChecked: "on",
     group: "BRSW.Target",
   },
   {
     id: "TARGET-HAS-DODGE-WEAPONS",
-    name: "TargetHasDodgeWeapon",
-    button_name: "has Dodge",
+    name: "Dodge vs Ranged",
+    button_name: "has Dodge vs Ranged",
     skillMod: "-2",
     and_selector: [
       {
-        selector_type: "item_type",
-        selector_value: "weapon"
-      },
-      {
         selector_type: "target_has_edge",
         selector_value: "BRSW.EdgeName-Dodge",
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
       },
       {
         or_selector: [
@@ -198,7 +202,7 @@ export const TARGET_ACTIONS = [
   },
 
   // PROTECTION POWER
-  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Protection. 
+  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Protection.
   // NOTE ... The assumption is the target has an Active Effect named "Protection", which has an increase to either Armour or Toughness, i.e.,
   //      ...   system.stats.toughness.armor Add 2  (with activation)
   //      ...   system.stats.toughness.value Add 2  (with raise)
@@ -224,8 +228,8 @@ export const TARGET_ACTIONS = [
     group: "BRSW.Target",
   },
 
-  // SANCTUARY POWER 
-  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Sanctuary. 
+  // SANCTUARY POWER
+  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Sanctuary.
   // NOTE ... The assumption is the target has an Active Effect named "Sanctuary", which doesn't need any actual effect
   // NOTE ... It does NOT handle the need to make a Spirit roll/-2 with Raise, or -2/-4 with epic Strong modifier
   {
