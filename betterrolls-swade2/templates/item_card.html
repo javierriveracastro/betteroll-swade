@@ -7,7 +7,8 @@
                 {{ skill_title }}
             </span>
             {{# if skill.system.description }}
-                <div class="w-52 collapse h-0 absolute group-hover:visible group-hover:h-auto px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm" role="tooltip">
+                <div class="w-52 opacity-0 collapse h-0 absolute group-hover:visible group-hover:opacity-100 group-hover:h-auto transition-opacity group-hover:delay-500 group-hover:duration-500 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
+                     role="tooltip">
                     {{{ skill.system.description }}}
                 </div>
             {{/if}}
