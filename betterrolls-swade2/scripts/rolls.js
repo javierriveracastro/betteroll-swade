@@ -33,6 +33,20 @@ class Die {
     }
   }
 
+  get result_class() {
+    if (this.result === null) {
+      return "";
+    }
+    if (this.result < 0) {
+      return "";
+    } else if (this.result < 4) {
+      return "brsw-green-text";
+    } else if (this.result >= 4) {
+      return "brsw-blue-text";
+    }
+    return "";
+  }
+
   get result_icon() {
     if (this.result === null) {
       return "";
@@ -74,6 +88,10 @@ class Die {
   get is_not_discarded() {
     return this.result !== null;
   }
+
+  get exploded() {
+    return this.raw_total > this.sides;
+  }
 }
 
 class SingleRoll {
@@ -92,8 +110,6 @@ class SingleRoll {
         if (term.total === 1) {
           new_die.extra_class = " brsw-red-text";
           new_die.fumble_potential = -1;
-        } else if (term.total > term.faces) {
-          new_die.extra_class = " brsw-blue-text";
         }
         new_die.sides = term.faces;
         new_die.raw_total = term.total;

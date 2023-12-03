@@ -116,27 +116,75 @@
 }
 
 .brsw-d4 {
-    background-image: url("/icons/svg/d4-grey.svg");
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d4-grey.svg");
 }
 .brsw-d6 {
-    background-image: url("/icons/svg/d6-grey.svg");
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d6-grey.svg");
 }
 .brsw-d8 {
-    background-image: url("/icons/svg/d8-grey.svg");
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d8-grey.svg");
 }
 .brsw-d10 {
-    background-image: url("/icons/svg/d10-grey.svg");
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d10-grey.svg");
 }
 .brsw-d12 {
-    background-image: url("/icons/svg/d12-grey.svg");
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d12-grey.svg");
+}
+
+.brsw-d4-fail {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d4-red.svg");
+}
+.brsw-d6-fail {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d6-red.svg");
+}
+.brsw-d8-fail {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d8-red.svg");
+}
+.brsw-d10-fail {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d10-red.svg");
+}
+.brsw-d12-fail {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d12-red.svg");
+}
+
+.brsw-d4-success {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d4-green.svg");
+}
+.brsw-d6-success {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d6-green.svg");
+}
+.brsw-d8-success {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d8-green.svg");
+}
+.brsw-d10-success {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d10-green.svg");
+}
+.brsw-d12-success {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d12-green.svg");
+}
+
+.brsw-d4-raise {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d4-blue.svg");
+}
+.brsw-d6-raise {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d6-blue.svg");
+}
+.brsw-d8-raise {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d8-blue.svg");
+}
+.brsw-d10-raise {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d10-blue.svg");
+}
+.brsw-d12-raise {
+    background-image: url("/modules/betterrolls-swade2/assets/dice_svg/d12-blue.svg");
 }
 
 .brsw-dice-image {
-    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     font-size: 15px;
-    padding: 10px;
+    padding: 8px 8px 8px 8px;
+    margin-left: 2px;
 }
 
 .brsw-button-image {
@@ -155,6 +203,7 @@
 
 .brsw-discarded-roll {
     text-decoration: red line-through;
+    color: lightgray;
 }
 
 .brsw-red-text {
@@ -163,6 +212,10 @@
 
 .brsw-blue-text {
     color: blue;
+}
+
+.brsw-green-text {
+    color: lawngreen;
 }
 
 .brsw-row-button {

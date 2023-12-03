@@ -3,7 +3,7 @@
         {{ localize 'BRSW.Fumble' }}
     </div>
 {{ else }}
-    <div class="brsw-roll-row {{# if result_master_only}}brsw-master-only{{/if}}">
+<!--    <div class="brsw-roll-row {{# if result_master_only}}brsw-master-only{{/if}}">
         <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-result-detail">
             <i class="fas {{#if collapse_results }}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Result'}} :
         </span>
@@ -14,8 +14,8 @@
                 {{/each}}
             {{/if}}
         </span>
-    </div>
-    <div class="brsw-result-detail {{# if collapse_results }}brsw-collapsed{{/if}}">
+    </div>-->
+    <div class="brsw-roll-detail {{# if collapse_results }}brsw-collapsed{{/if}} ">
         <div class="brsw-roll-detail-row">
             <span>
             </span>
@@ -30,12 +30,11 @@
         </div>
         {{#each trait_roll.current_roll.dice}}
             {{# if this.is_not_discarded }}
-                <div class="brsw-roll-detail-row">
+                <div class="brsw-roll-detail-row hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-500 border border-solid border-gray-700 rounded shadow brsw-edit-modifier brsw-edit-tn"
+                     data-index="{{@index}}" data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}'>
                     <span title="{{ localize ../trait_roll.tn_reason}}">{{ localize "BRSW.TN" }} {{ ../trait_roll.tn }} {{ localize "BRSW.Result" }} {{ this.final_total }}</span>
                     <span>
                         {{ this.result_text }}
-                        <i class="brsw-edit-tn brsw-clickable fas fa-edit brsw-form" data-index="{{@index}}"
-                           data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}' ></i>
                         <i class="brsw-target-tn brsw-clickable fas fa-bullseye brsw-form" data-index="{{@index}}"
                             title="{{ localize "BRSW.TNTargeted"}}"></i>
                         <i class="brsw-selected-tn brsw-clickable fas fa-object-ungroup brsw-form" data-index="{{@index}}"
