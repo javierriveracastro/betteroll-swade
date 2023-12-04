@@ -1555,7 +1555,8 @@ async function delete_modifier(br_card, index) {
  */
 async function edit_modifier(br_card, index, new_modifier) {
   // noinspection JSCheckFunctionSignatures
-  let mod_value = parseInt(new_modifier.value);
+  // Add float modifier support
+  let mod_value = parseFloat(new_modifier.value);
   if (mod_value) {
     br_card.trait_roll.modifiers[index].label = new_modifier.label;
     br_card.trait_roll.modifiers[index].value = mod_value;
@@ -1703,7 +1704,8 @@ export function create_modifier(label, expression) {
       modifier.value = eval(expression); // jshint ignore:line
     }
   } else {
-    modifier.value = parseInt(expression);
+    // Add float modifier support
+    modifier.value = parseFloat(expression);
   }
   return modifier;
 }
