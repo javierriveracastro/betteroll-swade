@@ -311,10 +311,11 @@ export class BrCommonCard {
   populate_item_actions() {
     let item_actions = [];
     for (let action in this.item.system?.actions?.additional) {
-      if (this.item.system.actions.additional[action].type !== "macro") {
+      const current_action = this.item.system.actions.additional[action];
+      if (current_action.type !== "macro" && current_action.type !== "resist") {
         let br_action = new brAction(
-          this.item.system.actions.additional[action].name,
-          this.item.system.actions.additional[action],
+          current_action.name,
+          current_action,
           "item",
         );
         item_actions.push(br_action);
