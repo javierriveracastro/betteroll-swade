@@ -1,16 +1,19 @@
 <form id="brsw-world-actions">
     <h2>{{ localize "BRSW.WorldGlobalMenuLabel" }}</h2>
-    <button class="brsw-new-action"><i class="fas fa-plus"></i> {{ localize "BRSW.NewAction" }}</button>
     <div class="brsw-action-list">
         {{#each actions }}
-            <div class='brsw-edit-action'>
-                <h3>{{ this.name }} <i class="fas fa-trash brsw-clickable"></i></h3>
-                <textarea class='brsw-action-json' name="{{ this.name }}">
-                    {{ this.json }}
-                </textarea>
+            <h2 class="mb-0 border-none brsw-accordion">
+                <button type="button" class="p-5 font-medium text-gray-800 border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-white focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3">
+                    <span>{{ this.name }}</span>
+                </button>
+            </h2>
+            <div class='brsw-edit-action p-5 border border-b-0 border-gray-200 bg-white brsw-collapsed'>
+                <textarea class='brsw-action-json' name="{{ this.name }}" rows="7">{{ this.json }}</textarea>
+                <i class="fas fa-trash brsw-clickable"></i>
             </div>
         {{/each}}
     </div>
+    <button class="brsw-new-action"><i class="fas fa-plus"></i> {{ localize "BRSW.NewAction" }}</button>
     <div class="form-group">
         <button type="submit"><i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
         <button class="brsw-export-json"><i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>

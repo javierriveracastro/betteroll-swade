@@ -479,7 +479,7 @@ export class WorldGlobalActions extends FormApplication {
       formatted_actions.push({
         name: action.name,
         id: action.id,
-        json: JSON.stringify(action),
+        json: JSON.stringify(action, undefined, 4).trim(),
       });
     }
     formatted_actions.sort((a, b) => {
@@ -519,6 +519,13 @@ export class WorldGlobalActions extends FormApplication {
     html.find(".fas.fa-trash").on("click", (ev) => {
       const row = ev.currentTarget.parentElement.parentElement;
       row.remove();
+    });
+    html.find(".brsw-accordion").on("click", (ev) => {
+      const acc_content = ev.currentTarget.nextElementSibling;
+      html.find(".brsw-edit-action").each((_, acc) => {
+        acc.classList.add("brsw-collapsed");
+      });
+      acc_content.classList.remove("brsw-collapsed");
     });
     // Activate json check on old actions
     $(".brsw-action-json").on("blur", this.check_json);
