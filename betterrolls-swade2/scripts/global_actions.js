@@ -506,14 +506,27 @@ export class WorldGlobalActions extends FormApplication {
     // noinspection JSUnresolvedFunction
     html.find(".brsw-new-action").on("click", (ev) => {
       ev.preventDefault();
+      for (let text_input of document.getElementsByClassName(
+        "brsw-edit-action",
+      )) {
+        text_input.classList.add("brsw-collapsed");
+      }
       // noinspection JSUnresolvedFunction
       const action_list = html.find(".brsw-action-list");
       let new_action = $(
-        "<div class='brsw-edit-action'><h3 class='brsw-action-title'>New</h3></div>",
+        '<h2 class=\'mb-0 border-none\'><button type="button" class="p-5 font-medium text-white border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-gray-600 focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3"><span>New</span></button></h2>',
       );
-      let new_textarea = $("<textarea class='brsw-action-json'></textarea>");
+      let text_div = $(
+        "<div class='p-5 border border-b-0 border-gray-200 bg-gray-500'></div>",
+      );
+      let new_textarea = $(
+        "<textarea class='brsw-action-json bg-white' rows='7'></textarea>",
+      );
       new_textarea.on("blur", this.check_json);
-      action_list.prepend(new_action.append(new_textarea));
+      let new_span = $("<span></span>");
+      new_span.append(new_action);
+      new_span.append(text_div.append(new_textarea));
+      action_list.append(new_span);
     });
     // noinspection JSUnresolvedFunction
     html.find(".fas.fa-trash").on("click", (ev) => {
@@ -596,7 +609,9 @@ export class WorldGlobalActions extends FormApplication {
         }
       }
     }
-    const action_title = $(text_area.parentElement).find("h3");
+    const action_title = $(text_area.parentElement.parentElement).find(
+      "button>span",
+    );
     if (error) {
       // Inputs without name are not passed to updateObject
       action_title[0].innerHTML = error;
