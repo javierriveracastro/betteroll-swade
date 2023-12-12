@@ -42,15 +42,15 @@
         </span>
     </div>
     {{#each trait_roll.current_roll.dice as |current_dice|}}
-        <div class="brsw-roll-detail-row {{ this.extra_class }} brsw-override-die hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-500 border border-solid border-gray-700 rounded shadow" data-die-index="{{@index}}">
+        <div class="brsw-roll-detail-row text-white {{ this.extra_class }} brsw-override-die hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-600 border border-solid border-gray-700 rounded shadow" data-die-index="{{@index}}">
             <span>{{ this.label }}</span>
-            <span>{{#each this.unexploded }}
+            <span class="text-black">{{#each this.unexploded }}
                 <span class="brsw-d{{current_dice.sides}} brsw-dice-image">{{ this }}</span>
             {{/each}}</span>
         </div>
     {{/each}}
     {{#each trait_roll.modifiers}}
-        <div class="brsw-roll-detail-row {{ this.extra_class }} hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-500 border border-solid border-gray-700 rounded shadow brsw-edit-modifier" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}">
+        <div class="brsw-roll-detail-row text-white {{ this.extra_class }} hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-600 border border-solid border-gray-700 rounded shadow brsw-edit-modifier" data-index="{{@index}}" data-label="{{this.name}}" data-value="{{this.value}}">
             <span>{{ this.name }}</span>
             <span>
                 {{# if this.dice }}

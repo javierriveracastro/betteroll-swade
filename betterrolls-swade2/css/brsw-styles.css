@@ -207,15 +207,15 @@
 }
 
 .brsw-red-text {
-    color: red;
+    color: #fd0e35 !important;
 }
 
 .brsw-blue-text {
-    color: blue;
+    color: blue !important;
 }
 
 .brsw-green-text {
-    color: lawngreen;
+    color: lawngreen !important;
 }
 
 .brsw-row-button {
