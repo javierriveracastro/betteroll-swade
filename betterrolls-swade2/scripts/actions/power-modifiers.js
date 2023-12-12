@@ -471,8 +471,30 @@ export const POWER_MODIFIERS = [
 
   // BARRIER (S)
   {
+    id: "POWERBARRIERDAMAGEIMMATERIAL",
+    name: "Damage (2d4) (Immaterial)",
+    button_name: "BRSW.PowerModifiersBarrierDamageImmaterial",
+    shotsUsed: "0",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
+    id: "POWERBARRIERDAMAGE",
+    name: "Damage (2d4)",
+    button_name: "BRSW.PowerModifiersBarrierDamage",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
     id: "POWERBARRIERDEADLYIMMATERIAL",
-    name: "☆ Deadly (Immaterial)",
+    name: "☆ Deadly (2d6) (Immaterial)",
     button_name: "BRSW.PowerModifiersBarrierDeadlyImmaterial",
     shotsUsed: "+1",
     and_selector: [
@@ -480,11 +502,11 @@ export const POWER_MODIFIERS = [
       { selector_type: "item_name", selector_value: "Barrier" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: "Barrier"
+    group: "BRSW.PowerModifiersBarrier"
   },
   {
     id: "POWERBARRIERDEADLY",
-    name: "☆ Deadly ",
+    name: "☆ Deadly (2d6)",
     button_name: "BRSW.PowerModifiersBarrierDeadly",
     shotsUsed: "+2",
     and_selector: [
@@ -492,7 +514,51 @@ export const POWER_MODIFIERS = [
       { selector_type: "item_name", selector_value: "Barrier" },
       { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
     ],
-    group: "Barrier"
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
+    id: "POWERBARRIERHARDENED",
+    name: "Hardened",
+    button_name: "BRSW.PowerModifiersBarrierHardened",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
+    id: "POWERBARRIERIMMATERIAL",
+    name: "Immaterial",
+    button_name: "BRSW.PowerModifiersBarrierImmaterial",
+    shotsUsed: "0",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
+    id: "POWERBARRIERSHAPED",
+    name: "Shaped",
+    button_name: "BRSW.PowerModifiersBarrierShaped",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
+  },
+  {
+    id: "POWERBARRIERSIZE",
+    name: "Size",
+    button_name: "BRSW.PowerModifiersBarrierSize",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+    ],
+    group: "BRSW.PowerModifiersBarrier"
   },
 
   // BEAST FRIEND
