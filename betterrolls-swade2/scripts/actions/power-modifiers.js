@@ -470,6 +470,30 @@ export const POWER_MODIFIERS = [
   // BANISH (V)
 
   // BARRIER (S)
+  {
+    id: "POWERBARRIERDEADLYIMMATERIAL",
+    name: "☆ Deadly (Immaterial)",
+    button_name: "BRSW.PowerModifiersBarrierDeadlyImmaterial",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "Barrier"
+  },
+  {
+    id: "POWERBARRIERDEADLY",
+    name: "☆ Deadly ",
+    button_name: "BRSW.PowerModifiersBarrierDeadly",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Barrier" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "Barrier"
+  },
 
   // BEAST FRIEND
   {
