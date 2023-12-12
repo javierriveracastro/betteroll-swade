@@ -212,7 +212,8 @@ export class TraitRoll {
         total += mod.value;
       }
     });
-    return total;
+    // Round down the total in case it's a floating number 
+    return Math.floor(total);
   }
 
   /**

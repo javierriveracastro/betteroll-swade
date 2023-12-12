@@ -1,3 +1,10 @@
+# Version 3.61 aka Burning in the pire
+* Builtin-actions: Added a targe action that just indicate an effect (Steve Culshaw)
+* Builtin-actions: Added more action related to the target. (steve Culshaw)
+* Feature: Resist buttons now work with skills, not only attributes
+* GUI: Merge the result row, that merges die and results gaining some space and probably annoying a couple of people.
+* Bugfix: Add a delay to description tooltips to make them less annoying
+
 # Version 3.60 aka Sofa's quick fix
 * Bugfix: Show a button for a resist action when there is no macro.
 
