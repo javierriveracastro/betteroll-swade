@@ -514,10 +514,26 @@ export class WorldGlobalActions extends FormApplication {
     });
     html.find(".brsw-accordion").on("click", (ev) => {
       const acc_content = ev.currentTarget.nextElementSibling;
+      const is_collapsed = acc_content.classList.contains("brsw-collapsed");
       html.find(".brsw-edit-action").each((_, acc) => {
         acc.classList.add("brsw-collapsed");
       });
-      acc_content.classList.remove("brsw-collapsed");
+      if (is_collapsed) {
+        acc_content.classList.remove("brsw-collapsed");
+      }
+    });
+    html.find("textarea").on("keydown", (ev) => {
+      if (ev.key == "Tab") {
+        ev.preventDefault();
+        const start = ev.currentTarget.selectionStart;
+        const end = ev.currentTarget.selectionEnd;
+        ev.currentTarget.value =
+          ev.currentTarget.value.substring(0, start) +
+          "    " +
+          ev.currentTarget.value.substring(end);
+        ev.currentTarget.selectionStart = ev.currentTarget.selectionEnd =
+          start + 4;
+      }
     });
     // Activate json check on old actions
     $(".brsw-action-json").on("blur", this.check_json);
