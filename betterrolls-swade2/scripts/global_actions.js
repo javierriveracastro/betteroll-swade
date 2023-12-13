@@ -461,8 +461,8 @@ export class WorldGlobalActions extends FormApplication {
     options.id = "brsw-world-actions";
     options.template =
       "/modules/betterrolls-swade2/templates/world_globals.html";
-    options.width = 400;
-    options.height = 600;
+    options.width = 800;
+    options.height = 700;
     return options;
   }
 
@@ -505,28 +505,7 @@ export class WorldGlobalActions extends FormApplication {
   activateListeners(html) {
     // noinspection JSUnresolvedFunction
     html.find(".brsw-new-action").on("click", (ev) => {
-      ev.preventDefault();
-      for (let text_input of document.getElementsByClassName(
-        "brsw-edit-action",
-      )) {
-        text_input.classList.add("brsw-collapsed");
-      }
-      // noinspection JSUnresolvedFunction
-      const action_list = html.find(".brsw-action-list");
-      let new_action = $(
-        '<h2 class=\'mb-0 border-none\'><button type="button" class="p-5 font-medium text-white border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-gray-600 focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3"><span>New</span></button></h2>',
-      );
-      let text_div = $(
-        "<div class='p-5 border border-b-0 border-gray-200 bg-gray-500'></div>",
-      );
-      let new_textarea = $(
-        "<textarea class='brsw-action-json bg-white' rows='7'></textarea>",
-      );
-      new_textarea.on("blur", this.check_json);
-      let new_span = $("<span></span>");
-      new_span.append(new_action);
-      new_span.append(text_div.append(new_textarea));
-      action_list.append(new_span);
+      this.add_action(ev, html);
     });
     // noinspection JSUnresolvedFunction
     html.find(".fas.fa-trash").on("click", (ev) => {
@@ -620,6 +599,32 @@ export class WorldGlobalActions extends FormApplication {
       action_title[0].innerHTML = action.name;
       text_area.name = action.name;
     }
+  }
+
+  add_action(ev, html) {
+    ev.preventDefault();
+    for (let text_input of document.getElementsByClassName(
+      "brsw-edit-action",
+    )) {
+      text_input.classList.add("brsw-collapsed");
+    }
+    // noinspection JSUnresolvedFunction
+    const action_list = html.find(".brsw-action-list");
+    let new_action = $(
+      '<h2 class=\'mb-0 border-none\'><button type="button" class="p-5 font-medium text-white border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-gray-600 focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3"><span>New</span></button></h2>',
+    );
+    let text_div = $(
+      "<div class='p-5 border border-b-0 border-gray-200 bg-gray-500'></div>",
+    );
+    let new_textarea = $(
+      "<textarea class='brsw-action-json bg-white' rows='9'></textarea>",
+    );
+    new_textarea.on("blur", this.check_json);
+    let new_span = $("<span></span>");
+    new_span.append(new_action);
+    text_div.append(new_textarea);
+    new_span.append(text_div);
+    action_list.append(new_span);
   }
 }
 

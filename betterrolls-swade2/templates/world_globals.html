@@ -1,24 +1,24 @@
 <form id="brsw-world-actions">
     <h2>{{ localize "BRSW.WorldGlobalMenuLabel" }}</h2>
     <div class="brsw-action-list">
-        {{#each actions }}
+        {{#each actions }}<span>
             <h2 class="mb-0 border-none brsw-accordion">
                 <button type="button" class="p-5 font-medium text-white border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-gray-600 focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3">
                     <span>{{ this.name }}</span>
                 </button>
             </h2>
             <div class='brsw-edit-action p-5 border border-b-0 border-gray-200 bg-gray-500 brsw-collapsed'>
-                <textarea class='brsw-action-json bg-white' name="{{ this.name }}" rows="7">{{ this.json }}</textarea>
+                <textarea class='brsw-action-json bg-white' name="{{ this.name }}" rows="9">{{ this.json }}</textarea>
                 <i class="brsw-red-text fas fa-trash brsw-clickable"></i>
             </div>
-        {{/each}}
+        </span>{{/each}}
     </div>
     <button class="brsw-new-action py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
         <i class="fas fa-plus"></i> {{ localize "BRSW.NewAction" }}
     </button>
     <div class="form-group">
-        <button type="submit"><i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
-        <button class="brsw-export-json"><i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>
-        <button class="brsw-import-json"><i class="fas fa-file-import"></i> {{ localize "BRSW.Import" }}</button>
+        <button type="submit" class="py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
+        <button class="brsw-export-json py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>
+        <button class="brsw-import-json py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-file-import"></i> {{ localize "BRSW.Import" }}</button>
     </div>
 </form>

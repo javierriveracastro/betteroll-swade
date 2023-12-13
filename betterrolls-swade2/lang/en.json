@@ -132,7 +132,7 @@
   "BRSW.ExpendedPoints": "<p>{pp} power points have been expended by {name}. {final_pp} remaining.</p>",
   "BRSW.ExpendPP": "Expend PP",
   "BRSW.ExpendPPText": "{name} spends {number} Power Point(s) and has <b>{newPP}</b> left.",
-  "BRSW.Export": "Export to json",
+  "BRSW.Export": "Export",
   "BRSW.Failure": "Failure",
   "BRSW.Free_reroll": "Free reroll",
   "BRSW.Fumble": "CRITICAL FAILURE!",
