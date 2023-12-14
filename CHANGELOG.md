@@ -1,3 +1,11 @@
+# Version 3.62 aka Now even YOU! can edit world actions.
+* Feature: Support for floating point modifiers (Florian Denizot)
+* GUI: Resist actions are not shown in the action selection window anymore as they have now dedicated buttons
+* GUI: World actions window in settings has been totally redesigned.
+* Global Actions: More work on power modifiers (Steve Culshaw)
+* Cards: Color adjustments for better readability
+* Actions selection window: Padding removal for a more compact window.
+
 # Version 3.61 aka Burning in the pire
 * Builtin-actions: Added a targe action that just indicate an effect (Steve Culshaw)
 * Builtin-actions: Added more action related to the target. (steve Culshaw)
