@@ -129,7 +129,7 @@ export const TARGET_ACTIONS = [
         selector_type: "skill",
         selector_value: "Fighting"
       },
-      // TODO ...
+      // TODO ... How to handle Unskilled Attempt melee attacks
       // {
       //   or_selector: [
       //     {
@@ -148,7 +148,6 @@ export const TARGET_ACTIONS = [
   },
   // TODO ... Look at how a skillMod -2/-4 affects the power activation, really just Bolt, as it will activate on a 4 result, ignoring the -2/-4 imposed by Deflection.
   //      ... It will just fail to hit the target.
-  // TODO ... How to handle melee attacks when the attacker does NOT have "Shooting", so uses "Unskilled Attempt" ... as every character has "Athletics"
   {
     id: "TARGET-HAS-DEFLECTION-RANGED",
     name: "TargetHasDeflectionRanged",
@@ -173,7 +172,7 @@ export const TARGET_ACTIONS = [
             selector_type: "skill",
             selector_value: "BRSW.SkillName-Shooting"
           },
-          // TODO ...
+          // TODO ... How to handle ranged attacks when the attacker does NOT have "Shooting" or "Athletics", so uses "Unskilled Attempt"
           // {
           //   selector_type: "skill",
           //   selector_value: "BRSW.SkillName-UnskilledAttempt"
