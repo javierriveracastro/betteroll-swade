@@ -1,5 +1,12 @@
 /// power modifiers for novice powers ...
 
+/* NOTE: 
+    The various "epic" power modifiers require the edge "Epic Mastery", 
+      found in the SWADE Fantasy Companion, p.36
+    They are restricted by the following selector_type ...
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+*/
+
 // TODO ... some way to handle different Areas of Effect using the single button selector ???
 
 /*
@@ -10,7 +17,6 @@
     { selector_type: "actor_has_edge", selector_value: "BRSW.xxxxx" } // "actor_has_edge" is translated
     group: "BRSW.xxxxx"
 
-    { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
 */
 
 export const POWER_MODIFIERS = [
@@ -598,6 +604,61 @@ export const POWER_MODIFIERS = [
   },
 
   // BLAST (S)
+  {
+    id: "POWERBLASTMOD1DAMAGE",
+    name: "Damage (+2d6)",
+    button_name: "BRSW.PowerModifiersBlastDamage",
+    shotsUsed: "+2",
+    dmgMod: "+d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTMOD3GREATERBURST",
+    name: "Greater Blast (+2d6)",
+    button_name: "BRSW.PowerModifiersBlastGreaterBlast",
+    shotsUsed: "+4",
+    dmgMod: "+2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS1SMALL",
+    name: "Small (SBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectSBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectMBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS3LARGE",
+    name: "Large (LBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectLBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
 
   // BLESSING (S)
 
