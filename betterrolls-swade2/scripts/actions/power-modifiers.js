@@ -1,5 +1,4 @@
-/// power modifiers for novice powers ...
-
+k/// power modifiers for novice powers ...
 /* NOTE: 
     The various "epic" power modifiers require the edge "Epic Mastery", 
       found in the SWADE Fantasy Companion, p.36
@@ -831,9 +830,9 @@ export const POWER_MODIFIERS = [
 
   // CONJURE ITEM
 
-  // CURSE
+  // CURSE (S)
 
-  // DAMAGE FIELD
+  // DAMAGE FIELD (S)
   {
     id: "POWERDAMAGEFIELDAREAEFFECTS2MEDIUM",
     name: "Medium (MBT)",
@@ -888,13 +887,13 @@ export const POWER_MODIFIERS = [
 
   // DETECT/CONCEAL ARCANA
 
-  // DISGUISE
+  // DISGUISE (S)
 
   // DISPEL
 
-  // DIVINATION
+  // DIVINATION (S)
 
-  // DRAIN POWER POINTS
+  // DRAIN POWER POINTS (V)
 
   // ELEMENTAL MANIPULATION
 
@@ -971,11 +970,13 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersEnvironmentalProtection"
   },
 
-  // FARSIGHT
+  // FARSIGHT (S)
 
   // FEAR
 
-  // GROWTH/SHRINK
+  // FLY (V)
+
+  // GROWTH/SHRINK (S)
 
   // HAVOC
   {
@@ -1063,9 +1064,9 @@ export const POWER_MODIFIERS = [
 
   // ILLUSION
 
-  // INTANGIBILITY
+  // INTANGIBILITY (V)
 
-  // INVISIBILITY
+  // INVISIBILITY (S)
 
   // LIGHT/DARKNESS
 
@@ -1077,20 +1078,20 @@ export const POWER_MODIFIERS = [
 
   // MIND READING
 
-  // MIND WIPE
+  // MIND WIPE (V)
 
-  // MYSTIC INTERVENTION
+  // MYSTIC INTERVENTION (L)
 
-  // OBJECT READING
+  // OBJECT READING (S)
 
-  // PLANAR BINDING
+  // PLANAR BINDING (V)
 
-  // PLANE SHIFT
+  // PLANE SHIFT (V)
 
   // PROTECTION
   // just Additional Recipients, which is handled by the generic clause above
 
-  // PUPPET
+  // PUPPET (V)
 
   // RELIEF
   // plus Additional Recipients, which is handled by the generic clause above
@@ -1117,7 +1118,7 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersRelief"
   },
 
-  // RESURRECTION
+  // RESURRECTION (H)
 
   // SANCTUARY
   {
@@ -1155,7 +1156,7 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersSanctuary"
   },
 
-  // SCRYING
+  // SCRYING (S)
 
   // SHAPE CHANGE
   // plus Additional Recipients, which is handled by the generic clause above
@@ -1316,9 +1317,10 @@ export const POWER_MODIFIERS = [
     group_single: true,
   },
 
-  // SLOTH/SPEED
+  // SLOTH/SPEED (S)
+  // plus Additional Recipients, which is handled by the generic clause above
 
-  // SLUMBER
+  // SLUMBER (S)
 
   // SMITE
 
@@ -1475,17 +1477,17 @@ export const POWER_MODIFIERS = [
 
   // SUMMON UNDEAD
 
-  // TELEKINESIS
+  // TELEKINESIS (S)
 
-  // TELEPORT
+  // TELEPORT (S)
 
-  // TIME STOP
+  // TIME STOP (H)
 
   // WALL WALKER
   // just Additional Recipients, which is handled by the generic clause above
 
-  // WISH
+  // WISH (L)
 
-  // ZOMBIE
+  // ZOMBIE (V)
 
 ];
