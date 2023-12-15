@@ -834,6 +834,52 @@ export const POWER_MODIFIERS = [
   // CURSE
 
   // DAMAGE FIELD
+  {
+    id: "POWERDAMAGEFIELDAREAEFFECTS2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersDamageFieldAreaEffectMBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELD1DAMAGE",
+    name: "Damage (2d6)",
+    button_name: "BRSW.PowerModifiersDamageFieldDamage",
+    shotsUsed: "+2",
+    dmgOverride: "2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELD3GREATERBURST",
+    name: "Greater Blast (3d6)",
+    button_name: "BRSW.PowerModifiersDamageFieldGreaterDamageField",
+    shotsUsed: "+4",
+    dmgOverride: "3d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELDMOBILE",
+    name: "Mobile",
+    button_name: "BRSW.PowerModifiersDamageFieldMobile",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
 
   // DARKSIGHT
 
