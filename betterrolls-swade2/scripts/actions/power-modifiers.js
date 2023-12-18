@@ -1,4 +1,7 @@
-k/// power modifiers for novice powers ...
+// ============================================
+// power modifiers for powers ...
+// ============================================
+
 /* NOTE: 
     The various "epic" power modifiers require the edge "Epic Mastery", 
       found in the SWADE Fantasy Companion, p.36
@@ -828,7 +831,6 @@ export const POWER_MODIFIERS = [
   },
 
   // CONFUSION
-  /*
   {
     id: "POWERCONFUSIONGREATERCONFUSION",
     name: "Greater Confusion",
@@ -872,6 +874,7 @@ export const POWER_MODIFIERS = [
     ],
     group: "BRSW.PowerModifiersConfusion"
   },
+  /*
 */
 
   // CONJURE ITEM
