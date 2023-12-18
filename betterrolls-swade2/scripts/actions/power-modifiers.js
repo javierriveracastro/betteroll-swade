@@ -660,6 +660,7 @@ export const POWER_MODIFIERS = [
   },
 
   // BLESSING (S)
+  // no power specific modifiers
 
   // BLIND
   {
@@ -827,6 +828,51 @@ export const POWER_MODIFIERS = [
   },
 
   // CONFUSION
+  /*
+  {
+    id: "POWERCONFUSIONGREATERCONFUSION",
+    name: "Greater Confusion",
+    button_name: "BRSW.PowerModifiersConfusionGreaterConfusion",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT1SMALL",
+    name: "Small (SBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect1SBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect2MBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT3LARGE",
+    name: "Large (LBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect3LBT",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+*/
 
   // CONJURE ITEM
 
