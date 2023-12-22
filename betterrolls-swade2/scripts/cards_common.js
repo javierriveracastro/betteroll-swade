@@ -412,7 +412,7 @@ export class BrCommonCard {
     const action = actions.find( 
       a => a.code.hasOwnProperty('skillOverride') && a.code.skillOverride != "");
 
-    if (!actor || !action) return;
+    if (!this.actor || !action) return;
     
     const skill_swid = game.swade.util.slugify(action?.code.skillOverride);
     const skill = this.actor.getSingleItemBySwid(skill_swid, 'skill');
