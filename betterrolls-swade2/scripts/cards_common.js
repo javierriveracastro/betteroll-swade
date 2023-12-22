@@ -408,7 +408,6 @@ export class BrCommonCard {
   set_trait_using_skill_override() {
     const actions = this.get_selected_actions();
 
-    this.render_data.type
     const action = actions.find( 
       a => a.code.hasOwnProperty('skillOverride') && a.code.skillOverride != "");
 
