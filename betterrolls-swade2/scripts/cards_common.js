@@ -408,12 +408,12 @@ export class BrCommonCard {
   set_trait_using_skill_override() {
     const actions = this.get_selected_actions();
 
+    this.reset_default_trait();
     const action = actions.find( 
       a => a.code.hasOwnProperty('skillOverride') && a.code.skillOverride != "");
 
     if (!actor || !action) return;
-
-    this.reset_default_trait();
+    
     const skill_swid = game.swade.util.slugify(action?.code.skillOverride);
     const skill = this.actor.getSingleItemBySwid(skill_swid, 'skill');
     this.render_data.trait_id = skill.id;    
