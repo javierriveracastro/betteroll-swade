@@ -1,4 +1,13 @@
-/// power modifiers for novice powers ...
+// ============================================
+// power modifiers for powers ...
+// ============================================
+
+/* NOTE: 
+    The various "epic" power modifiers require the edge "Epic Mastery", 
+      found in the SWADE Fantasy Companion, p.36
+    They are restricted by the following selector_type ...
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+*/
 
 // TODO ... some way to handle different Areas of Effect using the single button selector ???
 
@@ -10,7 +19,6 @@
     { selector_type: "actor_has_edge", selector_value: "BRSW.xxxxx" } // "actor_has_edge" is translated
     group: "BRSW.xxxxx"
 
-    { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
 */
 
 export const POWER_MODIFIERS = [
@@ -598,8 +606,64 @@ export const POWER_MODIFIERS = [
   },
 
   // BLAST (S)
+  {
+    id: "POWERBLASTMOD1DAMAGE",
+    name: "Damage (+2d6)",
+    button_name: "BRSW.PowerModifiersBlastDamage",
+    shotsUsed: "+2",
+    dmgMod: "+d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTMOD3GREATERBURST",
+    name: "Greater Blast (+2d6)",
+    button_name: "BRSW.PowerModifiersBlastGreaterBlast",
+    shotsUsed: "+4",
+    dmgMod: "+2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS1SMALL",
+    name: "Small (SBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectSBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectMBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
+  {
+    id: "POWERBLASTAREAEFFECTS3LARGE",
+    name: "Large (LBT)",
+    button_name: "BRSW.PowerModifiersBlastAreaEffectLBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Blast" }
+    ],
+    group: "BRSW.PowerModifiersBlast"
+  },
 
   // BLESSING (S)
+  // no power specific modifiers
 
   // BLIND
   {
@@ -767,12 +831,103 @@ export const POWER_MODIFIERS = [
   },
 
   // CONFUSION
+  {
+    id: "POWERCONFUSIONGREATERCONFUSION",
+    name: "Greater Confusion",
+    button_name: "BRSW.PowerModifiersConfusionGreaterConfusion",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT1SMALL",
+    name: "Small (SBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect1SBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect2MBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  {
+    id: "POWERCONFUSIONAREAEFFECT3LARGE",
+    name: "Large (LBT)",
+    button_name: "BRSW.PowerModifiersConfusionAreaEffect3LBT",
+    shotsUsed: "+1",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Confusion" }
+    ],
+    group: "BRSW.PowerModifiersConfusion"
+  },
+  /*
+*/
 
   // CONJURE ITEM
 
-  // CURSE
+  // CURSE (S)
 
-  // DAMAGE FIELD
+  // DAMAGE FIELD (S)
+  {
+    id: "POWERDAMAGEFIELDAREAEFFECTS2MEDIUM",
+    name: "Medium (MBT)",
+    button_name: "BRSW.PowerModifiersDamageFieldAreaEffectMBT",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELD1DAMAGE",
+    name: "Damage (2d6)",
+    button_name: "BRSW.PowerModifiersDamageFieldDamage",
+    shotsUsed: "+2",
+    dmgOverride: "2d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELD3GREATERBURST",
+    name: "Greater Blast (3d6)",
+    button_name: "BRSW.PowerModifiersDamageFieldGreaterDamageField",
+    shotsUsed: "+4",
+    dmgOverride: "3d6x",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" },
+      { selector_type: "actor_has_edge", selector_value: "BRSW.EdgeName-Epic-Mastery" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
+  {
+    id: "POWERDAMAGEFIELDMOBILE",
+    name: "Mobile",
+    button_name: "BRSW.PowerModifiersDamageFieldMobile",
+    shotsUsed: "+2",
+    and_selector: [
+      { selector_type: "item_type", selector_value: "power" },
+      { selector_type: "item_name", selector_value: "Damage Field" }
+    ],
+    group: "BRSW.PowerModifiersDamageField"
+  },
 
   // DARKSIGHT
 
@@ -781,13 +936,13 @@ export const POWER_MODIFIERS = [
 
   // DETECT/CONCEAL ARCANA
 
-  // DISGUISE
+  // DISGUISE (S)
 
   // DISPEL
 
-  // DIVINATION
+  // DIVINATION (S)
 
-  // DRAIN POWER POINTS
+  // DRAIN POWER POINTS (V)
 
   // ELEMENTAL MANIPULATION
 
@@ -864,11 +1019,13 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersEnvironmentalProtection"
   },
 
-  // FARSIGHT
+  // FARSIGHT (S)
 
   // FEAR
 
-  // GROWTH/SHRINK
+  // FLY (V)
+
+  // GROWTH/SHRINK (S)
 
   // HAVOC
   {
@@ -956,9 +1113,9 @@ export const POWER_MODIFIERS = [
 
   // ILLUSION
 
-  // INTANGIBILITY
+  // INTANGIBILITY (V)
 
-  // INVISIBILITY
+  // INVISIBILITY (S)
 
   // LIGHT/DARKNESS
 
@@ -970,20 +1127,20 @@ export const POWER_MODIFIERS = [
 
   // MIND READING
 
-  // MIND WIPE
+  // MIND WIPE (V)
 
-  // MYSTIC INTERVENTION
+  // MYSTIC INTERVENTION (L)
 
-  // OBJECT READING
+  // OBJECT READING (S)
 
-  // PLANAR BINDING
+  // PLANAR BINDING (V)
 
-  // PLANE SHIFT
+  // PLANE SHIFT (V)
 
   // PROTECTION
   // just Additional Recipients, which is handled by the generic clause above
 
-  // PUPPET
+  // PUPPET (V)
 
   // RELIEF
   // plus Additional Recipients, which is handled by the generic clause above
@@ -1010,7 +1167,7 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersRelief"
   },
 
-  // RESURRECTION
+  // RESURRECTION (H)
 
   // SANCTUARY
   {
@@ -1048,7 +1205,7 @@ export const POWER_MODIFIERS = [
     group: "BRSW.PowerModifiersSanctuary"
   },
 
-  // SCRYING
+  // SCRYING (S)
 
   // SHAPE CHANGE
   // plus Additional Recipients, which is handled by the generic clause above
@@ -1209,9 +1366,10 @@ export const POWER_MODIFIERS = [
     group_single: true,
   },
 
-  // SLOTH/SPEED
+  // SLOTH/SPEED (S)
+  // plus Additional Recipients, which is handled by the generic clause above
 
-  // SLUMBER
+  // SLUMBER (S)
 
   // SMITE
 
@@ -1368,17 +1526,17 @@ export const POWER_MODIFIERS = [
 
   // SUMMON UNDEAD
 
-  // TELEKINESIS
+  // TELEKINESIS (S)
 
-  // TELEPORT
+  // TELEPORT (S)
 
-  // TIME STOP
+  // TIME STOP (H)
 
   // WALL WALKER
   // just Additional Recipients, which is handled by the generic clause above
 
-  // WISH
+  // WISH (L)
 
-  // ZOMBIE
+  // ZOMBIE (V)
 
 ];
