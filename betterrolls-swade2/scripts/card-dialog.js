@@ -78,6 +78,8 @@ class BrCardDialog {
       enabled_actions.push(button.dataset.actionId);
     }
     this.BrCard.set_active_actions(enabled_actions);
+    this.BrCard.set_trait_using_skill_override();
+
     await this.BrCard.render();
     await this.BrCard.save();
     this.close_card();
