@@ -10,7 +10,12 @@ import {
   simple_form,
   spendMastersBenny,
 } from "./utils.js";
-import { discount_pp, get_item_trait, roll_item } from "./item_card.js";
+import {
+  discount_pp,
+  get_item_trait,
+  roll_item,
+  run_macros,
+} from "./item_card.js";
 import {
   calculate_distance,
   get_tn_from_token,
@@ -39,7 +44,8 @@ export const BRSW_CONST = {
 };
 
 /**
- * A constructor for our own roll object
+ * A constructor for our own roll object, this code is here just for legacy
+ * support, please use the new classes in rolls.js
  * @constructor
  */
 export function BRWSRoll() {
@@ -1527,6 +1533,19 @@ async function override_die_result(br_card, die_index, new_value) {
   );
   await br_card.render();
   await br_card.save();
+  // Rerun macros.
+  const macro_actions = br_card.get_selected_actions().filter((action) => {
+    return action.code.hasOwnProperty("runSkillMacro");
+  });
+  console.log("Editanto");
+  if (macro_actions) {
+    let macros = [];
+    for (let macro of macro_actions) {
+      macros.push(macro.code.runSkillMacro);
+    }
+    console.log(macros);
+    await run_macros(macros, br_card.actor, br_card.item, br_card);
+  }
 }
 
 /**
