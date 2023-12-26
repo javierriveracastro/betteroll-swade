@@ -409,28 +409,23 @@ export class BrCommonCard {
     const actions = this.get_selected_actions();
 
     this.reset_default_trait();
-    const action = actions.find( 
-      a => a.code.hasOwnProperty('skillOverride') && a.code.skillOverride != "");
-
-    if (!this.actor || !action) return;
-    
+    const action = actions.find(
+      (a) => a.code.hasOwnProperty("skillOverride") && a.code.skillOverride,
+    );
+    if (!this.actor || !action) {
+      return;
+    }
     const skill_swid = game.swade.util.slugify(action?.code.skillOverride);
-    const skill = this.actor.getSingleItemBySwid(skill_swid, 'skill');
-    this.render_data.trait_id = skill.id;    
+    const skill = this.actor.getSingleItemBySwid(skill_swid, "skill");
+    this.render_data.trait_id = skill.id;
   }
 
   /**
    * Revert the trait back to the default for the item
    */
   reset_default_trait() {
-    const item = this.item;
-
-    if (!item) {
-      item = this.actor?.items.find( i => i.id == this.item_id);
-    }
-    
-    if (item) {
-      this.render_data.trait_id = get_item_trait(item, this.actor);
+    if (this.item) {
+      this.render_data.trait_id = get_item_trait(this.item, this.actor);
     }
   }
 
