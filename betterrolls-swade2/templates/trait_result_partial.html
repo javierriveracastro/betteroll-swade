@@ -3,18 +3,6 @@
         {{ localize 'BRSW.Fumble' }}
     </div>
 {{ else }}
-<!--    <div class="brsw-roll-row {{# if result_master_only}}brsw-master-only{{/if}}">
-        <span class="brsw-clickable brsw-collapse-button" data-collapse="brsw-result-detail">
-            <i class="fas {{#if collapse_results }}fa-caret-right{{else}}fa-caret-down{{/if}}"></i>{{ localize 'BRSW.Result'}} :
-        </span>
-        <span>
-            {{# if trait_roll.tn }}
-                {{#each trait_roll.current_roll.dice}}
-                        <span>{{{ this.result_icon }}}</span>
-                {{/each}}
-            {{/if}}
-        </span>
-    </div>-->
     <div class="brsw-roll-detail {{# if collapse_results }}brsw-collapsed{{/if}} ">
         <div class="brsw-roll-detail-row">
             <span>

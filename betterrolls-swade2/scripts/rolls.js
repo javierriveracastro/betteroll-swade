@@ -33,35 +33,14 @@ class Die {
     }
   }
 
-  get result_class() {
-    if (this.result === null) {
-      return "";
-    }
-    if (this.result < 0) {
-      return "";
-    } else if (this.result < 4) {
-      return "brsw-green-text";
-    } else if (this.result >= 4) {
-      return "brsw-blue-text";
-    }
-    return "";
-  }
-
   get result_icon() {
-    if (this.result === null) {
+    if (this.result === null || this.result < 0) {
       return "";
     }
-    if (this.result < 0) {
-      return '<i class="brsw-red-text fas fa-minus-circle"></i>';
-    } else if (this.result < 4) {
-      return '<i class="brsw-blue-text fas fa-check"></i>';
-    } else if (this.result < 8) {
-      return '<i class="brsw-blue-text fas fa-check-double"></i>';
+    if (this.result < 4) {
+      return "brsw-blue-text fas fa-check fa-2xs";
     } else {
-      const raises = Math.floor(this.result / 4);
-      return (
-        raises.toString() + '<i class="brsw-blue-text fas fa-check-double"></i>'
-      );
+      return "brsw-blue-text fas fa-check-double fa-2xs";
     }
   }
 
@@ -212,7 +191,7 @@ export class TraitRoll {
         total += mod.value;
       }
     });
-    // Round down the total in case it's a floating number 
+    // Round down the total in case it's a floating number
     return Math.floor(total);
   }
 
