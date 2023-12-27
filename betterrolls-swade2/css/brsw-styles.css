@@ -194,9 +194,6 @@
 }
 
 .brsw-small-dice-image {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
     font-size: 13px;
     padding: 4px;
 }

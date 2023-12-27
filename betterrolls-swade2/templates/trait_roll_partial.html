@@ -2,8 +2,8 @@
     <div class="brsw-roll-row">
         <span class="brsw-small-font">{{ localize 'BRSW.OldRoll' }}</span>
         {{# each trait_roll.old_rolls}}
-                <span class="brsw-old-roll brsw-clickable" data-index="{{@index}}">{{# each dice }}
-                    <span class="brsw-d{{this.sides}} brsw-small-dice-image {{this.extra_class}}">
+                <span class="brsw-old-roll bg-gray-500 border border-solid border-gray-700 rounded shadow hover:ring-2 hover:ring-offset-1 hover:cursor-pointer" data-index="{{@index}}">{{# each dice }}
+                    <span class="brsw-small-dice-image {{this.extra_class}}">
                         {{ this.final_total }}
                     </span>
                 {{/each}}</span>
