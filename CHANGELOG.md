@@ -1,3 +1,13 @@
+# Version 3.63 aka Hopefully better on the eyes
+* Actions: Allow setting parry as the Target Number via actions.
+* Builtin actions: Power modifiers for Blast, Confusion and Damage Field (Steve Culshaw).
+* Builtin actions: Flag rank on powers (Steve Culshaw)
+* Bugfix: Fix spurious letter (Steve Culshaw)
+* Cards: Change the skill show on the card when using an actions with skill_override (Death Stapler)
+* Cards: Rerun skill macros when a die result is edited (this can be a breaking change to some macros)
+* Cards: Move old rolls to the new style
+* Cards: Get result icons back for successes and raises.
+
 # Version 3.62 aka Now even YOU! can edit world actions.
 * Feature: Support for floating point modifiers (Florian Denizot)
 * GUI: Resist actions are not shown in the action selection window anymore as they have now dedicated buttons
