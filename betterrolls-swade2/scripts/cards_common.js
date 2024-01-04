@@ -641,11 +641,14 @@ export function expose_card_class() {
 }
 
 /**
- * Creates a chat card
+ * Creates a common card.
  *
- * @param {PlaceableObject, SwadeActor} origin The origin of this card
- * @param {object} render_data Data to pass to the render template
- * @param {string} template Path to the template that renders this card
+ * @async
+ * @function
+ * @param {PlaceableObject|SwadeActor} origin - The origin of this card.
+ * @param {Object} render_data - Data to pass to the render template.
+ * @param {string} template - Path to the template that renders this card.
+ * @returns {BrCommonCard} The created common card.
  */
 export async function create_common_card(origin, render_data, template) {
   let actor;
@@ -1748,6 +1751,7 @@ export function create_modifier(label, expression) {
       modifier.dice.evaluate({ async: false });
       modifier.value = parseInt(modifier.dice.result);
     } else {
+      // sourcery skip: no-eval
       modifier.value = eval(expression); // jshint ignore:line
     }
   } else {

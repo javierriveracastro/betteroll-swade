@@ -14,7 +14,7 @@ ALLOWED_FILES = ['betterrolls-swade2/module.json', 'CHANGELOG.md', 'README.md']
 # Get a list of the modified files
 repo = Repo(".")
 differences = repo.head.commit.diff()
-modified_files = list(map(lambda x:x.a_path, differences))
+modified_files = list(map(lambda x: x.a_path, differences))
 if len(modified_files) != len(ALLOWED_FILES):
     print('The number of modified files should be {}'.format(
         len(ALLOWED_FILES)))
