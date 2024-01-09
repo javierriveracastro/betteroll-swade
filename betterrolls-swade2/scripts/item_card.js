@@ -435,7 +435,9 @@ export function activate_item_card_listeners(br_card, html) {
     });
   });
   html.find(".brsw-resist-button").click((ev) => {
-    roll_resist(ev.currentTarget.dataset.trait, br_card);
+    roll_resist(ev.currentTarget.dataset.trait, br_card).catch((err) => {
+      console.log(`Error while rolling resistance ${err}`);
+    });
   });
 }
 
@@ -1475,7 +1477,7 @@ async function add_fixed_damage(event, form_results) {
   if (!modifier) {
     return;
   }
-  const index = event.currentTarget.dataset.index;
+  const { index } = event.currentTarget.dataset;
   let render_data = event.data.message.getFlag(
     "betterrolls-swade2",
     "render_data",

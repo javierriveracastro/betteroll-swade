@@ -1540,7 +1540,6 @@ async function override_die_result(br_card, die_index, new_value) {
   const macro_actions = br_card.get_selected_actions().filter((action) => {
     return action.code.hasOwnProperty("runSkillMacro");
   });
-  console.log("Editanto");
   if (macro_actions) {
     let macros = [];
     for (let macro of macro_actions) {
