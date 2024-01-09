@@ -390,7 +390,7 @@ export class BrCommonCard {
       if (current_action.type === "resist") {
         this.resist_buttons.push({
           name: current_action.name,
-          trait: current_action.override,
+          trait: current_action.override || this.skill.name,
         });
       }
     }
