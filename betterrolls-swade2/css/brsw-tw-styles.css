@@ -202,8 +202,8 @@
   margin-bottom:calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-.overflow-scroll {
-  overflow:scroll;
+.overflow-clip {
+  overflow:clip;
 }
 
 .overflow-y-auto {
