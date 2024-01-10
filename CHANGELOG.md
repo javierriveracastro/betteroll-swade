@@ -1,3 +1,7 @@
+# Version 3.64 aka A small one.
+* Cards: Change the CSS overflow properties for card titles, hopefully removing the scrollbars that sometime appeared
+* Cards: Use the card skill when a resist action lacks trait (do as system).
+
 # Version 3.63 aka Hopefully better on the eyes
 * Actions: Allow setting parry as the Target Number via actions.
 * Builtin actions: Power modifiers for Blast, Confusion and Damage Field (Steve Culshaw).
