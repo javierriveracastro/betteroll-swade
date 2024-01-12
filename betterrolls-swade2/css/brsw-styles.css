@@ -199,7 +199,7 @@
 }
 
 .brsw-discarded-roll {
-    text-decoration: red line-through;
+    text-decoration: white line-through;
     color: lightgray;
 }
 
