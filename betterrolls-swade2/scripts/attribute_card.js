@@ -139,7 +139,7 @@ export function activate_attribute_card_listeners(card, html) {
 }
 
 /**
- * Roll an attribute showing the roll card and the result card when enables
+ * Roll an attribute showing from an existing card
  *
  * @param {BrCommonCard} br_card The card being rolled
  * @param {boolean} expend_bennie True if we want to spend a bennie

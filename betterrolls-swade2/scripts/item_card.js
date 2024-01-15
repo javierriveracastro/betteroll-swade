@@ -104,9 +104,7 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} item_id The id of the item that we want to show
- * @property {Object} item.system.actions.additional Additional actions.
- * @property {string} CONST.CHAT_MESSAGE_TYPES.ROLL
- * @return {Promise} A promise for the ChatMessage object
+ * @return {Promise} A promise for the BrCommonCard object
  */
 async function create_item_card(origin, item_id) {
   let actor;
@@ -199,8 +197,8 @@ async function create_item_card(origin, item_id) {
  *  before actor
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
- * @param {string} skill_id Id of the skill item
- * @return {Promise} a promise fot the ChatMessage object
+ * @param {string} item_id Id of the item
+ * @return {Promise} a promise fot the BrCommonCard object
  */
 function create_item_card_from_id(token_id, actor_id, skill_id) {
   let origin;
@@ -790,7 +788,7 @@ async function find_macro(macro_name_or_id) {
 }
 
 /**
- * Roll the item damage
+ * Roll and existing item card
  *
  * @param {BrCommonCard } br_message Message that originates this roll
  * @param {string} html Html code to parse for extra options

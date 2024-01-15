@@ -169,7 +169,7 @@ export function activate_skill_card_listeners(br_card, html) {
 }
 
 /**
- * Roll a skill showing the roll card and the result card when enables
+ * Roll an existing skill card
  *
  * @param {BrCommonCard} br_card
  * @param {boolean} expend_bennie True if we want to spend a bennie

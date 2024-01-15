@@ -22,7 +22,8 @@ export function register_actions() {
 }
 
 /**
- * Let add actions to the current ones programmatically.
+ * Adds an array of actions to the available ones. The array should be in the same format as builtin-actions.js.
+ * The array is cleared when reloading and should be set again
  * @param {Array} actions
  */
 function add_actions(actions) {
