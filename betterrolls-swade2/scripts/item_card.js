@@ -135,6 +135,16 @@ async function create_item_card(origin, item_id) {
     notes = item.system.notes;
   }
   let { description, damage } = item.system;
+  console.log(item);
+  if (item.type === "weapon") {
+    description = `<p>${game.i18n.localize("BRSW.Dmg")}: ${
+      item.system.damage
+    } ${game.i18n.localize("BRSW.ApShort")}: ${
+      item.system.ap
+    } ${game.i18n.localize("BRSW.Shots")}: ${item.system.currentShots}/${
+      item.system.shots
+    }</p>${description}`;
+  }
   let possible_default_dmg_action;
   let ammon_enabled = parseInt(item.system.shots) || item.system.ammo;
   let power_points =
