@@ -197,7 +197,7 @@ async function create_item_card(origin, item_id) {
  *  before actor
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
- * @param {string} item_id Id of the item
+ * @param {string} skill_id Id of the item
  * @return {Promise} a promise fot the BrCommonCard object
  */
 function create_item_card_from_id(token_id, actor_id, skill_id) {
