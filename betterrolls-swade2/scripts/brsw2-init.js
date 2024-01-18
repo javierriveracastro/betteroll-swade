@@ -167,6 +167,7 @@ Hooks.on("renderChatMessage", (message, html) => {
       }
     }
   }
+  Hooks.call("BRSW-CardRendered");
 });
 
 // Hooks for the options form
