@@ -159,13 +159,11 @@ Hooks.on("renderChatMessage", (message, html) => {
     // Scroll the chat to the bottom if this is the last message
     if (game.messages.contents[game.messages.contents.length - 1] === message) {
       let chat_bar = $("#chat-log");
-      if (chat_bar.length) {
-        if (
-          chat_bar[0].scrollHeight - chat_bar.height() * 2 <
-          chat_bar[0].scrollTop
-        ) {
-          chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
-        }
+      if (
+        chat_bar.length &&
+        chat_bar[0].scrollHeight - chat_bar.height() * 2 < chat_bar[0].scrollTop
+      ) {
+        chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
       }
     }
   }
@@ -178,16 +176,16 @@ Hooks.on("renderSidebarTab", (_, html) => {
   renderTemplate("modules/betterrolls-swade2/templates/options_form.html", {
     isGM: game.user.isGM,
   }).then((content) => {
-    content = $(content);
+    let jquery_content = $(content);
     // Activate selectable control.
-    content
+    jquery_content
       .find(".brsw-player-modifiers>.brws-selectable")
       .click(manage_selectable_click);
-    content
+    jquery_content
       .find(".brsw-gm-modifiers>.brws-selectable")
       .click(manage_selectable_gm);
-    place.before(content);
-    manage_collapsables(content);
+    place.before(jquery_content);
+    manage_collapsables(jquery_content);
   });
 });
 
@@ -213,6 +211,7 @@ Hooks.on("dropCanvasData", (canvas, item) => {
             actor_id = item.parent.id;
           }
           const command = create_macro_command(item, actor_id, token_id);
+          // sourcery skip: no-eval
           eval("(async () => {" + command + "})()"); // jshint ignore:line
         });
       } else if (item.type === "target_click") {
