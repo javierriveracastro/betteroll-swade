@@ -98,6 +98,10 @@ function process_or_selector(action, item, actor) {
  */
 function process_action(action, item, actor) {
   let selected = false;
+  if (action.hasOwnProperty("disable_if_module_present")) {
+    const module_data = game.modules.get(action.disable_if_module_present);
+    selected = !(module_data && module_data.active);
+  }
   if (action.hasOwnProperty("selector_type")) {
     selected = check_selector(
       action.selector_type,
@@ -524,7 +528,7 @@ export class WorldGlobalActions extends FormApplication {
       }
     });
     html.find("textarea").on("keydown", (ev) => {
-      if (ev.key == "Tab") {
+      if (ev.key === "Tab") {
         ev.preventDefault();
         const start = ev.currentTarget.selectionStart;
         const end = ev.currentTarget.selectionEnd;
@@ -598,6 +602,7 @@ export class WorldGlobalActions extends FormApplication {
         "change_location",
         "group_single",
         "gm_action",
+        "disable_if_module_present",
       ];
       for (let key in action) {
         if (SUPPORTED_KEYS.indexOf(key) < 0) {
