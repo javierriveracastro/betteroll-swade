@@ -352,6 +352,11 @@ export class BrCommonCard {
       ];
       this.populate_active_effect_actions_from_array(effectArray);
     }
+    if (this.damage && this.actor.system.stats.globalMods.damage) {
+      this.populate_active_effects_damage_actions(
+        this.actor.system.stats.globalMods.damage,
+      );
+    }
   }
 
   populate_active_effect_actions_from_array(effectArray) {
@@ -374,6 +379,10 @@ export class BrCommonCard {
         single_choice: false,
       };
     }
+  }
+
+  populate_active_effects_damage_actions(action) {
+    console.log(action);
   }
 
   populate_resist_actions() {
