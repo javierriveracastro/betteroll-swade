@@ -352,21 +352,20 @@ export class BrCommonCard {
       ];
       this.populate_active_effect_actions_from_array(effectArray);
     }
-    if (this.damage && this.actor.system.stats.globalMods.damage) {
-      this.populate_active_effects_damage_actions(
+    if (this.damage && this.actor.system.stats.globalMods.damage.length > 0) {
+      this.populate_active_effect_actions_from_array(
         this.actor.system.stats.globalMods.damage,
+        "dmgMod",
       );
     }
   }
 
-  populate_active_effect_actions_from_array(effectArray) {
+  populate_active_effect_actions_from_array(effectArray, type = "skillMod") {
     let effectActions = [];
     for (let effect of effectArray) {
-      const br_action = new brAction(
-        effect.label,
-        { skillMod: effect.value, name: effect.label, id: broofa() },
-        "active_effect",
-      );
+      let code = { name: effect.label, id: broofa() };
+      code[type] = effect.value;
+      const br_action = new brAction(effect.label, code, "active_effect");
       br_action.selected = !effect.ignore;
       effectActions.push(br_action);
     }
@@ -379,10 +378,6 @@ export class BrCommonCard {
         single_choice: false,
       };
     }
-  }
-
-  populate_active_effects_damage_actions(action) {
-    console.log(action);
   }
 
   populate_resist_actions() {

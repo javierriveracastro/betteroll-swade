@@ -1271,13 +1271,6 @@ export async function roll_dmg(
   let damage_roll = { label: "---", brswroll: new BRWSRoll(), raise: raise };
   get_chat_dmg_modifiers(options, damage_roll);
   joker_modifiers(br_card, actor, damage_roll);
-  // Global modifiers
-  if (actor.system.stats?.globalMods?.damage?.length > 0) {
-    for (let mod of actor.system.stats.globalMods.damage) {
-      const new_mod = create_modifier(mod.label, mod.value);
-      damage_roll.brswroll.modifiers.push(new_mod);
-    }
-  }
   // Item properties tab
   if (item.system.actions.dmgMod) {
     const new_mod = create_modifier(
