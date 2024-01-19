@@ -191,8 +191,8 @@ Hooks.once('ready', () => {
             selector_value: "Rogue"
           },
           {
-            selector_type: "skill",
-            selector_value: "Fighting"
+            selector_type: "item_type",
+            selector_value: "weapon"
           }
         ],
         group: groupName
