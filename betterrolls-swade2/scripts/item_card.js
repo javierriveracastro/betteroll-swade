@@ -172,7 +172,6 @@ async function create_item_card(origin, item_id) {
     {
       header: { type: "Item", title: item.name, img: item.img },
       notes: notes,
-      damage: damage,
       trait_id: trait ? trait.id || trait : false,
       ammo: ammon_enabled,
       subtract_selected: subtract_select,
@@ -186,6 +185,7 @@ async function create_item_card(origin, item_id) {
     "modules/betterrolls-swade2/templates/item_card.html",
   );
   br_message.type = BRSW_CONST.TYPE_ITEM_CARD;
+  br_message.damage = damage;
   br_message.item_id = item_id;
   await br_message.render();
   await br_message.save();

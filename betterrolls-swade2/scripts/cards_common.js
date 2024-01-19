@@ -82,6 +82,7 @@ export class BrCommonCard {
     this.actor_id = undefined;
     this.item_id = undefined;
     this.skill_id = undefined;
+    this.damage = undefined;
     this.target_ids = [];
     this.environment = { light: "bright" };
     this.extra_text = "";
@@ -96,19 +97,11 @@ export class BrCommonCard {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
         this.load(data);
-        // console.log("New card loaded from message")
-        // console.trace()
         // TODO: Check if activate_common_listeners can be made a method of this class and simplified.
-        // TODO: Reduce card creations. Attribute rolls done.
       }
     } else {
       this.id = broofa();
       this.recover_targets_from_user();
-      // TODO: Change targets when rolling a trait
-      // TODO: Change targets when rolling damage
-      // TODO: Change targets when clicking on the trait result
-      // TODO: Change targets when clicking on the damage result
-      // TODO: Use the targets from the card data not the current ones
     }
   }
 
@@ -148,6 +141,7 @@ export class BrCommonCard {
       target_ids: this.target_ids,
       trait_roll: this.trait_roll,
       resist_buttons: this.resist_buttons,
+      damage: this.damage,
     };
   }
 
@@ -166,6 +160,7 @@ export class BrCommonCard {
       "target_ids",
       "macro_buttons",
       "resist_buttons",
+      "damage",
     ];
     for (let field of FIELDS) {
       this[field] = data[field];
