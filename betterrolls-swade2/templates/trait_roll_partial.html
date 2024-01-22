@@ -16,7 +16,7 @@
             {{#each trait_roll.current_roll.dice }}
                 <a class="mr-2">
                     <span class="{{this.extra_class}} text-xl font-bold inline-block"  title="{{this.result_text}}">
-                        {{ this.final_total }} <i class="{{ this.result_icon }} {{# if this.exploded }}fa-bounce{{/if}}"></i>
+                        {{ this.final_total }} <i class="{{ this.result_icon }}</i>
                     </span>
                 </a>
             {{/each}}
