@@ -5,7 +5,7 @@
 * API: Fire a hook after a card is rendered.
 * Actions: Add a disable_if_module_present selector
 * Refactoring: Some small refactoring, with includes moving up the damage data from render_data to the card class properties. CAN BREAK MACROS/MODULES.
-* Actions: Active effects that create a global damage mod are not treated as actions.
+* Actions: Active effects that create a global damage mod are now treated as actions.
 * Cards: Remove the bounce animation when rolls exploded.
 
 # Version 3.64 aka A small one.
