@@ -316,12 +316,10 @@ async function get_vehicle_tn(tn, target_token) {
   let operator_skill;
   let target_operator_id = target_token.actor.system.driver.id;
   let target_operator = await fromUuid(target_operator_id);
-  console.log(target_operator);
-  let operatorItems = target_operator.system.items;
+  let operatorItems = target_operator.items;
   const maneuveringSkill = target_token.actor.system.driver.skill;
   for (const value of operatorItems) {
-    console.log(value);
-    if (value.system.name === maneuveringSkill) {
+    if (value.name === maneuveringSkill) {
       operator_skill = value.data.data.die.sides;
     }
   }
@@ -393,7 +391,8 @@ export async function get_tn_from_token(
 
       // If the scale mod is negative, check if the attacking actor has the swat ability
       if (scale_mod < 0) {
-        const swat = origin_token?.actor?.items?.find((item) => { // jshint ignore:line
+        const swat = origin_token?.actor?.items?.find((item) => {
+          // jshint ignore:line
           return (
             item.type === "ability" &&
             item.name
@@ -642,7 +641,7 @@ export async function find_illumination_penalty(
   lighting,
   distance,
 ) {
-  const {actor} = actorToken;
+  const { actor } = actorToken;
   let lowLiVision = "Low Light Vision"; //Ignore dim and dark
   let darkvision = "Darkvision"; //Ignore all up to 10"
   let blindsense = "Blindsense"; //Ignore all
