@@ -867,7 +867,9 @@ export function activate_common_listeners(br_card, html) {
       br_card,
       parseInt(index),
       ev.currentTarget.classList.contains("brsw-selected-tn"),
-    );
+    ).catch(() => {
+      console.log("ERROR getting_tn_from_target");
+    });
   });
   // Repeat card
   // noinspection JSUnresolvedFunction
@@ -1250,7 +1252,7 @@ async function get_new_roll_options(
   if (objetive && br_card.skill) {
     const origin_token = br_card.token;
     if (origin_token) {
-      const target_data = get_tn_from_token(
+      const target_data = await get_tn_from_token(
         br_card.skill,
         objetive,
         origin_token,
@@ -1642,7 +1644,7 @@ async function edit_tn(br_card, new_tn, reason) {
  * @param {int} index
  * @param {boolean} selected - True to select targeted, false for selected
  */
-function get_tn_from_target(br_card, index, selected) {
+async function get_tn_from_target(br_card, index, selected) {
   let objetive;
   if (selected) {
     canvas.tokens.controlled.forEach((token) => {
@@ -1657,7 +1659,7 @@ function get_tn_from_target(br_card, index, selected) {
   if (objetive) {
     const origin_token = br_card.token;
     if (origin_token) {
-      const target = get_tn_from_token(
+      const target = await get_tn_from_token(
         br_card.skill,
         objetive,
         origin_token,

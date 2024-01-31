@@ -1,5 +1,5 @@
 // Functions for cards representing skills
-/* globals TokenDocument, Token, game, CONST, canvas, console, Ray, succ, $ */
+/* globals TokenDocument, Token, game, CONST, canvas, console, Ray, succ, fromUuid, $ */
 // noinspection JSCheckFunctionSignatures
 
 import {
@@ -306,6 +306,32 @@ export function calculate_distance(
 }
 
 /**
+ * Gets the tn for a vehicle
+ * @param tn
+ * @param target_token
+ */
+async function get_vehicle_tn(tn, target_token) {
+  tn.reason = `Veh - ${target_token.name}`;
+  //lookup the vehicle operator and get their maneuveringSkill
+  let operator_skill;
+  let target_operator_id = target_token.actor.system.driver.id;
+  let target_operator = await fromUuid(target_operator_id);
+  console.log(target_operator);
+  let operatorItems = target_operator.system.items;
+  const maneuveringSkill = target_token.actor.system.driver.skill;
+  for (const value of operatorItems) {
+    console.log(value);
+    if (value.system.name === maneuveringSkill) {
+      operator_skill = value.data.data.die.sides;
+    }
+  }
+  if (operator_skill === null) {
+    operator_skill = 0;
+  }
+  tn.value = operator_skill / 2 + 2 + target_token.actor.system.handling;
+}
+
+/**
  * Get a target number and modifiers from a token appropriated to a skill
  *
  * @param {Item} skill
@@ -313,7 +339,12 @@ export function calculate_distance(
  * @param {Token} origin_token
  * @param {Item} item
  */
-export function get_tn_from_token(skill, target_token, origin_token, item) {
+export async function get_tn_from_token(
+  skill,
+  target_token,
+  origin_token,
+  item,
+) {
   let tn = {
     reason: game.i18n.localize("BRSW.Default"),
     value: 4,
@@ -341,22 +372,7 @@ export function get_tn_from_token(skill, target_token, origin_token, item) {
       tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${target_token.name}`;
       tn.value = parseInt(target_token.actor.system.stats.parry.value);
     } else {
-      tn.reason = `Veh - ${target_token.name}`;
-      //lookup the vehicle operator and get their maneuveringSkill
-      let operator_skill;
-      let target_operator_id = target_token.actor.system.driver.id.slice(6);
-      let target_operator = game.actors.get(target_operator_id);
-      let operatorItems = target_operator.data.items;
-      const maneuveringSkill = target_token.actor.system.driver.skill;
-      operatorItems.forEach((value) => {
-        if (value.data.name === maneuveringSkill) {
-          operator_skill = value.data.data.die.sides;
-        }
-      });
-      if (operator_skill === null) {
-        operator_skill = 0;
-      }
-      tn.value = operator_skill / 2 + 2 + target_token.actor.system.handling;
+      await get_vehicle_tn(tn, target_token);
     }
   }
   // Size modifiers
