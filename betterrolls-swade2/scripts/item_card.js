@@ -996,7 +996,7 @@ function get_target_defense(
       defense_values.toughness = objetive.actor.system.stats.toughness.value;
       
       let targetedDefense = parseInt(objetive.actor.armorPerLocation[location]);
-      if(isNaN(targetedDefense)) {
+      if(isNaN(targetedDefense) || !objetive.actor.system.details.autoCalcToughness) {
         targetedDefense = objetive.actor.system.stats.toughness.armor || 0;
       }
       defense_values.armor = targetedDefense;
