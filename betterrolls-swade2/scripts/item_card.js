@@ -994,10 +994,12 @@ function get_target_defense(
   if (objetive && objetive.actor) {
     if (objetive.actor.type !== "vehicle") {
       defense_values.toughness = objetive.actor.system.stats.toughness.value;
-      defense_values.armor =
-        parseInt(objetive.actor.armorPerLocation[location]) ||
-        objetive.actor.system.stats.toughness.armor ||
-        0;
+      
+      let targetedDefense = objetive.actor.armorPerLocation[location];
+      if(isNaN(targetedDefense)) {
+        targetedDefense = objetive.actor.system.stats.toughness.armor ?? 0;
+      }
+      defense_values.armor = targetedDefense;
       defense_values.name = objetive.name;
       defense_values.token_id = objetive.id;
     } else {
