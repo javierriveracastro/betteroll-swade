@@ -1,3 +1,6 @@
+# Version 3.66 aka So someone is using vehicles out there..
+* Bug: Fixed vehicle targeting.
+
 # Version 3.65 aka It was really slick you heartless users...
 * Cards: Change strikethrough color over dice to white for better visibility.
 * Docs: Big update of API docs.
