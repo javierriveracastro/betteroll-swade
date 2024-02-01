@@ -995,9 +995,9 @@ function get_target_defense(
     if (objetive.actor.type !== "vehicle") {
       defense_values.toughness = objetive.actor.system.stats.toughness.value;
       
-      let targetedDefense = objetive.actor.armorPerLocation[location];
+      let targetedDefense = parseInt(objetive.actor.armorPerLocation[location]);
       if(isNaN(targetedDefense)) {
-        targetedDefense = objetive.actor.system.stats.toughness.armor ?? 0;
+        targetedDefense = objetive.actor.system.stats.toughness.armor || 0;
       }
       defense_values.armor = targetedDefense;
       defense_values.name = objetive.name;
