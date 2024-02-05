@@ -43,12 +43,12 @@
   position:relative;
 }
 
-.z-50 {
-  z-index:50;
-}
-
 .z-10 {
   z-index:10;
+}
+
+.z-50 {
+  z-index:50;
 }
 
 .m-0 {
@@ -156,6 +156,10 @@
   width:13rem;
 }
 
+.w-56 {
+  width:14rem;
+}
+
 .w-6 {
   width:1.5rem;
 }
@@ -166,10 +170,6 @@
 
 .w-full {
   width:100%;
-}
-
-.w-56 {
-  width:14rem;
 }
 
 .flex-grow {
