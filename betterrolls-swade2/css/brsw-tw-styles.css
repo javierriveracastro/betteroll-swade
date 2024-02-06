@@ -104,12 +104,24 @@
   margin-top:0.5rem;
 }
 
+.mt-1 {
+  margin-top:0.25rem;
+}
+
+.mt-4 {
+  margin-top:1rem;
+}
+
 .block {
   display:block;
 }
 
 .inline-block {
   display:inline-block;
+}
+
+.inline {
+  display:inline;
 }
 
 .flex {

@@ -1,8 +1,8 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
 <hr>
-<div>
-    {{{ text }}}
-    <button class="brsw-form brsw-row-button brsw-undo-damage py-0.5 px-0.5 focus:outline-none bg-white rounded-lg border border-solid focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
+<div class="flex justify-between">
+    <div>{{{ text }}}</div>
+    <button class="brsw-form brsw-row-button brsw-undo-damage inline mt-2 py-0.5 px-0.5 focus:outline-none bg-white rounded-lg border border-solid focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
             title="{{ localize "BRSW.UndoDamage" }}">
         <i class="fas fa-undo"></i>
     </button>
