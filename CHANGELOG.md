@@ -1,4 +1,4 @@
-# Version 3.67 aka Two bugfix so nobody notices the minor redesign
+# Version 3.67 aka Two bugfixes so nobody notices the minor redesign
 * Bug: Called shot locations leg and arm were broken (BlackCloud010)
 * Cards: Damage card updated? to the redesign style
 * Bug: Now a skill will be considered 'shooting' if it just includes that work or its translation
