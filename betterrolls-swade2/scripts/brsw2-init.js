@@ -52,23 +52,27 @@ import {
 } from "./chat_modifers_names.js";
 import { setup_dialog } from "./card-dialog.js";
 
+// Init Hook
+Hooks.on(`init`, () => {
+  game.brsw = {};
+  game.brsw.get_action_from_click = get_action_from_click;
+  register_settings_version2();
+  register_actions();
+  register_gm_modifiers_settings();
+  register_gm_actions_settings();
+});
+
 // Base Hook
 Hooks.on(`ready`, () => {
   console.log("Better Rolls 2 for SWADE | Ready");
   // Create a base object to hook functions
   // noinspection JSUndefinedPropertyAssignment
-  game.brsw = {};
-  game.brsw.get_action_from_click = get_action_from_click;
   attribute_card_hooks();
   skill_card_hooks();
   expose_item_functions();
   expose_global_actions_functions();
   expose_card_class();
   incapacitation_card_hooks();
-  register_settings_version2();
-  register_actions();
-  register_gm_modifiers_settings();
-  register_gm_actions_settings();
   // Load partials.
   const templatePaths = [
     "modules/betterrolls-swade2/templates/common_card_header.html",
@@ -156,6 +160,14 @@ Hooks.on("renderChatMessage", (message, html) => {
     if (!game.user.isGM) {
       html.find(".brsw-master-only").remove();
     }
+
+    if (game.user.id == message.user.id) {
+      let popout_processed = message.getFlag("betterrolls-swade2", "popout_processed");
+      if (popout_processed != true) {
+        card.create_popout();
+      }
+    }
+
     // Scroll the chat to the bottom if this is the last message
     if (game.messages.contents[game.messages.contents.length - 1] === message) {
       let chat_bar = $("#chat-log");
@@ -585,6 +597,13 @@ function register_settings_version2() {
     hint: "BRSW.MaxTooltipLengthHint",
     type: Number,
     default: 500,
+    config: true,
+  });
+  game.settings.register("betterrolls-swade2", "auto_popout_chat", {
+    name: "BRSW.PopoutChat",
+    hint: "BRSW.PopoutChatHint",
+    default: false,
+    type: Boolean,
     config: true,
   });
 }

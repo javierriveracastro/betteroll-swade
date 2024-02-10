@@ -249,6 +249,7 @@ export function activate_damage_card_listeners(message, html) {
   });
   html.find(".brsw-show-incapacitation").click(() => {
     // noinspection JSIgnoredPromiseFromCall
+    br_card.close_popout(); //We assume we're done with the card at this point so close any popouts
     create_incapacitation_card(br_card.token_id);
   });
   html.find(".brsw-injury-button").click(() => {
