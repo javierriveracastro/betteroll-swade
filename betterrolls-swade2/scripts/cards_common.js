@@ -121,9 +121,9 @@ export class BrCommonCard {
   }
 
   create_popout() {
+    this.message.flags["betterrolls-swade2"].popout_processed = true;
+    this.message.update({"flags": this.message.flags});
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
-      this.message.flags["betterrolls-swade2"].popout_processed = true;
-      this.message.update({"flags": this.message.flags});
       new ChatPopout(this.message).render(true);
     }
   }
