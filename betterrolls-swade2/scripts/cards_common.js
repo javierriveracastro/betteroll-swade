@@ -118,6 +118,7 @@ export class BrCommonCard {
     store_render_flag(update_flags, this.render_data);
     update_list.flags["betterrolls-swade2"] = update_flags;
     await this.message.update(update_list);
+    this.update_list = [];
   }
 
   create_popout(message) {
