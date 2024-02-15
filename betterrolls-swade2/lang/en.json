@@ -224,6 +224,8 @@
   "BRSW.OR.NPCDontUseEncumbrance": "Encumbrance penalties are not applied to NPCs",
   "BRSW.OR.RiftsGrittyDamage": "Mega Damage causes gritty damage",
   "BRSW.OverExtremeRange": "Over extreme range",
+  "BRSW.PopoutChat": "Auto Pop Out Chat",
+  "BRSW.PopoutChatHint": "When checked, chat cards are automatically popped out for the relevant user when they are created",
   "BRSW.PowerModifiers-": "Power Modifiers - ",
   "BRSW.PowerModifiers-P": " [+1PP]",
   "BRSW.PowerModifiersArcaneProtection": "Power Modifiers - Arcane Protection",

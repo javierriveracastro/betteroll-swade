@@ -63,7 +63,7 @@ export function BRWSRoll() {
  * @param {ChatMessage} message
  * @param render_object
  */
-async function store_render_flag(message, render_object) {
+function store_render_flag(message, render_object) {
   for (let property of ["actor", "skill"]) {
     delete render_object[property];
   }
@@ -71,7 +71,7 @@ async function store_render_flag(message, render_object) {
   if (message.flags?.["betterrolls-swade2"]?.render_data) {
     message.flags["betterrolls-swade2"].render_data.update_uid = broofa();
   }
-  await message.setFlag("betterrolls-swade2", "render_data", render_object);
+  message.flags["betterrolls-swade2"].render_data = render_object;
 }
 
 export class BrCommonCard {
@@ -113,13 +113,27 @@ export class BrCommonCard {
       this.update_list.id = this.message.id;
       this.message.update(this.update_list);
     }
-    await this.message.setFlag(
-      "betterrolls-swade2",
-      "br_data",
-      this.get_data(),
-    );
+    this.message.flags["betterrolls-swade2"] = {...this.message.flags["betterrolls-swade2"]};
+    this.message.flags["betterrolls-swade2"].br_data = this.get_data();
     // Temporary
-    await store_render_flag(this.message, this.render_data);
+    store_render_flag(this.message, this.render_data);
+    await this.message.update({"flags": this.message.flags});
+  }
+
+  create_popout() {
+    this.message.flags["betterrolls-swade2"].popout_processed = true;
+    this.message.update({"flags": this.message.flags});
+    if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
+      new ChatPopout(this.message).render(true);
+    }
+  }
+
+  close_popout() {
+    for (let app of Object.values(this.message.apps)) {      
+      if (app.constructor.name === "ChatPopout") {
+        app.close();
+      }
+    }
   }
 
   /**
@@ -610,7 +624,7 @@ export class BrCommonCard {
     let whisper_data = getWhisperData();
     // noinspection JSUnresolvedVariable
     let chatData = {
-      user: game.user.id,
+      user: this.actor._idx,
       content: "<p>Default content, likely an error in Better Rolls</p>",
       speaker: {
         actor: this.actor._idx,
