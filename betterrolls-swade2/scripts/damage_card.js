@@ -1,5 +1,5 @@
 // Functions for the damage card
-/* global game, canvas, CONST, Token, CONFIG, Hooks, succ */
+/* global game, canvas, CONST, Token, CONFIG, Hooks, succ, console */
 import {
   BRSW_CONST,
   create_common_card,
@@ -148,8 +148,8 @@ async function apply_damage(token_or_token_id, wounds, soaked = 0) {
         wounds: wounds,
       })
     : damage_wounds
-    ? game.i18n.format("BRSW.DoubleShaken", { token_name: token.name })
-    : game.i18n.format("BRSW.TokenShaken", { token_name: token.name });
+      ? game.i18n.format("BRSW.DoubleShaken", { token_name: token.name })
+      : game.i18n.format("BRSW.TokenShaken", { token_name: token.name });
   // Now we look for soaking
   if (soaked) {
     damage_wounds -= soaked;
@@ -250,7 +250,9 @@ export function activate_damage_card_listeners(message, html) {
   html.find(".brsw-show-incapacitation").click(() => {
     // noinspection JSIgnoredPromiseFromCall
     br_card.close_popout(); //We assume we're done with the card at this point so close any popouts
-    create_incapacitation_card(br_card.token_id);
+    create_incapacitation_card(br_card.token_id).catch(() => {
+      console.error("Error creating incapacitation card");
+    });
   });
   html.find(".brsw-injury-button").click(() => {
     // noinspection JSIgnoredPromiseFromCall

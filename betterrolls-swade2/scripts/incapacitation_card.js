@@ -126,7 +126,12 @@ export function activate_incapacitation_card_listeners(message, html) {
   html.find(".brsw-injury-button").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
     br_card.close_popout(); //We assume we're done with the card at this point so close any popouts
-    create_injury_card(br_card.token_id, ev.currentTarget.dataset.injuryType);
+    create_injury_card(
+      br_card.token_id,
+      ev.currentTarget.dataset.injuryType,
+    ).catch(() => {
+      console.error("Error creating injury card");
+    });
   });
 }
 
