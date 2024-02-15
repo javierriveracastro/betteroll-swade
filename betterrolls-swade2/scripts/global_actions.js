@@ -210,7 +210,6 @@ function check_selector(type, value, item, actor) {
   } else if (type === "item_name" && item.type !== "skill") {
     selected = item.name.toLowerCase().includes(value.toLowerCase());
   } else if (type === "item_description_includes") {
-    console.log(item);
     const description = `${item?.system?.description} ${item?.system?.trapping} ${item?.system?.category} ${item?.system?.notes}`;
     selected = description.toLowerCase().includes(value.toLowerCase());
   } else if (type === "actor_has_effect") {
