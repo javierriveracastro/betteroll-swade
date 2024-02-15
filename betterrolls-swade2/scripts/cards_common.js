@@ -112,11 +112,11 @@ export class BrCommonCard {
     const { update_list } = this;
     update_list.id = this.message.id;
     update_list.flags = this.message.flags;
-    const update_flags = this.message.flags["betterrolls-swade2"] || {};
-    update_flags.br_data = this.get_data();
+    const br_flags = this.message.flags["betterrolls-swade2"] || {};
+    br_flags.br_data = this.get_data();
     // Temporary
-    store_render_flag(update_flags, this.render_data);
-    update_list.flags["betterrolls-swade2"] = update_flags;
+    store_render_flag(br_flags, this.render_data);
+    update_list.flags["betterrolls-swade2"] = br_flags;
     await this.message.update(update_list);
     this.update_list = [];
   }
