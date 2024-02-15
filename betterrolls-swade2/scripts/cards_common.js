@@ -113,23 +113,26 @@ export class BrCommonCard {
       this.update_list.id = this.message.id;
       this.message.update(this.update_list);
     }
-    this.message.flags["betterrolls-swade2"] = {...this.message.flags["betterrolls-swade2"]};
+    this.message.flags["betterrolls-swade2"] = {
+      ...this.message.flags["betterrolls-swade2"],
+    };
     this.message.flags["betterrolls-swade2"].br_data = this.get_data();
     // Temporary
     store_render_flag(this.message, this.render_data);
-    await this.message.update({"flags": this.message.flags});
+    await this.message.update({ flags: this.message.flags });
   }
 
-  create_popout() {
-    this.message.flags["betterrolls-swade2"].popout_processed = true;
-    this.message.update({"flags": this.message.flags});
+  create_popout(message) {
+    if (game.user.id !== message.user.id) {
+      return;
+    }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
       new ChatPopout(this.message).render(true);
     }
   }
 
   close_popout() {
-    for (let app of Object.values(this.message.apps)) {      
+    for (let app of Object.values(this.message.apps)) {
       if (app.constructor.name === "ChatPopout") {
         app.close();
       }
@@ -614,6 +617,7 @@ export class BrCommonCard {
       chatData.content = new_content;
     }
     this.message = await ChatMessage.create(chatData);
+    this.create_popout(this.message);
   }
 
   /**

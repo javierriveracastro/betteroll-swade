@@ -161,13 +161,6 @@ Hooks.on("renderChatMessage", (message, html) => {
       html.find(".brsw-master-only").remove();
     }
 
-    if (game.user.id == message.user.id) {
-      let popout_processed = message.getFlag("betterrolls-swade2", "popout_processed");
-      if (popout_processed != true) {
-        card.create_popout();
-      }
-    }
-
     // Scroll the chat to the bottom if this is the last message
     if (game.messages.contents[game.messages.contents.length - 1] === message) {
       let chat_bar = $("#chat-log");
