@@ -160,7 +160,6 @@ Hooks.on("renderChatMessage", (message, html) => {
     if (!game.user.isGM) {
       html.find(".brsw-master-only").remove();
     }
-
     // Scroll the chat to the bottom if this is the last message
     if (game.messages.contents[game.messages.contents.length - 1] === message) {
       let chat_bar = $("#chat-log");
