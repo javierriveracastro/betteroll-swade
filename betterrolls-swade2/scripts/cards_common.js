@@ -60,18 +60,18 @@ export function BRWSRoll() {
 /**
  * Stores a flag with the render data, deletes data can't be stored
  *
- * @param {ChatMessage} message
+ * @param {Object} flags
  * @param render_object
  */
-function store_render_flag(message, render_object) {
+function store_render_flag(flags, render_object) {
   for (let property of ["actor", "skill"]) {
     delete render_object[property];
   }
   // Get sure thar there is a diff so update socket gets fired.
-  if (message.flags?.["betterrolls-swade2"]?.render_data) {
-    message.flags["betterrolls-swade2"].render_data.update_uid = broofa();
+  if (flags.render_data) {
+    flags.render_data.update_uid = broofa();
   }
-  message.flags["betterrolls-swade2"].render_data = render_object;
+  flags.render_data = render_object;
 }
 
 export class BrCommonCard {
@@ -109,17 +109,15 @@ export class BrCommonCard {
     if (!this.message) {
       await this.create_foundry_message(undefined);
     }
-    if (Object.keys(this.update_list).length > 0) {
-      this.update_list.id = this.message.id;
-      this.message.update(this.update_list);
-    }
-    this.message.flags["betterrolls-swade2"] = {
-      ...this.message.flags["betterrolls-swade2"],
-    };
-    this.message.flags["betterrolls-swade2"].br_data = this.get_data();
+    const { update_list } = this;
+    update_list.id = this.message.id;
+    update_list.flags = {};
+    const update_flags = this.message.flags["betterrolls-swade2"] || {};
+    update_flags.br_data = this.get_data();
     // Temporary
-    store_render_flag(this.message, this.render_data);
-    await this.message.update({ flags: this.message.flags });
+    store_render_flag(update_flags, this.render_data);
+    update_list.flags["betterrolls-swade2"] = update_flags;
+    await this.message.update(update_list);
   }
 
   create_popout(message) {
