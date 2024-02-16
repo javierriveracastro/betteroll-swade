@@ -93,6 +93,7 @@ export class BrCommonCard {
     this.update_list = {}; // List of properties pending to be updated
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
+    this.popup_shown_to = [];
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
@@ -121,12 +122,16 @@ export class BrCommonCard {
     this.update_list = [];
   }
 
-  create_popout(message) {
-    if (game.user.id !== message.user.id) {
+  create_popout() {
+    if (
+      game.user.id !== this.message.user.id ||
+      this.popup_shown_to.includes(game.user.id)
+    ) {
       return;
     }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
       new ChatPopout(this.message).render(true);
+      this.popup_shown_to.push(game.user.id);
     }
   }
 
@@ -158,6 +163,7 @@ export class BrCommonCard {
       trait_roll: this.trait_roll,
       resist_buttons: this.resist_buttons,
       damage: this.damage,
+      popup_shown_to: this.popup_shown_to,
     };
   }
 
@@ -177,6 +183,7 @@ export class BrCommonCard {
       "macro_buttons",
       "resist_buttons",
       "damage",
+      "popup_shown_to",
     ];
     for (let field of FIELDS) {
       this[field] = data[field];
@@ -616,7 +623,6 @@ export class BrCommonCard {
       chatData.content = new_content;
     }
     this.message = await ChatMessage.create(chatData);
-    this.create_popout(this.message);
   }
 
   /**
