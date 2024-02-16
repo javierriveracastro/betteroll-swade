@@ -1,36 +1,38 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
 {{# if notes}}<div class="w-full text-center font-bold">{{{ notes }}}</div>{{/if}}
 {{# if skill }}
-    <div class="relative flex justify-between">
-        <span class="group">
-            <span class="text-lg">
-                {{ skill_title }}
-            </span>
-            {{# if skill.system.description }}
-                <div class="w-52 opacity-0 collapse h-0 absolute group-hover:visible group-hover:opacity-100 group-hover:h-auto transition-opacity group-hover:delay-500 group-hover:duration-500 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
-                     role="tooltip">
-                    {{{ skill.system.description }}}
-                </div>
-            {{/if}}
-        </span>
-        {{# if ammo }}
-            <span>
-                <span class="brws-common-modifiers brsw-form flex">
-                    <img src="modules/betterrolls-swade2/assets/bullet.svg" alt="ammo" title="{{ localize 'BRSW.SubtractAmmo' }}"
-                         class="w-6 brsw-ammo-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_selected}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
-                    <img src="modules/betterrolls-swade2/assets/cycle.svg" alt="reload"
-                         title="{{ localize 'BRSW.ManualAmmo' }}" class="w-6 brsw-ammo-manual cursor-pointer bg-transparent border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+    <div class="brsw">
+        <div class="relative flex justify-between">
+            <span class="group">
+                <span class="text-lg">
+                    {{ skill_title }}
                 </span>
+                {{# if skill.system.description }}
+                    <div class="w-52 opacity-0 collapse h-0 absolute group-hover:visible group-hover:opacity-100 group-hover:h-auto transition-opacity group-hover:delay-500 group-hover:duration-500 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
+                        role="tooltip">
+                        {{{ skill.system.description }}}
+                    </div>
+                {{/if}}
             </span>
-        {{/if}}
-        {{# if powerpoints}}
-            <span class="brws-common-modifiers brsw-form flex">
-                <img src="modules/betterrolls-swade2/assets/electric.svg" alt="power point" title="{{ localize 'BRSW.SubtractPP' }}"
-                     class="w-6 brsw-pp-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_pp}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
-                <img src="modules/betterrolls-swade2/assets/magic-swirl.svg" alt="reload"
-                     title="{{ localize 'BRSW.ManualPP' }}" class="w-6 brsw-pp-manual cursor-pointer bg-transparent border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
-            </span>
-        {{/if}}
+            {{# if ammo }}
+                <span>
+                    <span class="brws-common-modifiers brsw-form flex">
+                        <img src="modules/betterrolls-swade2/assets/bullet.svg" alt="ammo" title="{{ localize 'BRSW.SubtractAmmo' }}"
+                            class="w-6 brsw-ammo-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_selected}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
+                        <img src="modules/betterrolls-swade2/assets/cycle.svg" alt="reload"
+                            title="{{ localize 'BRSW.ManualAmmo' }}" class="w-6 brsw-ammo-manual cursor-pointer bg-transparent border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+                    </span>
+                </span>
+            {{/if}}
+            {{# if powerpoints}}
+                <span class="brws-common-modifiers brsw-form flex">
+                    <img src="modules/betterrolls-swade2/assets/electric.svg" alt="power point" title="{{ localize 'BRSW.SubtractPP' }}"
+                        class="w-6 brsw-pp-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_pp}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
+                    <img src="modules/betterrolls-swade2/assets/magic-swirl.svg" alt="reload"
+                        title="{{ localize 'BRSW.ManualPP' }}" class="w-6 brsw-pp-manual cursor-pointer bg-transparent border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+                </span>
+            {{/if}}
+        </div>
     </div>
     {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
     <div class="brsw-button-row">
