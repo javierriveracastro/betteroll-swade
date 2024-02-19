@@ -135,6 +135,11 @@ async function create_item_card(origin, item_id) {
     notes = item.system.notes;
   }
   let { description, damage } = item.system;
+  description =
+    description.length <=
+    game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      ? description
+      : "";
   if (item.type === "weapon") {
     description = `<p>${game.i18n.localize("BRSW.Dmg")}: ${
       item.system.damage
