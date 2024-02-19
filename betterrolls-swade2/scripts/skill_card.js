@@ -219,7 +219,7 @@ export function is_shooting_skill(skill) {
   let shooting_names = SHOOTING_SKILLS;
   shooting_names.push(game.i18n.localize("BRSW.ShootingSkill"));
   for (const name of shooting_names) {
-    if (name.toLowerCase().includes(skill.name.toLowerCase())) {
+    if (skill.name.toLowerCase().includes(name.toLowerCase())) {
       return true;
     }
   }
