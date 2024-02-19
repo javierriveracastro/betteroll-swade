@@ -242,6 +242,16 @@ export class BrCommonCard {
     }
   }
 
+  get skill_tooltip() {
+    if (!this.skill) {
+      return;
+    }
+    return this.skill.system.description.length <=
+      game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      ? this.skill.system.description
+      : "";
+  }
+
   get sorted_action_groups() {
     let groups_array = Object.values(this.action_groups);
     return groups_array.sort((a, b) => {
@@ -582,6 +592,7 @@ export class BrCommonCard {
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
     data.has_feet_buttons = this.has_feet_buttons;
+    data.skill_tooltip = this.skill_tooltip;
     return data;
   }
 
