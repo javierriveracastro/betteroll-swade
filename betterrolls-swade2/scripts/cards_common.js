@@ -132,6 +132,9 @@ export class BrCommonCard {
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
       new ChatPopout(this.message).render(true);
       this.popup_shown_to.push(game.user.id);
+      this.save().catch(() => {
+        console.error("Error saving card data after popup rendering");
+      });
     }
   }
 
