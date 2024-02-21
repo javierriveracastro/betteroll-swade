@@ -1583,7 +1583,6 @@ async function override_die_result(br_card, die_index, new_value) {
     for (let macro of macro_actions) {
       macros.push(macro.code.runSkillMacro);
     }
-    console.log(macros);
     await run_macros(macros, br_card.actor, br_card.item, br_card);
   }
 }
@@ -1719,7 +1718,7 @@ async function get_tn_from_target(br_card, index, selected) {
       .then(br_card.render)
       .then(br_card.save)
       .catch(() => {
-        console.log("Can't save card after editing TN");
+        console.error("Can't save card after editing TN");
       });
   }
 }

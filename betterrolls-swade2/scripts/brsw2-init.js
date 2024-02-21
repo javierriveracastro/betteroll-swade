@@ -133,8 +133,8 @@ Hooks.on(`ready`, () => {
 Hooks.on("renderChatMessage", (message, html) => {
   let br_card = message.getFlag("betterrolls-swade2", "br_data");
   if (br_card) {
-    const card = new BrCommonCard(message);
     // This chat card is one of ours
+    const card = new BrCommonCard(message);
     activate_common_listeners(card, html);
     if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
       activate_attribute_card_listeners(card, html);
@@ -160,7 +160,10 @@ Hooks.on("renderChatMessage", (message, html) => {
     if (!game.user.isGM) {
       html.find(".brsw-master-only").remove();
     }
-    card.create_popout();
+    if (Object.keys(message.apps).length < 1) {
+      // Don't create popout when rendering popouts.
+      card.create_popout();
+    }
     // Scroll the chat to the bottom if this is the last message
     if (game.messages.contents[game.messages.contents.length - 1] === message) {
       let chat_bar = $("#chat-log");
@@ -171,8 +174,8 @@ Hooks.on("renderChatMessage", (message, html) => {
         chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
       }
     }
+    Hooks.call("BRSW-CardRendered");
   }
-  Hooks.call("BRSW-CardRendered");
 });
 
 // Hooks for the options form
