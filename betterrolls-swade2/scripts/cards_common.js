@@ -108,7 +108,7 @@ export class BrCommonCard {
 
   async save() {
     if (!this.message) {
-      await this.create_foundry_message(undefined);
+      await this.render();
     }
     const { update_list } = this;
     update_list.id = this.message.id;
