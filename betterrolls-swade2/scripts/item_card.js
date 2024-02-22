@@ -254,7 +254,9 @@ async function item_click_listener(ev, target) {
   const item_id =
     ev.currentTarget.parentElement.dataset.itemId ||
     ev.currentTarget.parentElement.parentElement.dataset.itemId ||
-    ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId;
+    ev.currentTarget.parentElement.parentElement.parentElement.dataset.itemId ||
+    ev.currentTarget.parentElement.parentElement.parentElement.parentElement
+      .dataset.itemId;
   // Show card
   let br_card = await create_item_card(target, item_id);
   if (action.includes("dialog")) {
