@@ -1,3 +1,9 @@
+# Version 3.68 aka Popout 
+Note, this version has only had been tested with Swade 3.2. Upgrade to 3.3 at your own risk.
+* Actions: Make item_description_includes look also in notes and category
+* Cards: Added a client setting to popup better rolls cards automatically (Ideas and things that work DDBrown, modification that give problems myself)
+* Bug: Enforce tooltip limit on skill description in weapon cards.
+
 # Version 3.67 aka Two bugfixes so nobody notices the minor redesign
 * Bug: Called shot locations leg and arm were broken (BlackCloud010)
 * Cards: Damage card updated? to the redesign style
