@@ -117,7 +117,7 @@ async function create_item_card(origin, item_id) {
     return item.id === item_id;
   });
   if (item.type === "consumable") {
-    // Just show the system card
+    // Show the system card
     item.show();
     return;
   }
@@ -193,7 +193,7 @@ async function create_item_card(origin, item_id) {
   br_message.item_id = item_id;
   await br_message.render();
   await br_message.save();
-  // For the moment, just assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
+  // For the moment, assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
   if (
     (item.type === "gear" && item.system.actions.trait === "") ||
     item.system.actions?.trait.toLowerCase() === "none" ||
@@ -212,7 +212,7 @@ async function create_item_card(origin, item_id) {
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} skill_id Id of the item
- * @return {Promise} a promise fot the BrCommonCard object
+ * @return {Promise} a promise for the BrCommonCard object
  */
 function create_item_card_from_id(token_id, actor_id, skill_id) {
   let origin;
@@ -271,7 +271,7 @@ async function item_click_listener(ev, target) {
 }
 
 /**
- * Overrides the default dragstart handle to allow itemIds in another parts
+ * Overrides the default dragstart handle to allow itemIds in another part
  * of the tag chain
  * @param ev
  */
@@ -500,7 +500,7 @@ async function roll_resist(trait, br_card) {
  * @param {SwadeActor} actor The owner of the iem
  */
 export function get_item_trait(item, actor) {
-  // First if the item has a skill in actions tab we use it
+  // First, if the item has a skill in actions tab, we use it
   if (item.system.actions && item.system.actions.trait) {
     return trait_from_string(actor, item.system.actions.trait);
   }
@@ -528,7 +528,7 @@ export function get_item_trait(item, actor) {
   if (item.system.arcane) {
     return trait_from_string(actor, item.system.arcane);
   }
-  // If there is no skill anyway we are left to guessing
+  // If there is no skill anyway, we are left to guessing
   let skill;
   if (item.type === "power") {
     skill = check_skill_in_actor(actor, ARCANE_SKILLS);
@@ -1139,7 +1139,7 @@ async function roll_dmg_target(
     }
   }
   if (damage_formulas.raise) {
-    // Last die is raise die.
+    // The Last die is raise die.
     current_damage_roll.brswroll.dice[
       current_damage_roll.brswroll.dice.length - 1
     ].label = game.i18n.localize("BRSW.Raise");
@@ -1272,7 +1272,7 @@ export async function roll_dmg(
   let options = get_roll_options(default_options);
   // Shotgun
   if (damage_formulas.damage === "1-3d6" && item.type === "weapon") {
-    // Bet that this is shotgun
+    // Bet that this is a shotgun
     damage_formulas.damage = "3d6";
   }
   let damage_roll = { label: "---", brswroll: new BRWSRoll(), raise: raise };
