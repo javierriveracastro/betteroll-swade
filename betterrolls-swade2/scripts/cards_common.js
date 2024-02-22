@@ -905,7 +905,7 @@ export function activate_common_listeners(br_card, html) {
       parseInt(index),
       ev.currentTarget.classList.contains("brsw-selected-tn"),
     ).catch(() => {
-      console.log("ERROR getting_tn_from_target");
+      console.error("ERROR getting_tn_from_target");
     });
   });
   // Repeat card
