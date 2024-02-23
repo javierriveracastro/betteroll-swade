@@ -181,7 +181,7 @@ async function check_abilities(actor) {
     game.i18n.localize("BRSW.AbilityName-Undead"), // index #3
     game.i18n.localize("BRSW.AbilityName-Amorphous_theAfter"), // index #4
   ];
-  // Making all lower case:
+  // Making all names lower case:
   edgeAndAbilityNames = edgeAndAbilityNames.map((name) => name.toLowerCase());
   // Check if these have an AE (using .entries() to not loose the index):
   for (let [index, value] of edgeAndAbilityNames.entries()) {
@@ -200,7 +200,7 @@ async function check_abilities(actor) {
         }
       }
     }
-    // Remove from list if ae is present and affects the generic bonus:
+    // Remove from the list if ae is present and affects the generic bonus:
     if (effect && affectsUnshake === true) {
       edgeAndAbilityNames.splice(index, 1);
     }
@@ -216,15 +216,15 @@ async function check_abilities(actor) {
           change.key === "data.attributes.spirit.unShakeBonus" ||
           change.key === "system.attributes.spirit.unShakeBonus"
         ) {
-          //Building array of effect names and icons that affect the unShakeBonus
-          effectName.push(effect.label);
+          //Building an array of effect names and icons that affect the unShakeBonus
+          effectName.push(effect.name);
           effectValue.push(change.value);
         }
       }
     }
   }
   // Get generic modifier
-  let genericMod = actor.system.attributes.spirit.unShakeBonus;
+  let genericMod = parseInt(actor.system.attributes.spirit.unShakeBonus);
   if (effectValue.length > 0 && genericMod !== 0) {
     for (let each of effectValue) {
       genericMod -= each;
@@ -258,7 +258,7 @@ async function check_abilities(actor) {
       value: genericMod,
     });
   }
-  // Returning the modifiers array:
+  // Returning the modifier array:
   return modifiers;
 }
 
