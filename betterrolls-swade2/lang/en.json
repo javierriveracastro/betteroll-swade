@@ -481,7 +481,6 @@
   "BRSW.WoundCapHint": "If you put a number here it will be activate the wound cap rule with that number as a cap, if it is either zero or blank it will use default rules. (World)",
   "BRSW.Wounds": "Wounds",
   "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored",
-  "BRSW.Damage": "Damage",
   "BRSW.Shots": "Shots",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
