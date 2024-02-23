@@ -263,7 +263,7 @@ function check_selector(type, value, item, actor) {
       return (
         item.type === "hindrance" &&
         item.name.toLowerCase().includes(hindrance_name.toLowerCase()) &&
-        item.system?.major
+        item.system?.isMajor
       );
     });
     selected = !!hindrance;
@@ -317,7 +317,7 @@ function check_selector(type, value, item, actor) {
         return (
           item.type === "hindrance" &&
           item.name.toLowerCase().includes(hindrance_name.toLowerCase()) &&
-          item.system?.major
+          item.system?.isMajor
         );
       });
       selected = selected || !!hindrance;
