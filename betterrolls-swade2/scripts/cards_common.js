@@ -51,7 +51,7 @@ export const BRSW_CONST = {
 export function BRWSRoll() {
   this.rolls = []; // Array with all the dice rolled {sides, result,
   // extra_class, tn, result_txt, result_icons, ap, armor, target_id}
-  this.modifiers = []; // Array of modifiers {name,  value, extra_class, dice}
+  this.modifiers = []; // Array of modifiers {name, value, extra_class, dice}
   this.dice = []; // Array with the dice {sides, results: [int], label, extra_class}
   // noinspection JSUnusedGlobalSymbols
   this.is_fumble = false;
@@ -119,7 +119,7 @@ export class BrCommonCard {
     store_render_flag(br_flags, this.render_data);
     update_list.flags["betterrolls-swade2"] = br_flags;
     await this.message.update(update_list);
-    this.update_list = [];
+    this.update_list = {};
   }
 
   create_popout() {
@@ -444,7 +444,7 @@ export class BrCommonCard {
   }
 
   /**
-   * Set the trait_id for the render_data for the
+   * Set the trait_id for the render_data
    */
   set_trait_using_skill_override() {
     const actions = this.get_selected_actions();
@@ -462,7 +462,7 @@ export class BrCommonCard {
   }
 
   /**
-   * Revert the trait back to the default for the item
+   * Revert the trait to the default for the item
    */
   reset_default_trait() {
     if (this.item) {
@@ -765,7 +765,7 @@ export function get_actor_from_ids(token_id, actor_id) {
       }
     }
   }
-  // If we couldn't get the token, maybe because it was not defined actor.
+  // If we couldn't get the token, maybe because it was not a defined actor.
   if (actor_id) {
     return game.actors.get(actor_id);
   }
@@ -777,7 +777,7 @@ export function get_actor_from_ids(token_id, actor_id) {
  * @param {HTMLElement} html - html of the card
  */
 export function activate_common_listeners(br_card, html) {
-  const html_jquery = $(html); // Get sure html is a Jquery element
+  const html_jquery = $(html); // Get sure html is a Jquery element.
   // The message will be rendered at creation and each time a flag is added
   // Actor will be undefined if this is called before flags are set
   if (br_card.actor) {
@@ -905,7 +905,7 @@ export function activate_common_listeners(br_card, html) {
       parseInt(index),
       ev.currentTarget.classList.contains("brsw-selected-tn"),
     ).catch(() => {
-      console.log("ERROR getting_tn_from_target");
+      console.error("ERROR getting_tn_from_target");
     });
   });
   // Repeat card
@@ -976,7 +976,7 @@ function manage_html_selectables(ev) {
 
 /**
  * Controls the sheet status when the portrait in the header is clicked
- * @param {SwadeActor} actor - The actor instance that created the chat card
+ * @param {SwadeActor} actor - The actor's instance that created the chat card
  */
 async function manage_sheet(actor) {
   if (actor.sheet.rendered) {
@@ -1371,13 +1371,18 @@ async function get_new_roll_options(
  */
 function get_reroll_options(br_card, extra_data) {
   // Reroll, keep old options
-  let reroll_mods_applied = false;
-  br_card.trait_roll.modifiers.forEach((mod) => {
+  for (const mod of br_card.trait_roll.modifiers) {
     if (mod.name.includes("(reroll)")) {
-      reroll_mods_applied = true;
+      return;
     }
-  });
-  if (extra_data.reroll_modifier && !reroll_mods_applied) {
+  }
+  if (br_card.actor.system.stats.globalMods.bennyTrait.length) {
+    for (const mod of br_card.actor.system.stats.globalMods.bennyTrait) {
+      br_card.trait_roll.modifiers.push(create_modifier(mod.label, mod.value));
+    }
+  }
+  // Modifiers from actions
+  if (extra_data.reroll_modifier) {
     br_card.trait_roll.modifiers.push(
       create_modifier(
         `${extra_data.reroll_modifier.name} (reroll)`,

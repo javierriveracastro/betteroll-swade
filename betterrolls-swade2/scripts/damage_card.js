@@ -362,7 +362,6 @@ async function roll_soak(br_card, use_bennie) {
         .get("betterrolls-swade2", "optional_rules_enabled")
         .indexOf("GrittyDamage") > -1 &&
       br_card.render_data.wounds > br_card.render_data.soaked;
-
     await br_card.render();
     await br_card.save();
   }

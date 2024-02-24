@@ -242,9 +242,9 @@ export async function create_injury_card(token_id, reason) {
   if (INJURY_ACTIVE_EFFECT.hasOwnProperty(active_effect_index)) {
     new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index] };
     if (second_result) {
-      new_effect.label = game.i18n.localize(second_result);
+      new_effect.name = game.i18n.localize(second_result);
     } else {
-      new_effect.label = game.i18n.localize(first_result);
+      new_effect.name = game.i18n.localize(first_result);
     }
     new_effect.icon = "/systems/swade/assets/icons/skills/medical-pack.svg";
     injury_effect = await actor.createEmbeddedDocuments("ActiveEffect", [
