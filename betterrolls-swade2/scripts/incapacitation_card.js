@@ -268,6 +268,7 @@ export async function create_injury_card(token_id, reason) {
   );
   br_message.update_list = { ...br_message.update_list, ...{ user: user.id } };
   br_message.type = BRSW_CONST.TYPE_INJ_CARD;
+  br_message.popup_shown = true; //The injury result has no action so we don't show the popout
   await br_message.render();
   await br_message.save();
   Hooks.call("BRSW-InjuryAEApplied", br_message, injury_effect, reason);
