@@ -186,12 +186,28 @@ export const TARGET_ACTIONS = [
   {
     id: "TARGET-HAS-DEFLECTION-BOTH",
     name: "TargetHasDeflectionBoth",
-    button_name: "has Deflection (both)",
+    button_name: "has Deflection",
     skillMod: -2,
     and_selector: [
       {
         selector_type: "target_has_effect",
-        selector_value: "Deflection (both)"
+        selector_value: "Deflection"
+      },
+      {
+        not_selector: [
+          {
+            or_selector: [
+              {
+                selector_type: "target_has_effect",
+                selector_value: "Deflection (melee)"
+              },
+              {
+                selector_type: "target_has_effect",
+                selector_value: "Deflection (ranged)"
+              },
+            ]
+          }
+        ]
       },
       {
         selector_type: "item_type",
