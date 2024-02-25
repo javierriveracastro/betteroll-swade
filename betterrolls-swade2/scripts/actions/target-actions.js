@@ -183,6 +183,45 @@ export const TARGET_ACTIONS = [
     defaultChecked: "on",
     group: "BRSW.Target",
   },
+  {
+    id: "TARGET-HAS-DEFLECTION-BOTH",
+    name: "TargetHasDeflectionBoth",
+    button_name: "has Deflection (both)",
+    skillMod: -2,
+    and_selector: [
+      {
+        selector_type: "target_has_effect",
+        selector_value: "Deflection (both)"
+      },
+      {
+        selector_type: "item_type",
+        selector_value: "weapon"
+      },
+      {
+        or_selector: [
+          {
+            selector_type: "skill",
+            selector_value: "BRSW.SkillName-Athletics"
+          },
+          {
+            selector_type: "skill",
+            selector_value: "BRSW.SkillName-Shooting"
+          },
+          {
+            selector_type: "skill",
+            selector_value: "Fighting"
+          },
+          // TODO ... How to handle ranged attacks when the attacker does NOT have "Shooting" or "Athletics", so uses "Unskilled Attempt"
+          // {
+          //   selector_type: "skill",
+          //   selector_value: "BRSW.SkillName-UnskilledAttempt"
+          // },
+        ],
+      },
+    ],
+    defaultChecked: "on",
+    group: "BRSW.Target",
+  },
 
   // INVISIBILITY POWER ... Any action taken against him that requires sight is made at −4, or −6 with a raise.
   // NOTE ... The assumption is the target has an Active Effect named "Invisibility", which doesn't need any actual effect
