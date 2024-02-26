@@ -93,7 +93,7 @@ export class BrCommonCard {
     this.update_list = {}; // List of properties pending to be updated
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
-    this.popup_shown_to = [];
+    this.popup_shown = false;
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
@@ -125,13 +125,13 @@ export class BrCommonCard {
   create_popout() {
     if (
       game.user.id !== this.message.user.id ||
-      this.popup_shown_to.includes(game.user.id)
+      this.popup_shown
     ) {
       return;
     }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
       new ChatPopout(this.message).render(true);
-      this.popup_shown_to.push(game.user.id);
+      this.popup_shown = true;
       this.save().catch(() => {
         console.error("Error saving card data after popup rendering");
       });
@@ -166,7 +166,7 @@ export class BrCommonCard {
       trait_roll: this.trait_roll,
       resist_buttons: this.resist_buttons,
       damage: this.damage,
-      popup_shown_to: this.popup_shown_to,
+      popup_shown: this.popup_shown,
     };
   }
 
@@ -186,7 +186,7 @@ export class BrCommonCard {
       "macro_buttons",
       "resist_buttons",
       "damage",
-      "popup_shown_to",
+      "popup_shown",
     ];
     for (let field of FIELDS) {
       this[field] = data[field];
@@ -197,6 +197,10 @@ export class BrCommonCard {
         "betterrolls-swade2",
         "render_data",
       );
+    }
+    //Backwards compatibility so that we don't show a bunch of old popouts
+    if (data.popup_shown_to?.length > 0) {
+      data.popup_shown = true;
     }
   }
 
