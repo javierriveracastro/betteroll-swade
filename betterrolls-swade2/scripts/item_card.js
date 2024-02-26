@@ -1234,6 +1234,65 @@ function joker_modifiers(br_card, actor, damage_roll) {
   }
 }
 
+function get_damage_mods_from_actions(
+  br_card,
+  damage_formulas,
+  damage_roll,
+  macros,
+  expend_bennie,
+) {
+  for (let action of br_card.get_selected_actions()) {
+    if (action.code.isHeavyWeapon) {
+      damage_formulas.heavy_weapon = true;
+    }
+    if (action.code.dmgMod) {
+      let action_name = action.code.name.includes("BRSW.")
+        ? game.i18n.localize(action.code.name)
+        : action.code.name;
+      const new_mod = create_modifier(action_name, action.code.dmgMod);
+      damage_roll.brswroll.modifiers.push(new_mod);
+    }
+    if (action.code.dmgOverride) {
+      damage_formulas.damage = action.code.dmgOverride;
+    }
+    if (action.code.self_add_status) {
+      set_or_update_condition(action.code.self_add_status, br_card.actor).catch(
+        () => {
+          console.error("BR2: Unable to update condition");
+        },
+      );
+    }
+    if (action.code.runDamageMacro) {
+      macros.push(action.code.runDamageMacro);
+    }
+    if (action.code.raiseDamageFormula) {
+      damage_formulas.raise = action.code.raiseDamageFormula;
+    }
+    if (action.code.overrideAp) {
+      damage_formulas.ap = action.code.overrideAp;
+    }
+    if (action.code.apMod) {
+      damage_formulas.ap += action.code.apMod;
+    }
+    if (action.code.rerollDamageMod && expend_bennie) {
+      const reroll_mod = create_modifier(
+        action.code.name,
+        action.code.rerollDamageMod,
+      );
+      damage_roll.brswroll.modifiers.push(reroll_mod);
+    }
+    if (action.code.multiplyDmgMod) {
+      damage_formulas.multiplier = action.code.multiplyDmgMod;
+    }
+    if (action.code.avoid_exploding_damage) {
+      damage_formulas.explodes = false;
+    }
+    if (action.code.change_location) {
+      damage_formulas.location = action.code.change_location;
+    }
+  }
+}
+
 /**
  * Rolls damage dor an item
  * @param {BrCommonCard} br_card
@@ -1291,54 +1350,13 @@ export async function roll_dmg(
     calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
   }
   // Actions
-  for (let action of br_card.get_selected_actions()) {
-    if (action.code.isHeavyWeapon) {
-      damage_formulas.heavy_weapon = true;
-    }
-    if (action.code.dmgMod) {
-      let action_name = action.code.name.includes("BRSW.")
-        ? game.i18n.localize(action.code.name)
-        : action.code.name;
-      const new_mod = create_modifier(action_name, action.code.dmgMod);
-      damage_roll.brswroll.modifiers.push(new_mod);
-    }
-    if (action.code.dmgOverride) {
-      damage_formulas.damage = action.code.dmgOverride;
-    }
-    if (action.code.self_add_status) {
-      set_or_update_condition(action.code.self_add_status, actor).catch(() => {
-        console.error("BR2: Unable to update condition");
-      });
-    }
-    if (action.code.runDamageMacro) {
-      macros.push(action.code.runDamageMacro);
-    }
-    if (action.code.raiseDamageFormula) {
-      damage_formulas.raise = action.code.raiseDamageFormula;
-    }
-    if (action.code.overrideAp) {
-      damage_formulas.ap = action.code.overrideAp;
-    }
-    if (action.code.apMod) {
-      damage_formulas.ap += action.code.apMod;
-    }
-    if (action.code.rerollDamageMod && expend_bennie) {
-      const reroll_mod = create_modifier(
-        action.code.name,
-        action.code.rerollDamageMod,
-      );
-      damage_roll.brswroll.modifiers.push(reroll_mod);
-    }
-    if (action.code.multiplyDmgMod) {
-      damage_formulas.multiplier = action.code.multiplyDmgMod;
-    }
-    if (action.code.avoid_exploding_damage) {
-      damage_formulas.explodes = false;
-    }
-    if (action.code.change_location) {
-      damage_formulas.location = action.code.change_location;
-    }
-  }
+  get_damage_mods_from_actions(
+    br_card,
+    damage_formulas,
+    damage_roll,
+    macros,
+    expend_bennie,
+  );
   if (!damage_formulas.damage) {
     // Damage is empty and damage action has not been selected...
     damage_formulas.damage = "1";
