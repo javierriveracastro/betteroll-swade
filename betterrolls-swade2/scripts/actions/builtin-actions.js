@@ -429,6 +429,35 @@ export const SYSTEM_GLOBAL_ACTION = [
     ],
     group: "BRSW.Edges",
   },
+  {
+    id: "Double Shot",
+    name: "BRSW.EdgeName-DoubleShot",
+    button_name: "BRSW.EdgeName-DoubleShot",
+    and_selector: [
+      {
+        or_selector: [
+          { selector_type: "skill", selector_value: "athletics" },
+          { selector_type: "skill", selector_value: "shooting" },
+        ],
+      },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "BRSW.EdgeName-DoubleShot",
+          },
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "BRSW.EdgeName-ImprovedDoubleShot",
+          },
+        ],
+      },
+      { selector_type: "item_type", selector_value: "weapon" },
+    ],
+    defaultChecked: "on",
+    group: "BRSW.Edges",
+    rof: "2",
+  },
 ]
   .concat(COMBAT_OPTIONS)
   .concat(POWER_POINT_OPTIONS)
