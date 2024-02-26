@@ -1366,6 +1366,14 @@ export async function roll_dmg(
   if (conviction_modifier) {
     damage_roll.brswroll.modifiers.push(conviction_modifier);
   }
+  // System reroll mod
+  if (expend_bennie && actor.system.stats.globalMods.bennyDamage.length) {
+    for (const modifier of actor.system.stats.globalMods.bennyDamage) {
+      damage_roll.brswroll.modifiers.push(
+        create_modifier(modifier.label, modifier.value),
+      );
+    }
+  }
   // Roll
   if (damage_formulas.explodes) {
     damage_formulas.damage = makeExplotable(damage_formulas.damage);
