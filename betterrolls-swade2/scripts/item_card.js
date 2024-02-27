@@ -617,7 +617,7 @@ async function displayRemainingCard(content) {
   if (show_card !== "none") {
     let chat_data = { content: content };
     if (show_card === "master_and_gm") {
-      chat_data.whisper = [ChatMessage.getWhisperRecipients("GM")[0]?.id];
+      chat_data.whisper = [ChatMessage.getWhisperRecipients("GM")[0]];
     }
     if (show_card === "master_only") {
       chat_data.whisper = [""];
