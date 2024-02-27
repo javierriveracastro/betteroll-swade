@@ -64,7 +64,7 @@ const INJURY_ACTIVE_EFFECT = {
  */
 export async function create_incapacitation_card(token_id) {
   let token = canvas.tokens.get(token_id);
-  let actor = token.actor;
+  let {actor} = token;
   let user = get_owner(actor);
   // noinspection JSUnresolvedVariable
   const text = game.i18n.format("BRSW.IncapacitatedText", {
@@ -210,7 +210,7 @@ export async function create_injury_card(token_id, reason) {
     return;
   }
   let token = canvas.tokens.get(token_id);
-  let actor = token.actor;
+  let {actor} = token;
   let user = get_owner(actor);
   // First roll
   let first_roll = new Roll("2d6");
@@ -268,7 +268,7 @@ export async function create_injury_card(token_id, reason) {
   );
   br_message.update_list = { ...br_message.update_list, ...{ user: user.id } };
   br_message.type = BRSW_CONST.TYPE_INJ_CARD;
-  br_message.popup_shown = true; //The injury result has no action so we don't show the popout
+  br_message.popup_shown = true; //The injury result has no action, so we don't show the popout
   await br_message.render();
   await br_message.save();
   Hooks.call("BRSW-InjuryAEApplied", br_message, injury_effect, reason);
