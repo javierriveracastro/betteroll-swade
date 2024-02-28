@@ -1,3 +1,15 @@
+# Version 3.69 aka version 3.3 ready, well, hopefully
+* Sheets: Clicks on item should works on 3.3
+* Sheets: Send to chat button works on 3.3
+* Refactor: Use name instead of label for active effects
+* Refactor: Force the unshake bonus into an integer to avoid some possible problems
+* Hindrances: Use the new 3.3-system way to determine whenever a hindrance is major or minor.
+* Cards: Add support for the globalMods.bennyTrait and Damage.
+* Actions: Add support for Double Shot and Deflection (Dan Brown)
+* Cards: Reworked pop_shown to disable it for certain cards (Dan Brown)
+* Bugfix: PP remaining card should now correctly obey the BR2 settings.
+
+
 # Version 3.68 aka Popout 
 Note, this version has only had been tested with Swade 3.2. Upgrade to 3.3 at your own risk.
 * Actions: Make item_description_includes look also in notes and category
