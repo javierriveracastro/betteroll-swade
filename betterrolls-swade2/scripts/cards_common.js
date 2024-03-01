@@ -123,10 +123,7 @@ export class BrCommonCard {
   }
 
   create_popout() {
-    if (
-      game.user.id !== this.message.user.id ||
-      this.popup_shown
-    ) {
+    if (game.user.id !== this.message.user.id || this.popup_shown) {
       return;
     }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
@@ -421,7 +418,7 @@ export class BrCommonCard {
   }
 
   populate_resist_actions() {
-    if (!this.item) {
+    if (!this.item || !this.item.system.actions) {
       return;
     }
     for (let action in this.item.system.actions.additional) {

@@ -160,11 +160,13 @@ async function create_item_card(origin, item_id) {
     ? game.settings.get("betterrolls-swade2", "default-pp-management")
     : false;
   if (!damage) {
-    for (let action in item.system.actions.additional) {
-      const current_action = item.system.actions.additional[action];
-      if (current_action.type === "damage" && current_action.override) {
-        damage = true;
-        break;
+    if (item.system.actions) {
+      for (let action in item.system.actions.additional) {
+        const current_action = item.system.actions.additional[action];
+        if (current_action.type === "damage" && current_action.override) {
+          damage = true;
+          break;
+        }
       }
     }
   }
@@ -505,15 +507,17 @@ export function get_item_trait(item, actor) {
     return trait_from_string(actor, item.system.actions.trait);
   }
   // Now check for a skill in additional actions.
-  for (let action in item.system.actions.additional) {
-    if (
-      item.system.actions.additional[action].type === "trait" &&
-      item.system.actions.additional[action].name
-    ) {
-      return trait_from_string(
-        actor,
-        item.system.actions.additional[action].name,
-      );
+  if (item.system.actions) {
+    for (let action in item.system.actions.additional) {
+      if (
+        item.system.actions.additional[action].type === "trait" &&
+        item.system.actions.additional[action].name
+      ) {
+        return trait_from_string(
+          actor,
+          item.system.actions.additional[action].name,
+        );
+      }
     }
   }
   // Some types of items don't have an associated skill
