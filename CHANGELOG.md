@@ -1,3 +1,6 @@
+# Version 3.70 aka small bugfix
+* Bugfix: Edges and hindrances show a card again.
+
 # Version 3.69 aka version 3.3 ready, well, hopefully
 * Sheets: Clicks on item should works on 3.3
 * Sheets: Send to chat button works on 3.3
