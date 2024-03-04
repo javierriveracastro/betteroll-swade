@@ -53,7 +53,7 @@ In the [Wiki for this repository](https://github.com/javierriveracastro/betterol
 
 ## Translations
 
-* Translations are now managed in [Weblate](https://weblate.foundryvtt-hub.com/projects/betterrolls-swade2/main/), please feel free to help.
+* There is currently no automated way to manage translations.
 
 ## Acknowledgements
 
