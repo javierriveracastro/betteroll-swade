@@ -247,7 +247,7 @@ export class BrCommonCard {
   }
 
   get skill_tooltip() {
-    if (!this.skill) {
+    if (!this.skill || !this.skill.system.description) {
       return;
     }
     return this.skill.system.description.length <=
