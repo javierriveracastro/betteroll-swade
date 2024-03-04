@@ -1,4 +1,5 @@
-/* globals game, FormApplication, console, Dialog, saveDataToFile, ui, readTextFromFile, renderTemplate, getProperty, $ */
+/* globals game, FormApplication, console, Dialog, saveDataToFile, ui,
+  readTextFromFile, renderTemplate, getProperty, canvas, $ */
 /* jshint -W089 */
 
 import { get_item_trait } from "./item_card.js";
@@ -378,6 +379,23 @@ function check_selector(type, value, item, actor) {
     selected = check_document_value(item, value);
   } else if (type === "item_has_damage") {
     selected = !!item?.system?.damage;
+  } else if (type === "range_less_than") {
+    const tokens = actor.getActiveTokens();
+    if (tokens && game.user.targets.size) {
+      let use_grid_calc = game.settings.get(
+        "betterrolls-swade2",
+        "range_calc_grid",
+      );
+      selected =
+        parseInt(value) >=
+        canvas.grid.measureDistance(
+          tokens[0].center,
+          game.user.targets.first().center,
+          { gridSpaces: use_grid_calc },
+        );
+    } else {
+      selected = false;
+    }
   }
   return selected;
 }
@@ -614,7 +632,7 @@ export class WorldGlobalActions extends FormApplication {
       "button>span",
     );
     if (error) {
-      // Inputs without name are not passed to updateObject
+      // Inputs without a name are not passed to updateObject
       action_title[0].innerHTML = error;
       text_area.removeAttribute("name");
     } else {

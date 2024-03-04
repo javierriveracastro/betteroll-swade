@@ -101,6 +101,7 @@ This group of fields are used to select when the action is available, you will n
 * `item_has_damage`: This will show the action if the item has a damage value. The value is ignored.
 * `actor_has_item`: This will show the action if the actor has an item with the same name as the value.
 * `actor_equips_item`: This action will appear when the actor has an item (see above) with the same name as the value equipped, not just owned.
+* `range_less_than`: This action will appear when the range between the first token of the acting actor and the targeted token is less or equal than value.
 
 #### Complex Selectors
 
