@@ -1,3 +1,6 @@
+# Version 3.71 aka another small bugfix
+* Bugfix: Don't break while rolling items with an attribute set as its trait.
+
 # Version 3.70 aka small bugfix
 * Bugfix: Edges and hindrances show a card again.
 
