@@ -1,3 +1,4 @@
+/* global module */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./betterrolls-swade2/**/*.{html,js}"],
@@ -5,4 +6,5 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+  prefix: "twbr-",
+};
