@@ -1,5 +1,7 @@
 // Common functions used in all cards
-/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor, getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ, console, ChatPopout, $ */
+/* globals Token, TokenDocument, ChatMessage, renderTemplate, game, CONST, Roll, canvas, TextEditor,
+  getProperty, duplicate, CONFIG, foundry, setProperty, getDocumentClass, succ, console, ChatPopout,
+   Hooks, $ */
 // noinspection JSUnusedAssignment
 
 import {
@@ -313,6 +315,7 @@ export class BrCommonCard {
         return a.code.id > b.code.id ? 1 : -1;
       });
     }
+    Hooks.call("BRSWCardActionsPopulated", this);
   }
 
   populate_world_actions() {
