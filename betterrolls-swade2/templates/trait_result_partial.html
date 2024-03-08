@@ -18,8 +18,10 @@
         </div>
         {{#each trait_roll.current_roll.dice}}
             {{# if this.is_not_discarded }}
-                <div class="brsw-roll-detail-row text-white hover:ring-2 hover:ring-offset-1 hover:cursor-pointer bg-gray-600 border border-solid border-gray-700 rounded shadow brsw-edit-modifier brsw-edit-tn"
-                     data-index="{{@index}}" data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}'>
+                <div class="brsw-roll-detail-row twbr-text-white hover:twbr-ring-2 hover:twbr-ring-offset-1
+                        hover:twbr-cursor-pointer twbr-bg-gray-600 twbr-border twbr-border-solid
+                        twbr-border-gray-700 twbr-rounded twbr-shadow brsw-edit-modifier brsw-edit-tn"
+                        data-index="{{@index}}" data-value="{{this.tn}}" title='{{ localize "BRSW.EditTN" }}'>
                     <span title="{{ localize ../trait_roll.tn_reason}}">{{ localize "BRSW.TN" }} {{ ../trait_roll.tn }} {{ localize "BRSW.Result" }} {{ this.final_total }}</span>
                     <span>
                         {{ this.result_text }}
