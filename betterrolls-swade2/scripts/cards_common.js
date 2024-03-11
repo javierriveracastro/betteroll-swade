@@ -1505,7 +1505,7 @@ export async function roll_trait(br_card, trait_dice, dice_label, extra_data) {
   // Make penalties red
   for (let mod of roll_options.modifiers) {
     if (mod.value < 0) {
-      mod.extra_class = " brsw-red-text";
+      mod.extra_class = " twbr-underline";
     }
   }
   // Wild Die
@@ -1618,7 +1618,7 @@ async function add_modifier(br_card, modifier) {
         br_card.message.blind,
       );
     }
-    new_mod.extra_class = new_mod.value < 0 ? " brsw-red-text" : "";
+    new_mod.extra_class = new_mod.value < 0 ? " twbr-underline" : "";
     br_card.trait_roll.modifiers.push(new_mod);
     await br_card.trait_roll.calculate_results();
     await br_card.render();
