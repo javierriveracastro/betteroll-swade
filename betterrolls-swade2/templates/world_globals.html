@@ -2,23 +2,43 @@
     <h2>{{ localize "BRSW.WorldGlobalMenuLabel" }}</h2>
     <div class="brsw-action-list">
         {{#each actions }}<span>
-            <h2 class="mb-0 border-none brsw-accordion">
-                <button type="button" class="p-3 font-medium text-white border border-b-0 border-gray-200 {{# if @first }}rounded-t-xl{{/if}} bg-gray-600 focus:ring-4 focus:ring-gray-700 hover:text-white hover:bg-gray-700 gap-3">
+            <h2 class="twbr-mb-0 twbr-border-none brsw-accordion">
+                <button type="button" class="twbr-p-3 twbr-font-medium twbr-text-white twbr-border
+                        twbr-border-b-0 twbr-border-gray-200 {{# if @first }}twbr-rounded-t-xl{{/if}}
+                        twbr-bg-gray-600 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                        hover:twbr-text-white hover:twbr-bg-gray-700 gap-3">
                     <span>{{ this.name }}</span>
                 </button>
             </h2>
-            <div class='brsw-edit-action p-5 border border-b-0 border-gray-200 bg-gray-500 brsw-collapsed'>
-                <textarea class='brsw-action-json bg-white' name="{{ this.name }}" rows="9">{{ this.json }}</textarea>
+            <div class='brsw-edit-action twbr-p-5 twbr-border twbr-border-b-0 twbr-border-gray-200
+                    twbr-bg-gray-500 brsw-collapsed'>
+                <textarea class='brsw-action-json twbr-bg-white' name="{{ this.name }}"
+                          rows="9">{{ this.json }}</textarea>
                 <i class="brsw-red-text fas fa-trash brsw-clickable"></i>
             </div>
         </span>{{/each}}
     </div>
-    <button class="brsw-new-action py-0.5 px-5 mr-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+    <button class="brsw-new-action twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mt-2 twbr-font-medium
+            focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border twbr-border-solid
+            focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700 twbr-text-gray-800
+            twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700">
         <i class="fas fa-plus"></i> {{ localize "BRSW.NewAction" }}
     </button>
     <div class="form-group">
-        <button type="submit" class="py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
-        <button class="brsw-export-json py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>
-        <button class="brsw-import-json py-0.5 px-5 mr-2 mb-2 mt-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"><i class="fas fa-file-import"></i> {{ localize "BRSW.Import" }}</button>
+        <button type="submit" class="twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2 twbr-mt-2
+                twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700">
+            <i class="fas fa-save"></i> {{localize "BRSW.Save"}}</button>
+        <button class="brsw-export-json twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2 twbr-mt-2
+                twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700">
+            <i class="fas fa-save"></i> {{ localize "BRSW.Export" }}</button>
+        <button class="brsw-import-json twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2 twbr-mt-2
+                twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700">
+            <i class="fas fa-file-import"></i> {{ localize "BRSW.Import" }}</button>
     </div>
 </form>

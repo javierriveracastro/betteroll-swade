@@ -11,7 +11,10 @@
                 </span>{{/if}}
             {{/each}}
             {{#if ../bennie_avaliable}}
-                <button class="brsw-row-button brsw-damage-bennie-button brsw-form py-0.5 px-0.5 focus:outline-none bg-white rounded-lg border border-solid focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
+                <button class="brsw-row-button brsw-damage-bennie-button brsw-form twbr-py-0.5 twbr-px-0.5
+                        focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border twbr-border-solid
+                        focus:twbr-ring-4 focus:twbr-ring-gray-700 twbr-text-gray-800 twbr-border-gray-600
+                        hover:twbr-text-white hover:twbr-bg-gray-700"
                         {{# if this.raise}}id="raise_roll"{{/if}}
                         title="{{ localize 'BRSW.Roll_and_bennie' }}" data-token="{{ this.brswroll.rolls.0.target_id }}">
                     <img src="{{{ ../benny_image }}}" class="brsw-button-image" alt="Reroll with benny">
@@ -25,7 +28,10 @@
                 {{/if}}
                 {{# if ../damage_result }}
                     {{# if this.target_id }}
-                        <button class="brsw-master-only brsw-row-button brsw-apply-damage py-0.5 px-0.5 focus:outline-none bg-white rounded-lg border border-solid focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700"
+                        <button class="brsw-master-only brsw-row-button brsw-apply-damage twbr-py-0.5
+                                twbr-px-0.5 focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                                twbr-border-solid focus:twbr-ring-4 focus:twbr-ring-gray-700
+                                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700"
                                 title="{{ localize "BRSW.ApplyDamage" }}"
                                 data-token="{{this.target_id}}" data-damage="{{../damage_result}}" data-heavy-damage="{{ ../../item.system.isHeavyWeapon }}">
                             <i class="fas fa-check"></i><i class="fas fa-tint"></i>

@@ -1,41 +1,61 @@
 {{>"modules/betterrolls-swade2/templates/common_card_header.html"}}
-{{# if notes}}<div class="w-full text-center font-bold">{{{ notes }}}</div>{{/if}}
+{{# if notes}}<div class="twbr-w-full twbr-text-center twbr-font-bold">{{{ notes }}}</div>{{/if}}
 {{# if skill }}
-    <div class="relative flex justify-between">
-        <span class="group">
-            <span class="text-lg">
+    <div class="twbr-relative twbr-flex twbr-justify-between">
+        <span class="twbr-group">
+            <span class="twbr-text-lg">
                 {{ skill_title }}
             </span>
             {{# if skill_tooltip }}
-                <div class="w-52 opacity-0 collapse h-0 absolute group-hover:visible group-hover:opacity-100 group-hover:h-auto transition-opacity group-hover:delay-500 group-hover:duration-500 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
-                     role="tooltip">
+                <div class="twbr-w-52 twbr-opacity-0 twbr-collapse twbr-h-0 twbr-absolute
+                        group-hover:twbr-visible group-hover:twbr-opacity-100 group-hover:twbr-h-auto
+                        twbr-transition-opacity group-hover:twbr-delay-500 group-hover:twbr-duration-500
+                        twbr-px-3 twbr-py-2 twbr-text-sm twbr-font-medium twbr-text-white
+                        twbr-bg-gray-900 twbr-rounded-lg twbr-shadow-sm"
+                        role="tooltip">
                     {{{ skill_tooltip }}}
                 </div>
             {{/if}}
         </span>
         {{# if ammo }}
             <span>
-                <span class="brws-common-modifiers brsw-form flex">
+                <span class="brws-common-modifiers brsw-form twbr-flex">
                     <img src="modules/betterrolls-swade2/assets/bullet.svg" alt="ammo" title="{{ localize 'BRSW.SubtractAmmo' }}"
-                         class="w-6 brsw-ammo-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_selected}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
+                         class="twbr-w-6 brsw-ammo-toggle twbr-cursor-pointer twbr-border twbr-border-solid
+                            twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2
+                            hover:twbr-ring-offset-1
+                            {{#if subtract_selected}}twbr-bg-red-700{{ else }}twbr-bg-gray-500{{/if}}
+                            hover:twbr-bg-gray-900">
                     <img src="modules/betterrolls-swade2/assets/cycle.svg" alt="reload"
-                         title="{{ localize 'BRSW.ManualAmmo' }}" class="w-6 brsw-ammo-manual cursor-pointer bg-transparent border border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+                         title="{{ localize 'BRSW.ManualAmmo' }}"
+                         class="twbr-w-6 brsw-ammo-manual twbr-cursor-pointer twbr-bg-transparent twbr-border
+                            twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2 hover:twbr-ring-offset-1
+                            hover:twbr-invert">
                 </span>
             </span>
         {{/if}}
         {{# if powerpoints}}
             <span class="brws-common-modifiers brsw-form flex">
                 <img src="modules/betterrolls-swade2/assets/electric.svg" alt="power point" title="{{ localize 'BRSW.SubtractPP' }}"
-                     class="w-6 brsw-pp-toggle cursor-pointer border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 {{#if subtract_pp}}bg-red-700{{ else }}bg-gray-500{{/if}} hover:bg-gray-900">
+                     class="twbr-w-6 brsw-pp-toggle twbr-cursor-pointer twbr-border twbr-border-solid
+                        twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2 hover:twbr-ring-offset-1
+                        {{#if subtract_pp}}twbr-bg-red-700{{ else }}twbr-bg-gray-500{{/if}}
+                        hover:twbr-bg-gray-900">
                 <img src="modules/betterrolls-swade2/assets/magic-swirl.svg" alt="reload"
-                     title="{{ localize 'BRSW.ManualPP' }}" class="w-6 brsw-pp-manual cursor-pointer bg-transparent border border-solid border-slate-400 m-1 rounded hover:ring-2 hover:ring-offset-1 hover:invert">
+                     title="{{ localize 'BRSW.ManualPP' }}"
+                     class="twbr-w-6 brsw-pp-manual twbr-cursor-pointer twbr-bg-transparent twbr-border
+                        twbr-border-solid twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2
+                        hover:twbr-ring-offset-1 hover:twbr-invert">
             </span>
         {{/if}}
     </div>
     {{>"modules/betterrolls-swade2/templates/actions_partial.html"}}
     <div class="brsw-button-row">
         {{# unless trait_roll.is_rolled}}
-            <button class="brsw-roll-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700">
+            <button class="brsw-roll-button brsw-form twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2
+                    twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                    twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                    twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700">
                 <i class="fas fa-dice"></i> {{ localize 'BRSW.Roll' }}
             </button>
         {{/unless}}
@@ -48,17 +68,30 @@
 {{# if swade_templates }}
     <div class="brsw-form brsw-button-row brsw-form-options">
         {{# each swade_templates }}
-            <button class="brsw-template-button py-0.5 px-0.5 mr-1 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" data-size="{{ this }}"><i class="fas fa-ruler-combined"></i> {{ this }}</button>
+            <button class="brsw-template-button twbr-py-0.5 twbr-px-0.5 twbr-mr-1 twbr-mb-2
+                twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700"
+                data-size="{{ this }}"><i class="fas fa-ruler-combined"></i> {{ this }}</button>
         {{/each}}
     </div>
 {{/if}}
 {{# if has_feet_buttons }}
     <div class="brsw-form brsw-button-row brsw-form-options">
         {{#each macro_buttons}}
-            <button class="brsw-macro-button py-0.5 px-0.5 mr-1 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" data-macro="{{ this.key }}"><i class="fas fa-gear"></i> {{ this.name }}</button>
+            <button class="brsw-macro-button twbr-py-0.5 twbr-px-0.5 twbr-mr-1 twbr-mb-2
+                twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg twbr-border
+                twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                twbr-text-gray-800 twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700"
+                data-macro="{{ this.key }}"><i class="fas fa-gear"></i> {{ this.name }}</button>
         {{/each}}
         {{# each resist_buttons }}
-            <button class="brsw-resist-button py-0.5 px-0.5 mr-1 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 {{# if ../trait_roll.is_rolled }}hover:text-white hover:bg-gray-700{{/if}}" data-trait="{{this.trait}}" {{#unless ../trait_roll.is_rolled }}disabled{{/unless}}>
+            <button class="brsw-resist-button twbr-py-0.5 twbr-px-0.5 twbr-mr-1 twbr-mb-2
+                    twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg
+                    twbr-border twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
+                    twbr-text-gray-800 twbr-border-gray-600
+                    {{# if ../trait_roll.is_rolled }}hover:twbr-text-white hover:twbr-bg-gray-700{{/if}}"
+                    data-trait="{{this.trait}}" {{#unless ../trait_roll.is_rolled }}disabled{{/unless}}>
                 <i class="fa-solid fa-ban"></i> {{ this.name }}
             </button>
         {{/each}}
@@ -66,13 +99,25 @@
 {{/if}}
 {{# if damage }}
     <hr>
-    <div class="brsw-form brsw-button-row brsw-form-options pt-2">
+    <div class="brsw-form brsw-button-row brsw-form-options twbr-pt-2">
         {{ localize 'BRSW.Damage' }}
         <span>
-            <button id="roll-damage" class="brsw-damage-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.Damage' }}" draggable="true">
+            <button id="roll-damage"
+                    class="brsw-damage-button brsw-form twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2
+                     twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg
+                     twbr-border twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4
+                     focus:twbr-ring-gray-700 twbr-text-gray-800 twbr-border-gray-600
+                     hover:twbr-text-white hover:twbr-bg-gray-700"
+                    title="{{ localize 'BRSW.Damage' }}" draggable="true">
                 <i class="fas fa-dice"></i>
             </button>
-            <button id="roll-raise-damage" class="brsw-damage-button brsw-form py-0.5 px-5 mr-2 mb-2 font-medium focus:outline-none bg-white rounded-lg border border-solid focus:z-10 focus:ring-4 focus:ring-gray-700 text-gray-800 border-gray-600 hover:text-white hover:bg-gray-700" title="{{ localize 'BRSW.RaiseDamage' }}" draggable="true">
+            <button id="roll-raise-damage"
+                    class="brsw-damage-button brsw-form twbr-py-0.5 twbr-px-5 twbr-mr-2 twbr-mb-2
+                    twbr-font-medium focus:twbr-outline-none twbr-bg-white twbr-rounded-lg
+                    twbr-border twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4
+                    focus:twbr-ring-gray-700 twbr-text-gray-800 twbr-border-gray-600
+                    hover:twbr-text-white hover:twbr-bg-gray-700"
+                    title="{{ localize 'BRSW.RaiseDamage' }}" draggable="true">
                 <i class="fas fa-plus"></i><i class="fas fa-dice-six"></i>
             </button>
         </span>
