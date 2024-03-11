@@ -1,3 +1,9 @@
+# Version 3.72 aka prelude to a bug-fixing week.
+* Actions: Added range_less_then selector.
+* CSS, everywhere: Configure Tailwind to generate CSS with a prefix. It should solve some issues with other modules (notably item piles) but risk breaking everything.
+* Cards: Use white underlined text instead of red text for penalties to achieve better legibility.
+* Translations: German translations updated using the new Weblate (Max Hilbrunner)
+
 # Version 3.71 aka another small bugfix
 * Bugfix: Don't break while rolling items with an attribute set as its trait.
 
