@@ -86,7 +86,7 @@ Hooks.on(`ready`, () => {
     "modules/betterrolls-swade2/templates/trait_result_partial.html",
     "modules/betterrolls-swade2/templates/damage_partial.html",
     "modules/betterrolls-swade2/templates/actions_partial.html",
-    "modules/betterrolls-swade2/templates/card_dialog.html",,
+    "modules/betterrolls-swade2/templates/card_dialog.html",
     "modules/betterrolls-swade2/templates/setting_partial.html",
   ];
   loadTemplates(templatePaths).then(() => {
