@@ -1,3 +1,5 @@
+import * as BRSW2_CONFIG from "./brsw2-config.js";
+
 // Utility functions that can be used out of the module
 /* globals ChatMessage, game, Dialog */
 
@@ -130,5 +132,124 @@ export async function set_or_update_condition(condition_id, actor) {
     });
   } else {
     await game.succ.addCondition(condition_id, actor);
+  }
+}
+
+export class Utils {
+
+  /**
+   * Get a single setting using the provided key
+   * @param {*} key 
+   * @returns {Object} setting
+   */
+  static getSetting(key) {
+    return game.settings.get(BRSW2_CONFIG.NAME, key);
+  }
+
+  /**
+   * Sets a single game setting
+   * @param {*} key 
+   * @param {*} value 
+   * @param {*} awaitResult 
+   * @returns {Promise | ClientSetting}
+   */
+  static async setSetting(key, value, awaitResult = false) {
+    if (!awaitResult) {
+      return game.settings.set(BRSW2_CONFIG.NAME, key, value);
+    }
+
+    await game.settings.set(BRSW2_CONFIG.NAME, key, value).then(result => {
+      return result;
+    }).catch(rejected => {
+      throw rejected;
+    });
+  }
+
+  /**
+   * Register a single setting using the provided key and setting data
+   * @param {*} key 
+   * @param {*} metadata 
+   * @returns {ClientSettings.register}
+   */
+  static registerSetting(key, metadata) {
+    return game.settings.register(BRSW2_CONFIG.NAME, key, metadata);
+  }
+
+  /**
+   * Register a menu setting using the provided key and setting data
+   * @param {*} key 
+   * @param {*} metadata 
+   * @returns {ClientSettings.registerMenu}
+   */
+  static registerMenu(key, metadata) {
+    return game.settings.registerMenu(BRSW2_CONFIG.NAME, key, metadata);
+  }
+
+  /**
+   * Register a single setting using the provided key and setting data
+   * @param {*} key 
+   * @param {*} metadata 
+   * @returns {ClientSettings.register}
+   */
+  static registerBR2WorldSetting(key, metadata) {
+    if (BRSW2_CONFIG.WORLD_SETTINGS[key] || BRSW2_CONFIG.USER_SETTINGS[key]) {
+      console.error("Duplicate setting key");
+      return;
+    }
+
+    let setting = {};
+    setting.key = key;
+    mergeObject(setting, metadata);
+    BRSW2_CONFIG.WORLD_SETTINGS[key] = setting;
+  }
+
+  /**
+   * Register a single setting using the provided key and setting data
+   * @param {*} key 
+   * @param {*} metadata 
+   * @returns {ClientSettings.register}
+   */
+  static registerBR2UserSetting(key, metadata) {
+    if (BRSW2_CONFIG.WORLD_SETTINGS[key] || BRSW2_CONFIG.USER_SETTINGS[key]) {
+      console.error("Duplicate setting key");
+      return;
+    }
+
+    let setting = {};
+    setting.key = key;
+    mergeObject(setting, metadata);
+    BRSW2_CONFIG.USER_SETTINGS[key] = setting;
+  }
+
+  static hasModuleFlags(obj) {
+      if (!obj.flags) {
+          return false;
+      }
+
+      return obj.flags[BRSW2_CONFIG.NAME] ? true : false;
+  }
+
+  static getModuleFlag(obj, flag) {
+      if (!Utils.hasModuleFlags(obj)) {
+          return;
+      }
+
+      return obj.flags[BRSW2_CONFIG.NAME][flag];
+  }
+
+  static getWorldSetting(key) {
+    if (!BRSW2_CONFIG.WORLD_SETTINGS[key]) {
+      return;
+    }
+    
+    return BRSW2_CONFIG.WORLD_SETTINGS[key].value ? BRSW2_CONFIG.WORLD_SETTINGS[key].value : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
+  }
+
+  static getUserSetting(key) {
+    if (!BRSW2_CONFIG.USER_SETTINGS[key]) {
+      return;
+    }
+    
+    return BRSW2_CONFIG.USER_SETTINGS[key].value ? BRSW2_CONFIG.USER_SETTINGS[key].value : BRSW2_CONFIG.USER_SETTINGS[key].default;
   }
 }

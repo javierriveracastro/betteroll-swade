@@ -1,5 +1,7 @@
 /* globals FormApplication, game */
 
+import { Utils } from "./utils.js";
+
 /**
  * Settings configuration for modifier names
  */
@@ -12,18 +14,18 @@ export class ModifierSettingsConfiguration extends FormApplication {
     }
 
     getData(_) {
-        let chat_modifiers_names = game.settings.get('betterrolls-swade2', 'chat_modifiers_names');
+        let chat_modifiers_names = Utils.getSetting('chat_modifiers_names');
         // noinspection JSValidateTypes
         return {names: chat_modifiers_names};
     }
 
     async _updateObject(_, formData) {
-        await game.settings.set('betterrolls-swade2', 'chat_modifiers_names', formData);
+        await Utils.setSetting('chat_modifiers_names', formData, true);
     }
 }
 
 export function changeNames(){
-    const new_names =  game.settings.get('betterrolls-swade2', 'chat_modifiers_names');
+    const new_names =  Utils.getSetting('chat_modifiers_names');
     for (let prefix of ['GM', 'Trait', 'Damage', 'ROF']) {
         if (new_names[prefix]) {
             const element = document.getElementById(`brsw-mods-${prefix}-label`)

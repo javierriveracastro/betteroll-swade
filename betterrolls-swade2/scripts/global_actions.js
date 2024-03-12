@@ -6,16 +6,14 @@ import { get_item_trait } from "./item_card.js";
 import { SYSTEM_GLOBAL_ACTION } from "./actions/builtin-actions.js";
 import { manage_selectable_gm } from "./gm_modifiers.js";
 import { get_roll_options } from "./cards_common.js";
+import { Utils } from "./utils.js";
 
 // DMG override is still not implemented.
 /**
  * Registers all the available global actions
  */
 export function register_actions() {
-  let world_actions = game.settings.get(
-    "betterrolls-swade2",
-    "world_global_actions",
-  );
+  let world_actions = Utils.getSetting("world_global_actions");
   if (world_actions && world_actions[0] instanceof Array) {
     world_actions = world_actions[0];
   }
@@ -127,10 +125,7 @@ function process_action(action, item, actor) {
  */
 export function get_actions(item, actor) {
   let actions_avaliable = [];
-  let disabled_actions = game.settings.get(
-    "betterrolls-swade2",
-    "system_action_disabled",
-  );
+  let disabled_actions = Utils.getSetting("system_action_disabled");
   if (disabled_actions && disabled_actions[0] instanceof Array) {
     disabled_actions = disabled_actions[0];
   }
@@ -382,10 +377,7 @@ function check_selector(type, value, item, actor) {
   } else if (type === "range_less_than") {
     const tokens = actor.getActiveTokens();
     if (tokens && game.user.targets.size) {
-      let use_grid_calc = game.settings.get(
-        "betterrolls-swade2",
-        "range_calc_grid",
-      );
+      let use_grid_calc = BRSW2_CONFIG.WORLD_SETTINGS["range_calc_grid"];
       selected =
         parseInt(value) >=
         canvas.grid.measureDistance(
@@ -427,10 +419,7 @@ export class SystemGlobalConfiguration extends FormApplication {
 
   getData(_) {
     let groups = {};
-    let disable_actions = game.settings.get(
-      "betterrolls-swade2",
-      "system_action_disabled",
-    );
+    let disabled_actions = Utils.getSetting("system_action_disabled");
     if (disable_actions && disable_actions[0] instanceof Array) {
       disable_actions = disable_actions[0];
     }
@@ -469,11 +458,7 @@ export class SystemGlobalConfiguration extends FormApplication {
         disabled_actions.push(id);
       }
     }
-    await game.settings.set(
-      "betterrolls-swade2",
-      "system_action_disabled",
-      disabled_actions,
-    );
+    await Utils.setSetting("system_action_disabled", disabled_actions, true);
   }
 }
 
@@ -490,10 +475,7 @@ export class WorldGlobalActions extends FormApplication {
   }
 
   getData(_) {
-    let actions = game.settings.get(
-      "betterrolls-swade2",
-      "world_global_actions",
-    );
+    let actions = Utils.getSetting("world_global_actions");
     if (actions && actions[0] instanceof Array) {
       actions = actions[0];
     }
@@ -517,11 +499,7 @@ export class WorldGlobalActions extends FormApplication {
     for (let action in formData) {
       new_world_actions.push(JSON.parse(formData[action]));
     }
-    await game.settings.set(
-      "betterrolls-swade2",
-      "world_global_actions",
-      new_world_actions,
-    );
+    await Utils.setSetting("world_global_actions", new_world_actions, true);
     register_actions();
   }
 
@@ -672,7 +650,7 @@ export class WorldGlobalActions extends FormApplication {
  * Exports custom global actions to a json file.
  */
 function export_global_actions() {
-  let actions = game.settings.get("betterrolls-swade2", "world_global_actions");
+  let actions = Utils.getWorldSetting("world_global_actions");
   saveDataToFile(JSON.stringify(actions), "json", "world_actions.json");
 }
 
@@ -697,11 +675,7 @@ async function import_global_actions() {
               return ui.notifications.error("You did not upload a data file!");
             }
             readTextFromFile(form.data.files[0]).then((json) => {
-              game.settings.set(
-                "betterrolls-swade2",
-                "world_global_actions",
-                JSON.parse(json),
-              );
+              Utils.setSetting("world_global_actions", JSON.parse(json));
             });
           },
         },
@@ -723,10 +697,7 @@ async function import_global_actions() {
  */
 function get_gm_actions() {
   let gm_actions = [];
-  const disabled_actions = game.settings.get(
-    "betterrolls-swade2",
-    "system_action_disabled",
-  );
+  const disabled_actions = Utils.getSetting("system_action_disabled");
   for (let action of game.brsw.GLOBAL_ACTIONS) {
     if (
       action.selector_type === "gm_action" &&
@@ -740,7 +711,7 @@ function get_gm_actions() {
 }
 
 export function register_gm_actions_settings() {
-  game.settings.register("betterrolls-swade2", "gm_actions", {
+  Utils.registerSetting("gm_actions", {
     name: "GM Actions",
     default: get_gm_actions(),
     type: Array,
@@ -755,7 +726,7 @@ export function register_gm_actions_settings() {
 export function render_gm_actions() {
   let actions_ordered = {};
   let content = "";
-  const old_actions = game.settings.get("betterrolls-swade2", "gm_actions");
+  const old_actions = Utils.getSetting("gm_actions");
   let new_actions = [];
   for (let new_action of get_gm_actions()) {
     const new_action_id = new_action.id;
@@ -768,7 +739,7 @@ export function render_gm_actions() {
     new_actions.push(new_action);
   }
   // noinspection JSIgnoredPromiseFromCall
-  game.settings.set("betterrolls-swade2", "gm_actions", new_actions);
+  Utils.setSetting("gm_actions", new_actions);
   for (let action of new_actions) {
     if (!actions_ordered.hasOwnProperty(action.group)) {
       actions_ordered[action.group] = [];

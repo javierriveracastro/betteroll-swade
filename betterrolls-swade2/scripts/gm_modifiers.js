@@ -1,6 +1,8 @@
 // Scripts to manage gm selectors
 /* globals game */
 
+import { Utils } from "./utils.js"
+
 /**
  * Gm modifiers have been checked
  * @param ev
@@ -10,7 +12,7 @@ export function manage_selectable_gm(ev) {
     const value = parseInt(ev.currentTarget.dataset.value)
     ev.currentTarget.classList.toggle('brws-permanent-selected')
     ev.currentTarget.classList.toggle('brws-selected')
-    let value_list = game.settings.get('betterrolls-swade2', 'gm_modifiers')
+    let value_list = Utils.getSetting( 'gm_modifiers')
     let indice = value_list.indexOf(value)
     if (indice >= 0 && !initial_status) {
         value_list.splice(indice, 1)
@@ -18,8 +20,8 @@ export function manage_selectable_gm(ev) {
         value_list.push(value)
     }
     // noinspection JSIgnoredPromiseFromCall
-    game.settings.set('betterrolls-swade2', 'gm_modifiers', value_list)
-    let gm_actions = game.settings.get('betterrolls-swade2', 'gm_actions')
+    Utils.setSetting('gm_modifiers', value_list)
+    let gm_actions = Utils.getSetting( 'gm_actions')
     let selected_actions = []
     for (let element of document.querySelectorAll('#brsw-gm-actions .brws-permanent-selected')) {
         selected_actions.push(element.dataset.actionName)
@@ -28,26 +30,23 @@ export function manage_selectable_gm(ev) {
         gm_action.enable = selected_actions.includes(gm_action.name)
     }
     // noinspection JSIgnoredPromiseFromCall
-    game.settings.set('betterrolls-swade2', 'gm_actions', gm_actions)
+    Utils.setSetting('gm_actions', gm_actions)
 }
 
 /**
  * Register the settings used to store the gm modifiers
  */
 export function register_gm_modifiers_settings() {
-    game.settings.register('betterrolls-swade2', 'gm_modifiers', {
+    Utils.registerSetting('gm_modifiers', {
         name: "GM Modifiers",
         default: [],
         type: Array,
-        scope: "world",
-        config: false
     });
 }
 
 export function recover_html_from_gm_modifiers() {
     if (game.user.isGM) {
-        const gm_modifiers_array = game.settings.get('betterrolls-swade2',
-            'gm_modifiers')
+        const gm_modifiers_array = Utils.getSetting('gm_modifiers');
         for (let modifier of [-4, -2, -1, 1, 2, 4]) {
             let class_str = "brsw-clickable brws-selectable"
             if (gm_modifiers_array.includes(modifier)) {
@@ -60,7 +59,7 @@ export function recover_html_from_gm_modifiers() {
 }
 
 export function get_gm_modifiers() {
-    const gm_modifiers_array = game.settings.get('betterrolls-swade2', 'gm_modifiers')
+    const gm_modifiers_array = Utils.getSetting( 'gm_modifiers')
     let total_modifier = 0
     for (let modifier of gm_modifiers_array) {
         total_modifier += modifier
@@ -86,6 +85,5 @@ export function manage_gm_tabs() {
 }
 
 export function get_enabled_gm_actions() {
-    return  game.settings.get(
-        'betterrolls-swade2', 'gm_actions').filter(action => action.enable)
+    return Utils.getSetting('gm_actions').filter(action => action.enable)
 }

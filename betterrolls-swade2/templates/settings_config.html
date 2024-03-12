@@ -1,0 +1,26 @@
+<form>
+    <nav class="sheet-tabs tabs" data-group="main" aria-role="Form Tab Navigation">
+        {{#if isGM}}
+        <a class="item active" data-tab="config"><i class="fas fa-wrench"></i> {{localize "BRSW.Settings.Tabs.Config"}}</a>
+        {{/if}}
+        <a class="item" data-tab="interface"><i class="fa-regular fa-bow-arrow"></i> {{localize "BRSW.Settings.Tabs.Interface"}}</a>
+    </nav>
+
+    <section class="content">
+        <div class="tab active" data-group="main" data-tab="config">
+            {{#each world_settings }}
+            {{>"modules/betterrolls-swade2/templates/setting_partial.html"}}
+            {{/each}}
+        </div>
+
+        <div class="tab" data-group="main" data-tab="interface">
+            {{#each user_settings }}
+            {{>"modules/betterrolls-swade2/templates/setting_partial.html"}}
+            {{/each}}
+        </div>
+    </section>
+
+    <footer class="sheet-footer flexrow">
+        <button type="submit"><i class="far fa-save"></i>{{localize "BRSW.Settings.Apply"}}</button>
+    </footer>
+</form>
