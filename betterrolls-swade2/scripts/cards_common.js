@@ -76,6 +76,8 @@ function store_render_flag(flags, render_object) {
   flags.render_data = render_object;
 }
 
+let cascade_count = 0;
+
 export class BrCommonCard {
   constructor(message) {
     this.message = message;
@@ -129,7 +131,10 @@ export class BrCommonCard {
       return;
     }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
-      new ChatPopout(this.message).render(true);
+      let top = 250 + (cascade_count * 40);
+      let left = 600 + (cascade_count * 40);
+      cascade_count = cascade_count < 3 ? cascade_count + 1 : 0;
+      new ChatPopout(this.message, {top: top, left: left}).render(true);
       this.popup_shown = true;
       this.save().catch(() => {
         console.error("Error saving card data after popup rendering");
