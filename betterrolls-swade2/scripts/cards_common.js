@@ -76,8 +76,6 @@ function store_render_flag(flags, render_object) {
   flags.render_data = render_object;
 }
 
-let cascade_count = 0;
-
 export class BrCommonCard {
   constructor(message) {
     this.message = message;
@@ -98,6 +96,7 @@ export class BrCommonCard {
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
     this.popup_shown = false;
+    this.cascade_count = 0;
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
@@ -131,9 +130,9 @@ export class BrCommonCard {
       return;
     }
     if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
-      let top = 250 + (cascade_count * 40);
-      let left = 600 + (cascade_count * 40);
-      cascade_count = cascade_count < 3 ? cascade_count + 1 : 0;
+      let top = 250 + (this.cascade_count * 40);
+      let left = 600 + (this.cascade_count * 40);
+      this.cascade_count = this.cascade_count < 3 ? this.cascade_count + 1 : 0;
       new ChatPopout(this.message, {top: top, left: left}).render(true);
       this.popup_shown = true;
       this.save().catch(() => {
