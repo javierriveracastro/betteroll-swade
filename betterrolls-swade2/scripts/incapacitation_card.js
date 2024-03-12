@@ -171,15 +171,15 @@ async function roll_incapacitation(br_card, spend_benny) {
     );
     br_card.render_data.injury_type = "permanent";
     if (game.succ.hasCondition("incapacitated", br_card.token)) {
-      await succ.apply_status(br_card.token, "incapacitated", false); //remove Inc as overlay
-      await succ.apply_status(br_card.token, "incapacitated", true, false); //add it as regular (small) icon
+      await game.succ.removeCondition("incapacitated", br_card.token); //remove Inc as overlay
+      await game.succ.addCondition("incapacitated", br_card.token, {forceOverlay: false}); //add it as regular (small) icon
     }
     // noinspection ES6MissingAwait
     const ignoreBleedOut =
       game.settings.get("swade", "heroesNeverDie") ||
       br_card.actor.getFlag("swade", "ignoreBleedOut");
     if (!ignoreBleedOut) {
-      succ.apply_status(br_card.token, "bleeding-out", true, true).catch(() => {
+      game.succ.addCondition("bleeding-out", br_card.token, {forceOverlay: true}).catch(() => {
         console.log("Error while applying bleeding out");
       }); //make bleeding out overlay
     }
