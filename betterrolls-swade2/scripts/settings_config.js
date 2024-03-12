@@ -62,12 +62,15 @@ export class SettingsConfig extends FormApplication {
     }
 
     async _updateObject(event, formData) {
+        let requires_world_reload = false;
+        let requires_client_reload = false;
         for ( let [k, v] of Object.entries(foundry.utils.flattenObject(formData)) ) {
-            if (BRSW2_CONFIG.WORLD_SETTINGS[k]) {
+            if (BRSW2_CONFIG.WORLD_SETTINGS[k] && BRSW2_CONFIG.WORLD_SETTINGS[k].value != v) {
               BRSW2_CONFIG.WORLD_SETTINGS[k].value = v;
-            }
-            if (BRSW2_CONFIG.USER_SETTINGS[k]) {
+              requires_world_reload = requires_world_reload || BRSW2_CONFIG.WORLD_SETTINGS[k].requiresReload;
+            } else if (BRSW2_CONFIG.USER_SETTINGS[k] && BRSW2_CONFIG.USER_SETTINGS[k].value != v) {
               BRSW2_CONFIG.USER_SETTINGS[k].value = v;
+              requires_client_reload = requires_client_reload || BRSW2_CONFIG.USER_SETTINGS[k].requiresReload;
             }
         }
 
@@ -75,5 +78,19 @@ export class SettingsConfig extends FormApplication {
         
         await game.user.unsetFlag(BRSW2_CONFIG.NAME, BRSW2_CONFIG.USER_FLAGS.user_settings);
         await game.user.setFlag(BRSW2_CONFIG.NAME, BRSW2_CONFIG.USER_FLAGS.user_settings, BRSW2_CONFIG.USER_SETTINGS);
+
+        if (requires_world_reload || requires_client_reload) {
+            this.constructor.reloadConfirm({world: requires_world_reload});
+        }
     }
+
+  static async reloadConfirm({world=false}={}) {
+    const reload = await Dialog.confirm({
+      title: game.i18n.localize("SETTINGS.ReloadPromptTitle"),
+      content: `<p>${game.i18n.localize("SETTINGS.ReloadPromptBody")}</p>`
+    });
+    if ( !reload ) return;
+    if ( world && game.user.isGM ) game.socket.emit("reload");
+    foundry.utils.debouncedReload();
+  }
 }

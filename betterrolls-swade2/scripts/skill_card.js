@@ -246,7 +246,7 @@ export function calculate_distance(
 ) {
   const grid_unit = canvas.grid.grid.options.dimensions.distance;
   let use_parry_as_tn = false;
-  let use_grid_calc = BRSW2_CONFIG.WORLD_SETTINGS["range_calc_grid"];
+  let use_grid_calc = Utils.getWorldSetting("range_calc_grid");
   let distance = canvas.grid.measureDistance(
     origin_token.center,
     target_token.center,

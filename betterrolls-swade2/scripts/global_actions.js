@@ -377,7 +377,7 @@ function check_selector(type, value, item, actor) {
   } else if (type === "range_less_than") {
     const tokens = actor.getActiveTokens();
     if (tokens && game.user.targets.size) {
-      let use_grid_calc = BRSW2_CONFIG.WORLD_SETTINGS["range_calc_grid"];
+      let use_grid_calc = Utils.getWorldSetting("range_calc_grid");
       selected =
         parseInt(value) >=
         canvas.grid.measureDistance(
@@ -414,12 +414,14 @@ export class SystemGlobalConfiguration extends FormApplication {
     options.id = "brsw-global-actions";
     options.template =
       "/modules/betterrolls-swade2/templates/system_globals.html";
+    options.height = 700;
+    options.resizable = true;
     return options;
   }
 
   getData(_) {
     let groups = {};
-    let disabled_actions = Utils.getSetting("system_action_disabled");
+    let disable_actions = Utils.getSetting("system_action_disabled");
     if (disable_actions && disable_actions[0] instanceof Array) {
       disable_actions = disable_actions[0];
     }

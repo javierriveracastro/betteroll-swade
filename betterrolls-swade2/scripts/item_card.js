@@ -615,7 +615,7 @@ function check_skill_in_actor(actor, possible_skills) {
 }
 
 async function displayRemainingCard(content) {
-  const show_card = Utils.getSetting("remaining_card_behaviour");
+  const show_card = Utils.getWorldSetting("remaining_card_behaviour");
   if (show_card !== "none") {
     let chat_data = { content: content };
     if (show_card === "master_and_gm") {

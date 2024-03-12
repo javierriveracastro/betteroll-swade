@@ -70,7 +70,7 @@ Hooks.on(`ready`, () => {
   console.log("Better Rolls 2 for SWADE | Ready");  
   //Update our chached user settings from the user's flags
   const user_settings = Utils.getModuleFlag(game.user, BRSW2_CONFIG.USER_FLAGS.user_settings);
-  //mergeObject(BRSW2_CONFIG.USER_SETTINGS, user_settings, {insertKeys:false});
+  mergeObject(BRSW2_CONFIG.USER_SETTINGS, user_settings, {insertKeys:false});
   // Create a base object to hook functions
   // noinspection JSUndefinedPropertyAssignment
   attribute_card_hooks();
@@ -340,6 +340,7 @@ Hooks.once("diceSoNiceReady", () => {
 // Settings
 
 function register_settings_version2() {
+  //Register menus
   Utils.registerMenu("settings", {
     name: "Configure Settings",
     hint: "",
@@ -347,16 +348,6 @@ function register_settings_version2() {
     icon: "fas fa-cog",
     type: SettingsConfig
   });
-
-  Utils.registerSetting(BRSW2_CONFIG.SETTING_KEYS.world_settings, {
-      name: "World Settings",
-      hint: "Collection of world settings",
-      scope: "world",
-      type: Object,
-      default: BRSW2_CONFIG.WORLD_SETTINGS,
-      onChange: async (val) => mergeObject(BRSW2_CONFIG.WORLD_SETTINGS, val),
-  });
-
   Utils.registerMenu("system_global_actions", {
     name: "BRSW.SystemGlobalMenu",
     label: "BRSW.SystemGlobalMenuLabel",
@@ -381,6 +372,15 @@ function register_settings_version2() {
     hint: "BRSW.ChatModifiersMenuHint",
     type: ModifierSettingsConfiguration,
   });
+
+  //Register core settings. These shoudl be config:false settings only. Everything else should be a world or user setting
+  Utils.registerSetting(BRSW2_CONFIG.SETTING_KEYS.world_settings, {
+      name: "World Settings",
+      hint: "Collection of world settings",
+      scope: "world",
+      type: Object,
+      default: BRSW2_CONFIG.WORLD_SETTINGS,
+  });
   Utils.registerSetting("system_action_disabled", {
     name: "System_Actions_disabled",
     default: [],
@@ -402,6 +402,24 @@ function register_settings_version2() {
     config: false,
     scope: "world",
   });
+  Utils.registerSetting("wound-cap", {
+    name: game.i18n.localize("BRSW.WoundCap"),
+    hint: game.i18n.localize("BRSW.WoundCapHint"),
+    default: 0,
+    scope: "world",
+    type: Number,
+    config: false,
+  });
+  Utils.registerSetting("chat_modifiers_names", {
+    name: "Chat Modifiers Names",
+    hint: "",
+    default: { GM: "", Trait: "", Damage: "", ROF: "" },
+    scope: "world",
+    type: Object,
+    config: false,
+  });
+
+  //Register BR2 world settings
   const br_choices = {
     system: game.i18n.localize("BRSW.Default_system_roll"),
     card: game.i18n.localize("BRSW.Show_Betterrolls_card"),
@@ -437,16 +455,6 @@ function register_settings_version2() {
     type: String,
     choices: br_choices,
   });
-  Utils.registerBR2UserSetting("default_rate_of_fire", {
-    name: game.i18n.localize("BRSW.Default_rate_of_fire"),
-    hint: game.i18n.localize("BRSW.Default_rate_of_fire_hint"),
-    default: "max_rof",
-    type: String,
-    choices: {
-      single_shot: game.i18n.localize("BRSW.Single_shot"),
-      max_rof: game.i18n.localize("BRSW.Max_rate_of_fire"),
-    },
-  });
   Utils.registerBR2WorldSetting("result-card", {
     name: game.i18n.localize("BRSW.See_result_card"),
     hint: game.i18n.localize("BRSW.See_result_hint"),
@@ -456,26 +464,6 @@ function register_settings_version2() {
       master: game.i18n.localize("BRSW.Master_only_result_card"),
       all: game.i18n.localize("BRSW.Everybody"),
     },
-  });
-  Utils.registerBR2UserSetting("expand-results", {
-    name: game.i18n.localize("BRSW.expand-results"),
-    hint: game.i18n.localize("BRSW.expand-results_hint"),
-    default: false,
-    type: Boolean
-  });
-  Utils.registerBR2UserSetting("expand-rolls", {
-    name: game.i18n.localize("BRSW.expand-rolls"),
-    hint: game.i18n.localize("BRSW.expand-rolls_hint"),
-    default: false,
-    scope: "world",
-    type: Boolean,
-    config: true,
-  });
-  Utils.registerBR2UserSetting("collapse-chat-window", {
-    name: game.i18n.localize("BRSW.collapse-chat-window"),
-    hint: game.i18n.localize("BRSW.collapse-chat-window_hint"),
-    default: false,
-    type: Boolean,
   });
   Utils.registerBR2WorldSetting("default-ammo-management", {
     name: game.i18n.localize("BRSW.AmmoManagement"),
@@ -496,14 +484,6 @@ function register_settings_version2() {
     hint: game.i18n.localize("BRSW.HideWeaponActionsHint"),
     default: false,
     type: Boolean,
-  });
-  Utils.registerSetting("wound-cap", {
-    name: game.i18n.localize("BRSW.WoundCap"),
-    hint: game.i18n.localize("BRSW.WoundCapHint"),
-    default: 0,
-    scope: "world",
-    type: Number,
-    config: false,
   });
   Utils.registerBR2WorldSetting("disable-gang-up", {
     name: game.i18n.localize("BRSW.DisableGangUp"),
@@ -534,6 +514,7 @@ function register_settings_version2() {
     hint: game.i18n.localize("BRSW.Auto-status-cardsHint"),
     default: true,
     type: Boolean,
+    requiresReload: true
   });
   Utils.registerBR2WorldSetting("range_calc_grid", {
     name: game.i18n.localize("BRSW.RangeCalcUseGrid"),
@@ -541,14 +522,6 @@ function register_settings_version2() {
     default: false,
     scope: "world",
     type: Boolean
-  });
-  Utils.registerSetting("chat_modifiers_names", {
-    name: "Chat Modifiers Names",
-    hint: "",
-    default: { GM: "", Trait: "", Damage: "", ROF: "" },
-    scope: "world",
-    type: Object,
-    config: false,
   });
   Utils.registerBR2WorldSetting("undeadIgnoresIllumination", {
     name: game.i18n.localize("BRSW.undeadIgnoresIllumination"),
@@ -580,6 +553,38 @@ function register_settings_version2() {
     hint: "BRSW.MaxTooltipLengthHint",
     type: Number,
     default: 500,
+  });
+
+  //Register BR2 user settings
+  Utils.registerBR2UserSetting("default_rate_of_fire", {
+    name: game.i18n.localize("BRSW.Default_rate_of_fire"),
+    hint: game.i18n.localize("BRSW.Default_rate_of_fire_hint"),
+    default: "max_rof",
+    type: String,
+    choices: {
+      single_shot: game.i18n.localize("BRSW.Single_shot"),
+      max_rof: game.i18n.localize("BRSW.Max_rate_of_fire"),
+    },
+  });
+  Utils.registerBR2UserSetting("expand-results", {
+    name: game.i18n.localize("BRSW.expand-results"),
+    hint: game.i18n.localize("BRSW.expand-results_hint"),
+    default: false,
+    type: Boolean
+  });
+  Utils.registerBR2UserSetting("expand-rolls", {
+    name: game.i18n.localize("BRSW.expand-rolls"),
+    hint: game.i18n.localize("BRSW.expand-rolls_hint"),
+    default: false,
+    scope: "world",
+    type: Boolean,
+    config: true,
+  });
+  Utils.registerBR2UserSetting("collapse-chat-window", {
+    name: game.i18n.localize("BRSW.collapse-chat-window"),
+    hint: game.i18n.localize("BRSW.collapse-chat-window_hint"),
+    default: false,
+    type: Boolean,
   });
   Utils.registerBR2UserSetting("auto_popout_chat", {
     name: "BRSW.PopoutChat",

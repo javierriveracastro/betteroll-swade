@@ -242,7 +242,7 @@ export class Utils {
       return;
     }
     
-    return BRSW2_CONFIG.WORLD_SETTINGS[key].value ? BRSW2_CONFIG.WORLD_SETTINGS[key].value : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
+    return BRSW2_CONFIG.WORLD_SETTINGS[key].value != undefined ? BRSW2_CONFIG.WORLD_SETTINGS[key].value : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
   }
 
   static getUserSetting(key) {
@@ -250,6 +250,6 @@ export class Utils {
       return;
     }
     
-    return BRSW2_CONFIG.USER_SETTINGS[key].value ? BRSW2_CONFIG.USER_SETTINGS[key].value : BRSW2_CONFIG.USER_SETTINGS[key].default;
+    return BRSW2_CONFIG.USER_SETTINGS[key].value != undefined ? BRSW2_CONFIG.USER_SETTINGS[key].value : BRSW2_CONFIG.USER_SETTINGS[key].default;
   }
 }
