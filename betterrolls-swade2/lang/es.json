@@ -327,5 +327,32 @@
     "I18N.MAINTAINERS": [
         "Javi Rivera"
     ],
-    "BRSW.AttackInanimate": "Atacando objeto inanimado"
+    "BRSW.AttackInanimate": "Atacando objeto inanimado",
+    "BRSW.AP1": "Perforación de armadura +1",
+    "BRSW.AP2": "Perforación de armadura +2",
+    "BRSW.AP3": "Perforación de armadura +3",
+    "BRSW.AttackOptionCalledShot": "Opciones de ataque [Ataques apuntados]",
+    "BRSW.AttackOptionDesperate": "Opciones de ataque [Desesperado]",
+    "BRSW.CalledArm": "Ataque apuntado: Brazos (-2)",
+    "BRSW.CalledLeg": "Ataque apuntado: Piernas (-2)",
+    "BRSW.DisableActions": "Deshabilitar Better Rolls para las acciones",
+    "BRSW.DisableActionsHint": "Usas las tarjetas del sistema para las acciones",
+    "BRSW.EdgeName-DoubleShot": "Disparo rápido",
+    "BRSW.EdgeName-Epic-Mastery": "Maestría épica",
+    "BRSW.EdgeName-DoubleShotBlock": "Disparo rápido mejorado",
+    "BRSW.EdgeName-ImprovedFrenzy": "Frenesí mejorado",
+    "BRSW.EdgeName-Sweep": "Barrido",
+    "BRSW.EdgeName-SweepImproved": "Barrido mejorado",
+    "BRSW.HeavyArmor": "Armadura pesada/Megaarmadura",
+    "BRSW.ItemPropertiesDmgMod": "Propiedades de objeto (daño)",
+    "BRSW.ItemPropertiesTraitMod": "Propiedades de objeto",
+    "BRSW.MaxTooltipLength": "Longitud máxima del tooltip",
+    "BRSW.MaxTooltipLengthHint": "El tamaño máximo en caracteres del tooltip que aparece al mantener el ratón sobre el titulo de la tarjeta. Usa 0 para deshabilitarlo (Mundo)",
+    "BRSW.MaxTooltipLengthLabel": "Longitud máxima del tooltip",
+    "BRSW.NoTokenSelectedError": "Necesitas seleccionar un token para poder usar esta función",
+    "BRSW.OR.InnatePowersDontConsume": "Los poderes innatos no cuestan puntos de poder",
+    "BRSW.OR.NPCDontUseEncumbrance": "Las penalizaciones por peso no se aplican a los PNJs",
+    "BRSW.OverExtremeRange": "Más lejos que rango extremo",
+    "BRSW.PopoutChat": "Ventana emergente automática desde el chat",
+    "BRSW.PopoutChatHint": "Cuando esta marcada se genera automáticamente una ventana emergente a partir de las tarjetas del chat a los usuarios relevantes"
 }
