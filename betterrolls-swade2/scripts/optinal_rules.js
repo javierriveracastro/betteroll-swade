@@ -1,5 +1,7 @@
 /* globals game, FormApplication */
 
+import { Utils } from "./utils.js";
+
 const OPTIONAL_RULES = [
   "GrittyDamage",
   "RiftsGrittyDamage",
@@ -23,10 +25,7 @@ export class OptionalRulesConfiguration extends FormApplication {
   getData(_) {
     let rules = [];
     // No idea why the 0...
-    let enable_rules = game.settings.get(
-      "betterrolls-swade2",
-      "optional_rules_enabled",
-    );
+    let enable_rules = Utils.getSetting("optional_rules_enabled");
     for (let rule of OPTIONAL_RULES) {
       rules.push({
         id: rule,
@@ -34,7 +33,7 @@ export class OptionalRulesConfiguration extends FormApplication {
         enabled: enable_rules.indexOf(rule) > -1,
       });
     }
-    let wound_cap = game.settings.get("betterrolls-swade2", "wound-cap");
+    let wound_cap = Utils.getSetting("wound-cap");
     // noinspection JSValidateTypes
     return { rules: rules, wound_cap: wound_cap };
   }
@@ -46,15 +45,7 @@ export class OptionalRulesConfiguration extends FormApplication {
         enabled.push(id);
       }
     }
-    await game.settings.set(
-      "betterrolls-swade2",
-      "optional_rules_enabled",
-      enabled,
-    );
-    await game.settings.set(
-      "betterrolls-swade2",
-      "wound-cap",
-      formData.wound_cap,
-    );
+    Utils.setSetting("optional_rules_enabled", enabled, true);
+    Utils.setSetting("wound-cap", formData.wound_cap, true);
   }
 }

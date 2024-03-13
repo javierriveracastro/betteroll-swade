@@ -11,6 +11,7 @@ import {
   set_or_update_condition,
   simple_form,
   spendMastersBenny,
+  Utils,
 } from "./utils.js";
 import {
   discount_pp,
@@ -135,7 +136,7 @@ export class BrCommonCard {
     if (game.user.id !== this.message.user.id || this.popup_shown) {
       return;
     }
-    if (game.settings.get("betterrolls-swade2", "auto_popout_chat")) {
+    if (Utils.getUserSetting("auto_popout_chat")) {
       let top = cascade_starting_left + (cascade_count * cascade_left_increment);
       let left = cascade_starting_top + (cascade_count * cascade_top_increment);
       cascade_count = cascade_count + 1 < cascade_max_cascades ? cascade_count + 1 : 0;
@@ -263,7 +264,7 @@ export class BrCommonCard {
       return;
     }
     return this.skill.system.description.length <=
-      game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      Utils.getWorldSetting("max_tooltip_length")
       ? this.skill.system.description
       : "";
   }
@@ -311,7 +312,7 @@ export class BrCommonCard {
     this.populate_world_actions();
     if (
       this.item &&
-      !game.settings.get("betterrolls-swade2", "hide-weapon-actions")
+      !Utils.getWorldSetting("hide-weapon-actions")
     ) {
       this.populate_item_actions();
     }
@@ -493,19 +494,13 @@ export class BrCommonCard {
   generate_render_data(render_data, template) {
     render_data.actor = this.actor;
     render_data.result_master_only =
-      game.settings.get("betterrolls-swade2", "result-card") === "master";
+      Utils.getWorldSetting("result-card") === "master";
     // Benny image
     render_data.benny_image =
       game.settings.get("swade", "bennyImage3DFront") ||
       "/systems/swade/assets/benny/benny-chip-front.png";
-    render_data.collapse_results = !game.settings.get(
-      "betterrolls-swade2",
-      "expand-results",
-    );
-    render_data.collapse_rolls = !game.settings.get(
-      "betterrolls-swade2",
-      "expand-rolls",
-    );
+    render_data.collapse_results = !Utils.getUserSetting("expand-results");
+    render_data.collapse_rolls = !Utils.getUserSetting("expand-rolls");
     if (template) {
       render_data.template = template;
     }
@@ -710,7 +705,7 @@ export async function create_common_card(origin, render_data, template) {
   if (render_data.description) {
     render_data.description = // Limit description size.
       render_data.description.length <
-      game.settings.get("betterrolls-swade2", "max_tooltip_length")
+      Utils.getWorldSetting("max_tooltip_length")
         ? render_data.description
         : null;
   }
@@ -1020,7 +1015,7 @@ export function get_action_from_click(event) {
   } else if (event.altKey) {
     setting_name = "alt_click";
   }
-  return game.settings.get("betterrolls-swade2", setting_name);
+  return Utils.getWorldSetting(setting_name);
 }
 
 /**
@@ -1362,8 +1357,7 @@ async function get_new_roll_options(
   }
   // Encumbrance
   const npc_avoid_encumbrance =
-    game.settings
-      .get("betterrolls-swade2", "optional_rules_enabled")
+    Utils.getSetting("optional_rules_enabled")
       .indexOf("NPCDontUseEncumbrance") > -1;
   if (
     (br_card.actor.type === "character" || !npc_avoid_encumbrance) &&

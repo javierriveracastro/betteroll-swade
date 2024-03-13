@@ -9,6 +9,7 @@ import {
   spend_bennie,
 } from "./cards_common.js";
 import { get_owner } from "./damage_card.js";
+import { Utils } from "./utils.js";
 
 const INJURY_BASE = {
   2: "BRSW.Unmentionables",
@@ -200,7 +201,7 @@ async function roll_incapacitation(br_card, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
-  if (game.settings.get("betterrolls-swade2", "use_system_injury_table")) {
+  if (Utils.getWorldSetting("use_system_injury_table")) {
     const injuryTable = await fromUuid(
       game.settings.get("swade", "injuryTable"),
     );
