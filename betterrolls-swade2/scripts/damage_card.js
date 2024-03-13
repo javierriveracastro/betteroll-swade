@@ -12,7 +12,7 @@ import {
   create_incapacitation_card,
   create_injury_card,
 } from "./incapacitation_card.js";
-import { Utils } from "./utils.js";
+import { SettingsUtils } from "./utils.js";
 
 /**
  * Shows a damage card and applies damage to the token/actor
@@ -36,22 +36,20 @@ export async function create_damage_card(
     shaken: actor.system.status.isShaken,
   };
   let wounds = Math.floor(damage / 4);
-  if (Utils.getSetting("wound-cap")) {
-    wounds = Math.min(
-      wounds,
-      Utils.getSetting("wound-cap"),
-    );
+  if (SettingsUtils.getSetting("wound-cap")) {
+    wounds = Math.min(wounds, SettingsUtils.getSetting("wound-cap"));
   }
   // noinspection JSUnresolvedVariable
   const can_soak = wounds || actor.system.status.isShaken;
   const damage_result = await apply_damage(token, wounds, 0);
   let show_injury =
-    Utils.getSetting("optional_rules_enabled")
-      .indexOf("GrittyDamage") > -1;
+    SettingsUtils.getSetting("optional_rules_enabled").indexOf("GrittyDamage") >
+    -1;
   show_injury =
     show_injury ||
-    (Utils.getSetting("optional_rules_enabled")
-      .indexOf("RiftsGrittyDamage") > -1 &&
+    (SettingsUtils.getSetting("optional_rules_enabled").indexOf(
+      "RiftsGrittyDamage",
+    ) > -1 &&
       heavy_damage === "true");
   show_injury = show_injury && can_soak && actor.system.wounds.max > 1;
   let br_message = await create_common_card(
@@ -361,9 +359,9 @@ async function roll_soak(br_card, use_bennie) {
     br_card.render_data.show_incapacitation =
       damage_result.incapacitated && br_card.actor.isWildcard;
     br_card.render_data.show_injury =
-      Utils.getSetting("optional_rules_enabled")
-        .indexOf("GrittyDamage") > -1 &&
-      br_card.render_data.wounds > br_card.render_data.soaked;
+      SettingsUtils.getSetting("optional_rules_enabled").indexOf(
+        "GrittyDamage",
+      ) > -1 && br_card.render_data.wounds > br_card.render_data.soaked;
     await br_card.render();
     await br_card.save();
   }

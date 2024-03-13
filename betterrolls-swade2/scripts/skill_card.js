@@ -16,7 +16,7 @@ import {
 } from "./cards_common.js";
 import { run_macros } from "./item_card.js";
 import { get_enabled_gm_actions } from "./gm_modifiers.js";
-import { Utils } from "./utils.js";
+import { SettingsUtils } from "./utils.js";
 
 // noinspection SpellCheckingInspection
 export const FIGHTING_SKILLS = [
@@ -245,7 +245,7 @@ export function calculate_distance(
 ) {
   const grid_unit = canvas.grid.options.dimensions.distance;
   let use_parry_as_tn = false;
-  let use_grid_calc = Utils.getWorldSetting("range_calc_grid");
+  let use_grid_calc = SettingsUtils.getWorldSetting("range_calc_grid");
   let distance = canvas.grid.measureDistance(
     origin_token.center,
     target_token.center,
@@ -466,7 +466,7 @@ function sizeToScale(size) {
  * - Each ally adjacent to the defender cancels out one point of Gang Up bonus from an attacker adjacent to both.
  */
 function calculate_gangUp(attacker, target) {
-  if (Utils.getWorldSetting("disable-gang-up")) {
+  if (SettingsUtils.getWorldSetting("disable-gang-up")) {
     return 0;
   }
   if (!attacker || !target) {
@@ -486,7 +486,7 @@ function calculate_gangUp(attacker, target) {
     attacker.document.disposition === 1 ||
     attacker.document.disposition === -1
   ) {
-    let item_range = Utils.getWorldSetting("meleeDistance");
+    let item_range = SettingsUtils.getWorldSetting("meleeDistance");
     let allies_within_range_of_target;
     let allies_with_formation_fighter;
     let enemies_within_range_of_target;
@@ -659,7 +659,7 @@ export async function find_illumination_penalty(
     nightvision,
     infravision,
   ];
-  if (Utils.getWorldSetting("undeadIgnoresIllumination")) {
+  if (SettingsUtils.getWorldSetting("undeadIgnoresIllumination")) {
     abilityNames.push(undead);
   }
   let ownedAbilities = [];

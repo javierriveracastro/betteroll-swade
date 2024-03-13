@@ -10,7 +10,7 @@ import {
   roll_trait,
   spend_bennie,
 } from "./cards_common.js";
-import { Utils } from "./utils.js";
+import { SettingsUtils } from "./utils.js";
 
 /**
  * Shows the unshaken card
@@ -146,10 +146,7 @@ async function roll_unshaken(br_card, use_bennie) {
       }
     }
     if (result >= 4) {
-      if (
-        Utils.getWorldSetting("swd-unshake") === true &&
-        result < 8
-      ) {
+      if (SettingsUtils.getWorldSetting("swd-unshake") === true && result < 8) {
         br_card.render_data.text = game.i18n.format(
           "BRSW.UnshakeSuccessfulRollSWD",
           { name: br_card.actor.name },

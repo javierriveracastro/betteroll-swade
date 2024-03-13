@@ -1,5 +1,5 @@
 import * as BRSW2_CONFIG from "./brsw2-config.js";
-import { Utils } from "./utils.js";
+import { SettingsUtils } from "./utils.js";
 
 export class SettingsConfig extends FormApplication {
   constructor() {
@@ -90,7 +90,7 @@ export class SettingsConfig extends FormApplication {
       }
     }
 
-    await Utils.setSetting(
+    await SettingsUtils.setSetting(
       BRSW2_CONFIG.SETTING_KEYS.world_settings,
       BRSW2_CONFIG.WORLD_SETTINGS,
     );

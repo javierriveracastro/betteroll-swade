@@ -11,7 +11,7 @@ import {
   set_or_update_condition,
   simple_form,
   spendMastersBenny,
-  Utils,
+  SettingsUtils,
 } from "./utils.js";
 import {
   discount_pp,
@@ -136,11 +136,12 @@ export class BrCommonCard {
     if (game.user.id !== this.message.user.id || this.popup_shown) {
       return;
     }
-    if (Utils.getUserSetting("auto_popout_chat")) {
-      let top = cascade_starting_left + (cascade_count * cascade_left_increment);
-      let left = cascade_starting_top + (cascade_count * cascade_top_increment);
-      cascade_count = cascade_count + 1 < cascade_max_cascades ? cascade_count + 1 : 0;
-      new ChatPopout(this.message, {top: top, left: left}).render(true);
+    if (SettingsUtils.getUserSetting("auto_popout_chat")) {
+      let top = cascade_starting_left + cascade_count * cascade_left_increment;
+      let left = cascade_starting_top + cascade_count * cascade_top_increment;
+      cascade_count =
+        cascade_count + 1 < cascade_max_cascades ? cascade_count + 1 : 0;
+      new ChatPopout(this.message, { top: top, left: left }).render(true);
       this.popup_shown = true;
       this.save().catch(() => {
         console.error("Error saving card data after popup rendering");
@@ -264,7 +265,7 @@ export class BrCommonCard {
       return;
     }
     return this.skill.system.description.length <=
-      Utils.getWorldSetting("max_tooltip_length")
+      SettingsUtils.getWorldSetting("max_tooltip_length")
       ? this.skill.system.description
       : "";
   }
@@ -310,10 +311,7 @@ export class BrCommonCard {
   populate_actions() {
     this.action_groups = {};
     this.populate_world_actions();
-    if (
-      this.item &&
-      !Utils.getWorldSetting("hide-weapon-actions")
-    ) {
+    if (this.item && !SettingsUtils.getWorldSetting("hide-weapon-actions")) {
       this.populate_item_actions();
     }
     this.populate_active_effect_actions();
@@ -494,13 +492,14 @@ export class BrCommonCard {
   generate_render_data(render_data, template) {
     render_data.actor = this.actor;
     render_data.result_master_only =
-      Utils.getWorldSetting("result-card") === "master";
+      SettingsUtils.getWorldSetting("result-card") === "master";
     // Benny image
     render_data.benny_image =
       game.settings.get("swade", "bennyImage3DFront") ||
       "/systems/swade/assets/benny/benny-chip-front.png";
-    render_data.collapse_results = !Utils.getUserSetting("expand-results");
-    render_data.collapse_rolls = !Utils.getUserSetting("expand-rolls");
+    render_data.collapse_results =
+      !SettingsUtils.getUserSetting("expand-results");
+    render_data.collapse_rolls = !SettingsUtils.getUserSetting("expand-rolls");
     if (template) {
       render_data.template = template;
     }
@@ -705,7 +704,7 @@ export async function create_common_card(origin, render_data, template) {
   if (render_data.description) {
     render_data.description = // Limit description size.
       render_data.description.length <
-      Utils.getWorldSetting("max_tooltip_length")
+      SettingsUtils.getWorldSetting("max_tooltip_length")
         ? render_data.description
         : null;
   }
@@ -1015,7 +1014,7 @@ export function get_action_from_click(event) {
   } else if (event.altKey) {
     setting_name = "alt_click";
   }
-  return Utils.getWorldSetting(setting_name);
+  return SettingsUtils.getWorldSetting(setting_name);
 }
 
 /**
@@ -1357,8 +1356,9 @@ async function get_new_roll_options(
   }
   // Encumbrance
   const npc_avoid_encumbrance =
-    Utils.getSetting("optional_rules_enabled")
-      .indexOf("NPCDontUseEncumbrance") > -1;
+    SettingsUtils.getSetting("optional_rules_enabled").indexOf(
+      "NPCDontUseEncumbrance",
+    ) > -1;
   if (
     (br_card.actor.type === "character" || !npc_avoid_encumbrance) &&
     br_card.actor.system.encumbered &&

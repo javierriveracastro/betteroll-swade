@@ -135,7 +135,7 @@ export async function set_or_update_condition(condition_id, actor) {
   }
 }
 
-export class Utils {
+export class SettingsUtils {
   /**
    * Get a single setting using the provided key
    * @param {*} key
@@ -232,7 +232,7 @@ export class Utils {
   }
 
   static getModuleFlag(obj, flag) {
-    if (!Utils.hasModuleFlags(obj)) {
+    if (!SettingsUtils.hasModuleFlags(obj)) {
       return;
     }
 

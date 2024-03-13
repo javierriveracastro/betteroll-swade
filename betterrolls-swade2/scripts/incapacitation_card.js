@@ -9,7 +9,7 @@ import {
   spend_bennie,
 } from "./cards_common.js";
 import { get_owner } from "./damage_card.js";
-import { Utils } from "./utils.js";
+import { SettingsUtils } from "./utils.js";
 
 const INJURY_BASE = {
   2: "BRSW.Unmentionables",
@@ -65,7 +65,7 @@ const INJURY_ACTIVE_EFFECT = {
  */
 export async function create_incapacitation_card(token_id) {
   let token = canvas.tokens.get(token_id);
-  let {actor} = token;
+  let { actor } = token;
   let user = get_owner(actor);
   // noinspection JSUnresolvedVariable
   const text = game.i18n.format("BRSW.IncapacitatedText", {
@@ -173,16 +173,20 @@ async function roll_incapacitation(br_card, spend_benny) {
     br_card.render_data.injury_type = "permanent";
     if (game.succ.hasCondition("incapacitated", br_card.token)) {
       await game.succ.removeCondition("incapacitated", br_card.token); //remove Inc as overlay
-      await game.succ.addCondition("incapacitated", br_card.token, {forceOverlay: false}); //add it as regular (small) icon
+      await game.succ.addCondition("incapacitated", br_card.token, {
+        forceOverlay: false,
+      }); //add it as regular (small) icon
     }
     // noinspection ES6MissingAwait
     const ignoreBleedOut =
       game.settings.get("swade", "heroesNeverDie") ||
       br_card.actor.getFlag("swade", "ignoreBleedOut");
     if (!ignoreBleedOut) {
-      game.succ.addCondition("bleeding-out", br_card.token, {forceOverlay: true}).catch(() => {
-        console.log("Error while applying bleeding out");
-      }); //make bleeding out overlay
+      game.succ
+        .addCondition("bleeding-out", br_card.token, { forceOverlay: true })
+        .catch(() => {
+          console.log("Error while applying bleeding out");
+        }); //make bleeding out overlay
     }
   } else if (result < 8) {
     br_card.render_data.text_after = game.i18n.localize("BRSW.TempInjury");
@@ -201,7 +205,7 @@ async function roll_incapacitation(br_card, spend_benny) {
  * @param {string} reason Reason for the injury
  */
 export async function create_injury_card(token_id, reason) {
-  if (Utils.getWorldSetting("use_system_injury_table")) {
+  if (SettingsUtils.getWorldSetting("use_system_injury_table")) {
     const injuryTable = await fromUuid(
       game.settings.get("swade", "injuryTable"),
     );
@@ -211,7 +215,7 @@ export async function create_injury_card(token_id, reason) {
     return;
   }
   let token = canvas.tokens.get(token_id);
-  let {actor} = token;
+  let { actor } = token;
   let user = get_owner(actor);
   // First roll
   let first_roll = new Roll("2d6");

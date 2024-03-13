@@ -26,7 +26,7 @@ import {
   THROWING_SKILLS,
 } from "./skill_card.js";
 import {
-  Utils,
+  SettingsUtils,
   get_targeted_token,
   makeExplotable,
   set_or_update_condition,
@@ -124,7 +124,7 @@ async function create_item_card(origin, item_id) {
   }
   if (
     item.type === "action" &&
-    Utils.getWorldSetting("disable_for_actions")
+    SettingsUtils.getWorldSetting("disable_for_actions")
   ) {
     // Disable actions
     item.show();
@@ -137,8 +137,7 @@ async function create_item_card(origin, item_id) {
   }
   let { description, damage } = item.system;
   description =
-    description.length <=
-    Utils.getWorldSetting("max_tooltip_length")
+    description.length <= SettingsUtils.getWorldSetting("max_tooltip_length")
       ? description
       : "";
   if (item.type === "weapon") {
@@ -155,10 +154,10 @@ async function create_item_card(origin, item_id) {
   let power_points =
     !isNaN(parseFloat(item.system.pp)) || item.type === "power";
   const subtract_select = ammon_enabled
-    ? Utils.getWorldSetting("default-ammo-management")
+    ? SettingsUtils.getWorldSetting("default-ammo-management")
     : false;
   const subtract_pp_select = power_points
-    ? Utils.getWorldSetting("default-pp-management")
+    ? SettingsUtils.getWorldSetting("default-pp-management")
     : false;
   if (!damage) {
     if (item.system.actions) {
@@ -615,7 +614,7 @@ function check_skill_in_actor(actor, possible_skills) {
 }
 
 async function displayRemainingCard(content) {
-  const show_card = Utils.getWorldSetting("remaining_card_behaviour");
+  const show_card = SettingsUtils.getWorldSetting("remaining_card_behaviour");
   if (show_card !== "none") {
     let chat_data = { content: content };
     if (show_card === "master_and_gm") {
@@ -638,8 +637,9 @@ async function displayRemainingCard(content) {
  */
 export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
   if (
-    Utils.getSetting("optional_rules_enabled")
-      .indexOf("InnatePowersDontConsume") > -1 &&
+    SettingsUtils.getSetting("optional_rules_enabled").indexOf(
+      "InnatePowersDontConsume",
+    ) > -1 &&
     br_card.item.system.innate
   ) {
     return 0;
@@ -823,10 +823,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
     await spend_bennie(br_message.actor);
   }
   extra_data.rof = br_message.item.system.rof || 1;
-  if (
-    Utils.getUserSetting("default_rate_of_fire") ===
-    "single_shot"
-  ) {
+  if (SettingsUtils.getUserSetting("default_rate_of_fire") === "single_shot") {
     extra_data.rof = 1;
   }
   // Actions
@@ -931,7 +928,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   ) {
     const dis_ammo_selected = html
       ? html.find(".twbr-bg-red-700.brsw-ammo-toggle").length
-      : Utils.getWorldSetting("default-ammo-management");
+      : SettingsUtils.getWorldSetting("default-ammo-management");
     if (dis_ammo_selected || macros) {
       br_message.render_data.used_shots =
         shots_override || ROF_BULLETS[br_message.trait_roll.rof || 1];
@@ -943,7 +940,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   // Power points management
   const pp_selected = html
     ? html.find(".twbr-bg-red-700.brsw-pp-toggle").length
-    : Utils.getWorldSetting("default-pp-management");
+    : SettingsUtils.getWorldSetting("default-pp-management");
   let previous_pp = br_message.trait_roll.old_rolls.length
     ? br_message.render_data.used_pp
     : 0;
@@ -1165,7 +1162,7 @@ async function roll_dmg_target(
         );
       }
     }
-    let damage_theme = Utils.getUserSetting("damageDieTheme");
+    let damage_theme = SettingsUtils.getUserSetting("damageDieTheme");
     if (damage_theme !== "None") {
       for (let die of roll.dice) {
         die.options.colorset = damage_theme;
@@ -1464,7 +1461,7 @@ async function add_damage_dice(br_card, index) {
     true,
   );
   if (game.dice3d) {
-    let damage_theme = Utils.getUserSetting("damageDieTheme");
+    let damage_theme = SettingsUtils.getUserSetting("damageDieTheme");
     if (damage_theme !== "None") {
       roll.dice.forEach((die) => {
         die.options.colorset = damage_theme;
