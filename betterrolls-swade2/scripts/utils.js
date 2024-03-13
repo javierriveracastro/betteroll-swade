@@ -1,7 +1,7 @@
 import * as BRSW2_CONFIG from "./brsw2-config.js";
 
 // Utility functions that can be used out of the module
-/* globals ChatMessage, game, Dialog */
+/* globals ChatMessage, game, Dialog, console, mergeObject */
 
 export function getWhisperData() {
   let rollMode, whisper, blind;
@@ -43,7 +43,7 @@ export function makeExplotable(expression) {
 }
 
 export async function spendMastersBenny() {
-  // Expends one benny from the master stack
+  // Expends one benny from the gamemaster stack
   // noinspection ES6MissingAwait
   for (let user of game.users) {
     if (user.isGM) {
@@ -171,7 +171,6 @@ export class SettingsUtils {
    * Register a single setting using the provided key and setting data
    * @param {*} key
    * @param {*} metadata
-   * @returns {ClientSettings.register}
    */
   static registerSetting(key, metadata) {
     return game.settings.register(BRSW2_CONFIG.MODULE_NAME, key, metadata);
@@ -181,7 +180,6 @@ export class SettingsUtils {
    * Register a menu setting using the provided key and setting data
    * @param {*} key
    * @param {*} metadata
-   * @returns {ClientSettings.registerMenu}
    */
   static registerMenu(key, metadata) {
     return game.settings.registerMenu(BRSW2_CONFIG.MODULE_NAME, key, metadata);
@@ -191,7 +189,6 @@ export class SettingsUtils {
    * Register a single setting using the provided key and setting data
    * @param {*} key
    * @param {*} metadata
-   * @returns {ClientSettings.register}
    */
   static registerBR2WorldSetting(key, metadata) {
     if (BRSW2_CONFIG.WORLD_SETTINGS[key] || BRSW2_CONFIG.USER_SETTINGS[key]) {
@@ -209,7 +206,6 @@ export class SettingsUtils {
    * Register a single setting using the provided key and setting data
    * @param {*} key
    * @param {*} metadata
-   * @returns {ClientSettings.register}
    */
   static registerBR2UserSetting(key, metadata) {
     if (BRSW2_CONFIG.WORLD_SETTINGS[key] || BRSW2_CONFIG.USER_SETTINGS[key]) {
@@ -228,7 +224,7 @@ export class SettingsUtils {
       return false;
     }
 
-    return obj.flags[BRSW2_CONFIG.MODULE_NAME] ? true : false;
+    return !!obj.flags[BRSW2_CONFIG.MODULE_NAME];
   }
 
   static getModuleFlag(obj, flag) {
@@ -244,7 +240,7 @@ export class SettingsUtils {
       return;
     }
 
-    return BRSW2_CONFIG.WORLD_SETTINGS[key].value != undefined
+    return BRSW2_CONFIG.WORLD_SETTINGS[key].value !== undefined
       ? BRSW2_CONFIG.WORLD_SETTINGS[key].value
       : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
   }
@@ -254,7 +250,7 @@ export class SettingsUtils {
       return;
     }
 
-    return BRSW2_CONFIG.USER_SETTINGS[key].value != undefined
+    return BRSW2_CONFIG.USER_SETTINGS[key].value !== undefined
       ? BRSW2_CONFIG.USER_SETTINGS[key].value
       : BRSW2_CONFIG.USER_SETTINGS[key].default;
   }
