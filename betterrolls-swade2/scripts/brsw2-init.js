@@ -68,7 +68,7 @@ Hooks.on(`init`, () => {
 // Base Hook
 Hooks.on(`ready`, () => {
   console.log("Better Rolls 2 for SWADE | Ready");  
-  //Update our chached user settings from the user's flags
+  //Update our cached user settings from the user's flags
   const user_settings = Utils.getModuleFlag(game.user, BRSW2_CONFIG.USER_FLAGS.user_settings);
   mergeObject(BRSW2_CONFIG.USER_SETTINGS, user_settings, {insertKeys:false});
   // Create a base object to hook functions
