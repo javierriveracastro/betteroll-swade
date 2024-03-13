@@ -373,7 +373,7 @@ function register_settings_version2() {
     type: ModifierSettingsConfiguration,
   });
 
-  //Register core settings. These shoudl be config:false settings only. Everything else should be a world or user setting
+  // Register core settings. These should be config:false settings only. Everything else should be a world or user setting
   Utils.registerSetting(BRSW2_CONFIG.SETTING_KEYS.world_settings, {
       name: "World Settings",
       hint: "Collection of world settings",
