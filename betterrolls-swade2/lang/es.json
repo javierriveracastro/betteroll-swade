@@ -355,5 +355,12 @@
     "BRSW.OverExtremeRange": "Más lejos que rango extremo",
     "BRSW.PopoutChat": "Ventana emergente automática desde el chat",
     "BRSW.PopoutChatHint": "Cuando esta marcada se genera automáticamente una ventana emergente a partir de las tarjetas del chat a los usuarios relevantes",
-    "BRSW.PowerModifiers-": "Modificadores de potencia - "
+    "BRSW.PowerModifiers-": "Modificadores de potencia - ",
+    "BRSW.PowerModifiersArcaneProtection": "Modificador de Poder - Protección Arcana",
+    "BRSW.PowerModifiersArcaneProtectionGreater": "☆ Protección Arcana Mayor (penalización -4) [+2PP]",
+    "BRSW.PowerModifiersBarrier": "Modificadores de potencia - Barrera",
+    "BRSW.PowerModifiersBarrierDamage": "Daño [+1PP]",
+    "BRSW.PowerModifiersBarrierDamageImmaterial": "Daño  (Intangible) [+0PP]",
+    "BRSW.PowerModifiersBarrierDeadly": "☆ Mortal [+2PP]",
+    "BRSW.PowerModifiersBarrierDeadlyImmaterial": "☆ Mortal (Inmaterial) [+1PP]"
 }
