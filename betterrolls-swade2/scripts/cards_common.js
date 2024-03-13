@@ -77,7 +77,6 @@ function store_render_flag(flags, render_object) {
   flags.render_data = render_object;
 }
 
-let cascade_count = 0;
 const cascade_starting_left = 250;
 const cascade_left_increment = 35;
 const cascade_starting_top = 700;
@@ -137,10 +136,15 @@ export class BrCommonCard {
       return;
     }
     if (SettingsUtils.getUserSetting("auto_popout_chat")) {
-      let top = cascade_starting_left + cascade_count * cascade_left_increment;
-      let left = cascade_starting_top + cascade_count * cascade_top_increment;
-      cascade_count =
-        cascade_count + 1 < cascade_max_cascades ? cascade_count + 1 : 0;
+      let top =
+        cascade_starting_left +
+        game.brsw.cascade_count * cascade_left_increment;
+      let left =
+        cascade_starting_top + game.brsw.cascade_count * cascade_top_increment;
+      game.brsw.cascade_count =
+        game.brsw.cascade_count + 1 < cascade_max_cascades
+          ? game.brsw.cascade_count + 1
+          : 0;
       new ChatPopout(this.message, { top: top, left: left }).render(true);
       this.popup_shown = true;
       this.save().catch(() => {

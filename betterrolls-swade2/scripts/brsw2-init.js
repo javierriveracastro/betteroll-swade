@@ -65,6 +65,7 @@ import {
 Hooks.on(`init`, () => {
   // noinspection JSUndefinedPropertyAssignment
   game.brsw = {};
+  game.brsw.cascade_count = 0;
   game.brsw.get_action_from_click = get_action_from_click;
   register_settings_version2();
   register_actions();
