@@ -2,7 +2,6 @@
 /* globals TokenDocument, Token, game, CONST, canvas, console, Ray, succ, fromUuid, $ */
 // noinspection JSCheckFunctionSignatures
 
-import * as BRSW2_CONFIG from "./brsw2-config.js";
 import {
   BRSW_CONST,
   create_common_card,
@@ -51,7 +50,7 @@ export const THROWING_SKILLS = [
 /**
  * Creates a chat card for a skill
  *
- * @param {Token, SwadeActor} origin  The actor or token owning the attribute
+ * @param {Token, SwadeActor} origin  The actor or token who is creating this card
  * @param {string} skill_id The id of the skill that we want to show
  * @return {Promise} A promise for the ChatMessage object
  */
@@ -397,6 +396,7 @@ export async function get_tn_from_token(
       if (scale_mod < 0) {
         const swat = origin_token?.actor?.items?.find((item) => {
           // jshint ignore:line
+          // jshint ignore:line
           return (
             item.type === "ability" &&
             item.name
@@ -492,7 +492,7 @@ function calculate_gangUp(attacker, target) {
     let enemies_within_range_of_target;
     let enemies_within_range_both_attacker_target;
     // disposition -1 means NPC (hostile) is attacking PCs (friendly)
-    // disposition 1 PCs (friendly) is attacking NPC (hostile)
+    // disposition 1 means PC (friendly) is attacking NPC (hostile)
     allies_within_range_of_target = canvas.tokens.placeables.filter(
       (t) =>
         t.id !== attacker.id &&
