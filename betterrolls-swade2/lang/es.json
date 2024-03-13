@@ -354,5 +354,6 @@
     "BRSW.OR.NPCDontUseEncumbrance": "Las penalizaciones por peso no se aplican a los PNJs",
     "BRSW.OverExtremeRange": "Más lejos que rango extremo",
     "BRSW.PopoutChat": "Ventana emergente automática desde el chat",
-    "BRSW.PopoutChatHint": "Cuando esta marcada se genera automáticamente una ventana emergente a partir de las tarjetas del chat a los usuarios relevantes"
+    "BRSW.PopoutChatHint": "Cuando esta marcada se genera automáticamente una ventana emergente a partir de las tarjetas del chat a los usuarios relevantes",
+    "BRSW.PowerModifiers-": "Modificadores de potencia - "
 }
