@@ -244,7 +244,7 @@ export function calculate_distance(
   tn,
   skill,
 ) {
-  const grid_unit = canvas.grid.grid.options.dimensions.distance;
+  const grid_unit = canvas.grid.options.dimensions.distance;
   let use_parry_as_tn = false;
   let use_grid_calc = Utils.getWorldSetting("range_calc_grid");
   let distance = canvas.grid.measureDistance(

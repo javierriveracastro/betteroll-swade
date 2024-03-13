@@ -136,59 +136,61 @@ export async function set_or_update_condition(condition_id, actor) {
 }
 
 export class Utils {
-
   /**
    * Get a single setting using the provided key
-   * @param {*} key 
+   * @param {*} key
    * @returns {Object} setting
    */
   static getSetting(key) {
-    return game.settings.get(BRSW2_CONFIG.NAME, key);
+    return game.settings.get(BRSW2_CONFIG.MODULE_NAME, key);
   }
 
   /**
    * Sets a single game setting
-   * @param {*} key 
-   * @param {*} value 
-   * @param {*} awaitResult 
+   * @param {*} key
+   * @param {*} value
+   * @param {*} awaitResult
    * @returns {Promise | ClientSetting}
    */
   static async setSetting(key, value, awaitResult = false) {
     if (!awaitResult) {
-      return game.settings.set(BRSW2_CONFIG.NAME, key, value);
+      return game.settings.set(BRSW2_CONFIG.MODULE_NAME, key, value);
     }
 
-    await game.settings.set(BRSW2_CONFIG.NAME, key, value).then(result => {
-      return result;
-    }).catch(rejected => {
-      throw rejected;
-    });
+    await game.settings
+      .set(BRSW2_CONFIG.MODULE_NAME, key, value)
+      .then((result) => {
+        return result;
+      })
+      .catch((rejected) => {
+        throw rejected;
+      });
   }
 
   /**
    * Register a single setting using the provided key and setting data
-   * @param {*} key 
-   * @param {*} metadata 
+   * @param {*} key
+   * @param {*} metadata
    * @returns {ClientSettings.register}
    */
   static registerSetting(key, metadata) {
-    return game.settings.register(BRSW2_CONFIG.NAME, key, metadata);
+    return game.settings.register(BRSW2_CONFIG.MODULE_NAME, key, metadata);
   }
 
   /**
    * Register a menu setting using the provided key and setting data
-   * @param {*} key 
-   * @param {*} metadata 
+   * @param {*} key
+   * @param {*} metadata
    * @returns {ClientSettings.registerMenu}
    */
   static registerMenu(key, metadata) {
-    return game.settings.registerMenu(BRSW2_CONFIG.NAME, key, metadata);
+    return game.settings.registerMenu(BRSW2_CONFIG.MODULE_NAME, key, metadata);
   }
 
   /**
    * Register a single setting using the provided key and setting data
-   * @param {*} key 
-   * @param {*} metadata 
+   * @param {*} key
+   * @param {*} metadata
    * @returns {ClientSettings.register}
    */
   static registerBR2WorldSetting(key, metadata) {
@@ -205,8 +207,8 @@ export class Utils {
 
   /**
    * Register a single setting using the provided key and setting data
-   * @param {*} key 
-   * @param {*} metadata 
+   * @param {*} key
+   * @param {*} metadata
    * @returns {ClientSettings.register}
    */
   static registerBR2UserSetting(key, metadata) {
@@ -222,34 +224,38 @@ export class Utils {
   }
 
   static hasModuleFlags(obj) {
-      if (!obj.flags) {
-          return false;
-      }
+    if (!obj.flags) {
+      return false;
+    }
 
-      return obj.flags[BRSW2_CONFIG.NAME] ? true : false;
+    return obj.flags[BRSW2_CONFIG.MODULE_NAME] ? true : false;
   }
 
   static getModuleFlag(obj, flag) {
-      if (!Utils.hasModuleFlags(obj)) {
-          return;
-      }
+    if (!Utils.hasModuleFlags(obj)) {
+      return;
+    }
 
-      return obj.flags[BRSW2_CONFIG.NAME][flag];
+    return obj.flags[BRSW2_CONFIG.MODULE_NAME][flag];
   }
 
   static getWorldSetting(key) {
     if (!BRSW2_CONFIG.WORLD_SETTINGS[key]) {
       return;
     }
-    
-    return BRSW2_CONFIG.WORLD_SETTINGS[key].value != undefined ? BRSW2_CONFIG.WORLD_SETTINGS[key].value : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
+
+    return BRSW2_CONFIG.WORLD_SETTINGS[key].value != undefined
+      ? BRSW2_CONFIG.WORLD_SETTINGS[key].value
+      : BRSW2_CONFIG.WORLD_SETTINGS[key].default;
   }
 
   static getUserSetting(key) {
     if (!BRSW2_CONFIG.USER_SETTINGS[key]) {
       return;
     }
-    
-    return BRSW2_CONFIG.USER_SETTINGS[key].value != undefined ? BRSW2_CONFIG.USER_SETTINGS[key].value : BRSW2_CONFIG.USER_SETTINGS[key].default;
+
+    return BRSW2_CONFIG.USER_SETTINGS[key].value != undefined
+      ? BRSW2_CONFIG.USER_SETTINGS[key].value
+      : BRSW2_CONFIG.USER_SETTINGS[key].default;
   }
 }

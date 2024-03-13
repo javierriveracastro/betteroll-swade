@@ -1,6 +1,6 @@
 // Init scripts for version 2
-/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog, ModuleManagement, $ */
-import * as BRSW2_CONFIG from "./brsw2-config.js";
+/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog,
+ mergeObject, ModuleManagement, $ */
 import {
   activate_common_listeners,
   manage_selectable_click,
@@ -54,9 +54,16 @@ import {
 } from "./chat_modifers_names.js";
 import { setup_dialog } from "./card-dialog.js";
 import { Utils } from "./utils.js";
+import {
+  SETTING_KEYS,
+  USER_FLAGS,
+  USER_SETTINGS,
+  WORLD_SETTINGS,
+} from "./brsw2-config.js";
 
 // Init Hook
 Hooks.on(`init`, () => {
+  // noinspection JSUndefinedPropertyAssignment
   game.brsw = {};
   game.brsw.get_action_from_click = get_action_from_click;
   register_settings_version2();
@@ -67,10 +74,13 @@ Hooks.on(`init`, () => {
 
 // Base Hook
 Hooks.on(`ready`, () => {
-  console.log("Better Rolls 2 for SWADE | Ready");  
+  console.log("Better Rolls 2 for SWADE | Ready");
   //Update our cached user settings from the user's flags
-  const user_settings = Utils.getModuleFlag(game.user, BRSW2_CONFIG.USER_FLAGS.user_settings);
-  mergeObject(BRSW2_CONFIG.USER_SETTINGS, user_settings, {insertKeys:false});
+  const user_settings = Utils.getModuleFlag(
+    game.user,
+    USER_FLAGS.user_settings,
+  );
+  mergeObject(USER_SETTINGS, user_settings, { insertKeys: false });
   // Create a base object to hook functions
   // noinspection JSUndefinedPropertyAssignment
   attribute_card_hooks();
@@ -99,7 +109,7 @@ Hooks.on(`ready`, () => {
       .removeClass("fa-caret-down")
       .addClass("fa-caret-right");
   }
-  // Add some jquery magic to allow binding our functions prior to system
+  // Add some jquery magic to allow binding our functions prior to systems
   $.fn.bindFirst = function (name, fn) {
     // bind as you normally would
     // don't want to miss out on any jQuery magic
@@ -185,7 +195,7 @@ Hooks.on("renderChatMessage", (message, html) => {
   }
 });
 
-// Hooks for the options form
+// Hooks for the option form
 Hooks.on("renderSidebarTab", (_, html) => {
   const place = html.find("#chat-controls");
   // noinspection JSIgnoredPromiseFromCall
@@ -205,7 +215,7 @@ Hooks.on("renderSidebarTab", (_, html) => {
   });
 });
 
-// Addon by JuanV, make attacks target by drag and drop
+// Addon by JuanV, make attack target possible by drag and drop
 Hooks.on("dropCanvasData", (canvas, item) => {
   if (item.type === "Item" || item.type === "target_click") {
     let grid_size = canvas.scene.grid.size;
@@ -346,7 +356,7 @@ function register_settings_version2() {
     hint: "",
     label: "Settings",
     icon: "fas fa-cog",
-    type: SettingsConfig
+    type: SettingsConfig,
   });
   Utils.registerMenu("system_global_actions", {
     name: "BRSW.SystemGlobalMenu",
@@ -374,12 +384,12 @@ function register_settings_version2() {
   });
 
   // Register core settings. These should be config:false settings only. Everything else should be a world or user setting
-  Utils.registerSetting(BRSW2_CONFIG.SETTING_KEYS.world_settings, {
-      name: "World Settings",
-      hint: "Collection of world settings",
-      scope: "world",
-      type: Object,
-      default: BRSW2_CONFIG.WORLD_SETTINGS,
+  Utils.registerSetting(SETTING_KEYS.world_settings, {
+    name: "World Settings",
+    hint: "Collection of world settings",
+    scope: "world",
+    type: Object,
+    default: WORLD_SETTINGS,
   });
   Utils.registerSetting("system_action_disabled", {
     name: "System_Actions_disabled",
@@ -514,14 +524,14 @@ function register_settings_version2() {
     hint: game.i18n.localize("BRSW.Auto-status-cardsHint"),
     default: true,
     type: Boolean,
-    requiresReload: true
+    requiresReload: true,
   });
   Utils.registerBR2WorldSetting("range_calc_grid", {
     name: game.i18n.localize("BRSW.RangeCalcUseGrid"),
     hint: game.i18n.localize("BRSW.RangeCalcUseGridHint"),
     default: false,
     scope: "world",
-    type: Boolean
+    type: Boolean,
   });
   Utils.registerBR2WorldSetting("undeadIgnoresIllumination", {
     name: game.i18n.localize("BRSW.undeadIgnoresIllumination"),
@@ -570,7 +580,7 @@ function register_settings_version2() {
     name: game.i18n.localize("BRSW.expand-results"),
     hint: game.i18n.localize("BRSW.expand-results_hint"),
     default: false,
-    type: Boolean
+    type: Boolean,
   });
   Utils.registerBR2UserSetting("expand-rolls", {
     name: game.i18n.localize("BRSW.expand-rolls"),
@@ -592,10 +602,10 @@ function register_settings_version2() {
     default: false,
     type: Boolean,
   });
-  
+
   //Update our cached world settings with our saved data
-  const world_settings = Utils.getSetting(BRSW2_CONFIG.SETTING_KEYS.world_settings);
-  mergeObject(BRSW2_CONFIG.WORLD_SETTINGS, world_settings, {insertKeys:false});
+  const world_settings = Utils.getSetting(SETTING_KEYS.world_settings);
+  mergeObject(WORLD_SETTINGS, world_settings, { insertKeys: false });
 }
 
 // Settings related to Dice So Nice.
