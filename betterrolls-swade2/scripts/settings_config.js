@@ -53,6 +53,11 @@ export class SettingsConfig extends FormApplication {
     return data;
   }
 
+  /**
+   * Gets the data from a setting to pass it to handlebars
+   * @param {object} setting - The setting object.
+   * @returns {object} The setting data.
+   */
   get_setting_data(setting) {
     const s = foundry.utils.deepClone(setting);
     s.id = s.key;
@@ -96,6 +101,10 @@ export class SettingsConfig extends FormApplication {
     }
   }
 
+  /**
+   * Shows a confirmation dialog for reloading the game.
+   * @param {object} options - The reload options.
+   */
   static async reloadConfirm({ world = false } = {}) {
     const reload = await Dialog.confirm({
       title: game.i18n.localize("SETTINGS.ReloadPromptTitle"),
