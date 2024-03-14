@@ -11,7 +11,6 @@ export class SettingsConfig extends FormApplication {
       id: "brsw-settings-config",
       classes: ["sheet"],
       template: "modules/betterrolls-swade2/templates/settings_config.html",
-      resizable: false,
       minimizable: false,
       title: game.i18n.localize("BRSW.Settings"),
       width: 800,
