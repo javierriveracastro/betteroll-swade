@@ -383,6 +383,10 @@
   "BRSW.Scale": "Scale",
   "BRSW.Scar": "Hideous scar",
   "BRSW.Settings.Apply": "Apply",
+  "BRSW.Settings.RestoreDefaults": "Restore Defaults",
+  "BRSW.Settings.RestoreDefaultsTitle": "Restore Defaults?",
+  "BRSW.Settings.RestoreDefaultsWorldBody": "<p>Restore all world settings back to their default values?<p>",
+  "BRSW.Settings.RestoreDefaultsUserBody": "<p>Restore all user settings back to their default values?<p>",
   "BRSW.Settings.Tabs.World": "World Settings",
   "BRSW.Settings.Tabs.User": "User Settings",
   "BRSW.Settings.Title": "Better Rolls Settings",
@@ -490,6 +494,8 @@
   "BRSW.Wounds": "Wounds",
   "BRSW.WoundsOrFatigueIgnored": "Wounds or Fatigue ignored",
   "BRSW.Shots": "Shots",
+  "BRSW.Yes": "Yes",
+  "BRSW.No": "No",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]

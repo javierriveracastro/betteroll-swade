@@ -72,6 +72,16 @@ export class SettingsConfig extends FormApplication {
     return s;
   }
 
+  /**
+   * Activate app listeners
+   * @param {*} html 
+   */
+  activateListeners(html) {
+    const restoreDefaultsButton = html.find("button[name='restore-defaults']");
+    restoreDefaultsButton.on("click", async event => this.onRestoreDefaults(event));
+    super.activateListeners(html);
+  }
+
   async _updateObject(event, formData) {
     let requires_world_reload = false;
     let requires_client_reload = false;
@@ -79,11 +89,11 @@ export class SettingsConfig extends FormApplication {
       if (WORLD_SETTINGS[k] && WORLD_SETTINGS[k].value !== v) {
         WORLD_SETTINGS[k].value = v;
         requires_world_reload =
-          requires_world_reload || WORLD_SETTINGS[k].requiresReload;
+          requires_world_reload || !!WORLD_SETTINGS[k].requiresReload;
       } else if (USER_SETTINGS[k] && USER_SETTINGS[k].value !== v) {
         USER_SETTINGS[k].value = v;
         requires_client_reload =
-          requires_client_reload || USER_SETTINGS[k].requiresReload;
+          requires_client_reload || !!USER_SETTINGS[k].requiresReload;
       }
     }
 
@@ -117,5 +127,83 @@ export class SettingsConfig extends FormApplication {
       game.socket.emit("reload");
     }
     foundry.utils.debouncedReload();
+  }
+
+  /**
+   * 
+   * @param {*} event 
+   */
+  async onRestoreDefaults(event) {
+    event.preventDefault();
+
+    let content;
+    const active_data_tab = $(this.form).find("a[class='item active']")[0].attributes["data-tab"].nodeValue;
+    switch(active_data_tab) {
+      case "world":
+        content = game.i18n.localize("BRSW.Settings.RestoreDefaultsWorldBody");
+        break;
+        
+      case "user":
+        content = game.i18n.localize("BRSW.Settings.RestoreDefaultsUserBody");
+        break;
+    }
+
+    const confirmationDialog = new Dialog({
+      title: game.i18n.localize("BRSW.Settings.RestoreDefaultsTitle"),
+      content: content,
+      buttons: {
+        yes: {
+          icon: `<i class="fas fa-check"></i>`,
+          label: game.i18n.localize("BRSW.Yes"),
+          callback: ($html) => {
+            this.restoreDefaults(active_data_tab);
+          }
+        },
+        no: {
+          icon: `<i class="fas fa-times"></i>`,
+          label: game.i18n.localize("BRSW.No"),
+          callback: () => { }
+        }
+      },
+      default: "no",
+      close: () => { }
+    });
+
+    confirmationDialog.render(true);
+  }
+
+  async restoreDefaults(data_tab) {
+    let requires_world_reload = false;
+    let requires_client_reload = false;
+    if (data_tab == "world") {
+      for (let setting of Object.values(WORLD_SETTINGS)) {
+        if (setting.requiresReload && setting.value != undefined && setting.value != setting.default) {
+          requires_world_reload = true;
+        }
+        delete setting.value;
+      }
+    } else if (data_tab == "user") {
+      for (let setting of Object.values(USER_SETTINGS)) {
+        if (setting.requiresReload && setting.value != undefined && setting.value != setting.default) {
+          requires_client_reload = true;
+        }
+        delete setting.value;
+      }
+    }
+
+    await SettingsUtils.setSetting(SETTING_KEYS.world_settings, WORLD_SETTINGS);
+
+    await game.user.unsetFlag(MODULE_NAME, USER_FLAGS.user_settings);
+    await game.user.setFlag(
+      MODULE_NAME,
+      USER_FLAGS.user_settings,
+      USER_SETTINGS,
+    );
+
+    this.render(true);
+
+    if (requires_world_reload || requires_client_reload) {
+      await this.constructor.reloadConfirm({ world: requires_world_reload });
+    }
   }
 }
