@@ -458,6 +458,30 @@ export const SYSTEM_GLOBAL_ACTION = [
     group: "BRSW.Edges",
     rof: "2",
   },
+  {
+    id: "Rapid Shot",
+    name: "BRSW.EdgeName-RapidShot",
+    button_name: "BRSW.EdgeName-RapidShot",
+    and_selector: [
+      { selector_type: "skill", selector_value: "shooting" },
+      {
+        or_selector: [
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "BRSW.EdgeName-RapidShot",
+          },
+          {
+            selector_type: "actor_has_edge",
+            selector_value: "BRSW.EdgeName-ImprovedRapidShot",
+          },
+        ],
+      },
+      { selector_type: "item_type", selector_value: "weapon" },
+    ],
+    defaultChecked: "on",
+    group: "BRSW.Edges",
+    rof: "2",
+  },
 ]
   .concat(COMBAT_OPTIONS)
   .concat(POWER_POINT_OPTIONS)
