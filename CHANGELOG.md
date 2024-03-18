@@ -1,3 +1,12 @@
+# Version 3.73 aka I did nothing this time!!
+* Docs: Add mention to weblate in docs.
+* Translations: Spanish and German translation updates from the new Weblate (Max Hilbrunner, gallegonovato)
+* Settings: New settings organization (Dan Brown)
+* Pull-out cards: Multiple cards now stack instead of beign one above the other (Dan Brown)
+* Builtin actions: Added Rapid Shot from PF. (Dan Brown)
+* Settings: Added an option to reset settings to their defaults (Dan Brown)
+* Bugfix: Incapacitation is removed again when you undo damage (Dan Brown)
+
 # Version 3.72 aka prelude to a bug-fixing week.
 * Actions: Added range_less_then selector.
 * CSS, everywhere: Configure Tailwind to generate CSS with a prefix. It should solve some issues with other modules (notably item piles) but risk breaking everything.
