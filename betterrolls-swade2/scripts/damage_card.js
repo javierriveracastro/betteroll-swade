@@ -215,7 +215,9 @@ async function undo_damage(message) {
       await game.succ.removeCondition("shaken", token_object);
     }
     let inc_effects = [...token_object.actor.allApplicableEffects()]
-      .filter((e) => e.flags?.core?.statusId === "incapacitated")
+      .filter((e) => {
+        return e.flags?.succ?.conditionId === "incapacitated";
+      })
       .map((effect) => {
         return effect.id;
       });
