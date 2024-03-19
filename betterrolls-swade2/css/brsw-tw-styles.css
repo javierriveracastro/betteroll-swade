@@ -445,18 +445,6 @@
   text-decoration-line:underline;
 }
 
-.twbr-decoration-red-800 {
-  text-decoration-color:#991b1b;
-}
-
-.twbr-decoration-red-200 {
-  text-decoration-color:#fecaca;
-}
-
-.twbr-decoration-red-300 {
-  text-decoration-color:#fca5a5;
-}
-
 .twbr-opacity-0 {
   opacity:0;
 }
@@ -559,8 +547,8 @@
   opacity:1;
 }
 
-.twbr-group:hover .group-hover\:twbr-delay-500 {
-  transition-delay:500ms;
+.twbr-group:hover .group-hover\:twbr-delay-1000 {
+  transition-delay:1000ms;
 }
 
 .twbr-group:hover .group-hover\:twbr-duration-500 {
