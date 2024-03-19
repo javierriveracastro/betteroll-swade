@@ -17,7 +17,6 @@ import {
   create_modifier,
   process_common_actions,
   process_minimum_str_modifiers,
-  BrCommonCard,
 } from "./cards_common.js";
 import {
   FIGHTING_SKILLS,
@@ -35,6 +34,7 @@ import {
 import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 const ARCANE_SKILLS = [
   "faith",

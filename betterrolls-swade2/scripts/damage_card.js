@@ -6,13 +6,13 @@ import {
   are_bennies_available,
   roll_trait,
   spend_bennie,
-  BrCommonCard,
 } from "./cards_common.js";
 import {
   create_incapacitation_card,
   create_injury_card,
 } from "./incapacitation_card.js";
 import { SettingsUtils } from "./utils.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 /**
  * Shows a damage card and applies damage to the token/actor
@@ -71,7 +71,7 @@ export async function create_damage_card(
     },
     "modules/betterrolls-swade2/templates/damage_card.html",
   );
-  if (wounds == 0) {
+  if (wounds === 0) {
     //If we're not dealing any wounds, don't bother popping out the card since there's no action required
     br_message.popup_shown = true;
   }

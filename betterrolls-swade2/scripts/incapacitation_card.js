@@ -2,7 +2,6 @@
 /* globals canvas, game, CONST, Roll, Hooks, succ, fromUuid, console */
 
 import {
-  BrCommonCard,
   BRSW_CONST,
   create_common_card,
   roll_trait,
@@ -10,6 +9,7 @@ import {
 } from "./cards_common.js";
 import { get_owner } from "./damage_card.js";
 import { SettingsUtils } from "./utils.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 const INJURY_BASE = {
   2: "BRSW.Unmentionables",

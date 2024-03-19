@@ -3,7 +3,6 @@
 
 import { get_owner } from "./damage_card.js";
 import {
-  BrCommonCard,
   BRSW_CONST,
   create_common_card,
   create_modifier,
@@ -11,6 +10,7 @@ import {
   spend_bennie,
 } from "./cards_common.js";
 import { SettingsUtils } from "./utils.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 /**
  * Shows the unshaken card

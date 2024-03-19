@@ -12,11 +12,11 @@ import {
   trait_to_string,
   create_modifier,
   process_common_actions,
-  BrCommonCard,
 } from "./cards_common.js";
 import { run_macros } from "./item_card.js";
 import { get_enabled_gm_actions } from "./gm_modifiers.js";
 import { SettingsUtils } from "./utils.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 // noinspection SpellCheckingInspection
 export const FIGHTING_SKILLS = [

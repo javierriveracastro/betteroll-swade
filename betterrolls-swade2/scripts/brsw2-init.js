@@ -7,7 +7,6 @@ import {
   manage_collapsables,
   BRSW_CONST,
   get_action_from_click,
-  BrCommonCard,
   expose_card_class,
 } from "./cards_common.js";
 import {
@@ -60,6 +59,7 @@ import {
   USER_SETTINGS,
   WORLD_SETTINGS,
 } from "./brsw2-config.js";
+import { BrCommonCard } from "./BrCommonCard.js";
 
 // Init Hook
 Hooks.on(`init`, () => {
