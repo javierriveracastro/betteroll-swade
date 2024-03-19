@@ -381,5 +381,14 @@
     "BRSW.PowerModifiersBlind": "Modificadores de poder - Ceguera",
     "BRSW.PowerModifiersBlindAreaEffect2MBT": "Área de efecto (Media)[+2PP]",
     "BRSW.PowerModifiersBlindAreaEffect3LBTStream": "Área de efecto (Grande) [+3PP]",
-    "BRSW.PowerModifiersBlindStrong": "Potencia(Vig-2)[+1PP]"
+    "BRSW.PowerModifiersBlindStrong": "Potencia(Vig-2)[+1PP]",
+    "BRSW.PowerModifiersBoltDamage": "Daño (+1d6) [+2PP]",
+    "BRSW.PowerModifiersBoltDisintegrate": "☆ Desintegrarse [+2PP]",
+    "BRSW.PowerModifiersBoltGreaterBolt": "☆ Rayo mayor (+4d6) [+4PP]",
+    "BRSW.PowerModifiersBoltRateOfFire": "☆ Tasa de Fuego [+2PP]",
+    "BRSW.EdgeName-ImprovedRapidShot": "Tiro rápido mejorado",
+    "BRSW.EdgeName-RapidShot": "Tiro rápido",
+    "BRSW.PowerModifiersBoostLower": "Modificadores de Potencia - Aumentar/Bajar Rasgo",
+    "BRSW.PowerModifiersBoostLowerGreater": "☆ Impulso mayor/menor [+2PP]",
+    "BRSW.PowerModifiersBoostLowerStrong": "Fuerte (Sólo inferior)[+1PP]"
 }
