@@ -34,7 +34,7 @@ export const ATTRIBUTES_TRANSLATION_KEYS = {
  * @param {string} name The name of the attribute like 'vigor'
  * @return {Promise} A promise for the BrCommonCard object
  */
-async function create_attribute_card(origin, name) {
+async function create_attribute_card(origin, name, {action_overrides={}}={}) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -57,6 +57,7 @@ async function create_attribute_card(origin, name) {
   // We always set the actor (as a fallback, and the token if possible)
   br_message.attribute_name = name;
   br_message.type = BRSW_CONST.TYPE_ATTRIBUTE_CARD;
+  br_message.action_overrides = action_overrides;
   await br_message.render();
   await br_message.save();
   return br_message;
@@ -72,9 +73,9 @@ async function create_attribute_card(origin, name) {
  * @param {string} name Name of the attribute to roll, like 'vigor'
  * @return {Promise} a promise fot the ChatMessage object
  */
-function create_attribute_card_from_id(token_id, actor_id, name) {
+function create_attribute_card_from_id(token_id, actor_id, name, {action_overrides={}}={}) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_attribute_card(actor, name);
+  return create_attribute_card(actor, name, {action_overrides:action_overrides});
 }
 
 /**

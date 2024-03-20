@@ -53,6 +53,7 @@ export class BrCommonCard {
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
     this.popup_shown = false;
+    this.action_overrides = {};
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
@@ -305,7 +306,10 @@ export class BrCommonCard {
         };
       }
       let new_action = new brAction(name, global_action);
-      if (global_action.hasOwnProperty("defaultChecked")) {
+      const action_override = this.action_overrides[global_action.id];
+      if (action_override != undefined) {
+        new_action.selected = action_override;
+      } else if (global_action.hasOwnProperty("defaultChecked")) {
         new_action.selected = true;
       }
       this.action_groups[group_name_id].actions.push(new_action);

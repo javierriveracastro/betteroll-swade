@@ -302,6 +302,82 @@ export function activate_common_listeners(br_card, html) {
     // noinspection JSIgnoredPromiseFromCall
     duplicate_message(br_card.message, ev);
   });
+  // Save a macro using the current settings
+  html_jquery.find(".brsw-save-macro").click((ev) => {
+    let macro_slot = 0;
+    let page = ui.hotbar.page;    
+    // Starting from the current hotbar page, find the first empty slot
+    do {
+      let macros = game.user.getHotbarMacros(page);
+      for (const macro of macros) {
+        if (macro.macro == undefined || macro.macro == null) {
+          macro_slot = macro.slot;
+          break;
+        }
+      }
+      page = page < 5 ? page + 1 : 1;
+    } while (macro_slot == 0 && page != ui.hotbar.page);
+
+    const command = create_macro_command_from_card(br_card);
+    Macro.create({
+      name: br_card.render_data.header.title,
+      img: br_card.render_data.header.img ? br_card.render_data.header.img : "icons/svg/aura.svg",
+      type: "script",
+      command: command,
+      scope: "global",
+    }).then((macro) => {
+      // noinspection JSIgnoredPromiseFromCall
+      // If we found an empty slot, assign the macro to that slot
+      if (macro_slot > 0) {
+        game.user.assignHotbarMacro(macro, macro_slot);
+      }
+    });
+  });
+}
+
+function create_macro_command_from_card(br_card) {
+  let action_overrides = "";
+  for (const group of Object.values(br_card.action_groups)) {
+    for (const action of group.actions) {
+      action_overrides += `'${action.code.id}':` + action.selected + `,`;
+    }
+  }
+  let card_function_name = "";
+  let roll_function = "";
+  let id = "";
+  if (br_card.item_id) {
+    card_function_name = "create_item_card_from_id";
+    roll_function = "game.brsw.roll_item(message, $(message.content), false, behaviour.includes('damage'));";
+    id = br_card.item_id;
+  } else if (br_card.skill_id) {
+    card_function_name = "create_skill_card_from_id";
+    roll_function = "game.brsw.roll_skill(message, $(message.content), false);";
+    id = br_card.skill_id;
+  } else if (br_card.attribute_name) {
+    card_function_name = "create_attribute_card_from_id";
+    roll_function = "game.brsw.roll_attribute(message, $(message.content), false);";
+    id = br_card.attribute_name;
+  }
+
+  let command = `
+  let behaviour = game.brsw.get_action_from_click(event);
+  if (behaviour === 'system') {
+    game.swade.rollItemMacro(\`${br_card.render_data.header.title}\`);
+    return;
+  }
+  let message = await game.brsw.${card_function_name}(
+    '${br_card.token_id}',
+    '${br_card.actor_id}',
+    '${id}',
+    {action_overrides:{${action_overrides}}});
+  if (event) {
+    if (behaviour.includes('trait')) {
+      ${roll_function}
+    }
+  }
+  `
+
+  return command;
 }
 
 /**
