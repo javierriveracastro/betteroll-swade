@@ -1018,7 +1018,7 @@ async function add_modifier(br_card, modifier) {
  * @param {int} index - Index of the modifier to delete.
  */
 async function delete_modifier(br_card, index) {
-  delete br_card.trait_roll.modifiers[index];
+  br_card.trait_roll.modifiers.splice(index, 1);
   await br_card.trait_roll.calculate_results();
   await br_card.render();
   br_card.save().catch(() => {
