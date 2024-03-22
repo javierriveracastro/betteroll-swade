@@ -54,7 +54,7 @@ export const THROWING_SKILLS = [
  * @param {string} skill_id The id of the skill that we want to show
  * @return {Promise} A promise for the ChatMessage object
  */
-async function create_skill_card(origin, skill_id) {
+async function create_skill_card(origin, skill_id, {action_overrides={}}={}) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -80,6 +80,7 @@ async function create_skill_card(origin, skill_id) {
   );
   br_message.type = BRSW_CONST.TYPE_SKILL_CARD;
   br_message.skill_id = skill.id;
+  br_message.action_overrides = action_overrides;
   await br_message.render();
   await br_message.save();
   return br_message;
@@ -95,9 +96,9 @@ async function create_skill_card(origin, skill_id) {
  * @param {string} skill_id Id of the skill item
  * @return {Promise} a promise fot the ChatMessage object
  */
-function create_skill_card_from_id(token_id, actor_id, skill_id) {
+function create_skill_card_from_id(token_id, actor_id, skill_id, {action_overrides={}}={}) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_skill_card(actor, skill_id);
+  return create_skill_card(actor, skill_id, {action_overrides:action_overrides});
 }
 
 /**

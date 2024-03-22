@@ -107,7 +107,7 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
  * @param {string} item_id The id of the item that we want to show
  * @return {Promise} A promise for the BrCommonCard object
  */
-async function create_item_card(origin, item_id) {
+async function create_item_card(origin, item_id, {action_overrides={}}={}) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -193,6 +193,7 @@ async function create_item_card(origin, item_id) {
   br_message.type = BRSW_CONST.TYPE_ITEM_CARD;
   br_message.damage = damage;
   br_message.item_id = item_id;
+  br_message.action_overrides = action_overrides;
   await br_message.render();
   await br_message.save();
   // For the moment, assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
@@ -216,7 +217,7 @@ async function create_item_card(origin, item_id) {
  * @param {string} skill_id Id of the item
  * @return {Promise} a promise for the BrCommonCard object
  */
-function create_item_card_from_id(token_id, actor_id, skill_id) {
+function create_item_card_from_id(token_id, actor_id, skill_id, {action_overrides={}}={}) {
   let origin;
   if (canvas && token_id) {
     let token = canvas.tokens.get(token_id);
@@ -227,7 +228,7 @@ function create_item_card_from_id(token_id, actor_id, skill_id) {
   if (!origin && actor_id) {
     origin = game.actors.get(actor_id);
   }
-  return create_item_card(origin, skill_id);
+  return create_item_card(origin, skill_id, {action_overrides:action_overrides});
 }
 
 /**
