@@ -36,8 +36,9 @@ export class SettingsConfig extends FormApplication {
   }
 
   getData() {
+    const can_modify_world = game.user.hasPermission("SETTINGS_MODIFY");
     const data = {
-      isGM: game.user.isGM,
+      can_modify_world: can_modify_world,
       world_settings: [],
       user_settings: [],
     };
@@ -83,10 +84,11 @@ export class SettingsConfig extends FormApplication {
   }
 
   async _updateObject(event, formData) {
+    const can_modify_world = game.user.hasPermission("SETTINGS_MODIFY");
     let requires_world_reload = false;
     let requires_client_reload = false;
     for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
-      if (WORLD_SETTINGS[k] && WORLD_SETTINGS[k].value !== v) {
+      if (can_modify_world && WORLD_SETTINGS[k] && WORLD_SETTINGS[k].value !== v) {
         WORLD_SETTINGS[k].value = v;
         requires_world_reload =
           requires_world_reload || !!WORLD_SETTINGS[k].requiresReload;
@@ -97,7 +99,9 @@ export class SettingsConfig extends FormApplication {
       }
     }
 
-    await SettingsUtils.setSetting(SETTING_KEYS.world_settings, WORLD_SETTINGS);
+    if (can_modify_world) {
+      await SettingsUtils.setSetting(SETTING_KEYS.world_settings, WORLD_SETTINGS);
+    }
 
     await game.user.unsetFlag(MODULE_NAME, USER_FLAGS.user_settings);
     await game.user.setFlag(
