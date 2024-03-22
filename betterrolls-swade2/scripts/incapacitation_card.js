@@ -167,7 +167,7 @@ async function roll_incapacitation(br_card, spend_benny) {
     )}</p><p>${br_card.token.name} ${game.i18n.localize("BRSW.IsDead")}</p>`;
     br_card.render_data.show_roll_injury = false; // For what...
     await game.succ.removeCondition("incapacitated", br_card.token);
-    await game.succ.addCondition("defeated", br_card.token);
+    await game.succ.addCondition("dead", br_card.token);
   } else if (result < 4) {
     br_card.render_data.text_after = game.i18n.localize(
       "BRSW.BleedingOutResult",
