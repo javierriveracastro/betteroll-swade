@@ -373,7 +373,7 @@ export async function get_tn_from_token(
         create_modifier(game.i18n.localize("BRSW.Gangup"), gangup_bonus),
       );
     }
-  } else if (item.system.range) {
+  } else if (item && item.system.range) {
     use_parry_as_tn = calculate_distance(
       origin_token,
       target_token,
