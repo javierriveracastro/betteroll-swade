@@ -166,7 +166,7 @@ async function apply_damage(token_or_token_id, wounds, soaked = 0) {
   // Final damage
   let final_wounds = initial_wounds + damage_wounds;
   incapacitated = final_wounds > token.actor.system.wounds.max;
-  const downed_condition = token.actor.isWildcard ? "incapacitated" : "defeated";
+  const downed_condition = token.actor.isWildcard ? "incapacitated" : "dead";
   if (incapacitated) {
     await game.succ.addCondition(downed_condition, token);
   } else {
