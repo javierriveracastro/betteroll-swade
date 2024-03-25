@@ -105,6 +105,7 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} item_id The id of the item that we want to show
+ * @param action_overrides
  * @return {Promise} A promise for the BrCommonCard object
  */
 async function create_item_card(
@@ -163,14 +164,12 @@ async function create_item_card(
   const subtract_pp_select = power_points
     ? SettingsUtils.getWorldSetting("default-pp-management")
     : false;
-  if (!damage) {
-    if (item.system.actions) {
-      for (let action in item.system.actions.additional) {
-        const current_action = item.system.actions.additional[action];
-        if (current_action.type === "damage" && current_action.override) {
-          damage = true;
-          break;
-        }
+  if (!damage && item.system.actions) {
+    for (let action in item.system.actions.additional) {
+      const current_action = item.system.actions.additional[action];
+      if (current_action.type === "damage" && current_action.override) {
+        damage = true;
+        break;
       }
     }
   }
@@ -219,6 +218,7 @@ async function create_item_card(
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} skill_id Id of the item
+ * @param action_overrides
  * @return {Promise} a promise for the BrCommonCard object
  */
 function create_item_card_from_id(
