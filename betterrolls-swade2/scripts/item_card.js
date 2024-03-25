@@ -107,7 +107,11 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
  * @param {string} item_id The id of the item that we want to show
  * @return {Promise} A promise for the BrCommonCard object
  */
-async function create_item_card(origin, item_id, {action_overrides={}}={}) {
+async function create_item_card(
+  origin,
+  item_id,
+  { action_overrides = {} } = {},
+) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -217,7 +221,12 @@ async function create_item_card(origin, item_id, {action_overrides={}}={}) {
  * @param {string} skill_id Id of the item
  * @return {Promise} a promise for the BrCommonCard object
  */
-function create_item_card_from_id(token_id, actor_id, skill_id, {action_overrides={}}={}) {
+function create_item_card_from_id(
+  token_id,
+  actor_id,
+  skill_id,
+  { action_overrides = {} } = {},
+) {
   let origin;
   if (canvas && token_id) {
     let token = canvas.tokens.get(token_id);
@@ -228,7 +237,9 @@ function create_item_card_from_id(token_id, actor_id, skill_id, {action_override
   if (!origin && actor_id) {
     origin = game.actors.get(actor_id);
   }
-  return create_item_card(origin, skill_id, {action_overrides:action_overrides});
+  return create_item_card(origin, skill_id, {
+    action_overrides: action_overrides,
+  });
 }
 
 /**
@@ -452,7 +463,11 @@ export function activate_item_card_listeners(br_card, html) {
     });
   });
   html.find(".brsw-resist-button").click((ev) => {
-    roll_resist(ev.currentTarget.dataset.trait, br_card).catch((err) => {
+    roll_resist(
+      ev.currentTarget.dataset.trait,
+      br_card,
+      parseInt(ev.currentTarget.dataset.traitMod),
+    ).catch((err) => {
       console.log(`Error while rolling resistance ${err}`);
     });
   });
@@ -463,8 +478,9 @@ export function activate_item_card_listeners(br_card, html) {
  *
  * @param {string} trait - The trait that will be rolled
  * @param {BrCommonCard} br_card - The card from where we get the TN
+ * @param {integer} trait_mod
  */
-async function roll_resist(trait, br_card) {
+async function roll_resist(trait, br_card, trait_mod) {
   if (canvas.tokens.controlled.length === 0) {
     ui.notifications.warn(game.i18n.localize("BRSW.NoTokenSelectedError"));
     return;
@@ -488,6 +504,9 @@ async function roll_resist(trait, br_card) {
     });
     new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
     new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
+    if (!isNaN(trait_mod)) {
+      console.log("Here we should do something to support resist mods");
+    }
     new_card.render();
     new_card.save();
   }

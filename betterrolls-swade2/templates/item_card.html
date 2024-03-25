@@ -91,7 +91,8 @@
                     twbr-border twbr-border-solid focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700
                     twbr-text-gray-800 twbr-border-gray-600
                     {{# if ../trait_roll.is_rolled }}hover:twbr-text-white hover:twbr-bg-gray-700{{/if}}"
-                    data-trait="{{this.trait}}" {{#unless ../trait_roll.is_rolled }}disabled{{/unless}}>
+                    data-trait="{{this.trait}}" data-trait-mod="{{this.trait_mod}}"
+                    {{#unless ../trait_roll.is_rolled }}disabled{{/unless}}>
                 <i class="fa-solid fa-ban"></i> {{ this.name }}
             </button>
         {{/each}}

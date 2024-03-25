@@ -397,6 +397,7 @@ export class BrCommonCard {
         this.resist_buttons.push({
           name: current_action.name,
           trait: current_action.override || this.skill.name,
+          trait_mod: current_action.skillMod,
         });
       }
     }
