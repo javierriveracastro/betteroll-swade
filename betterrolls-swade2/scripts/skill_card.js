@@ -52,6 +52,7 @@ export const THROWING_SKILLS = [
  *
  * @param {Token, SwadeActor} origin  The actor or token who is creating this card
  * @param {string} skill_id The id of the skill that we want to show
+ * @param action_overrides A dict of options
  * @return {Promise} A promise for the ChatMessage object
  */
 async function create_skill_card(
@@ -98,6 +99,7 @@ async function create_skill_card(
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} skill_id Id of the skill item
+ * @param {object} action_overrides
  * @return {Promise} a promise fot the ChatMessage object
  */
 function create_skill_card_from_id(
@@ -634,14 +636,15 @@ function withinRange(origin, target, range) {
   }
   const size_mod_origin = (origin.document.width + origin.document.height) / 2;
   const size_mod_target = (target.document.width + target.document.height) / 2;
-  range = range - 0.5 + Math.max(size_mod_origin, size_mod_target);
+  const calculated_range =
+    range - 0.5 + Math.max(size_mod_origin, size_mod_target);
   const ray = new Ray(origin, target);
   const grid_unit = canvas.grid.grid.options.dimensions.distance;
   let distance = canvas.grid.measureDistances([{ ray }], {
     gridSpaces: false,
   })[0];
   distance /= grid_unit;
-  return range >= distance;
+  return calculated_range >= distance;
 }
 
 /**
