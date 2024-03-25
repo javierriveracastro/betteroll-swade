@@ -307,7 +307,7 @@ export class BrCommonCard {
       }
       let new_action = new brAction(name, global_action);
       const action_override = this.action_overrides[global_action.id];
-      if (action_override != undefined) {
+      if (action_override !== undefined) {
         new_action.selected = action_override;
       } else if (global_action.hasOwnProperty("defaultChecked")) {
         new_action.selected = true;
