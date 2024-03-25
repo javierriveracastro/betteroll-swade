@@ -54,7 +54,11 @@ export const THROWING_SKILLS = [
  * @param {string} skill_id The id of the skill that we want to show
  * @return {Promise} A promise for the ChatMessage object
  */
-async function create_skill_card(origin, skill_id, {action_overrides={}}={}) {
+async function create_skill_card(
+  origin,
+  skill_id,
+  { action_overrides = {} } = {},
+) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -96,9 +100,16 @@ async function create_skill_card(origin, skill_id, {action_overrides={}}={}) {
  * @param {string} skill_id Id of the skill item
  * @return {Promise} a promise fot the ChatMessage object
  */
-function create_skill_card_from_id(token_id, actor_id, skill_id, {action_overrides={}}={}) {
+function create_skill_card_from_id(
+  token_id,
+  actor_id,
+  skill_id,
+  { action_overrides = {} } = {},
+) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_skill_card(actor, skill_id, {action_overrides:action_overrides});
+  return create_skill_card(actor, skill_id, {
+    action_overrides: action_overrides,
+  });
 }
 
 /**
@@ -360,7 +371,7 @@ export async function get_tn_from_token(
         create_modifier(game.i18n.localize("BRSW.Gangup"), gangup_bonus),
       );
     }
-  } else {
+  } else if (item.system.range) {
     use_parry_as_tn = calculate_distance(
       origin_token,
       target_token,

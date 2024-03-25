@@ -305,7 +305,7 @@ export function activate_common_listeners(br_card, html) {
   // Save a macro using the current settings
   html_jquery.find(".brsw-save-macro").click((ev) => {
     let macro_slot = 0;
-    let page = ui.hotbar.page;    
+    let page = ui.hotbar.page;
     // Starting from the current hotbar page, find the first empty slot
     do {
       let macros = game.user.getHotbarMacros(page);
@@ -321,7 +321,9 @@ export function activate_common_listeners(br_card, html) {
     const command = create_macro_command_from_card(br_card);
     Macro.create({
       name: br_card.render_data.header.title,
-      img: br_card.render_data.header.img ? br_card.render_data.header.img : "icons/svg/aura.svg",
+      img: br_card.render_data.header.img
+        ? br_card.render_data.header.img
+        : "icons/svg/aura.svg",
       type: "script",
       command: command,
       scope: "global",
@@ -347,7 +349,8 @@ function create_macro_command_from_card(br_card) {
   let id = "";
   if (br_card.item_id) {
     card_function_name = "create_item_card_from_id";
-    roll_function = "game.brsw.roll_item(message, $(message.content), false, behaviour.includes('damage'));";
+    roll_function =
+      "game.brsw.roll_item(message, $(message.content), false, behaviour.includes('damage'));";
     id = br_card.item_id;
   } else if (br_card.skill_id) {
     card_function_name = "create_skill_card_from_id";
@@ -355,7 +358,8 @@ function create_macro_command_from_card(br_card) {
     id = br_card.skill_id;
   } else if (br_card.attribute_name) {
     card_function_name = "create_attribute_card_from_id";
-    roll_function = "game.brsw.roll_attribute(message, $(message.content), false);";
+    roll_function =
+      "game.brsw.roll_attribute(message, $(message.content), false);";
     id = br_card.attribute_name;
   }
 
@@ -375,7 +379,7 @@ function create_macro_command_from_card(br_card) {
       ${roll_function}
     }
   }
-  `
+  `;
 
   return command;
 }
@@ -1161,7 +1165,7 @@ async function get_tn_from_target(br_card, index, selected) {
   } else {
     objetive = get_targeted_token();
   }
-  if (objetive) {
+  if (objetive && br_card.item.system.range) {
     const origin_token = br_card.token;
     if (origin_token) {
       const target = await get_tn_from_token(
