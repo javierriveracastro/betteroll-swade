@@ -53,7 +53,7 @@ export class BrCommonCard {
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
     this.popup_shown = false;
-    this.action_overrides = {};
+    this.action_overrides = {}; // {action_id: Bool} to store actions selection state
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
