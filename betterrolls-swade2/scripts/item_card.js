@@ -103,16 +103,13 @@ const ROF_BULLETS = { 1: 1, 2: 5, 3: 10, 4: 20, 5: 40, 6: 50 };
 /**
  * Creates a chat card for an item
  *
- * @param {Token, SwadeActor} origin  The actor or token owning the attribute
+ * @param {Token, SwadeActor} origin  The actor or token, owning the attribute
  * @param {string} item_id The id of the item that we want to show
- * @param action_overrides
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} A promise for the BrCommonCard object
  */
-async function create_item_card(
-  origin,
-  item_id,
-  { action_overrides = {} } = {},
-) {
+async function create_item_card(origin, item_id, { actions_stored = {} } = {}) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -196,8 +193,7 @@ async function create_item_card(
   br_message.type = BRSW_CONST.TYPE_ITEM_CARD;
   br_message.damage = damage;
   br_message.item_id = item_id;
-  br_message.action_overrides = action_overrides;
-  await br_message.render();
+  await br_message.render(actions_stored);
   await br_message.save();
   // For the moment, assume that no roll is made if there is no skill. Hopefully, in the future, there'll be a better way.
   if (
@@ -218,14 +214,15 @@ async function create_item_card(
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} skill_id Id of the item
- * @param action_overrides
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} a promise for the BrCommonCard object
  */
 function create_item_card_from_id(
   token_id,
   actor_id,
   skill_id,
-  { action_overrides = {} } = {},
+  { actions_stored = {} } = {},
 ) {
   let origin;
   if (canvas && token_id) {
@@ -238,7 +235,7 @@ function create_item_card_from_id(
     origin = game.actors.get(actor_id);
   }
   return create_item_card(origin, skill_id, {
-    action_overrides: action_overrides,
+    actions_stored: actions_stored,
   });
 }
 

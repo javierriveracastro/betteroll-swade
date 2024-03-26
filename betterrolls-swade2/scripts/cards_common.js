@@ -338,10 +338,10 @@ export function activate_common_listeners(br_card, html) {
 }
 
 function create_macro_command_from_card(br_card) {
-  let action_overrides = "";
+  let actions_stored = "";
   for (const group of Object.values(br_card.action_groups)) {
     for (const action of group.actions) {
-      action_overrides += `'${action.code.id}':` + action.selected + `,`;
+      actions_stored += `'${action.code.id}':` + action.selected + `,`;
     }
   }
   let card_function_name = "";
@@ -373,7 +373,7 @@ function create_macro_command_from_card(br_card) {
     '${br_card.token_id}',
     '${br_card.actor_id}',
     '${id}',
-    {action_overrides:{${action_overrides}}});
+    {actions_stored:{${actions_stored}}});
   if (event) {
     if (behaviour.includes('trait')) {
       ${roll_function}

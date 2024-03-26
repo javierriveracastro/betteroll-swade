@@ -52,13 +52,14 @@ export const THROWING_SKILLS = [
  *
  * @param {Token, SwadeActor} origin  The actor or token who is creating this card
  * @param {string} skill_id The id of the skill that we want to show
- * @param action_overrides A dict of options
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} A promise for the ChatMessage object
  */
 async function create_skill_card(
   origin,
   skill_id,
-  { action_overrides = {} } = {},
+  { actions_stored = {} } = {},
 ) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
@@ -85,8 +86,7 @@ async function create_skill_card(
   );
   br_message.type = BRSW_CONST.TYPE_SKILL_CARD;
   br_message.skill_id = skill.id;
-  br_message.action_overrides = action_overrides;
-  await br_message.render();
+  await br_message.render(actions_stored);
   await br_message.save();
   return br_message;
 }
@@ -99,18 +99,19 @@ async function create_skill_card(
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} skill_id Id of the skill item
- * @param {object} action_overrides
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} a promise fot the ChatMessage object
  */
 function create_skill_card_from_id(
   token_id,
   actor_id,
   skill_id,
-  { action_overrides = {} } = {},
+  { actions_stored = {} } = {},
 ) {
   const actor = get_actor_from_ids(token_id, actor_id);
   return create_skill_card(actor, skill_id, {
-    action_overrides: action_overrides,
+    actions_stored: actions_stored,
   });
 }
 

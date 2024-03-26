@@ -32,9 +32,15 @@ export const ATTRIBUTES_TRANSLATION_KEYS = {
  *
  * @param {Token, SwadeActor} origin  The actor or token owning the attribute
  * @param {string} name The name of the attribute like 'vigor'
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} A promise for the BrCommonCard object
  */
-async function create_attribute_card(origin, name, {action_overrides={}}={}) {
+async function create_attribute_card(
+  origin,
+  name,
+  { actions_stored = {} } = {},
+) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
     actor = origin.actor;
@@ -57,8 +63,7 @@ async function create_attribute_card(origin, name, {action_overrides={}}={}) {
   // We always set the actor (as a fallback, and the token if possible)
   br_message.attribute_name = name;
   br_message.type = BRSW_CONST.TYPE_ATTRIBUTE_CARD;
-  br_message.action_overrides = action_overrides;
-  await br_message.render();
+  await br_message.render(actions_stored);
   await br_message.save();
   return br_message;
 }
@@ -71,11 +76,20 @@ async function create_attribute_card(origin, name, {action_overrides={}}={}) {
  * @param {string} actor_id An actor id, it could be set as fallback or
  *  if you keep token empty as the only way to find the actor
  * @param {string} name Name of the attribute to roll, like 'vigor'
+ * @param {object} actions_stored An object with action ids as properties
+ *   and a boolean meaning if they need to set on or off
  * @return {Promise} a promise fot the ChatMessage object
  */
-function create_attribute_card_from_id(token_id, actor_id, name, {action_overrides={}}={}) {
+function create_attribute_card_from_id(
+  token_id,
+  actor_id,
+  name,
+  { actions_stored = {} } = {},
+) {
   const actor = get_actor_from_ids(token_id, actor_id);
-  return create_attribute_card(actor, name, {action_overrides:action_overrides});
+  return create_attribute_card(actor, name, {
+    actions_stored: actions_stored,
+  });
 }
 
 /**

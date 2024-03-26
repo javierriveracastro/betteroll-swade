@@ -53,7 +53,6 @@ export class BrCommonCard {
     this.resist_buttons = [];
     this.trait_roll = new TraitRoll();
     this.popup_shown = false;
-    this.action_overrides = {}; // {action_id: Bool} to store actions selection state
     if (message) {
       const data = this.message.getFlag("betterrolls-swade2", "br_data");
       if (data) {
@@ -263,7 +262,12 @@ export class BrCommonCard {
     }
   }
 
-  populate_actions() {
+  /**
+   * Populates de card with actions
+   * @param {object} stored_selections An object with action ids as properties
+   *   and a boolean meaning if they need to set on or off
+   */
+  populate_actions(stored_selections) {
     this.action_groups = {};
     this.populate_world_actions();
     if (this.item && !SettingsUtils.getWorldSetting("hide-weapon-actions")) {
@@ -278,6 +282,12 @@ export class BrCommonCard {
         }
         return a.code.id > b.code.id ? 1 : -1;
       });
+      for (let action of this.action_groups[group].actions) {
+        console.log(action);
+        if (stored_selections.hasOwnProperty(action.code.id)) {
+          action.selected = stored_selections[action.code.id];
+        }
+      }
     }
     Hooks.call("BRSWCardActionsPopulated", this);
   }
@@ -306,10 +316,7 @@ export class BrCommonCard {
         };
       }
       let new_action = new brAction(name, global_action);
-      const action_override = this.action_overrides[global_action.id];
-      if (action_override !== undefined) {
-        new_action.selected = action_override;
-      } else if (global_action.hasOwnProperty("defaultChecked")) {
+      if (global_action.hasOwnProperty("defaultChecked")) {
         new_action.selected = true;
       }
       this.action_groups[group_name_id].actions.push(new_action);
@@ -526,9 +533,15 @@ export class BrCommonCard {
     }
   }
 
-  async render() {
+  /**
+   * Renders the card
+   * @param stored_selections An object with action ids as properties
+   *   and a boolean meaning if they need to set on or off
+   * @returns {Promise<void>}
+   */
+  async render(stored_selections = {}) {
     if (Object.keys(this.action_groups).length === 0) {
-      this.populate_actions();
+      this.populate_actions(stored_selections);
     }
     if (this.item && this.macro_buttons.length === 0) {
       this.populate_macro_buttons();
