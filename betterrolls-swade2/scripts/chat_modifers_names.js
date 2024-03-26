@@ -21,7 +21,7 @@ export class ModifierSettingsConfiguration extends FormApplication {
   }
 
   async _updateObject(_, formData) {
-    await SettingsUtils.setSetting("chat_modifiers_names", formData, true);
+    await SettingsUtils.setSetting("chat_modifiers_names", formData);
   }
 }
 

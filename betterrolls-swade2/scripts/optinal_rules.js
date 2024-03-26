@@ -45,7 +45,7 @@ export class OptionalRulesConfiguration extends FormApplication {
         enabled.push(id);
       }
     }
-    SettingsUtils.setSetting("optional_rules_enabled", enabled, true);
-    SettingsUtils.setSetting("wound-cap", formData.wound_cap, true);
+    await SettingsUtils.setSetting("optional_rules_enabled", enabled);
+    await SettingsUtils.setSetting("wound-cap", formData.wound_cap);
   }
 }
