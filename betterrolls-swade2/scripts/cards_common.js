@@ -1,6 +1,6 @@
 // Common functions used in all cards
 /* globals game, Token, TokenDocument, Roll, canvas, console, $, getProperty, setProperty,
-      duplicate, ChatMessage */
+      duplicate, ChatMessage, ui, Macro */
 // noinspection JSUnusedAssignment
 
 import {
@@ -160,6 +160,44 @@ export function get_actor_from_ids(token_id, actor_id) {
 }
 
 /**
+ * Saves a card as a macro
+ * @param {BrCommonCard} br_card
+ */
+function save_macro(br_card) {
+  let macro_slot = 0;
+  let page = ui.hotbar.page;
+  // Starting from the current hotbar page, find the first empty slot
+  do {
+    let macros = game.user.getHotbarMacros(page);
+    for (const macro of macros) {
+      if (macro.macro === undefined || macro.macro === null) {
+        macro_slot = macro.slot;
+        break;
+      }
+    }
+    page = page < 5 ? page + 1 : 1;
+  } while (macro_slot === 0 && page !== ui.hotbar.page);
+  const command = create_macro_command_from_card(br_card);
+  Macro.create({
+    name: br_card.render_data.header.title,
+    img: br_card.render_data.header.img
+      ? br_card.render_data.header.img
+      : "icons/svg/aura.svg",
+    type: "script",
+    command: command,
+    scope: "global",
+  }).then((macro) => {
+    // noinspection JSIgnoredPromiseFromCall
+    // If we found an empty slot, assign the macro to that slot
+    if (macro_slot > 0) {
+      game.user.assignHotbarMacro(macro, macro_slot).catch(() => {
+        console.error("Error assigning macro to Hot Bar");
+      });
+    }
+  });
+}
+
+/**
  * Connects the listener for all chat cards
  * @param {BrCommonCard} br_card
  * @param {HTMLElement} html - html of the card
@@ -303,37 +341,8 @@ export function activate_common_listeners(br_card, html) {
     duplicate_message(br_card.message, ev);
   });
   // Save a macro using the current settings
-  html_jquery.find(".brsw-save-macro").click((ev) => {
-    let macro_slot = 0;
-    let page = ui.hotbar.page;
-    // Starting from the current hotbar page, find the first empty slot
-    do {
-      let macros = game.user.getHotbarMacros(page);
-      for (const macro of macros) {
-        if (macro.macro == undefined || macro.macro == null) {
-          macro_slot = macro.slot;
-          break;
-        }
-      }
-      page = page < 5 ? page + 1 : 1;
-    } while (macro_slot == 0 && page != ui.hotbar.page);
-
-    const command = create_macro_command_from_card(br_card);
-    Macro.create({
-      name: br_card.render_data.header.title,
-      img: br_card.render_data.header.img
-        ? br_card.render_data.header.img
-        : "icons/svg/aura.svg",
-      type: "script",
-      command: command,
-      scope: "global",
-    }).then((macro) => {
-      // noinspection JSIgnoredPromiseFromCall
-      // If we found an empty slot, assign the macro to that slot
-      if (macro_slot > 0) {
-        game.user.assignHotbarMacro(macro, macro_slot);
-      }
-    });
+  html_jquery.find(".brsw-save-macro").click(() => {
+    save_macro(br_card);
   });
 }
 
@@ -362,8 +371,7 @@ function create_macro_command_from_card(br_card) {
       "game.brsw.roll_attribute(message, $(message.content), false);";
     id = br_card.attribute_name;
   }
-
-  let command = `
+  return `
   let behaviour = game.brsw.get_action_from_click(event);
   if (behaviour === 'system') {
     game.swade.rollItemMacro(\`${br_card.render_data.header.title}\`);
@@ -380,8 +388,6 @@ function create_macro_command_from_card(br_card) {
     }
   }
   `;
-
-  return command;
 }
 
 /**
