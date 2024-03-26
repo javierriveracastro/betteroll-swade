@@ -462,8 +462,7 @@ export class SystemGlobalConfiguration extends FormApplication {
     }
     await SettingsUtils.setSetting(
       "system_action_disabled",
-      disabled_actions,
-      true,
+      disabled_actions
     );
   }
 }
@@ -507,8 +506,7 @@ export class WorldGlobalActions extends FormApplication {
     }
     await SettingsUtils.setSetting(
       "world_global_actions",
-      new_world_actions,
-      true,
+      new_world_actions
     );
     register_actions();
   }

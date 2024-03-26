@@ -152,11 +152,7 @@ export class SettingsUtils {
    * @param {*} awaitResult
    * @returns {Promise | ClientSetting}
    */
-  static async setSetting(key, value, awaitResult = false) {
-    if (!awaitResult) {
-      return game.settings.set(BRSW2_CONFIG.MODULE_NAME, key, value);
-    }
-
+  static async setSetting(key, value) {
     await game.settings
       .set(BRSW2_CONFIG.MODULE_NAME, key, value)
       .then((result) => {
