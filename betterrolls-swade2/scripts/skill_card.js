@@ -485,7 +485,7 @@ function calculate_gangUp(attacker, target) {
     return 0;
   }
   if (!attacker || !target) {
-    console.log(
+    console.warn(
       "BetterRolls 2: Trying to calculate gangup with no token",
       attacker,
       target,

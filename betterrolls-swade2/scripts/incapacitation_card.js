@@ -187,7 +187,7 @@ async function roll_incapacitation(br_card, spend_benny) {
       game.succ
         .addCondition("bleeding-out", br_card.token, { forceOverlay: true })
         .catch(() => {
-          console.log("Error while applying bleeding out");
+          console.error("Error while applying bleeding out");
         }); //make bleeding out overlay
     }
   } else if (result < 8) {

@@ -283,7 +283,6 @@ export class BrCommonCard {
         return a.code.id > b.code.id ? 1 : -1;
       });
       for (let action of this.action_groups[group].actions) {
-        console.log(action);
         if (stored_selections.hasOwnProperty(action.code.id)) {
           action.selected = stored_selections[action.code.id];
         }

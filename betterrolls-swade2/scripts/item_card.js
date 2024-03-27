@@ -395,7 +395,7 @@ export function activate_item_card_listeners(br_card, html) {
   });
   html.find(".brsw-pp-manual").click(() => {
     manual_pp(actor, item).catch(() => {
-      console.log("Error in manual PP management");
+      console.error("Error in manual PP management");
     });
   });
   html.find(".brsw-apply-damage").click((ev) => {
@@ -465,7 +465,7 @@ export function activate_item_card_listeners(br_card, html) {
       br_card,
       parseInt(ev.currentTarget.dataset.traitMod),
     ).catch((err) => {
-      console.log(`Error while rolling resistance ${err}`);
+      console.error(`Error while rolling resistance ${err}`);
     });
   });
 }

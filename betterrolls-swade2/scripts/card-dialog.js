@@ -21,7 +21,7 @@ class BrCardDialog {
   show_card(br_card) {
     this.BrCard = br_card;
     this.render().catch((err) => {
-      console.log("Error rendering dialog", err);
+      console.error("Error rendering dialog", err);
     });
     this.dialog_element.showModal();
   }
@@ -94,7 +94,7 @@ class BrCardDialog {
         roll_button.click();
       })
       .catch((err) => {
-        console.log("Error saving actions", err);
+        console.error("Error saving actions", err);
       });
   }
 }

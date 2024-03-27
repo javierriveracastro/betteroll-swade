@@ -75,7 +75,7 @@ Hooks.on(`init`, () => {
 
 // Base Hook
 Hooks.on(`ready`, () => {
-  console.log("Better Rolls 2 for SWADE | Ready");
+  console.info("Better Rolls 2 for SWADE | Ready");
   //Update our cached user settings from the user's flags
   const user_settings = SettingsUtils.getModuleFlag(
     game.user,
@@ -101,7 +101,7 @@ Hooks.on(`ready`, () => {
     "modules/betterrolls-swade2/templates/setting_partial.html",
   ];
   loadTemplates(templatePaths).then(() => {
-    console.log("Better Rolls templates preloaded");
+    console.info("Better Rolls templates preloaded");
   });
   // Collapse the chat window if needed
   if (SettingsUtils.getUserSetting("collapse-chat-window")) {
