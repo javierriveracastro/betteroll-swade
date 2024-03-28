@@ -1,3 +1,14 @@
+# Version 3.74 aka Saving comes to TTRPGs!!
+* Translations: More translations from the Weblate team (gallegonovato)
+* Cards: Tooltip delay increased to 1 second to avoid accidentally showing it.
+* Refactor: The BrCard class has been moved to its own file (dev only)
+* Cards: Add a button to save a card to a macro. Not only saves the card, it also saves the current action selection (Dan Brown)
+* Conditions: Add support for the new Defeated condition in the system (Dan Brown)
+* Bugfix: Don't let gaps in the modifiers array when deleting elements (this should allow you to reroll after deleting a modifier and probably solve more bugs related to it)
+* Bugfix: Permission to modify world setting respect the user permission config (Dan Brown)
+* Bugfix: Avoid trying to calculate distance when there is no range info (should solve a couple of Athletics related bugs)
+* Bugfix: Simplify the use of async when storing settings (Dan Brown)
+
 # Version 3.73 aka I did nothing this time!!
 * Docs: Add mention to weblate in docs.
 * Translations: Spanish and German translation updates from the new Weblate (Max Hilbrunner, gallegonovato)
