@@ -3,13 +3,16 @@
 import { broofa } from "./utils.js";
 
 export class brAction {
-  constructor(name, code, type) {
+  constructor(name, code, type='', idOverride=0) {
     this.name = name;
     if (type === "item") {
       this.code = JSON.parse(JSON.stringify(code));
       this.code.id = broofa();
     } else {
       this.code = code;
+    }
+    if (idOverride != 0) {
+      this.code.id = idOverride;
     }
     this.selected = false;
     this.recreate_skill_damage_mods();

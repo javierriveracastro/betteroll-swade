@@ -331,6 +331,7 @@ export class BrCommonCard {
           current_action.name,
           current_action,
           "item",
+          action
         );
         item_actions.push(br_action);
       }
