@@ -29,6 +29,7 @@ import {
 import { get_gm_modifiers } from "./gm_modifiers.js";
 import { TraitRoll } from "./rolls.js";
 import { BrCommonCard } from "./BrCommonCard.js";
+import { TraitModifier } from "./modifiers.js";
 
 export const BRSW_CONST = {
   TYPE_ATTRIBUTE_CARD: 1,
@@ -165,7 +166,7 @@ export function get_actor_from_ids(token_id, actor_id) {
  */
 function save_macro(br_card) {
   let macro_slot = 0;
-  let page = ui.hotbar.page;
+  let { page } = ui.hotbar;
   // Starting from the current hotbar page, find the first empty slot
   do {
     let macros = game.user.getHotbarMacros(page);
@@ -180,9 +181,7 @@ function save_macro(br_card) {
   const command = create_macro_command_from_card(br_card);
   Macro.create({
     name: br_card.render_data.header.title,
-    img: br_card.render_data.header.img
-      ? br_card.render_data.header.img
-      : "icons/svg/aura.svg",
+    img: br_card.render_data.header.img || "icons/svg/aura.svg",
     type: "script",
     command: command,
     scope: "global",
@@ -1258,22 +1257,7 @@ async function duplicate_message(message, event) {
  * @param {String, Number} expression - A number or a die expression.
  */
 export function create_modifier(label, expression) {
-  let modifier = { name: label, value: 0, extra_class: "", dice: null };
-  if (isNaN(expression)) {
-    if (expression.indexOf("d") > 0) {
-      // This is a die expression
-      modifier.dice = new Roll(expression);
-      modifier.dice.evaluate({ async: false });
-      modifier.value = parseInt(modifier.dice.result);
-    } else {
-      // sourcery skip: no-eval
-      modifier.value = eval(expression); // jshint ignore:line
-    }
-  } else {
-    // Add float modifier support
-    modifier.value = parseFloat(expression);
-  }
-  return modifier;
+  return new TraitModifier(label, expression);
 }
 
 /**
