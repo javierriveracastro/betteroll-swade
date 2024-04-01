@@ -28,3 +28,5 @@ export class TraitModifier {
     }
   }
 }
+
+export class DamageModifier extends TraitModifier {}

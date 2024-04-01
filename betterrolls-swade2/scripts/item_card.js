@@ -35,6 +35,7 @@ import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
 import { BrCommonCard } from "./BrCommonCard.js";
+import { DamageModifier } from "./modifiers.js";
 
 const ARCANE_SKILLS = [
   "faith",
@@ -1043,11 +1044,9 @@ function get_target_defense(
  */
 function adjust_dmg_str(damage_roll, roll_formula, str_die_size) {
   // Minimum strength is not meet
-  const new_mod = create_modifier(
-    game.i18n.localize("BRSW.NotEnoughStrength"),
-    0,
+  damage_roll.brswroll.modifiers.push(
+    new DamageModifier(game.i18n.localize("BRSW.NotEnoughStrength"), 0),
   );
-  damage_roll.brswroll.modifiers.push(new_mod);
   let new_roll_formula = "";
   for (let piece of roll_formula.split("d")) {
     const piece_value = parseInt(piece);
@@ -1198,14 +1197,15 @@ async function roll_dmg_target(
 function get_chat_dmg_modifiers(options, damage_roll) {
   // Betterrolls modifiers
   options.dmgMods.forEach((mod) => {
-    const new_mod = create_modifier("Better Rolls", mod);
-    damage_roll.brswroll.modifiers.push(new_mod);
+    damage_roll.brswroll.modifiers.push(
+      new DamageModifier("Better Rolls", mod),
+    );
   });
   // GM Modifiers
   const gm_modifier = get_gm_modifiers();
   if (gm_modifier) {
     damage_roll.brswroll.modifiers.push(
-      create_modifier(game.i18n.localize("BRSW.GMModifier"), gm_modifier),
+      new DamageModifier(game.i18n.localize("BRSW.GMModifier"), gm_modifier),
     );
   }
 }
