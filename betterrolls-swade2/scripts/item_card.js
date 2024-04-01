@@ -1242,7 +1242,7 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
 function joker_modifiers(br_card, actor, damage_roll) {
   let token_id = br_card.token?.id;
   if (token_id && has_joker(token_id)) {
-    damage_roll.brswroll.modifiers.push(create_modifier("Joker", 2));
+    damage_roll.brswroll.modifiers.push(new DamageModifier("Joker", 2));
   }
 }
 
@@ -1261,8 +1261,9 @@ function get_damage_mods_from_actions(
       let action_name = action.code.name.includes("BRSW.")
         ? game.i18n.localize(action.code.name)
         : action.code.name;
-      const new_mod = create_modifier(action_name, action.code.dmgMod);
-      damage_roll.brswroll.modifiers.push(new_mod);
+      damage_roll.brswroll.modifiers.push(
+        new DamageModifier(action_name, action.code.dmgMod),
+      );
     }
     if (action.code.dmgOverride) {
       damage_formulas.damage = action.code.dmgOverride;
@@ -1287,11 +1288,9 @@ function get_damage_mods_from_actions(
       damage_formulas.ap += action.code.apMod;
     }
     if (action.code.rerollDamageMod && expend_bennie) {
-      const reroll_mod = create_modifier(
-        action.code.name,
-        action.code.rerollDamageMod,
+      damage_roll.brswroll.modifiers.push(
+        new DamageModifier(action.code.name, action.code.rerollDamageMod),
       );
-      damage_roll.brswroll.modifiers.push(reroll_mod);
     }
     if (action.code.multiplyDmgMod) {
       damage_formulas.multiplier = action.code.multiplyDmgMod;
@@ -1351,11 +1350,12 @@ export async function roll_dmg(
   joker_modifiers(br_card, actor, damage_roll);
   // Item properties tab
   if (item.system.actions.dmgMod) {
-    const new_mod = create_modifier(
-      game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
-      item.system.actions.dmgMod,
+    damage_roll.brswroll.modifiers.push(
+      new DamageModifier(
+        game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
+        item.system.actions.dmgMod,
+      ),
     );
-    damage_roll.brswroll.modifiers.push(new_mod);
   }
   // Minimum strength
   if (item.system.minStr) {
@@ -1382,7 +1382,7 @@ export async function roll_dmg(
   if (expend_bennie && actor.system.stats.globalMods.bennyDamage.length) {
     for (const modifier of actor.system.stats.globalMods.bennyDamage) {
       damage_roll.brswroll.modifiers.push(
-        create_modifier(modifier.label, modifier.value),
+        new DamageModifier(modifier.label, modifier.value),
       );
     }
   }
