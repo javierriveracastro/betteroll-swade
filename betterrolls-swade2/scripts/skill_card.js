@@ -10,7 +10,6 @@ import {
   roll_trait,
   spend_bennie,
   trait_to_string,
-  create_modifier,
   process_common_actions,
 } from "./cards_common.js";
 import { run_macros } from "./item_card.js";
