@@ -372,7 +372,7 @@ export async function get_tn_from_token(
     const gangup_bonus = calculate_gangUp(origin_token, target_token);
     if (gangup_bonus) {
       tn.modifiers.push(
-        create_modifier(game.i18n.localize("BRSW.Gangup"), gangup_bonus),
+        new TraitModifier(game.i18n.localize("BRSW.Gangup"), gangup_bonus),
       );
     }
   } else if (item && item.system.range) {
@@ -405,7 +405,7 @@ export async function get_tn_from_token(
     if (origin_scale_mod !== target_scale_mod) {
       let scale_mod = target_scale_mod - origin_scale_mod;
       tn.modifiers.push(
-        create_modifier(game.i18n.localize("BRSW.Scale"), scale_mod),
+        new TraitModifier(game.i18n.localize("BRSW.Scale"), scale_mod),
       );
       // If the scale mod is negative, check if the attacking actor has the swat ability
       if (scale_mod < 0 && origin_token) {
@@ -421,7 +421,7 @@ export async function get_tn_from_token(
           // The swat ability ignores up to 4 points of scale penalties
           let swat_mod = scale_mod < -4 ? 4 : scale_mod * -1;
           tn.modifiers.push(
-            create_modifier(game.i18n.localize("BRSW.Swat"), swat_mod),
+            new TraitModifier(game.i18n.localize("BRSW.Swat"), swat_mod),
           );
         }
       }
@@ -433,7 +433,7 @@ export async function get_tn_from_token(
     target_token.actor.system.status.isStunned
   ) {
     tn.modifiers.push(
-      create_modifier(
+      new TraitModifier(
         `${target_token.name}: ${game.i18n.localize("SWADE.Vuln")}`,
         2,
       ),
