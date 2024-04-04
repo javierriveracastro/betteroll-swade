@@ -411,8 +411,6 @@ export async function get_tn_from_token(
       // If the scale mod is negative, check if the attacking actor has the swat ability
       if (scale_mod < 0) {
         const swat = origin_token?.actor?.items?.find((item) => {
-          // jshint ignore:line
-          // jshint ignore:line
           return (
             item.type === "ability" &&
             item.name
