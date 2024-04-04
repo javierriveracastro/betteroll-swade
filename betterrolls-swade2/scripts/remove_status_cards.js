@@ -5,12 +5,12 @@ import { get_owner } from "./damage_card.js";
 import {
   BRSW_CONST,
   create_common_card,
-  create_modifier,
   roll_trait,
   spend_bennie,
 } from "./cards_common.js";
 import { SettingsUtils } from "./utils.js";
 import { BrCommonCard } from "./BrCommonCard.js";
+import { TraitModifier } from "./modifiers.js";
 
 /**
  * Shows the unshaken card
@@ -271,7 +271,7 @@ async function roll_unstun(br_card) {
     const bonus = parseInt(br_card.actor.system.attributes.vigor.unStunBonus);
     if (bonus) {
       extra_options.modifiers = [
-        create_modifier(game.i18n.localize("BRSW.UnstunBonus"), bonus),
+        new TraitModifier(game.i18n.localize("BRSW.UnstunBonus"), bonus),
       ];
       extra_options.total_modifiers += bonus;
     }

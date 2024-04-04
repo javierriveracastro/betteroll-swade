@@ -1089,7 +1089,7 @@ async function roll_dmg_target(
   roll.evaluate({ async: false });
   // Heavy armor
   if (target && !item.system.isHeavyWeapon && has_heavy_armor(target)) {
-    const no_damage_mod = create_modifier(
+    const no_damage_mod = new DamageModifier(
       game.i18n.localize("BRSW.HeavyArmor"),
       -999999,
     );
@@ -1099,7 +1099,7 @@ async function roll_dmg_target(
   // Multiply modifiers must be last
   if (damage_formulas.multiplier !== 1) {
     const final_value = (roll.total + total_modifiers) * 2;
-    const multiply_mod = create_modifier(
+    const multiply_mod = new DamageModifier(
       `x ${damage_formulas.multiplier}`,
       final_value - total_modifiers - roll.total,
     );
@@ -1142,7 +1142,7 @@ async function roll_dmg_target(
       if (term.number) {
         let modifier_value = parseInt(last_string_term + term.number);
         if (modifier_value) {
-          const new_mod = create_modifier(
+          const new_mod = new DamageModifier(
             game.i18n.localize("SWADE.Dmg") + ` (${modifier_value})`,
             modifier_value,
           );

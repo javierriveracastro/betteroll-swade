@@ -17,6 +17,7 @@ import { run_macros } from "./item_card.js";
 import { get_enabled_gm_actions } from "./gm_modifiers.js";
 import { SettingsUtils } from "./utils.js";
 import { BrCommonCard } from "./BrCommonCard.js";
+import { TraitModifier } from "./modifiers.js";
 
 // noinspection SpellCheckingInspection
 export const FIGHTING_SKILLS = [
@@ -308,12 +309,12 @@ export function calculate_distance(
     }
     if (extreme_range && distance > extreme_range * 4) {
       tn.modifiers.push(
-        create_modifier(game.i18n.localize("BRSW.OverExtremeRange"), -999),
+        new TraitModifier(game.i18n.localize("BRSW.OverExtremeRange"), -999),
       );
     }
     if (distance_penalty) {
       tn.modifiers.push(
-        create_modifier(
+        new TraitModifier(
           game.i18n.localize("BRSW.Range") + " " + distance.toFixed(2),
           -distance_penalty,
         ),
