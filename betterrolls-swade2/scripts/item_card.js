@@ -503,7 +503,7 @@ async function roll_resist(trait, br_card, trait_mod) {
     new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
     new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
     if (!isNaN(trait_mod)) {
-      console.log("Here we should do something to support resist mods");
+      console.warn("Here we should do something to support resist mods");
     }
     new_card.render();
     new_card.save();
