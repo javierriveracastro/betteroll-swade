@@ -597,9 +597,15 @@ function register_settings_version2() {
     default: false,
     type: Boolean,
   });
-  SettingsUtils.registerBR2UserSetting("auto_popout_chat", {
+  SettingsUtils.registerBR2UserSetting("auto_popout_chatauto_popout_chat", {
     name: "BRSW.PopoutChat",
     hint: "BRSW.PopoutChatHint",
+    default: false,
+    type: Boolean,
+  });
+  SettingsUtils.registerBR2UserSetting("popout_chat_button", {
+    name: "BRSW.PopoutChatButton",
+    hint: "BRSW.PopoutChatButtonHint",
     default: false,
     type: Boolean,
   });

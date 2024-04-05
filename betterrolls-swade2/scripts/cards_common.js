@@ -206,40 +206,36 @@ export function activate_common_listeners(br_card, html) {
   // The message will be rendered at creation and each time a flag is added
   // Actor will be undefined if this is called before flags are set
   if (br_card.actor) {
-    // noinspection JSUnresolvedFunction,AnonymousFunctionJS
     html_jquery
       .find(".brws-actor-img")
       .addClass("bound")
       .click(async () => {
         await manage_sheet(br_card.actor);
       });
-    //
     html_jquery.find(".br2-unshake-card").on("click", () => {
-      // noinspection JSIgnoredPromiseFromCall
-      create_unshaken_card(br_card.message, undefined);
+      create_unshaken_card(br_card.message, undefined).catch(() => {
+        console.error("BR2 unable to show unshaken card");
+      });
     });
     html_jquery.find(".br2-unstun-card").on("click", () => {
-      // noinspection JSIgnoredPromiseFromCall
-      create_unstun_card(br_card.message, undefined);
+      create_unstun_card(br_card.message, undefined).catch(() => {
+        console.error("BR2 unable to show unstun card");
+      });
     });
   }
   html_jquery.find(".brsw-selected-actions").on("click", async () => {
     game.brsw.dialog.show_card(br_card);
   });
   // Selectable modifiers
-  // noinspection JSUnresolvedFunction
   html_jquery
     .find(".brws-selectable")
     .click((ev) => manage_selectable_click(ev, br_card.message));
-  // Collapsable fields
   manage_collapsables(html_jquery);
   // Old rolls
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-old-roll").click(async (ev) => {
     await old_roll_clicked(ev, br_card);
   });
   // Add modifiers
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-add-modifier").click(() => {
     const label_mod = game.i18n.localize("BRSW.Modifier");
     simple_form(
@@ -265,7 +261,6 @@ export function activate_common_listeners(br_card, html) {
     );
   });
   // Edit modifiers
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-edit-modifier").click((ev) => {
     const label_mod = game.i18n.localize("BRSW.Modifier");
     const { value, label, index } = ev.currentTarget.dataset;
@@ -285,7 +280,6 @@ export function activate_common_listeners(br_card, html) {
     );
   });
   // Edit die results
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-override-die").click((ev) => {
     // Retrieve additional data
     const die_index = Number(ev.currentTarget.dataset.dieIndex);
@@ -302,13 +296,11 @@ export function activate_common_listeners(br_card, html) {
     );
   });
   // Delete modifiers
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-delete-modifier").click(async (ev) => {
     ev.stopPropagation();
     await delete_modifier(br_card, parseInt(ev.currentTarget.dataset.index));
   });
   // Edit TNs
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-edit-tn").click(async (ev) => {
     const old_tn = ev.currentTarget.dataset.value;
     const tn_trans = game.i18n.localize("BRSW.TN");
@@ -321,7 +313,6 @@ export function activate_common_listeners(br_card, html) {
     );
   });
   // TNs from target
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-target-tn, .brsw-selected-tn").click((ev) => {
     ev.stopPropagation();
     const { index } = ev.currentTarget.dataset;
@@ -334,7 +325,6 @@ export function activate_common_listeners(br_card, html) {
     });
   });
   // Repeat card
-  // noinspection JSUnresolvedFunction
   html_jquery.find(".brsw-repeat-card").click((ev) => {
     // noinspection JSIgnoredPromiseFromCall
     duplicate_message(br_card.message, ev);
@@ -342,6 +332,10 @@ export function activate_common_listeners(br_card, html) {
   // Save a macro using the current settings
   html_jquery.find(".brsw-save-macro").click(() => {
     save_macro(br_card);
+  });
+  // Popout card
+  html_jquery.find(".brsw-popout-button").click(() => {
+    br_card.show_popup();
   });
 }
 

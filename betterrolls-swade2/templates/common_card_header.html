@@ -27,6 +27,15 @@
                     hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{header.img}}}"
                 alt="Item image">
         {{/if}}
+        {{# if show_popup_button }}
+            <button class="brsw-popout-button twbr-font-medium twbr-ml-1 twbr-w-8 twbr-align-top
+                    focus:twbr-outline-none twbr-bg-white twbr-rounded twbr-border twbr-border-solid
+                    focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700 twbr-text-gray-800
+                    twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700"
+                    title="{{ localize "BRSW.PopoutCard" }}">
+                <i class="fas fa-share-from-square"></i>
+            </button>
+        {{/if}}
     </div>
 </div>
 {{# if warning }}

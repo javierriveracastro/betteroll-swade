@@ -86,21 +86,24 @@ export class BrCommonCard {
       return;
     }
     if (SettingsUtils.getUserSetting("auto_popout_chat")) {
-      let top =
-        cascade_starting_left +
-        game.brsw.cascade_count * cascade_left_increment;
-      let left =
-        cascade_starting_top + game.brsw.cascade_count * cascade_top_increment;
-      game.brsw.cascade_count =
-        game.brsw.cascade_count + 1 < cascade_max_cascades
-          ? game.brsw.cascade_count + 1
-          : 0;
-      new ChatPopout(this.message, { top: top, left: left }).render(true);
-      this.popup_shown = true;
-      this.save().catch(() => {
-        console.error("Error saving card data after popup rendering");
-      });
+      this.show_popup();
     }
+  }
+
+  show_popup() {
+    let top =
+      cascade_starting_left + game.brsw.cascade_count * cascade_left_increment;
+    let left =
+      cascade_starting_top + game.brsw.cascade_count * cascade_top_increment;
+    game.brsw.cascade_count =
+      game.brsw.cascade_count + 1 < cascade_max_cascades
+        ? game.brsw.cascade_count + 1
+        : 0;
+    new ChatPopout(this.message, { top: top, left: left }).render(true);
+    this.popup_shown = true;
+    this.save().catch(() => {
+      console.error("Error saving card data after popup rendering");
+    });
   }
 
   close_popout() {
@@ -331,7 +334,7 @@ export class BrCommonCard {
           current_action.name,
           current_action,
           "item",
-          action
+          action,
         );
         item_actions.push(br_action);
       }
@@ -576,6 +579,7 @@ export class BrCommonCard {
     data.selected_actions = this.get_selected_actions();
     data.has_feet_buttons = this.has_feet_buttons;
     data.skill_tooltip = this.skill_tooltip;
+    data.show_popup_button = SettingsUtils.getUserSetting("popout_chat_button");
     return data;
   }
 

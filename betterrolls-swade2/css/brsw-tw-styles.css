@@ -80,6 +80,10 @@
   margin-top:0.5rem;
 }
 
+.twbr-ml-1 {
+  margin-left:0.25rem;
+}
+
 .twbr-block {
   display:block;
 }
@@ -360,6 +364,10 @@
 
 .twbr-text-center {
   text-align:center;
+}
+
+.twbr-align-top {
+  vertical-align:top;
 }
 
 .twbr-align-middle {

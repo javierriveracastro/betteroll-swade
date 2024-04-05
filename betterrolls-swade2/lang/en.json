@@ -496,6 +496,9 @@
   "BRSW.Shots": "Shots",
   "BRSW.Yes": "Yes",
   "BRSW.No": "No",
+  "BRSW.PopoutChatButton": "Add a button to the cards to popout",
+  "BRSW.PopoutChatButtonHint": "Add another button to the head of the cards allowing you to popout easier",
+  "BRSW.PopoutCard": "Popout this card",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]
