@@ -14,7 +14,6 @@ import {
   spend_bennie,
   update_message,
   has_joker,
-  create_modifier,
   process_common_actions,
   process_minimum_str_modifiers,
 } from "./cards_common.js";
@@ -35,7 +34,7 @@ import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
 import { BrCommonCard } from "./BrCommonCard.js";
-import { DamageModifier } from "./modifiers.js";
+import { DamageModifier, TraitModifier } from "./modifiers.js";
 
 const ARCANE_SKILLS = [
   "faith",
@@ -891,7 +890,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   // Trademark weapon
   if (br_message.item.system.trademark) {
     extra_data.modifiers.push(
-      create_modifier(
+      new TraitModifier(
         game.i18n.localize("BRSW.TrademarkWeapon"),
         br_message.item.system.trademark,
       ),
@@ -909,14 +908,14 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
       is_ambidextrous || br_message.actor.getFlag("swade", "ambidextrous");
     if (!is_ambidextrous) {
       extra_data.modifiers.push(
-        create_modifier(game.i18n.localize("BRSW.Offhand"), -2),
+        new TraitModifier(game.i18n.localize("BRSW.Offhand"), -2),
       );
     }
   }
   // Item properties tab
   if (br_message.item.system.actions.traitMod) {
     extra_data.modifiers.push(
-      create_modifier(
+      new TraitModifier(
         game.i18n.localize("BRSW.ItemPropertiesTraitMod"),
         br_message.item.system.actions.traitMod,
       ),
@@ -929,7 +928,7 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   ) {
     for (let modifier of br_message.actor.system.stats.globalMods.attack) {
       extra_data.modifiers.push(
-        create_modifier(modifier.label, modifier.value),
+        new TraitModifier(modifier.label, modifier.value),
       );
     }
   }
