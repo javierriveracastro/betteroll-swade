@@ -662,7 +662,7 @@ export function check_and_roll_conviction(actor) {
     conviction_roll.toMessage({
       flavor: game.i18n.localize("BRSW.ConvictionRoll"),
     });
-    conviction_modifier = create_modifier(
+    conviction_modifier = new TraitModifier(
       game.i18n.localize("SWADE.Conv"),
       conviction_roll.total,
     );
@@ -674,14 +674,17 @@ function get_below_chat_modifiers(options, roll_options) {
   // Betterrolls modifiers
   options.additionalMods.forEach((mod) => {
     const mod_value = parseInt(mod);
-    roll_options.modifiers.push(create_modifier("Better Rolls", mod_value));
+    roll_options.modifiers.push(new TraitModifier("Better Rolls", mod_value));
     roll_options.total_modifiers += mod_value;
   });
   // Master Modifiers
   const master_modifiers = get_gm_modifiers();
   if (master_modifiers) {
     roll_options.modifiers.push(
-      create_modifier(game.i18n.localize("BRSW.GMModifier"), master_modifiers),
+      new TraitModifier(
+        game.i18n.localize("BRSW.GMModifier"),
+        master_modifiers,
+      ),
     );
     roll_options.total_modifiers += master_modifiers;
   }
@@ -692,7 +695,7 @@ function get_actor_own_modifiers(actor, roll_options) {
   const woundPenalties = actor.calcWoundPenalties();
   if (woundPenalties !== 0) {
     roll_options.modifiers.push(
-      create_modifier(game.i18n.localize("SWADE.Wounds"), woundPenalties),
+      new TraitModifier(game.i18n.localize("SWADE.Wounds"), woundPenalties),
     );
     roll_options.total_modifiers += woundPenalties;
   }
@@ -700,7 +703,7 @@ function get_actor_own_modifiers(actor, roll_options) {
   const fatiguePenalties = actor.calcFatiguePenalties();
   if (fatiguePenalties !== 0) {
     roll_options.modifiers.push(
-      create_modifier(game.i18n.localize("SWADE.Fatigue"), fatiguePenalties),
+      new TraitModifier(game.i18n.localize("SWADE.Fatigue"), fatiguePenalties),
     );
     roll_options.total_modifiers += fatiguePenalties;
   }
@@ -712,7 +715,7 @@ function get_actor_own_modifiers(actor, roll_options) {
     );
     if (ignored) {
       roll_options.modifiers.push(
-        create_modifier(
+        new TraitModifier(
           game.i18n.localize("BRSW.WoundsOrFatigueIgnored"),
           ignored,
         ),
@@ -724,7 +727,7 @@ function get_actor_own_modifiers(actor, roll_options) {
   const statusPenalties = actor.calcStatusPenalties();
   if (statusPenalties !== 0) {
     roll_options.modifiers.push(
-      create_modifier(game.i18n.localize("SWADE.Status"), statusPenalties),
+      new TraitModifier(game.i18n.localize("SWADE.Status"), statusPenalties),
     );
     roll_options.total_modifiers += statusPenalties;
   }
@@ -780,7 +783,7 @@ async function get_new_roll_options(
   if (parseInt(trait_dice.die.modifier)) {
     const mod_value = parseInt(trait_dice.die.modifier);
     roll_options.modifiers.push(
-      create_modifier(game.i18n.localize("BRSW.TraitMod"), mod_value),
+      new TraitModifier(game.i18n.localize("BRSW.TraitMod"), mod_value),
     );
   }
   get_below_chat_modifiers(options, roll_options);
@@ -811,7 +814,7 @@ async function get_new_roll_options(
   }
   // Joker
   if (br_card.token && has_joker(br_card.token.id)) {
-    roll_options.modifiers.push(create_modifier("Joker", 2));
+    roll_options.modifiers.push(new TraitModifier("Joker", 2));
   }
   // Encumbrance
   const npc_avoid_encumbrance =
@@ -845,13 +848,15 @@ function get_reroll_options(br_card, extra_data) {
   }
   if (br_card.actor.system.stats.globalMods.bennyTrait.length) {
     for (const mod of br_card.actor.system.stats.globalMods.bennyTrait) {
-      br_card.trait_roll.modifiers.push(create_modifier(mod.label, mod.value));
+      br_card.trait_roll.modifiers.push(
+        new TraitModifier(mod.label, mod.value),
+      );
     }
   }
   // Modifiers from actions
   if (extra_data.reroll_modifier) {
     br_card.trait_roll.modifiers.push(
-      create_modifier(
+      new TraitModifier(
         `${extra_data.reroll_modifier.name} (reroll)`,
         extra_data.reroll_modifier.value,
       ),
@@ -1067,7 +1072,7 @@ async function override_die_result(br_card, die_index, new_value) {
 async function add_modifier(br_card, modifier) {
   if (modifier.value) {
     let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
-    let new_mod = create_modifier(name, modifier.value);
+    let new_mod = new TraitModifier(name, modifier.value);
     if (game.dice3d && new_mod.dice) {
       let users = null;
       if (br_card.message.whisper.length > 0) {
@@ -1264,7 +1269,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
     : action_name;
   // noinspection JSUnresolvedVariable
   if (action.skillMod) {
-    let modifier = create_modifier(action_name, action.skillMod);
+    let modifier = new TraitModifier(action_name, action.skillMod);
     if (extra_data.modifiers) {
       extra_data.modifiers.push(modifier);
     } else {
@@ -1273,7 +1278,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
   }
   if (action.rerollSkillMod) {
     //Reroll
-    extra_data.reroll_modifier = create_modifier(
+    extra_data.reroll_modifier = new TraitModifier(
       action_name,
       action.rerollSkillMod,
     );
@@ -1366,7 +1371,7 @@ export function process_minimum_str_modifiers(item, actor, name) {
   }
   if (min_str_die_size > str_die_size) {
     // Minimum strength is not meet
-    new_mod = create_modifier(
+    new_mod = new TraitModifier(
       game.i18n.localize(name),
       -Math.trunc((min_str_die_size - str_die_size) / 2),
     );
