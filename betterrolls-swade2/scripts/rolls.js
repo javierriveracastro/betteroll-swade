@@ -17,6 +17,7 @@ class Die {
     }
   }
 
+  // noinspection JSUnusedGlobalSymbols, used in templates
   get result_text() {
     if (this.result === null) {
       return "";
@@ -33,6 +34,7 @@ class Die {
     }
   }
 
+  // noinspection JSUnusedGlobalSymbols, used in templates
   get result_icon() {
     if (this.result === null || this.result < 0) {
       return "";
@@ -44,6 +46,7 @@ class Die {
     }
   }
 
+  // noinspection JSUnusedGlobalSymbols, used in templates
   get unexploded() {
     const unexploded_die = [];
     let current_total = this.raw_total;
@@ -64,10 +67,12 @@ class Die {
     return this.raw_total + this.modifiers;
   }
 
+  // noinspection JSUnusedGlobalSymbols, used in templates
   get is_not_discarded() {
     return this.result !== null;
   }
 
+  // noinspection JSUnusedGlobalSymbols, used in templates
   get exploded() {
     return this.raw_total > this.sides;
   }
@@ -116,7 +121,7 @@ class SingleRoll {
       roll.result = roll.final_total - tn;
     }
     this.remove_discarded_die();
-    // Mark lower die as discarded.
+    // Mark the lower die as discarded.
     if (remove_die && this.dice.length) {
       this.dice[min_position].extra_class += " brsw-discarded-roll";
       this.dice[min_position].result = null;
