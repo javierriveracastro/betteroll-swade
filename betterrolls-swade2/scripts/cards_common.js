@@ -1251,15 +1251,6 @@ async function duplicate_message(message, event) {
 }
 
 /**
- * Creates a modifier object to add to a list
- * @param {String} label - Label of the modifier
- * @param {String, Number} expression - A number or a die expression.
- */
-export function create_modifier(label, expression) {
-  return new TraitModifier(label, expression);
-}
-
-/**
  * Processes actions common to skill and item cards
  */
 export function process_common_actions(action, extra_data, macros, actor) {
