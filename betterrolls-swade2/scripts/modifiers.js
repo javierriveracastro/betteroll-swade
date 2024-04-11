@@ -10,7 +10,6 @@ export class TraitModifier {
   constructor(label, expression) {
     this.name = label;
     this.value = 0;
-    this.extra_class = "";
     this.dice = null;
     if (isNaN(expression)) {
       if (expression.indexOf("d") > 0) {
@@ -26,6 +25,10 @@ export class TraitModifier {
       // Add float this support
       this.value = parseFloat(expression);
     }
+  }
+
+  get extra_class() {
+    return this.value < 0 ? " twbr-underline" : "";
   }
 }
 

@@ -827,10 +827,9 @@ async function get_new_roll_options(
     (br_card.attribute_name === "agility" ||
       br_card.skill?.system.attribute === "agility")
   ) {
-    roll_options.modifiers.push({
-      name: game.i18n.localize("SWADE.Encumbered"),
-      value: -2,
-    });
+    roll_options.modifiers.push(
+      new TraitModifier(game.i18n.localize("SWADE.Encumbered"), -2),
+    );
   }
 }
 
@@ -970,12 +969,6 @@ export async function roll_trait(br_card, trait_dice, dice_label, extra_data) {
     get_reroll_options(br_card, extra_data);
   }
   let roll_string = create_roll_string(trait_dice, roll_options.rof);
-  // Make penalties red
-  for (let mod of roll_options.modifiers) {
-    if (mod.value < 0) {
-      mod.extra_class = " twbr-underline";
-    }
-  }
   // Wild Die
   let wild_die_formula = `+1d${trait_dice["wild-die"].sides}x`;
   if (extra_data.hasOwnProperty("wildDieFormula")) {
@@ -1086,7 +1079,6 @@ async function add_modifier(br_card, modifier) {
         br_card.message.blind,
       );
     }
-    new_mod.extra_class = new_mod.value < 0 ? " twbr-underline" : "";
     br_card.trait_roll.modifiers.push(new_mod);
     await br_card.trait_roll.calculate_results();
     await br_card.render();
