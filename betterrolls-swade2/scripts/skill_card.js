@@ -497,7 +497,7 @@ function calculate_gangUp(attacker, target) {
     attacker.document.disposition === 1 ||
     attacker.document.disposition === -1
   ) {
-    let item_range = SettingsUtils.getWorldSetting("meleeDistance");
+    let item_range = SettingsUtils.getWorldSetting("meleeDistance") + 1;
     let allies_within_range_of_target;
     let allies_with_formation_fighter;
     let enemies_within_range_of_target;
@@ -631,17 +631,10 @@ function withinRange(origin, target, range) {
   if (Math.abs(origin.document.elevation - target.document.elevation) >= 1) {
     return false;
   }
-  const size_mod_origin = (origin.document.width + origin.document.height) / 2;
-  const size_mod_target = (target.document.width + target.document.height) / 2;
-  const calculated_range =
-    range - 0.5 + Math.max(size_mod_origin, size_mod_target);
-  const ray = new Ray(origin, target);
   const grid_unit = canvas.grid.grid.options.dimensions.distance;
-  let distance = canvas.grid.measureDistances([{ ray }], {
-    gridSpaces: false,
-  })[0];
+  let distance = canvas.grid.measureDistance(origin, target);
   distance /= grid_unit;
-  return calculated_range >= distance;
+  return range > distance;
 }
 
 /**
