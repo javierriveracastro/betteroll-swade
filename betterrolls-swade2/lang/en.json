@@ -499,6 +499,7 @@
   "BRSW.PopoutChatButton": "Add a button to the cards to popout",
   "BRSW.PopoutChatButtonHint": "Add another button to the head of the cards allowing you to popout easier",
   "BRSW.PopoutCard": "Popout this card",
+  "BRSW.NoActionsSelected": "No actions selected",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]
