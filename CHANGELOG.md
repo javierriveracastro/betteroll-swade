@@ -1,3 +1,8 @@
+# Version 3.77 aka the little one
+* Refactoring: Lots of small changes to make the code simpler, that I hope don't break anything.
+* Translations: A big update from Razortide to the german translation.
+* Bugfix: Better gangup calculation with bigger sizes
+
 # Version 3.76 aka Yes, I skipped a number.
 * Bugfix: Add an id override so that item actions have a stable id (and can be saved) (Dan Brown).
 * Refactoring: Make modifiers a class, nothing should break yet, but it will.
