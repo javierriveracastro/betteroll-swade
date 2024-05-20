@@ -385,9 +385,12 @@ function check_selector(type, value, item, actor) {
           game.user.targets.first().center,
           { gridSpaces: use_grid_calc },
         );
-    } else {
-      selected = false;
     }
+  } else if (type === "module_is_not_active") {
+    const module = game.modules.get(value);
+    selected = module && !module.active;
+  } else {
+    selected = false;
   }
   return selected;
 }
@@ -460,10 +463,7 @@ export class SystemGlobalConfiguration extends FormApplication {
         disabled_actions.push(id);
       }
     }
-    await SettingsUtils.setSetting(
-      "system_action_disabled",
-      disabled_actions
-    );
+    await SettingsUtils.setSetting("system_action_disabled", disabled_actions);
   }
 }
 
@@ -504,10 +504,7 @@ export class WorldGlobalActions extends FormApplication {
     for (let action in formData) {
       new_world_actions.push(JSON.parse(formData[action]));
     }
-    await SettingsUtils.setSetting(
-      "world_global_actions",
-      new_world_actions
-    );
+    await SettingsUtils.setSetting("world_global_actions", new_world_actions);
     register_actions();
   }
 

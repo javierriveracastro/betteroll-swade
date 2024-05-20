@@ -209,6 +209,10 @@ export const SYSTEM_GLOBAL_ACTION = [
         selector_value: "BRSW.EdgeName-Mean",
       },
       { selector_type: "skill", selector_value: "BRSW.SkillName-Persuasion" },
+      {
+        selector_type: "module_is_not_active",
+        selector_value: "swade-core-rules",
+      },
     ],
     defaultChecked: "on",
     group: "BRSW.Hindrances",
@@ -377,7 +381,7 @@ export const SYSTEM_GLOBAL_ACTION = [
     and_selector: [
       {
         selector_type: "actor_has_edge",
-        selector_value: "BRSW.EdgeName-Investigator"
+        selector_value: "BRSW.EdgeName-Investigator",
       },
       {
         or_selector: [
