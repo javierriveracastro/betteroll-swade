@@ -1814,7 +1814,9 @@ async function execute_macro(action, br_card) {
       { toast: true },
     );
   }
-  const targetActor = action.macroActor === "self" ? br_card.action : undefined;
-  await macro?.execute({ actor: targetActor, item: br_card.item }); // jshint ignore:line
+  //System uses item actor if macroActor is set to 'self' or the first selected tokens actor if not.
+  const targetActor = action.macroActor === "self" ? br_card.actor : game.canvas.tokens.controlled[0].actor;
+  const targetToken = action.macroActor === "self" ? br_card.token : game.canvas.tokens.controlled[0];
+  await macro?.execute({ actor: targetActor, token: targetToken, item: br_card.item }); // jshint ignore:line
   return null;
 }

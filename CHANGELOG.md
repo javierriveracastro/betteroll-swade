@@ -1,3 +1,6 @@
+# Unpublished
+* Fixed a bug that caused macros executed via item actions not getting the proper token and actor.
+
 # Version 3.77 aka the little one
 * Refactoring: Lots of small changes to make the code simpler, that I hope don't break anything.
 * Translations: A big update from Razortide to the german translation.
