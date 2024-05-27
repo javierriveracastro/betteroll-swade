@@ -583,7 +583,7 @@ export function get_item_trait(item, actor) {
  * @param {Array} actor.items
  * @param {string} trait_name
  */
-function trait_from_string(actor, trait_name) {
+export function trait_from_string(actor, trait_name) {
   let skill = actor.items.find((skill) => {
     return (
       skill.name.toLowerCase().replace("★ ", "") ===
@@ -1815,8 +1815,18 @@ async function execute_macro(action, br_card) {
     );
   }
   //System uses item actor if macroActor is set to 'self' or the first selected tokens actor if not.
-  const targetActor = (action.macroActor === "self" || game.canvas.tokens.controlled.length < 1) ? br_card.actor : game.canvas.tokens.controlled[0].actor;
-  const targetToken = (action.macroActor === "self" || game.canvas.tokens.controlled.length < 1) ? br_card.token : game.canvas.tokens.controlled[0];
-  await macro?.execute({ actor: targetActor, token: targetToken, item: br_card.item }); // jshint ignore:line
+  const targetActor =
+    action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
+      ? br_card.actor
+      : game.canvas.tokens.controlled[0].actor;
+  const targetToken =
+    action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
+      ? br_card.token
+      : game.canvas.tokens.controlled[0];
+  await macro?.execute({
+    actor: targetActor,
+    token: targetToken,
+    item: br_card.item,
+  }); // jshint ignore:line
   return null;
 }
