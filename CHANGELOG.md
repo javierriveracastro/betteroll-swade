@@ -1,5 +1,10 @@
-# Unpublished
-* Fixed a bug that caused macros executed via item actions not getting the proper token and actor.
+# Version 3.78 aka bye, bye v11
+* Bugfix: Fixed a bug that caused macros executed via item actions not getting the proper token and actor. (SalieriC).
+* Actions: Add the new selector `module is not active`
+* Cards: Added a failsafe in case token is not selected (SalieriC)
+* Bugfix: Item actions that override a trait with an attribute are working again.
+* Actions: Support for the new AP override in the item damage actions.
+* General: Support the new joker bonus flag.
 
 # Version 3.77 aka the little one
 * Refactoring: Lots of small changes to make the code simpler, that I hope don't break anything.
