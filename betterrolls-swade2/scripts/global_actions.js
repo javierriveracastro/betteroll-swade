@@ -17,7 +17,13 @@ export function register_actions() {
   if (world_actions && world_actions[0] instanceof Array) {
     world_actions = world_actions[0];
   }
-  game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION.concat(world_actions);
+  game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION;
+  for (let world_action of world_actions) {
+    if (world_action.replaceExisting) {
+      game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter((a) => { return a.id !== world_action.id; });
+    }
+  }
+  game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.concat(world_actions);
 }
 
 /**
@@ -604,6 +610,7 @@ export class WorldGlobalActions extends FormApplication {
         "group_single",
         "gm_action",
         "disable_if_module_present",
+        "replaceExisting",
       ];
       for (let key in action) {
         if (SUPPORTED_KEYS.indexOf(key) < 0) {
