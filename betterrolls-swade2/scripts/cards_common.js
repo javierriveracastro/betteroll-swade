@@ -814,7 +814,12 @@ async function get_new_roll_options(
   }
   // Joker
   if (br_card.token && has_joker(br_card.token.id)) {
-    roll_options.modifiers.push(new TraitModifier("Joker", 2));
+    roll_options.modifiers.push(
+      new TraitModifier(
+        "Joker",
+        br_card.actor.getFlag("swade", "jokerBonus") ?? 2,
+      ),
+    );
   }
   // Encumbrance
   const npc_avoid_encumbrance =

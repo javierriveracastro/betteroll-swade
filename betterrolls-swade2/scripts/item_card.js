@@ -583,7 +583,7 @@ export function get_item_trait(item, actor) {
  * @param {Array} actor.items
  * @param {string} trait_name
  */
-function trait_from_string(actor, trait_name) {
+export function trait_from_string(actor, trait_name) {
   let skill = actor.items.find((skill) => {
     return (
       skill.name.toLowerCase().replace("★ ", "") ===
@@ -1235,13 +1235,17 @@ function calc_min_str_penalty(item, actor, damage_formulas, damage_roll) {
 /**
  * Calculates the modifier from jokers to the damage roll.
  * @param {BrCommonCard} br_card
- * @param {SwadeActor} actor
  * @param damage_roll
  */
-function joker_modifiers(br_card, actor, damage_roll) {
+function joker_modifiers(br_card, damage_roll) {
   let token_id = br_card.token?.id;
   if (token_id && has_joker(token_id)) {
-    damage_roll.brswroll.modifiers.push(new DamageModifier("Joker", 2));
+    damage_roll.brswroll.modifiers.push(
+      new DamageModifier(
+        "Joker",
+        br_card.actor.getFlag("swade", "jokerBonus") ?? 2,
+      ),
+    );
   }
 }
 
@@ -1346,7 +1350,7 @@ export async function roll_dmg(
   }
   let damage_roll = { label: "---", brswroll: new BRWSRoll(), raise: raise };
   get_chat_dmg_modifiers(options, damage_roll);
-  joker_modifiers(br_card, actor, damage_roll);
+  joker_modifiers(br_card, damage_roll);
   // Item properties tab
   if (item.system.actions.dmgMod) {
     damage_roll.brswroll.modifiers.push(
@@ -1814,7 +1818,19 @@ async function execute_macro(action, br_card) {
       { toast: true },
     );
   }
-  const targetActor = action.macroActor === "self" ? br_card.action : undefined;
-  await macro?.execute({ actor: targetActor, item: br_card.item }); // jshint ignore:line
+  //System uses item actor if macroActor is set to 'self' or the first selected tokens actor if not.
+  const targetActor =
+    action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
+      ? br_card.actor
+      : game.canvas.tokens.controlled[0].actor;
+  const targetToken =
+    action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
+      ? br_card.token
+      : game.canvas.tokens.controlled[0];
+  await macro?.execute({
+    actor: targetActor,
+    token: targetToken,
+    item: br_card.item,
+  }); // jshint ignore:line
   return null;
 }

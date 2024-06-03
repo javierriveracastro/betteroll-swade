@@ -4,7 +4,7 @@
 
 import { TraitRoll } from "./rolls.js";
 import { broofa, getWhisperData, SettingsUtils } from "./utils.js";
-import { get_item_trait } from "./item_card.js";
+import { get_item_trait, trait_from_string } from "./item_card.js";
 import { get_actions } from "./global_actions.js";
 import { brAction } from "./actions.js";
 import { are_bennies_available, trait_to_string } from "./cards_common.js";
@@ -438,9 +438,15 @@ export class BrCommonCard {
     if (!this.actor || !action) {
       return;
     }
-    const skill_swid = game.swade.util.slugify(action?.code.skillOverride);
-    const skill = this.actor.getSingleItemBySwid(skill_swid, "skill");
-    this.render_data.trait_id = skill.id;
+    console.log(action);
+    const skill = trait_from_string(this.actor, action.code.skillOverride);
+    if (skill.hasOwnProperty("name")) {
+      // Attribute
+      this.render_data.trait_id = skill;
+    } else {
+      // Skill
+      this.render_data.trait_id = skill.id;
+    }
   }
 
   /**
