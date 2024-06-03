@@ -18,9 +18,10 @@ export function register_actions() {
     world_actions = world_actions[0];
   }
   game.brsw.GLOBAL_ACTIONS = SYSTEM_GLOBAL_ACTION;
-  for (let world_action of world_actions) {
+  for (const world_action of world_actions) {
     if (world_action.replaceExisting) {
-      game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter((a) => { return a.id !== world_action.id; });
+      //The action will replace any existing actions in the default list. Filter them out and assign the array
+      game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.filter(a => a.id !== world_action.id);
     }
   }
   game.brsw.GLOBAL_ACTIONS = game.brsw.GLOBAL_ACTIONS.concat(world_actions);
