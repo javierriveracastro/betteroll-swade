@@ -1,6 +1,6 @@
 // Init scripts for version 2
-/* globals Hooks, console, game, loadTemplates, Token, renderTemplate, Macro, CONFIG, foundry, Item, Dialog,
- mergeObject, ModuleManagement, $ */
+/* globals Hooks, console, game, loadTemplates, Token, renderTemplate,
+    Macro, CONFIG, foundry, Item, Dialog, ModuleManagement, $ */
 import {
   activate_common_listeners,
   manage_selectable_click,
@@ -81,7 +81,9 @@ Hooks.on(`ready`, () => {
     game.user,
     USER_FLAGS.user_settings,
   );
-  mergeObject(USER_SETTINGS, user_settings, { insertKeys: false });
+  foundry.utils.mergeObject(USER_SETTINGS, user_settings, {
+    insertKeys: false,
+  });
   // Create a base object to hook functions
   // noinspection JSUndefinedPropertyAssignment
   attribute_card_hooks();
@@ -612,7 +614,9 @@ function register_settings_version2() {
 
   //Update our cached world settings with our saved data
   const world_settings = SettingsUtils.getSetting(SETTING_KEYS.world_settings);
-  mergeObject(WORLD_SETTINGS, world_settings, { insertKeys: false });
+  foundry.utils.mergeObject(WORLD_SETTINGS, world_settings, {
+    insertKeys: false,
+  });
 }
 
 // Settings related to Dice So Nice.

@@ -1,5 +1,5 @@
 // An aplication to manage the settings
-/* global FormApplication, mergeObject, game, foundry, Dialog */
+/* global FormApplication, game, foundry, Dialog, $ */
 
 import { SettingsUtils } from "./utils.js";
 import {
@@ -16,7 +16,7 @@ export class SettingsConfig extends FormApplication {
   }
 
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       id: "brsw-settings-config",
       classes: ["sheet"],
       template: "modules/betterrolls-swade2/templates/settings_config.html",
@@ -75,11 +75,13 @@ export class SettingsConfig extends FormApplication {
 
   /**
    * Activate app listeners
-   * @param {*} html 
+   * @param {*} html
    */
   activateListeners(html) {
     const restoreDefaultsButton = html.find("button[name='restore-defaults']");
-    restoreDefaultsButton.on("click", async event => this.onRestoreDefaults(event));
+    restoreDefaultsButton.on("click", async (event) =>
+      this.onRestoreDefaults(event),
+    );
     super.activateListeners(html);
   }
 
@@ -88,7 +90,11 @@ export class SettingsConfig extends FormApplication {
     let requires_world_reload = false;
     let requires_client_reload = false;
     for (let [k, v] of Object.entries(foundry.utils.flattenObject(formData))) {
-      if (can_modify_world && WORLD_SETTINGS[k] && WORLD_SETTINGS[k].value !== v) {
+      if (
+        can_modify_world &&
+        WORLD_SETTINGS[k] &&
+        WORLD_SETTINGS[k].value !== v
+      ) {
         WORLD_SETTINGS[k].value = v;
         requires_world_reload =
           requires_world_reload || !!WORLD_SETTINGS[k].requiresReload;
@@ -100,7 +106,10 @@ export class SettingsConfig extends FormApplication {
     }
 
     if (can_modify_world) {
-      await SettingsUtils.setSetting(SETTING_KEYS.world_settings, WORLD_SETTINGS);
+      await SettingsUtils.setSetting(
+        SETTING_KEYS.world_settings,
+        WORLD_SETTINGS,
+      );
     }
 
     await game.user.unsetFlag(MODULE_NAME, USER_FLAGS.user_settings);
@@ -134,19 +143,20 @@ export class SettingsConfig extends FormApplication {
   }
 
   /**
-   * 
-   * @param {*} event 
+   *
+   * @param {*} event
    */
   async onRestoreDefaults(event) {
     event.preventDefault();
 
     let content;
-    const active_data_tab = $(this.form).find("a[class='item active']")[0].attributes["data-tab"].nodeValue;
-    switch(active_data_tab) {
+    const active_data_tab = $(this.form).find("a[class='item active']")[0]
+      .attributes["data-tab"].nodeValue;
+    switch (active_data_tab) {
       case "world":
         content = game.i18n.localize("BRSW.Settings.RestoreDefaultsWorldBody");
         break;
-        
+
       case "user":
         content = game.i18n.localize("BRSW.Settings.RestoreDefaultsUserBody");
         break;
@@ -159,18 +169,18 @@ export class SettingsConfig extends FormApplication {
         yes: {
           icon: `<i class="fas fa-check"></i>`,
           label: game.i18n.localize("BRSW.Yes"),
-          callback: ($html) => {
+          callback: () => {
             this.restoreDefaults(active_data_tab);
-          }
+          },
         },
         no: {
           icon: `<i class="fas fa-times"></i>`,
           label: game.i18n.localize("BRSW.No"),
-          callback: () => { }
-        }
+          callback: () => {},
+        },
       },
       default: "no",
-      close: () => { }
+      close: () => {},
     });
 
     confirmationDialog.render(true);
@@ -179,16 +189,24 @@ export class SettingsConfig extends FormApplication {
   async restoreDefaults(data_tab) {
     let requires_world_reload = false;
     let requires_client_reload = false;
-    if (data_tab == "world") {
+    if (data_tab === "world") {
       for (let setting of Object.values(WORLD_SETTINGS)) {
-        if (setting.requiresReload && setting.value != undefined && setting.value != setting.default) {
+        if (
+          setting.requiresReload &&
+          setting.value !== undefined &&
+          setting.value !== setting.default
+        ) {
           requires_world_reload = true;
         }
         delete setting.value;
       }
-    } else if (data_tab == "user") {
+    } else if (data_tab === "user") {
       for (let setting of Object.values(USER_SETTINGS)) {
-        if (setting.requiresReload && setting.value != undefined && setting.value != setting.default) {
+        if (
+          setting.requiresReload &&
+          setting.value !== undefined &&
+          setting.value !== setting.default
+        ) {
           requires_client_reload = true;
         }
         delete setting.value;

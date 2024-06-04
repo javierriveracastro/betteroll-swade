@@ -1,7 +1,7 @@
 import * as BRSW2_CONFIG from "./brsw2-config.js";
 
 // Utility functions that can be used out of the module
-/* globals ChatMessage, game, Dialog, console, mergeObject */
+/* globals ChatMessage, game, Dialog, console, foundry, ClientSetting */
 
 export function getWhisperData() {
   let rollMode, whisper, blind;
@@ -149,7 +149,6 @@ export class SettingsUtils {
    * Sets a single game setting
    * @param {*} key
    * @param {*} value
-   * @param {*} awaitResult
    * @returns {Promise | ClientSetting}
    */
   static async setSetting(key, value) {
@@ -194,7 +193,7 @@ export class SettingsUtils {
 
     let setting = {};
     setting.key = key;
-    mergeObject(setting, metadata);
+    foundry.utils.mergeObject(setting, metadata);
     BRSW2_CONFIG.WORLD_SETTINGS[key] = setting;
   }
 
@@ -211,7 +210,7 @@ export class SettingsUtils {
 
     let setting = {};
     setting.key = key;
-    mergeObject(setting, metadata);
+    foundry.utils.mergeObject(setting, metadata);
     BRSW2_CONFIG.USER_SETTINGS[key] = setting;
   }
 
