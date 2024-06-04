@@ -89,7 +89,7 @@ class SingleRoll {
 
   add_roll(roll, wild_die, modifiers) {
     roll.terms.forEach((term) => {
-      if (term.hasOwnProperty("faces")) {
+      if (term.hasOwnProperty("_faces")) {
         let new_die = new Die(null);
         if (term.total === 1) {
           new_die.extra_class = " brsw-red-text";
