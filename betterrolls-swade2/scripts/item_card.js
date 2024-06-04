@@ -1085,7 +1085,7 @@ async function roll_dmg_target(
     damage_formulas.damage + damage_formulas.raise,
     shortcuts,
   );
-  roll.evaluate({ async: false });
+  await roll.evaluate();
   // Heavy armor
   if (target && !item.system.isHeavyWeapon && has_heavy_armor(target)) {
     const no_damage_mod = new DamageModifier(
@@ -1119,16 +1119,18 @@ async function roll_dmg_target(
   });
   let last_string_term = "";
   for (let term of roll.terms) {
-    if (term.hasOwnProperty("faces")) {
+    console.log(term);
+    if (term.hasOwnProperty("_faces")) {
       let new_die = {
-        faces: term.faces,
+        faces: term._faces,
         results: [],
         extra_class: "",
-        label: game.i18n.localize("SWADE.Dmg") + ` (d${term.faces})`,
+        label: game.i18n.localize("SWADE.Dmg") + ` (d${term._faces})`,
       };
       for (let result of term.results) {
+        console.log(result);
         new_die.results.push(result.result);
-        if (result.result >= term.faces) {
+        if (result.result >= term._faces) {
           new_die.extra_class = " brsw-blue-text";
           if (!current_damage_roll.brswroll.rolls[0].extra_class) {
             current_damage_roll.brswroll.rolls[0].extra_class =
@@ -1136,6 +1138,7 @@ async function roll_dmg_target(
           }
         }
       }
+      console.log(new_die);
       current_damage_roll.brswroll.dice.push(new_die);
     } else {
       if (term.number) {
@@ -1459,7 +1462,7 @@ async function add_damage_dice(br_card, index) {
   );
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   let roll = new Roll("1d6x");
-  roll.evaluate({ async: false });
+  await roll.evaluate();
   damage_rolls.rolls[0].result += roll.total;
   roll.terms.forEach((term) => {
     let new_die = {

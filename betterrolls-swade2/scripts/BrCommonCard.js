@@ -560,7 +560,7 @@ export class BrCommonCard {
       this.render_data.template,
       this.get_data_render(),
     );
-    TextEditor.enrichHTML(new_content, { async: false });
+    await TextEditor.enrichHTML(new_content);
     if (this.message) {
       this.update_list.content = new_content;
     } else {
@@ -651,7 +651,7 @@ export class BrCommonCard {
     if (whisper_data.whisper) {
       chatData.whisper = whisper_data.whisper;
     }
-    chatData.roll = new Roll("0").roll({ async: false });
+    chatData.roll = new Roll("0").roll();
     chatData.rollMode = whisper_data.rollMode;
     // noinspection JSValidateTypes
     return chatData;

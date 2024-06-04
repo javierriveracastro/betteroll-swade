@@ -221,7 +221,7 @@ export async function create_injury_card(token_id, reason) {
   let user = get_owner(actor);
   // First roll
   let first_roll = new Roll("2d6");
-  first_roll.evaluate({ async: false });
+  await first_roll.evaluate();
   if (game.dice3d) {
     // noinspection ES6MissingAwait
     await game.dice3d.showForRoll(first_roll, game.user, true);
@@ -232,7 +232,7 @@ export async function create_injury_card(token_id, reason) {
   let second_roll = new Roll("1d6");
   for (let table in SECOND_INJURY_TABLES) {
     if (SECOND_INJURY_TABLES.hasOwnProperty(table) && first_result === table) {
-      second_roll.evaluate({ async: false });
+      await second_roll.evaluate();
       if (game.dice3d) {
         // noinspection ES6MissingAwait
         await game.dice3d.showForRoll(second_roll, game.user, true);
