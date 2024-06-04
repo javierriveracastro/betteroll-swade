@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals game, Token, TokenDocument, Roll, canvas, console, $, foundry
+/* globals game, Token, TokenDocument, Roll, canvas, console, $, foundry,
       duplicate, ChatMessage, ui, Macro */
 // noinspection JSUnusedAssignment
 
