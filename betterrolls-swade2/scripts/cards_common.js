@@ -1,5 +1,5 @@
 // Common functions used in all cards
-/* globals game, Token, TokenDocument, Roll, canvas, console, $, getProperty, setProperty,
+/* globals game, Token, TokenDocument, Roll, canvas, console, $, foundry
       duplicate, ChatMessage, ui, Macro */
 // noinspection JSUnusedAssignment
 
@@ -654,7 +654,7 @@ export function check_and_roll_conviction(actor) {
   if (
     actor.isWildcard &&
     game.settings.get("swade", "enableConviction") &&
-    getProperty(actor.system, "details.conviction.active")
+    foundry.utils.getProperty(actor.system, "details.conviction.active")
   ) {
     let conviction_roll = new Roll("1d6x");
     conviction_roll.roll({ async: false });
@@ -913,11 +913,11 @@ function set_wild_die_theme(wildDie) {
       texture: customOptions?.texture,
       system: dieSystem,
     };
-    setProperty(wildDie, "options.appearance", customAppearance);
+    foundry.utils.setProperty(wildDie, "options.appearance", customAppearance);
   } else {
     // Set the preset
-    setProperty(wildDie, "options.colorset", colorSet);
-    setProperty(wildDie, "options.appearance.system", dieSystem);
+    foundry.utils.setProperty(wildDie, "options.colorset", colorSet);
+    foundry.utils.setProperty(wildDie, "options.appearance.system", dieSystem);
   }
   // Get the dicePreset for the given die type
   const dicePreset = game.dice3d?.DiceFactory.systems[dieSystem].dice.find(

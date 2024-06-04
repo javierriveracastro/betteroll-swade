@@ -1,5 +1,5 @@
 /* globals game, FormApplication, console, Dialog, saveDataToFile, ui,
-  readTextFromFile, renderTemplate, getProperty, canvas, $ */
+  readTextFromFile, renderTemplate, foundry, canvas, $ */
 /* jshint -W089 */
 
 import { get_item_trait } from "./item_card.js";
@@ -402,7 +402,7 @@ function check_selector(type, value, item, actor) {
  */
 function check_document_value(document, value) {
   let [path, result] = value.split("=");
-  let data = getProperty(document, path);
+  let data = foundry.utils.getProperty(document, path);
   // noinspection EqualityComparisonWithCoercionJS
   return data == result;
 }
@@ -537,8 +537,8 @@ export class WorldGlobalActions extends FormApplication {
           ev.currentTarget.value.substring(0, start) +
           "    " +
           ev.currentTarget.value.substring(end);
-        ev.currentTarget.selectionStart = ev.currentTarget.selectionEnd =
-          start + 4;
+        ev.currentTarget.selectionStart = start + 4;
+        ev.currentTarget.selectionEnd = start + 4;
       }
     });
     // Activate json check on old actions
