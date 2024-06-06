@@ -258,7 +258,7 @@ export function calculate_distance(
   tn,
   skill,
 ) {
-  const grid_unit = canvas.grid.grid.options.dimensions.distance;
+  const grid_unit = canvas.grid.distance;
   let use_parry_as_tn = false;
   let use_grid_calc = SettingsUtils.getWorldSetting("range_calc_grid");
   let distance = canvas.grid.measureDistance(
@@ -631,7 +631,7 @@ function withinRange(origin, target, range) {
   if (Math.abs(origin.document.elevation - target.document.elevation) >= 1) {
     return false;
   }
-  const grid_unit = canvas.grid.grid.options.dimensions.distance;
+  const grid_unit = canvas.grid.distance;
   let distance = canvas.grid.measureDistance(origin, target);
   distance /= grid_unit;
   return range > distance;
