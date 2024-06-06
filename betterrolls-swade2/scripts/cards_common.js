@@ -534,7 +534,7 @@ export function trait_to_string(trait) {
 export async function detect_fumble(remove_die, fumble_possible, result, dice) {
   if (!remove_die && fumble_possible < 1) {
     let test_fumble_roll = new Roll("1d6");
-    await test_fumble_roll.roll({ async: true });
+    await test_fumble_roll.roll();
     await test_fumble_roll.toMessage({
       flavor: game.i18n.localize("BRSW.Testing_fumbles"),
     });
@@ -649,7 +649,7 @@ export async function update_message(br_message, render_data) {
  * @param {SwadeActor }actor
  * @return Modifiers Array
  */
-export function check_and_roll_conviction(actor) {
+export async function check_and_roll_conviction(actor) {
   let conviction_modifier;
   if (
     actor.isWildcard &&
@@ -657,7 +657,7 @@ export function check_and_roll_conviction(actor) {
     foundry.utils.getProperty(actor.system, "details.conviction.active")
   ) {
     let conviction_roll = new Roll("1d6x");
-    conviction_roll.roll({ async: false });
+    await conviction_roll.roll();
     // noinspection JSIgnoredPromiseFromCall
     conviction_roll.toMessage({
       flavor: game.i18n.localize("BRSW.ConvictionRoll"),
@@ -808,7 +808,7 @@ async function get_new_roll_options(
     });
   }
   //Conviction
-  const conviction_modifier = check_and_roll_conviction(br_card.actor);
+  const conviction_modifier = await check_and_roll_conviction(br_card.actor);
   if (conviction_modifier) {
     roll_options.modifiers.push(conviction_modifier);
   }

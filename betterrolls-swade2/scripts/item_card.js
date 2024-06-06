@@ -1380,7 +1380,7 @@ export async function roll_dmg(
     damage_formulas.damage = "1";
   }
   //Conviction
-  const conviction_modifier = check_and_roll_conviction(actor);
+  const conviction_modifier = await check_and_roll_conviction(actor);
   if (conviction_modifier) {
     damage_roll.brswroll.modifiers.push(conviction_modifier);
   }
