@@ -82,7 +82,7 @@ export class BrCommonCard {
   }
 
   create_popout() {
-    if (game.user.id !== this.message.user.id || this.popup_shown) {
+    if (game.user.id !== this.message.author.id || this.popup_shown) {
       return;
     }
     if (SettingsUtils.getUserSetting("auto_popout_chat")) {
