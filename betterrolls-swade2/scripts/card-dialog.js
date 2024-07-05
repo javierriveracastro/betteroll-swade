@@ -89,9 +89,12 @@ class BrCardDialog {
     const card_id = `brc-${this.BrCard.id}`;
     this.save_actions()
       .then(() => {
-        const card = document.getElementById(card_id).parentElement;
-        const roll_button = card.querySelector(".brsw-roll-button");
-        roll_button.click();
+        setTimeout(() => {
+          // Hideous hack to avoid a race condition
+          const card = document.getElementById(card_id).parentElement;
+          const roll_button = card.querySelector(".brsw-roll-button");
+          roll_button.click();
+        }, 10);
       })
       .catch((err) => {
         console.error("Error saving actions", err);
