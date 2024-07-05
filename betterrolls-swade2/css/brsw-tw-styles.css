@@ -56,6 +56,10 @@
   margin-bottom:0.5rem;
 }
 
+.twbr-ml-1 {
+  margin-left:0.25rem;
+}
+
 .twbr-ml-2 {
   margin-left:0.5rem;
 }
@@ -78,10 +82,6 @@
 
 .twbr-mt-2 {
   margin-top:0.5rem;
-}
-
-.twbr-ml-1 {
-  margin-left:0.25rem;
 }
 
 .twbr-block {
@@ -130,7 +130,6 @@
 
 .twbr-w-8 {
   width:2rem;
-  min-width:2rem;
 }
 
 .twbr-w-full {
