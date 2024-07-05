@@ -1,3 +1,9 @@
+# Version 4.0 aka Welcome v12
+* Compatibility: v12 Compatible
+* Actions: Create the "replaceExisting" world action (Dan Brown)
+* Vehicles: Added a lot of support to vehicles (Dan Brown)
+* Bugfix: Try to solve a race condition when rolling from a directly shown action window.
+
 # Version 3.78 aka bye, bye v11
 * Bugfix: Fixed a bug that caused macros executed via item actions not getting the proper token and actor. (SalieriC).
 * Actions: Add the new selector `module is not active`
