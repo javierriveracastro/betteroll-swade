@@ -4,12 +4,20 @@
             hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{actor.img}}}"
             alt="Actor portrait">
     </div>
+    <div>
+        {{#if vehicle_actor}}
+        <img class="brws-vehicle-img twbr-w-8 twbr-h-8 twbr-rounded hover:twbr-ring-2
+            hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{vehicle_actor.img}}}"
+            alt="Vehicle portrait">
+        {{/if}}
+    </div>
     <div class="twbr-flex-grow twbr-text-center twbr-align-middle twbr-text-lg twbr-relative
             twbr-overflow-clip hover:twbr-overflow-visible">
         <span class="twbr-group">
             {{header.title}}<i class="brsw-repeat-card fas fa-redo hover:twbr-ring-2
-            hover:twbr-ring-offset-1 hover:twbr-cursor-pointer"></i> <i class="brsw-save-macro fa fa-save hover:twbr-ring-2
             hover:twbr-ring-offset-1 hover:twbr-cursor-pointer"></i>
+            {{#unless vehicle_actor}}<i class="brsw-save-macro fa fa-save hover:twbr-ring-2
+            hover:twbr-ring-offset-1 hover:twbr-cursor-pointer"></i>{{/unless}}
             {{# if description}}
                 <div id="tooltip-description" role="tooltip"
                      class="twbr-w-56 twbr-opacity-0 twbr-h-0 twbr-absolute twbr-transition-opacity

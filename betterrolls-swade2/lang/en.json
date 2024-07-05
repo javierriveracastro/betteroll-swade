@@ -217,6 +217,8 @@
   "BRSW.NotEnoughStrength": "Under minimum Strength",
   "BRSW.NotEnoughStrengthArmor": "Armor under minimum strength",
   "BRSW.NoTokenSelectedError": "You need to select a token to use this function",
+  "BRSW.VehicleCharacterSkillMissingError": "The Operator character has neither the Operation Skill nor an Unskilled skill.",
+  "BRSW.VehicleOperationSkillNotSetError": "You must set an Operation Skill on this vehicle.",
   "BRSW.Number_trait_dice": "Number of trait dice",
   "BRSW.Offhand": "Offhand",
   "BRSW.OldRoll": "Older rolls",

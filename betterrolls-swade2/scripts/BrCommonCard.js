@@ -42,6 +42,8 @@ export class BrCommonCard {
     this.item_id = undefined;
     this.skill_id = undefined;
     this.damage = undefined;
+    this.vehicle_actor_id = undefined;
+    this.vehicle_token_id = undefined;
     this.target_ids = [];
     this.environment = { light: "bright" };
     this.extra_text = "";
@@ -124,6 +126,8 @@ export class BrCommonCard {
       actor_id: this.actor_id,
       item_id: this.item_id,
       skill_id: this.skill_id,
+      vehicle_actor_id: this.vehicle_actor_id,
+      vehicle_token_id: this.vehicle_token_id,
       environment: this.environment,
       extra_text: this.extra_text,
       attribute_name: this.attribute_name,
@@ -146,6 +150,8 @@ export class BrCommonCard {
       "actor_id",
       "item_id",
       "skill_id",
+      "vehicle_actor_id",
+      "vehicle_token_id",
       "environment",
       "extra_text",
       "attribute_name",
@@ -196,6 +202,34 @@ export class BrCommonCard {
     }
     if (this.actor_id) {
       return game.actors.get(this.actor_id);
+    }
+    return undefined;
+  }
+
+  get vehicle_token() {
+    if (canvas.tokens) {
+      if (this.vehicle_token_id) {
+        return canvas.tokens.get(this.vehicle_token_id);
+      }
+      if (this.vehicle_actor_id) {
+        return this.vehicle_actor.getActiveTokens()[0];
+      }
+    }
+    return undefined;
+  }
+
+  get vehicle_actor() {
+    // We always prefer the token actor if available
+    if (this.vehicle_token_id) {
+      const { vehicle_token } = this;
+      if (vehicle_token) {
+        // Token can be undefined even with an id if the scene is not
+        // ready or the token has been removed.
+        return vehicle_token.actor;
+      }
+    }
+    if (this.vehicle_actor_id) {
+      return game.actors.get(this.vehicle_actor_id);
     }
     return undefined;
   }
@@ -579,6 +613,7 @@ export class BrCommonCard {
       ...{ sorted_action_groups: this.sorted_action_groups },
     };
     data.actor = this.actor;
+    data.vehicle_actor = this.vehicle_actor;
     data.item = this.item;
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;

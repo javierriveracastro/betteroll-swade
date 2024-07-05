@@ -59,7 +59,7 @@ export const THROWING_SKILLS = [
 async function create_skill_card(
   origin,
   skill_id,
-  { actions_stored = {} } = {},
+  { actions_stored = {}, vehicle } = {},
 ) {
   let actor;
   if (origin instanceof TokenDocument || origin instanceof Token) {
@@ -86,6 +86,12 @@ async function create_skill_card(
   );
   br_message.type = BRSW_CONST.TYPE_SKILL_CARD;
   br_message.skill_id = skill.id;
+  if (vehicle) {
+    br_message.vehicle_actor_id = vehicle.actor?.id || vehicle.id;
+    if (vehicle instanceof TokenDocument || vehicle instanceof Token) {
+      br_message.vehicle_token_id = vehicle.id;
+    }
+  }
   await br_message.render(actions_stored);
   await br_message.save();
   return br_message;
@@ -338,7 +344,7 @@ async function get_vehicle_tn(tn, target_token) {
   const maneuveringSkill = target_token.actor.system.driver.skill;
   for (const value of operatorItems) {
     if (value.name === maneuveringSkill) {
-      operator_skill = value.data.data.die.sides;
+      operator_skill = value.system.die.sides;
     }
   }
   if (operator_skill === null) {
