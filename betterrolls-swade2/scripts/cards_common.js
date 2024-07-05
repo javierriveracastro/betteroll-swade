@@ -212,6 +212,12 @@ export function activate_common_listeners(br_card, html) {
       .click(async () => {
         await manage_sheet(br_card.actor);
       });
+      html_jquery
+        .find(".brws-vehicle-img")
+        .addClass("bound")
+        .click(async () => {
+          await manage_sheet(br_card.vehicle_actor);
+        });
     html_jquery.find(".br2-unshake-card").on("click", () => {
       create_unshaken_card(br_card.message, undefined).catch(() => {
         console.error("BR2 unable to show unshaken card");
@@ -450,6 +456,7 @@ async function manage_sheet(actor) {
     // noinspection JSAccessibilityCheck
     if (actor.sheet._minimized) {
       await actor.sheet.maximize();
+      await actor.sheet.render(true);
     } else {
       await actor.sheet.minimize();
     }
@@ -751,7 +758,7 @@ async function get_new_roll_options(
   if (!objetive) {
     canvas.tokens.controlled.forEach((token) => {
       // noinspection JSUnresolvedVariable
-      if (token.actor !== br_card.actor) {
+      if (token.actor !== br_card.actor && token.actor !== br_card.vehicle_actor) {
         objetive = token;
       }
     });
@@ -835,6 +842,21 @@ async function get_new_roll_options(
     roll_options.modifiers.push(
       new TraitModifier(game.i18n.localize("SWADE.Encumbered"), -2),
     );
+  }
+  // Vehicle
+  if (br_card.vehicle_actor) {
+    let vehicle = br_card.vehicle_actor;
+    let handling = vehicle.system.handling;
+    handling -= Math.max(vehicle.system.wounds.value - vehicle.system.wounds.ignored, 0);
+    handling = Math.max(handling, -4); //Handling cannot be lower than -4
+    if (handling != 0) {
+      roll_options.modifiers.push(
+        new TraitModifier(
+          "Handling",
+          handling,
+        ),
+      );
+    }
   }
 }
 

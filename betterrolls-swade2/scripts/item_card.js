@@ -620,7 +620,7 @@ function check_skill_in_actor(actor, possible_skills) {
   let skill_found;
   actor.items.forEach((skill) => {
     if (
-      possible_skills.includes(skill.name.toLowerCase()) &&
+      possible_skills.some(v => skill.name.toLowerCase().includes(v)) &&
       skill.type === "skill"
     ) {
       skill_found = skill;

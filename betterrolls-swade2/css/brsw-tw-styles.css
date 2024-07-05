@@ -130,6 +130,7 @@
 
 .twbr-w-8 {
   width:2rem;
+  min-width:2rem;
 }
 
 .twbr-w-full {

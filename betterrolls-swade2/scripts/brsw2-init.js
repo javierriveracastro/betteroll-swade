@@ -24,6 +24,9 @@ import {
   expose_item_functions,
   activate_item_card_listeners,
 } from "./item_card.js";
+import {
+  activate_vehicle_listeners,
+} from "./vehicle_card.js";
 import { activate_damage_card_listeners } from "./damage_card.js";
 import { SettingsConfig } from "./settings_config.js";
 import {
@@ -346,6 +349,10 @@ Hooks.once("diceSoNiceReady", () => {
     activate_skill_listeners(app, html);
     activate_item_listeners(app, html);
   });
+});
+
+Hooks.on("renderSwadeVehicleSheet", (app, html, _) => {
+  activate_vehicle_listeners(app, html);
 });
 
 // Settings
