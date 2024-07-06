@@ -727,8 +727,6 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     data["system.powerPoints.general.value"] = final_pp;
   }
   if (arcaneDevice === false) {
-    console.log(data);
-    console.log(br_card.actor);
     await br_card.actor.update(data);
   }
   if (pp !== old_pp) {
@@ -1121,7 +1119,6 @@ async function roll_dmg_target(
   });
   let last_string_term = "";
   for (let term of roll.terms) {
-    console.log(term);
     if (term.hasOwnProperty("_faces")) {
       let new_die = {
         faces: term._faces,
@@ -1130,7 +1127,6 @@ async function roll_dmg_target(
         label: game.i18n.localize("SWADE.Dmg") + ` (d${term._faces})`,
       };
       for (let result of term.results) {
-        console.log(result);
         new_die.results.push(result.result);
         if (result.result >= term._faces) {
           new_die.extra_class = " brsw-blue-text";
@@ -1140,7 +1136,6 @@ async function roll_dmg_target(
           }
         }
       }
-      console.log(new_die);
       current_damage_roll.brswroll.dice.push(new_die);
     } else {
       if (term.number) {

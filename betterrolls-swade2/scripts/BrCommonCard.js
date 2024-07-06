@@ -472,7 +472,6 @@ export class BrCommonCard {
     if (!this.actor || !action) {
       return;
     }
-    console.log(action);
     const skill = trait_from_string(this.actor, action.code.skillOverride);
     if (skill.hasOwnProperty("name")) {
       // Attribute
