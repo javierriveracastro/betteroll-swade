@@ -178,7 +178,7 @@ async function apply_damage(token_or_token_id, wounds, soaked = 0) {
   // We cap damage on actor number of wounds
   final_wounds = Math.min(final_wounds, token.actor.system.wounds.max);
   // Finally, we update actor and mark defeated
-  await token.actor.update({ "data.wounds.value": final_wounds });
+  await token.actor.update({ "system.wounds.value": final_wounds });
   if (final_shaken) {
     await game.succ.addCondition("shaken", token);
   } else {
@@ -204,7 +204,7 @@ async function apply_damage(token_or_token_id, wounds, soaked = 0) {
 async function undo_damage(message) {
   const br_card = new BrCommonCard(message);
   const { actor, render_data } = br_card;
-  await actor.update({ "data.wounds.value": render_data.undo_values.wounds });
+  await actor.update({ "system.wounds.value": render_data.undo_values.wounds });
   if (br_card.token) {
     // Remove incapacitation and shaken
     let token_object = br_card.token.document;
@@ -351,7 +351,7 @@ async function roll_soak(br_card, use_bennie) {
   if (result >= 4) {
     br_card.render_data.soaked = Math.floor(result / 4);
     await br_card.actor.update({
-      "data.wounds.value": br_card.render_data.undo_values.wounds,
+      "system.wounds.value": br_card.render_data.undo_values.wounds,
     });
     const damage_result = await apply_damage(
       br_card.token,

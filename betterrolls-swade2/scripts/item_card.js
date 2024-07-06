@@ -620,7 +620,7 @@ function check_skill_in_actor(actor, possible_skills) {
   let skill_found;
   actor.items.forEach((skill) => {
     if (
-      possible_skills.some(v => skill.name.toLowerCase().includes(v)) &&
+      possible_skills.some((v) => skill.name.toLowerCase().includes(v)) &&
       skill.type === "skill"
     ) {
       skill_found = skill;
@@ -710,7 +710,7 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     const updates = [
       {
         _id: br_card.item.id,
-        "data.additionalStats.devicePP.value": `${final_pp}`,
+        "system.additionalStats.devicePP.value": `${final_pp}`,
       },
     ];
     // Updating the Arcane Device:
@@ -721,12 +721,14 @@ export async function discount_pp(br_card, pp_override, old_pp, pp_modifier) {
     ) &&
     br_card.actor.system.powerPoints[br_card.item.system.arcane].max
   ) {
-    data["data.powerPoints." + br_card.item.system.arcane + ".value"] =
+    data["system.powerPoints." + br_card.item.system.arcane + ".value"] =
       final_pp;
   } else {
-    data["data.powerPoints.general.value"] = final_pp;
+    data["system.powerPoints.general.value"] = final_pp;
   }
   if (arcaneDevice === false) {
+    console.log(data);
+    console.log(br_card.actor);
     await br_card.actor.update(data);
   }
   if (pp !== old_pp) {
@@ -1631,14 +1633,14 @@ function modify_power_points(number, mode, actor, item) {
   newPP = Math.min(newPP, ppm);
   if (arcaneDevice === true) {
     const updates = [
-      { _id: item.id, "data.additionalStats.devicePP.value": `${newPP}` },
+      { _id: item.id, "system.additionalStats.devicePP.value": `${newPP}` },
     ];
     // Updating the Arcane Device:
     actor.updateEmbeddedDocuments("Item", updates);
   } else {
     const data_key = otherArcane
-      ? `data.powerPoints.${item.system.arcane}.value`
-      : "data.powerPoints.general.value";
+      ? `system.powerPoints.${item.system.arcane}.value`
+      : "system.powerPoints.general.value";
     let data = {};
     data[data_key] = newPP;
     actor.update(data);
@@ -1737,7 +1739,7 @@ async function manual_pp(actor, item) {
             );
             return;
           }
-          actor.update({ "data.fatigue.value": fv + 1 });
+          actor.update({ "system.fatigue.value": fv + 1 });
           modify_power_points(-5, "soul_drain", actor, item);
         },
       },

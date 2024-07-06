@@ -190,10 +190,7 @@ async function check_abilities(actor) {
     let affectsUnshake = false;
     if (effect) {
       for (let change of effect.changes) {
-        if (
-          change.key === "data.attributes.spirit.unShakeBonus" ||
-          change.key === "system.attributes.spirit.unShakeBonus"
-        ) {
+        if (change.key === "system.attributes.spirit.unShakeBonus") {
           affectsUnshake = true;
         }
       }
@@ -210,10 +207,7 @@ async function check_abilities(actor) {
     if (effect.disabled === false) {
       // only apply changes if effect is enabled
       for (let change of effect.changes) {
-        if (
-          change.key === "data.attributes.spirit.unShakeBonus" ||
-          change.key === "system.attributes.spirit.unShakeBonus"
-        ) {
+        if (change.key === "system.attributes.spirit.unShakeBonus") {
           //Building an array of effect names and icons that affect the unShakeBonus
           effectName.push(effect.name);
           effectValue.push(change.value);
