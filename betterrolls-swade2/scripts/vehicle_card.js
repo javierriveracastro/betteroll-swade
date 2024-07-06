@@ -1,11 +1,10 @@
 // Functions for cards representing vehicles
-/* globals Token, game, ui, fromUuid */
+/* globals Token, game, ui, fromUuid, fromUuidSync */
 // noinspection JSCheckFunctionSignatures
 
-import {
-  get_action_from_click,
-} from "./cards_common.js";
+import { get_action_from_click } from "./cards_common.js";
 import { trait_from_string } from "./item_card.js";
+import { roll_skill } from "./skill_card.js";
 
 /**
  * Creates a card after an event.
@@ -27,21 +26,29 @@ async function vehicle_click_listener(ev, target) {
   if (!driver_actor) {
     return;
   }
-  
-  const skill_id = vehicle_actor.system.driver.skill || vehicle_actor.system.driver.skillAlternative;
+
+  const skill_id =
+    vehicle_actor.system.driver.skill ||
+    vehicle_actor.system.driver.skillAlternative;
   if (!skill_id) {
-    ui.notifications.warn(game.i18n.localize("BRSW.VehicleOperationSkillNotSetError"));
+    ui.notifications.warn(
+      game.i18n.localize("BRSW.VehicleOperationSkillNotSetError"),
+    );
     return;
   }
 
   let skill = trait_from_string(driver_actor, skill_id);
   if (!skill) {
-    ui.notifications.warn(game.i18n.localize("BRSW.VehicleCharacterSkillMissingError"));
+    ui.notifications.warn(
+      game.i18n.localize("BRSW.VehicleCharacterSkillMissingError"),
+    );
     return;
   }
 
   // Show card
-  let br_card = await game.brsw.create_skill_card(driver_actor, skill.id, {vehicle:target});
+  let br_card = await game.brsw.create_skill_card(driver_actor, skill.id, {
+    vehicle: target,
+  });
   if (action.includes("dialog")) {
     game.brsw.dialog.show_card(br_card);
   } else if (action.includes("trait")) {
