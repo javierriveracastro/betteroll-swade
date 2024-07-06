@@ -4,13 +4,13 @@
             hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{actor.img}}}"
             alt="Actor portrait">
     </div>
-    <div>
-        {{#if vehicle_actor}}
-        <img class="brws-vehicle-img twbr-w-8 twbr-h-8 twbr-rounded hover:twbr-ring-2
-            hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{vehicle_actor.img}}}"
-            alt="Vehicle portrait">
-        {{/if}}
-    </div>
+    {{#if vehicle_actor}}
+        <div class=" twbr-ml-1">
+            <img class="brws-vehicle-img twbr-w-8 twbr-h-8 twbr-rounded hover:twbr-ring-2
+                hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{vehicle_actor.img}}}"
+                alt="Vehicle portrait">
+            </div>
+    {{/if}}
     <div class="twbr-flex-grow twbr-text-center twbr-align-middle twbr-text-lg twbr-relative
             twbr-overflow-clip hover:twbr-overflow-visible">
         <span class="twbr-group">
@@ -30,14 +30,14 @@
             {{/if}}
         </span>
     </div>
-    <div>
+    <div class="twbr-flex">
         {{# if header.img }}
             <img class="brsw-header-img twbr-w-8 twbr-h-8 twbr-rounded hover:twbr-ring-2
                     hover:twbr-ring-offset-1 hover:twbr-cursor-pointer" src="{{{header.img}}}"
                 alt="Item image">
         {{/if}}
         {{# if show_popup_button }}
-            <button class="brsw-popout-button twbr-font-medium twbr-ml-1 twbr-w-8 twbr-align-top
+            <button class="brsw-popout-button twbr-font-medium twbr-ml-1 twbr-w-8 twbr-h-8 twbr-align-top
                     focus:twbr-outline-none twbr-bg-white twbr-rounded twbr-border twbr-border-solid
                     focus:twbr-z-10 focus:twbr-ring-4 focus:twbr-ring-gray-700 twbr-text-gray-800
                     twbr-border-gray-600 hover:twbr-text-white hover:twbr-bg-gray-700"
