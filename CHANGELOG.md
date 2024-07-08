@@ -1,3 +1,8 @@
+# Version 4.1 aka v12 expected bug-fixing
+* Compatibility: Remove lots of warnings and old uses of data (should fix some bugs also).
+* Bug: Solve an icon misalignment in the vehicle sheet.
+* Bugfix: Make modifiers with dice value work again (there can be some places left where it doesn't). 
+
 # Version 4.0 aka Welcome v12
 * Compatibility: v12 Compatible
 * Actions: Create the "replaceExisting" world action (Dan Brown)
