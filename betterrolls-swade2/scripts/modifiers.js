@@ -15,9 +15,6 @@ export class TraitModifier {
       if (expression.indexOf("d") > 0) {
         // This is a die expression
         this.dice = new Roll(expression);
-        this.dice.evaluate().then(() => {
-          this.value = parseInt(this.dice.result);
-        });
       } else {
         // sourcery skip: no-eval
         this.value = eval(expression); // jshint ignore:line
@@ -25,6 +22,13 @@ export class TraitModifier {
     } else {
       // Add float this support
       this.value = parseFloat(expression);
+    }
+  }
+
+  async evaluate() {
+    if (this.dice) {
+      await this.dice.evaluate();
+      this.value = parseInt(this.dice.result);
     }
   }
 

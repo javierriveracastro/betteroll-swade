@@ -212,12 +212,12 @@ export function activate_common_listeners(br_card, html) {
       .click(async () => {
         await manage_sheet(br_card.actor);
       });
-      html_jquery
-        .find(".brws-vehicle-img")
-        .addClass("bound")
-        .click(async () => {
-          await manage_sheet(br_card.vehicle_actor);
-        });
+    html_jquery
+      .find(".brws-vehicle-img")
+      .addClass("bound")
+      .click(async () => {
+        await manage_sheet(br_card.vehicle_actor);
+      });
     html_jquery.find(".br2-unshake-card").on("click", () => {
       create_unshaken_card(br_card.message, undefined).catch(() => {
         console.error("BR2 unable to show unshaken card");
@@ -758,7 +758,10 @@ async function get_new_roll_options(
   if (!objetive) {
     canvas.tokens.controlled.forEach((token) => {
       // noinspection JSUnresolvedVariable
-      if (token.actor !== br_card.actor && token.actor !== br_card.vehicle_actor) {
+      if (
+        token.actor !== br_card.actor &&
+        token.actor !== br_card.vehicle_actor
+      ) {
         objetive = token;
       }
     });
@@ -847,15 +850,13 @@ async function get_new_roll_options(
   if (br_card.vehicle_actor) {
     let vehicle = br_card.vehicle_actor;
     let handling = vehicle.system.handling;
-    handling -= Math.max(vehicle.system.wounds.value - vehicle.system.wounds.ignored, 0);
+    handling -= Math.max(
+      vehicle.system.wounds.value - vehicle.system.wounds.ignored,
+      0,
+    );
     handling = Math.max(handling, -4); //Handling cannot be lower than -4
     if (handling != 0) {
-      roll_options.modifiers.push(
-        new TraitModifier(
-          "Handling",
-          handling,
-        ),
-      );
+      roll_options.modifiers.push(new TraitModifier("Handling", handling));
     }
   }
 }
@@ -881,12 +882,12 @@ function get_reroll_options(br_card, extra_data) {
   }
   // Modifiers from actions
   if (extra_data.reroll_modifier) {
-    br_card.trait_roll.modifiers.push(
-      new TraitModifier(
-        `${extra_data.reroll_modifier.name} (reroll)`,
-        extra_data.reroll_modifier.value,
-      ),
+    const new_modifier = new TraitModifier(
+      `${extra_data.reroll_modifier.name} (reroll)`,
+      extra_data.reroll_modifier.value,
     );
+    new_modifier.evaluate();
+    br_card.trait_roll.modifiers.push(new_modifier);
   }
 }
 
@@ -1093,6 +1094,7 @@ async function add_modifier(br_card, modifier) {
   if (modifier.value) {
     let name = modifier.label || game.i18n.localize("BRSW.ManuallyAdded");
     let new_mod = new TraitModifier(name, modifier.value);
+    await new_mod.evaluate();
     if (game.dice3d && new_mod.dice) {
       let users = null;
       if (br_card.message.whisper.length > 0) {
@@ -1280,6 +1282,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
   // noinspection JSUnresolvedVariable
   if (action.skillMod) {
     let modifier = new TraitModifier(action_name, action.skillMod);
+    modifier.evaluate();
     if (extra_data.modifiers) {
       extra_data.modifiers.push(modifier);
     } else {

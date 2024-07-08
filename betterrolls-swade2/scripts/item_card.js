@@ -914,12 +914,12 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
   }
   // Item properties tab
   if (br_message.item.system.actions.traitMod) {
-    extra_data.modifiers.push(
-      new TraitModifier(
-        game.i18n.localize("BRSW.ItemPropertiesTraitMod"),
-        br_message.item.system.actions.traitMod,
-      ),
+    const new_modifier = new TraitModifier(
+      game.i18n.localize("BRSW.ItemPropertiesTraitMod"),
+      br_message.item.system.actions.traitMod,
     );
+    await new_modifier.evaluate();
+    extra_data.modifiers.push(new_modifier);
   }
   // Item global modifiers
   if (
@@ -1249,7 +1249,7 @@ function joker_modifiers(br_card, damage_roll) {
   }
 }
 
-function get_damage_mods_from_actions(
+async function get_damage_mods_from_actions(
   br_card,
   damage_formulas,
   damage_roll,
@@ -1264,9 +1264,9 @@ function get_damage_mods_from_actions(
       let action_name = action.code.name.includes("BRSW.")
         ? game.i18n.localize(action.code.name)
         : action.code.name;
-      damage_roll.brswroll.modifiers.push(
-        new DamageModifier(action_name, action.code.dmgMod),
-      );
+      const new_modifier = new DamageModifier(action_name, action.code.dmgMod);
+      await new_modifier.evaluate();
+      damage_roll.brswroll.modifiers.push(new_modifier);
     }
     if (action.code.dmgOverride) {
       damage_formulas.damage = action.code.dmgOverride;
@@ -1353,19 +1353,19 @@ export async function roll_dmg(
   joker_modifiers(br_card, damage_roll);
   // Item properties tab
   if (item.system.actions.dmgMod) {
-    damage_roll.brswroll.modifiers.push(
-      new DamageModifier(
-        game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
-        item.system.actions.dmgMod,
-      ),
+    const new_modifier = new DamageModifier(
+      game.i18n.localize("BRSW.ItemPropertiesDmgMod"),
+      item.system.actions.dmgMod,
     );
+    await new_modifier.evaluate();
+    damage_roll.brswroll.modifiers.push(new_modifier);
   }
   // Minimum strength
   if (item.system.minStr) {
     calc_min_str_penalty(item, actor, damage_formulas, damage_roll);
   }
   // Actions
-  get_damage_mods_from_actions(
+  await get_damage_mods_from_actions(
     br_card,
     damage_formulas,
     damage_roll,
@@ -1818,7 +1818,7 @@ async function execute_macro(action, br_card) {
       { toast: true },
     );
   }
-  //System uses item actor if macroActor is set to 'self' or the first selected tokens actor if not.
+  //The System uses an item actor if macroActor is set to 'self' or the first selected tokens actor if not.
   const targetActor =
     action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
       ? br_card.actor
