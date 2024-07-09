@@ -136,6 +136,10 @@
   width:100%;
 }
 
+.twbr-min-w-8 {
+  min-width:2rem;
+}
+
 .twbr-flex-grow {
   flex-grow:1;
 }
