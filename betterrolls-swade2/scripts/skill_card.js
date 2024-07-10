@@ -272,7 +272,11 @@ export function calculate_distance(
     target_token.center,
     { gridSpaces: use_grid_calc },
   );
-  if (distance < grid_unit * 2 && item) {
+  console.log(distance);
+  if (
+    distance / grid_unit < SettingsUtils.getWorldSetting("meleeDistance") + 1 &&
+    item
+  ) {
     use_parry_as_tn = item.type !== "power";
   } else if (item) {
     const range = item.system.range.split("/");
