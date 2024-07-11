@@ -29,12 +29,14 @@ import {
   makeExplotable,
   set_or_update_condition,
   simple_form,
+  broofa,
 } from "./utils.js";
 import { create_damage_card } from "./damage_card.js";
 import { ATTRIBUTES_TRANSLATION_KEYS } from "./attribute_card.js";
 import { get_enabled_gm_actions, get_gm_modifiers } from "./gm_modifiers.js";
 import { BrCommonCard } from "./BrCommonCard.js";
 import { DamageModifier, TraitModifier } from "./modifiers.js";
+import { brAction } from "./actions.js";
 
 const ARCANE_SKILLS = [
   "faith",
@@ -502,10 +504,23 @@ async function roll_resist(trait, br_card, trait_mod) {
     new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
     new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
     if (!isNaN(trait_mod)) {
-      console.warn("Here we should do something to support resist mods");
+      const localiced_name = game.i18n.localize("BRSW.ResistingRoll");
+      const resist_action = new brAction(localiced_name, {
+        id: broofa(),
+        button_name: localiced_name,
+        skillMod: trait_mod,
+      });
+      resist_action.selected = true;
+      new_card.action_groups.resist_button = {
+        defaultChecked: "on",
+        name: localiced_name,
+        id: broofa(),
+        single_choice: false,
+        actions: [resist_action],
+      };
     }
-    new_card.render();
-    new_card.save();
+    await new_card.render();
+    await new_card.save();
   }
 }
 
