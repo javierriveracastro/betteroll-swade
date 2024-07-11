@@ -272,7 +272,6 @@ export function calculate_distance(
     target_token.center,
     { gridSpaces: use_grid_calc },
   );
-  console.log(distance);
   if (
     distance / grid_unit < SettingsUtils.getWorldSetting("meleeDistance") + 1 &&
     item
