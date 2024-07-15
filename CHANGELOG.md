@@ -1,3 +1,9 @@
+# Version 4.2 aka little things.
+* Bugfix: Add min_with to header icons to avoid stretching when there are long skill or item names.
+* Refactoring: Make the header css simpler.
+* Griddles: Make the distance calculation used to use parry as tn for a shot use the melee distance setting (only useful when playing gridless)
+* Bugfix: Resist rolls now support trait modifiers.
+
 # Version 4.1 aka v12 expected bug-fixing
 * Compatibility: Remove lots of warnings and old uses of data (should fix some bugs also).
 * Bug: Solve an icon misalignment in the vehicle sheet.
