@@ -1303,7 +1303,7 @@ async function get_damage_mods_from_actions(
       damage_formulas.ap = action.code.overrideAp;
     }
     if (action.code.apMod) {
-      damage_formulas.ap += action.code.apMod;
+      damage_formulas.ap += parseInt(action.code.apMod);
     }
     if (action.code.rerollDamageMod && expend_bennie) {
       damage_roll.brswroll.modifiers.push(
