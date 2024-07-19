@@ -502,6 +502,9 @@
   "BRSW.PopoutChatButtonHint": "Add another button to the head of the cards allowing you to popout easier",
   "BRSW.PopoutCard": "Popout this card",
   "BRSW.NoActionsSelected": "No actions selected",
+  "BRSW.ShowPPShotsSetting": "Show shots or powerpoints in the card",
+  "BRSW.ShowPPShotsSettingHint": "This adds visible info in the card about the situation of the powers or shots when the card is displayed",
+  "BRSW.ShowPPShotsLabel": "Show shots in card",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]

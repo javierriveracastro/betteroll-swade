@@ -24,9 +24,7 @@ import {
   expose_item_functions,
   activate_item_card_listeners,
 } from "./item_card.js";
-import {
-  activate_vehicle_listeners,
-} from "./vehicle_card.js";
+import { activate_vehicle_listeners } from "./vehicle_card.js";
 import { activate_damage_card_listeners } from "./damage_card.js";
 import { SettingsConfig } from "./settings_config.js";
 import {
@@ -359,87 +357,7 @@ Hooks.on("renderSwadeVehicleSheet", (app, html, _) => {
 
 // Settings
 
-function register_settings_version2() {
-  //Register menus
-  SettingsUtils.registerMenu("settings", {
-    name: "Configure Settings",
-    hint: "",
-    label: "Settings",
-    icon: "fas fa-cog",
-    type: SettingsConfig,
-  });
-  SettingsUtils.registerMenu("system_global_actions", {
-    name: "BRSW.SystemGlobalMenu",
-    label: "BRSW.SystemGlobalMenuLabel",
-    hint: "BRSW.SystemGlobalMenuHint",
-    type: SystemGlobalConfiguration,
-  });
-  SettingsUtils.registerMenu("world_global-Menus", {
-    name: "BRSW.WorldGlobalMenu",
-    label: "BRSW.WorldGlobalMenuLabel",
-    hint: "BRSW.WorldGlobalMenuHint",
-    type: WorldGlobalActions,
-  });
-  SettingsUtils.registerMenu("optional_rules", {
-    name: "BRSW.OptionalRules",
-    label: "BRSW.OptionalRulesLabel",
-    hint: "BRSW.OptionalRulesHint",
-    type: OptionalRulesConfiguration,
-  });
-  SettingsUtils.registerMenu("chat_modifiers_menu", {
-    name: "BRSW.ChatModifiersMenu",
-    label: "BRSW.ChatModifiersMenu",
-    hint: "BRSW.ChatModifiersMenuHint",
-    type: ModifierSettingsConfiguration,
-  });
-
-  // Register core settings. These should be config:false settings only. Everything else should be a world or user setting
-  SettingsUtils.registerSetting(SETTING_KEYS.world_settings, {
-    name: "World Settings",
-    hint: "Collection of world settings",
-    scope: "world",
-    type: Object,
-    default: WORLD_SETTINGS,
-  });
-  SettingsUtils.registerSetting("system_action_disabled", {
-    name: "System_Actions_disabled",
-    default: [],
-    type: Array,
-    scope: "world",
-    config: false,
-  });
-  SettingsUtils.registerSetting("optional_rules_enabled", {
-    name: "Optional rules enabled",
-    default: [],
-    type: Array,
-    scope: "world",
-    config: false,
-  });
-  SettingsUtils.registerSetting("world_global_actions", {
-    name: "World global actions",
-    default: [],
-    type: Array,
-    config: false,
-    scope: "world",
-  });
-  SettingsUtils.registerSetting("wound-cap", {
-    name: game.i18n.localize("BRSW.WoundCap"),
-    hint: game.i18n.localize("BRSW.WoundCapHint"),
-    default: 0,
-    scope: "world",
-    type: Number,
-    config: false,
-  });
-  SettingsUtils.registerSetting("chat_modifiers_names", {
-    name: "Chat Modifiers Names",
-    hint: "",
-    default: { GM: "", Trait: "", Damage: "", ROF: "" },
-    scope: "world",
-    type: Object,
-    config: false,
-  });
-
-  //Register BR2 world settings
+function register_world_settings() {
   const br_choices = {
     system: game.i18n.localize("BRSW.Default_system_roll"),
     card: game.i18n.localize("BRSW.Show_Betterrolls_card"),
@@ -574,7 +492,95 @@ function register_settings_version2() {
     type: Number,
     default: 500,
   });
+  SettingsUtils.registerBR2WorldSetting("show_pp_shots_info", {
+    name: "BRSW.ShowPPShotsSetting",
+    label: "BRSW.ShowPPShotsSettingLabel",
+    hint: "BRSW.ShowPPShotsSettingHint",
+    type: Boolean,
+    default: false,
+  });
+}
 
+function register_settings_version2() {
+  //Register menus
+  SettingsUtils.registerMenu("settings", {
+    name: "Configure Settings",
+    hint: "",
+    label: "Settings",
+    icon: "fas fa-cog",
+    type: SettingsConfig,
+  });
+  SettingsUtils.registerMenu("system_global_actions", {
+    name: "BRSW.SystemGlobalMenu",
+    label: "BRSW.SystemGlobalMenuLabel",
+    hint: "BRSW.SystemGlobalMenuHint",
+    type: SystemGlobalConfiguration,
+  });
+  SettingsUtils.registerMenu("world_global-Menus", {
+    name: "BRSW.WorldGlobalMenu",
+    label: "BRSW.WorldGlobalMenuLabel",
+    hint: "BRSW.WorldGlobalMenuHint",
+    type: WorldGlobalActions,
+  });
+  SettingsUtils.registerMenu("optional_rules", {
+    name: "BRSW.OptionalRules",
+    label: "BRSW.OptionalRulesLabel",
+    hint: "BRSW.OptionalRulesHint",
+    type: OptionalRulesConfiguration,
+  });
+  SettingsUtils.registerMenu("chat_modifiers_menu", {
+    name: "BRSW.ChatModifiersMenu",
+    label: "BRSW.ChatModifiersMenu",
+    hint: "BRSW.ChatModifiersMenuHint",
+    type: ModifierSettingsConfiguration,
+  });
+
+  // Register core settings. These should be config:false settings only. Everything else should be a world or user setting
+  SettingsUtils.registerSetting(SETTING_KEYS.world_settings, {
+    name: "World Settings",
+    hint: "Collection of world settings",
+    scope: "world",
+    type: Object,
+    default: WORLD_SETTINGS,
+  });
+  SettingsUtils.registerSetting("system_action_disabled", {
+    name: "System_Actions_disabled",
+    default: [],
+    type: Array,
+    scope: "world",
+    config: false,
+  });
+  SettingsUtils.registerSetting("optional_rules_enabled", {
+    name: "Optional rules enabled",
+    default: [],
+    type: Array,
+    scope: "world",
+    config: false,
+  });
+  SettingsUtils.registerSetting("world_global_actions", {
+    name: "World global actions",
+    default: [],
+    type: Array,
+    config: false,
+    scope: "world",
+  });
+  SettingsUtils.registerSetting("wound-cap", {
+    name: game.i18n.localize("BRSW.WoundCap"),
+    hint: game.i18n.localize("BRSW.WoundCapHint"),
+    default: 0,
+    scope: "world",
+    type: Number,
+    config: false,
+  });
+  SettingsUtils.registerSetting("chat_modifiers_names", {
+    name: "Chat Modifiers Names",
+    hint: "",
+    default: { GM: "", Trait: "", Damage: "", ROF: "" },
+    scope: "world",
+    type: Object,
+    config: false,
+  });
+  register_world_settings();
   //Register BR2 user settings
   SettingsUtils.registerBR2UserSetting("default_rate_of_fire", {
     name: game.i18n.localize("BRSW.Default_rate_of_fire"),
