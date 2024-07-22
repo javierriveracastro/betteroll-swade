@@ -27,10 +27,6 @@
   z-index:50;
 }
 
-.twbr-m-0 {
-  margin:0px;
-}
-
 .twbr-m-0\.5 {
   margin:0.125rem;
 }
@@ -304,11 +300,6 @@
   padding:1.25rem;
 }
 
-.twbr-px-0 {
-  padding-left:0px;
-  padding-right:0px;
-}
-
 .twbr-px-0\.5 {
   padding-left:0.125rem;
   padding-right:0.125rem;
@@ -317,11 +308,6 @@
 .twbr-px-1 {
   padding-left:0.25rem;
   padding-right:0.25rem;
-}
-
-.twbr-px-2 {
-  padding-left:0.5rem;
-  padding-right:0.5rem;
 }
 
 .twbr-px-2\.5 {
@@ -337,11 +323,6 @@
 .twbr-px-5 {
   padding-left:1.25rem;
   padding-right:1.25rem;
-}
-
-.twbr-py-0 {
-  padding-top:0px;
-  padding-bottom:0px;
 }
 
 .twbr-py-0\.5 {
