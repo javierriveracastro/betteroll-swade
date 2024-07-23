@@ -170,6 +170,10 @@
   margin-bottom:calc(0.5rem * var(--tw-space-y-reverse));
 }
 
+.twbr-self-center {
+  align-self:center;
+}
+
 .twbr-overflow-clip {
   overflow:clip;
 }

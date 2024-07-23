@@ -20,6 +20,7 @@
         {{# if ammo }}
             <span>
                 <span class="brws-common-modifiers brsw-form twbr-flex">
+                    <span class="twbr-self-center">{{ shots_pp_info }}</span>
                     <img src="modules/betterrolls-swade2/assets/bullet.svg" alt="ammo" title="{{ localize 'BRSW.SubtractAmmo' }}"
                          class="twbr-w-6 brsw-ammo-toggle twbr-cursor-pointer twbr-border twbr-border-solid
                             twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2
@@ -35,7 +36,8 @@
             </span>
         {{/if}}
         {{# if powerpoints}}
-            <span class="brws-common-modifiers brsw-form flex">
+            <span class="brws-common-modifiers brsw-form twbr-flex">
+                <span class="twbr-self-center">{{ shots_pp_info }}</span>
                 <img src="modules/betterrolls-swade2/assets/electric.svg" alt="power point" title="{{ localize 'BRSW.SubtractPP' }}"
                      class="twbr-w-6 brsw-pp-toggle twbr-cursor-pointer twbr-border twbr-border-solid
                         twbr-border-slate-400 twbr-m-1 twbr-rounded hover:twbr-ring-2 hover:twbr-ring-offset-1

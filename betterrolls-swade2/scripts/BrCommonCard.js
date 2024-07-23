@@ -620,8 +620,8 @@ export class BrCommonCard {
     data.has_feet_buttons = this.has_feet_buttons;
     data.skill_tooltip = this.skill_tooltip;
     data.show_popup_button = SettingsUtils.getUserSetting("popout_chat_button");
-    data.shots_pp_info = SettingsUtils.getUserSetting("show_pp_shots_info")
-      ? "place/place"
+    data.shots_pp_info = SettingsUtils.getWorldSetting("show_pp_shots_info")
+      ? this.item_shots
       : "";
     return data;
   }
@@ -638,6 +638,22 @@ export class BrCommonCard {
       }
     }
     return null;
+  }
+
+  get item_shots() {
+    if (!this.item) {
+      return;
+    }
+    if (this.item.system.pp) {
+      if (
+        this.actor.system.powerPoints.hasOwnProperty(this.item.system.arcane) &&
+        this.actor.system.powerPoints[this.item.system.arcane].max
+      ) {
+        return `${this.actor.system.powerPoints[this.item.system.arcane].value}/${this.actor.system.powerPoints[this.item.system.arcane].max}`;
+      }
+      return `${this.actor.system.powerPoints.general.value}/${this.actor.system.powerPoints.general.max}`;
+    }
+    return `${this.item.system.currentShots}/${this.item.system.shots}`;
   }
 
   /**
