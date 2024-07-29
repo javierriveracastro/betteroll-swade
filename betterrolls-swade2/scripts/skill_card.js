@@ -54,6 +54,7 @@ export const THROWING_SKILLS = [
  * @param {string} skill_id The id of the skill that we want to show
  * @param {object} actions_stored An object with action ids as properties
  *   and a boolean meaning if they need to set on or off
+ * @param {SwadeActor} vehicle
  * @return {Promise} A promise for the ChatMessage object
  */
 async function create_skill_card(
@@ -517,27 +518,24 @@ function calculate_gangUp(attacker, target) {
       (t) =>
         t.id !== attacker.id &&
         t.document.disposition === attacker.document.disposition &&
-        t?.actor?.system.status.isStunned === false &&
         t.visible &&
         withinRange(target, t, item_range) &&
-        !t.combatant?.defeated,
+        combatant_gives_gangup(t.combatant, t.actor),
     );
     enemies_within_range_of_target = canvas.tokens.placeables.filter(
       (t) =>
         t.id !== target.id &&
         t.document.disposition === attacker.document.disposition * -1 &&
-        t?.actor?.system.status.isStunned === false &&
         withinRange(target, t, item_range) &&
-        !t.combatant?.defeated,
+        combatant_gives_gangup(t.combatant, t.actor),
     );
     //alliedWithinRangeOfTargetAndAttacker intersection with attacker and target
     enemies_within_range_both_attacker_target =
       enemies_within_range_of_target.filter(
         (t) =>
           t.document.disposition === attacker.document.disposition * -1 &&
-          t?.actor?.system.status.isStunned === false &&
           withinRange(attacker, t, item_range) &&
-          !t.combatant?.defeated,
+          combatant_gives_gangup(t.combatant, t.actor),
       );
     const formation_fighter_name = game.i18n
       .localize("BRSW.EdgeName-FormationFighter")
@@ -737,4 +735,18 @@ export async function find_illumination_penalty(
     }
   }
   return illuminationPenalty;
+}
+
+/**
+ * Check if a combatant is able to contribute to gang-up
+ * @param {Combatant} combatant
+ * @param {SwadeActor} actor
+ */
+function combatant_gives_gangup(combatant, actor) {
+  let unable_to_contribute =
+    actor.system.status.isStunned || actor.statuses.has("incapacitated");
+  if (combatant) {
+    unable_to_contribute = unable_to_contribute || combatant.defeated;
+  }
+  return !unable_to_contribute;
 }
