@@ -1,3 +1,9 @@
+# Version 4.3 aka Incapacitated is as good as defeated
+* Cards: Added a setting to show shots and powerpoints in the card.
+* Bugfix: Make sure that APMod is an int.
+* Dependencies: Updated tailwind to 3.3.3
+* Cards: Now incapacitated tokens don't count for gangup
+
 # Version 4.2 aka little things.
 * Bugfix: Add min_with to header icons to avoid stretching when there are long skill or item names.
 * Refactoring: Make the header css simpler.
