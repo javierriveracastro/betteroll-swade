@@ -943,9 +943,7 @@ function set_wild_die_theme(wildDie) {
     foundry.utils.setProperty(wildDie, "options.appearance.system", dieSystem);
   }
   // Get the dicePreset for the given die type
-  const dicePreset = game.dice3d?.DiceFactory.systems[dieSystem].dice.find(
-    (d) => d.type === "d" + wildDie.faces,
-  );
+  const dicePreset = game.dice3d?.DiceFactory.systems.get(dieSystem).dice.get("d" + wildDie.faces);
   if (!dicePreset) {
     return;
   }
