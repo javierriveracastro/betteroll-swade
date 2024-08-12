@@ -1,3 +1,6 @@
+# Version 4.4 aka Broken by a Wild die
+* Bugfix: Better rolls is now working with current DSN (David-a-rivera)
+
 # Version 4.3 aka Incapacitated is as good as defeated
 * Cards: Added a setting to show shots and powerpoints in the card.
 * Bugfix: Make sure that APMod is an int.
