@@ -1301,7 +1301,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
     extra_data.rof = action.dice;
   }
   if (action.tnOverride) {
-    if (action.tnOverride.toLowerCase() === "parry" && game.user.targets) {
+    if (isNaN(action.tnOverride) && action.tnOverride.toLowerCase() === "parry" && game.user.targets) {
       extra_data.tn = parseInt(
         game.user.targets.first().actor.system.stats.parry.value,
       );
