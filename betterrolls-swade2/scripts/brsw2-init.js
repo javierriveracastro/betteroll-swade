@@ -195,7 +195,7 @@ Hooks.on("renderChatMessage", (message, html) => {
         chat_bar[0].scrollTop = chat_bar[0].scrollHeight;
       }
     }
-    Hooks.call("BRSW-CardRendered");
+    Hooks.call("BRSW-CardRendered", card);
   }
 });
 

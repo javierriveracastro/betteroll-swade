@@ -193,6 +193,11 @@ function check_selector(type, value, item, actor) {
     selected = item.type === value;
   } else if (type === "actor_name") {
     selected = actor.name.toLowerCase().includes(value.toLowerCase());
+  } else if (type === "actor_has_skill") {
+    actor.items.find((item) => {
+      return item.type === 'skill'&&
+        item.name.toLowerCase() === game.i18n.localize(value).toLowerCase()
+    });
   } else if (type === "actor_has_item") {
     const ITEM_TYPES = ["weapon", "armor", "shield", "gear", "consumable"];
     const item = actor.items.find((item) => {
