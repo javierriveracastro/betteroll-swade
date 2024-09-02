@@ -489,13 +489,13 @@ export function get_action_from_click(event) {
  * @param old_options - Options used as default
  */
 export function get_roll_options(old_options) {
-  let modifiers = old_options.additionalMods || [];
-  let dmg_modifiers = old_options.dmgMods || [];
-  let tn = old_options.tn || 4;
-  let tn_reason = old_options.tn_reason || game.i18n.localize("BRSW.Default");
-  let rof = old_options.rof || 1;
+  let modifiers = old_options?.additionalMods || [];
+  let dmg_modifiers = old_options?.dmgMods || [];
+  let tn = old_options?.tn || 4;
+  let tn_reason = old_options?.tn_reason || game.i18n.localize("BRSW.Default");
+  let rof = old_options?.rof || 1;
   // We only check for modifiers when there are no old ones.
-  if (!old_options.hasOwnProperty("additionalMods")) {
+  if (!old_options?.hasOwnProperty("additionalMods")) {
     $(".brsw-chat-form .brws-selectable.brws-selected").each((_, element) => {
       if (element.dataset.type === "modifier") {
         modifiers.push(element.dataset.value);
@@ -1301,7 +1301,7 @@ export function process_common_actions(action, extra_data, macros, actor) {
     extra_data.rof = action.dice;
   }
   if (action.tnOverride) {
-    if (action.tnOverride.toLowerCase() === "parry" && game.user.targets) {
+    if (isNaN(action.tnOverride) && action.tnOverride.toLowerCase() === "parry" && game.user.targets) {
       extra_data.tn = parseInt(
         game.user.targets.first().actor.system.stats.parry.value,
       );

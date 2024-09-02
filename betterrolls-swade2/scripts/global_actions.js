@@ -200,7 +200,7 @@ function check_selector(type, value, item, actor) {
     });
     return !!item;
   } else if (type === "actor_has_item") {
-    const ITEM_TYPES = ["weapon", "armor", "shield", "gear", "consumable"];
+    const ITEM_TYPES = ["skill", "weapon", "armor", "shield", "gear", "consumable"];
     const item = actor.items.find((item) => {
       return (
         ITEM_TYPES.indexOf(item.type) !== -1 &&
@@ -588,6 +588,7 @@ export class WorldGlobalActions extends FormApplication {
         "name",
         "button_name",
         "skillMod",
+        "skillOverride",
         "dmgMod",
         "apMod",
         "dmgOverride",
