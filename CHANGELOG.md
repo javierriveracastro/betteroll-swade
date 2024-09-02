@@ -1,6 +1,6 @@
 # Version 4.5 
-* Actions: Added `actor_has_skill` selector
-* Cards: Added BRCard parameter to BRSW-CardRendered hook
+* Actions: Added `actor_has_skill` selector (David-a-rivera)
+* Cards: Added BRCard parameter to BRSW-CardRendered hook (David-a-rivera)
 
 # Version 4.4 aka Broken by a Wild die
 * Bugfix: Better rolls is now working with current DSN (David-a-rivera)
