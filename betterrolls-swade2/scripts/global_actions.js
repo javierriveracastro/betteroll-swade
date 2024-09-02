@@ -554,7 +554,7 @@ export class WorldGlobalActions extends FormApplication {
         ev.currentTarget.selectionEnd = start + 4;
       }
     });
-    // Activate json check on old actions
+    // Activate JSON check on old actions
     $(".brsw-action-json").on("blur", this.check_json);
     // Export and import
     $(".brsw-export-json").on("click", export_global_actions);
@@ -667,7 +667,7 @@ export class WorldGlobalActions extends FormApplication {
 }
 
 /**
- * Exports custom global actions to a json file.
+ * Exports custom global actions to a JSON file.
  */
 function export_global_actions() {
   let actions = SettingsUtils.getWorldSetting("world_global_actions");
