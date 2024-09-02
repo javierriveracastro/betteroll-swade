@@ -122,6 +122,7 @@ a `selector_value` for a simple selection. You can also use `and_selector` and g
   like `system.advances.value`) and value a value (like 4). This coerces the values using javascript `==`.
 * `item_value`: The same selector as above but for items instead of actors.
 * `item_has_damage`: This will show the action if the item has a damage value. The value is ignored.
+* `actor_has_skill`: This will show the action if the actor has a skill with the same name as the value. For example, `actor_has_skill: "Acrobatics"` would show the action if the actor has a skill named "Acrobatics".
 * `actor_has_item`: This will show the action if the actor has an item with the same name as the value.
 * `actor_equips_item`: This action will appear when the actor has an item (see above) with the same name as the value
   equipped, not just owned.
