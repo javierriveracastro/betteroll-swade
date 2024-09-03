@@ -501,6 +501,8 @@
   "BRSW.PopoutChatButton": "Add a button to the cards to popout",
   "BRSW.PopoutChatButtonHint": "Add another button to the head of the cards allowing you to popout easier",
   "BRSW.PopoutCard": "Popout this card",
+  "BRSW.No_Action_Message": "No actions selected message",
+  "BRSW.No_Action_Message_Hint": "Set the message to show the player's when no action was selected",
   "BRSW.NoActionsSelected": "No actions selected",
   "BRSW.ShowPPShotsSetting": "Show shots or powerpoints in the card",
   "BRSW.ShowPPShotsSettingHint": "This adds visible info in the card about the situation of the powers or shots when the card is displayed",

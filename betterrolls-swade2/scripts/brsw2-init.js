@@ -393,6 +393,12 @@ function register_world_settings() {
     type: String,
     choices: br_choices,
   });
+  SettingsUtils.registerBR2WorldSetting("no-action-message", {
+    name: game.i18n.localize("BRSW.No_Action_Message"),
+    hint: game.i18n.localize("BRSW.No_Action_Message_Hint"),
+    default: game.i18n.localize("BRSW.NoActionsSelected"),
+    type: String
+  });
   SettingsUtils.registerBR2WorldSetting("result-card", {
     name: game.i18n.localize("BRSW.See_result_card"),
     hint: game.i18n.localize("BRSW.See_result_hint"),

@@ -617,6 +617,7 @@ export class BrCommonCard {
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
+    data.no_actions_message = SettingsUtils.getWorldSetting("no-action-message");
     data.has_feet_buttons = this.has_feet_buttons;
     data.skill_tooltip = this.skill_tooltip;
     data.show_popup_button = SettingsUtils.getUserSetting("popout_chat_button");
