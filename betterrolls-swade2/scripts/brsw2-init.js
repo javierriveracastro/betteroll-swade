@@ -395,7 +395,7 @@ function register_world_settings() {
   });
   SettingsUtils.registerBR2WorldSetting("no-action-message", {
     name: game.i18n.localize("BRSW.No_Action_Message"),
-    hint: game.i18n.localize("BRSW.No_Action_Message_Hint"),
+    hint: game.i18n.localize("BRSW.No_Action_MessageHint"),
     default: game.i18n.localize("BRSW.NoActionsSelected"),
     type: String
   });
