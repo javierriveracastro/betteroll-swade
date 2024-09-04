@@ -64,7 +64,7 @@ export class SettingsConfig extends FormApplication {
     s.id = s.key;
     s.name = game.i18n.localize(s.name);
     s.hint = game.i18n.localize(s.hint);
-    s.value = s.value !== undefined ? s.value : 
+    s.value = s.value ?? 
         (typeof s.default === 'string' && s.default.startsWith('BRSW.') ? 
             game.i18n.localize(s.default) : 
             s.default
