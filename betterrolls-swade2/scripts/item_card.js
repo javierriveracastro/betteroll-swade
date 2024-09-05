@@ -335,7 +335,7 @@ function preview_template(ev, br_card) {
     direction: 0,
     x: 0,
     y: 0,
-    fillColor: game.user.data.color,
+    fillColor: game.user.color,
   };
   const type = ev.currentTarget.dataset.size;
   if (type === "cone") {
@@ -350,7 +350,7 @@ function preview_template(ev, br_card) {
     templateData.distance = type === "sbt" ? 1 : type === "mbt" ? 2 : 3;
   }
   // Adjust to grid distance
-  if (canvas.grid.grid.options.dimensions.distance % 5 === 0) {
+  if (canvas.grid.distance % 5 === 0) {
     templateData.distance *= 5;
   }
   // noinspection JSPotentiallyInvalidConstructorUsage
@@ -660,7 +660,7 @@ async function displayRemainingCard(content) {
 }
 
 /**
- * Discount pps from an actor (c) Javier or Arcane Device (c) Salieri
+ * Discount pps from an actor © Javier or Arcane Device © Salieri
  *
  * @param {BrCommonCard} br_card
  * @param pp_override
@@ -1683,7 +1683,7 @@ function modify_power_points(number, mode, actor, item) {
 }
 
 /**
- * Function to manually manage power points (c) SalieriC
+ * Function to manually manage power points © SalieriC
  * @param {SwadeActor} actor
  * @param {function} actor.update
  * @param {Item} item
