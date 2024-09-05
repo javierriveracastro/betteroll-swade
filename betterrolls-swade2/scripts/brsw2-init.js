@@ -174,12 +174,16 @@ Hooks.on("renderChatMessage", (message, html) => {
       activate_remove_status_card_listeners(card, html, card.type);
     }
     // Hide forms to non-master, non owner
-    if (game.user.id !== message.user.id && !game.user.isGM) {
+    if (!message.isOwner) {
       html.find(".brsw-form").addClass("brsw-collapsed");
     }
     // Hide master only sections
     if (!game.user.isGM) {
       html.find(".brsw-master-only").remove();
+    }    
+    // Hide save macro button from non-owner, non-trusted players
+    if (!message.isOwner && !game.user.isTrusted) {
+      html.find(".brsw-owner-trusted-only").remove();
     }
     if (Object.keys(message.apps).length < 1) {
       // Don't create popout when rendering popouts.
