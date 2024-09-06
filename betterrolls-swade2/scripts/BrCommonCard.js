@@ -697,7 +697,6 @@ export class BrCommonCard {
         token: this.token?.id,
         alias: this.actor.name,
       },
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       blind: whisper_data.blind,
       flags: { core: { canPopout: true } },
     };
