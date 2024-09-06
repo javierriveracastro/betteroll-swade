@@ -258,6 +258,11 @@ export function activate_damage_card_listeners(message, html) {
       console.error("Error creating incapacitation card");
     });
   });
+  html.find(".brsw-mark-defeated").click(async () => {
+    await game.succ.removeCondition("incapacitated", br_card.token);
+    await game.succ.removeCondition("bleeding-out", br_card.token);
+    await game.succ.addCondition("dead", br_card.token);
+  });
   html.find(".brsw-injury-button").click(() => {
     // noinspection JSIgnoredPromiseFromCall
     create_injury_card(br_card.token_id, "gritty");
