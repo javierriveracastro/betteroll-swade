@@ -1,6 +1,10 @@
 # Version 4.5 
 * Actions: Added `actor_has_skill` selector (David-a-rivera)
 * Cards: Added BRCard parameter to BRSW-CardRendered hook (David-a-rivera)
+* Bugfix: Fix an error in tnOverride (David-a-rivera)
+* Actions: Add support for skill override (David-a-rivera)
+* Bugfix: Save macro button is now only visible for card owners and trusted players (Dan Brown)
+* Bugfix: Template placement is working again.
 
 # Version 4.4 aka Broken by a Wild die
 * Bugfix: Better rolls is now working with current DSN (David-a-rivera)
