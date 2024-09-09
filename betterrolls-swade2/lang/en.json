@@ -447,7 +447,7 @@
   "BRSW.TargetHasDodgeWeapon": "has Dodge (weapon)",
   "BRSW.TempInjury": ", and has suffered a temporary injury (goes away when all wounds are cured).</p>",
   "BRSW.TempInjury24": ", and has suffered an injury that goes away in 24 hours or when all wounds are healed</p>",
-  "BRSW.PermamentInjuryName": " (Permanent)",
+  "BRSW.PermanentInjuryName": " (Permanent)",
   "BRSW.TempInjuryName": " (Temporary)",
   "BRSW.TempInjury24Name": " (Temporary 24h)",
   "BRSW.Testing_fumbles": "Testing for Critical Failure",
