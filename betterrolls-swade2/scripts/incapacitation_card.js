@@ -254,7 +254,11 @@ export async function create_injury_card(token_id, reason) {
     new_effect = { ...INJURY_ACTIVE_EFFECT[active_effect_index] };
     new_effect.name = game.i18n.localize(first_result);
     if (second_result) {
-      new_effect.name = game.i18n.localize(second_result) + " " + new_effect.name;
+      if (first_result == "BRSW.Guts") {
+        new_effect.name = game.i18n.localize(second_result) + " " + new_effect.name;
+      } else {
+        new_effect.name = game.i18n.localize(second_result);
+      }
     }
     const injury_duration_name = (reason == "permanent" ? "BRSW.PermanentInjuryName" : reason == "temporal-wounds" ? "BRSW.TempInjuryName" : "BRSW.TempInjury24Name");
     new_effect.name = new_effect.name + game.i18n.localize(injury_duration_name);
