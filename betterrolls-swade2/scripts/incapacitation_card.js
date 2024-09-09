@@ -257,6 +257,8 @@ export async function create_injury_card(token_id, reason) {
     } else {
       new_effect.name = game.i18n.localize(first_result);
     }
+    const injuryDurationName = (reason == "permanent" ? "BRSW.PermamentInjuryName" : reason == "temporal-wounds" ? "BRSW.TempInjuryName" : "BRSW.TempInjury24Name");
+    new_effect.name = new_effect.name + game.i18n.localize(injuryDurationName);
     new_effect.icon = "/systems/swade/assets/icons/skills/medical-pack.svg";
     injury_effect = await actor.createEmbeddedDocuments("ActiveEffect", [
       new_effect,
