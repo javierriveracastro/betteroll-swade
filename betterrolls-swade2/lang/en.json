@@ -511,6 +511,8 @@
   "BRSW.ShowPPShotsSetting": "Show shots or powerpoints in the card",
   "BRSW.ShowPPShotsSettingHint": "This adds visible info in the card about the situation of the powers or shots when the card is displayed",
   "BRSW.ShowPPShotsLabel": "Show shots in card",
+  "BRSW.AutoCheckFumbles": "Check for Extra Critical Failures",
+  "BRSW.AutoCheckFumblesHint": "When enabled, if an Extra rolls on 1 on their Trait roll, another d6 will automatically be rolled to check if it's a Critical Failure",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]

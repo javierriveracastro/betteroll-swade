@@ -509,6 +509,12 @@ function register_world_settings() {
     type: Boolean,
     default: false,
   });
+  SettingsUtils.registerBR2WorldSetting(SETTING_KEYS.auto_check_extra_fumbles, {
+    name: "BRSW.AutoCheckFumbles",
+    hint: "BRSW.AutoCheckFumblesHint",
+    type: Boolean,
+    default: true,
+  });
 }
 
 function register_settings_version2() {

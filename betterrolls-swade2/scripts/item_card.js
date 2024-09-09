@@ -5,7 +5,7 @@
 import {
   BRSW_CONST,
   BRWSRoll,
-  calculate_results,
+  calculate_damage_results,
   check_and_roll_conviction,
   create_common_card,
   get_action_from_click,
@@ -1201,10 +1201,7 @@ async function roll_dmg_target(
     // noinspection ES6MissingAwait
     await game.dice3d.showForRoll(roll, game.user, true, users, message.blind);
   }
-  current_damage_roll.damage_result = await calculate_results(
-    current_damage_roll.brswroll.rolls,
-    true,
-  );
+  current_damage_roll.damage_result = await calculate_damage_results(current_damage_roll.brswroll.rolls);
   return current_damage_roll;
 }
 
@@ -1491,10 +1488,7 @@ async function add_damage_dice(br_card, index) {
     });
     damage_rolls.dice.push(new_die);
   });
-  render_data.damage_rolls[index].damage_result = await calculate_results(
-    damage_rolls.rolls,
-    true,
-  );
+  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
   if (game.dice3d) {
     let damage_theme = SettingsUtils.getUserSetting("damageDieTheme");
     if (damage_theme !== "None") {
@@ -1545,10 +1539,7 @@ async function add_fixed_damage(event, form_results) {
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   damage_rolls.modifiers.push({ value: modifier, name: form_results.Label });
   damage_rolls.rolls[0].result += modifier;
-  render_data.damage_rolls[index].damage_result = await calculate_results(
-    damage_rolls.rolls,
-    true,
-  );
+  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
   await update_message(event.data.message, render_data);
 }
 
@@ -1569,10 +1560,7 @@ async function half_damage(br_card, index) {
     name: game.i18n.localize("BRSW.HalfDamage"),
   });
   damage_rolls.rolls[0].result += half_damage;
-  render_data.damage_rolls[index].damage_result = await calculate_results(
-    damage_rolls.rolls,
-    true,
-  );
+  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
   await update_message(br_card, render_data);
 }
 
@@ -1590,10 +1578,7 @@ async function edit_toughness(br_card, index) {
   damage_rolls[0].armor = defense_values.armor;
   damage_rolls[0].target_id = defense_values.token_id || 0;
   render_data.damage_rolls[index].label = defense_values.name;
-  render_data.damage_rolls[index].damage_result = await calculate_results(
-    damage_rolls,
-    true,
-  );
+  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls);
   // noinspection JSIgnoredPromiseFromCall
   await update_message(br_card, render_data);
 }
