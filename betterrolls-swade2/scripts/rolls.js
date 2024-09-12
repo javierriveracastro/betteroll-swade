@@ -7,11 +7,11 @@ class Die {
   constructor(data) {
     this.sides = 0;
     this.extra_class = ""; // Extra class for rendering this die
-    this.fumble_potential = 1; // 1 = no fumble, 0 = fumble, -1 = critical fumble
     this.raw_total = null; // Number rolled counting explosions
     this.modifiers = 0; // Modifiers to the roll
     this.result = null; // Result (total - target number) usually
     this.label = game.i18n.localize("BRSW.TraitDie");
+    this.wild_die = false;
     if (data) {
       Object.assign(this, data);
     }
@@ -93,7 +93,6 @@ class SingleRoll {
         let new_die = new Die(null);
         if (term.total === 1) {
           new_die.extra_class = " brsw-red-text";
-          new_die.fumble_potential = -1;
         }
         new_die.sides = term.faces;
         new_die.raw_total = term.total;
@@ -104,16 +103,16 @@ class SingleRoll {
     if (wild_die) {
       this.dice[this.dice.length - 1].label =
         game.i18n.localize("SWADE.WildDie");
+        this.dice[this.dice.length - 1].wild_die = wild_die;
     }
   }
 
-  async calculate_results(tn, remove_die) {
-    let result = 0;
+  async calculate_trait_results(tn, has_wild_die) {
     let minimum_value = 10000000;
     let min_position = 0;
-    let fumble_possible = 0;
+    let num_fumble_results = 0;
     for (const [index, roll] of this.dice.entries()) {
-      fumble_possible += roll.fumble_potential;
+      num_fumble_results += roll.raw_total == 1;
       if (roll.raw_total <= minimum_value) {
         min_position = index;
         minimum_value = roll.raw_total;
@@ -122,14 +121,13 @@ class SingleRoll {
     }
     this.remove_discarded_die();
     // Mark the lower die as discarded.
-    if (remove_die && this.dice.length) {
+    if (has_wild_die && this.dice.length) {
       this.dice[min_position].extra_class += " brsw-discarded-roll";
       this.dice[min_position].result = null;
     }
     this.is_fumble = await detect_fumble(
-      remove_die,
-      fumble_possible,
-      result,
+      has_wild_die,
+      num_fumble_results,
       this.dice,
     );
   }
@@ -172,7 +170,7 @@ export class TraitRoll {
   async add_roll(roll) {
     const new_roll = new SingleRoll(null);
     new_roll.add_roll(roll, this.wild_die, this.total_modifiers);
-    await new_roll.calculate_results(this.tn, this.wild_die);
+    await new_roll.calculate_trait_results(this.tn, this.wild_die);
     this.rolls.push(new_roll);
     this.selected_roll_index = this.rolls.indexOf(new_roll);
   }
@@ -220,10 +218,10 @@ export class TraitRoll {
     }
   }
 
-  async calculate_results() {
+  async recalculate_trait_results() {
     this._deep_update_modifiers();
     for (let roll of this.rolls) {
-      await roll.calculate_results(this.tn, this.wild_die);
+      await roll.calculate_trait_results(this.tn, this.wild_die);
     }
   }
 
