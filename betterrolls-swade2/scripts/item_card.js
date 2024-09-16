@@ -883,10 +883,10 @@ export async function roll_item(br_message, html, expend_bennie, roll_damage) {
         shots_override = parseInt(shots_used);
       }
     }
-    process_common_actions(action.code, extra_data, macros, br_message.actor);
+    process_common_actions(action.code, extra_data, macros, br_message.token.actor);
   }
   for (let action of get_enabled_gm_actions()) {
-    process_common_actions(action, extra_data, macros, br_message.actor);
+    process_common_actions(action, extra_data, macros, br_message.token.actor);
   }
   // Check for minimum strength
   if (
