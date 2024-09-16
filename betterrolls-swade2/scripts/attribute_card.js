@@ -163,10 +163,10 @@ export async function roll_attribute(br_card, expend_bennie) {
   let extra_data = { modifiers: [] };
   let macros = [];
   for (let action of br_card.get_selected_actions()) {
-    process_common_actions(action.code, extra_data, macros, br_card.token.actor);
+    process_common_actions(action.code, extra_data, macros, br_card.actor);
   }
   for (let action of get_enabled_gm_actions()) {
-    process_common_actions(action, extra_data, macros, br_card.token.actor);
+    process_common_actions(action, extra_data, macros, br_card.actor);
   }
   if (expend_bennie) {
     await spend_bennie(br_card.actor);
