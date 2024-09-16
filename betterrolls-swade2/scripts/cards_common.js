@@ -93,7 +93,9 @@ export async function create_common_card(origin, render_data, template) {
   let br_message = new BrCommonCard(undefined);
   br_message.actor_id = actor.id;
   if (actor !== origin) {
-    br_message.token_id = origin.id;
+    br_message.token_id = origin.id;  
+  } else if (actor.isToken) {
+    br_message.token_id = actor.token.id;  
   }
   br_message.generate_render_data(render_data, template);
   return br_message;
