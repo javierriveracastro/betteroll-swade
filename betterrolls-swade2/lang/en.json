@@ -447,6 +447,9 @@
   "BRSW.TargetHasDodgeWeapon": "has Dodge (weapon)",
   "BRSW.TempInjury": ", and has suffered a temporary injury (goes away when all wounds are cured).</p>",
   "BRSW.TempInjury24": ", and has suffered an injury that goes away in 24 hours or when all wounds are healed</p>",
+  "BRSW.PermanentInjuryName": " (Permanent)",
+  "BRSW.TempInjuryName": " (Temporary)",
+  "BRSW.TempInjury24Name": " (Temporary 24h)",
   "BRSW.Testing_fumbles": "Testing for Critical Failure",
   "BRSW.TGTargetSelected": "Get toughness from target or selected token",
   "BRSW.TheDrop": "The Drop (+4)",
@@ -508,6 +511,8 @@
   "BRSW.ShowPPShotsSetting": "Show shots or powerpoints in the card",
   "BRSW.ShowPPShotsSettingHint": "This adds visible info in the card about the situation of the powers or shots when the card is displayed",
   "BRSW.ShowPPShotsLabel": "Show shots in card",
+  "BRSW.AutoCheckFumbles": "Check for Extra Critical Failures",
+  "BRSW.AutoCheckFumblesHint": "When enabled, if an Extra rolls on 1 on their Trait roll, another d6 will automatically be rolled to check if it's a Critical Failure",
   "I18N.MAINTAINERS": [
     "Javier Rivera"
   ]

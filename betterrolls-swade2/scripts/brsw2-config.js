@@ -7,6 +7,7 @@ export const MODULE_NAME = "betterrolls-swade2";
 
 export const SETTING_KEYS = {
   world_settings: "world_settings",
+  auto_check_extra_fumbles: "auto_check_extra_fumbles",
 };
 
 export const USER_FLAGS = {

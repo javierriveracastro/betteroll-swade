@@ -30,6 +30,7 @@ import { get_gm_modifiers } from "./gm_modifiers.js";
 import { TraitRoll } from "./rolls.js";
 import { BrCommonCard } from "./BrCommonCard.js";
 import { TraitModifier } from "./modifiers.js";
+import { SETTING_KEYS } from "./brsw2-config.js";
 
 export const BRSW_CONST = {
   TYPE_ATTRIBUTE_CARD: 1,
@@ -92,7 +93,9 @@ export async function create_common_card(origin, render_data, template) {
   let br_message = new BrCommonCard(undefined);
   br_message.actor_id = actor.id;
   if (actor !== origin) {
-    br_message.token_id = origin.id;
+    br_message.token_id = origin.id;  
+  } else if (actor.isToken) {
+    br_message.token_id = actor.token.id;  
   }
   br_message.generate_render_data(render_data, template);
   return br_message;
@@ -538,45 +541,49 @@ export function trait_to_string(trait) {
   return string;
 }
 
-export async function detect_fumble(remove_die, fumble_possible, result, dice) {
-  if (!remove_die && fumble_possible < 1) {
-    let test_fumble_roll = new Roll("1d6");
-    await test_fumble_roll.roll();
-    await test_fumble_roll.toMessage({
-      flavor: game.i18n.localize("BRSW.Testing_fumbles"),
-    });
-    if (test_fumble_roll.total === 1) {
-      return true; // Fumble mark
-    }
-  } else if (
-    remove_die &&
-    fumble_possible < 0 &&
-    dice[dice.length - 1].raw_total === 1
-  ) {
-    return true;
+export async function detect_fumble(has_wild_die, num_fumble_results, dice) {
+  if (num_fumble_results == 0) {
+    //No dice came up as a 1 so it's not possible to fumble
+    return false;
   }
-  return false;
+  if (!has_wild_die) {
+    if (dice.length == 1) {
+      //The extra is only rolling a single trait die and it came up as 1
+      //In this case, we need to roll an extra d6 to confirm if it's a fumble
+      if (!SettingsUtils.getWorldSetting(SETTING_KEYS.auto_check_extra_fumbles)) {
+        //The option to auto-check for fumbles on extras is disabled, so we can return false
+        return false;
+      }
+      let test_fumble_roll = new Roll("1d6");
+      await test_fumble_roll.roll();
+      await test_fumble_roll.toMessage({
+        flavor: game.i18n.localize("BRSW.Testing_fumbles"),
+      });
+      //If the new roll comes up as a 1, it's a fumble
+      return test_fumble_roll.total === 1;
+    }
+  } else {
+    //This roll does have a wild die so we need to check if it came up as a 1
+    const wild_die = dice.find(d => d.wild_die);
+    if (wild_die.raw_total != 1){
+      //It's not possible to fumble unless the wild die is a 1
+      return false;
+    }
+  }
+  //If we made it here, either we're an Extra rolling multiple dice or we're a wild card
+  //To count as a fumble, more than half the results need to be 1s
+  //This also covers the case of a normal Trait+Wild Die roll since it would require both dice to be 1s
+  const fumble_threshold = dice.length / 2;
+  return num_fumble_results > fumble_threshold;
 }
 
 /**
  * Calculates the results of a roll
  * @param {[]} rolls A rolls list see BSWRoll doc
- * @param {boolean} damage True if this is a damage roll
- * @param {boolean} remove_die True to remove a result, that usually means a
- *  trait roll made by a Wild Card
- * @param {Array} dice - The dice array that contains individual dice in a result
  */
-export async function calculate_results(rolls, damage, remove_die, dice) {
+export async function calculate_damage_results(rolls) {
   let result = 0;
-  let minimum_value = 10000000;
-  let min_position = 0;
-  let fumble_possible = 0;
   for (const [index, roll] of rolls.entries()) {
-    fumble_possible += roll.fumble_value;
-    if (roll.result <= minimum_value) {
-      min_position = index;
-      minimum_value = roll.result;
-    }
     result = roll.result - roll.tn;
     if (roll.ap) {
       // We have an AP value, add it to the result
@@ -586,50 +593,22 @@ export async function calculate_results(rolls, damage, remove_die, dice) {
       roll.result_text = game.i18n.localize("BRSW.Failure");
       roll.result_icon = '<i class="brsw-red-text fas fa-minus-circle"></i>';
     } else if (result < 4) {
-      if (damage) {
-        roll.result_text = game.i18n.localize("BRSW.Shaken");
-        roll.result_icon = '<i class="brsw-blue-text fas fa-certificate"></i>';
-      } else {
-        roll.result_text = game.i18n.localize("BRSW.Success");
-        roll.result_icon = '<i class="brsw-blue-text fas fa-check"></i>';
-      }
+      roll.result_text = game.i18n.localize("BRSW.Shaken");
+      roll.result_icon = '<i class="brsw-blue-text fas fa-certificate"></i>';
     } else if (result < 8) {
-      if (damage) {
-        roll.result_text = game.i18n.localize("BRSW.Wound");
-        roll.result_icon = '<i class="brsw-red-text fas fa-tint"></i>';
-      } else {
-        roll.result_text = game.i18n.localize("BRSW.Raise");
-        roll.result_icon = '<i class="brsw-blue-text fas fa-check-double"></i>';
-      }
+      roll.result_text = game.i18n.localize("BRSW.Wound");
+      roll.result_icon = '<i class="brsw-red-text fas fa-tint"></i>';
     } else {
       const raises = Math.floor(result / 4);
-      if (damage) {
-        roll.result_text = game.i18n.localize("BRSW.Wounds") + " " + raises;
-        roll.result_icon =
-          raises.toString() + " " + '<i class="brsw-red-text fas fa-tint"></i>';
-      } else {
-        roll.result_text =
-          game.i18n.localize("BRSW.Raise_plural") + " " + raises;
-        roll.result_icon =
-          raises.toString() +
-          '<i class="brsw-blue-text fas fa-check-double"></i>';
-      }
+      roll.result_text = game.i18n.localize("BRSW.Wounds") + " " + raises;
+      roll.result_icon =
+        raises.toString() + " " + '<i class="brsw-red-text fas fa-tint"></i>';
     }
-  }
-  // Remove lower die.
-  if (remove_die && dice.length) {
-    rolls[min_position].extra_class += " brsw-discarded-roll";
-    rolls[min_position].tn = 0;
-    dice[min_position].extra_class += " brsw-discarded-roll";
-    dice[dice.length - 1].label = game.i18n.localize("SWADE.WildDie");
   }
   if (result < 0) {
     result = 0;
   } else if (result === 0) {
     result = 0.01; // Ugly hack to differentiate from failure
-  }
-  if (!damage) {
-    return await detect_fumble(remove_die, fumble_possible, result, dice);
   }
   return result;
 }
@@ -1064,7 +1043,7 @@ async function old_roll_clicked(event, br_card) {
 async function override_die_result(br_card, die_index, new_value) {
   br_card.trait_roll.current_roll.dice[die_index].raw_total =
     parseInt(new_value);
-  await br_card.trait_roll.current_roll.calculate_results(
+  await br_card.trait_roll.current_roll.recalculate_trait_results(
     br_card.trait_roll.tn,
     br_card.trait_roll.wild_die,
   );
@@ -1107,7 +1086,7 @@ async function add_modifier(br_card, modifier) {
       );
     }
     br_card.trait_roll.modifiers.push(new_mod);
-    await br_card.trait_roll.calculate_results();
+    await br_card.trait_roll.recalculate_trait_results();
     await br_card.render();
     br_card.save().catch(() => {
       console.error("Error saving a card after adding a modifier");
@@ -1122,7 +1101,7 @@ async function add_modifier(br_card, modifier) {
  */
 async function delete_modifier(br_card, index) {
   br_card.trait_roll.modifiers.splice(index, 1);
-  await br_card.trait_roll.calculate_results();
+  await br_card.trait_roll.recalculate_trait_results();
   await br_card.render();
   br_card.save().catch(() => {
     console.error("Error saving a card after deleting a modifier");
@@ -1142,7 +1121,7 @@ async function edit_modifier(br_card, index, new_modifier) {
   if (mod_value) {
     br_card.trait_roll.modifiers[index].label = new_modifier.label;
     br_card.trait_roll.modifiers[index].value = mod_value;
-    await br_card.trait_roll.calculate_results();
+    await br_card.trait_roll.recalculate_trait_results();
     await br_card.render();
     br_card.save().catch(() => {
       console.error("Error saving a card after editing a modifier");
@@ -1162,7 +1141,7 @@ async function edit_tn(br_card, new_tn, reason) {
   if (reason) {
     br_card.trait_roll.tn_reason = reason;
   }
-  await br_card.trait_roll.calculate_results();
+  await br_card.trait_roll.recalculate_trait_results();
   await br_card.render();
   br_card.save().catch(() => {
     console.error("Error saving a card after editing a TN");
@@ -1210,7 +1189,7 @@ async function get_tn_from_target(br_card, index, selected) {
       tn.modifiers,
     );
     br_card.trait_roll
-      .calculate_results()
+      .recalculate_trait_results()
       .then(br_card.render)
       .then(br_card.save)
       .catch(() => {
