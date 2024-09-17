@@ -300,7 +300,7 @@ export class BrCommonCard {
   }
 
   /**
-   * Populates de card with actions
+   * Populates the card with actions
    * @param {object} stored_selections An object with action ids as properties
    *   and a boolean meaning if they need to set on or off
    */
