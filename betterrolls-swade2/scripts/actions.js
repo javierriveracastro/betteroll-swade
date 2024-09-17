@@ -16,7 +16,9 @@ export class brAction {
     }
     this.selected = false;
     this.recreate_skill_damage_mods();
+    // noinspection JSUnusedGlobalSymbols
     this.has_skill_mod = !!(this.code.skillMod || this.code.skillOverride);
+    // noinspection JSUnusedGlobalSymbols
     this.has_damage_mod = !!(
       this.code.dmgMod ||
       this.code.dmgOverride ||

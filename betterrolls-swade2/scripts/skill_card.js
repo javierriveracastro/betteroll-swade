@@ -250,7 +250,7 @@ export function is_shooting_skill(skill) {
 }
 
 /**
- * Calculates de distance between tokens
+ * Calculates the distance between tokens
  * @param origin_token
  * @param target_token
  * @param item
@@ -642,99 +642,6 @@ function withinRange(origin, target, range) {
   let distance = canvas.grid.measureDistance(origin, target);
   distance /= grid_unit;
   return range > distance;
-}
-
-/**
- * Calculates appropriate illumination penalties
- * @param actorToken
- * @param targetToken
- * @param lighting The selected lighting level
- * @param distance The distance between token and target
- */
-export async function find_illumination_penalty(
-  actorToken,
-  targetToken,
-  lighting,
-  distance,
-) {
-  const { actor } = actorToken;
-  let lowLiVision = "Low Light Vision"; //Ignore dim and dark
-  let darkvision = "Darkvision"; //Ignore all up to 10"
-  let blindsense = "Blindsense"; //Ignore all
-  let nightvision = "Nightvision"; //Ignore all
-  let infravision = "Infravision"; //Halves penalties against warm targets
-  let undead = "Undead"; //Ignore all up to 10" (SWPF only)
-  let abilityNames = [
-    lowLiVision,
-    darkvision,
-    blindsense,
-    nightvision,
-    infravision,
-  ];
-  if (SettingsUtils.getWorldSetting("undeadIgnoresIllumination")) {
-    abilityNames.push(undead);
-  }
-  let ownedAbilities = [];
-  for (let abilityName of abilityNames) {
-    if (actor.items.getName(abilityName)) {
-      ownedAbilities = ownedAbilities.push(abilityName);
-    }
-  }
-
-  let effects = actor.appliedEffects;
-  let genericModifier = 0; //Generic modifier to ignore penalties
-  for (let effect of effects) {
-    for (let change of effect.data.changes) {
-      if (
-        change.key === "brsw.illumination-modifier" &&
-        !effect.data.disabled
-      ) {
-        if (change.mode === 2) {
-          genericModifier += Number(change.value);
-        } else {
-          console.warn(
-            'Better Rolls 2 does only support the "Add" mode for illumination penalties on Active Effects.',
-          );
-        }
-      }
-    }
-  }
-
-  let illuminationPenalty = 0;
-  if (lighting.toLowerCase() === "dim") {
-    illuminationPenalty = -2;
-  } else if (lighting.toLowerCase() === "dark") {
-    illuminationPenalty = -4;
-  } else if (lighting.toLowerCase() === "pitch darkness") {
-    illuminationPenalty = -6;
-  }
-  if (
-    ownedAbilities.includes(lowLiVision) &&
-    (lighting.toLowerCase() === "dim" || lighting.toLowerCase() === "dark")
-  ) {
-    illuminationPenalty = 0;
-  }
-  illuminationPenalty += genericModifier;
-  illuminationPenalty = Math.min(illuminationPenalty, 0);
-  if (illuminationPenalty < 0) {
-    if (ownedAbilities.includes(infravision)) {
-      illuminationPenalty /= 2;
-    }
-    if (
-      (ownedAbilities.includes(undead) ||
-        ownedAbilities.includes(darkvision)) &&
-      distance <= 10
-    ) {
-      illuminationPenalty = 0;
-    }
-    if (
-      ownedAbilities.includes(blindsense) ||
-      ownedAbilities.includes(nightvision)
-    ) {
-      illuminationPenalty = 0;
-    }
-  }
-  return illuminationPenalty;
 }
 
 /**
