@@ -44,6 +44,12 @@
       "name": "Português (Brasil)",
       "path": "lang/pt-BR.json",
       "flags": {}
+    },
+    {
+      "lang": "ru",
+      "name": "Russian",
+      "path": "lang/ru.json",
+      "flags": {}
     }
   ],
   "esmodules": [
