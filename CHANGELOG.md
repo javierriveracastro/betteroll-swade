@@ -1,3 +1,11 @@
+# Version 4.6 aka It's nice to do nothing but releasing...
+* Cards: Added a button to mark wildcards as Defeated (Dan Brown)
+* Injuries: Appended the duration of the injury to its name (Dan Brown)
+* Bugfix: Fixed a bug that prevented setting menu from opening (Dan Brown)
+* Bugfix: Better management of fumble logic (Dan Brown)
+* Bugfix: Better identifying the token associated with a card (can resolve some previously hard to debug problems) (Dan Brown)
+* Translations: Added base support for Russian translations.
+
 # Version 4.5 
 * Actions: Added `actor_has_skill` selector (David-a-rivera)
 * Cards: Added BRCard parameter to BRSW-CardRendered hook (David-a-rivera)
