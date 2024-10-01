@@ -601,7 +601,7 @@ function register_settings_version2() {
   SettingsUtils.registerBR2UserSetting("default_rate_of_fire", {
     name: game.i18n.localize("BRSW.Default_rate_of_fire"),
     hint: game.i18n.localize("BRSW.Default_rate_of_fire_hint"),
-    default: "max_rof",
+    default: "single_shot",
     type: String,
     choices: {
       single_shot: game.i18n.localize("BRSW.Single_shot"),
