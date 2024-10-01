@@ -529,9 +529,13 @@ async function roll_resist(trait, br_card, trait_mod) {
  */
 function get_trait_roll_difficulty(br_card) {
   if (br_card.item && br_card.item.type === "power") {
-    if (br_card.item.system.description.indexOf(game.i18n.localize("BRSW.Opposed")) === -1) {
+    if (
+      br_card.item.system.description.indexOf(
+        game.i18n.localize("BRSW.Opposed"),
+      ) === -1
+    ) {
       // If this is a power, and we can't find opposed in the description, it is probably a flat check.
-      return 4
+      return 4;
     }
   }
   const results = br_card.trait_roll.current_roll.dice.map((die) => {
@@ -1839,6 +1843,7 @@ async function execute_macro(action, br_card) {
       game.i18n.format("SWADE.CouldNotFindMacro", { uuid: action.uuid }),
       { toast: true },
     );
+    return null;
   }
   //The System uses an item actor if macroActor is set to 'self' or the first selected tokens actor if not.
   const targetActor =
@@ -1849,10 +1854,10 @@ async function execute_macro(action, br_card) {
     action.macroActor === "self" || game.canvas.tokens.controlled.length < 1
       ? br_card.token
       : game.canvas.tokens.controlled[0];
-  await macro?.execute({
+  await macro.execute({
     actor: targetActor,
     token: targetToken,
     item: br_card.item,
-  }); // jshint ignore:line
+  });
   return null;
 }
