@@ -498,10 +498,7 @@ async function roll_resist(trait, br_card, trait_mod) {
         trait_from_string(token.actor, trait).id,
       );
     }
-    const results = br_card.trait_roll.current_roll.dice.map((die) => {
-      return die.result;
-    });
-    new_card.trait_roll.tn = Math.max(...results) + br_card.trait_roll.tn;
+    new_card.trait_roll.tn = get_trait_roll_difficulty(br_card);
     new_card.trait_roll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
     if (!isNaN(trait_mod)) {
       const localiced_name = game.i18n.localize("BRSW.ResistingRoll");
@@ -522,6 +519,25 @@ async function roll_resist(trait, br_card, trait_mod) {
     await new_card.render();
     await new_card.save();
   }
+}
+
+/**
+ * Calculates the difficulty of a resist trait roll
+ *
+ * @param {Object} br_card - The card object containing trait roll information.
+ * @return {number} - The calculated difficulty of the trait roll.
+ */
+function get_trait_roll_difficulty(br_card) {
+  if (br_card.item && br_card.item.type === "power") {
+    if (br_card.item.system.description.indexOf(game.i18n.localize("BRSW.Opposed")) === -1) {
+      // If this is a power, and we can't find opposed in the description, it is probably a flat check.
+      return 4
+    }
+  }
+  const results = br_card.trait_roll.current_roll.dice.map((die) => {
+    return die.result;
+  });
+  return Math.max(...results) + br_card.trait_roll.tn;
 }
 
 /**
@@ -1201,7 +1217,9 @@ async function roll_dmg_target(
     // noinspection ES6MissingAwait
     await game.dice3d.showForRoll(roll, game.user, true, users, message.blind);
   }
-  current_damage_roll.damage_result = await calculate_damage_results(current_damage_roll.brswroll.rolls);
+  current_damage_roll.damage_result = await calculate_damage_results(
+    current_damage_roll.brswroll.rolls,
+  );
   return current_damage_roll;
 }
 
@@ -1488,7 +1506,8 @@ async function add_damage_dice(br_card, index) {
     });
     damage_rolls.dice.push(new_die);
   });
-  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
+  render_data.damage_rolls[index].damage_result =
+    await calculate_damage_results(damage_rolls.rolls);
   if (game.dice3d) {
     let damage_theme = SettingsUtils.getUserSetting("damageDieTheme");
     if (damage_theme !== "None") {
@@ -1539,7 +1558,8 @@ async function add_fixed_damage(event, form_results) {
   let damage_rolls = render_data.damage_rolls[index].brswroll;
   damage_rolls.modifiers.push({ value: modifier, name: form_results.Label });
   damage_rolls.rolls[0].result += modifier;
-  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
+  render_data.damage_rolls[index].damage_result =
+    await calculate_damage_results(damage_rolls.rolls);
   await update_message(event.data.message, render_data);
 }
 
@@ -1560,7 +1580,8 @@ async function half_damage(br_card, index) {
     name: game.i18n.localize("BRSW.HalfDamage"),
   });
   damage_rolls.rolls[0].result += half_damage;
-  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls.rolls);
+  render_data.damage_rolls[index].damage_result =
+    await calculate_damage_results(damage_rolls.rolls);
   await update_message(br_card, render_data);
 }
 
@@ -1578,7 +1599,8 @@ async function edit_toughness(br_card, index) {
   damage_rolls[0].armor = defense_values.armor;
   damage_rolls[0].target_id = defense_values.token_id || 0;
   render_data.damage_rolls[index].label = defense_values.name;
-  render_data.damage_rolls[index].damage_result = await calculate_damage_results(damage_rolls);
+  render_data.damage_rolls[index].damage_result =
+    await calculate_damage_results(damage_rolls);
   // noinspection JSIgnoredPromiseFromCall
   await update_message(br_card, render_data);
 }
