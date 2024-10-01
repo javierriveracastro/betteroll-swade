@@ -151,28 +151,32 @@ Hooks.on(`ready`, () => {
 
 // Hooks on render
 
+function activateCardListeners(card, html, message) {
+  activate_common_listeners(card, html);
+  if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
+    activate_attribute_card_listeners(card, html);
+  } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
+    activate_skill_card_listeners(card, html);
+  } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
+    activate_item_card_listeners(card, html);
+  } else if (card.type === BRSW_CONST.TYPE_DMG_CARD) {
+    activate_damage_card_listeners(message, html);
+  } else if (card.type === BRSW_CONST.TYPE_INC_CARD) {
+    activate_incapacitation_card_listeners(message, html);
+  } else if (
+    card.type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
+    card.type === BRSW_CONST.TYPE_UNSTUN_CARD
+  ) {
+    activate_remove_status_card_listeners(card, html, card.type);
+  }
+}
+
 Hooks.on("renderChatMessage", (message, html) => {
   let br_card = message.getFlag("betterrolls-swade2", "br_data");
   if (br_card) {
     // This chat card is one of ours
     const card = new BrCommonCard(message);
-    activate_common_listeners(card, html);
-    if (card.type === BRSW_CONST.TYPE_ATTRIBUTE_CARD) {
-      activate_attribute_card_listeners(card, html);
-    } else if (card.type === BRSW_CONST.TYPE_SKILL_CARD) {
-      activate_skill_card_listeners(card, html);
-    } else if (card.type === BRSW_CONST.TYPE_ITEM_CARD) {
-      activate_item_card_listeners(card, html);
-    } else if (card.type === BRSW_CONST.TYPE_DMG_CARD) {
-      activate_damage_card_listeners(message, html);
-    } else if (card.type === BRSW_CONST.TYPE_INC_CARD) {
-      activate_incapacitation_card_listeners(message, html);
-    } else if (
-      card.type === BRSW_CONST.TYPE_UNSHAKE_CARD ||
-      card.type === BRSW_CONST.TYPE_UNSTUN_CARD
-    ) {
-      activate_remove_status_card_listeners(card, html, card.type);
-    }
+    activateCardListeners(card, html, message);
     // Hide forms to non-master, non owner
     if (!message.isOwner) {
       html.find(".brsw-form").addClass("brsw-collapsed");
