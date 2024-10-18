@@ -393,6 +393,7 @@ export class BrCommonCard {
         ...attGlobalMods,
         ...this.skill.system.effects,
       ];
+      console.log(effectArray);
       this.populate_active_effect_actions_from_array(effectArray);
     } else if (this.attribute_name) {
       const abl = this.actor.system.attributes[this.attribute_name];
@@ -409,6 +410,7 @@ export class BrCommonCard {
         "dmgMod",
       );
     }
+    console.log(this.action_groups);
   }
 
   populate_active_effect_actions_from_array(effectArray, type = "skillMod") {
@@ -422,12 +424,19 @@ export class BrCommonCard {
     }
     if (effectActions.length) {
       const name = game.i18n.localize("BRSW.ActiveEffects");
-      this.action_groups[name] = {
-        name: name,
-        actions: effectActions,
-        id: broofa(),
-        single_choice: false,
-      };
+      if (this.action_groups.hasOwnProperty(name)) {
+        this.action_groups[name].actions = [
+          ...this.action_groups[name].actions,
+          ...effectActions,
+        ];
+      } else {
+        this.action_groups[name] = {
+          name: name,
+          actions: effectActions,
+          id: broofa(),
+          single_choice: false,
+        };
+      }
     }
   }
 
@@ -617,7 +626,8 @@ export class BrCommonCard {
     data.bennie_avaliable = this.bennie_avaliable;
     data.show_rerolls = this.show_rerolls;
     data.selected_actions = this.get_selected_actions();
-    data.no_actions_message = SettingsUtils.getWorldSetting("no-action-message");
+    data.no_actions_message =
+      SettingsUtils.getWorldSetting("no-action-message");
     data.has_feet_buttons = this.has_feet_buttons;
     data.skill_tooltip = this.skill_tooltip;
     data.show_popup_button = SettingsUtils.getUserSetting("popout_chat_button");
