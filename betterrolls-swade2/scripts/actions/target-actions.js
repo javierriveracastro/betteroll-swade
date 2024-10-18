@@ -83,33 +83,7 @@ export const TARGET_ACTIONS = [
     group: "BRSW.Target",
   },
 
-  // ARCANE PROTECTION POWER
-  // NOTE ... This action currently has NO actual effect, i.e, for now, it just shows a target has Arcane Protection.
-  // NOTE ... The assumption is the target has an Active Effect named "Arcane Protection", which doesn't need any actual effect
-  // TODO ... Look at how a skillMod -2/-4 affects the activation, as the power will activate on a 4 result, ignoring the -2/-4 imposed by Arcane Protection.
-  //      ... It will just fail to affect the target.
-  // TODO ... Add the skillMod -2 and handle the -4 for a raise.
-  // TODO ... Add the skillMod -4 and -6 for the epic modifier Greater Arcane Protection.
-  {
-    id: "TARGET-HAS-ARCANE-PROTECTION",
-    name: "TargetHasArcaneProtection",
-    button_name: "has Arcane Protection",
-    and_selector: [
-      {
-        selector_type: "target_has_effect",
-        selector_value: "Arcane Protection"
-      },
-      {
-        selector_type: "item_type",
-        selector_value: "power"
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Target",
-  },
-
   // DEFLECTION POWER ... Subtracts 2 from either melee or ranged attacks
-  // NOTE ... The assumption is the target has an Active Effect named "Deflection (melee)", which doesn't need any actual effect
   // TODO ... How to handle melee attacks when the attacker does NOT have "Fighting", so uses "Unskilled Attempt"
   {
     id: "TARGET-HAS-DEFLECTION-MELEE",
@@ -235,63 +209,6 @@ export const TARGET_ACTIONS = [
         ],
       },
     ],
-    defaultChecked: "on",
-    group: "BRSW.Target",
-  },
-
-  // INVISIBILITY POWER ... Any action taken against him that requires sight is made at −4, or −6 with a raise.
-  // NOTE ... The assumption is the target has an Active Effect named "Invisibility", which doesn't need any actual effect
-  {
-    id: "TARGET-HAS-INVISIBILITY",
-    name: "TargetHasInvisibility",
-    button_name: "has Invisibility",
-    and_selector: [
-      {
-        selector_type: "target_has_effect",
-        selector_value: "Invisibility"
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Target",
-  },
-
-  // PROTECTION POWER
-  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Protection.
-  // NOTE ... The assumption is the target has an Active Effect named "Protection", which has an increase to either Armour or Toughness, i.e.,
-  //      ...   system.stats.toughness.armor Add 2  (with activation)
-  //      ...   system.stats.toughness.value Add 2  (with raise)
-  {
-    id: "TARGET-HAS-PROTECTION",
-    name: "TargetHasProtection",
-    button_name: "has Protection",
-    and_selector: [
-      {
-        selector_type: "target_has_effect",
-        selector_value: "Protection"
-      },
-      {
-        "not_selector": [
-          {
-            "selector_type": "target_has_effect",
-            "selector_value": "Arcane Protection"
-          }
-        ]
-      },
-    ],
-    defaultChecked: "on",
-    group: "BRSW.Target",
-  },
-
-  // SANCTUARY POWER
-  // NOTE ... This action does NOT have any actual effect, i.e, it just shows a target has Sanctuary.
-  // NOTE ... The assumption is the target has an Active Effect named "Sanctuary", which doesn't need any actual effect
-  // NOTE ... It does NOT handle the need to make a Spirit roll/-2 with Raise, or -2/-4 with epic Strong modifier
-  {
-    id: "TARGET-HAS-SANCTUARY",
-    name: "TargetHasSanctuary",
-    button_name: "has Sanctuary",
-    selector_type: "target_has_effect",
-    selector_value: "Sanctuary",
     defaultChecked: "on",
     group: "BRSW.Target",
   },
