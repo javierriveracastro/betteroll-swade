@@ -393,7 +393,6 @@ export class BrCommonCard {
         ...attGlobalMods,
         ...this.skill.system.effects,
       ];
-      console.log(effectArray);
       this.populate_active_effect_actions_from_array(effectArray);
     } else if (this.attribute_name) {
       const abl = this.actor.system.attributes[this.attribute_name];
@@ -410,7 +409,6 @@ export class BrCommonCard {
         "dmgMod",
       );
     }
-    console.log(this.action_groups);
   }
 
   populate_active_effect_actions_from_array(effectArray, type = "skillMod") {
