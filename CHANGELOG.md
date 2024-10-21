@@ -1,3 +1,10 @@
+# Version 4.7 aka little small things.
+* Defaults: Change default ROF to 1 (only for new worlds)
+* Resist rolls: Use some heuristics to set the TN
+* Refactoring: Make init smaller, add some early exit to macro processing
+* Actions: Remove all built-in actions with no effect but a commet (Dan Brown)
+* Bug: When there are active effects that change both trait and damage rolls process both.
+
 # Version 4.6 aka It's nice to do nothing but releasing...
 * Cards: Added a button to mark wildcards as Defeated (Dan Brown)
 * Injuries: Appended the duration of the injury to its name (Dan Brown)
