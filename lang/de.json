@@ -306,7 +306,6 @@
     "I18N.MAINTAINERS": [
         "Javier Rivera"
     ],
-    "BRSW.Settings.MaxTooltipLength.Name": "Maximale Tooltip-Länge",
     "BRSW.NoTokenSelectedError": "Für diese Funktion muss eine Spielfigur ausgewählt sein",
     "BRSW.AP3": "Panzerbrechend +3",
     "BRSW.AttackOptionCalledShot": "Angriffsoptionen [Angesagtes Ziel]",
@@ -316,8 +315,6 @@
     "BRSW.EdgeName.DoubleShot": "Doppelschuss",
     "BRSW.ItemPropertiesDmgMod": "Item-Eigenschaften (Schaden)",
     "BRSW.ItemPropertiesTraitMod": "Item-Eigenschaften",
-    "BRSW.Settings.MaxTooltipLength.Hint": "Maximale Zeichenlänge des Tooltips für den Kartentitel. 0 deaktiviert den Tooltip",
-    "BRSW.Settings.MaxTooltipLength.Label": "Max. Tooltip-Länge",
     "BRSW.Settings.InnatePowersSpendPP.Name": "Angeborene Mächte verbrauchen keine Machtpunkte",
     "BRSW.Settings.NPCsUseEncumbrance.Hint": "Belastungsabzüge werden nicht für NSCs angewendet",
     "BRSW.Settings.PopoutChat.Name": "Auto Pop Out Chat",
