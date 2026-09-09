@@ -42,7 +42,7 @@ export class PPManagementDialog extends HandlebarsApplicationMixin(ApplicationV2
                     const ppCost = calcPPCost(this.brCard, false);
                     const penaltySelections = Utils.getNoPPPenaltySelections(ppCost);
 
-                    const noPPActionGroup = this.brCard.action_sections["power"].action_groups[game.i18n.localize("BRSW.NoPP")];
+                    const noPPActionGroup = this.brCard.actionSections["power"].actionGroups[game.i18n.localize("BRSW.NoPP")];
                     for (let penalty = 0; penalty < BRSW2_CONFIG.MAX_NOPP_PENALTY_ACTION; ++penalty) {
                         noPPActionGroup.actions[penalty].selected = penaltySelections.includes(penalty + 1);
                     }
@@ -159,7 +159,7 @@ export class PPManagementDialog extends HandlebarsApplicationMixin(ApplicationV2
 
     async close(options = {}) {
         if (options.revertChanges || options.revertChanges === undefined) {
-            Object.assign(this.brCard.action_sections, foundry.utils.deepClone(this.brCardOld.action_sections));
+            Object.assign(this.brCard.actionSections, foundry.utils.deepClone(this.brCardOld.actionSections));
             Object.assign(this.brCard.ppModifiers, foundry.utils.deepClone(this.brCardOld.ppModifiers));
         }
 

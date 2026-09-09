@@ -2,7 +2,7 @@
 
 import { broofa } from "./utils.js";
 
-export class brAction {
+export class BRAction {
   constructor(name, code, type = "", idOverride = 0) {
     this.name = name;
     if (type === "item") {
