@@ -275,7 +275,6 @@ function check_selector(type, value, item, actor, userTargets) {
         const description = `${item?.system?.description} ${item?.system?.trapping} ${item?.system?.category} ${item?.system?.notes}`;
         selected = description.toLowerCase().includes(value.toLowerCase());
     } else if (type === "actor_has_effect") {
-        // noinspection AnonymousFunctionJS
         const effect = actor.appliedEffects.find((effect) =>
             effect.name
                 .toLowerCase()
@@ -284,7 +283,6 @@ function check_selector(type, value, item, actor, userTargets) {
         selected = effect ? !effect.disabled : false;
     } else if (type === "actor_has_edge") {
         const edge_name = game.i18n.localize(value);
-        // noinspection AnonymousFunctionJS
         const edge = actor.items.find((item) => {
             return (
                 item.type === "edge" &&
@@ -294,7 +292,6 @@ function check_selector(type, value, item, actor, userTargets) {
         selected = !!edge;
     } else if (type === "actor_has_ability") {
         const ability_name = game.i18n.localize(value);
-        // noinspection AnonymousFunctionJS
         const ability = actor.items.find((item) => {
             return (
                 item.type === "ability" &&
@@ -304,7 +301,6 @@ function check_selector(type, value, item, actor, userTargets) {
         selected = !!ability;
     } else if (type === "actor_has_hindrance") {
         const hindrance_name = game.i18n.localize(value);
-        // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find((item) => {
             return (
                 item.type === "hindrance" &&
@@ -314,7 +310,6 @@ function check_selector(type, value, item, actor, userTargets) {
         selected = !!hindrance;
     } else if (type === "actor_has_major_hindrance") {
         const hindrance_name = game.i18n.localize(value);
-        // noinspection AnonymousFunctionJS
         const hindrance = actor.items.find((item) => {
             return (
                 item.type === "hindrance" &&
@@ -335,9 +330,9 @@ function check_selector(type, value, item, actor, userTargets) {
         }
     } else if (type.indexOf("target_additional_stat_") === 0) {
         const additional_stat = type.slice(23);
-        for (const targeted_token of userTargets) {
-            if (targeted_token?.actor?.system?.additionalStats.hasOwnProperty(additional_stat)) {
-                if (Utils.check_equality_with_operators(targeted_token.actor.system.additionalStats[additional_stat].value, value)) {
+        for (const targetToken of userTargets) {
+            if (targetToken?.actor?.system?.additionalStats.hasOwnProperty(additional_stat)) {
+                if (Utils.check_equality_with_operators(targetToken.actor.system.additionalStats[additional_stat].value, value)) {
                     selected = true;
                     break;
                 }
@@ -346,12 +341,12 @@ function check_selector(type, value, item, actor, userTargets) {
     } else if (type === "actor_has_joker") {
         selected = actor.hasJoker;
     } else if (type === "target_has_edge") {
-        const edge_name = game.i18n.localize(value);
-        for (const targeted_token of userTargets) {
-            const edge = targeted_token.actor?.items.find((item) => {
+        const edgeName = game.i18n.localize(value);
+        for (const targetToken of userTargets) {
+            const edge = targetToken.actor?.items.find((item) => {
                 return (
                     item.type === "edge" &&
-                    item.name.toLowerCase().includes(edge_name.toLowerCase())
+                    item.name.toLowerCase().includes(edgeName.toLowerCase())
                 );
             });
             selected = selected || !!edge;
@@ -361,8 +356,8 @@ function check_selector(type, value, item, actor, userTargets) {
         selected = hasMastery == value;
     } else if (type === "target_has_hindrance") {
         const hindrance_name = game.i18n.localize(value);
-        for (const targeted_token of userTargets) {
-            const hindrance = targeted_token.actor?.items.find((item) => {
+        for (const targetToken of userTargets) {
+            const hindrance = targetToken.actor?.items.find((item) => {
                 return (
                     item.type === "hindrance" &&
                     item.name.toLowerCase().includes(hindrance_name.toLowerCase())
@@ -372,9 +367,8 @@ function check_selector(type, value, item, actor, userTargets) {
         }
     } else if (type === "target_has_major_hindrance") {
         const hindrance_name = game.i18n.localize(value);
-        // noinspection AnonymousFunctionJS
-        for (const targeted_token of userTargets) {
-            const hindrance = targeted_token.actor?.items.find((item) => {
+        for (const targetToken of userTargets) {
+            const hindrance = targetToken.actor?.items.find((item) => {
                 return (
                     item.type === "hindrance" &&
                     item.name.toLowerCase().includes(hindrance_name.toLowerCase()) &&
@@ -399,11 +393,24 @@ function check_selector(type, value, item, actor, userTargets) {
         const abilityName = game.i18n.localize(value);
         for (const targeted_token of userTargets) {
             const effect = targeted_token.actor?.appliedEffects.find(
-                (ef) => ef.name.toLowerCase().includes(abilityName.toLowerCase()), // jshint ignore:line
+                (ef) => ef.name.toLowerCase().includes(abilityName.toLowerCase()),
             );
             if (effect) {
                 selected = selected || effect ? !effect.disabled : false;
             }
+        }
+    } else if (type === "target_shield_cover") {
+        // The best cover modifier among all the targets' equipped shields
+        let bestCover = 0;
+        for (const targetToken of userTargets) {
+            const shields = targetToken?.actor?.itemTypes?.shield ?? [];
+            bestCover = shields.reduce((best, shield) => {
+                if (Number(shield.system.equipStatus) <= 1) return best;
+                return Math.min(Number(shield.system.cover) || 0, best);
+            }, bestCover);
+        }
+        if (bestCover < 0) {
+            selected = Utils.check_equality_with_operators(bestCover, value);
         }
     } else if (type === "gm_action_enabled") {
         const gm_actions = get_enabled_gm_actions();
