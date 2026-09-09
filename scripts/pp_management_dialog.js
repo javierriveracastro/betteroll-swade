@@ -42,7 +42,8 @@ export class PPManagementDialog extends HandlebarsApplicationMixin(ApplicationV2
                     const ppCost = calcPPCost(this.brCard, false);
                     const penaltySelections = Utils.getNoPPPenaltySelections(ppCost);
 
-                    const noPPActionGroup = this.brCard.actionSections["power"].actionGroups[game.i18n.localize("BRSW.NoPP")];
+                    const noPPGroupId = "BRSW.NoPP".split(".").join("");
+                    const noPPActionGroup = this.brCard.actionSections["power"].actionGroups[noPPGroupId];
                     for (let penalty = 0; penalty < BRSW2_CONFIG.MAX_NOPP_PENALTY_ACTION; ++penalty) {
                         noPPActionGroup.actions[penalty].selected = penaltySelections.includes(penalty + 1);
                     }

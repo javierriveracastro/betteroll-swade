@@ -590,12 +590,13 @@ export class BrCommonCard {
         const ppCost = calcPPCost(this, false);
         const penaltySelections = Utils.getNoPPPenaltySelections(ppCost);
 
-        const action_array = [];
+        const noPPName = game.i18n.localize("BRSW.NoPP");
+        const actionArray = [];
         for (let penalty = 1; penalty <= BRSW2_CONFIG.MAX_NOPP_PENALTY_ACTION; ++penalty) {
             const newAction = new BRAction(
                 `PP ${-penalty}`,
                 {
-                    name: `${game.i18n.localize("BRSW.NoPP")} ${-penalty}`,
+                    name: `${noPPName} ${-penalty}`,
                     id: `no_pp_${penalty}`,
                     skillMod: -penalty,
                 },
@@ -604,14 +605,10 @@ export class BrCommonCard {
 
             newAction.selected = penaltySelections.includes(penalty);
 
-            action_array.push(newAction);
+            actionArray.push(newAction);
         }
-        this.actionSections["power"] ??= { actionGroups: {} };
-        this.actionSections["power"].actionGroups[game.i18n.localize("BRSW.NoPP")] = {
-            name: game.i18n.localize("BRSW.NoPP"),
-            actions: action_array,
-            id: broofa(),
-        };
+
+        this.addActionArrayToGroup("power", "BRSW.NoPP", actionArray, false);
     }
 
     createSectionAndGroup(sectionName, groupName, groupSingle) {
