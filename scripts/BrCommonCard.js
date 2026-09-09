@@ -422,6 +422,7 @@ export class BrCommonCard {
             }
 
             const new_action = new brAction(name, global_action);
+            new_action.isGlobalAction = true;
             if (global_action.hasOwnProperty("defaultChecked")) {
                 if (global_action.defaultChecked === "on") {
                     new_action.selected = true;
@@ -554,7 +555,7 @@ export class BrCommonCard {
                 ...attGlobalMods,
                 ...this.skill.system.effects,
             ];
-            this.populate_active_effect_actions_from_array(effectArray);
+            this.populateActiveEffectActionsFromArray(effectArray);
         } else if (this.attribute) {
             const abl = this.actor.system.attributes[this.attribute];
             const effectArray = [
@@ -562,16 +563,23 @@ export class BrCommonCard {
                 ...this.actor.system.stats.globalMods[this.attribute],
                 ...this.actor.system.stats.globalMods.trait,
             ];
-            this.populate_active_effect_actions_from_array(effectArray);
+            this.populateActiveEffectActionsFromArray(effectArray);
         }
         if (this.damage && this.actor.system.stats.globalMods.damage.length > 0) {
-            this.populate_active_effect_actions_from_array(this.actor.system.stats.globalMods.damage, "dmgMod");
+            this.populateActiveEffectActionsFromArray(this.actor.system.stats.globalMods.damage, "dmgMod");
         }
     }
 
-    populate_active_effect_actions_from_array(effectArray, type = "skillMod") {
+    populateActiveEffectActionsFromArray(effectArray, type = "skillMod") {
         const effectActions = [];
         for (const effect of effectArray) {
+            const matchingAction = this.getActionByName(effect.label, true);
+            if (matchingAction) {
+                // If we already have a global action, use the value from the AE but keep the rest.
+                matchingAction.code[type] = effect.value;
+                continue;
+            }
+
             const code = { name: effect.label, id: broofa() };
             code[type] = effect.value;
             const br_action = new brAction(effect.label, code, "active_effect");
@@ -978,11 +986,14 @@ export class BrCommonCard {
     /**
      * Returns an action by both localized and un-localized partial name
      */
-    getActionByName(actionName) {
+    getActionByName(actionName, globalActionsOnly) {
         const lowerName = actionName.toLowerCase();
         const localLower = game.i18n.localize(actionName).toLowerCase();
         return Utils.forEachActionGroup(this, group => {
             for (const action of group.actions) {
+                if (globalActionsOnly && !action.isGlobalAction) {
+                    continue;
+                }
                 const nameSimilarity = Utils.actionNameSimilarity(action.code.name, lowerName);
                 const locSimilarity = Utils.actionNameSimilarity(game.i18n.localize(action.name), localLower);
                 if (nameSimilarity === 1 || locSimilarity === 1) {
