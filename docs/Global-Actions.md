@@ -109,6 +109,7 @@ This group of fields are used to select when the action is available, you will n
 * `target_has_effect`: True if the target has an enabled Active Effect with the same name as the value.
 * `target_has_hindrance`: True if the target has a hindrance with the same name as the value.
 * `target_has_major_hindrance`: True if the target has a major hindrance with the same name as the value.
+* `target_shield_cover`: True if the cover modifier granted by the target's best readied shield matches `selector_value`. Supports equality operators (e.g. `<`, `>`, `!=`, etc.).
 * `target_value`: True if the value on the target matches the value in `selector_value`. `selector_value` must be composed of `"path=value"`, where path is a dot path of actor data (e.g. `system.advances.value`). Supports equality operators (e.g. `<`, `>`, `!=`, etc.).
 
 #### Complex Selectors

@@ -114,6 +114,12 @@ export const COMBAT_OPTIONS = [
         group: "BRSW.Cover",
         group_single: true,
         aiming_ignores: true,
+        defaultChecked: {
+            and_selector: [
+                { selector_type: "is_ranged_attack", selector_value: "true" },
+                { selector_type: "target_shield_cover", selector_value: "-2" },
+            ],
+        },
     },
     {
         id: "2-MediumCover",
@@ -127,6 +133,12 @@ export const COMBAT_OPTIONS = [
         group: "BRSW.Cover",
         group_single: true,
         aiming_ignores: true,
+        defaultChecked: {
+            and_selector: [
+                { selector_type: "is_ranged_attack", selector_value: "true" },
+                { selector_type: "target_shield_cover", selector_value: "-4" },
+            ],
+        },
     },
     {
         id: "3-HeavyCover",
@@ -140,6 +152,12 @@ export const COMBAT_OPTIONS = [
         group: "BRSW.Cover",
         group_single: true,
         aiming_ignores: true,
+        defaultChecked: {
+            and_selector: [
+                { selector_type: "is_ranged_attack", selector_value: "true" },
+                { selector_type: "target_shield_cover", selector_value: "-6" },
+            ],
+        },
     },
     {
         id: "4-NearTotalCover",
@@ -153,6 +171,12 @@ export const COMBAT_OPTIONS = [
         group: "BRSW.Cover",
         group_single: true,
         aiming_ignores: true,
+        defaultChecked: {
+            and_selector: [
+                { selector_type: "is_ranged_attack", selector_value: "true" },
+                { selector_type: "target_shield_cover", selector_value: "-8" },
+            ],
+        },
     },
     {
         id: "TOUCHATTACK",

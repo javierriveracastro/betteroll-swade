@@ -441,6 +441,17 @@ function check_selector(type, value, item, actor, userTargets) {
         if (targeted_token) {
             selected = check_document_value(targeted_token.actor, value);
         }
+    } else if (type === "target_shield_cover") {
+        // The best cover modifier of target's equipped shields
+        const targetToken = userTargets[0];
+        const shields = targetToken?.actor?.itemTypes?.shield ?? [];
+        const bestCover = shields.reduce((best, shield) => {
+            if (Number(shield.system.equipStatus) <= 1) return best;
+            return Math.min(Number(shield.system.cover) || 0, best);
+        }, 0);
+        if (bestCover < 0) {
+            selected = Utils.check_equality_with_operators(bestCover, value);
+        }
     } else if (type === "item_has_damage") {
         selected = !!item?.system && (!!item.system.damage || check_for_actions_with_damage(item));
         if (value === "false") {
