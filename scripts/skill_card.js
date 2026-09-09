@@ -382,6 +382,13 @@ export async function getTNFromToken(
         if (targetActor.type !== "vehicle") {
             tn.reason = `${game.i18n.localize("SWADE.Parry")} - ${targetToken.name}`;
             tn.value = parseInt(targetActor.system.stats.parry.value);
+            if (extraData?.ignoreShield) {
+                const shield = parseInt(targetActor.system.stats.parry.shield);
+                if (shield) {
+                    tn.value -= shield;
+                    tn.reason = `${game.i18n.localize("BRSW.IgnoreShield")} - ${targetToken.name}`;
+                }
+            }
         } else {
             await get_vehicle_tn(tn, targetToken);
         }

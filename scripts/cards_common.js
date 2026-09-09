@@ -1161,6 +1161,7 @@ async function getTNFromTarget(brCard, selected) {
     const targetToken = selected ? getSelectedToken([brCard.actor]) : getTargetedToken([brCard.actor]);
     if (targetToken) {
         const extraData = { modifiers: [] };
+        extraData.ignoreShield = brCard.getSelectedActions().some((action) => action.code.ignoreShield);
         const originToken = brCard.token;
         const target = await getTNFromToken(
             brCard.skill,
@@ -1299,6 +1300,9 @@ export function process_common_actions(action, extraData, macros, actor) {
     }
     if (action.dice) {
         extraData.rof = action.dice;
+    }
+    if (action.ignoreShield) {
+        extraData.ignoreShield = true;
     }
     if (action.tnOverride) {
         const userTargets = getUserTargets();

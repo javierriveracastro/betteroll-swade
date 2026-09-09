@@ -176,6 +176,16 @@ export const COMBAT_OPTIONS = [
         group: "BRSW.SituationalModifiers",
     },
     {
+        id: "IGNORESHIELD",
+        name: "BRSW.IgnoreShieldName",
+        button_name: "BRSW.IgnoreShield",
+        ignoreShield: true,
+        selector_type: "is_weapon_or_bolt",
+        selector_value: "true",
+        section: "attack",
+        group: "BRSW.SituationalModifiers",
+    },
+    {
         id: "AttackInanimateObject",
         name: "BRSW.AttackInanimate",
         button_name: "BRSW.AttackInanimate",

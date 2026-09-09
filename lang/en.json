@@ -163,6 +163,8 @@
   "BRSW.HideReRolls": "Hide reroll on Critical Failure",
   "BRSW.HideReRollsHint": "Check this to hide reroll options from the card on a Critical Failure",
   "BRSW.Hindrances": "Hindrances",
+  "BRSW.IgnoreShield": "Ignore Shield",
+  "BRSW.IgnoreShieldName": "Ignore Shield",
   "BRSW.Illumination": "Illumination",
   "BRSW.IlluminationDark": "Dark (-4)",
   "BRSW.IlluminationDim": "Dim (-2)",
