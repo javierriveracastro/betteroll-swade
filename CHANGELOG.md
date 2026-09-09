@@ -2,6 +2,7 @@
 
 # Version 5.26.0
 * We now combine effect and global actions
+* If an effect action comes from an edge or hindrance, it now gets put in the edge/hindrance group
 
 # Version 5.25.0
 * Added support for shorting powers
