@@ -1,5 +1,8 @@
 # Changelog
 
+# Version 5.27.0
+* Added an "Ignore Shield" attack action that cancels out the parry bonus granted by a target's shield
+
 # Version 5.26.0
 * We now combine effect and global actions
 * If an effect action comes from an edge or hindrance, it now gets put in the edge/hindrance group
