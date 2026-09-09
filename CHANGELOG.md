@@ -1,5 +1,8 @@
 # Changelog
 
+# Version 5.26.0
+* We now combine effect and global actions
+
 # Version 5.25.0
 * Added support for shorting powers
 * Added PP mods when saving macros
