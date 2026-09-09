@@ -2,7 +2,7 @@
 /* globals game, ChatPopout, console, canvas, Hooks, renderTemplate, TextEditor, ChatMessage,
      Roll, CONST */
 
-import { brAction } from "./actions.js";
+import { BRAction } from "./actions.js";
 import * as BRSW2_CONFIG from "./brsw2-config.js";
 import { BRSW2_CONST } from "./brsw2-const.js";
 import { areBenniesAvailable, traitToDieString } from "./cards_common.js";
@@ -48,7 +48,7 @@ export class BrCommonCard {
         this.target_ids = [];
         this.environment = { light: "bright" };
         this.extra_text = "";
-        this.action_sections = {};
+        this.actionSections = {};
         this.macro_buttons = []; // Macro buttons from items
         this.render_data = {}; // Old render data, to be removed
         this.update_list = {}; // List of properties pending to be updated
@@ -130,7 +130,7 @@ export class BrCommonCard {
             vehicleTokenId: this.vehicleTokenId,
             environment: this.environment,
             extra_text: this.extra_text,
-            action_sections: this.action_sections,
+            actionSections: this.actionSections,
             macro_buttons: this.macro_buttons,
             id: this.id,
             target_ids: this.target_ids,
@@ -159,7 +159,7 @@ export class BrCommonCard {
             "vehicleTokenId",
             "environment",
             "extra_text",
-            "action_sections",
+            "actionSections",
             "target_ids",
             "macro_buttons",
             "resist_buttons",
@@ -357,7 +357,7 @@ export class BrCommonCard {
      *   and a boolean meaning if they need to set on or off
      */
     populateActions(stored_selections) {
-        this.action_sections = {};
+        this.actionSections = {};
         this.populateWorldActions();
 
         if (this.item) {
@@ -390,79 +390,64 @@ export class BrCommonCard {
         const item = this.item || this.skill || { type: "attribute", name: this.attribute };
         const userTargets = getUserTargets();
 
-        this.action_sections["none"] = {
-            action_groups: {},
+        this.actionSections["none"] = {
+            actionGroups: {},
         };
 
-        for (const global_action of get_actions(item, this.actor, userTargets)) {
-            const name = game.i18n.localize(global_action.button_name);
-            const section_name = (global_action.section ? global_action.section : "none").toLowerCase();
-            const group_name = global_action.group || "BRSW.NoGroup";
-            const group_name_id = group_name.split(".").join("");
-            const group_single = global_action.hasOwnProperty("group_single");
+        for (const globalAction of get_actions(item, this.actor, userTargets)) {
+            const name = game.i18n.localize(globalAction.button_name);
+            const sectionName = (globalAction.section ? globalAction.section : "none").toLowerCase();
+            const groupName = globalAction.group || "BRSW.NoGroup";
+            const groupNameId = groupName.split(".").join("");
+            const groupSingle = globalAction.hasOwnProperty("group_single");
 
-            if (global_action.hasOwnProperty("extra_text")) {
-                this.extra_text += global_action.extra_text;
+            if (globalAction.hasOwnProperty("extra_text")) {
+                this.extra_text += globalAction.extra_text;
             }
 
-            if (!this.action_sections.hasOwnProperty(section_name)) {
-                this.action_sections[section_name] = {
-                    action_groups: {},
-                };
-            }
-
-            if (!this.action_sections[section_name].action_groups.hasOwnProperty(group_name_id)) {
-                const translated_group = game.i18n.localize(group_name);
-                this.action_sections[section_name].action_groups[group_name_id] = {
-                    name: translated_group,
-                    actions: [],
-                    id: broofa(),
-                    single_choice: group_single,
-                };
-            }
-
-            const new_action = new brAction(name, global_action);
-            if (global_action.hasOwnProperty("defaultChecked")) {
-                if (global_action.defaultChecked === "on") {
-                    new_action.selected = true;
+            const newAction = new BRAction(name, globalAction);
+            newAction.isGlobalAction = true;
+            if (globalAction.hasOwnProperty("defaultChecked")) {
+                if (globalAction.defaultChecked === "on") {
+                    newAction.selected = true;
                 } else {
-                    new_action.selected = process_action(global_action, item, this.actor, userTargets, true);
+                    newAction.selected = process_action(globalAction, item, this.actor, userTargets, true);
                 }
             }
 
-            this.action_sections[section_name].action_groups[group_name_id].actions.push(new_action);
+            this.addActionToGroup(sectionName, groupName, newAction, groupSingle);
         }
     }
 
     populateItemActions() {
-        const item_actions = [];
+        const itemActions = [];
         for (const action in this.item.system?.actions?.additional) {
             const current_action = this.item.system.actions.additional[action];
             if (current_action.type !== "macro" && current_action.type !== "resist") {
-                const br_action = new brAction(
+                const brAction = new BRAction(
                     current_action.name,
                     current_action,
                     "item",
                     action,
                 );
 
-                item_actions.push(br_action);
+                itemActions.push(brAction);
             }
         }
 
-        if (!item_actions.length) {
+        if (!itemActions.length) {
             return;
         }
 
         //For power item actions, check if any of them match power modifiers
         //If so, use the item action instead
         if (this.item.type === "power") {
-            const modsGroupName = game.i18n.localize("BRSW.PowerModifiers.PowerModifiers");
-            const modsGroupId = "BRSW.PowerModifiers.PowerModifiers".split(".").join("");
+            const modsGroupName = "BRSW.PowerModifiers.PowerModifiers";
+            const modsGroupId = modsGroupName.split(".").join("");
 
-            const modsGroup = this.action_sections["power"]?.action_groups[modsGroupId];
-            for (let i = item_actions.length - 1; i >= 0; --i) {
-                const itemAction = item_actions[i];
+            const modsGroup = this.actionSections["power"]?.actionGroups[modsGroupId];
+            for (let i = itemActions.length - 1; i >= 0; --i) {
+                const itemAction = itemActions[i];
                 let isInGlobal = false;
                 for (const globalAction of game.brsw.GLOBAL_ACTIONS) {
                     const nameSimilarity = Utils.actionNameSimilarity(itemAction.name, game.i18n.localize(globalAction.name));
@@ -483,7 +468,7 @@ export class BrCommonCard {
                             Object.assign(action, foundry.utils.deepClone(itemAction));
                             action.name = name; //Keep the BR2 action name since it will be localized
                             action.code.name = codeName; //Keep the BR2 code name since we use it to compare elsewhere
-                            item_actions.splice(i, 1);
+                            itemActions.splice(i, 1);
                             foundAction = true;
                             break;
                         }
@@ -497,7 +482,7 @@ export class BrCommonCard {
                 if (isInGlobal) {
                     //We have an action for this but it wasn't in our current actions
                     //This means that the selector determined it shouldn't be available, so remove the item action too
-                    item_actions.splice(i, 1);
+                    itemActions.splice(i, 1);
                     continue;
                 }
 
@@ -506,43 +491,16 @@ export class BrCommonCard {
                 for (const ppMod of this.ppModifiers.powerMods) {
                     const nameSimilarity = Utils.actionNameSimilarity(itemAction.name, game.i18n.localize(ppMod.name));
                     if (nameSimilarity === 1) {
-                        if (!this.action_sections.hasOwnProperty("power")) {
-                            this.action_sections["power"] = {
-                                action_groups: {},
-                            };
-                        }
-
-                        if (!this.action_sections["power"].action_groups[modsGroupId]) {
-                            this.action_sections["power"].action_groups[modsGroupId] = {
-                                name: modsGroupName,
-                                actions: [],
-                                id: broofa(),
-                                single_choice: false,
-                            };
-                        }
-
-                        this.action_sections["power"]?.action_groups[modsGroupId].actions.push(itemAction);
-                        item_actions.splice(i, 1);
+                        this.addActionToGroup("power", modsGroupName, itemAction, false);
+                        itemActions.splice(i, 1);
                         break;
                     }
                 }
             }
         }
 
-        if (item_actions.length) {
-            const section = "none";
-            if (!this.action_sections.hasOwnProperty(section)) {
-                this.action_sections[section] = {
-                    action_groups: {},
-                };
-            }
-            const name = game.i18n.localize("BRSW.ItemActions");
-            this.action_sections[section].action_groups[name] = {
-                name: name,
-                actions: item_actions,
-                id: broofa(),
-                single_choice: false,
-            };
+        if (itemActions.length) {
+            this.addActionArrayToGroup("none", "BRSW.ItemActions", itemActions, false);
         }
     }
 
@@ -554,7 +512,7 @@ export class BrCommonCard {
                 ...attGlobalMods,
                 ...this.skill.system.effects,
             ];
-            this.populate_active_effect_actions_from_array(effectArray);
+            this.populateActiveEffectActionsFromArray(effectArray);
         } else if (this.attribute) {
             const abl = this.actor.system.attributes[this.attribute];
             const effectArray = [
@@ -562,42 +520,45 @@ export class BrCommonCard {
                 ...this.actor.system.stats.globalMods[this.attribute],
                 ...this.actor.system.stats.globalMods.trait,
             ];
-            this.populate_active_effect_actions_from_array(effectArray);
+            this.populateActiveEffectActionsFromArray(effectArray);
         }
         if (this.damage && this.actor.system.stats.globalMods.damage.length > 0) {
-            this.populate_active_effect_actions_from_array(this.actor.system.stats.globalMods.damage, "dmgMod");
+            this.populateActiveEffectActionsFromArray(this.actor.system.stats.globalMods.damage, "dmgMod");
         }
     }
 
-    populate_active_effect_actions_from_array(effectArray, type = "skillMod") {
+    populateActiveEffectActionsFromArray(effectArray, type = "skillMod") {
         const effectActions = [];
+        const otherActions = [];
         for (const effect of effectArray) {
+            const matchingAction = this.getActionByName(effect.label, true);
+            if (matchingAction) {
+                // If we already have a global action, use the value from the AE but keep the rest.
+                matchingAction.code[type] = effect.value;
+                continue;
+            }
+
             const code = { name: effect.label, id: broofa() };
             code[type] = effect.value;
-            const br_action = new brAction(effect.label, code, "active_effect");
-            br_action.selected = !effect.ignore;
-            effectActions.push(br_action);
-        }
-        if (effectActions.length) {
-            const name = game.i18n.localize("BRSW.ActiveEffects");
-            if (!this.action_sections.hasOwnProperty("character")) {
-                this.action_sections["character"] = {
-                    action_groups: {},
-                };
-            }
-            if (this.action_sections["character"].action_groups.hasOwnProperty(name)) {
-                this.action_sections["character"].action_groups[name].actions = [
-                    ...this.action_sections["character"].action_groups[name].actions,
-                    ...effectActions,
-                ];
+            const brAction = new BRAction(effect.label, code);
+            brAction.selected = !effect.ignore;
+
+            const activeEffect = this.actor.appliedEffects.find(e => e._id === effect.effectID);
+            if (activeEffect?.parent?.type === "edge") {
+                otherActions.push({ brAction, group: "BRSW.Edges" });
+            } else if (activeEffect?.parent?.type === "hindrance") {
+                otherActions.push({ brAction, group: "BRSW.Hindrances" });
             } else {
-                this.action_sections["character"].action_groups[name] = {
-                    name: name,
-                    actions: effectActions,
-                    id: broofa(),
-                    single_choice: false,
-                };
+                effectActions.push(brAction);
             }
+        }
+
+        if (effectActions.length) {
+            this.addActionArrayToGroup("character", "BRSW.ActiveEffects", effectActions, false);
+        }
+
+        for (const action of otherActions) {
+            this.addActionToGroup("character", action.group, action.brAction, false);
         }
     }
 
@@ -629,28 +590,54 @@ export class BrCommonCard {
         const ppCost = calcPPCost(this, false);
         const penaltySelections = Utils.getNoPPPenaltySelections(ppCost);
 
-        const action_array = [];
+        const noPPName = game.i18n.localize("BRSW.NoPP");
+        const actionArray = [];
         for (let penalty = 1; penalty <= BRSW2_CONFIG.MAX_NOPP_PENALTY_ACTION; ++penalty) {
-            const new_action = new brAction(
+            const newAction = new BRAction(
                 `PP ${-penalty}`,
                 {
-                    name: `${game.i18n.localize("BRSW.NoPP")} ${-penalty}`,
+                    name: `${noPPName} ${-penalty}`,
                     id: `no_pp_${penalty}`,
                     skillMod: -penalty,
                 },
                 "no_pp",
             );
 
-            new_action.selected = penaltySelections.includes(penalty);
+            newAction.selected = penaltySelections.includes(penalty);
 
-            action_array.push(new_action);
+            actionArray.push(newAction);
         }
-        this.action_sections["power"] ??= { action_groups: {} };
-        this.action_sections["power"].action_groups[game.i18n.localize("BRSW.NoPP")] = {
-            name: game.i18n.localize("BRSW.NoPP"),
-            actions: action_array,
-            id: broofa(),
-        };
+
+        this.addActionArrayToGroup("power", "BRSW.NoPP", actionArray, false);
+    }
+
+    createSectionAndGroup(sectionName, groupName, groupSingle) {
+        if (!this.actionSections.hasOwnProperty(sectionName)) {
+            this.actionSections[sectionName] = {
+                actionGroups: {},
+            };
+        }
+
+        const groupNameId = groupName.split(".").join("");
+        if (!this.actionSections[sectionName].actionGroups.hasOwnProperty(groupNameId)) {
+            const translatedGroup = game.i18n.localize(groupName);
+            this.actionSections[sectionName].actionGroups[groupNameId] = {
+                name: translatedGroup,
+                actions: [],
+                id: broofa(),
+                single_choice: groupSingle,
+            };
+        }
+
+        return this.actionSections[sectionName].actionGroups[groupNameId];
+    }
+
+    addActionToGroup(sectionName, groupName, action, groupSingle) {
+        this.createSectionAndGroup(sectionName, groupName, groupSingle).actions.push(action);
+    }
+
+    addActionArrayToGroup(sectionName, groupName, actions, groupSingle) {
+        this.createSectionAndGroup(sectionName, groupName, groupSingle).actions.push(...actions);
     }
 
     get hasFooterButtons() {
@@ -899,7 +886,7 @@ export class BrCommonCard {
     async render(stored_selections = {}) {
         //Basic rolls are just dice rolls without any of our normal fancy features
         if (!this.basicRoll) {
-            if (!Object.keys(this.action_sections).length) {
+            if (!Object.keys(this.actionSections).length) {
                 this.populateActions(stored_selections);
 
                 if (this.item) {
@@ -978,11 +965,14 @@ export class BrCommonCard {
     /**
      * Returns an action by both localized and un-localized partial name
      */
-    getActionByName(actionName) {
+    getActionByName(actionName, globalActionsOnly) {
         const lowerName = actionName.toLowerCase();
         const localLower = game.i18n.localize(actionName).toLowerCase();
         return Utils.forEachActionGroup(this, group => {
             for (const action of group.actions) {
+                if (globalActionsOnly && !action.isGlobalAction) {
+                    continue;
+                }
                 const nameSimilarity = Utils.actionNameSimilarity(action.code.name, lowerName);
                 const locSimilarity = Utils.actionNameSimilarity(game.i18n.localize(action.name), localLower);
                 if (nameSimilarity === 1 || locSimilarity === 1) {

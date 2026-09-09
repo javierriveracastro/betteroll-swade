@@ -389,10 +389,10 @@ export class Utils {
     }
 
     static forEachActionGroup(brCard, callbackFn) {
-        for (const sectionName in brCard.action_sections) {
-            const section = brCard.action_sections[sectionName];
-            for (const group in section.action_groups) {
-                const retVal = callbackFn(section.action_groups[group]);
+        for (const sectionName in brCard.actionSections) {
+            const section = brCard.actionSections[sectionName];
+            for (const group in section.actionGroups) {
+                const retVal = callbackFn(section.actionGroups[group]);
                 if (retVal !== undefined) {
                     return retVal;
                 }

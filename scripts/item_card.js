@@ -4,7 +4,7 @@
 
 import { get_current_generic_mods as getCurrentGenericMods } from "../config/generic_pp_modifiers.js";
 import { BrCommonCard } from "./BrCommonCard.js";
-import { brAction } from "./actions.js";
+import { BRAction } from "./actions.js";
 import { USER_SETTING_KEYS, WORLD_SETTING_KEYS } from "./brsw2-config.js";
 import { BRSW2_CONST } from "./brsw2-const.js";
 import {
@@ -622,20 +622,20 @@ async function roll_resist(trait, brCard, trait_mod) {
         newCard.traitRoll.tn = getTraitRollDifficulty(brCard);
         newCard.traitRoll.tn_reason = game.i18n.localize("BRSW.ResistingRoll");
         if (!isNaN(trait_mod)) {
-            const localized_name = game.i18n.localize("BRSW.ResistingRoll");
-            const resist_action = new brAction(localized_name, {
+            const localizedName = game.i18n.localize("BRSW.ResistingRoll");
+            const resistAction = new BRAction(localizedName, {
                 id: broofa(),
-                button_name: localized_name,
+                button_name: localizedName,
                 skillMod: trait_mod,
             });
 
-            resist_action.selected = true;
-            newCard.action_sections["none"].action_groups.resist_button = {
+            resistAction.selected = true;
+            newCard.actionSections["none"].actionGroups.resist_button = {
                 defaultChecked: "on",
-                name: localized_name,
+                name: localizedName,
                 id: broofa(),
                 single_choice: false,
-                actions: [resist_action],
+                actions: [resistAction],
             };
         }
         await newCard.render();

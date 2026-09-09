@@ -27,16 +27,16 @@ export class GmActionsPopup extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   async _prepareContext(_options) {
-    let action_groups = {};
+    let actionGroups = {};
     const gm_actions = await refresh_gm_actions();
     for (let action of gm_actions) {
-      action_groups[action.group] ??= { actions: [] };
-      action_groups[action.group].label = action.group;
-      action_groups[action.group].actions.push(action);
+      actionGroups[action.group] ??= { actions: [] };
+      actionGroups[action.group].label = action.group;
+      actionGroups[action.group].actions.push(action);
     }
 
     return {
-      action_groups: action_groups
+      actionGroups: actionGroups
     };
   };
 
