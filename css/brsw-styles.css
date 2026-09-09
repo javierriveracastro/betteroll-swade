@@ -937,6 +937,13 @@
 
 .brsw-actor-img {
     min-width: calc(var(--brsw-spacing) * 8);
+    overflow: hidden;
+}
+
+.brsw-actor-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .brsw-actor-img:hover,
