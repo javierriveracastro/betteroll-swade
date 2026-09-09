@@ -2,6 +2,7 @@
 
 # Version 5.27.0
 * Added an "Ignore Shield" attack action that cancels out the parry bonus granted by a target's shield
+* Ranged attacks against shield users now auto-select the matching cover action when possible
 
 # Version 5.26.0
 * We now combine effect and global actions
