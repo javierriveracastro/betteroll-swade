@@ -1,5 +1,8 @@
 # Changelog
 
+# Version 5.27.1
+* We now update the message after every damage roll when rolling for multiple targets
+
 # Version 5.27.0
 * Added an "Ignore Shield" attack action that cancels out the parry bonus granted by a target's shield
 * Ranged attacks against shield users now auto-select the matching cover action when possible
