@@ -1489,9 +1489,9 @@ export async function roll_dmg(
         total_modifiers += modifier.value;
     }
 
-    let first_roll = true;
+    let firstRoll = true;
     for (const target of targets) {
-        if (target || first_roll) {
+        if (target || firstRoll) {
             render_data.damage_rolls.push(
                 await roll_dmg_target(
                     damageRoll,
@@ -1501,11 +1501,10 @@ export async function roll_dmg(
                     brCard.message,
                 ),
             );
-            first_roll = false; // Only roll once without targets.
+            firstRoll = false; // Only roll once without targets.
+            await update_message(brCard, render_data);
         }
     }
-
-    await update_message(brCard, render_data);
 
     // Run macros
     await runMacros(macros, brCard);
