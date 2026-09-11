@@ -172,8 +172,8 @@ function actorHasMatchingDamageTypeAbility(abilityLocKey, item, actor, targets) 
     const itemDamageTypes = [...itemDamage.matchAll(/\[([^\]]+)\]/g)].map(
         (match) => match[1].toLowerCase(),
     );
-    for (const targeted_token of targets) {
-        const abilities = actor.items.filter((abilityItem) => {
+    for (const targetedToken of targets) {
+        const abilities = targetedToken.actor.items.filter((abilityItem) => {
             return abilityItem.type === "ability" && abilityItem.name.toLowerCase().includes(abilityName);
         });
         for (const ability of abilities) {
