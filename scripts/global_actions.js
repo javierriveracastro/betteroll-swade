@@ -507,7 +507,7 @@ function check_selector(type, value, item, actor, userTargets) {
         const itemDamageTypes = [...itemDamage.matchAll(/\[([^\]]+)\]/g)].map(
             (match) => match[1].toLowerCase(),
         );
-        selected = itemDamageTypes.includes(value);
+        selected = itemDamageTypes.includes(value.toLowerCase());
     } else if (type === "is_ranged_attack") {
         selected = Utils.isRangedAttack(item, actor);
         if (value === "false") {
