@@ -97,6 +97,7 @@ This group of fields are used to select when the action is available, you will n
 * `is_weapon_or_bolt`: True if the item is either a weapon or the bolt power.
 * `is_wildcard`: True if the actor is a Wildcard.
 * `item_additional_stat_xxx`: True if the item has an additional stat named xxx and its value matches the comparison. Supports equality operators (e.g. `<`, `>`, `!=`, etc.).
+* `item_damage_has_type`: True if the item's damage formula has a damage type flag matching the value (e.g. `[fire]` in `2d6[fire]`).
 * `item_description_includes`: True if the item's description, trappings, category, and/or notes includes the value.
 * `item_has_damage`: True if the item or one of its actions has a damage value.
 * `item_name`: True if the item includes the value in its name.
@@ -105,6 +106,8 @@ This group of fields are used to select when the action is available, you will n
 * `module_is_not_active`: True when the module with that identifier is not active. It is mainly to avoid automation duplication with other modules like the Core Rules.
 * `range_less_than`: True when the range between the actor's token and the targeted token is less or equal than value.
 * `skill`: True when the card uses a skill with that name.
+* `target_has_damage_resistance`: True if the target has an Environmental Resistance ability whose damage types overlap with the item's damage types. The ability must be formatted like `Environmental Resistance (Cold, Fire)` or `Environmental Resistance (Bludgeoning and enchanted weapons)`.
+* `target_has_damage_weakness`: True if the target has an Environmental Weakness ability whose damage types overlap with the item's damage types. The ability must be formatted like `Environmental Weakness (Cold, Fire)` or `Environmental Weakness (Bludgeoning and enchanted weapons)`.
 * `target_has_edge`: True if the target has an edge with the same name as the value.
 * `target_has_effect`: True if the target has an enabled Active Effect with the same name as the value.
 * `target_has_hindrance`: True if the target has a hindrance with the same name as the value.

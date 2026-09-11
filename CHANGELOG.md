@@ -1,5 +1,8 @@
 # Changelog
 
+# Version 5.28.0
+* Added item_damage_has_type, target_has_damage_resistance, and target_has_damage_weakness selectors
+
 # Version 5.27.1
 * We now update the message after every damage roll when rolling for multiple targets
 
