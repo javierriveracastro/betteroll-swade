@@ -158,6 +158,41 @@ export function get_actions(item, actor, userTargets) {
     return availableActions;
 }
 
+/**
+ * Checks if any target has an ability (e.g. environmental weakness/resistance) whose damage types match the item's damage types.
+ * @param abilityLocKey Localization key for the ability name
+ * @param item
+ * @param actor
+ * @param targets
+ * @return {boolean}
+ */
+function actorHasMatchingDamageTypeAbility(abilityLocKey, item, actor, targets) {
+    const abilityName = game.i18n.localize(abilityLocKey).toLowerCase();
+    const itemDamage = item.system.damage || "";
+    const itemDamageTypes = [...itemDamage.matchAll(/\[([^\]]+)\]/g)].map(
+        (match) => match[1].toLowerCase(),
+    );
+    for (const targeted_token of targets) {
+        const abilities = actor.items.filter((abilityItem) => {
+            return abilityItem.type === "ability" && abilityItem.name.toLowerCase().includes(abilityName);
+        });
+        for (const ability of abilities) {
+            const parenMatch = ability.name.match(/\(([^)]+)\)/);
+            if (parenMatch) {
+                const damageTypes = parenMatch[1]
+                    .split(/,|\band\b/i)
+                    .map((damageType) => damageType.replace(/\bweapons\b/i, "").trim().toLowerCase())
+                    .filter((damageType) => damageType);
+
+                if (itemDamageTypes.some((damageType) => damageTypes.includes(damageType))) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 // noinspection OverlyComplexFunctionJS,FunctionTooLongJS
 /**
  * Check if a selector matches
@@ -399,6 +434,20 @@ function check_selector(type, value, item, actor, userTargets) {
                 selected = selected || effect ? !effect.disabled : false;
             }
         }
+    } else if (type === "target_has_damage_weakness") {
+        selected = actorHasMatchingDamageTypeAbility(
+            "BRSW.AbilityName.EnvironmentalWeakness", item, actor, userTargets,
+        );
+        if (value === "false") {
+            selected = !selected;
+        }
+    } else if (type === "target_has_damage_resistance") {
+        selected = actorHasMatchingDamageTypeAbility(
+            "BRSW.AbilityName.EnvironmentalResistance", item, actor, userTargets,
+        );
+        if (value === "false") {
+            selected = !selected;
+        }
     } else if (type === "target_shield_cover") {
         // The best cover modifier among all the targets' equipped shields
         let bestCover = 0;
@@ -453,6 +502,12 @@ function check_selector(type, value, item, actor, userTargets) {
         if (value === "false") {
             selected = !selected;
         }
+    } else if (type === "item_damage_has_type") {
+        const itemDamage = item.system.damage || "";
+        const itemDamageTypes = [...itemDamage.matchAll(/\[([^\]]+)\]/g)].map(
+            (match) => match[1].toLowerCase(),
+        );
+        selected = itemDamageTypes.includes(value);
     } else if (type === "is_ranged_attack") {
         selected = Utils.isRangedAttack(item, actor);
         if (value === "false") {
